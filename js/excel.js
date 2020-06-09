@@ -9,7 +9,14 @@ async function ReadExcel()
         }
     );
     var worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    var json_data = XLSX.utils.sheet_to_json(worksheet,{raw:true}); 
+    var json_data = XLSX.utils.sheet_to_json
+    (
+        worksheet,
+        {
+            raw:true
+        }
+    );
+    display_table.table_data = json_data; 
 }
 
 var file = null; 
@@ -26,3 +33,13 @@ jQuery
         ); 
     }
 ); 
+
+
+function SendData()
+{
+    var data = new FormData(); 
+    data.append("excel",JSON.stringify(display_table.table_data)); 
+    var url = "server/server.php"; 
+    var result = AjaxRequest(url, data, "post"); 
+    console.log(result); 
+}

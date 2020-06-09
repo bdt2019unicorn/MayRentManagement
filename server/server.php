@@ -1,22 +1,59 @@
 <?php 
+    $excel = json_decode($_POST['excel']); 
 
-    // require_once 'libraries/ExcelReader/reader.php';
+    foreach ($excel as $tenant) 
+    {
+        $sql = "INSERT INTO `tenant`"; 
+        $columns = "("; 
+        $values = "VALUES ("; 
+        foreach ($tenant as $key => $value) 
+        {
+            if($key!="Tenant_ID")
+            {
+                if($key=="Apartment")
+                {
+                    $columns.='appartment_id,'; 
+                }
+            }
+        }
+
+        
+    }
+
+    Connect::GetData("\nI am testing my connection and I think it may fail\n"); 
 
 
-    // try 
-    // {
-    //     print_r($_FILES); 
-    //     echo"\n\n\n\n"; 
-    //     $location = "temp\\". $_FILES['file']['name']; 
-    //     move_uploaded_file($_FILES['file']['tmp_name'],$location); 
-    // }
-    // catch(\Throwable $e)
-    // {
-    //     echo "\nerror with method using file\n"; 
-    //     echo $e->getMessage();
-    // }
 
 
+
+
+
+
+    class Connect
+    {
+        private static function Connection()
+        {
+            $servername = "localhost";
+            $username = "username";
+            $password = "password";
+            
+            try 
+            {
+                return new mysqli($servername, $username, $password);
+            }
+            catch(\Throwable $e)
+            {
+                // echo $e->getMessage(); 
+                return null; 
+            }
+        }
+
+        public static function GetData($sql)
+        {
+            $connection = Connect::Connection(); 
+            echo $sql; 
+        }
+    }
 
 
 
