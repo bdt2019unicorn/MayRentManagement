@@ -1,0 +1,21 @@
+table, th, td
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+
+.scrolling-div
+{
+  overflow: auto;
+  width: 60vw;
+  height: 70vh;
+}
+
+
+.scrolling-div thead th
+{
+  top: 0;
+  background-color: red;
+  position: sticky;
+}
