@@ -13,7 +13,7 @@ async function ReadExcel()
     (
         worksheet,
         {
-            raw:true
+            raw:false
         }
     );
     display_table.table_data = json_data; 

@@ -27,7 +27,7 @@
             {
                 $connection = null; 
             }
-            ob_end_clean();
+            
             return $connection; 
         }
 
@@ -81,7 +81,7 @@
                     $result = $connection->query($query); 
                     if(!$result)
                     {
-                        throw new Exception("\n Database error\n"); 
+                        throw new Exception("\n". var_dump($connection)."\n"); 
                     }
                 }
                 $connection->commit(); 
@@ -119,6 +119,7 @@
     }
 
     $excel = json_decode($_POST['excel']); 
+    $queries = []; 
 
     foreach ($excel as $tenant) 
     {
@@ -128,16 +129,18 @@
         $columns = "("; 
         $values = "VALUES ("; 
 
-        function StringAddition($key, $value)
+        $StringAddition = function($key, $value)
         {
             global $columns; 
             global $values; 
-            $column = str_replace(' ','_',$key);
+            $key = str_replace(' ','_',$key);
+            $key = str_replace("/","_",$key); 
+            $key = str_replace("-","",$key); 
             $value = str_replace("'","\'",$value); 
 
-            $columns.=$column.',';
+            $columns.=$key.',';
             $values.= "'".$value."',";  
-        }
+        }; 
 
         foreach ($tenant as $key => $value) 
         {
@@ -145,17 +148,27 @@
             {
                 if($key=="Apartment")
                 {
-                    StringAddition('appartment_id', Connect::GetId('appartment_id',$value, 'tenant')); 
+                    $StringAddition('apartment_id', Connect::GetId('name',$value, 'apartment')); 
                 }
                 else 
                 {
-                    StringAddition($key, $value); 
+                    $StringAddition($key, $value); 
                 }
             }
-        }
-
+        }       
         
+        $columns = substr_replace($columns, "",strrpos($columns,","),1) . ")"; 
+        $values = substr_replace($values, "",strrpos($values,","),1) . ")";
+        $sql.= $columns."\n".$values.";"; 
+        array_push($queries,$sql); 
     }
+
+    print_r($queries);
+    $result = Connect::ExecTransaction($queries); 
+    echo"\n++++++++++++++++++++++++\n"; 
+    echo $result; 
+    echo "\n+++++++++++++++++++++++++\n"; 
+
 
     // $data_result = Connect::GetData("\n insert into `buildings`(name) values ('test J'); \n", true); 
     // print_r($data_result); 
@@ -168,11 +181,6 @@
     // ); 
     // $result = Connect::ExecTransaction($sqls); 
     // echo $result; 
-
-
-//     $str = "Hello world";
-// $i = 4;
-// echo substr_replace($str, '', $i, 1);
 
 
 
