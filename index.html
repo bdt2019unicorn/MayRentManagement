@@ -17,6 +17,22 @@
 		<button onclick="SendData()">Send Data to server</button>
 	</p>
 
+	<div>
+		<p>
+			<a href="javascript:RedirectUrl('controller','Tenant');">Tenant</a>
+			<a href="javascript:RedirectUrl('controller','Revenue');">Revenue</a>
+			<a href="javascript:RedirectUrl('controller','Expenses');">Expenses</a>
+		</p>
+	</div>
+
+	<div>
+		<p>
+			<a href="javascript:RedirectUrl('further','Tenant');">Tenant further</a>
+			<a href="javascript:RedirectUrl('further','Revenue');">Revenue further</a>
+			<a href="javascript:RedirectUrl('further','Expenses');">Expenses further</a>
+		</p>
+	</div>
+
 	<div class="scrolling-div">
 		<table id="display_table" v-if="table_data!=[]">
 			<thead>
@@ -43,6 +59,7 @@
 		<script type="text/javascript" src="js/server.js"></script>
 		<script type="text/javascript" src="js/excel.js"></script>
 		<script type="text/javascript" src="js/display_table.js"></script>
+		<script type="text/javascript" src="js/changing_url.js"></script>
 	</footer>
 </body>
 </html>
