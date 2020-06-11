@@ -1,5 +1,6 @@
 async function ReadExcel()
 {
+    var file = document.getElementById('excel_input').files[0]; 
     var buffer = await file.arrayBuffer();
     var workbook = XLSX.read
     (
@@ -18,22 +19,6 @@ async function ReadExcel()
     );
     display_table.table_data = json_data; 
 }
-
-var file = null; 
-jQuery
-(
-    function()
-    {
-        $("#excel_input").change 
-        (
-            function(event)
-            {
-                file = event.target.files[0]; 
-            }
-        ); 
-    }
-); 
-
 
 function SendData()
 {
