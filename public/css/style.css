@@ -1,0 +1,35 @@
+table, th, td
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+
+.scrolling-div
+{
+  overflow: auto;
+  width: 60vw;
+  height: 70vh;
+}
+
+
+.scrolling-div thead th
+{
+  top: 0;
+  background-color: red;
+  position: sticky;
+}
+
+
+.wrapper 
+{
+  background-color: aquamarine; 
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "side-bar main-content";
+}
+
+
