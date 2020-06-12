@@ -30,6 +30,12 @@ table, th, td
   grid-template-rows: auto;
   grid-template-areas:
     "side-bar main-content";
+  font-size: 2vmin;
 }
 
+.wrapper li
+{
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+}
 
