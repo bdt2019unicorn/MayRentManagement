@@ -1,14 +1,32 @@
 <?php 
     require_once("../helper/connect.php"); 
 
-    $date_collumns = ["date_of_birth"]; 
+    $table = "expense"; 
+    $date_collumns = ["start_period", "end_period", "payment_date"]; 
+    $exclude_columns = []; 
+    $get_id = array
+    (
+        'Apartment' => array
+        (
+            'search'=>'name', 
+            'change'=>'apartment_id', 
+            'table'=>'apartment'
+        ), 
+        'Expense type' => array
+        (
+            'search'=>'name', 
+            'change'=>'expense_type_id', 
+            'table'=>'expense_type'
+        )
+    );
+    $year_number = "20"; 
 
     $excel = json_decode($_POST['excel']); 
     $queries = []; 
 
-    foreach ($excel as $tenant) 
+    foreach ($excel as $row) 
     {
-        $sql = "INSERT INTO `tenant`"; 
+        $sql = "INSERT INTO `".$table."`"; 
         global $columns; 
         global $values; 
         $columns = "("; 
@@ -19,28 +37,31 @@
             global $columns; 
             global $values; 
             global $date_collumns; 
+            global $year_number; 
             $key = str_replace(' ','_',$key);
             $key = str_replace("/","_",$key); 
             $key = str_replace("-","",$key); 
             $value = str_replace("'","\'",$value); 
 
             $columns.=$key.',';
-            $value = (in_array(strtolower($key), $date_collumns))?"STR_TO_DATE('".substr_replace($value,"/19",strrpos($value,"/"),1)."','%m/%d/%Y')":"'".$value."'"; 
+            $value = (in_array(strtolower($key), $date_collumns))?"STR_TO_DATE('".substr_replace($value,"/".$year_number,strrpos($value,"/"),1)."','%m/%d/%Y')":"'".$value."'"; 
             $values.= $value.",";  
         }; 
 
-        foreach ($tenant as $key => $value) 
+        foreach ($row as $key => $value) 
         {
-            if($key!="Tenant_ID")
+            if(!in_array($key,$exclude_columns))
             {
-                if($key=="Apartment")
+                if(isset($get_id[$key]))
                 {
-                    $StringAddition('apartment_id', Connect::GetId('name',$value, 'apartment')); 
+                    $StringAddition($get_id[$key]['change'], Connect::GetId($get_id[$key]['search'],$value,$get_id[$key]['table'])); 
                 }
                 else 
                 {
                     $StringAddition($key, $value); 
                 }
+
+
             }
         }       
         
