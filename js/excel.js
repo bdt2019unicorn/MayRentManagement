@@ -25,7 +25,7 @@ function SendData()
     var data = new FormData(); 
     data.append("excel",JSON.stringify(display_table.table_data)); 
     var url = "server/server.php"; 
-    // url = "server/controller/tenant.php"; 
+    url = "server/controller/tenant.php"; 
     var result = AjaxRequest(url, data, "post"); 
     if(result==true)
     {
