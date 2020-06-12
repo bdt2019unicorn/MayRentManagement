@@ -22,7 +22,8 @@
             $value = str_replace("'","\'",$value); 
 
             $columns.=$key.',';
-            $values.= "'".$value."',";  
+            $value = (strtolower($key)=="date_of_birth")?"STR_TO_DATE('".substr_replace($value,"/19",strrpos($value,"/"),1)."','%m/%d/%Y')":"'".$value."'"; 
+            $values.= $value.",";  
         }; 
 
         foreach ($tenant as $key => $value) 
