@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="scrolling-div">
-		<table id="display_table" v-if="table_data!=[]">
+		<table id="display_table" v-if="table_data!=[]" style="width: 100%;">
 			<thead>
 				<tr>
 					<th v-for="key in Object.keys(thead)">{{key}}</th>
@@ -47,6 +47,24 @@
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+
+	<div>
+		<p>
+			<a href="excel_templates/tenant-template.xls" download="excel_templates/tenant-template.xls"> 
+				Tenant excel 
+			</a>
+
+			<a href="excel_templates/expense-template.xls" download="expense-template.xls"> 
+				Expense excel 
+			</a>
+
+			<a href="excel_templates/revenue-template.xlsx"> 
+				Revenue excel 
+			</a>
+
+		</p>
 	</div>
 
 

@@ -1,6 +1,6 @@
 <?php 
 	require_once("../helper/connect.php"); 
-	function ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma=[])
+	function ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma)
 	{
 	    $excel = json_decode($_POST['excel']); 
 	    $queries = []; 
@@ -55,8 +55,6 @@
 	                {
 	                    $StringAddition($key, $value); 
 	                }
-
-
 	            }
 	        }       
 	        
@@ -68,5 +66,6 @@
 
 	    $result = Connect::ExecTransaction($queries); 
 	    echo $result; 
+
 	}
 ?>

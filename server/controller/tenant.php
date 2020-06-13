@@ -1,55 +1,10 @@
 <?php 
-    require_once("../helper/connect.php"); 
-
+    require_once("main_controller.php"); 
+    $table = "tenant"; 
     $date_collumns = ["date_of_birth"]; 
-
-    $excel = json_decode($_POST['excel']); 
-    $queries = []; 
-
-    foreach ($excel as $tenant) 
-    {
-        $sql = "INSERT INTO `tenant`"; 
-        global $columns; 
-        global $values; 
-        $columns = "("; 
-        $values = "VALUES ("; 
-
-        $StringAddition = function($key, $value)
-        {
-            global $columns; 
-            global $values; 
-            global $date_collumns; 
-            $key = str_replace(' ','_',$key);
-            $key = str_replace("/","_",$key); 
-            $key = str_replace("-","",$key); 
-            $value = str_replace("'","\'",$value); 
-
-            $columns.=$key.',';
-            $value = (in_array(strtolower($key), $date_collumns))?"STR_TO_DATE('".substr_replace($value,"/19",strrpos($value,"/"),1)."','%m/%d/%Y')":"'".$value."'"; 
-            $values.= $value.",";  
-        }; 
-
-        foreach ($tenant as $key => $value) 
-        {
-            if($key!="Tenant_ID")
-            {
-                if($key=="Apartment")
-                {
-                    $StringAddition('apartment_id', Connect::GetId('name',$value, 'apartment')); 
-                }
-                else 
-                {
-                    $StringAddition($key, $value); 
-                }
-            }
-        }       
-        
-        $columns = substr_replace($columns, "",strrpos($columns,","),1) . ")"; 
-        $values = substr_replace($values, "",strrpos($values,","),1) . ")";
-        $sql.= $columns."\n".$values.";"; 
-        array_push($queries,$sql); 
-    }
-
-    $result = Connect::ExecTransaction($queries); 
-    echo $result; 
+    $exclude_columns = ["Tenant_ID", "Apartment"]; 
+    $get_id = []; 
+    $year_number = "19"; 
+    $comma = []; 
+    ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma); 
 ?>

@@ -24,8 +24,7 @@ function SendData()
 {
     var data = new FormData(); 
     data.append("excel",JSON.stringify(display_table.table_data)); 
-    // var url = "server/server.php"; 
-    var url = "server/controller/revenue.php"; 
+    var url = "server/controller/leaseagrm.php"; 
     var result = AjaxRequest(url, data, "post"); 
     if(result==true)
     {
