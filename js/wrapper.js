@@ -21,12 +21,7 @@ function CreateWrapper()
                         return "display: none;"; 
                     }
                 }    
-            }, 
-            mounted() 
-            {
-                console.log(window.store_track.state.controller);
-                console.log(window.store_track.state.controller!=""); 
-            },
+            }
         }
     ); 
 }
