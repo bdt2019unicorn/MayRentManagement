@@ -10,7 +10,6 @@ table, th, td
 {
   overflow: auto;
   height: 80vh;
-  background-color: blueviolet;
 }
 
 
@@ -25,7 +24,6 @@ table, th, td
 
 .wrapper 
 {
-  background-color: aquamarine; 
   height: 100vh;
   display: grid;
   grid-template-columns: 20% 80%;
@@ -41,9 +39,24 @@ table, th, td
   margin-bottom: 1vmin;
 }
 
-.separate-row
+.import-export-layout
 {
-  height: 10vh;
-  background-color: brown;
+  display: grid;
+  grid-row-gap: 1vh; 
+  grid-template-rows: auto;
+  grid-template-columns: 10% 10% 20% 20% 20% 10% 10%;
+  grid-template-areas: 
+    "template-btn template-btn template-btn . import-btn import-btn import-btn"
+    ". scrolling-div scrolling-div scrolling-div scrolling-div scrolling-div . "
+    ". scrolling-div scrolling-div scrolling-div scrolling-div scrolling-div next-btn";
 }
 
+.import-export-layout p 
+{
+  font-size: 2vmin;
+}
+
+.import-export-layout button 
+{
+  font-size: 2vmin;
+}
