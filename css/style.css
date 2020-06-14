@@ -39,6 +39,11 @@ table, th, td
   margin-bottom: 1vmin;
 }
 
+.sidebar-active
+{
+  background-color: chartreuse;
+}
+
 .import-export-layout
 {
   display: grid;
