@@ -11,7 +11,7 @@ var li_nav_item = Vue.component
             }, 
             Href()
             {
-                return "javascript:RedirectUrl('controller','" + this.controller + "');"; 
+                return "javascript:window.store_track.commit('RedirectUrl', {param: 'controller',value:'" + this.controller + "'});"; 
             }
         }, 
         template: 
