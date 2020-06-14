@@ -10,7 +10,7 @@
 </head>
 <body>
 	<nav id="page_navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="javascript:RedirectUrl();" style="width: 20%;">
+        <a class="navbar-brand" href="javascript:window.store_track.commit('RedirectUrl',{});" style="width: 20%;">
             <img src="img/logo.jpeg" alt="logo" style="height: 10vmin;">
         </a>
 
@@ -36,32 +36,15 @@
 	
     <div id="page_wrapper" :style="ShowWrapper" class="wrapper">
 
-        <div class="side-bar">
-            <nav class="navbar bg-light">
-
-                <ul class="navbar-nav">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Overview</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Add</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Import/Export</a>
-                    </li>
-
-                </ul>
-            
-            </nav>
-        </div>
+        <side-bar></side-bar>
         <!-- overview -->
-        <div style="display: none;" class="main-content container-fluid">
-            <div class="row" style="height: 10vh; background-color: green;"></div>
-            <div class="row">
+        <div class="main-content container-fluid">
+            <div class="row" style="height: 10vh;"></div>
+            <scrolling-table></scrolling-table>
+            <!-- <div class="row">
                 <div class="col-1"></div>
+
+                
                 <div class="scrolling-div col-10">
                 
                     <table><thead><tr><th>Name</th><th>Apartment</th><th>Tenant_ID</th><th style="
@@ -70,7 +53,7 @@
                 </div>
                 <div class="col-1"></div>
             </div>
-
+ -->
 
         </div>
 
@@ -201,7 +184,7 @@
 
         <!-- import/export -->
 
-        <div class="main-content container-fluid">
+        <div style="display: none;" class="main-content container-fluid">
             <div class="row" style="height: 5vh;"></div>
             <div class="import-export-layout container-fluid">
                 <a class="btn" style="grid-area: template-btn;">
@@ -237,14 +220,6 @@
 	<p>
 		<button onclick="SendData()">Send Data to server</button>
 	</p>
-
-	<div>
-		<p>
-			<a href="javascript:RedirectUrl('further','Tenant');">Tenant further</a>
-			<a href="javascript:RedirectUrl('further','Revenue');">Revenue further</a>
-			<a href="javascript:RedirectUrl('further','Expenses');">Expenses further</a>
-		</p>
-	</div>
 
 	<div class="scrolling-div">
 		<table id="display_table" v-if="table_data!=[]" style="width: 100%;">
@@ -294,12 +269,13 @@
         
 		<script type="text/javascript" src="js/excel.js"></script>
 		<script type="text/javascript" src="js/display_table.js"></script>
-        <script type="text/javascript" src="js/changing_url.js"></script>
         
 
         <script async src="js/navbar.js"></script>
-        <script async src="js/wrapper.js"></script>
-        <script async src="js/setup.js"></script>
+        <script async src="js/wrapper/scrolling_table.js"></script>
+        <script async src="js/wrapper/sidebar.js"></script>
+        <script src="js/wrapper.js"></script>
+        <script defer src="js/setup.js"></script>
 	</footer>
 </body>
 </html>
