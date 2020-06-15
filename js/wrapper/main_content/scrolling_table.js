@@ -2,6 +2,7 @@ var scrolling_table = Vue.component
 (
     "scrolling-table", 
     {
+        props: ["extra_class"], 
         data() 
         {
             return {
@@ -18,15 +19,15 @@ var scrolling_table = Vue.component
                 return; 
             }
 
+            var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
+            var data = AjaxRequest(url);
+
             try 
             {
-                var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
-                var data = AjaxRequest(url);
                 this.table_data = JSON.parse(data); 
             }
             catch(exception)
             {
-                console.log(exception); 
                 return; 
             }          
         },
@@ -75,7 +76,7 @@ var scrolling_table = Vue.component
 
         template: 
         `
-            <div class="scrolling-div">
+            <div :class="['scrolling-div', this.extra_class]">
                 <table v-if="table_data!=[]" style="width: 100%;">
                     <thead>
                         <tr>

@@ -6,7 +6,10 @@ var overview_component = Vue.component
         `
             <div class="row">
                 <div class="col-1"></div>
-                <scrolling-table></scrolling-table>
+                <scrolling-table
+                    extra_class="col-10"
+                >
+                </scrolling-table>
                 <div class="col-1"></div>
             </div>
         `
