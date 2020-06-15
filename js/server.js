@@ -17,7 +17,7 @@ function AjaxRequest(url, data={}, type="get")
 			}, 
 			error: function(error)
 			{
-				console.log("error"); 
+				console.log(error.responseText); 
 				result = error; 
 			}
 		}
