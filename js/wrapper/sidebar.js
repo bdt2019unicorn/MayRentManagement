@@ -26,7 +26,7 @@ var side_bar = Vue.component
         template: 
         `
             <div class="side-bar">
-                <nav class="navbar bg-light">
+                <nav class="navbar">
 
                     <ul class="navbar-nav">
                         <nav-item
