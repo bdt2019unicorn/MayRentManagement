@@ -8,6 +8,10 @@ function CreateWrapper()
             {
                 show_me: false
             },
+            components: 
+            {
+                vuejsDatepicker
+            }, 
             computed: 
             {
                 ShowWrapper: function()
