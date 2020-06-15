@@ -2,7 +2,7 @@ var scrolling_table = Vue.component
 (
     "scrolling-table", 
     {
-        props: ["extra_class"], 
+        props: ["extra_class", "tb_style", "excel_data"], 
         data() 
         {
             return {
@@ -12,24 +12,42 @@ var scrolling_table = Vue.component
             };
         }, 
 
+        methods: 
+        {
+            OverviewData()
+            {
+                var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
+                var data = AjaxRequest(url);
+    
+                try 
+                {
+                    this.table_data = JSON.parse(data); 
+                }
+                catch(exception)
+                {
+                    return; 
+                }          
+            }, 
+            LoadExcelData()
+            {
+                if(this.excel_data!=null)
+                {
+                    this.table_data = this.excel_data; 
+                }
+                else
+                {
+                    this.table_data = []; 
+                }
+            }
+        },
+
         mounted() 
         {
-            if(window.store_track.state.action!="Overview")
+            this.LoadExcelData(); 
+            if(window.store_track.state.action=="Overview")
             {
-                return; 
+                this.OverviewData(); 
             }
-
-            var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
-            var data = AjaxRequest(url);
-
-            try 
-            {
-                this.table_data = JSON.parse(data); 
-            }
-            catch(exception)
-            {
-                return; 
-            }          
         },
 
         watch: 
@@ -71,12 +89,19 @@ var scrolling_table = Vue.component
                         this.tbody.push(data_row); 
                     }
                 );
+            }, 
+            excel_data: function()
+            {
+                this.LoadExcelData(); 
             }
         }, 
 
         template: 
         `
-            <div :class="['scrolling-div', this.extra_class]">
+            <div 
+                :class="['scrolling-div', this.extra_class]"
+                :style="tb_style"
+            >
                 <table v-if="table_data!=[]" style="width: 100%;">
                     <thead>
                         <tr>

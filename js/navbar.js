@@ -5,20 +5,16 @@ var li_nav_item = Vue.component
         props: ["icon", "p_text", "controller"], 
         computed: 
         {
-            IconClass()
-            {
-                return ["fas", "fa-"+ this.icon]; 
-            }, 
             Href()
             {
-                return "javascript:window.store_track.commit('RedirectUrl', {param: 'controller',value:'" + this.controller + "'});"; 
-            }
-        }, 
+                return "javascript:window.store_track.commit('RedirectUrl', {param: 'controller',value:'" + this.controller + "'});"
+            }   
+        },
         template: 
         `
             <li>
                 <a class="nav-link" :href="Href">
-                    <i style="font-size: xx-large;" :class="IconClass"></i>
+                    <i style="font-size: xx-large;" :class="['fas', 'fa-'+ this.icon]"></i>
                     <p>{{p_text}}</p>
                 </a>
             </li>

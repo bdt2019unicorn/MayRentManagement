@@ -40,6 +40,11 @@ jQuery
                                     if(param=="controller")
                                     {
                                         state.controller = url_params.get(param); 
+                                        state.action = "Overview"; 
+                                    }
+                                    else
+                                    {
+                                        state.action = url_params.get(param); 
                                     }
                                     window.history.pushState(value,value,"?"+url_params.toString()); 
                                 }
@@ -86,6 +91,6 @@ jQuery
 
         }
 
-        CreateStoreTrack().then(GetController).then(CreateWrapper).then(CreateWrapper).then(CreateNavbar); 
+        CreateStoreTrack().then(GetController).then(CreateWrapper).then(CreateNavbar); 
     }
 ); 

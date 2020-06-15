@@ -9,191 +9,206 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
-	<nav id="page_navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="javascript:window.store_track.commit('RedirectUrl',{});" style="width: 20%;">
-            <img src="img/logo.jpeg" alt="logo" style="height: 10vmin;">
-        </a>
+    <!-- <div id="full_page"> -->
+        <nav id="page_navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="javascript:window.store_track.commit('RedirectUrl',{});" style="width: 20%;">
+                <img src="img/logo.jpeg" alt="logo" style="height: 10vmin;">
+            </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav nav-fill w-100">
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-fill w-100">
 
-            <li-nav-item 
-                :class="LiItemClass(item)"
-                v-for="item in list_items" 
-                :icon="item.icon"
-                :p_text="item.p_text"
-                :controller="item.controller"
-            >
-            </li-nav-item>
+                <li-nav-item 
+                    :class="LiItemClass(item)"
+                    v-for="item in list_items" 
+                    :icon="item.icon"
+                    :p_text="item.p_text"
+                    :controller="item.controller"
+                >
+                </li-nav-item>
 
-          </ul>
-        </div>
-	</nav>
-	
-    <div id="page_wrapper" :style="ShowWrapper" class="wrapper">
+            </ul>
+            </div>
+        </nav>
+        
+        <div id="page_wrapper" :style="ShowWrapper" class="wrapper">
 
-        <side-bar></side-bar>
-        <!-- overview -->
-        <div class="main-content container-fluid">
-            <div class="row" style="height: 10vh;"></div>
-            <overview-component></overview-component>
-        </div>
-
-        <!-- /////////////////////// -->
+            <side-bar></side-bar>
+            <!-- overview -->
 
 
-        <!-- add  -->
-        <div style="display: none;" class="main-content container-fluid">
-            <div class="row separate-row"></div>
-            <h1 style="text-align: center;">Form titlle</h1>
-            <form class="container-fluid">
+            <div style="display: none;" class="main-content container-fluid">
+                <div class="row" style="height: 10vh;"></div>
+                <overview-component></overview-component>
+            </div>
 
-                <div class="row" style="background-color:darkgreen;">
-                    <div class="form-group col">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="form-group col">
-                        <label for="name">select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                        
-                    </div>
-                </div>
+            
 
+            <!-- /////////////////////// -->
+
+
+            <!-- add  -->
+    <!-- 
+
+
+            <div style="display: none;" class="main-content container-fluid">
+                <div class="row" style="height: 10vh;"></div>
                 
-                <div class="row" style="background-color:violet;">
-                    <div class="form-group col">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="email" name="email">
+                <form class="container-fluid">
+                    <h1 style="text-align: center;">Form titlle</h1>
+                    <div class="row" style="background-color:darkgreen;">
+                        <div class="form-group col">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group col">
+                            <label for="name">select</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            
+                        </div>
                     </div>
-                    <div class="form-group col">
-                        <label for="name">select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                        
-                    </div>
-                </div>
-                
-                <div class="row" style="background-color:chartreuse;">
-                    <div class="form-group col">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="form-group col">
-                        <label for="name">select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                        
-                    </div>
-                </div>
-                
-                <div class="row" style="background-color:blanchedalmond;">
-                    <div class="form-group col">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="form-group col">
-                        <label for="name">select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                        
-                    </div>
-                </div>
-                
-                <div class="row" style="background-color:coral;">
-                    <div class="form-group col">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="form-group col">
-                        <label for="name">select</label>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                        
-                    </div>
-                </div>
 
-                <div class="row" style="background-color:bisque;">
-                    <div class="form-group col">
-                        <label for="name" class="control-label">Date Time</label>
-                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
-                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    
+                    <div class="row" style="background-color:violet;">
+                        <div class="form-group col">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group col">
+                            <label for="name">select</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="background-color:chartreuse;">
+                        <div class="form-group col">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group col">
+                            <label for="name">select</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="background-color:blanchedalmond;">
+                        <div class="form-group col">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group col">
+                            <label for="name">select</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="background-color:coral;">
+                        <div class="form-group col">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="form-group col">
+                            <label for="name">select</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+
+                    <div class="row" style="background-color:bisque;">
+                        <div class="form-group col">
+                            <label for="name" class="control-label">Date Time</label>
+                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        
+            
 
-                <div class="row" style="background-color: darkgoldenrod;">
-                    <div class="form-group col">
-                        <label for="exampleFormControlTextarea1">Example textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <div class="row" style="background-color: darkgoldenrod;">
+                        <div class="form-group col">
+                            <label for="exampleFormControlTextarea1">Example textarea</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- /////////////////////// -->
-
-
-        <!-- import/export -->
-
-        <div style="display: none;" class="main-content container-fluid">
-            <div class="row" style="height: 5vh;"></div>
-            <div class="import-export-layout container-fluid">
-                <a class="btn" style="grid-area: template-btn;">
-                    <p>Download Excel Template</p>
-                    <i style="font-size: xx-large;" class="fas fa-file-excel"></i>
-                </a>
-                <a class="btn" style="grid-area: import-btn;">
-                    <p>Import Excel File</p>
-                    <i style="font-size: xx-large;" class="fas fa-file-import"></i>
-                </a>
-                <div class="scrolling-div" style="grid-area: scrolling-div;">
-                
-                    <table><thead><tr><th>Name</th><th>Apartment</th><th>Tenant_ID</th><th >Start date</th><th>Finish</th><th>Rent amount</th><th>Deposit amount</th><th>Deposit payment date</th><th>Deposit payback date</th><th>Monthly payment date</th><th>Deposit currency</th><th>Deposit exchange rate</th></tr></thead> <tbody><tr><td>MAY_G01-Oct2017</td><td>G01</td><td>G01Oct042017</td><td>October 4, 2017</td><td>June 3, 2018</td><td>11,000,000</td><td>11,000,000</td><td>October 4, 2017</td><td>June 3, 2018</td><td>1</td><td>VND</td><td>21200</td></tr><tr><td>MAY_G02-Jun 2018</td><td>G02</td><td>G02Feb142015</td><td>February 14, 2015</td><td>June 30, 2018</td><td>14,157,700</td><td>14,157,700</td><td>April 1, 2018</td><td>June 30, 2018</td><td>1</td><td>USD</td><td>22810</td></tr><tr><td>MAY_101-Sept2017</td><td>101</td><td>101Sept012017</td><td>September 1, 2017</td><td>August 31, 2018</td><td>12,500,000</td><td>12,500,000</td><td>September 1, 2017</td><td>August 31, 2018</td><td>1</td><td>VND</td><td>21150</td></tr><tr><td>MAY_102-Apr2018</td><td>102</td><td>102Apr022018</td><td>April 2, 2018</td><td>April 1, 2019</td><td>17,133,750</td><td>17,133,750</td><td>April 2, 2018</td><td>April 1, 2019</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_103-Nov2017</td><td>103</td><td>103Nov012017</td><td>November 1, 2017</td><td>October 31, 2018</td><td>19,337,000</td><td>19,337,000</td><td>November 1, 2017</td><td>October 31, 2018</td><td>1</td><td>USD</td><td> </td></tr><tr><td>MAY_201-May2016</td><td>201</td><td>201May012016</td><td>May 1, 2016</td><td>April 30, 2018</td><td>12,000,000</td><td>12,000,000</td><td>May 1, 2016</td><td>April 30, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_202_Apr2018</td><td>202</td><td>202Apr072018</td><td>April 7, 2018</td><td>April 6, 2019</td><td>16,000,000</td><td>16,000,000</td><td>April 7, 2018</td><td>April 6, 2019</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_203-Sept2017</td><td>203</td><td>203Sept172017</td><td>September 17, 2017</td><td>May 16,2018</td><td>19,346,000</td><td>19,346,000</td><td>September 17, 2017</td><td>May 16, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_301-Feb2017</td><td>301</td><td>301Feb062017</td><td>February 6, 2017</td><td>December 5, 2018</td><td>12,430,000</td><td>12,430,000</td><td>February 6, 2017</td><td>December 5, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_302-Oct2017</td><td>302</td><td>302Oct012017</td><td>October 1, 2017</td><td>September 30, 2018</td><td>15,939,000</td><td>15,939,000</td><td>October 1, 2017</td><td>September 30, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_303-Jul2014</td><td>303</td><td>303Jul312014</td><td>July 31, 2014</td><td>July 30, 2018</td><td>18,067,000</td><td>18,067,000</td><td>July 31, 2014</td><td>July 30, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_401_Apr2018</td><td>401</td><td>401Apr012018</td><td>Apr 01,2018</td><td>March 31, 2019</td><td>11,415,000</td><td>11,415,000</td><td>Apr 01,2018</td><td>March 31, 2019</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_402-Sep2014</td><td>402</td><td>402Sep192014</td><td>September 19, 2014</td><td>June 18, 2018</td><td>16,000,000</td><td>16,000,000</td><td>September 19, 2014</td><td>June 18, 2018</td><td>1</td><td>VND</td><td> </td></tr></tbody></table>
-
-                </div>
-
-                <button class="btn" type="button" style="grid-area: next-btn;" title="Import Data"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
+                </form>
             </div>
 
+    -->
+
+            <!-- /////////////////////// -->
+
+
+            <!-- import/export -->
+
+            <div class="main-content container-fluid">
+                <div class="row" style="height: 5vh;"></div>
+                <!-- <div class="import-export-layout container-fluid">
+                    <a class="btn" style="grid-area: template-btn;">
+                        <p>Download Excel Template</p>
+                        <i style="font-size: xx-large;" class="fas fa-file-excel"></i>
+                    </a>
+                    <a class="btn" style="grid-area: import-btn;">
+                        <p>Import Excel File</p>
+                        <i style="font-size: xx-large;" class="fas fa-file-import"></i>
+                    </a>
+                    <input type="file" hidden accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                    <div class="scrolling-div" style="grid-area: scrolling-div;">
+                    
+                        <table><thead><tr><th>Name</th><th>Apartment</th><th>Tenant_ID</th><th >Start date</th><th>Finish</th><th>Rent amount</th><th>Deposit amount</th><th>Deposit payment date</th><th>Deposit payback date</th><th>Monthly payment date</th><th>Deposit currency</th><th>Deposit exchange rate</th></tr></thead> <tbody><tr><td>MAY_G01-Oct2017</td><td>G01</td><td>G01Oct042017</td><td>October 4, 2017</td><td>June 3, 2018</td><td>11,000,000</td><td>11,000,000</td><td>October 4, 2017</td><td>June 3, 2018</td><td>1</td><td>VND</td><td>21200</td></tr><tr><td>MAY_G02-Jun 2018</td><td>G02</td><td>G02Feb142015</td><td>February 14, 2015</td><td>June 30, 2018</td><td>14,157,700</td><td>14,157,700</td><td>April 1, 2018</td><td>June 30, 2018</td><td>1</td><td>USD</td><td>22810</td></tr><tr><td>MAY_101-Sept2017</td><td>101</td><td>101Sept012017</td><td>September 1, 2017</td><td>August 31, 2018</td><td>12,500,000</td><td>12,500,000</td><td>September 1, 2017</td><td>August 31, 2018</td><td>1</td><td>VND</td><td>21150</td></tr><tr><td>MAY_102-Apr2018</td><td>102</td><td>102Apr022018</td><td>April 2, 2018</td><td>April 1, 2019</td><td>17,133,750</td><td>17,133,750</td><td>April 2, 2018</td><td>April 1, 2019</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_103-Nov2017</td><td>103</td><td>103Nov012017</td><td>November 1, 2017</td><td>October 31, 2018</td><td>19,337,000</td><td>19,337,000</td><td>November 1, 2017</td><td>October 31, 2018</td><td>1</td><td>USD</td><td> </td></tr><tr><td>MAY_201-May2016</td><td>201</td><td>201May012016</td><td>May 1, 2016</td><td>April 30, 2018</td><td>12,000,000</td><td>12,000,000</td><td>May 1, 2016</td><td>April 30, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_202_Apr2018</td><td>202</td><td>202Apr072018</td><td>April 7, 2018</td><td>April 6, 2019</td><td>16,000,000</td><td>16,000,000</td><td>April 7, 2018</td><td>April 6, 2019</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_203-Sept2017</td><td>203</td><td>203Sept172017</td><td>September 17, 2017</td><td>May 16,2018</td><td>19,346,000</td><td>19,346,000</td><td>September 17, 2017</td><td>May 16, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_301-Feb2017</td><td>301</td><td>301Feb062017</td><td>February 6, 2017</td><td>December 5, 2018</td><td>12,430,000</td><td>12,430,000</td><td>February 6, 2017</td><td>December 5, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_302-Oct2017</td><td>302</td><td>302Oct012017</td><td>October 1, 2017</td><td>September 30, 2018</td><td>15,939,000</td><td>15,939,000</td><td>October 1, 2017</td><td>September 30, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_303-Jul2014</td><td>303</td><td>303Jul312014</td><td>July 31, 2014</td><td>July 30, 2018</td><td>18,067,000</td><td>18,067,000</td><td>July 31, 2014</td><td>July 30, 2018</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_401_Apr2018</td><td>401</td><td>401Apr012018</td><td>Apr 01,2018</td><td>March 31, 2019</td><td>11,415,000</td><td>11,415,000</td><td>Apr 01,2018</td><td>March 31, 2019</td><td>1</td><td>VND</td><td> </td></tr><tr><td>MAY_402-Sep2014</td><td>402</td><td>402Sep192014</td><td>September 19, 2014</td><td>June 18, 2018</td><td>16,000,000</td><td>16,000,000</td><td>September 19, 2014</td><td>June 18, 2018</td><td>1</td><td>VND</td><td> </td></tr></tbody></table>
+
+                    </div>
+
+                    <button class="btn" type="button" style="grid-area: next-btn;" title="Import Data"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
+                </div> -->
+                <import-export></import-export>
+
+
+            </div>
+
+            <!-- ///////////////////// -->
         </div>
 
-        <!-- ///////////////////// -->
-    </div>
+    <!-- </div> -->
 
 	<p>
 		<input type="file" id="excel_input" name="excel_input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -207,38 +222,7 @@
 		<button onclick="SendData()">Send Data to server</button>
 	</p>
 
-	<div class="scrolling-div">
-		<table id="display_table" v-if="table_data!=[]" style="width: 100%;">
-			<thead>
-				<tr>
-					<th v-for="key in Object.keys(thead)">{{key}}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="row in tbody">
-					<td v-for="data in row">{{data}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
 
-
-	<div>
-		<p>
-			<a href="excel_templates/tenant-template.xls" download="excel_templates/tenant-template.xls"> 
-				Tenant excel 
-			</a>
-
-			<a href="excel_templates/expense-template.xls" download="expense-template.xls"> 
-				Expense excel 
-			</a>
-
-			<a href="excel_templates/revenue-template.xlsx"> 
-				Revenue excel 
-			</a>
-
-		</p>
-	</div>
 
 
 	<footer>
@@ -253,16 +237,13 @@
 
         <script type="text/javascript" src="js/server.js"></script>
         
-		<script type="text/javascript" src="js/excel.js"></script>
-		<script type="text/javascript" src="js/display_table.js"></script>
-        
-
         <script async src="js/navbar.js"></script>
 
         <script async src="js/wrapper/sidebar.js"></script>
 
         <script async src="js/wrapper/main_content/scrolling_table.js"></script>
         <script async src="js/wrapper/main_content/1_overview.js"></script>
+        <Script async src="js/wrapper/main_content/3_import_export.js"></Script>
         <script src="js/wrapper.js"></script>
 
         <script async src="js/setup.js"></script>
