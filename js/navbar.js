@@ -72,6 +72,7 @@ function CreateNavbar()
                     {
                         li_class.push("active"); 
                     }
+
                     return li_class; 
                 }
             }

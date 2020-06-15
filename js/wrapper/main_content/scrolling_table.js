@@ -18,14 +18,15 @@ var scrolling_table = Vue.component
                 return; 
             }
 
-            var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
-            var data = AjaxRequest(url);
             try 
             {
+                var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
+                var data = AjaxRequest(url);
                 this.table_data = JSON.parse(data); 
             }
-            catch 
+            catch(exception)
             {
+                console.log(exception); 
                 return; 
             }          
         },
