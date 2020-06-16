@@ -11,12 +11,15 @@ var scrolling_table = Vue.component
                 tbody: []
             };
         }, 
-
+        computed: 
+        {
+            //make the table data reactive so when we have a change in controller, the table data will just change with it.     
+        },
         methods: 
         {
             OverviewData()
             {
-                var url = "server/overview_controller/"+window.store_track.state.controller+".php"; 
+                var url = "server/overview_controller/"+window.store_track.state.controller+".php";
                 var data = AjaxRequest(url);
     
                 try 

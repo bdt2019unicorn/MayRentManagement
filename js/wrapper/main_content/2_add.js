@@ -55,29 +55,6 @@ var row_group = Vue.component
     "row-group", 
     {
         props: ["row"], 
-        // data() 
-        // {
-        //     return {
-        //         row: 
-        //         [
-        //             {
-        //                 component: "text-input", 
-        //                 name: "first_name", 
-        //                 title: "First Name"
-        //             }, 
-        //             {
-        //                 component: "text-input", 
-        //                 name: "last_name", 
-        //                 title: "Last Name"
-        //             }, 
-        //             {
-        //                 component: "date-input", 
-        //                 name: "date_of_birth", 
-        //                 title: "Date of Birth"
-        //             }
-        //         ]
-        //     }
-        // }, 
         template: 
         `
             <div>
@@ -101,27 +78,36 @@ var row_group = Vue.component
 
 var add_component = Vue.component
 (
-    "add-component", 
+    "Add", 
     {
         data()
         {
             return {
                 form: [], 
-                title: "Add"
+                title: "Add "
             }
         }, 
 
         created() 
         {
-            var data = GiveMeFakeData(); 
-            this.form = data.form; 
-            this.title+=data.title; 
+            var data = GetFormDataFields();
+            try 
+            {
+                this.form = data.form; 
+                this.title+=data.title; 
+            } 
+            catch
+            {
+                this.form = []; 
+                this.title ="Add "; 
+            }
+
         },
 
         template: 
         `
             <form class="container-fluid">
-
+                <h1 style="text-align: center;">{{title}}</h1>
                 <row-group
                     v-for="row in form"
                     :row="row"
@@ -145,87 +131,3 @@ var add_component = Vue.component
         `
     }
 ); 
-
-
-
-
-
-
-
-
-function GiveMeFakeData()
-{
-    var form =  
-    [
-        [
-            {
-                component: "text-input", 
-                name: "first_name", 
-                title: "First Name"
-            }, 
-            {
-                component: "text-input", 
-                name: "last_name", 
-                title: "Last Name"
-            }, 
-            {
-                component: "date-input", 
-                name: "date_of_birth", 
-                title: "Date of Birth"
-            }
-        ], 
-        [
-            {
-                component: "text-input", 
-                name: "passport_id_number", 
-                title: "Passport/ID Number"
-            }, 
-            {
-                component: "text-input", 
-                name: "Nationality", 
-                title: "Nationality"
-            }
-        ], 
-        [
-            {
-                component: "text-input", 
-                name: "mobile_phone", 
-                title: "Mobile Phone"
-            }, 
-            {
-                component: "text-input", 
-                name: "work_phone", 
-                title: "Work Phone"
-            }
-        ], 
-        [
-            {
-                component: "text-input", 
-                name: "personal_email", 
-                title: "Personal Email"
-            }, 
-            {
-                component: "text-input", 
-                name: "work_email", 
-                title: "Work Email"
-            }
-        ], 
-        [
-            {
-                component: "text-input", 
-                name: "company_name", 
-                title: "Company Name"
-            }, 
-            {
-                component: "text-input", 
-                name: "company_address", 
-                title: "Company Address"
-            }
-        ]
-    ]
-    var title = "Tenant"; 
-    return {
-        title: title, 
-        form: form
-    }; 
-}
