@@ -28,6 +28,11 @@ function GetFormDataFields()
                     }, 
                     {
                         component: "text-input", 
+                        name: "middle_name", 
+                        title: "Middle Name"
+                    }, 
+                    {
+                        component: "text-input", 
                         name: "last_name", 
                         title: "Last Name"
                     }, 
