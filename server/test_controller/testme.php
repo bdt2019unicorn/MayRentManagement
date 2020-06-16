@@ -1,5 +1,5 @@
 <?php 
-
-    echo "hi"; 
+    require_once("./first_require.php"); 
+    echo "\nhi\n"; 
 
 ?>
