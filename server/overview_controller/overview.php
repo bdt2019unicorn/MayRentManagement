@@ -1,6 +1,6 @@
 <?php 
 	
-	require_once("../helper/connect.php"); 
+	require_once(__DIR__."../helper/connect.php"); 
 
 	function GetDataOverview($sql)
 	{
