@@ -1,4 +1,4 @@
 <?php 
-	require_once(__DIR__."/overview.php"); 
+	require_once("./overview.php"); 
 	GetDataGeneral("tenant"); 
 ?>
