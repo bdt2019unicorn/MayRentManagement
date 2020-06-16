@@ -5,7 +5,7 @@ var import_export = Vue.component
         data()
         {
             return {
-                excel_data: null
+                excel_data: []
             }
         }, 
         computed: 
@@ -45,14 +45,11 @@ var import_export = Vue.component
 
             SendData()
             {
-                var data = new FormData(); 
-                data.append("excel",JSON.stringify(this.excel_data)); 
-                var url = "server/import_controller/" + window.store_track.state.controller + ".php"; 
-                var result = AjaxRequest(url, data, "post"); 
+                var result = ImportData(this.excel_data); 
                 if(result==true)
                 {
                     alert("data imported"); 
-                    this.excel_data = null; 
+                    this.excel_data = []; 
                     this.$refs['excel_input'].value=""; 
                 } 
                 else 
@@ -99,8 +96,8 @@ var import_export = Vue.component
 
                 <scrolling-table
                     tb_style="grid-area: scrolling-div;"
-                    v-show="this.excel_data!=null"
-                    :excel_data="this.excel_data"
+                    v-if="this.excel_data!=[]"
+                    :table_data="excel_data"
                 >
                 </scrolling-table>
 
