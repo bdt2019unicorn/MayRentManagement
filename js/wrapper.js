@@ -4,10 +4,6 @@ function CreateWrapper()
     (
         {
             el: "#page_wrapper", 
-            data: 
-            {
-                show_me: false
-            },
             components: 
             {
                 vuejsDatepicker
@@ -16,15 +12,12 @@ function CreateWrapper()
             {
                 ShowWrapper: function()
                 {
-                    if(window.store_track.state.controller!="")
-                    {
-                        return ""; 
-                    }
-                    else 
-                    {
-                        return "display: none;"; 
-                    }
-                }    
+                    return (window.store_track.state.controller!=''); 
+                }, 
+                Action: function()
+                {
+                    return window.store_track.state.action; 
+                } 
             }
         }
     ); 

@@ -1,6 +1,6 @@
 var overview_component = Vue.component 
 (
-    "overview-component", 
+    "Overview", 
     {
         template: 
         `
