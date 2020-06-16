@@ -87,6 +87,13 @@ var add_component = Vue.component
                 title: "Add "
             }
         }, 
+        methods: 
+        {
+            SubmitForm(event)
+            {
+                var form = event.target; 
+            }   
+        },
 
         created() 
         {
@@ -106,7 +113,10 @@ var add_component = Vue.component
 
         template: 
         `
-            <form class="container-fluid">
+            <form 
+                class="container-fluid"
+                @submit.prevent="SubmitForm"
+            >
                 <h1 style="text-align: center;">{{title}}</h1>
                 <row-group
                     v-for="row in form"
@@ -117,10 +127,15 @@ var add_component = Vue.component
                 <div>
                     <br>
                     <div class="row">
-                        <div class="form-group col-10">
+                        <div class="form-group col-2">
+                            <button type="reset" class="btn" title="Clear">
+                                <i style="font-size: xx-large;" class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="form-group col-8">
                         </div>
                         <div class="form-group col-2">
-                            <button type="submit" class="btn">
+                            <button type="submit" class="btn" :title="title">
                                 <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
                             </button>
                         </div>

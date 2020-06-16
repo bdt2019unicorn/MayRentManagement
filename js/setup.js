@@ -31,7 +31,7 @@ jQuery
                                     {
                                         window.history.pushState("","",window.location.pathname); 
                                         state.controller = ""; 
-                                        state.action = ""; 
+                                        state.action = "Overview"; 
                                         return; 
                                     }
                                     var search_params = (param=="controller")?"": window.location.search; 

@@ -281,3 +281,11 @@ function GetFormDataFields()
 
     return form_data[window.store_track.state.controller]; 
 }
+
+function ImportData(excel_data)
+{
+    var data = new FormData(); 
+    data.append("excel",JSON.stringify(excel_data)); 
+    var url = "server/import_controller/" + window.store_track.state.controller + ".php"; 
+    return AjaxRequest(url, data, "post"); 
+}

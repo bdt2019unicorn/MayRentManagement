@@ -2,54 +2,73 @@ var scrolling_table = Vue.component
 (
     "scrolling-table", 
     {
-        props: ["extra_class", "tb_style", "excel_data"], 
+        props: ["extra_class", "tb_style", "table_data"], 
         data() 
         {
             return {
-                table_data: [], 
                 thead: {}, 
                 tbody: []
             };
         }, 
-        computed: 
-        {
-            //make the table data reactive so when we have a change in controller, the table data will just change with it.     
-        },
-        methods: 
-        {
-            OverviewData()
-            {
-                var url = "server/overview_controller/"+window.store_track.state.controller+".php";
-                var data = AjaxRequest(url);
-    
-                try 
-                {
-                    this.table_data = JSON.parse(data); 
-                }
-                catch(exception)
-                {
-                    return; 
-                }          
-            }, 
-            LoadExcelData()
-            {
-                if(this.excel_data!=null)
-                {
-                    this.table_data = this.excel_data; 
-                }
-                else
-                {
-                    this.table_data = []; 
-                }
-            }
-        },
-
         mounted() 
         {
-            this.LoadExcelData(); 
-            if(window.store_track.state.action=="Overview")
+            this.UpdateData(); 
+        },
+
+        methods: 
+        {
+            UpdateData()
             {
-                this.OverviewData(); 
+                function THead(table_data)
+                {
+                    if(table_data!=[])
+                    {
+                        let thead = {}; 
+                        let index = 0; 
+                        table_data.forEach
+                        (
+                            row => 
+                            {
+                                for(var key of Object.keys(row))
+                                {
+                                    if(thead[key]==undefined)
+                                    {
+                                        thead[key] = index++; 
+                                    }
+                                }
+                            }
+                        );
+                        return thead; 
+                    }
+                    return {}; 
+                }
+
+                function TBody(thead, table_data)
+                {
+                    if(thead=={})
+                    {
+                        return []; 
+                    }
+                    var tbody = []; 
+                    table_data.forEach
+                    (
+                        row => 
+                        {
+                            let data_row = Array(Object.keys(thead).length).fill(" "); 
+                            for(var key of Object.keys(row))
+                            {
+                                data_row[thead[key]] = row[key]; 
+                            }
+                            tbody.push(data_row); 
+                        }
+                    );
+                    return tbody; 
+                }
+
+                var thead = THead(this.table_data); 
+                var tbody = TBody(thead, this.table_data); 
+                this.thead = thead; 
+                this.tbody = tbody; 
             }
         },
 
@@ -57,45 +76,7 @@ var scrolling_table = Vue.component
         {
             table_data: function()
             {
-                if(this.table_data!=[])
-                {
-                    let thead = {}; 
-                    let index = 0; 
-                    this.table_data.forEach
-                    (
-                        row => 
-                        {
-                            for(var key of Object.keys(row))
-                            {
-                                if(thead[key]==undefined)
-                                {
-                                    thead[key] = index++; 
-                                }
-                            }
-                        }
-                    );
-                    this.thead = thead; 
-                }
-            }, 
-            thead: function()
-            {
-                this.tbody = []; 
-                this.table_data.forEach
-                (
-                    row => 
-                    {
-                        let data_row = Array(Object.keys(this.thead).length).fill(" "); 
-                        for(var key of Object.keys(row))
-                        {
-                            data_row[this.thead[key]] = row[key]; 
-                        }
-                        this.tbody.push(data_row); 
-                    }
-                );
-            }, 
-            excel_data: function()
-            {
-                this.LoadExcelData(); 
+                this.UpdateData(); 
             }
         }, 
 
@@ -105,7 +86,7 @@ var scrolling_table = Vue.component
                 :class="['scrolling-div', this.extra_class]"
                 :style="tb_style"
             >
-                <table v-if="table_data!=[]" style="width: 100%;">
+                <table style="width: 100%;">
                     <thead>
                         <tr>
                             <th v-for="key in Object.keys(thead)">{{key}}</th>
