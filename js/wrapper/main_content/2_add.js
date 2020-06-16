@@ -91,7 +91,17 @@ var add_component = Vue.component
         {
             SubmitForm(event)
             {
-                var form = event.target; 
+                let data = $(event.target).serializeObject(); 
+                let result = ImportData([data]); 
+                if(result==true)
+                {
+                    alert(this.title+" Success!"); 
+                    $(event.target).trigger("reset"); 
+                }
+                else
+                {
+                    alert(this.title+" Fails, please try again!"); 
+                }
             }   
         },
 
