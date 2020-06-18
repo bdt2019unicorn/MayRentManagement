@@ -50,6 +50,52 @@ var date_input = Vue.component
     }
 ); 
 
+var select_input = Vue.component
+(
+    "select-input", 
+    {
+        props: ["name", "title", "overview_controller", "value", "text"], 
+        mixins: [overview_data_mixins], 
+        data() 
+        {
+            return {
+                options: []
+            }
+        }, 
+        mounted() 
+        {
+            var select_data = this.TableData(this.overview_controller);
+            select_data.forEach
+            (
+                option => 
+                {
+                    this.options.push 
+                    (
+                        {
+                            value: option[this.value], 
+                            text: option[this.text]
+                        }
+                    ); 
+                }
+            ); 
+        },
+        template: 
+        `
+            <div class="form-group col">
+                <label :for="name"><b>{{title}}</b></label>
+                <select class="form-control">
+                    <option
+                        v-for="option in options"
+                        :value="option.value"
+                    >
+                    {{option.text}}
+                    </option>
+                </select>
+            </div>
+        `
+    }
+); 
+
 var row_group = Vue.component
 (
     "row-group", 
