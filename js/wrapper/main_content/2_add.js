@@ -13,6 +13,22 @@ var text_input = Vue.component
     }
 ); 
 
+var textarea_input = Vue.component
+(
+    "textarea-input", 
+    {
+        props: ["name", "title"], 
+        template: 
+        `
+            <div class="form-group col">
+                <label :for="name"><b>{{title}}</b></label>
+                <textarea class="form-control" :name="name">
+                </textarea>
+            </div>
+        `
+    }
+); 
+
 var date_input = Vue.component
 (
     "date-input", 
