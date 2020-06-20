@@ -112,9 +112,12 @@ function GetFormDataFields()
                         text: "full_name"
                     }, 
                     {
-                        component: "text-input", 
+                        component: "select-input", 
                         name: "apartment_id", 
-                        title: "Apartment"
+                        title: "Apartment", 
+                        overview_controller: "apartment", 
+                        value: "id", 
+                        text: "name"
                     }
                 ], 
                 [
@@ -212,9 +215,12 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "text-input", 
+                        component: "select-input", 
                         name: "apartment_id", 
-                        title: "Apartment"
+                        title: "Apartment",
+                        overview_controller: "apartment", 
+                        value: "id", 
+                        text: "name"
                     }, 
                     {
                         component: "text-input", 
@@ -224,7 +230,7 @@ function GetFormDataFields()
                 ],
                 [
                     {
-                        component: "text-input", 
+                        component: "textarea-input", 
                         name: "note", 
                         title: "Note"
                     }
@@ -271,9 +277,12 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "text-input", 
+                        component: "select-input", 
                         name: "apartment_id", 
-                        title: "Apartment"
+                        title: "Apartment",
+                        overview_controller: "apartment", 
+                        value: "id", 
+                        text: "name"
                     }, 
                     {
                         component: "text-input", 
@@ -283,7 +292,7 @@ function GetFormDataFields()
                 ],
                 [
                     {
-                        component: "text-input", 
+                        component: "textarea-input", 
                         name: "note", 
                         title: "Note"
                     }
