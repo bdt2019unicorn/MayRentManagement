@@ -134,12 +134,12 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "text-input", 
+                        component: "number-input", 
                         name: "rent_amount", 
                         title: "Rent Amount"
                     }, 
                     {
-                        component: "text-input", 
+                        component: "number-input", 
                         name: "deposit_amount", 
                         title: "Deposit Amount"
                     }
@@ -158,9 +158,11 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "text-input", 
+                        component: "number-input", 
                         name: "monthly_payment_date", 
-                        title: "Monthly Payment Date"
+                        title: "Monthly Payment Date", 
+                        maximum_value: 28,
+                        decimal_places: 0 
                     }, 
                     {
                         component: "text-input", 
@@ -168,9 +170,10 @@ function GetFormDataFields()
                         title: "Deposit Currency"
                     }, 
                     {
-                        component: "text-input", 
+                        component: "number-input", 
                         name: "deposit_exchange_rate", 
-                        title: "Deposit Exchange Rate"
+                        title: "Deposit Exchange Rate", 
+                        decimal_places: 6
                     }
                 ]
             ], 
@@ -223,8 +226,8 @@ function GetFormDataFields()
                         text: "name"
                     }, 
                     {
-                        component: "text-input", 
-                        name: "amount", 
+                        component: "number-input", 
+                        name: "Amount", 
                         title: "Amount"
                     }
                 ],
@@ -285,8 +288,8 @@ function GetFormDataFields()
                         text: "name"
                     }, 
                     {
-                        component: "text-input", 
-                        name: "amount", 
+                        component: "number-input", 
+                        name: "Amount", 
                         title: "Amount"
                     }
                 ],

@@ -66,6 +66,60 @@ var date_input = Vue.component
     }
 ); 
 
+var number_input = Vue.component 
+(
+    "number-input", 
+    {
+        props: ["name", "title", "maximum_value", "decimal_places"], 
+        components: 
+        {
+            VueAutonumeric
+        }, 
+        computed: 
+        {
+            Options()
+            {
+                var options = {}; 
+                var keys = ["maximum_value", "decimal_places"]; 
+                function ChangeKey(key)
+                {
+                    var key_split = key.split('_'); 
+                    var change_key = key_split[0]; 
+                    for(var i=1;i<key_split.length; i++)
+                    {
+                        change_key+=key_split[i][0].toUpperCase()+key_split[i].substr(1); 
+                    }
+                    return change_key; 
+                }
+                keys.forEach
+                (
+                    key => 
+                    {
+                        if(this[key]!=undefined)
+                        {
+                            let new_key = ChangeKey(key); 
+                            options[new_key] = this[key]; 
+                        }
+                    }
+                );
+                return options; 
+            }   
+        },
+        template: 
+        `
+            <div class="form-group col">
+                <label :for="name"><b>{{title}}</b></label>
+                <vue-autonumeric
+                    :name="name"
+                    :options="Options"
+                    class="form-control"
+                >
+                </vue-autonumeric>
+            </div>
+        `
+    }
+); 
+
 var select_input = Vue.component
 (
     "select-input", 
@@ -99,7 +153,7 @@ var select_input = Vue.component
         `
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
-                <select class="form-control">
+                <select :name="name" class="form-control">
                     <option v-if="options.length>0" hidden disabled selected value></option>
                     <option
                         v-for="option in options"
