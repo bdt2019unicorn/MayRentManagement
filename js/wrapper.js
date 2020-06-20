@@ -6,7 +6,7 @@ function CreateWrapper()
             el: "#page_wrapper", 
             components: 
             {
-                vuejsDatepicker
+                vuejsDatepicker, VueAutonumeric
             }, 
             computed: 
             {
