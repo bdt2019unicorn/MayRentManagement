@@ -104,9 +104,12 @@ function GetFormDataFields()
                         title: "Contract Name"
                     }, 
                     {
-                        component: "text-input", 
+                        component: "select-input", 
                         name: "tenant_id", 
-                        title: "Tenant"
+                        title: "Tenant", 
+                        overview_controller: "tenant", 
+                        value: "id", 
+                        text: "full_name"
                     }, 
                     {
                         component: "text-input", 
@@ -181,9 +184,12 @@ function GetFormDataFields()
                         title: "Name"
                     }, 
                     {
-                        component: "text-input", 
+                        component: "select-input", 
                         name: "revenue_type_id", 
-                        title: "Type"
+                        title: "Type",
+                        overview_controller: "revenue_type", 
+                        value: "id", 
+                        text: "name"
                     }
                 ], 
                 [
@@ -237,9 +243,12 @@ function GetFormDataFields()
                         title: "Name"
                     }, 
                     {
-                        component: "text-input", 
+                        component: "select-input", 
                         name: "expense_type_id", 
-                        title: "Type"
+                        title: "Type",
+                        overview_controller: "expense_type", 
+                        value: "id", 
+                        text: "name"
                     }
                 ], 
                 [
