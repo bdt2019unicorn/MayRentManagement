@@ -84,6 +84,7 @@ var select_input = Vue.component
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
                 <select class="form-control">
+                    <option v-if="options.length>0" hidden disabled selected value></option>
                     <option
                         v-for="option in options"
                         :value="option.value"
@@ -109,8 +110,7 @@ var row_group = Vue.component
                     <component 
                         v-for="col in row"
                         :is="col.component"
-                        :name="col.name"
-                        :title="col.title"
+                        v-bind="col"
                     >
                     </component>
 
