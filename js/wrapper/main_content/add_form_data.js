@@ -18,6 +18,7 @@ function GetFormDataFields()
         }, 
         tenant: 
         {
+            title: "Tenant", 
             form:  
             [
                 [
@@ -91,7 +92,18 @@ function GetFormDataFields()
                     }
                 ]
             ], 
-            title: "Tenant"
+            validate: 
+            {
+                rules: 
+                {
+                    first_name: "required", 
+                    last_name: "required", 
+                    date_of_birth: "required", 
+                    passport_id_number: "required", 
+                    mobile_phone: "required"
+                }
+            }
+            
         }, 
         leaseagrm: 
         {

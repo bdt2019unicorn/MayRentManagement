@@ -61,10 +61,15 @@ var date_input = Vue.component
                     :name="name"
                 >
                 </vuejs-datepicker>
+
+                <label class="error" :for="name"></label>
             </div>
         `
     }
 ); 
+
+
+// sort out the issue with the date requirement, a bit tough to deal with at the moment 
 
 var number_input = Vue.component 
 (
@@ -199,14 +204,19 @@ var add_component = Vue.component
         data()
         {
             return {
+                title: "Add ", 
                 form: [], 
-                title: "Add "
+                validate: {}
             }
         }, 
         methods: 
         {
             SubmitForm(event)
             {
+                if(!$(this.$refs["action_form"]).valid())
+                {
+                    return; 
+                }
                 let data = $(event.target).serializeObject(); 
                 let result = ImportData([data]); 
                 if(result==true)
@@ -221,6 +231,11 @@ var add_component = Vue.component
             }   
         },
 
+        mounted()
+        {
+            $(this.$refs["action_form"]).validate(this.validate); 
+        }, 
+
         created() 
         {
             var data = GetFormDataFields();
@@ -228,6 +243,7 @@ var add_component = Vue.component
             {
                 this.form = data.form; 
                 this.title+=data.title; 
+                this.validate = (data.validate!=undefined)?data.validate:this.validate; 
             } 
             catch
             {
@@ -242,6 +258,7 @@ var add_component = Vue.component
             <form 
                 class="container-fluid"
                 @submit.prevent="SubmitForm"
+                ref="action_form"
             >
                 <h1 style="text-align: center;">{{title}}</h1>
                 <row-group
