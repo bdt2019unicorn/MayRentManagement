@@ -8,10 +8,7 @@ var li_nav_item = Vue.component
             Href()
             {
                 return "javascript:window.store_track.commit('RedirectUrl', {param: 'controller',value:'" + this.controller + "'});"
-            }
-        }, 
-        methods: 
-        {
+            }, 
             LiItemClass()
             {
                 var li_class = ["nav-item"]; 
@@ -22,7 +19,7 @@ var li_nav_item = Vue.component
 
                 return li_class; 
             }
-        },
+        }, 
         template: 
         `
             <li :class="LiItemClass">
@@ -39,37 +36,39 @@ var page_navbar = Vue.component
 (
     "page-navbar", 
     {
-        data: 
+        data()
         {
-            nav_list_items: 
-            [
-                {
-                    controller: "buildings", 
-                    icon: "building", 
-                    p_text: "Buildings"
-                }, 
-                {
-                    controller: "tenant", 
-                    icon: "users", 
-                    p_text: "Tenants"
-                }, 
-                {
-                    controller: "leaseagrm", 
-                    icon: "handshake",
-                    p_text: "Lease Agreement"
-                }, 
-                {
-                    controller: "revenue", 
-                    icon: "hand-holding-usd",
-                    p_text: "Income"
-                }, 
-                {
-                    controller: "expense", 
-                    icon: "file-invoice-dollar",
-                    p_text: "Expenses"
-                }
-            ]
-        },  
+            return {
+                nav_list_items: 
+                [
+                    {
+                        controller: "buildings", 
+                        icon: "building", 
+                        p_text: "Buildings"
+                    }, 
+                    {
+                        controller: "tenant", 
+                        icon: "users", 
+                        p_text: "Tenants"
+                    }, 
+                    {
+                        controller: "leaseagrm", 
+                        icon: "handshake",
+                        p_text: "Lease Agreement"
+                    }, 
+                    {
+                        controller: "revenue", 
+                        icon: "hand-holding-usd",
+                        p_text: "Income"
+                    }, 
+                    {
+                        controller: "expense", 
+                        icon: "file-invoice-dollar",
+                        p_text: "Expenses"
+                    }
+                ]
+            } 
+        }, 
         template: 
         `
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -82,19 +81,55 @@ var page_navbar = Vue.component
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav nav-fill w-100">
+                    <ul class="navbar-nav nav-fill w-100">
 
-                    <li-nav-item 
-                        v-for="item in nav_list_items" 
-                        :icon="item.icon"
-                        :p_text="item.p_text"
-                        :controller="item.controller"
-                    >
-                    </li-nav-item>
+                        <li-nav-item 
+                            v-for="item in nav_list_items" 
+                            :icon="item.icon"
+                            :p_text="item.p_text"
+                            :controller="item.controller"
+                        >
+                        </li-nav-item>
 
-                </ul>
+                    </ul>
                 </div>
             </nav>
+        `
+    }
+);
+
+var page_wrapper = Vue.component 
+(
+    "page-wrapper", 
+    {
+        computed: 
+        {
+            ShowWrapper: function()
+            {
+                return (window.store_track.state.controller!=''); 
+            }, 
+            Action: function()
+            {
+                return window.store_track.state.action; 
+            } 
+        }, 
+        template: 
+        `
+        <div v-if="ShowWrapper" class="wrapper">
+
+            <side-bar></side-bar>
+            <div class="main-content container-fluid">
+                <div class="row" style="height: 5vh;"></div>
+                <component
+                    :is="Action"
+                >
+                </component>
+            </div>
+
+        </div>
+
+
+
         `
     }
 ); 
@@ -105,18 +140,7 @@ function PageElements()
     window.full_page = new Vue 
     (
         {
-            el: "#full_page", 
-            computed: 
-            {
-                ShowWrapper: function()
-                {
-                    return (window.store_track.state.controller!=''); 
-                }, 
-                Action: function()
-                {
-                    return window.store_track.state.action; 
-                } 
-            }
+            el: "#full_page"
         }
     ); 
 }
