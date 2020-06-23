@@ -11,46 +11,7 @@
 
             <page-navbar></page-navbar>
 
-<!-- 
-
-            <nav id="page_navbar" class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="javascript:window.store_track.commit('RedirectUrl',{});" style="width: 20%;">
-                    <img src="img/logo.jpeg" alt="logo" style="height: 10vmin;">
-                </a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav nav-fill w-100">
-
-                    <li-nav-item 
-                        :class="LiItemClass(item)"
-                        v-for="item in list_items" 
-                        :icon="item.icon"
-                        :p_text="item.p_text"
-                        :controller="item.controller"
-                    >
-                    </li-nav-item>
-
-                </ul>
-                </div>
-            </nav>
- -->
-
-            
-            <div id="page_wrapper" v-if="ShowWrapper" class="wrapper">
-
-                <side-bar></side-bar>
-                <div class="main-content container-fluid">
-                    <div class="row" style="height: 5vh;"></div>
-                    <component
-                        :is="Action"
-                    >
-                    </component>
-                </div>
-            </div>
+            <page-wrapper></page-wrapper>
 
         </div>
 
@@ -71,17 +32,12 @@
 
             <script type="text/javascript" src="js/server.js"></script>
             
-            <!-- <script async src="js/navbar.js"></script> -->
-
             <script async src="js/wrapper/sidebar.js"></script>
             <script async src="js/wrapper/main_content/scrolling_table.js"></script>
             <script async src="js/wrapper/main_content/1_overview.js"></script>
             <script src="js/wrapper/main_content/add_form_data.js"></script>
             <script async src="js/wrapper/main_content/2_add.js"></script>
             <script async src="js/wrapper/main_content/3_import_export.js"></script>
-            <!-- <script src="js/wrapper.js"></script> -->
-
-            <!-- need to modify the full page and the set up js file to make it work. I can't now because of work -->
 
             <script src="js/full_page.js"></script>
 
