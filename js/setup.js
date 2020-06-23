@@ -91,6 +91,7 @@ jQuery
 
         }
 
-        CreateStoreTrack().then(GetController).then(CreateWrapper).then(CreateNavbar); 
+        // CreateStoreTrack().then(GetController).then(CreateWrapper).then(CreateNavbar); 
+        CreateStoreTrack().then(GetController).then(CreateWrapper).then(CreateNavbar);
     }
 ); 
