@@ -62,7 +62,7 @@ var date_input = Vue.component
                 >
                 </vuejs-datepicker>
 
-                <label class="error" :for="name"></label>
+                <!-- <label class="error" :for="name"></label> -->
             </div>
         `
     }
