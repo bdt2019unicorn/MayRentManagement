@@ -14,7 +14,22 @@ jQuery
                             state: 
                             {
                                 controller: "", 
-                                action: "Overview"
+                                action: "Overview", 
+                                validation: 
+                                {
+                                    date_required: true,
+                                    date_group_valid: true
+                                }, 
+                                date_required: 
+                                {
+                                    current: 0, 
+                                    total: 0 
+                                }, 
+                                date_group_valid: 
+                                {
+                                    current: 0, 
+                                    total: 0 
+                                }
                             }, 
                             mutations: 
                             {
@@ -27,11 +42,36 @@ jQuery
                                     }
                                 )
                                 {
+                                    function ResetValidation()
+                                    {
+                                        state.validation = 
+                                        {
+                                            date_required: true,
+                                            date_group_valid: true
+                                        }; 
+                                        state.date_required = 
+                                        {
+                                            current: 0, 
+                                            total: 0 
+                                        }; 
+                                        state.date_group_valid = 
+                                        {
+                                            current: 0, 
+                                            total: 0 
+                                        }; 
+                                    }
+
+                                    function ChangeController(new_controller="")
+                                    {
+                                        state.controller = new_controller; 
+                                        state.action = "Overview"; 
+                                        ResetValidation(); 
+                                    }
+
                                     if(param=="")
                                     {
                                         window.history.pushState("","",window.location.pathname); 
-                                        state.controller = ""; 
-                                        state.action = "Overview"; 
+                                        ChangeController(); 
                                         return; 
                                     }
                                     var search_params = (param=="controller")?"": window.location.search; 
@@ -39,14 +79,26 @@ jQuery
                                     url_params.set(param,value); 
                                     if(param=="controller")
                                     {
-                                        state.controller = url_params.get(param); 
-                                        state.action = "Overview"; 
+                                        ChangeController(url_params.get(param)); 
                                     }
                                     else
                                     {
                                         state.action = url_params.get(param); 
+                                        ResetValidation(); 
                                     }
                                     window.history.pushState(value,value,"?"+url_params.toString()); 
+                                }, 
+                                DateCurrent(state, {name, value})
+                                {
+                                    let number = (value==true)?1:-1; 
+                                    state[name]["current"]+=number; 
+                                    state.validation[name] = (state[name]["current"]==state[name]["total"]); 
+                                }, 
+                                DateTotal(state, {name,value})
+                                {
+                                    state[name].total++; 
+                                    state[name].current+= Number(value); 
+                                    state.validation[name] = (state[name]["current"]==state[name]["total"]); 
                                 }
                             }
                         }

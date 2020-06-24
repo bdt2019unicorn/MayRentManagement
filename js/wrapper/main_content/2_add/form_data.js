@@ -40,7 +40,8 @@ function GetFormDataFields()
                     {
                         component: "date-input", 
                         name: "date_of_birth", 
-                        title: "Date of Birth"
+                        title: "Date of Birth", 
+                        required: true
                     }
                 ], 
                 [
@@ -136,14 +137,24 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "date-input", 
-                        name: "start_date", 
-                        title: "Start Date"
-                    }, 
-                    {
-                        component: "date-input", 
-                        name: "finish", 
-                        title: "End Date"
+                        component: "date-group", 
+                        date_data: 
+                        {
+                            small_date: 
+                            {
+                                name: "start_date", 
+                                title: "Start Date", 
+                                required: true, 
+                                message: "The start date should be before the end date"
+                            }, 
+                            big_date: 
+                            {
+                                name: "finish", 
+                                title: "End Date", 
+                                required: true, 
+                                message: "The end date should be after the start date"
+                            }
+                        }, 
                     }
                 ], 
                 [
@@ -160,14 +171,24 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "date-input", 
-                        name: "deposit_payment_date", 
-                        title: "Deposit Payment Date"
-                    }, 
-                    {
-                        component: "date-input", 
-                        name: "deposit_payback_date", 
-                        title: "Deposit Payback Date"
+                        component: "date-group", 
+                        date_data: 
+                        {
+                            small_date: 
+                            {
+                                name: "deposit_payment_date", 
+                                title: "Deposit Payment Date", 
+                                required: true, 
+                                message: "The deposite payment date should be before the deposite payback date"
+                            }, 
+                            big_date: 
+                            {
+                                name: "deposit_payback_date", 
+                                title: "Deposit Payback Date", 
+                                required: true, 
+                                message: "The deposite payback date should be after the deposite payment date"
+                            }
+                        }, 
                     }
                 ], 
                 [
@@ -240,19 +261,30 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "date-input", 
-                        name: "start_period", 
-                        title: "Start Period"
-                    }, 
-                    {
-                        component: "date-input", 
-                        name: "end_period", 
-                        title: "End Period"
+                        component: "date-group", 
+                        date_data: 
+                        {
+                            small_date: 
+                            {
+                                name: "start_period", 
+                                title: "Start Period", 
+                                required: true, 
+                                message: "The start period should be before the end period"
+                            }, 
+                            big_date: 
+                            {
+                                name: "end_period", 
+                                title: "End Period", 
+                                required: true, 
+                                message: "The end period should be after the start period"
+                            }
+                        }, 
                     }, 
                     {
                         component: "date-input", 
                         name: "payment_date", 
-                        title: "Payment Date"
+                        title: "Payment Date", 
+                        required: true
                     }
 
                 ], 
@@ -279,35 +311,24 @@ function GetFormDataFields()
                     }
                 ]
             ], 
-            // validate: 
-            // {
-            //     rules: 
-            //     {
-            //         name: "required", 
-            //         tenant_id: "required", 
-            //         apartment_id: "required", 
-            //         rent_amount: 
-            //         {
-            //             required: true,
-            //             number: true 
-            //         }, 
-            //         deposit_amount:
-            //         {
-            //             required: true,
-            //             number: true 
-            //         },  
-            //         monthly_payment_date: 
-            //         {
-            //             required: true, 
-            //             step: 1, 
-            //             min: 1, 
-            //             max: 28
-            //         }
-            //     }
-            // }
+            validate: 
+            {
+                rules: 
+                {
+                    name: "required", 
+                    revenue_type_id: "required", 
+                    apartment_id: "required", 
+                    Amount: 
+                    {
+                        required: true,
+                        number: true 
+                    }
+                }
+            }
         }, 
         expense: 
         {
+            title: "Expense", 
             form:  
             [
                 [
@@ -327,19 +348,30 @@ function GetFormDataFields()
                 ], 
                 [
                     {
-                        component: "date-input", 
-                        name: "start_period", 
-                        title: "Start Period"
-                    }, 
-                    {
-                        component: "date-input", 
-                        name: "end_period", 
-                        title: "End Period"
+                        component: "date-group", 
+                        date_data: 
+                        {
+                            small_date: 
+                            {
+                                name: "start_period", 
+                                title: "Start Period", 
+                                required: true, 
+                                message: "The start period should be before the end period"
+                            }, 
+                            big_date: 
+                            {
+                                name: "end_period", 
+                                title: "End Period", 
+                                required: true, 
+                                message: "The end period should be after the start period"
+                            }
+                        }, 
                     }, 
                     {
                         component: "date-input", 
                         name: "payment_date", 
-                        title: "Payment Date"
+                        title: "Payment Date", 
+                        required: true
                     }
 
                 ], 
@@ -366,7 +398,20 @@ function GetFormDataFields()
                     }
                 ]
             ], 
-            title: "Expense"
+            validate: 
+            {
+                rules: 
+                {
+                    name: "required", 
+                    expense_type_id: "required", 
+                    apartment_id: "required", 
+                    Amount: 
+                    {
+                        required: true,
+                        number: true 
+                    }
+                }
+            }
         }
     }
 

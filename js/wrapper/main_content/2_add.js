@@ -1,182 +1,8 @@
-var text_input = Vue.component
-(
-    "text-input", 
-    {
-        props: ["name", "title"], 
-        template: 
-        `
-            <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
-                <input type="text" class="form-control" :name="name">
-            </div>
-        `
-    }
-); 
-
-var textarea_input = Vue.component
-(
-    "textarea-input", 
-    {
-        props: ["name", "title"], 
-        template: 
-        `
-            <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
-                <textarea class="form-control" :name="name">
-                </textarea>
-            </div>
-        `
-    }
-); 
-
-var date_input = Vue.component
-(
-    "date-input", 
-    {
-        props: ["name", "title"], 
-        data()
-        {
-            return {
-                date_value:undefined
-            }
-        }, 
-        components: 
-        {
-            vuejsDatepicker
-        }, 
-        template: 
-        `
-            <div class="form-group col">
-                <label for="company_address"><b>{{title}}</b></label>
-                <vuejs-datepicker 
-                    input-class="form-control" 
-                    format="dd/MM/yyyy" 
-                    v-model="date_value"
-                >
-                </vuejs-datepicker>
-                <vuejs-datepicker
-                    format="MM/dd/yy"
-                    v-model="date_value"
-                    v-show="false"
-                    :name="name"
-                >
-                </vuejs-datepicker>
-
-                <!-- <label class="error" :for="name"></label> -->
-            </div>
-        `
-    }
-); 
-
-
-// sort out the issue with the date requirement, a bit tough to deal with at the moment 
-
-var number_input = Vue.component 
-(
-    "number-input", 
-    {
-        props: ["name", "title", "maximum_value", "decimal_places"], 
-        components: 
-        {
-            VueAutonumeric
-        }, 
-        computed: 
-        {
-            Options()
-            {
-                var options = {}; 
-                var keys = ["maximum_value", "decimal_places"]; 
-                function ChangeKey(key)
-                {
-                    var key_split = key.split('_'); 
-                    var change_key = key_split[0]; 
-                    for(var i=1;i<key_split.length; i++)
-                    {
-                        change_key+=key_split[i][0].toUpperCase()+key_split[i].substr(1); 
-                    }
-                    return change_key; 
-                }
-                keys.forEach
-                (
-                    key => 
-                    {
-                        if(this[key]!=undefined)
-                        {
-                            let new_key = ChangeKey(key); 
-                            options[new_key] = this[key]; 
-                        }
-                    }
-                );
-                return options; 
-            }   
-        },
-        template: 
-        `
-            <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
-                <vue-autonumeric
-                    :name="name"
-                    :options="Options"
-                    class="form-control"
-                >
-                </vue-autonumeric>
-            </div>
-        `
-    }
-); 
-
-var select_input = Vue.component
-(
-    "select-input", 
-    {
-        props: ["name", "title", "overview_controller", "value", "text"], 
-        mixins: [overview_data_mixins], 
-        data() 
-        {
-            return {
-                options: []
-            }
-        }, 
-        mounted() 
-        {
-            var select_data = this.TableData(this.overview_controller);
-            select_data.forEach
-            (
-                option => 
-                {
-                    this.options.push 
-                    (
-                        {
-                            value: option[this.value], 
-                            text: option[this.text]
-                        }
-                    ); 
-                }
-            ); 
-        },
-        template: 
-        `
-            <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
-                <select :name="name" class="form-control">
-                    <option v-if="options.length>0" hidden disabled selected value></option>
-                    <option
-                        v-for="option in options"
-                        :value="option.value"
-                    >
-                    {{option.text}}
-                    </option>
-                </select>
-            </div>
-        `
-    }
-); 
-
 var row_group = Vue.component
 (
     "row-group", 
     {
-        props: ["row"], 
+        props: ["row","just_started_parent"], 
         template: 
         `
             <div>
@@ -186,6 +12,7 @@ var row_group = Vue.component
                         v-for="col in row"
                         :is="col.component"
                         v-bind="col"
+                        :just_started_parent="just_started_parent"
                     >
                     </component>
 
@@ -195,8 +22,6 @@ var row_group = Vue.component
     }
 );
 
-
-
 var add_component = Vue.component
 (
     "Add", 
@@ -204,16 +29,27 @@ var add_component = Vue.component
         data()
         {
             return {
-                title: "Add ", 
+                title: "Add ",
+                just_started_parent: false,  
                 form: [], 
                 validate: {}
             }
         }, 
         methods: 
         {
+
+            FormValid()
+            {
+                return (
+                    $(this.$refs["action_form"]).valid() && 
+                    window.store_track.state.validation.date_required && 
+                    window.store_track.state.validation.date_group_valid
+                ); 
+            }, 
             SubmitForm(event)
             {
-                if(!$(this.$refs["action_form"]).valid())
+                this.just_started_parent = true; 
+                if(!this.FormValid())
                 {
                     return; 
                 }
@@ -222,13 +58,17 @@ var add_component = Vue.component
                 if(result==true)
                 {
                     alert(this.title+" Success!"); 
-                    $(event.target).trigger("reset"); 
+                    window.location.reload(); 
                 }
                 else
                 {
                     alert(this.title+" Fails, please try again!"); 
                 }
-            }   
+            }, 
+            DateRequiredValidChanged(new_value)
+            {
+                console.log(new_value); 
+            }  
         },
 
         mounted()
@@ -264,6 +104,7 @@ var add_component = Vue.component
                 <row-group
                     v-for="row in form"
                     :row="row"
+                    :just_started_parent= "just_started_parent"
                 >
                 </row-group>
             
