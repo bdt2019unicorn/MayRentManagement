@@ -98,15 +98,17 @@ function GetFormDataFields()
                 {
                     first_name: "required", 
                     last_name: "required", 
-                    date_of_birth: "required", 
                     passport_id_number: "required", 
-                    mobile_phone: "required"
+                    mobile_phone: "required", 
+                    personal_email: "email", 
+                    work_email: "email"
                 }
             }
             
         }, 
         leaseagrm: 
         {
+            title: "Contract", 
             form:  
             [
                 [
@@ -189,10 +191,36 @@ function GetFormDataFields()
                     }
                 ]
             ], 
-            title: "Contract"
+            validate: 
+            {
+                rules: 
+                {
+                    name: "required", 
+                    tenant_id: "required", 
+                    apartment_id: "required", 
+                    rent_amount: 
+                    {
+                        required: true,
+                        number: true 
+                    }, 
+                    deposit_amount:
+                    {
+                        required: true,
+                        number: true 
+                    },  
+                    monthly_payment_date: 
+                    {
+                        required: true, 
+                        step: 1, 
+                        min: 1, 
+                        max: 28
+                    }
+                }
+            }
         }, 
         revenue: 
         {
+            title: "Revenue", 
             form:  
             [
                 [
@@ -251,7 +279,32 @@ function GetFormDataFields()
                     }
                 ]
             ], 
-            title: "Revenue"
+            // validate: 
+            // {
+            //     rules: 
+            //     {
+            //         name: "required", 
+            //         tenant_id: "required", 
+            //         apartment_id: "required", 
+            //         rent_amount: 
+            //         {
+            //             required: true,
+            //             number: true 
+            //         }, 
+            //         deposit_amount:
+            //         {
+            //             required: true,
+            //             number: true 
+            //         },  
+            //         monthly_payment_date: 
+            //         {
+            //             required: true, 
+            //             step: 1, 
+            //             min: 1, 
+            //             max: 28
+            //         }
+            //     }
+            // }
         }, 
         expense: 
         {
