@@ -1,7 +1,102 @@
-function GetFormDataFields()
+function GetFormDataFields(controller=undefined)
 {
     var form_data = 
     {
+        login: 
+        {
+            title: "Login", 
+            form:  
+            [
+                [
+                    {
+                        component: "text-input", 
+                        name: "username", 
+                        title: "Username"
+                    }
+                ], 
+                [
+                    {
+                        component: "text-input", 
+                        name: "password", 
+                        title: "Password", 
+                        type: "password"
+                    }
+                ]
+            ], 
+            validate: 
+            {
+                rules: 
+                {
+                    username: "required", 
+                    password: "required", 
+                }
+            }
+            
+        }, 
+
+        register: 
+        {
+            title: "Register", 
+            form:  
+            [
+                [
+                    {
+                        component: "text-input", 
+                        name: "username", 
+                        title: "Username"
+                    }
+                ], 
+                [
+                    {
+                        component: "text-input", 
+                        name: "password", 
+                        title: "Password", 
+                        type: "password"
+                    }
+                ], 
+                [
+                    {
+                        component: "text-input", 
+                        name: "phone_number", 
+                        title: "Phone number"
+                    }, 
+                    {
+                        component: "text-input", 
+                        name: "viber_number", 
+                        title: "Viber Number"
+                    }
+                ], 
+                [
+                    {
+                        component: "text-group-confirmation", 
+                        name: "email", 
+                        title: "Email Address", 
+                        id: "email", 
+                        confirm_name: "email_confirm", 
+                        confirm_title: "Confirm Email Address"
+                    }
+                ]
+            ], 
+            validate: 
+            {
+                rules: 
+                {
+                    username: "required", 
+                    password: "required", 
+                    phone_number: "required", 
+                    email:
+                    {
+                        required: true, 
+                        email: true
+                    }, 
+                    email_confirm: 
+                    {
+                        equalTo: "#email"
+                    }
+                }
+            }
+        }, 
+
         buildings: 
         {
             form:  
@@ -415,13 +510,16 @@ function GetFormDataFields()
         }
     }
 
-    return form_data[window.store_track.state.controller]; 
+    controller = (controller==undefined)? window.store_track.state.controller: controller; 
+
+    return form_data[controller]; 
 }
 
-function ImportData(excel_data)
+function ImportData(excel_data, controller=undefined)
 {
     var data = new FormData(); 
     data.append("excel",JSON.stringify(excel_data)); 
-    var url = "server/import_controller/" + window.store_track.state.controller + ".php"; 
+    controller = (controller==undefined)? window.store_track.state.controller: controller; 
+    var url = "server/import_controller/" + controller + ".php"; 
     return AjaxRequest(url, data, "post"); 
 }

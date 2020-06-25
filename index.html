@@ -13,6 +13,12 @@
 
             <page-wrapper></page-wrapper>
 
+            <div class="container-fluid">
+                <Add controller="login" @valid-controller-success="HandleLoginRegister"></Add>
+            </div>
+
+            <!-- <button onclick="TestSend()">Test me</button> -->
+
             
 
         </div>
@@ -39,13 +45,28 @@
             <script async src="js/wrapper/main_content/scrolling_table.js"></script>
             <script async src="js/wrapper/main_content/1_overview.js"></script>
             <script src="js/wrapper/main_content/2_add/form_data.js"></script>
-            <script async src="js/wrapper/main_content/2_add/input_components.js"></script>
+            <script async src="js/wrapper/main_content/2_add/input_components/text_number_email_select_input.js"></script>
+            <script async src="js/wrapper/main_content/2_add/input_components/date_input.js"></script>
             <script async src="js/wrapper/main_content/2_add.js"></script>
             <script async src="js/wrapper/main_content/3_import_export.js"></script>
 
             <script src="js/full_page.js"></script>
 
             <script async src="js/setup.js"></script>
+
+
+            <!-- <script>
+                function TestSend()
+                {
+                    var data = 
+                    {
+                        username: "testusername", 
+                        password: "testpassword"
+                    }; 
+                    var result = ImportData([data], "login")
+                    console.log(result); 
+                }
+            </script> -->
 
         </footer>
     </body>
