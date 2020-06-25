@@ -9,17 +9,13 @@
 
         <div id="full_page">
 
-            <page-navbar></page-navbar>
-
-            <page-wrapper></page-wrapper>
-
-            <div class="container-fluid">
-                <Add controller="login" @valid-controller-success="HandleLoginRegister"></Add>
+            <div v-if="Authorize">
+                <page-navbar></page-navbar>
+                <page-wrapper></page-wrapper>
             </div>
 
-            <!-- <button onclick="TestSend()">Test me</button> -->
+            <page-administration v-if="!Authorize"></page-administration>
 
-            
 
         </div>
 
@@ -39,34 +35,21 @@
             <script src="https://unpkg.com/autonumeric"></script>
             <script src="https://unpkg.com/vue-autonumeric"></script>
 
-            <script type="text/javascript" src="js/server.js"></script>
+            <script src="js/server.js"></script>
             
-            <script async src="js/wrapper/sidebar.js"></script>
-            <script async src="js/wrapper/main_content/scrolling_table.js"></script>
-            <script async src="js/wrapper/main_content/1_overview.js"></script>
-            <script src="js/wrapper/main_content/2_add/form_data.js"></script>
-            <script async src="js/wrapper/main_content/2_add/input_components/text_number_email_select_input.js"></script>
-            <script async src="js/wrapper/main_content/2_add/input_components/date_input.js"></script>
-            <script async src="js/wrapper/main_content/2_add.js"></script>
-            <script async src="js/wrapper/main_content/3_import_export.js"></script>
+            <script async src="js/full_page/page-navbar.js"></script>
+            <script async src="js/full_page/page-wrapper/sidebar.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/scrolling_table.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/1_overview.js"></script>
+            <script src="js/full_page/page-wrapper/main_content/2_add/form_data.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/2_add/input_components/text_number_email_select_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/2_add/input_components/date_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/2_add.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/3_import_export.js"></script>
 
             <script src="js/full_page.js"></script>
 
             <script async src="js/setup.js"></script>
-
-
-            <!-- <script>
-                function TestSend()
-                {
-                    var data = 
-                    {
-                        username: "testusername", 
-                        password: "testpassword"
-                    }; 
-                    var result = ImportData([data], "login")
-                    console.log(result); 
-                }
-            </script> -->
 
         </footer>
     </body>

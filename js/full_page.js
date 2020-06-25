@@ -1,37 +1,3 @@
-var li_nav_item = Vue.component 
-(
-    "li-nav-item", 
-    {
-        props: ["icon", "p_text", "controller"], 
-        computed: 
-        {
-            Href()
-            {
-                return "javascript:window.store_track.commit('RedirectUrl', {param: 'controller',value:'" + this.controller + "'});"
-            }, 
-            LiItemClass()
-            {
-                var li_class = ["nav-item"]; 
-                if(window.store_track.state.controller==this.controller)
-                {
-                    li_class.push("active"); 
-                }
-
-                return li_class; 
-            }
-        }, 
-        template: 
-        `
-            <li :class="LiItemClass">
-                <a class="nav-link" :href="Href">
-                    <i style="font-size: xx-large;" :class="['fas', 'fa-'+ this.icon]"></i>
-                    <p>{{p_text}}</p>
-                </a>
-            </li>
-        `
-    }
-); 
-
 var page_navbar = Vue.component
 (
     "page-navbar", 
@@ -72,9 +38,12 @@ var page_navbar = Vue.component
         template: 
         `
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand" href="javascript:window.store_track.commit('RedirectUrl',{});" style="width: 20%;">
-                    <img src="img/logo.jpeg" alt="logo" style="height: 10vmin;">
-                </a>
+
+                <logo-image
+                    :a_class="['navbar-brand', 'top-logo-a-wrapper']"
+                    img_class="top-logo-img"
+                >
+                </logo-image>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -134,6 +103,93 @@ var page_wrapper = Vue.component
     }
 ); 
 
+var page_administration = Vue.component
+(
+    "page-administration", 
+    {
+        data()
+        {
+            return {
+                current_controller: "login"
+            }
+        }, 
+        methods: 
+        {
+            HandleLoginRegister(controller, data)
+            {
+                switch (controller) 
+                {
+                    case "login":
+                        console.log("I am feeling good"); 
+                        break;
+                    case "register": 
+                        this.current_controller = "login"; 
+                        break; 
+                }
+            }, 
+            ButtonClass(controller)
+            {
+                let button_class = ["btn", "col"]; 
+                if(controller==this.current_controller)
+                {
+                    button_class.push("btn-primary"); 
+                }
+                else
+                {
+                    button_class.push("bg-light"); 
+                }
+                return button_class; 
+            }
+        },
+        template: 
+        `
+
+            <div class="container-fluid">
+                <div class="card">
+                
+                    <div class="card-header">
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <div class="col"></div>
+                                <logo-image img_class="col"></logo-image>
+                                <div class="col"></div>
+                            </div>
+
+                            <br>
+
+                            <div class="row">
+
+                                <button 
+                                    :class="ButtonClass('login')" 
+                                    @click="current_controller='login'"
+                                >
+                                    Login
+                                </button>
+
+                                <button 
+                                    :class="ButtonClass('register')" 
+                                    @click="current_controller='register'"
+                                >
+                                    Register
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <Add :controller="current_controller" @valid-controller-success="HandleLoginRegister"></Add>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        `
+    }
+); 
+
 
 function PageElements()
 {
@@ -141,14 +197,13 @@ function PageElements()
     (
         {
             el: "#full_page", 
-            methods: 
+            computed: 
             {
-                HandleLoginRegister(controller, data)
+                Authorize()
                 {
-                    console.log(controller); 
-                    console.log(data); 
-                }   
-            },
+                    return (window.store_track.state.username!=""); 
+                }
+            }
         }
     ); 
 }

@@ -13,6 +13,7 @@ jQuery
                         {
                             state: 
                             {
+                                username: "", 
                                 controller: "", 
                                 action: "Overview", 
                                 validation: 
