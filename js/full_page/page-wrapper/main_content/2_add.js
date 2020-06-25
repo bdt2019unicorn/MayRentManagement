@@ -38,7 +38,26 @@ var add_component = Vue.component
         }, 
         methods: 
         {
-
+            PopulateFormData()
+            {
+                var data = GetFormDataFields(this.controller);
+                try 
+                {
+                    this.form = data.form; 
+                    this.title = (this.controller!=undefined)?data.title: this.title+data.title; 
+                    this.validate = (data.validate!=undefined)?data.validate:this.validate; 
+                } 
+                catch
+                {
+                    this.form = []; 
+                    this.title ="Add "; 
+                }
+            }, 
+            PopulateFormValidation()
+            {
+                $(this.$refs["action_form"]).validate().destroy(); 
+                $(this.$refs["action_form"]).validate(this.validate); 
+            }, 
             FormValid()
             {
                 return (
@@ -59,6 +78,7 @@ var add_component = Vue.component
                 if(result==true)
                 {
                     alert(this.title+" Success!"); 
+                    $(this.$refs["action_form"]).trigger("reset"); 
                     if(this.controller!=undefined)
                     {
                         this.$emit("valid-controller-success", this.controller, data); 
@@ -73,26 +93,23 @@ var add_component = Vue.component
             }
         },
 
+        watch: 
+        {
+            controller: function(new_value, old_value)
+            {
+                this.PopulateFormData(); 
+                this.PopulateFormValidation(); 
+            }   
+        },
+
         mounted()
         {
-            $(this.$refs["action_form"]).validate(this.validate); 
+            this.PopulateFormValidation(); 
         }, 
 
         created() 
         {
-            var data = GetFormDataFields(this.controller);
-            try 
-            {
-                this.form = data.form; 
-                this.title = (this.controller!=undefined)?data.title: this.title+data.title; 
-                this.validate = (data.validate!=undefined)?data.validate:this.validate; 
-            } 
-            catch
-            {
-                this.form = []; 
-                this.title ="Add "; 
-            }
-
+            this.PopulateFormData(); 
         },
 
         template: 

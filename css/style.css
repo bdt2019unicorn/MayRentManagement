@@ -1,10 +1,19 @@
+.top-logo-a-wrapper
+{
+  width: 20%;
+}
+
+.top-logo-img
+{
+  height: 10vmin;
+}
+
 table, th, td
 {
   border: 1px solid black;
   border-collapse: collapse;
   width: 100%;
 }
-
 
 .scrolling-div
 {
