@@ -140,7 +140,15 @@ function PageElements()
     window.full_page = new Vue 
     (
         {
-            el: "#full_page"
+            el: "#full_page", 
+            methods: 
+            {
+                HandleLoginRegister(controller, data)
+                {
+                    console.log(controller); 
+                    console.log(data); 
+                }   
+            },
         }
     ); 
 }

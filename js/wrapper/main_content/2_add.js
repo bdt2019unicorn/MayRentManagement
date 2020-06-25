@@ -26,6 +26,7 @@ var add_component = Vue.component
 (
     "Add", 
     {
+        props: ["controller"], 
         data()
         {
             return {
@@ -54,21 +55,22 @@ var add_component = Vue.component
                     return; 
                 }
                 let data = $(event.target).serializeObject(); 
-                let result = ImportData([data]); 
+                let result = ImportData([data], this.controller); 
                 if(result==true)
                 {
                     alert(this.title+" Success!"); 
+                    if(this.controller!=undefined)
+                    {
+                        this.$emit("valid-controller-success", this.controller, data); 
+                        return; 
+                    }
                     window.location.reload(); 
                 }
                 else
                 {
                     alert(this.title+" Fails, please try again!"); 
                 }
-            }, 
-            DateRequiredValidChanged(new_value)
-            {
-                console.log(new_value); 
-            }  
+            }
         },
 
         mounted()
@@ -78,11 +80,11 @@ var add_component = Vue.component
 
         created() 
         {
-            var data = GetFormDataFields();
+            var data = GetFormDataFields(this.controller);
             try 
             {
                 this.form = data.form; 
-                this.title+=data.title; 
+                this.title = (this.controller!=undefined)?data.title: this.title+data.title; 
                 this.validate = (data.validate!=undefined)?data.validate:this.validate; 
             } 
             catch
