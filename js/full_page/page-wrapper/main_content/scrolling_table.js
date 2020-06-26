@@ -102,25 +102,3 @@ var scrolling_table = Vue.component
         ` 
     }
 ); 
-
-
-var overview_data_mixins = 
-{
-    methods: 
-    {
-        TableData(overview_controller)
-        {
-            var url = "server/overview_controller/"+overview_controller+".php";
-            var data = AjaxRequest(url);
-
-            try 
-            {
-               return JSON.parse(data); 
-            }
-            catch
-            {
-                return []; 
-            }          
-        }   
-    }
-}

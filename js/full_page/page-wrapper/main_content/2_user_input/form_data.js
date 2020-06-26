@@ -514,12 +514,3 @@ function GetFormDataFields(controller=undefined)
 
     return form_data[controller]; 
 }
-
-function ImportData(excel_data, controller=undefined)
-{
-    var data = new FormData(); 
-    data.append("excel",JSON.stringify(excel_data)); 
-    controller = (controller==undefined)? window.store_track.state.controller: controller; 
-    var url = "server/import_controller/" + controller + ".php"; 
-    return AjaxRequest(url, data, "post"); 
-}

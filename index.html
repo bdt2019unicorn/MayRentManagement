@@ -9,13 +9,34 @@
 
         <div id="full_page">
 
-            <div v-if="Authorize">
-                <page-navbar></page-navbar>
+            <div v-if="Username">
+                <page-navbar
+                    :buildings_data="buildings_data"
+                    grid_area_surfix="main-nav-item"
+                >
+
+
+                </page-navbar>
+
+                <main-nav-items
+                    class="container-fluid"
+                    v-if="!BuildingId"
+                    :buildings_data="buildings_data"
+                    default_icon="building"
+                    grid_area_surfix="home-page"
+                >
+
+                </main-nav-items>
+
                 <page-wrapper></page-wrapper>
             </div>
 
-            <page-administration v-if="!Authorize"></page-administration>
+            <page-administration v-if="!Username"></page-administration>
 
+            need to change the stuff in page-navbar to redirect url as the building_id need to just go to the url, does not need to go to the session storage. 
+            Then, write up the function Href for the main-nav-item
+            Rewrite the store set up for the Redirect Url because now we need the building_id to start proceeding. 
+            Also, when everything finishes, make sure to eliminate the cheating controller at the page-wrapper. 
 
         </div>
 
@@ -36,15 +57,16 @@
             <script src="https://unpkg.com/vue-autonumeric"></script>
 
             <script src="js/server.js"></script>
+            <script src="js/full_page/support_mixins.js"></script>
             
             <script async src="js/full_page/page-navbar.js"></script>
             <script async src="js/full_page/page-wrapper/sidebar.js"></script>
             <script async src="js/full_page/page-wrapper/main_content/scrolling_table.js"></script>
             <script async src="js/full_page/page-wrapper/main_content/1_overview.js"></script>
-            <script src="js/full_page/page-wrapper/main_content/2_add/form_data.js"></script>
-            <script async src="js/full_page/page-wrapper/main_content/2_add/input_components/text_number_email_select_input.js"></script>
-            <script async src="js/full_page/page-wrapper/main_content/2_add/input_components/date_input.js"></script>
-            <script async src="js/full_page/page-wrapper/main_content/2_add.js"></script>
+            <script src="js/full_page/page-wrapper/main_content/2_user_input/form_data.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/2_user_input/input_components/text_number_email_select_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/2_user_input/input_components/date_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/2_user_input.js"></script>
             <script async src="js/full_page/page-wrapper/main_content/3_import_export.js"></script>
 
             <script src="js/full_page.js"></script>

@@ -2,66 +2,57 @@ var page_navbar = Vue.component
 (
     "page-navbar", 
     {
-        data()
+        props: ["buildings_data", "grid_area_surfix"], 
+        mixins: [support_mixin], 
+        methods: 
         {
-            return {
-                nav_list_items: 
-                [
+            Logout()
+            {
+                window.store_track.commit
+                (
+                    "SetStateAuthorize", 
                     {
-                        controller: "buildings", 
-                        icon: "building", 
-                        p_text: "Buildings"
-                    }, 
-                    {
-                        controller: "tenant", 
-                        icon: "users", 
-                        p_text: "Tenants"
-                    }, 
-                    {
-                        controller: "leaseagrm", 
-                        icon: "handshake",
-                        p_text: "Lease Agreement"
-                    }, 
-                    {
-                        controller: "revenue", 
-                        icon: "hand-holding-usd",
-                        p_text: "Income"
-                    }, 
-                    {
-                        controller: "expense", 
-                        icon: "file-invoice-dollar",
-                        p_text: "Expenses"
+                        param: "username", 
+                        value: ""
                     }
-                ]
-            } 
-        }, 
+                ); 
+            }
+        },
+
         template: 
-        `
-            <nav class="navbar navbar-expand-lg navbar-light">
+        `   
+            <nav class="navbar navbar-expand-lg top-page-nav">
 
                 <logo-image
-                    :a_class="['navbar-brand', 'top-logo-a-wrapper']"
+                    style="grid-area: logo;"
                     img_class="top-logo-img"
                 >
                 </logo-image>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <main-nav-items
+                    class="main-nav-items"
+                    v-if="BuildingId"
+                    :buildings_data="buildings_data"
+                    default_icon="building"
+                    :grid_area_surfix="grid_area_surfix"
+                >
+                </main-nav-items>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav nav-fill w-100">
+                <div class="container-fluid" style="grid-area: username;">
 
-                        <li-nav-item 
-                            v-for="item in nav_list_items" 
-                            :icon="item.icon"
-                            :p_text="item.p_text"
-                            :controller="item.controller"
-                        >
-                        </li-nav-item>
+                    <div class="btn-group">
+                        <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img style="width:5vw;" src="img/logo.jpeg" alt="logo">
+                            <p>{{Username}}</p>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <button class="btn dropdown-item">Manage your Account</button>
+                            <button class="btn dropdown-item" @click="Logout">Logout</button>
+                        </div>
+                    </div>
 
-                    </ul>
                 </div>
+
             </nav>
         `
     }
@@ -71,20 +62,14 @@ var page_wrapper = Vue.component
 (
     "page-wrapper", 
     {
-        computed: 
+        mixins: [support_mixin], 
+        created()
         {
-            ShowWrapper: function()
-            {
-                return (window.store_track.state.controller!=''); 
-            }, 
-            Action: function()
-            {
-                return window.store_track.state.action; 
-            } 
+            window.store_track.commit('RedirectUrl', {param: 'controller',value:'tenant'});
         }, 
         template: 
         `
-        <div v-if="ShowWrapper" class="wrapper">
+        <div v-if="BuildingId" class="wrapper">
 
             <side-bar></side-bar>
             <div class="main-content container-fluid">
@@ -113,6 +98,7 @@ var page_administration = Vue.component
                 current_controller: "login"
             }
         }, 
+        mixins: [support_mixin], 
         methods: 
         {
             HandleLoginRegister(controller, data)
@@ -120,25 +106,20 @@ var page_administration = Vue.component
                 switch (controller) 
                 {
                     case "login":
-                        console.log("I am feeling good"); 
+                        window.store_track.commit
+                        (                        
+                            "SetStateAuthorize", 
+                            {
+                                param: "username", 
+                                value: data.username
+                            }
+                        ); 
+                        
                         break;
                     case "register": 
                         this.current_controller = "login"; 
                         break; 
                 }
-            }, 
-            ButtonClass(controller)
-            {
-                let button_class = ["btn", "col"]; 
-                if(controller==this.current_controller)
-                {
-                    button_class.push("btn-primary"); 
-                }
-                else
-                {
-                    button_class.push("bg-light"); 
-                }
-                return button_class; 
             }
         },
         template: 
@@ -161,14 +142,14 @@ var page_administration = Vue.component
                             <div class="row">
 
                                 <button 
-                                    :class="ButtonClass('login')" 
+                                    :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" 
                                     @click="current_controller='login'"
                                 >
                                     Login
                                 </button>
 
                                 <button 
-                                    :class="ButtonClass('register')" 
+                                    :class="ItemsClasses('register', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" 
                                     @click="current_controller='register'"
                                 >
                                     Register
@@ -178,7 +159,7 @@ var page_administration = Vue.component
                     </div>
 
                     <div class="card-body">
-                        <Add :controller="current_controller" @valid-controller-success="HandleLoginRegister"></Add>
+                        <UserInput :controller="current_controller" @valid-controller-success="HandleLoginRegister"></UserInput>
                     </div>
 
                 </div>
@@ -197,13 +178,23 @@ function PageElements()
     (
         {
             el: "#full_page", 
-            computed: 
+            data: 
             {
-                Authorize()
-                {
-                    return (window.store_track.state.username!=""); 
-                }
-            }
+                buildings_data: []
+            }, 
+            mixins:[support_mixin], 
+            created() 
+            {
+                this.buildings_data = this.TableData("buildings"); 
+                store_track.commit
+                (
+                    "SetStateAuthorize", 
+                    {
+                        param: "building_id", 
+                        value: (sessionStorage.getItem("building_id"))?sessionStorage.getItem("building_id"):""
+                    }
+                ); 
+            },
         }
     ); 
 }
