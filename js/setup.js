@@ -14,6 +14,7 @@ jQuery
                             state: 
                             {
                                 username: "", 
+                                building_id: "", 
                                 controller: "", 
                                 action: "Overview", 
                                 validation: 
@@ -34,6 +35,18 @@ jQuery
                             }, 
                             mutations: 
                             {
+                                SetStateAuthorize
+                                (
+                                    state, 
+                                    {
+                                        param, 
+                                        value
+                                    }
+                                )
+                                {
+                                    state[param] = value; 
+                                    sessionStorage.setItem(param, value); 
+                                }, 
                                 RedirectUrl
                                 (
                                     state, 
@@ -111,39 +124,51 @@ jQuery
             )
         }
 
-        function GetController(store_track)
+        function InnitializeData(store_track)
         {
+            function GetController()
+            {
+                var search_params = window.location.search; 
+                if(search_params=="")
+                {
+                    store_track.commit('RedirectUrl',{});
+                    return; 
+                }
+                var url_params = new URLSearchParams(search_params); 
+                url_params.forEach
+                (
+                    (value, param)=>
+                    {
+                        store_track.commit
+                        (
+                            'RedirectUrl',
+                            {
+                                param: param, 
+                                value: value
+                            }
+                        );
+                    }
+                ); 
+            }
+
             return new Promise 
             (
-                (resolve,reject)=>
+                (resolve, reject)=>
                 {
-                    var search_params = window.location.search; 
-                    if(search_params=="")
-                    {
-                        store_track.commit('RedirectUrl',{});
-                        resolve(); 
-                    }
-                    var url_params = new URLSearchParams(search_params); 
-                    url_params.forEach
+                    GetController(); 
+                    store_track.commit
                     (
-                        (value, param)=>
+                        "SetStateAuthorize", 
                         {
-                            store_track.commit
-                            (
-                                'RedirectUrl',
-                                {
-                                    param: param, 
-                                    value: value
-                                }
-                            );
+                            param: "username", 
+                            value: (sessionStorage.getItem("username"))?sessionStorage.getItem("username"):""
                         }
                     ); 
                     resolve(); 
                 }
-            )
-
+            ); 
         }
-
-        CreateStoreTrack().then(GetController).then(PageElements);
+        
+        CreateStoreTrack().then(InnitializeData).then(PageElements);
     }
 ); 

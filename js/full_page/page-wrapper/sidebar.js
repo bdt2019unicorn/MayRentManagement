@@ -12,54 +12,67 @@ var side_bar = Vue.component
                         a_text: "Overview"
                     }, 
                     {
-                        action: "Add", 
+                        action: "UserInput", 
                         a_text: "Add"
                     }, 
                     {
                         action: "ImportExport", 
                         a_text: "Import/Export"
                     }
+                ], 
+
+                nav_list_items: 
+                [
+                    {
+                        controller: "apartment", 
+                        icon: "bed", 
+                        name: "Apartments"
+                    }, 
+                    {
+                        controller: "tenant", 
+                        icon: "users", 
+                        name: "Tenants"
+                    }, 
+                    {
+                        controller: "leaseagrm", 
+                        icon: "handshake",
+                        name: "Lease Agreement"
+                    }, 
+                    {
+                        controller: "revenue", 
+                        icon: "hand-holding-usd",
+                        name: "Income"
+                    }, 
+                    {
+                        controller: "expense", 
+                        icon: "file-invoice-dollar",
+                        name: "Expenses"
+                    }
                 ]
             }
         }, 
-
+        mixins: [support_mixin], 
         template: 
         `
             <div class="side-bar">
-                <nav class="navbar">
+                <nav class="navbar container-fluid">
 
-                    <ul class="navbar-nav">
-                        <nav-item
-                            v-for="item in list_items" 
-                            :a_text=item.a_text 
-                            :action=item.action
+                    <div 
+                        class="row"
+                        style="margin:0.5vh 0; width: 100%;"
+                        v-for="item in nav_list_items" 
+                        
+                    >
+                        <main-nav-item 
+                            class="col"
+                            v-bind="item"
                         >
-                        </nav-item>
-                    </ul>
+                        </main-nav-item>
+
+                    </div>
                 
                 </nav>
             </div>
-        `
-    }
-); 
-
-var nav_item = Vue.component
-(
-    "nav-item", 
-    {
-        props: ["a_text", "action"], 
-        computed: 
-        {
-            Href()
-            {
-                return "javascript:window.store_track.commit('RedirectUrl', {param: 'action',value:'" + this.action + "'});"; 
-            }
-        }, 
-        template: 
-        `
-            <li class="nav-item">
-                <a class="nav-link" :href="Href">{{a_text}}</a>
-            </li>
         `
     }
 ); 

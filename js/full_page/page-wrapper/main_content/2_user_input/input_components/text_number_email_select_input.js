@@ -129,7 +129,7 @@ var select_input = Vue.component
     "select-input", 
     {
         props: ["name", "title", "overview_controller", "value", "text"], 
-        mixins: [overview_data_mixins], 
+        mixins: [support_mixin], 
         data() 
         {
             return {

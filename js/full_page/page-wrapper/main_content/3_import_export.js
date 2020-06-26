@@ -8,11 +8,12 @@ var import_export = Vue.component
                 excel_data: []
             }
         }, 
+        mixins: [support_mixin], 
         computed: 
         {
             DownloadHref()
             {
-                return "excel_templates/" + window.store_track.state.controller + "-template.xls"; 
+                return "excel_templates/" + this.Controller + "-template.xls"; 
             }    
         },
         methods: 
@@ -45,7 +46,7 @@ var import_export = Vue.component
 
             SendData()
             {
-                var result = ImportData(this.excel_data); 
+                var result = this.ImportData(this.excel_data); 
                 if(result==true)
                 {
                     alert("data imported"); 

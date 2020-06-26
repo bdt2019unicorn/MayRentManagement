@@ -22,11 +22,12 @@ var row_group = Vue.component
     }
 );
 
-var add_component = Vue.component
+var user_input = Vue.component
 (
-    "Add", 
+    "UserInput", 
     {
         props: ["controller"], 
+        mixins: [support_mixin], 
         data()
         {
             return {
@@ -55,6 +56,7 @@ var add_component = Vue.component
             }, 
             PopulateFormValidation()
             {
+                $(this.$refs["action_form"]).trigger("reset"); 
                 $(this.$refs["action_form"]).validate().destroy(); 
                 $(this.$refs["action_form"]).validate(this.validate); 
             }, 
@@ -74,12 +76,12 @@ var add_component = Vue.component
                     return; 
                 }
                 let data = $(event.target).serializeObject(); 
-                let result = ImportData([data], this.controller); 
+                let result = this.ImportData([data], this.controller); 
                 if(result==true)
                 {
                     alert(this.title+" Success!"); 
                     $(this.$refs["action_form"]).trigger("reset"); 
-                    if(this.controller!=undefined)
+                    if(this.controller)
                     {
                         this.$emit("valid-controller-success", this.controller, data); 
                         return; 
