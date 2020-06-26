@@ -16,6 +16,7 @@ var page_navbar = Vue.component
                         value: ""
                     }
                 ); 
+                window.store_track.commit("RedirectUrl",{}); 
             }
         },
 
@@ -63,13 +64,9 @@ var page_wrapper = Vue.component
     "page-wrapper", 
     {
         mixins: [support_mixin], 
-        created()
-        {
-            window.store_track.commit('RedirectUrl', {param: 'controller',value:'tenant'});
-        }, 
         template: 
         `
-        <div v-if="BuildingId" class="wrapper">
+        <div class="wrapper">
 
             <side-bar></side-bar>
             <div class="main-content container-fluid">
@@ -186,14 +183,6 @@ function PageElements()
             created() 
             {
                 this.buildings_data = this.TableData("buildings"); 
-                store_track.commit
-                (
-                    "SetStateAuthorize", 
-                    {
-                        param: "building_id", 
-                        value: (sessionStorage.getItem("building_id"))?sessionStorage.getItem("building_id"):""
-                    }
-                ); 
             },
         }
     ); 

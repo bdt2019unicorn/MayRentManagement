@@ -25,7 +25,21 @@ var main_nav_item = Vue.component
         {
             Href()
             {
-                return (this.id)? "javascript:window.store_track.commit('SetStateAuthorize', {param: 'building_id',value:" + this.id + "});": undefined; 
+                let params = 
+                {
+                    id: "building_id", 
+                    controller: "controller"
+                }
+                let param_ranking = ["id", "controller"]; 
+                for (let index = 0; index < param_ranking.length; index++) 
+                {
+                    const param = param_ranking[index];
+                    if(this[param])
+                    {
+                        return "javascript:window.store_track.commit('RedirectUrl', {param: '"+params[param]+ "',value:'" + this[param] + "'});"; 
+                    }
+                }
+                return undefined; 
             }, 
             ItemStyle()
             {

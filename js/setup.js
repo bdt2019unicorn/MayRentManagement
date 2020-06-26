@@ -47,6 +47,7 @@ jQuery
                                     state[param] = value; 
                                     sessionStorage.setItem(param, value); 
                                 }, 
+
                                 RedirectUrl
                                 (
                                     state, 
@@ -75,33 +76,48 @@ jQuery
                                         }; 
                                     }
 
-                                    function ChangeController(new_controller="")
+                                    var default_value = 
                                     {
-                                        state.controller = new_controller; 
-                                        state.action = "Overview"; 
-                                        ResetValidation(); 
-                                    }
-
-                                    if(param=="")
+                                        controller: "tenant", 
+                                        action: "Overview"
+                                    }; 
+                                    var params_ranking = ["", "building_id", "controller", "action"]; 
+                                    let current_search_params = new URLSearchParams(window.location.search); 
+                                    let final_search_params = new URLSearchParams(); 
+                                    let ranking_index = params_ranking.indexOf(param); 
+                                    for (let index = 0; index < params_ranking.length; index++) 
                                     {
-                                        window.history.pushState("","",window.location.pathname); 
-                                        ChangeController(); 
-                                        return; 
+                                        if(index<ranking_index)
+                                        {
+                                            let current_value = current_search_params.get(params_ranking[index]); 
+                                            console.log("param", params_ranking[index]); 
+                                            console.log("current value ", current_value); 
+                                            if(current_value)
+                                            {
+                                                final_search_params.set(params_ranking[index],current_value); 
+                                            }
+                                        }
+                                        else if(index==ranking_index)
+                                        {
+                                            if(param)
+                                            {
+                                                final_search_params.set(param,value); 
+                                                if(state[param]==value)
+                                                {
+                                                    continue; 
+                                                }
+                                                state[param] = value; 
+                                                ResetValidation(); 
+                                            }
+                                        }
+                                        else
+                                        {
+                                            this.state[params_ranking[index]] = (default_value[params_ranking[index]])?(default_value[params_ranking[index]]):""; 
+                                        }
                                     }
-                                    var search_params = (param=="controller")?"": window.location.search; 
-                                    var url_params = new URLSearchParams(search_params); 
-                                    url_params.set(param,value); 
-                                    if(param=="controller")
-                                    {
-                                        ChangeController(url_params.get(param)); 
-                                    }
-                                    else
-                                    {
-                                        state.action = url_params.get(param); 
-                                        ResetValidation(); 
-                                    }
-                                    window.history.pushState(value,value,"?"+url_params.toString()); 
+                                    window.history.pushState(param,value,(param)?"?"+final_search_params.toString():window.location.pathname); 
                                 }, 
+                                
                                 DateCurrent(state, {name, value})
                                 {
                                     let number = (value==true)?1:-1; 
@@ -126,10 +142,10 @@ jQuery
 
         function InnitializeData(store_track)
         {
-            function GetController()
+            function GetParamsData()
             {
                 var search_params = window.location.search; 
-                if(search_params=="")
+                if(search_params.trim()=="")
                 {
                     store_track.commit('RedirectUrl',{});
                     return; 
@@ -155,7 +171,7 @@ jQuery
             (
                 (resolve, reject)=>
                 {
-                    GetController(); 
+                    GetParamsData(); 
                     store_track.commit
                     (
                         "SetStateAuthorize", 

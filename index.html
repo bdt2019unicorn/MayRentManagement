@@ -28,15 +28,15 @@
 
                 </main-nav-items>
 
-                <page-wrapper></page-wrapper>
+                <page-wrapper
+                    v-if="BuildingId"
+                >
+                </page-wrapper>
             </div>
 
             <page-administration v-if="!Username"></page-administration>
 
-            need to change the stuff in page-navbar to redirect url as the building_id need to just go to the url, does not need to go to the session storage. 
-            Then, write up the function Href for the main-nav-item
-            Rewrite the store set up for the Redirect Url because now we need the building_id to start proceeding. 
-            Also, when everything finishes, make sure to eliminate the cheating controller at the page-wrapper. 
+            <!-- Also, when everything finishes, make sure to eliminate the cheating controller at the store set up.  -->
 
         </div>
 
