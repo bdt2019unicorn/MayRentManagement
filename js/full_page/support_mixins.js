@@ -4,7 +4,8 @@ var support_mixin =
     {
         TableData(overview_controller)
         {
-            var url = "server/overview_controller/"+overview_controller+".php";
+            var url = `server/overview_controller/${overview_controller}.php?building_id=${this.BuildingId}`;
+            console.log(url); 
             var data = AjaxRequest(url);
 
             try 

@@ -113,5 +113,11 @@
                 return Connect::GetData($sql, true); 
             }
         }
+
+        public static function GetDataWithId($id, $table, $id_field='id')
+        {
+            $sql = "SELECT * FROM {$table} WHERE `{$id_field}`='{$id}'"; 
+            return Connect::GetData($sql); 
+        }
     }
 ?>

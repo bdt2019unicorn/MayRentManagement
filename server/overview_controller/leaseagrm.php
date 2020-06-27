@@ -1,6 +1,6 @@
 <?php 
 
-	require_once("./overview.php"); 
+	require_once("./general.php"); 
 	$sql = 
 	"
 
@@ -12,5 +12,5 @@
 		    `leaseagrm`.`Tenant_ID` = `tenant`.`id`; 
 	"; 
 
-	GetDataOverview($sql); 
+	GetDataGeneral($sql); 
 ?>
