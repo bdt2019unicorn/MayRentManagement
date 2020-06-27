@@ -1,4 +1,4 @@
 <?php 
-	require_once("./overview.php"); 
-	GetDataGeneral("revenue_type"); 
+	require_once("./general.php"); 
+	GetDataFromTable("revenue_type"); 
 ?>
