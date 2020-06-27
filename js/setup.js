@@ -78,7 +78,7 @@ jQuery
 
                                     var default_value = 
                                     {
-                                        controller: "tenant", 
+                                        controller: "overview", 
                                         action: "Overview"
                                     }; 
                                     var params_ranking = ["", "building_id", "controller", "action"]; 
@@ -90,8 +90,6 @@ jQuery
                                         if(index<ranking_index)
                                         {
                                             let current_value = current_search_params.get(params_ranking[index]); 
-                                            console.log("param", params_ranking[index]); 
-                                            console.log("current value ", current_value); 
                                             if(current_value)
                                             {
                                                 final_search_params.set(params_ranking[index],current_value); 
