@@ -1,4 +1,4 @@
 <?php 
-	require_once("./overview.php"); 
-	GetDataGeneral("buildings"); 
+	require_once("./general.php"); 
+	GetDataFromTable("buildings"); 
 ?>

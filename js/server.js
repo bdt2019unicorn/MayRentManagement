@@ -1,4 +1,4 @@
-function AjaxRequest(url, data={}, type="get") 
+function AjaxRequest(url, data=new FormData(), type="get") 
 {
 	var result = null; 
 	$.ajax

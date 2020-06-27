@@ -1,4 +1,4 @@
 <?php 
-	require_once("./overview.php"); 
-	GetDataGeneral("expense_type"); 
+	require_once("./general.php"); 
+	GetDataFromTable("expense_type"); 
 ?>

@@ -2,20 +2,20 @@
 	
 	require_once "../helper/connect.php"; 
 
-	function GetDataOverview($sql)
+	function GetDataGeneral($sql)
 	{
 		$data = Connect::GetData($sql); 
 		echo json_encode($data);
 	}
 
-	function GetDataGeneral($table)
+	function GetDataFromTable($table)
 	{
 		$sql = 
 		"
 			SELECT * 
 			FROM `". $table ."`
 		"; 
-		GetDataOverview($sql); 
+		GetDataGeneral($sql); 
 	}
 
 ?>
