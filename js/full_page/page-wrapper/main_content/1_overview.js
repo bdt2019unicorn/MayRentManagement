@@ -3,16 +3,23 @@ var overview_component = Vue.component
     "Overview", 
     {
         mixins:[support_mixin], 
+        methods: 
+        {
+            TableActions(controller)
+            {
+                return AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
+            }
+        },
         template: 
         `
-            <div class="row">
-                <div class="col-1"></div>
+            <div>
+                <h1>{{CapitalizeFirstWord(StateController)}}</h1>
+
                 <scrolling-table
-                    extra_class="col-10"
-                    :table_data="TableData(Controller)"
+                    :table_data="TableData(StateController)"
+                    :table_actions="TableActions(StateController)"
                 >
                 </scrolling-table>
-                <div class="col-1"></div>
             </div>
         `
     }
