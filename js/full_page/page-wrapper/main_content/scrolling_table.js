@@ -2,7 +2,7 @@ var scrolling_table = Vue.component
 (
     "scrolling-table", 
     {
-        props: ["extra_class", "tb_style", "table_data"], 
+        props: ["tb_style", "table_data", "table_actions"], 
         data() 
         {
             return {
@@ -10,14 +10,29 @@ var scrolling_table = Vue.component
                 tbody: []
             };
         }, 
-        mounted() 
+        computed: 
         {
-            this.UpdateData(); 
+            HiddenColums()
+            {
+                return this.SpecialColumnsIndexes("hidden_columns"); 
+            },     
+            SortColumns()
+            {
+                return this.SpecialColumnsIndexes("sort"); 
+            }, 
+            SearchColumns()
+            {
+                return this.SpecialColumnsIndexes("search"); 
+            }
         },
+        created() 
+        {
+            this.SetupTable();   
+        }, 
 
         methods: 
         {
-            UpdateData()
+            SetupTable()
             {
                 function THead(table_data)
                 {
@@ -65,10 +80,32 @@ var scrolling_table = Vue.component
                     return tbody; 
                 }
 
-                var thead = THead(this.table_data); 
-                var tbody = TBody(thead, this.table_data); 
-                this.thead = thead; 
-                this.tbody = tbody; 
+                this.thead = THead(this.table_data); 
+                this.tbody = TBody(this.thead, this.table_data); 
+            }, 
+            SpecialColumnsIndexes(action)
+            {
+                try 
+                {
+                    var special_columns = this.table_actions[action];
+                    var index_object = {}; 
+                    Object.keys(special_columns).forEach
+                    (   
+                        element => 
+                        {
+                            index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
+                        }
+                    );
+                    return index_object; 
+                }
+                catch
+                {
+                    return {}; 
+                }
+            }, 
+            SortTable(key)
+            {
+                console.log(key); 
             }
         },
 
@@ -76,25 +113,47 @@ var scrolling_table = Vue.component
         {
             table_data: function()
             {
-                this.UpdateData(); 
+                this.SetupTable(); 
             }
         }, 
 
         template: 
         `
             <div 
-                :class="['scrolling-div', this.extra_class]"
+                :class="['scrolling-div', 'table-responsive', 'container-fluid']"
                 :style="tb_style"
             >
-                <table style="width: 100%;">
-                    <thead>
+                <table ref='main_table' class="table table-striped table-bordered table-hover">
+                    <thead class="thead-dark">
                         <tr>
-                            <th v-for="key in Object.keys(thead)">{{key}}</th>
+                            <th 
+                                v-for="key in Object.keys(thead)" 
+                                :key="key"
+                                v-if="!HiddenColums[key]"
+                                class="sticky-top"
+                            >
+                                <a 
+                                    href="javascript:void(0);" 
+                                    class="text-white" 
+                                    v-if="SortColumns[key]" 
+                                    @click="SortTable(SortColumns[key])">
+                                    {{key}}
+                                </a>
+                                <template v-else>
+                                    {{key}}
+                                </template>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="row in tbody">
-                            <td v-for="data in row">{{data}}</td>
+                            <td 
+                                v-for="index in row.length"
+                                :key="index-1"
+                                v-if="!Object.values(HiddenColums).includes(index-1)"
+                            >
+                                {{row[index-1]}}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

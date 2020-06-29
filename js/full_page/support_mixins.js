@@ -5,7 +5,6 @@ var support_mixin =
         TableData(overview_controller)
         {
             var url = `server/overview_controller/${overview_controller}.php?building_id=${this.BuildingId}`;
-            console.log(url); 
             var data = AjaxRequest(url);
 
             try 
@@ -21,7 +20,7 @@ var support_mixin =
         {
             var data = new FormData(); 
             data.append("excel",JSON.stringify(excel_data)); 
-            controller = (controller)?controller: this.Controller; 
+            controller = (controller)?controller: StateController; 
             var url = "server/import_controller/" + controller + ".php"; 
             return AjaxRequest(url, data, "post"); 
         }, 
@@ -29,6 +28,10 @@ var support_mixin =
         {
             based_classes.push((item_value==compared_value)?good_class: bad_class); 
             return based_classes; 
+        }, 
+        CapitalizeFirstWord(string)
+        {
+            return string[0].toUpperCase() +  string.slice(1); 
         }
     }, 
     computed: 
@@ -41,11 +44,11 @@ var support_mixin =
         {
             return window.store_track.state.building_id; 
         }, 
-        Controller()
+        StateController()
         {
             return window.store_track.state.controller; 
         }, 
-        Action()
+        StateAction()
         {
             return window.store_track.state.action; 
         } 

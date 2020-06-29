@@ -1,0 +1,131 @@
+{
+    "title": "Contract",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "name",
+                "title": "Contract Name"
+            },
+            {
+                "component": "select-input",
+                "name": "tenant_id",
+                "title": "Tenant",
+                "overview_controller": "tenant",
+                "value": "id",
+                "text": "full_name"
+            },
+            {
+                "component": "select-input",
+                "name": "apartment_id",
+                "title": "Apartment",
+                "overview_controller": "apartment",
+                "value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "date-group",
+                "date_data":
+                {
+                    "small_date":
+                    {
+                        "name": "start_date",
+                        "title": "Start Date",
+                        "required": true,
+                        "message": "The start date should be before the end date"
+                    },
+                    "big_date":
+                    {
+                        "name": "finish",
+                        "title": "End Date",
+                        "required": true,
+                        "message": "The end date should be after the start date"
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "rent_amount",
+                "title": "Rent Amount"
+            },
+            {
+                "component": "number-input",
+                "name": "deposit_amount",
+                "title": "Deposit Amount"
+            }
+        ],
+        [
+            {
+                "component": "date-group",
+                "date_data":
+                {
+                    "small_date":
+                    {
+                        "name": "deposit_payment_date",
+                        "title": "Deposit Payment Date",
+                        "required": true,
+                        "message": "The deposite payment date should be before the deposite payback date"
+                    },
+                    "big_date":
+                    {
+                        "name": "deposit_payback_date",
+                        "title": "Deposit Payback Date",
+                        "required": true,
+                        "message": "The deposite payback date should be after the deposite payment date"
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "monthly_payment_date",
+                "title": "Monthly Payment Date",
+                "maximum_value": 28,
+                "decimal_places": 0
+            },
+            {
+                "component": "text-input",
+                "name": "deposit_currency",
+                "title": "Deposit Currency"
+            },
+            {
+                "component": "number-input",
+                "name": "deposit_exchange_rate",
+                "title": "Deposit Exchange Rate",
+                "decimal_places": 6
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name": "required",
+            "tenant_id": "required",
+            "apartment_id": "required",
+            "rent_amount":
+            {
+                "required": true,
+                "number": true
+            },
+            "deposit_amount":
+            {
+                "required": true,
+                "number": true
+            },
+            "monthly_payment_date":
+            {
+                "required": true,
+                "step": 1,
+                "min": 1,
+                "max": 28
+            }
+        }
+    }
+}

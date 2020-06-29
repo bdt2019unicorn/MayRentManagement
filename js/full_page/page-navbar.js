@@ -104,6 +104,7 @@ var main_nav_items = Vue.component
                     :index="index"
                     :icon="(buildings_data[index-1].icon)?buildings_data[index-1].icon: default_icon"
                     :grid_area_surfix="grid_area_surfix"
+                    :key="index"
                 >
                 </main-nav-item>
 

@@ -1,0 +1,85 @@
+{
+    "title": "Revenue",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "name",
+                "title": "Name"
+            },
+            {
+                "component": "select-input",
+                "name": "revenue_type_id",
+                "title": "Type",
+                "overview_controller": "revenue_type",
+                "value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "date-group",
+                "date_data":
+                {
+                    "small_date":
+                    {
+                        "name": "start_period",
+                        "title": "Start Period",
+                        "required": true,
+                        "message": "The start period should be before the end period"
+                    },
+                    "big_date":
+                    {
+                        "name": "end_period",
+                        "title": "End Period",
+                        "required": true,
+                        "message": "The end period should be after the start period"
+                    }
+                }
+            },
+            {
+                "component": "date-input",
+                "name": "payment_date",
+                "title": "Payment Date",
+                "required": true
+            }
+        ],
+        [
+            {
+                "component": "select-input",
+                "name": "apartment_id",
+                "title": "Apartment",
+                "overview_controller": "apartment",
+                "value": "id",
+                "text": "name"
+            },
+            {
+                "component": "number-input",
+                "name": "Amount",
+                "title": "Amount"
+            }
+        ],
+        [
+            {
+                "component": "textarea-input",
+                "name": "note",
+                "title": "Note"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name": "required",
+            "revenue_type_id": "required",
+            "apartment_id": "required",
+            "Amount":
+            {
+                "required": true,
+                "number": true
+            }
+        }
+    }
+}

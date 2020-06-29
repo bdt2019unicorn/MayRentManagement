@@ -5,18 +5,15 @@ var row_group = Vue.component
         props: ["row","just_started_parent"], 
         template: 
         `
-            <div>
-                <br>
-                <div class="row">
-                    <component 
-                        v-for="col in row"
-                        :is="col.component"
-                        v-bind="col"
-                        :just_started_parent="just_started_parent"
-                    >
-                    </component>
+            <div class="row">
+                <component 
+                    v-for="col in row"
+                    :is="col.component"
+                    v-bind="col"
+                    :just_started_parent="just_started_parent"
+                >
+                </component>
 
-                </div>
             </div>
         `    
     }
@@ -38,10 +35,10 @@ var user_input = Vue.component
             }
         }, 
         methods: 
-        {
+        {        
             PopulateFormData()
             {
-                var data = GetFormDataFields(this.controller);
+                var data = AjaxRequest(`server/user_input_controller/${((this.controller)?this.controller:this.StateController)}.json`); 
                 try 
                 {
                     this.form = data.form; 
@@ -122,28 +119,28 @@ var user_input = Vue.component
                 ref="action_form"
             >
                 <h1 style="text-align: center;">{{title}}</h1>
-                <row-group
-                    v-for="row in form"
-                    :row="row"
-                    :just_started_parent= "just_started_parent"
-                >
-                </row-group>
-            
-                <div>
+                <template v-for="row in form">
                     <br>
-                    <div class="row">
-                        <div class="form-group col-2">
-                            <button type="reset" class="btn" title="Clear">
-                                <i style="font-size: xx-large;" class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="form-group col-8">
-                        </div>
-                        <div class="form-group col-2">
-                            <button type="submit" class="btn" :title="title">
-                                <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
-                            </button>
-                        </div>
+                    <row-group
+                        :row="row"
+                        :just_started_parent= "just_started_parent"
+                    >
+                    </row-group>
+                </template>
+            
+                <br>
+                <div class="row">
+                    <div class="form-group col-2">
+                        <button type="reset" class="btn" title="Clear">
+                            <i style="font-size: xx-large;" class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="form-group col-8">
+                    </div>
+                    <div class="form-group col-2">
+                        <button type="submit" class="btn" :title="title">
+                            <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
+                        </button>
                     </div>
                 </div>
 

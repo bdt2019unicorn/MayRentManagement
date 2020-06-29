@@ -5,22 +5,6 @@ var side_bar = Vue.component
         data()
         {
             return {
-                list_items: 
-                [
-                    {
-                        action: "Overview", 
-                        a_text: "Overview"
-                    }, 
-                    {
-                        action: "UserInput", 
-                        a_text: "Add"
-                    }, 
-                    {
-                        action: "ImportExport", 
-                        a_text: "Import/Export"
-                    }
-                ], 
-
                 nav_list_items: 
                 [
                     {
@@ -64,7 +48,7 @@ var side_bar = Vue.component
                         
                     >
                         <main-nav-item 
-                            class="col"
+                            :class="ItemsClasses(item.controller, StateController, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
                             v-bind="item"
                         >
                         </main-nav-item>
