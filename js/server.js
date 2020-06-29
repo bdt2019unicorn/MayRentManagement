@@ -18,7 +18,7 @@ function AjaxRequest(url, data=new FormData(), type="get")
 			error: function(error)
 			{
 				console.log(error.responseText); 
-				result = error; 
+				console.log(error); 
 			}
 		}
 	); 

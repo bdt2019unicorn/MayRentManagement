@@ -1,0 +1,9 @@
+{
+    "hidden_columns": ["Rental Status Value", "Paid Until Value"], 
+    "sort": 
+    {
+        "Rental Status": "Rental Status Value", 
+        "Paid Until": "Paid Until Value"
+    }, 
+    "search": ["Apartment Name"]
+}
