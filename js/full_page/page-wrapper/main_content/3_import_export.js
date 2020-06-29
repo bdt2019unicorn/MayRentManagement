@@ -9,13 +9,6 @@ var import_export = Vue.component
             }
         }, 
         mixins: [support_mixin], 
-        computed: 
-        {
-            DownloadHref()
-            {
-                return "excel_templates/" + this.Controller + "-template.xls"; 
-            }    
-        },
         methods: 
         {
             async ReadExcel()
@@ -58,11 +51,6 @@ var import_export = Vue.component
                     console.log(result); 
                     alert("Data import error"); 
                 }   
-            },
-
-            ImportExcel()
-            {
-                this.$refs['excel_input'].click(); 
             }
         },
         template: 
@@ -72,7 +60,7 @@ var import_export = Vue.component
                 <a 
                     class="btn" 
                     style="grid-area: template-btn;"
-                    :href="DownloadHref"
+                    :href='"excel_templates/" + StateController + "-template.xls"'
                 >
                     <p>Download Excel Template</p>
                     <i style="font-size: xx-large;" class="fas fa-file-excel"></i>
@@ -82,7 +70,7 @@ var import_export = Vue.component
                     class="btn" 
                     style="grid-area: import-btn;"
                     href="javascript:void(0);" 
-                    @click.prevent="ImportExcel"
+                    @click.prevent="$refs['excel_input'].click()"
                 >
                     <p>Import Excel File</p>
                     <i style="font-size: xx-large;" class="fas fa-file-import"></i>

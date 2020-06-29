@@ -7,7 +7,6 @@
 
 	$sql = 
 	"
-
 		SELECT 
 			`overview`.*, 
 		    (
@@ -20,6 +19,16 @@
 		        		END       
 		        END
 		    ) AS `Rental Status`, 
+            (
+		        CASE
+		        	WHEN `overview`.`leaseid` IS NULL THEN '0'
+		        	ELSE 
+		        		CASE
+		        			WHEN `overview`.`leasestart`<=CURRENT_DATE THEN CONCAT('2', DATE_FORMAT(`overview`.`leasefinish`, '%Y%m%d')) 
+		        			ELSE CONCAT('1', DATE_FORMAT(`overview`.`leasestart`, '%Y%m%d'))
+		        		END       
+		        END
+		    ) AS `Rental Status Value`, 
 		    (
 		        CASE
 		        	WHEN `overview`.`leaseid` IS NULL THEN ''
@@ -33,7 +42,21 @@
 		        				END 
 		        		END      
 		        END
-		    ) AS `Paid Until`
+		    ) AS `Paid Until`, 
+            (
+		        CASE
+		        	WHEN `overview`.`leaseid` IS NULL THEN '0'
+		        	ELSE 
+		        		CASE
+		        			WHEN (`overview`.`leasestart`<=CURRENT_DATE) AND (`overview`.`revenueid` IS NOT NULL) THEN DATE_FORMAT(`overview`.`rentend`, '%Y%m%d')
+		        			ELSE 
+		        				CASE
+		        					WHEN `overview`.`Deposit_payment_date` IS NULL THEN '0'
+		        					ELSE '1'
+		        				END 
+		        		END      
+		        END
+		    ) AS `Paid Until Value`
 		FROM
 			(
 				SELECT * 
@@ -77,7 +100,9 @@
 		'id' => 'Apartment ID',
 		'apartmentname'=> 'Apartment Name', 
 		'Rental Status'=>'Rental Status', 
+		'Rental Status Value'=>'Rental Status Value', 
 		'Paid Until'=>'Paid Until', 
+		'Paid Until Value'=>'Paid Until Value', 
 		'tenantname'=> 'Tenant Name'
 	);
 

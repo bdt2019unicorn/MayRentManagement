@@ -1,0 +1,89 @@
+{
+    "title": "Tenant",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "first_name",
+                "title": "First Name"
+            },
+            {
+                "component": "text-input",
+                "name": "middle_name",
+                "title": "Middle Name"
+            },
+            {
+                "component": "text-input",
+                "name": "last_name",
+                "title": "Last Name"
+            },
+            {
+                "component": "date-input",
+                "name": "date_of_birth",
+                "title": "Date of Birth",
+                "required": true
+            }
+        ],
+        [
+            {
+                "component": "text-input",
+                "name": "passport_id_number",
+                "title": "Passport/ID Number"
+            },
+            {
+                "component": "text-input",
+                "name": "Nationality",
+                "title": "Nationality"
+            }
+        ],
+        [
+            {
+                "component": "text-input",
+                "name": "mobile_phone",
+                "title": "Mobile Phone"
+            },
+            {
+                "component": "text-input",
+                "name": "work_phone",
+                "title": "Work Phone"
+            }
+        ],
+        [
+            {
+                "component": "text-input",
+                "name": "personal_email",
+                "title": "Personal Email"
+            },
+            {
+                "component": "text-input",
+                "name": "work_email",
+                "title": "Work Email"
+            }
+        ],
+        [
+            {
+                "component": "text-input",
+                "name": "company_name",
+                "title": "Company Name"
+            },
+            {
+                "component": "text-input",
+                "name": "company_address",
+                "title": "Company Address"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "first_name": "required",
+            "last_name": "required",
+            "passport_id_number": "required",
+            "mobile_phone": "required",
+            "personal_email": "email",
+            "work_email": "email"
+        }
+    }
+}

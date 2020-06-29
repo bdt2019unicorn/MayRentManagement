@@ -14,28 +14,11 @@
   height: 10vmin;
 }
 
-table, th, td
-{
-  border: 1px solid black;
-  border-collapse: collapse;
-  width: 100%;
-}
-
 .scrolling-div
 {
   overflow: auto;
   height: 80vh;
 }
-
-
-.scrolling-div thead th
-{
-  top: 0;
-  background-color: red;
-  position: sticky;
-  color: white;
-}
-
 
 .wrapper 
 {
@@ -52,11 +35,6 @@ table, th, td
 {
   margin-top: 1vmin;
   margin-bottom: 1vmin;
-}
-
-.sidebar-active
-{
-  background-color: chartreuse;
 }
 
 .import-export-layout

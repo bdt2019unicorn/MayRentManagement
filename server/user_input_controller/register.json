@@ -1,0 +1,61 @@
+{
+    "title": "Register",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "username",
+                "title": "Username"
+            }
+        ],
+        [
+            {
+                "component": "text-input",
+                "name": "password",
+                "title": "Password",
+                "type": "password"
+            }
+        ],
+        [
+            {
+                "component": "text-input",
+                "name": "phone_number",
+                "title": "Phone number"
+            },
+            {
+                "component": "text-input",
+                "name": "viber_number",
+                "title": "Viber Number"
+            }
+        ],
+        [
+            {
+                "component": "text-group-confirmation",
+                "name": "email",
+                "title": "Email Address",
+                "id": "email",
+                "confirm_name": "email_confirm",
+                "confirm_title": "Confirm Email Address"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "username": "required",
+            "password": "required",
+            "phone_number": "required",
+            "email":
+            {
+                "required": true,
+                "email": true
+            },
+            "email_confirm":
+            {
+                "equalTo": "#email"
+            }
+        }
+    }
+}
