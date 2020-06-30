@@ -102,7 +102,8 @@ var overview_component = Vue.component
             OverviewData: function()
             {
                 this.table_data = this.OverviewData; 
-            }
+            },
+            
         },
         template: 
         `
