@@ -7,13 +7,13 @@ var text_input = Vue.component
         {
             InputType()
             {
-                return (this.type==undefined)?"text":this.type; 
+                return (!this.type)?"text":this.type; 
             }
         }, 
         template: 
         `
             <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
+                <label :for="name" v-if="title"><b>{{title}}</b></label>
                 <input :type="InputType" class="form-control" :name="name" :id="id">
             </div>
         `
@@ -128,17 +128,18 @@ var select_input = Vue.component
 (
     "select-input", 
     {
-        props: ["name", "title", "overview_controller", "value", "text"], 
+        props: ["name", "title", "select_data", "overview_controller", "value", "text", "not_required"], 
         mixins: [support_mixin], 
         data() 
         {
             return {
-                options: []
+                options: [], 
+                selected_value: undefined
             }
         }, 
         mounted() 
         {
-            var select_data = this.TableData(this.overview_controller);
+            var select_data = (this.select_data)?this.select_data: this.TableData(this.overview_controller);
             select_data.forEach
             (
                 option => 
@@ -156,9 +157,10 @@ var select_input = Vue.component
         template: 
         `
             <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
-                <select :name="name" class="form-control">
+                <label :for="name" v-if="title"><b>{{title}}</b></label>
+                <select :name="name" class="form-control" v-model="selected_value">
                     <option v-if="options.length>0" hidden disabled selected value></option>
+                    <option v-if="options.length>0 && not_required" v-show="selected_value" value></option>
                     <option
                         v-for="option in options"
                         :value="option.value"

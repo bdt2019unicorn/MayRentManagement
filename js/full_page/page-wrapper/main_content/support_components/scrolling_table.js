@@ -61,21 +61,6 @@ var scrolling_table = Vue.component
                 tbody: []
             };
         }, 
-        computed: 
-        {
-            HiddenColums() //get rid of later 
-            {
-                return this.SpecialColumnsIndexes("hidden_columns"); 
-            },     
-            SortColumns() // get rid of later 
-            {
-                return this.SpecialColumnsIndexes("sort"); 
-            }, 
-            SearchColumns()
-            {
-                return this.SpecialColumnsIndexes("search"); 
-            }
-        },
         created() 
         {
             this.SetupTable();   
