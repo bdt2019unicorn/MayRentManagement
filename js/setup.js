@@ -143,7 +143,7 @@ jQuery
             function GetParamsData()
             {
                 var search_params = window.location.search; 
-                if(search_params.trim()=="")
+                if(!search_params.trim())
                 {
                     store_track.commit('RedirectUrl',{});
                     return; 

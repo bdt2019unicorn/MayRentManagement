@@ -1,24 +1,3 @@
-var row_group = Vue.component
-(
-    "row-group", 
-    {
-        props: ["row","just_started_parent"], 
-        template: 
-        `
-            <div class="row">
-                <component 
-                    v-for="col in row"
-                    :is="col.component"
-                    v-bind="col"
-                    :just_started_parent="just_started_parent"
-                >
-                </component>
-
-            </div>
-        `    
-    }
-);
-
 var user_input = Vue.component
 (
     "UserInput", 
@@ -42,8 +21,8 @@ var user_input = Vue.component
                 try 
                 {
                     this.form = data.form; 
-                    this.title = (this.controller!=undefined)?data.title: this.title+data.title; 
-                    this.validate = (data.validate!=undefined)?data.validate:this.validate; 
+                    this.title = (this.controller)?data.title: this.title+data.title; 
+                    this.validate = (data.validate)?data.validate:this.validate; 
                 } 
                 catch
                 {
