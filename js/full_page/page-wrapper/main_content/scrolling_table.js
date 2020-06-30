@@ -53,6 +53,7 @@ var scrolling_table = Vue.component
     "scrolling-table", 
     {
         props: ["tb_style", "table_data", "table_actions"], 
+        mixins: [support_mixin], 
         data() 
         {
             return {
@@ -122,26 +123,6 @@ var scrolling_table = Vue.component
 
                 THead(); 
                 TBody(); 
-            }, 
-            SpecialColumnsIndexes(action)
-            {
-                try 
-                {
-                    var special_columns = this.table_actions[action];
-                    var index_object = {}; 
-                    Object.keys(special_columns).forEach
-                    (   
-                        element => 
-                        {
-                            index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
-                        }
-                    );
-                    return index_object; 
-                }
-                catch
-                {
-                    return {}; 
-                }
             }, 
             SortTable(key, script)
             {

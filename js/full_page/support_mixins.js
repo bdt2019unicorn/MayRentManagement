@@ -16,6 +16,26 @@ var support_mixin =
                 return []; 
             }          
         }, 
+        SpecialColumnsIndexes(action)
+        {
+            try 
+            {
+                var special_columns = this.table_actions[action];
+                var index_object = {}; 
+                Object.keys(special_columns).forEach
+                (   
+                    element => 
+                    {
+                        index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
+                    }
+                );
+                return index_object; 
+            }
+            catch
+            {
+                return {}; 
+            }
+        }, 
         ImportData(excel_data, controller=undefined)
         {
             var data = new FormData(); 
