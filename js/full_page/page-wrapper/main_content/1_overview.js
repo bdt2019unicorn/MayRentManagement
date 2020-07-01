@@ -6,18 +6,71 @@ var overview_component = Vue.component
         data()
         {
             return {
-                table_data: []
+                table_data: [], 
+                search_data: []
             }; 
         }, 
         created() 
         {
-            this.table_data = this.OverviewData; 
+            this.PopulateData(); 
         },
-        computed: 
+        methods: 
         {
-            OverviewData()
+            PopulateData()
             {
-                return this.TableData(this.StateController); 
+                this.table_data = this.TableData(this.StateController); 
+                this.search_data = this.SearchData(); 
+            }, 
+            TableActions(controller)
+            {
+                var table_actions = AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
+                return (table_actions)?table_actions:{}; 
+            }, 
+            Search()
+            {
+                let data = $(this.$refs['search_form']).serializeObject(); 
+                let overview_data = this.TableData(this.StateController); 
+                if(data['search_value'])
+                {
+                    this.table_data = []; 
+                    overview_data.forEach
+                    (
+                        row => 
+                        {
+                            if(data['search_category'])
+                            {
+                                if(row[data['search_category']].toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
+                                {
+                                    this.table_data.push(row); 
+                                }
+                            }
+                            else
+                            {
+                                function CheckRow()
+                                {
+                                    for(var value of Object.values(row))
+                                    {
+                                        try 
+                                        {
+                                            if(value.toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
+                                            {
+                                                return true; 
+                                            }
+                                        }
+                                        catch{}
+                                    }
+                                    return false; 
+                                }
+                                if(CheckRow())
+                                {
+                                    this.table_data.push(row); 
+                                }
+                            }
+                        }
+                    );
+                    return; 
+                }
+                this.table_data = overview_data; 
             }, 
             SearchData()
             {
@@ -43,93 +96,49 @@ var overview_component = Vue.component
                 
             }
         },
-        methods: 
-        {
-            TableActions(controller)
-            {
-                var table_actions = AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
-                return (table_actions)?table_actions:{}; 
-            }, 
-            Search()
-            {
-                let data = $(this.$refs['search_form']).serializeObject(); 
-                if(data['search_value'])
-                {
-                    let overview_data = []; 
-                    this.OverviewData.forEach
-                    (
-                        row => 
-                        {
-                            if(data['search_category'])
-                            {
-                                if(row[data['search_category']].toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
-                                {
-                                    overview_data.push(row); 
-                                }
-                            }
-                            else
-                            {
-                                function CheckRow()
-                                {
-                                    for(var value of Object.values(row))
-                                    {
-                                        try 
-                                        {
-                                            if(value.toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
-                                            {
-                                                return true; 
-                                            }
-                                        }
-                                        catch{}
-                                    }
-                                    return false; 
-                                }
-                                if(CheckRow())
-                                {
-                                    overview_data.push(row); 
-                                }
-                            }
-                        }
-                    );
-                    this.table_data = overview_data; 
-                    return; 
-                }
-                this.table_data = this.OverviewData; 
-            }
-        },
         watch: 
         {
-            OverviewData: function()
+            StateController: function(new_value, old_value)
             {
-                this.table_data = this.OverviewData; 
-            },
-            
+                this.PopulateData(); 
+            }, 
+            BuildingId: function(new_value, old_value)
+            {
+                this.PopulateData(); 
+            }
         },
         template: 
         `
-            <div>
+            <div class="container-fluid">
                 <h1>{{CapitalizeFirstWord(StateController)}}</h1>
+                <div class="row">
+                    <form 
+                        class="container-fluid row col"
+                        v-if="search_data && (TableData(StateController).length>0)"
+                        ref="search_form"
+                        @submit.prevent="Search"
+                    >
+                        <text-input name='search_value'></text-input>
+                        <select-input 
+                            name='search_category' 
+                            v-if="search_data.length>0"
+                            :select_data="search_data" 
+                            value="value"
+                            text="text"
+                            not_required="false"
+                        ></select-input>
+                        <div class="col">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </form>
 
-                <form 
-                    class="container-fluid row"
-                    v-if="SearchData"
-                    ref="search_form"
-                    @submit.prevent="Search"
-                >
-                    <text-input name='search_value'></text-input>
-                    <select-input 
-                        name='search_category' 
-                        :select_data="SearchData" 
-                        value="value"
-                        text="text"
-                        not_required="false"
-                    ></select-input>
-                    <div class="col">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                    <div class="col-4" v-if="StateController!='overview'">
+                        <h1>Test</h1>
                     </div>
-                </form>
+                </div>
 
                 <scrolling-table
+                    class="row"
                     :table_data="table_data"
                     :table_actions="TableActions(StateController)"
                 ></scrolling-table>

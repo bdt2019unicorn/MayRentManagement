@@ -2,7 +2,7 @@ var row_group = Vue.component
 (
     "row-group", 
     {
-        props: ["row","just_started_parent"], 
+        props: ["row","just_started_parent", "controller"], 
         template: 
         `
             <div class="row">
@@ -11,6 +11,7 @@ var row_group = Vue.component
                     :is="col.component"
                     v-bind="col"
                     :just_started_parent="just_started_parent"
+                    :controller="controller"
                 >
                 </component>
 
