@@ -5,9 +5,7 @@ var logo_image = Vue.component
         props: ["img_class"], 
         template: 
         `
-            <a 
-                href="javascript:window.store_track.commit('RedirectUrl',{});"
-            >
+            <a href="javascript:window.store_track.commit('RedirectUrl',{});">
                 <img :class="img_class" src="img/logo.jpeg" alt="logo">
             </a>
         `
@@ -68,11 +66,12 @@ var main_nav_items = Vue.component
     "main-nav-items", 
     {
         props: ["buildings_data", "default_icon", "grid_area_surfix"], 
+        mixins: [support_mixin], 
         computed: 
         {
             MainNavItems()
             {
-                let total = this.buildings_data.length +2; 
+                let total = this.buildings_data.length +3; 
                 let percentage = 100/total; 
                 var main_nav_items = 
                 {
@@ -107,7 +106,14 @@ var main_nav_items = Vue.component
                     :key="index"
                 >
                 </main-nav-item>
-
+                <button 
+                    class="btn" 
+                    title="Import Excel Data"
+                    v-if="BuildingId && StateController!='overview'"
+                    :style="'grid-area: '+grid_area_surfix+'-'+(buildings_data.length+1)+';'"
+                >
+                    <i class="fas fa-table" style="font-size: xx-large;"></i>
+                </button>
             </div>
         `
     }

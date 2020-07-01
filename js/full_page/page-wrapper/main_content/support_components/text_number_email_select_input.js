@@ -2,7 +2,14 @@ var text_input = Vue.component
 (
     "text-input", 
     {
-        props: ["name", "title", "type", "id"], 
+        props: ["name", "title", "type", "id", "controller"], 
+        data()
+        {
+            return {
+                input_value:""
+            }
+        }, 
+        mixins: [support_mixin], 
         computed: 
         {
             InputType()
@@ -10,11 +17,24 @@ var text_input = Vue.component
                 return (!this.type)?"text":this.type; 
             }
         }, 
+        watch: 
+        {
+            controller: function(new_value, old_value)
+            {
+                this.input_value = ""; 
+            }
+        }, 
         template: 
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <input :type="InputType" class="form-control" :name="name" :id="id">
+                <input 
+                    class="form-control"
+                    :type="InputType"  
+                    :name="name" 
+                    :id="id"
+                    v-model="input_value"
+                >
             </div>
         `
     }
@@ -128,7 +148,7 @@ var select_input = Vue.component
 (
     "select-input", 
     {
-        props: ["name", "title", "select_data", "overview_controller", "value", "text", "not_required"], 
+        props: ["name", "title", "select_data", "overview_controller", "value", "text", "not_required", "controller"], 
         mixins: [support_mixin], 
         data() 
         {
@@ -137,30 +157,49 @@ var select_input = Vue.component
                 selected_value: undefined
             }
         }, 
+        methods: 
+        {
+            PopulateSelectData()
+            {
+                this.selected_value = undefined; 
+                var select_data = (this.select_data)?this.select_data: this.TableData(this.overview_controller);
+                this.options = []; 
+                select_data.forEach
+                (
+                    option => 
+                    {
+                        this.options.push 
+                        (
+                            {
+                                value: option[this.value], 
+                                text: option[this.text]
+                            }
+                        ); 
+                    }
+                ); 
+            }   
+        },
         mounted() 
         {
-            var select_data = (this.select_data)?this.select_data: this.TableData(this.overview_controller);
-            select_data.forEach
-            (
-                option => 
-                {
-                    this.options.push 
-                    (
-                        {
-                            value: option[this.value], 
-                            text: option[this.text]
-                        }
-                    ); 
-                }
-            ); 
+            this.PopulateSelectData(); 
+        },
+        watch: 
+        {
+            select_data: function(new_value, old_value)
+            {   
+                this.PopulateSelectData(); 
+            }, 
+            controller: function(new_value, old_value)    
+            {
+                this.PopulateSelectData(); 
+            }
         },
         template: 
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
                 <select :name="name" class="form-control" v-model="selected_value">
-                    <option v-if="options.length>0" hidden disabled selected value></option>
-                    <option v-if="options.length>0 && not_required" v-show="selected_value" value></option>
+                    <option v-if="options.length>0" v-show="not_required&&selected_value" value selected></option>
                     <option
                         v-for="option in options"
                         :value="option.value"

@@ -69,7 +69,7 @@ var page_wrapper = Vue.component
         <div class="wrapper">
 
             <side-bar></side-bar>
-            <div class="main-content container-fluid">
+            <div class="main-content">
                 <component :is="StateAction"></component>
             </div>
 

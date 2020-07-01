@@ -13,11 +13,18 @@ var user_input = Vue.component
                 validate: {}
             }
         }, 
+        computed: 
+        {
+            CurrentController()
+            {
+                return ((this.controller)?this.controller:this.StateController); 
+            }
+        },
         methods: 
         {        
             PopulateFormData()
             {
-                var data = AjaxRequest(`server/user_input_controller/${((this.controller)?this.controller:this.StateController)}.json`); 
+                var data = AjaxRequest(`server/user_input_controller/${this.CurrentController}.json`); 
                 try 
                 {
                     this.form = data.form; 
@@ -103,6 +110,7 @@ var user_input = Vue.component
                     <row-group
                         :row="row"
                         :just_started_parent= "just_started_parent"
+                        :controller="CurrentController"
                     >
                     </row-group>
                 </template>
