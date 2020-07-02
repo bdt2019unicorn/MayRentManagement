@@ -80,7 +80,7 @@ var user_input = Vue.component
 
         watch: 
         {
-            controller: function(new_value, old_value)
+            CurrentController: function(new_value, old_value)
             {
                 this.PopulateFormData(); 
                 this.PopulateFormValidation(); 
