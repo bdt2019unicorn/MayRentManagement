@@ -106,14 +106,15 @@ var main_nav_items = Vue.component
                     :key="index"
                 >
                 </main-nav-item>
-                <button 
-                    class="btn" 
+                <a 
+                    class="btn btn-success" 
                     title="Import Excel Data"
                     v-if="BuildingId && StateController!='overview'"
                     :style="'grid-area: '+grid_area_surfix+'-'+(buildings_data.length+1)+';'"
+                    href='javascript: window.store_track.commit("RedirectUrl",{param: "action", value: "ImportExport"});'
                 >
                     <i class="fas fa-table" style="font-size: xx-large;"></i>
-                </button>
+                </a>
             </div>
         `
     }

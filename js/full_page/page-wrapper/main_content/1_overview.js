@@ -141,7 +141,12 @@ var overview_component = Vue.component
                             <button class="btn btn-secondary" type="button">Edit</button>
                         </div>
                         <div class="col text-left">
-                            <button class="btn btn-success" type="button">Add</button>
+                            <a 
+                                class="btn btn-success" 
+                                href='javascript:window.store_track.commit("RedirectUrl",{param: "action", value: "UserInput"});'
+                            >
+                                    Add
+                            </a>
                         </div>
 
                     </div>

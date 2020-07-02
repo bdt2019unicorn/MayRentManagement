@@ -1,0 +1,80 @@
+{
+    "title": "Apartment",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "name",
+                "title": "Name"
+            },
+            {
+                "component": "select-input",
+                "name": "building_id",
+                "title": "Building",
+                "overview_controller": "buildings",
+                "value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "area",
+                "title": "Area"
+            },
+            {
+                "component": "number-input",
+                "name": "number_of_bedrooms",
+                "title": "Number of Bedrooms", 
+                "decimal_places": 0
+            },
+            {
+                "component": "number-input",
+                "name": "number_of_bathroom",
+                "title": "Number of Bathrooms", 
+                "decimal_places": 0
+            },
+            {
+                "component": "number-input",
+                "name": "number_of_windows",
+                "title": "Number of Windows", 
+                "decimal_places": 0
+            }
+        ], 
+        [
+            {
+                "component": "text-input",
+                "name": "balcony",
+                "title": "Balcony"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name": "required",
+            "building_id": "required", 
+            "area": 
+            {
+                "min": 0
+            }, 
+            "number_of_bedrooms": 
+            {
+                "min": 0, 
+                "step": 1
+            },
+            "number_of_bathroom": 
+            {
+                "min": 0, 
+                "step": 1
+            },
+            "number_of_windows": 
+            {
+                "min": 0, 
+                "step": 1
+            }
+        }
+    }
+}
