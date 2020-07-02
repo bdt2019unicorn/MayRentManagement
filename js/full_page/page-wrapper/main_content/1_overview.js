@@ -127,16 +127,26 @@ var overview_component = Vue.component
                             text="text"
                             not_required="false"
                         ></select-input>
-                        <div class="col">
+                        <div class="col--2">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </div>
                     </form>
 
-                    <div class="col-4" v-if="StateController!='overview'">
-                        <h1>Test</h1>
+                    <div class="col-5 row" v-if="StateController!='overview'">
+
+                        <div class="col text-right">
+                            <button class="btn btn-danger" type="button">Delete</button>
+                        </div>
+                        <div class="col text-center">
+                            <button class="btn btn-secondary" type="button">Edit</button>
+                        </div>
+                        <div class="col text-left">
+                            <button class="btn btn-success" type="button">Add</button>
+                        </div>
+
                     </div>
                 </div>
-
+                <br>
                 <scrolling-table
                     class="row"
                     :table_data="table_data"
