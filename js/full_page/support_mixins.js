@@ -40,8 +40,8 @@ var support_mixin =
         {
             var data = new FormData(); 
             data.append("excel",JSON.stringify(excel_data)); 
-            controller = (controller)?controller: StateController; 
-            var url = "server/import_controller/" + controller + ".php"; 
+            controller = (controller)?controller: this.StateController; 
+            var url = `server/import_controller/${controller}.php`; 
             return AjaxRequest(url, data, "post"); 
         }, 
         ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class=undefined)
