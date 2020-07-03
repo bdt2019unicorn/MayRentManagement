@@ -6,13 +6,13 @@
     $exclude_columns = []; 
     $get_id = array
     (
-        'Apartment' => array
+        'apartment' => array
         (
             'search'=>'name', 
             'change'=>'apartment_id', 
             'table'=>'apartment'
         ), 
-        'Revenue type' => array
+        'revenue_type' => array
         (
             'search'=>'name', 
             'change'=>'revenue_type_id', 
@@ -20,7 +20,7 @@
         )
     );
     $year_number = "20"; 
-    $comma = ["Amount"]; 
+    $comma = ["amount"]; 
     ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma); 
 
 

@@ -5,13 +5,13 @@
     $exclude_columns = []; 
     $get_id = array
     (
-        'Apartment' => array
+        'apartment' => array
         (
             'search'=>'name', 
             'change'=>'apartment_id', 
             'table'=>'apartment'
         ), 
-        'Expense type' => array
+        'expense_type' => array
         (
             'search'=>'name', 
             'change'=>'expense_type_id', 
@@ -19,7 +19,7 @@
         )
     );
     $year_number = "20"; 
-    $comma = ["Amount"]; 
+    $comma = ["amount"]; 
 
     ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma); 
 ?>
