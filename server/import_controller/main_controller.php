@@ -1,5 +1,6 @@
 <?php 
 	require_once("../helper/connect.php"); 
+
 	function ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma)
 	{
 	    $excel = json_decode($_POST['excel']); 
@@ -8,27 +9,38 @@
 	    foreach ($excel as $row) 
 	    {
 	        $sql = "INSERT INTO `".$table."`"; 
-	        global $columns; 
-	        global $values; 
 	        $columns = "("; 
 	        $values = "VALUES ("; 
 
-	        $StringAddition = function($key, $value)
+	        $StringAddition = function($key, $value) use (&$columns, &$values, &$StringAddition, $exclude_columns, $get_id, $date_collumns, $year_number, $comma)
 	        {
-	            global $columns; 
-	            global $values; 
-	            global $date_collumns; 
-	            global $year_number; 
-	            global $comma; 
-	            $key = trim($key); 
-	            $key = str_replace(' ','_',$key);
-	            $key = str_replace("/","_",$key); 
-	            $key = str_replace("-","",$key); 
-	            $value = trim($value); 
-	            $value = str_replace("'","\'",$value); 
 
-	            $columns.=$key.',';
-	            if(in_array(strtolower($key), $date_collumns))
+	            $ModifyKey = function($key)
+	            {
+		            $key = trim($key); 
+		            $key = str_replace(' ','_',$key);
+		            $key = str_replace("/","_",$key); 
+		            $key = str_replace("-","",$key); 
+		            $key = strtolower($key); 
+		            return $key; 
+	            }; 
+
+	            $key = $ModifyKey($key); 
+
+	            if(in_array($key, $exclude_columns))
+	            {
+	            	return; 
+	            }
+
+	            if(isset($get_id[$key]))
+	            {
+                    $StringAddition($get_id[$key]['change'], Connect::GetId($get_id[$key]['search'],$value,$get_id[$key]['table'])); 
+                    return; 
+	            }
+
+				$columns.=$key.',';
+
+	            if(in_array($key, $date_collumns))
 	            {
 	            	$value = "STR_TO_DATE('".substr_replace($value,"/".$year_number,strrpos($value,"/"),1)."','%m/%d/%Y')"; 
 	            }
@@ -45,18 +57,8 @@
 
 	        foreach ($row as $key => $value) 
 	        {
-	            if(!in_array($key,$exclude_columns))
-	            {
-	                if(isset($get_id[$key]))
-	                {
-	                    $StringAddition($get_id[$key]['change'], Connect::GetId($get_id[$key]['search'],$value,$get_id[$key]['table'])); 
-	                }
-	                else 
-	                {
-	                    $StringAddition($key, $value); 
-	                }
-	            }
-	        }       
+	            $StringAddition($key, $value); 
+	        }   
 	        
 	        $columns = substr_replace($columns, "",strrpos($columns,","),1) . ")"; 
 	        $values = substr_replace($values, "",strrpos($values,","),1) . ")";
