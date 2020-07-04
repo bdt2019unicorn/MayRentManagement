@@ -94,7 +94,13 @@ var number_input = Vue.component
 (
     "number-input", 
     {
-        props: ["name", "title", "maximum_value", "decimal_places"], 
+        props: ["name", "title", "minimum_value", "maximum_value", "decimal_places"], 
+        data()
+        {
+            return {
+                number_value: undefined
+            }
+        }, 
         components: 
         {
             VueAutonumeric
@@ -119,15 +125,18 @@ var number_input = Vue.component
                 (
                     key => 
                     {
+                        console.log(key, this[key]); 
                         if(this[key]!=undefined)
                         {
                             let new_key = ChangeKey(key); 
                             options[new_key] = this[key]; 
+                            console.log("I am changing you "); 
                         }
                     }
                 );
+                console.log(options); 
                 return options; 
-            }   
+            }, 
         },
         template: 
         `
@@ -136,6 +145,7 @@ var number_input = Vue.component
                 <vue-autonumeric
                     :name="name"
                     :options="Options"
+                    v-model="number_value"
                     class="form-control"
                 >
                 </vue-autonumeric>
@@ -211,3 +221,47 @@ var select_input = Vue.component
         `
     }
 ); 
+
+
+
+
+// Vue.component
+// (
+//     "test-component", 
+//     {
+//         data() {
+//             return {
+//                 array: 
+//                 [
+//                     {
+//                         id: 1, 
+//                         value: "one"
+//                     }, 
+//                     {
+//                         id: 2, 
+//                         value: "two"
+//                     }, 
+//                     {
+//                         id: 3, 
+//                         value: "three"
+//                     }
+//                 ]
+//             }
+//         },
+
+//         template: 
+//         `
+//             <div>
+//                 <h1>I am the test component</h1>
+//                 <div
+//                     v-for="(row, index) in array" 
+//                 >
+//                     <h3>My ID is {{row.id}}</h3>
+//                     <h4>My value is {{row.value}}</h4>
+//                     <p>My index is {{index}}</p>
+//                     <p>My row thing is {{row}} </p>
+//                 </div>
+//             </div>
+//         `
+//     }
+// )

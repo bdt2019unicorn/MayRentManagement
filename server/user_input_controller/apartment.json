@@ -21,7 +21,8 @@
             {
                 "component": "number-input",
                 "name": "area",
-                "title": "Area"
+                "title": "Area", 
+                "decimal_places": 0
             },
             {
                 "component": "number-input",

@@ -28,6 +28,7 @@
         [
             {
                 "component": "date-group",
+                "name": "rent_date_group", 
                 "date_data":
                 {
                     "small_date":
@@ -62,6 +63,7 @@
         [
             {
                 "component": "date-group",
+                "name": "deposit_date_group", 
                 "date_data":
                 {
                     "small_date":

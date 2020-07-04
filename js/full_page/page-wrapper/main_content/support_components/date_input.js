@@ -13,22 +13,11 @@ var date_input = Vue.component
         {
             DateRequired()
             {
-                if(this.required)
-                {
-                    return (this.date_value!=undefined); 
-                }
-                return true; 
+                return (this.required)?(this.date_value!=undefined): true; 
             }, 
             JustStaredChild()
             {
-                if(this.just_started_parent)
-                {
-                    return (this.date_value==undefined); 
-                }
-                else
-                {
-                    return this.just_started_parent; 
-                }
+                return (this.just_started_parent)? (this.date_value==undefined): this.just_started_parent; 
             }, 
             RequiredLabel()
             {
@@ -36,22 +25,18 @@ var date_input = Vue.component
             }, 
             SpecialMessageLabel()
             {
-                if(this.RequiredLabel || !this.just_started_parent)
-                {
-                    return false; 
-                }
-                return (this.bad_message!=undefined); 
+                return (this.RequiredLabel || !this.just_started_parent)?false: (this.bad_message!=undefined); 
             }
         }, 
         mounted()
         {
-            window.store_track.commit('DateTotal',{name:"date_required", value: this.DateRequired}); 
+            this.$emit("date-input-validation", "date_required", this.name, this.DateRequired); 
         }, 
         watch: 
         {
             DateRequired: function(new_value, old_value)
             {
-                window.store_track.commit('DateCurrent',{name:"date_required", value: new_value}); 
+                this.$emit("date-input-validation", "date_required", this.name, this.DateRequired); 
             }, 
             date_value: function(new_value, old_value)
             {

@@ -1,4 +1,4 @@
-var user_input = Vue.component
+Vue.component
 (
     "UserInput", 
     {
@@ -10,7 +10,8 @@ var user_input = Vue.component
                 title: "Add ",
                 just_started_parent: false,  
                 form: [], 
-                validate: {}
+                validate: {}, 
+                row_valid: {}
             }
         }, 
         computed: 
@@ -47,9 +48,13 @@ var user_input = Vue.component
             {
                 return (
                     $(this.$refs["action_form"]).valid() && 
-                    window.store_track.state.validation.date_required && 
+                    (!Object.values(this.row_valid).includes(false)) && 
                     window.store_track.state.validation.date_group_valid
                 ); 
+            }, 
+            RowGroupValidation(index, validation)
+            {
+                this.row_valid[index] = validation; 
             }, 
             SubmitForm(event)
             {
@@ -105,12 +110,15 @@ var user_input = Vue.component
                 ref="action_form"
             >
                 <h1 style="text-align: center;">{{title}}</h1>
-                <template v-for="row in form">
+                <template v-for="(row, index) in form">
                     <br>
                     <row-group
                         :row="row"
                         :just_started_parent= "just_started_parent"
                         :controller="CurrentController"
+                        :index="index"
+                        :key="index"
+                        @row-group-validation="RowGroupValidation"
                     >
                     </row-group>
                 </template>
