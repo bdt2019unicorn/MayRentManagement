@@ -22,24 +22,27 @@
                 "component": "number-input",
                 "name": "area",
                 "title": "Area", 
-                "decimal_places": 0
+                "min": 0
             },
             {
                 "component": "number-input",
                 "name": "number_of_bedrooms",
                 "title": "Number of Bedrooms", 
+                "min": 0, 
                 "decimal_places": 0
             },
             {
                 "component": "number-input",
                 "name": "number_of_bathroom",
                 "title": "Number of Bathrooms", 
+                "min": 0, 
                 "decimal_places": 0
             },
             {
                 "component": "number-input",
                 "name": "number_of_windows",
                 "title": "Number of Windows", 
+                "min": 0, 
                 "decimal_places": 0
             }
         ], 
@@ -56,26 +59,7 @@
         "rules":
         {
             "name": "required",
-            "building_id": "required", 
-            "area": 
-            {
-                "min": 0
-            }, 
-            "number_of_bedrooms": 
-            {
-                "min": 0, 
-                "step": 1
-            },
-            "number_of_bathroom": 
-            {
-                "min": 0, 
-                "step": 1
-            },
-            "number_of_windows": 
-            {
-                "min": 0, 
-                "step": 1
-            }
+            "building_id": "required"
         }
     }
 }

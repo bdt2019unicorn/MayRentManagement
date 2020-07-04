@@ -16,22 +16,7 @@ jQuery
                                 username: "", 
                                 building_id: "", 
                                 controller: "", 
-                                action: "Overview", 
-                                validation: 
-                                {
-                                    date_required: true,
-                                    date_group_valid: true
-                                }, 
-                                date_required: 
-                                {
-                                    current: 0, 
-                                    total: 0 
-                                }, 
-                                date_group_valid: 
-                                {
-                                    current: 0, 
-                                    total: 0 
-                                }
+                                action: "Overview"
                             }, 
                             mutations: 
                             {
@@ -57,25 +42,6 @@ jQuery
                                     }
                                 )
                                 {
-                                    function ResetValidation()
-                                    {
-                                        state.validation = 
-                                        {
-                                            date_required: true,
-                                            date_group_valid: true
-                                        }; 
-                                        state.date_required = 
-                                        {
-                                            current: 0, 
-                                            total: 0 
-                                        }; 
-                                        state.date_group_valid = 
-                                        {
-                                            current: 0, 
-                                            total: 0 
-                                        }; 
-                                    }
-
                                     var default_value = 
                                     {
                                         controller: "overview", 
@@ -105,7 +71,6 @@ jQuery
                                                     continue; 
                                                 }
                                                 state[param] = value; 
-                                                ResetValidation(); 
                                             }
                                         }
                                         else
@@ -114,19 +79,6 @@ jQuery
                                         }
                                     }
                                     window.history.pushState(param,value,(param)?"?"+final_search_params.toString():window.location.pathname); 
-                                }, 
-                                
-                                DateCurrent(state, {name, value})
-                                {
-                                    let number = (value==true)?1:-1; 
-                                    state[name]["current"]+=number; 
-                                    state.validation[name] = (state[name]["current"]==state[name]["total"]); 
-                                }, 
-                                DateTotal(state, {name,value})
-                                {
-                                    state[name].total++; 
-                                    state[name].current+= Number(value); 
-                                    state.validation[name] = (state[name]["current"]==state[name]["total"]); 
                                 }
                             }
                         }

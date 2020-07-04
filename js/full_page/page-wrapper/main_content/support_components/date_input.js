@@ -30,13 +30,13 @@ var date_input = Vue.component
         }, 
         mounted()
         {
-            this.$emit("date-input-validation", "date_required", this.name, this.DateRequired); 
+            this.$emit("input-validation", "date_required", this.name, this.DateRequired); 
         }, 
         watch: 
         {
             DateRequired: function(new_value, old_value)
             {
-                this.$emit("date-input-validation", "date_required", this.name, this.DateRequired); 
+                this.$emit("input-validation", "date_required", this.name, this.DateRequired); 
             }, 
             date_value: function(new_value, old_value)
             {
@@ -81,35 +81,65 @@ var date_group = Vue.component
 (
     "date-group", 
     {
-        props: ["date_data"],
+        props: ["date_data", "name", "just_started_parent"],
+        mixins: [support_mixin], 
         data()
         {
             return {
-                just_started_parent: false, 
+                just_started_child: false, 
                 small_value: undefined, 
                 big_value: undefined, 
+                date_required: {}, 
+                valid: true 
             }
         }, 
 
         computed: 
         {
+            JustStarted()
+            {
+                return this.just_started_parent || this.just_started_child; 
+            }, 
             DateRangeValid()
             {
                 return this.big_value>this.small_value; 
+            },
+            ValidityState()
+            {
+                if(this.date_data.small_date.required && this.date_data.big_date.required)
+                {
+                    return (this.ValidObject(this.date_required)&&this.DateRangeValid); 
+                }
+                else if(this.big_value && this.small_value)
+                {
+                    return this.DateRangeValid; 
+                }
+                return this.ValidObject(this.date_required); 
             }
         }, 
 
         mounted()
         {
-            window.store_track.commit('DateTotal',{name:"date_group_valid", value: this.DateRangeValid}); 
+            // this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
+            this.$emit("input-validation", "date_group", this.name, this.ValidityState); 
         }, 
 
         watch: 
         {
-            DateRangeValid: function(new_value, old_value)
+            ValidityState: function(new_value, old_value)
             {
-                window.store_track.commit('DateCurrent',{name:"date_group_valid", value: new_value}); 
+                console.log("valid state changed "); 
+                console.log(new_value, old_value); 
+                this.$emit("input-validation", "date_group", this.name, this.ValidityState); 
             }
+            // DateRangeValid: function(new_value, old_value)
+            // {
+            //     this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
+            // }, 
+            // valid: function(new_value, old_value)
+            // {
+            //     this.$emit("input-validation", "date_group", this.name, this.valid); 
+            // }
         }, 
 
         methods: 
@@ -129,7 +159,13 @@ var date_group = Vue.component
             DateChange(new_value, reference)
             {
                 this[reference] = new_value; 
-                this.just_started_parent = true; 
+                this.just_started_child = true; 
+                this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
+            }, 
+            DateInputValidation(data_field, name, boolean)
+            {
+                this[data_field][name] = boolean; 
+                this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
             }
         },
 
@@ -140,20 +176,22 @@ var date_group = Vue.component
 
                     <date-input 
                         v-bind=date_data.small_date
-                        :just_started_parent="just_started_parent"
+                        :just_started_parent="JustStarted"
                         :bad_message="BadMessage('small_date')"
                         reference="small_value"
                         @date-value-changed="DateChange"
+                        @input-validation="DateInputValidation"
                     >
                     </date-input>
 
 
                     <date-input 
                         v-bind=date_data.big_date
-                        :just_started_parent="just_started_parent"
+                        :just_started_parent="JustStarted"
                         :bad_message="BadMessage('big_date')"
                         reference="big_value"
                         @date-value-changed="DateChange"
+                        @input-validation="DateInputValidation"
                     >
                     </date-input>
 

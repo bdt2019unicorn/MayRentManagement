@@ -52,6 +52,10 @@ var support_mixin =
         CapitalizeFirstWord(string)
         {
             return string[0].toUpperCase() +  string.slice(1); 
+        }, 
+        ValidObject(object)
+        {
+            return (Object.values(object).length>0)?!(Object.values(object).includes(false)): true; 
         }
     }, 
     computed: 
