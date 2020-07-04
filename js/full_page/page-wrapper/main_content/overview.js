@@ -1,6 +1,6 @@
 var overview_component = Vue.component 
 (
-    "Overview", 
+    "overview", 
     {
         mixins:[support_mixin], 
         data()
@@ -23,7 +23,7 @@ var overview_component = Vue.component
             }, 
             TableActions(controller)
             {
-                var table_actions = AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
+                var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
                 return (table_actions)?table_actions:{}; 
             }, 
             Search()
@@ -143,7 +143,7 @@ var overview_component = Vue.component
                         <div class="col text-left">
                             <a 
                                 class="btn btn-success" 
-                                href='javascript:window.store_track.commit("RedirectUrl",{param: "action", value: "UserInput"});'
+                                href='javascript:window.store_track.commit("RedirectUrl",{param: "action", value: "user-input"});'
                             >
                                     Add
                             </a>

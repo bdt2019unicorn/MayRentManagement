@@ -1,4 +1,4 @@
-var th_sort_table = Vue.component
+Vue.component
 (
     "a-sort-table", 
     {
@@ -44,11 +44,9 @@ var th_sort_table = Vue.component
             </a>
         `
     }
-)
+);
 
-
-
-var scrolling_table = Vue.component
+Vue.component
 (
     "scrolling-table", 
     {

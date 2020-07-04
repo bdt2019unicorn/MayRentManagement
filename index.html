@@ -18,38 +18,26 @@
 
                 <main-nav-items
                     class="container-fluid"
-                    v-if="!BuildingId"
+                    v-if="!BuildingId && StateController!='user'"
                     :buildings_data="buildings_data"
                     default_icon="building"
                     grid_area_surfix="home-page"
                 >
                 </main-nav-items>
 
+                <!-- <Edit></Edit> -->
+
+                <edit form_title="Edit My Information" :object_id="UserId" v-if="StateController=='user'"></edit>
+
                 <page-wrapper v-if="BuildingId"></page-wrapper>
             </div>
 
             <page-administration v-if="!Username"></page-administration>
 
-            <!-- issue comes up with number as the validation goes wrong so may need to have your own valiation for number input -->
             <!-- need to work on the hyperlink feature -->
             <!-- manage for user to be able to change their details  -->
-            <!-- check login in the begining -->
             <!-- able to do both vietnamese and english -->
-
-
-            <!-- 1. change the date validation for it to just deal with the row group  -->
-            <!-- 2. change the number input to deal validation with the row group -->
-
-            <!-- 3. when the thing created, send the validation toward the row group  -->
-            <!-- 4. when all the row group validation is good, then send it through. If not, don't do it.  -->
-            <!-- all setting for text stay the same, number input and date input need to change the validation method  -->
-
-            <!-- check box for balcolny  -->
-<!-- 
-            date input valid not change when it is right 
-
-
-            date input valid not work in the case of not required  -->
+            <!-- change all apartment, lease agreement, income and expense regarding the building only  -->
 
         </div>
 
@@ -70,7 +58,6 @@
             <script src="https://unpkg.com/autonumeric"></script>
             <script src="https://unpkg.com/vue-autonumeric"></script>
 
-            <script src="js/server.js"></script>
             <script src="js/full_page/support_mixins.js"></script>
 
             <script async src="js/full_page/page-navbar.js"></script>
@@ -78,17 +65,21 @@
             <script async src="js/full_page/page-wrapper/sidebar.js"></script>
 
             <script async src="js/full_page/page-wrapper/main_content/support_components/scrolling_table.js"></script>
-            <script async src="js/full_page/page-wrapper/main_content/support_components/text_number_email_select_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/support_components/select_checkbox_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/support_components/text_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/support_components/number_input.js"></script>
             <script async src="js/full_page/page-wrapper/main_content/support_components/date_input.js"></script>
             <script async src="js/full_page/page-wrapper/main_content/support_components/row_group.js"></script>
 
-            <script async src="js/full_page/page-wrapper/main_content/1_overview.js"></script>
-            <script async src="js/full_page/page-wrapper/main_content/2_user_input.js"></script>
-            <script async src="js/full_page/page-wrapper/main_content/3_import_export.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/overview.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/user_input.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/import_export.js"></script>
+            <script async src="js/full_page/page-wrapper/main_content/add_edit.js"></script>
 
             <script src="js/full_page.js"></script>
 
             <script async src="js/setup.js"></script>
+
 
 
         </footer>

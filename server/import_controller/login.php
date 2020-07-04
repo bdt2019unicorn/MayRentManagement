@@ -11,5 +11,9 @@
 			`password`= '". $data->password . "'; 
 	"; 
 	$data = Connect::GetData($sql); 
-	echo (count($data)>0)? true: false;
+
+	if(isset($data[0]["id"]))
+	{
+		echo $data[0]["id"]; 
+	}
 ?>
