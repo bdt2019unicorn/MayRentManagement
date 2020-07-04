@@ -103,43 +103,21 @@ var date_group = Vue.component
             DateRangeValid()
             {
                 return this.big_value>this.small_value; 
-            },
-            ValidityState()
-            {
-                if(this.date_data.small_date.required && this.date_data.big_date.required)
-                {
-                    return (this.ValidObject(this.date_required)&&this.DateRangeValid); 
-                }
-                else if(this.big_value && this.small_value)
-                {
-                    return this.DateRangeValid; 
-                }
-                return this.ValidObject(this.date_required); 
             }
         }, 
 
         mounted()
         {
-            // this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
-            this.$emit("input-validation", "date_group", this.name, this.ValidityState); 
+            this.valid = this.Valid(); 
+            this.$emit("input-validation", "date_group", this.name, this.valid); 
         }, 
 
         watch: 
         {
-            ValidityState: function(new_value, old_value)
+            valid: function(new_value, old_value)
             {
-                console.log("valid state changed "); 
-                console.log(new_value, old_value); 
-                this.$emit("input-validation", "date_group", this.name, this.ValidityState); 
+                this.$emit("input-validation", "date_group", this.name, this.valid); 
             }
-            // DateRangeValid: function(new_value, old_value)
-            // {
-            //     this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
-            // }, 
-            // valid: function(new_value, old_value)
-            // {
-            //     this.$emit("input-validation", "date_group", this.name, this.valid); 
-            // }
         }, 
 
         methods: 
@@ -160,12 +138,16 @@ var date_group = Vue.component
             {
                 this[reference] = new_value; 
                 this.just_started_child = true; 
-                this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
+                this.valid = this.Valid(); 
             }, 
             DateInputValidation(data_field, name, boolean)
             {
                 this[data_field][name] = boolean; 
-                this.valid = (this.ValidObject(this.date_required)&&this.DateRangeValid); 
+                this.valid = this.Valid(); 
+            }, 
+            Valid()
+            {
+                return (this.big_value && this.small_value)? this.DateRangeValid: this.ValidObject(this.date_required); 
             }
         },
 

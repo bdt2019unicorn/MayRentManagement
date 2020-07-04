@@ -1,6 +1,6 @@
-var import_export = Vue.component 
+Vue.component 
 (
-    "ImportExport", 
+    "import-export", 
     {
         data()
         {

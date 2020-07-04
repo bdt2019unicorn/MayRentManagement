@@ -1,4 +1,4 @@
-var side_bar = Vue.component
+Vue.component
 (
     "side-bar", 
     {

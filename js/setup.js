@@ -14,6 +14,7 @@ jQuery
                             state: 
                             {
                                 username: "", 
+                                user_id: 0, 
                                 building_id: "", 
                                 controller: "", 
                                 action: "Overview"
@@ -45,7 +46,7 @@ jQuery
                                     var default_value = 
                                     {
                                         controller: "overview", 
-                                        action: "Overview"
+                                        action: "overview"
                                     }; 
                                     var params_ranking = ["", "building_id", "controller", "action"]; 
                                     let current_search_params = new URLSearchParams(window.location.search); 
@@ -128,6 +129,15 @@ jQuery
                         {
                             param: "username", 
                             value: (sessionStorage.getItem("username"))?sessionStorage.getItem("username"):""
+                        }
+                    ); 
+
+                    store_track.commit
+                    (
+                        "SetStateAuthorize", 
+                        {
+                            param: "user_id", 
+                            value: (sessionStorage.getItem("user_id"))?sessionStorage.getItem("user_id"):""
                         }
                     ); 
                     resolve(); 

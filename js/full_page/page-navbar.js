@@ -1,4 +1,4 @@
-var logo_image = Vue.component
+Vue.component
 (
     "logo-image", 
     {
@@ -12,8 +12,7 @@ var logo_image = Vue.component
     }
 ); 
 
-
-var main_nav_item = Vue.component 
+Vue.component 
 (
     "main-nav-item", 
     {
@@ -61,7 +60,7 @@ var main_nav_item = Vue.component
     }
 ); 
 
-var main_nav_items = Vue.component
+Vue.component
 (
     "main-nav-items", 
     {
@@ -111,7 +110,7 @@ var main_nav_items = Vue.component
                     title="Import Excel Data"
                     v-if="BuildingId && StateController!='overview'"
                     :style="'grid-area: '+grid_area_surfix+'-'+(buildings_data.length+1)+';'"
-                    href='javascript: window.store_track.commit("RedirectUrl",{param: "action", value: "ImportExport"});'
+                    href='javascript: window.store_track.commit("RedirectUrl",{param: "action", value: "import-export"});'
                 >
                     <i class="fas fa-table" style="font-size: xx-large;"></i>
                 </a>

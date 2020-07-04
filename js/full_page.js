@@ -1,4 +1,4 @@
-var page_navbar = Vue.component
+Vue.component
 (
     "page-navbar", 
     {
@@ -17,6 +17,18 @@ var page_navbar = Vue.component
                     }
                 ); 
                 window.store_track.commit("RedirectUrl",{}); 
+            }, 
+            ManageMyAccount()
+            {
+                window.store_track.commit("RedirectUrl",{}); 
+                window.store_track.commit
+                (
+                    "RedirectUrl",
+                    {
+                        param: "controller", 
+                        value: "user"
+                    }
+                ); 
             }
         },
 
@@ -47,7 +59,7 @@ var page_navbar = Vue.component
                             <p>{{Username}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <button class="btn dropdown-item">Manage your Account</button>
+                            <button class="btn dropdown-item" @click="ManageMyAccount">Manage your Account</button>
                             <button class="btn dropdown-item" @click="Logout">Logout</button>
                         </div>
                     </div>
@@ -59,7 +71,7 @@ var page_navbar = Vue.component
     }
 );
 
-var page_wrapper = Vue.component 
+Vue.component 
 (
     "page-wrapper", 
     {
@@ -81,7 +93,7 @@ var page_wrapper = Vue.component
     }
 ); 
 
-var page_administration = Vue.component
+Vue.component
 (
     "page-administration", 
     {
@@ -107,9 +119,18 @@ var page_administration = Vue.component
                                 value: data.username
                             }
                         ); 
+
+                        window.store_track.commit
+                        (                        
+                            "SetStateAuthorize", 
+                            {
+                                param: "user_id", 
+                                value: data.user_id
+                            }
+                        ); 
                         
                         break;
-                    case "register": 
+                    case "user": 
                         this.current_controller = "login"; 
                         break; 
                 }
@@ -142,8 +163,8 @@ var page_administration = Vue.component
                                 </button>
 
                                 <button 
-                                    :class="ItemsClasses('register', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" 
-                                    @click="current_controller='register'"
+                                    :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" 
+                                    @click="current_controller='user'"
                                 >
                                     Register
                                 </button>
@@ -152,7 +173,7 @@ var page_administration = Vue.component
                     </div>
 
                     <div class="card-body">
-                        <UserInput :controller="current_controller" @valid-controller-success="HandleLoginRegister"></UserInput>
+                        <user-input :controller="current_controller" @valid-controller-success="HandleLoginRegister"></user-input>
                     </div>
 
                 </div>
