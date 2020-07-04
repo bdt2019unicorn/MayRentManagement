@@ -3,29 +3,27 @@ Vue.component
     "row-group", 
     {
         props: ["row","just_started_parent", "controller", "index"],
+        mixins: [support_mixin], 
         data() 
         {
             return {
                 date_required: {}, 
                 date_group: {}, 
+                number_minimum_matched: {}, 
                 row_group_valid: true 
             }
         }, 
         mounted() 
         {
-            this.row_group_valid = this.RowGroupValid(); 
-            this.$emit("row-group-mounted", this.index, this.row_group_valid); 
+            this.row_group_valid = (this.ValidObject(this.date_required) && this.ValidObject(this.date_group) && this.ValidObject(this.number_minimum_matched)); 
+            this.$emit("row-group-validation", this.index, this.row_group_valid); 
         },
         methods: 
         {
-            RowGroupValid()
-            {
-                return (Object.values(this.date_required).length>0)?!(Object.values(this.date_required).includes(false)): true; 
-            }, 
-            DateInputValidation(data_field, name, boolean)
+            InputValidation(data_field, name, boolean)
             {
                 this[data_field][name] = boolean; 
-                this.row_group_valid = this.RowGroupValid(); 
+                this.row_group_valid = (this.ValidObject(this.date_required) && this.ValidObject(this.date_group) && this.ValidObject(this.number_minimum_matched)); 
             }
         },
         watch: 
@@ -50,7 +48,7 @@ Vue.component
                     v-bind="col"
                     :just_started_parent="just_started_parent"
                     :controller="controller"
-                    @date-input-validation="DateInputValidation"
+                    @input-validation="InputValidation"
                 >
                 </component>
 

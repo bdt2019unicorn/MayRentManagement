@@ -70,14 +70,12 @@
                     {
                         "name": "deposit_payment_date",
                         "title": "Deposit Payment Date",
-                        "required": true,
                         "message": "The deposite payment date should be before the deposite payback date"
                     },
                     "big_date":
                     {
                         "name": "deposit_payback_date",
                         "title": "Deposit Payback Date",
-                        "required": true,
                         "message": "The deposite payback date should be after the deposite payment date"
                     }
                 }

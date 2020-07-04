@@ -48,8 +48,7 @@ Vue.component
             {
                 return (
                     $(this.$refs["action_form"]).valid() && 
-                    (!Object.values(this.row_valid).includes(false)) && 
-                    window.store_track.state.validation.date_group_valid
+                    this.ValidObject(this.row_valid)
                 ); 
             }, 
             RowGroupValidation(index, validation)
