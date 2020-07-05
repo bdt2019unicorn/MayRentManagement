@@ -7,7 +7,8 @@
 		FROM `revenue`, `revenue_type`,`apartment` 
 		WHERE 
 			`revenue`.`Revenue_type_id` = `revenue_type`.`id` AND 
-		    `revenue`.`apartment_id` = `apartment`.`id`; 
+		    `revenue`.`apartment_id` = `apartment`.`id` AND 
+		    `apartment`.`building_id` = '{$_GET['building_id']}';  
 	"; 
 	GetDataGeneral($sql); 
 ?>

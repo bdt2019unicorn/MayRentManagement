@@ -94,6 +94,8 @@
 	"; 
 
 	$raw_table = Connect::GetData($sql); 
+	// id is the apartment id 
+	// Tenant_ID is the tenant id 
 
 	$column_match = array
 	(
@@ -103,7 +105,8 @@
 		'Rental Status Value'=>'Rental Status Value', 
 		'Paid Until'=>'Paid Until', 
 		'Paid Until Value'=>'Paid Until Value', 
-		'tenantname'=> 'Tenant Name'
+		'tenantname'=> 'Tenant Name', 
+		'tenantid' => 'tenantid'
 	);
 
 	$table = array(); 
