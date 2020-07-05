@@ -1,4 +1,4 @@
 <?php 
 	require_once("./general.php"); 
-	GetDataFromTable("apartment"); 
+	GetDataFromTable("apartment", $_GET);
 ?>

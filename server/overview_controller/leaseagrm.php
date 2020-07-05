@@ -9,8 +9,10 @@
 		FROM `leaseagrm`, `apartment`, `tenant`
 		WHERE 
 			`leaseagrm`.`apartment_id` = `apartment`.`id` AND 
-		    `leaseagrm`.`Tenant_ID` = `tenant`.`id`; 
+		    `leaseagrm`.`Tenant_ID` = `tenant`.`id` AND 
+		    `apartment`.`building_id` = '{$_GET['building_id']}'; 
 	"; 
 
 	GetDataGeneral($sql); 
+
 ?>

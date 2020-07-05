@@ -1,9 +1,14 @@
 {
-    "hidden_columns": ["Rental Status Value", "Paid Until Value"], 
+    "hidden_columns": ["Rental Status Value", "Paid Until Value", "tenantid"], 
     "sort": 
     {
         "Rental Status": "Rental Status Value", 
         "Paid Until": "Paid Until Value"
     }, 
-    "search": ["Apartment Name"]
+    "search": ["Apartment Name"], 
+    "hyperlink": 
+    {
+        "Apartment Name": "Apartment ID", 
+        "Tenant Name": "tenantid"
+    }
 }
