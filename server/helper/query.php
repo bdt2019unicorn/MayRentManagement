@@ -30,7 +30,7 @@
         	return $sql; 
         }
 
-        static private function Where($conditions)
+        static public function Where($conditions)
         {
             $sql = "WHERE "; 
             foreach ($conditions as $key => $value) 
