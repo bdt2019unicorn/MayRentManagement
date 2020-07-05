@@ -173,7 +173,7 @@ Vue.component
                     </div>
 
                     <div class="card-body">
-                        <user-input :controller="current_controller" @valid-controller-success="HandleLoginRegister"></user-input>
+                        <add :controller="current_controller" @authorize-controller-success="HandleLoginRegister"></add>
                     </div>
 
                 </div>

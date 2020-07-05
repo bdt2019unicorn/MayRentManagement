@@ -1,9 +1,66 @@
+var add_edit_mixin = 
+{
+    mixins: [support_mixin], 
+    computed: 
+    {
+        FormId()
+        {
+            return (this.object_id)?`${this.CurrentController}_id_${this.object_id}`:this.CurrentController; 
+        }, 
+        CurrentController()
+        {
+            return ((this.controller)?this.controller:this.StateController); 
+        }
+    },
+    methods: 
+    {
+        PopulateFormField()
+        {
+            var data = this.AjaxRequest(`server/user_input_controller/${this.CurrentController}.json`); 
+            try 
+            {
+                this.form = data.form; 
+                this.title = (this.form_title)?this.form_title: (this.controller)? data.title :this.title+data.title; 
+                this.validate = (data.validate)?data.validate:this.validate; 
+            } 
+            catch
+            {
+                this.form = []; 
+                this.title ="Edit "; 
+            }
+        }, 
+        SubmitData(url, data)
+        {
+            var form_data = new FormData(); 
+            form_data.append("edit", JSON.stringify(data)); 
+            return this.AjaxRequest(url,form_data, "post");
+        }
+    },
+    watch: 
+    {
+        CurrentController: function(new_value, old_value)
+        {
+            this.PopulateFormField(); 
+        }   
+    },
+    template: 
+    `
+        <user-input 
+            v-bind="$data" 
+            :id="FormId"
+            @form-information-valid="SubmitForm"
+        ></user-input>
+    `
+}
+
+
+
 Vue.component
 (
     "add", 
     {
         props: ["controller"], 
-        mixins: [support_mixin], 
+        mixins: [add_edit_mixin], 
         data()
         {
             return {
@@ -12,10 +69,33 @@ Vue.component
                 validate: {} 
             }
         }, 
-        template: 
-        `
-
-        `
+        methods: 
+        {
+            SubmitForm(data)
+            {
+                let result = this.ImportData([data], this.controller); 
+                if(Number(result))
+                {
+                    alert(this.title+" Success!"); 
+                    $(`#${this.FormId}`).trigger("reset"); 
+                    if(this.controller)
+                    {
+                        data["user_id"] = Number(result); 
+                        this.$emit("authorize-controller-success", this.controller, data); 
+                        return; 
+                    }
+                    window.location.reload(); 
+                }
+                else
+                {
+                    alert(this.title+" Fails, please try again!"); 
+                }
+            }    
+        },
+        created() 
+        {
+            this.PopulateFormField(); 
+        },
     }
 ); 
 
@@ -26,7 +106,7 @@ Vue.component
     "edit", 
     {
         props: ["object_id", "form_title"], 
-        mixins: [support_mixin], 
+        mixins: [add_edit_mixin], 
         data()
         {
             return {
@@ -37,21 +117,6 @@ Vue.component
         }, 
         methods: 
         {
-            PopulateFormField()
-            {
-                var data = this.AjaxRequest(`server/user_input_controller/${this.StateController}.json`); 
-                try 
-                {
-                    this.form = data.form; 
-                    this.title = (this.form_title)?this.form_title: this.title+data.title; 
-                    this.validate = (data.validate)?data.validate:this.validate; 
-                } 
-                catch
-                {
-                    this.form = []; 
-                    this.title ="Edit "; 
-                }
-            }, 
             ModifyForm()
             {
                 for(var row of this.form)
@@ -69,6 +134,20 @@ Vue.component
                         }
                     }
                 }
+            }, 
+            SubmitForm(data)
+            {
+                var url = `server/edit_controller/${this.CurrentController}.php?id=${this.object_id}`; 
+                var result = this.SubmitData(url,data); 
+                if(Number(result))
+                {
+                    alert("Edit Information success"); 
+                    window.location.reload();
+                }
+                else
+                {
+                    alert("Edit Information fails"); 
+                }
             }
         },
         created() 
@@ -78,13 +157,14 @@ Vue.component
         },
         mounted() 
         {
-            var data = this.AjaxRequest(`server/overview_controller/${this.StateController}.php?id=${this.object_id}`);    
+            var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
+            console.log(data); 
             data = JSON.parse(data); 
             Object.keys(data).forEach
             (
                 property=>
                 {
-                    var input = $(`#${this.StateController}_id_${this.object_id}`).find(`[name="${property}"]`); 
+                    var input = $(`#${this.FormId}`).find(`[name="${property}"]`); 
                     $(input).val(data[property]); 
                     if($(input).attr("type")=="checkbox")
                     {
@@ -92,18 +172,6 @@ Vue.component
                     }
                 }
             ); 
-        },
-        watch: 
-        {
-            StateController: function(new_value, old_value)
-            {
-                this.PopulateFormData(); 
-            }   
-        },
-        template: 
-        `
-            <user-input-test v-bind="$data" :id="StateController+'_id_'+object_id"></user-input-test>
-
-        `
+        }
     }
 ); 
