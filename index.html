@@ -25,8 +25,6 @@
                 >
                 </main-nav-items>
 
-                <!-- <Edit></Edit> -->
-
                 <edit form_title="Edit My Information" :object_id="UserId" v-if="StateController=='user'"></edit>
 
                 <page-wrapper v-if="BuildingId"></page-wrapper>
@@ -35,7 +33,6 @@
             <page-administration v-if="!Username"></page-administration>
 
             <!-- need to work on the hyperlink feature -->
-            <!-- manage for user to be able to change their details  -->
             <!-- able to do both vietnamese and english -->
             <!-- change all apartment, lease agreement, income and expense regarding the building only  -->
 
