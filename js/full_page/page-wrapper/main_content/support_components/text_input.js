@@ -1,27 +1,39 @@
+var text_mixin = 
+{
+    data()
+    {
+        return {
+            input_value:""
+        }
+    }, 
+    mixins: [support_mixin], 
+    mounted() 
+    {
+        if(this.edit_data)
+        {
+            this.input_value = this.edit_data[this.name]; 
+        }    
+    },
+    watch: 
+    {
+        controller: function(new_value, old_value)
+        {
+            this.input_value = ""; 
+        }
+    }, 
+}
+
 Vue.component
 (
     "text-input", 
     {
-        props: ["name", "title", "type", "id", "controller"], 
-        data()
-        {
-            return {
-                input_value:""
-            }
-        }, 
-        mixins: [support_mixin], 
+        props: ["name", "title", "type", "id", "controller", "edit_data"], 
+        mixins: [text_mixin], 
         computed: 
         {
             InputType()
             {
-                return (!this.type)?"text":this.type; 
-            }
-        }, 
-        watch: 
-        {
-            controller: function(new_value, old_value)
-            {
-                this.input_value = ""; 
+                return (this.type)?this.type: "text"; 
             }
         }, 
         template: 
@@ -45,13 +57,6 @@ Vue.component
     "text-group-confirmation", 
     {
         props: ["name", "title", "id", "confirm_name", "confirm_title"], 
-        computed: 
-        {
-            InputType()
-            {
-                return (this.type==undefined)?"text":this.type; 
-            }
-        }, 
         template: 
         `
             <div class="form-group col">
@@ -78,7 +83,8 @@ Vue.component
 (
     "textarea-input", 
     {
-        props: ["name", "title"], 
+        props: ["name", "title", "controller", "edit_data"],
+        mixins: [text_mixin],  
         template: 
         `
             <div class="form-group col">

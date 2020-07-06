@@ -82,7 +82,7 @@ Vue.component
 
             <side-bar></side-bar>
             <div class="main-content">
-                <component :is="StateAction"></component>
+                <component :is="StateAction" :object_id="ObjectId"></component>
             </div>
 
         </div>

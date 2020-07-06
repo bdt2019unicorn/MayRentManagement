@@ -2,7 +2,7 @@ var date_input = Vue.component
 (
     "date-input", 
     {
-        props: ["name", "title", "required", "just_started_parent", "reference", "bad_message"], 
+        props: ["name", "title", "required", "just_started_parent", "reference", "bad_message", "edit_data"], 
         data()
         {
             return {
@@ -30,6 +30,10 @@ var date_input = Vue.component
         }, 
         mounted()
         {
+            if(this.edit_data)
+            {
+                this.date_value = new Date(this.edit_data[this.name]); 
+            }
             this.$emit("input-validation", "date_required", this.name, this.DateRequired); 
         }, 
         watch: 
@@ -81,7 +85,7 @@ var date_group = Vue.component
 (
     "date-group", 
     {
-        props: ["date_data", "name", "just_started_parent"],
+        props: ["date_data", "name", "just_started_parent", "edit_data"],
         mixins: [support_mixin], 
         data()
         {
@@ -160,6 +164,7 @@ var date_group = Vue.component
                         v-bind=date_data.small_date
                         :just_started_parent="JustStarted"
                         :bad_message="BadMessage('small_date')"
+                        :edit_data="edit_data"
                         reference="small_value"
                         @date-value-changed="DateChange"
                         @input-validation="DateInputValidation"
@@ -171,6 +176,7 @@ var date_group = Vue.component
                         v-bind=date_data.big_date
                         :just_started_parent="JustStarted"
                         :bad_message="BadMessage('big_date')"
+                        :edit_data="edit_data"
                         reference="big_value"
                         @date-value-changed="DateChange"
                         @input-validation="DateInputValidation"
