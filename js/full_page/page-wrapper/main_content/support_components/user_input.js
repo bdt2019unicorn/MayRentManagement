@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input", 
     {
-        props: ["title","form", "validate"], 
+        props: ["title","form", "validate", "edit_data"], 
         mixins: [support_mixin], 
         data()
         {
@@ -71,6 +71,7 @@ Vue.component
                         :controller="StateController"
                         :index="index"
                         :key="index"
+                        :edit_data="edit_data"
                         @row-group-validation="RowGroupValidation"
                     >
                     </row-group>

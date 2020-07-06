@@ -3,10 +3,6 @@ var add_edit_mixin =
     mixins: [support_mixin], 
     computed: 
     {
-        FormId()
-        {
-            return (this.object_id)?`${this.CurrentController}_id_${this.object_id}`:this.CurrentController; 
-        }, 
         CurrentController()
         {
             return ((this.controller)?this.controller:this.StateController); 
@@ -47,7 +43,8 @@ var add_edit_mixin =
     `
         <user-input 
             v-bind="$data" 
-            :id="FormId"
+            :id="CurrentController"
+            :edit_data="(this.edit_data)?this.edit_data:undefined"
             @form-information-valid="SubmitForm"
         ></user-input>
     `
@@ -77,7 +74,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert(this.title+" Success!"); 
-                    $(`#${this.FormId}`).trigger("reset"); 
+                    $(`#${this.CurrentController}`).trigger("reset"); 
                     if(this.controller)
                     {
                         data["user_id"] = Number(result); 
@@ -112,7 +109,8 @@ Vue.component
             return {
                 title: "Edit ",
                 form: [], 
-                validate: {} 
+                validate: {}, 
+                edit_data: undefined
             }
         }, 
         methods: 
@@ -148,30 +146,42 @@ Vue.component
                 {
                     alert("Edit Information fails"); 
                 }
+            }, 
+            PopulateDateIntoFields()
+            {
+                var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
+                // data = JSON.parse(data)[0]; 
+                // console.log(data); 
+                this.edit_data = JSON.parse(data)[0];  
+                console.log(this.edit_data); 
+                Object.keys(this.edit_data).forEach
+                (
+                    property=>
+                    {
+                        // var input = $(`#${this.FormId}`).find(`[name="${property}"]`); 
+                        // console.log(input); 
+                        // $(input).val(data[property]); 
+                        // if($(input).attr("type")=="checkbox")
+                        // {
+                        //     $(input).attr("checked", data[property]); 
+                        // }
+                        this.edit_data[property.toLowerCase()] = this.edit_data[property]; 
+                    }
+                ); 
             }
         },
         created() 
         {
             this.PopulateFormField(); 
             this.ModifyForm(); 
+            this.PopulateDateIntoFields(); 
         },
         mounted() 
         {
-            var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
-            console.log(data); 
-            data = JSON.parse(data); 
-            Object.keys(data).forEach
-            (
-                property=>
-                {
-                    var input = $(`#${this.FormId}`).find(`[name="${property}"]`); 
-                    $(input).val(data[property]); 
-                    if($(input).attr("type")=="checkbox")
-                    {
-                        $(input).attr("checked", data[property]); 
-                    }
-                }
-            ); 
+            // this.PopulateFormField(); 
+            // this.ModifyForm(); 
+            // console.log("edit started mounted"); 
+            // this.start_edit = true; 
         }
     }
 ); 

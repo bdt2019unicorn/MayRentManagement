@@ -8,6 +8,6 @@
     $data = Connect::GetDataWithId($id,$table); 
     if(isset($data[0]))
     {
-        echo json_encode($data[0]); 
+        echo json_encode($data); 
     }
 ?>

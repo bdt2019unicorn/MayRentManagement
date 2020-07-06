@@ -15,6 +15,7 @@ jQuery
                             {
                                 username: "", 
                                 user_id: 0, 
+                                object_id: 0, 
                                 building_id: "", 
                                 controller: "", 
                                 action: "Overview"
@@ -48,7 +49,7 @@ jQuery
                                         controller: "overview", 
                                         action: "overview"
                                     }; 
-                                    var params_ranking = ["", "building_id", "controller", "action"]; 
+                                    var params_ranking = ["", "building_id", "controller", "action", "object_id"]; 
                                     let current_search_params = new URLSearchParams(window.location.search); 
                                     let final_search_params = new URLSearchParams(); 
                                     let ranking_index = params_ranking.indexOf(param); 

@@ -2,7 +2,7 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["name", "title", "select_data", "overview_controller", "value", "text", "not_required", "controller"], 
+        props: ["name", "title", "select_data", "overview_controller", "value", "text", "not_required", "controller", "edit_data"], 
         mixins: [support_mixin], 
         data() 
         {
@@ -33,9 +33,16 @@ Vue.component
                 ); 
             }   
         },
+        created() 
+        {
+            this.PopulateSelectData();     
+        },
         mounted() 
         {
-            this.PopulateSelectData(); 
+            if(this.edit_data)
+            {
+                this.selected_value = this.edit_data[this.name]; 
+            }
         },
         watch: 
         {
@@ -70,12 +77,25 @@ Vue.component
 (
     "checkbox-input", 
     {
-        props: ["name", "title"], 
+        props: ["name", "title", "edit_data"], 
+        data()
+        {
+            return {
+                value: undefined
+            }
+        }, 
+        mounted() 
+        {
+            if(this.edit_data)
+            {
+                this.value = this.edit_data[this.name]; 
+            }
+        },
         template: 
         `
             <div class="form-group col">
                 <div class="form-check">
-                    <input :name="name" type="checkbox" class="form-check-input" value="true">
+                    <input :name="name" type="checkbox" class="form-check-input" value="true" :checked="Number(value)">
                     <label :for="name" v-if="title" class="form-check-label"><b>{{title}}</b></label>
                 </div>
             </div>

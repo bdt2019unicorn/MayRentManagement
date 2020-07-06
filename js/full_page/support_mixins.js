@@ -97,6 +97,10 @@ var support_mixin =
         {
             return window.store_track.state.building_id; 
         }, 
+        ObjectId()
+        {
+            return window.store_track.state.object_id; 
+        }, 
         StateController()
         {
             return window.store_track.state.controller; 
