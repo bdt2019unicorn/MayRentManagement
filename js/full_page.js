@@ -44,7 +44,7 @@ Vue.component
 
                 <main-nav-items
                     class="main-nav-items"
-                    v-if="BuildingId"
+                    v-if="StateObject('building_id')"
                     :buildings_data="buildings_data"
                     default_icon="building"
                     :grid_area_surfix="grid_area_surfix"
@@ -56,7 +56,7 @@ Vue.component
                     <div class="btn-group">
                         <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img style="width:5vw;" src="img/logo.jpeg" alt="logo">
-                            <p>{{Username}}</p>
+                            <p>{{StateObject('username')}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <button class="btn dropdown-item" @click="ManageMyAccount">Manage your Account</button>
@@ -82,7 +82,7 @@ Vue.component
 
             <side-bar></side-bar>
             <div class="main-content">
-                <component :is="StateAction" :object_id="ObjectId"></component>
+                <component :is="StateObject('action')" :object_id="StateObject('object_id')"></component>
             </div>
 
         </div>

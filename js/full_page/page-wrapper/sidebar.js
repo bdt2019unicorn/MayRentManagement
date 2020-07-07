@@ -48,7 +48,7 @@ Vue.component
                         
                     >
                         <main-nav-item 
-                            :class="ItemsClasses(item.controller, StateController, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
+                            :class="ItemsClasses(item.controller, StateObject('controller'), ['btn', 'col'], 'btn-warning', 'btn-primary')" 
                             v-bind="item"
                         >
                         </main-nav-item>

@@ -5,7 +5,7 @@ var add_edit_mixin =
     {
         CurrentController()
         {
-            return ((this.controller)?this.controller:this.StateController); 
+            return ((this.controller)?this.controller:this.StateObject('controller')); 
         }
     },
     methods: 
@@ -150,21 +150,11 @@ Vue.component
             PopulateDateIntoFields()
             {
                 var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
-                // data = JSON.parse(data)[0]; 
-                // console.log(data); 
                 this.edit_data = JSON.parse(data)[0];  
-                console.log(this.edit_data); 
                 Object.keys(this.edit_data).forEach
                 (
                     property=>
                     {
-                        // var input = $(`#${this.FormId}`).find(`[name="${property}"]`); 
-                        // console.log(input); 
-                        // $(input).val(data[property]); 
-                        // if($(input).attr("type")=="checkbox")
-                        // {
-                        //     $(input).attr("checked", data[property]); 
-                        // }
                         this.edit_data[property.toLowerCase()] = this.edit_data[property]; 
                     }
                 ); 
@@ -175,13 +165,6 @@ Vue.component
             this.PopulateFormField(); 
             this.ModifyForm(); 
             this.PopulateDateIntoFields(); 
-        },
-        mounted() 
-        {
-            // this.PopulateFormField(); 
-            // this.ModifyForm(); 
-            // console.log("edit started mounted"); 
-            // this.start_edit = true; 
         }
     }
 ); 

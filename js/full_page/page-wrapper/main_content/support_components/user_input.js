@@ -68,7 +68,7 @@ Vue.component
                     <row-group
                         :row="row"
                         :just_started_parent= "just_started_parent"
-                        :controller="StateController"
+                        :controller="StateObject('controller')"
                         :index="index"
                         :key="index"
                         :edit_data="edit_data"

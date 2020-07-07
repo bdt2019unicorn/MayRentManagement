@@ -1,24 +1,11 @@
 var text_mixin = 
 {
-    data()
-    {
-        return {
-            input_value:""
-        }
-    }, 
-    mixins: [support_mixin], 
-    mounted() 
-    {
-        if(this.edit_data)
-        {
-            this.input_value = this.edit_data[this.name]; 
-        }    
-    },
+    mixins: [simple_input_mixin], 
     watch: 
     {
         controller: function(new_value, old_value)
         {
-            this.input_value = ""; 
+            this.value = ""; 
         }
     }, 
 }
@@ -45,7 +32,7 @@ Vue.component
                     :type="InputType"  
                     :name="name" 
                     :id="id"
-                    v-model="input_value"
+                    v-model="value"
                 >
             </div>
         `
@@ -89,7 +76,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
-                <textarea class="form-control" :name="name">
+                <textarea class="form-control" :name="name" v-model="value">
                 </textarea>
             </div>
         `

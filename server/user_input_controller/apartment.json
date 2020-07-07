@@ -13,7 +13,7 @@
                 "name": "building_id",
                 "title": "Building",
                 "overview_controller": "buildings",
-                "value": "id",
+                "select_value": "id",
                 "text": "name"
             }
         ],
@@ -21,29 +21,22 @@
             {
                 "component": "number-input",
                 "name": "area",
-                "title": "Area", 
-                "min": 0
+                "title": "Area"
             },
             {
                 "component": "number-input",
                 "name": "number_of_bedrooms",
-                "title": "Number of Bedrooms", 
-                "min": 0, 
-                "decimal_places": 0
+                "title": "Number of Bedrooms"
             },
             {
                 "component": "number-input",
                 "name": "number_of_bathroom",
-                "title": "Number of Bathrooms", 
-                "min": 0, 
-                "decimal_places": 0
+                "title": "Number of Bathrooms"
             },
             {
                 "component": "number-input",
                 "name": "number_of_windows",
-                "title": "Number of Windows", 
-                "min": 0, 
-                "decimal_places": 0
+                "title": "Number of Windows"
             }
         ], 
         [
@@ -59,7 +52,26 @@
         "rules":
         {
             "name": "required",
-            "building_id": "required"
+            "building_id": "required", 
+            "area": 
+            {
+                "number_input_min": 0
+            }, 
+            "number_of_bedrooms": 
+            {
+                "number_input_min": 0, 
+                "number_input_integer": true 
+            }, 
+            "number_of_bathroom": 
+            {
+                "number_input_min": 0, 
+                "number_input_integer": true 
+            }, 
+            "number_of_windows": 
+            {
+                "number_input_min": 0, 
+                "number_input_integer": true 
+            }
         }
     }
 }
