@@ -2,7 +2,7 @@ var date_input = Vue.component
 (
     "date-input", 
     {
-        props: ["name", "title", "required", "just_started_parent", "reference", "bad_message", "edit_data"], 
+        props: ["bad_message", "edit_data", "just_started_parent", "name", "reference", "required", "title"], 
         data()
         {
             return {
@@ -85,7 +85,7 @@ var date_group = Vue.component
 (
     "date-group", 
     {
-        props: ["date_data", "name", "just_started_parent", "edit_data"],
+        props: ["date_data", "edit_data", "just_started_parent", "name"],
         mixins: [support_mixin], 
         data()
         {

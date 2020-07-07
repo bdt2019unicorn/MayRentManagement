@@ -2,7 +2,7 @@ Vue.component
 (
     "row-group", 
     {
-        props: ["row","just_started_parent", "controller", "index", "edit_data"],
+        props: ["controller", "edit_data", "index", "just_started_parent", "row"],
         mixins: [support_mixin], 
         data() 
         {

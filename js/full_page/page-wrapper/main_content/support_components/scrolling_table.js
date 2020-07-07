@@ -2,7 +2,7 @@ Vue.component
 (
     "a-sort-table", 
     {
-        props: ["text", "index"], 
+        props: ["index", "text"], 
         data()
         {
             return {
@@ -50,7 +50,7 @@ Vue.component
 (
     "scrolling-table", 
     {
-        props: ["tb_style", "table_data", "table_actions"], 
+        props: ["table_actions", "table_data", "tb_style"], 
         mixins: [support_mixin], 
         data() 
         {

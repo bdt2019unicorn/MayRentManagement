@@ -102,7 +102,7 @@ Vue.component
 (
     "edit", 
     {
-        props: ["object_id", "form_title"], 
+        props: ["form_title", "object_id"], 
         mixins: [add_edit_mixin], 
         data()
         {
