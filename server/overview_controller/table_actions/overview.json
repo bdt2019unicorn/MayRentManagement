@@ -8,7 +8,15 @@
     "search": ["Apartment Name"], 
     "hyperlink": 
     {
-        "Apartment Name": "Apartment ID", 
-        "Tenant Name": "tenantid"
+        "Apartment Name":
+        {
+            "controller": "apartment", 
+            "object_id": "Apartment ID"
+        }, 
+        "Tenant Name":
+        {
+            "controller": "tenant", 
+            "object_id": "tenantid"
+        }
     }
 }
