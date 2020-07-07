@@ -52,8 +52,8 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <select :name="name" class="form-control" v-model="selected_value">
-                    <option v-if="options.length>0" v-show="not_required&&selected_value" value selected></option>
+                <select :name="name" class="form-control" v-model="value">
+                    <option v-if="options.length>0" v-show="not_required&&value" value selected></option>
                     <option
                         v-for="option in options"
                         :value="option.value"
