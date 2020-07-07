@@ -16,7 +16,7 @@ Vue.component
 (
     "main-nav-item", 
     {
-        props: ["icon", "name", "id", "index", "grid_area_surfix", "controller"], 
+        props: ["controller", "grid_area_surfix", "icon", "id", "index", "name"], 
         mixins: [support_mixin], 
         computed: 
         {

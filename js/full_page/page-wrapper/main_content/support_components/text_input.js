@@ -14,7 +14,7 @@ Vue.component
 (
     "text-input", 
     {
-        props: ["name", "title", "type", "id", "controller", "edit_data"], 
+        props: ["controller", "edit_data", "id", "name", "title", "type"], 
         mixins: [text_mixin], 
         computed: 
         {
@@ -43,7 +43,7 @@ Vue.component
 (
     "text-group-confirmation", 
     {
-        props: ["name", "title", "id", "confirm_name", "confirm_title"], 
+        props: ["confirm_name", "confirm_title", "id", "name", "title"], 
         template: 
         `
             <div class="form-group col">
@@ -70,7 +70,7 @@ Vue.component
 (
     "textarea-input", 
     {
-        props: ["name", "title", "controller", "edit_data"],
+        props: ["controller", "edit_data", "name", "title"],
         mixins: [text_mixin],  
         template: 
         `

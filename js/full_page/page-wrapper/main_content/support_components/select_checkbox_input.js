@@ -2,7 +2,7 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["name", "title", "select_data", "overview_controller", "select_value", "text", "not_required", "controller", "edit_data"], 
+        props: ["controller", "edit_data", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
         mixins: [edit_mixin], 
         data() 
         {
@@ -70,7 +70,7 @@ Vue.component
 (
     "checkbox-input", 
     {
-        props: ["name", "title", "edit_data"], 
+        props: ["edit_data", "name", "title"], 
         mixins: [edit_mixin], 
         data()
         {

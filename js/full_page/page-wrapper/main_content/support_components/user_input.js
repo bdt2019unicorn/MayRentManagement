@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input", 
     {
-        props: ["title","form", "validate", "edit_data"], 
+        props: ["edit_data", "form", "title", "validate"], 
         mixins: [support_mixin], 
         data()
         {
