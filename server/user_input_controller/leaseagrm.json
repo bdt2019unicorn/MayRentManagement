@@ -13,7 +13,7 @@
                 "name": "tenant_id",
                 "title": "Tenant",
                 "overview_controller": "tenant",
-                "value": "id",
+                "select_value": "id",
                 "text": "full_name"
             },
             {
@@ -21,7 +21,7 @@
                 "name": "apartment_id",
                 "title": "Apartment",
                 "overview_controller": "apartment",
-                "value": "id",
+                "select_value": "id",
                 "text": "name"
             }
         ],
@@ -52,14 +52,12 @@
             {
                 "component": "number-input",
                 "name": "rent_amount",
-                "title": "Rent Amount", 
-                "min": 0 
+                "title": "Rent Amount"
             },
             {
                 "component": "number-input",
                 "name": "deposit_amount",
-                "title": "Deposit Amount", 
-                "min": 0 
+                "title": "Deposit Amount"
             }
         ],
         [
@@ -87,9 +85,7 @@
             {
                 "component": "number-input",
                 "name": "monthly_payment_date",
-                "title": "Monthly Payment Date",
-                "maximum_value": 28,
-                "decimal_places": 0
+                "title": "Monthly Payment Date"
             },
             {
                 "component": "text-input",
@@ -99,9 +95,7 @@
             {
                 "component": "number-input",
                 "name": "deposit_exchange_rate",
-                "title": "Deposit Exchange Rate",
-                "decimal_places": 6, 
-                "min": 0 
+                "title": "Deposit Exchange Rate"
             }
         ]
     ],
@@ -112,14 +106,26 @@
             "name": "required",
             "tenant_id": "required",
             "apartment_id": "required",
-            "rent_amount": "required", 
-            "deposit_amount": "required", 
+            "rent_amount": 
+            {
+                "required": true, 
+                "number_input_min": 0 
+            }, 
+            "deposit_amount":
+            {
+                "required": true, 
+                "number_input_min": 0 
+            },  
             "monthly_payment_date":
             {
                 "required": true,
                 "step": 1,
                 "min": 1,
                 "max": 28
+            }, 
+            "deposit_exchange_rate": 
+            {
+                "number_input_min": 0 
             }
         }
     }

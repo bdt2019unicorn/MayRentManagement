@@ -49,7 +49,7 @@ Vue.component
         template: 
         `
             <a 
-                :class="ItemsClasses(id, BuildingId, ['btn'], 'btn-warning', 'btn-primary')" 
+                :class="ItemsClasses(id, StateObject('building_id'), ['btn'], 'btn-warning', 'btn-primary')" 
                 :style="ItemStyle" 
                 :href="Href"
             >
@@ -108,7 +108,7 @@ Vue.component
                 <a 
                     class="btn btn-success" 
                     title="Import Excel Data"
-                    v-if="BuildingId && StateController!='overview'"
+                    v-if="StateObject('building_id') && StateObject('controller')!='overview'"
                     :style="'grid-area: '+grid_area_surfix+'-'+(buildings_data.length+1)+';'"
                     href='javascript: window.store_track.commit("RedirectUrl",{param: "action", value: "import-export"});'
                 >

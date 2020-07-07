@@ -18,7 +18,7 @@ var overview_component = Vue.component
         {
             PopulateData()
             {
-                this.table_data = this.TableData(this.StateController); 
+                this.table_data = this.TableData(this.StateObject('controller')); 
                 this.search_data = this.SearchData(); 
             }, 
             TableActions(controller)
@@ -29,7 +29,7 @@ var overview_component = Vue.component
             Search()
             {
                 let data = $(this.$refs['search_form']).serializeObject(); 
-                let overview_data = this.TableData(this.StateController); 
+                let overview_data = this.TableData(this.StateObject('controller')); 
                 if(data['search_value'])
                 {
                     this.table_data = []; 
@@ -74,7 +74,7 @@ var overview_component = Vue.component
             }, 
             SearchData()
             {
-                var search_columns = this.TableActions(this.StateController).search; 
+                var search_columns = this.TableActions(this.StateObject('controller')).search; 
                 if(search_columns)
                 {
                     var search_data = []; 
@@ -110,11 +110,11 @@ var overview_component = Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>{{CapitalizeFirstWord(StateController)}}</h1>
+                <h1>{{CapitalizeFirstWord(StateObject('controller'))}}</h1>
                 <div class="row">
                     <form 
                         class="container-fluid row col"
-                        v-if="search_data && (TableData(StateController).length>0)"
+                        v-if="search_data && (TableData(StateObject('controller')).length>0)"
                         ref="search_form"
                         @submit.prevent="Search"
                     >
@@ -123,7 +123,7 @@ var overview_component = Vue.component
                             name='search_category' 
                             v-if="search_data.length>0"
                             :select_data="search_data" 
-                            value="value"
+                            select_value="value"
                             text="text"
                             not_required="false"
                         ></select-input>
@@ -132,7 +132,7 @@ var overview_component = Vue.component
                         </div>
                     </form>
 
-                    <div class="col-5 row" v-if="StateController!='overview'">
+                    <div class="col-5 row" v-if="StateObject('controller')!='overview'">
 
                         <div class="col text-right">
                             <button class="btn btn-danger" type="button">Delete</button>
@@ -155,7 +155,7 @@ var overview_component = Vue.component
                 <scrolling-table
                     class="row"
                     :table_data="table_data"
-                    :table_actions="TableActions(StateController)"
+                    :table_actions="TableActions(StateObject('controller'))"
                 ></scrolling-table>
             </div>
         `

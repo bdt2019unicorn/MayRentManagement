@@ -13,7 +13,7 @@
                 "name": "expense_type_id",
                 "title": "Type",
                 "overview_controller": "expense_type",
-                "value": "id",
+                "select_value": "id",
                 "text": "name"
             }
         ],
@@ -51,14 +51,13 @@
                 "name": "apartment_id",
                 "title": "Apartment",
                 "overview_controller": "apartment",
-                "value": "id",
+                "select_value": "id",
                 "text": "name"
             },
             {
                 "component": "number-input",
                 "name": "amount",
-                "title": "Amount", 
-                "min": 0 
+                "title": "Amount"
             }
         ],
         [
@@ -76,7 +75,11 @@
             "name": "required",
             "expense_type_id": "required",
             "apartment_id": "required",
-            "amount": "required"
+            "amount":
+            {
+                "required": true, 
+                "number_input_min": 0 
+            } 
         }
     }
 }

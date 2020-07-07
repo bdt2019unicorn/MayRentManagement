@@ -2,20 +2,20 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["name", "title", "select_data", "overview_controller", "value", "text", "not_required", "controller", "edit_data"], 
-        mixins: [support_mixin], 
+        props: ["name", "title", "select_data", "overview_controller", "select_value", "text", "not_required", "controller", "edit_data"], 
+        mixins: [edit_mixin], 
         data() 
         {
             return {
                 options: [], 
-                selected_value: undefined
+                value: undefined
             }
         }, 
         methods: 
         {
             PopulateSelectData()
             {
-                this.selected_value = undefined; 
+                this.value = undefined; 
                 var select_data = (this.select_data)?this.select_data: this.TableData(this.overview_controller);
                 this.options = []; 
                 select_data.forEach
@@ -36,13 +36,6 @@ Vue.component
         created() 
         {
             this.PopulateSelectData();     
-        },
-        mounted() 
-        {
-            if(this.edit_data)
-            {
-                this.selected_value = this.edit_data[this.name]; 
-            }
         },
         watch: 
         {
@@ -78,19 +71,13 @@ Vue.component
     "checkbox-input", 
     {
         props: ["name", "title", "edit_data"], 
+        mixins: [edit_mixin], 
         data()
         {
             return {
                 value: undefined
             }
         }, 
-        mounted() 
-        {
-            if(this.edit_data)
-            {
-                this.value = this.edit_data[this.name]; 
-            }
-        },
         template: 
         `
             <div class="form-group col">

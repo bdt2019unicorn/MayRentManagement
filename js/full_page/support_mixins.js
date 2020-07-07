@@ -65,7 +65,7 @@ var support_mixin =
         {
             var data = new FormData(); 
             data.append("excel",JSON.stringify(excel_data)); 
-            controller = (controller)?controller: this.StateController; 
+            controller = (controller)?controller: this.StateObject('controller'); 
             var url = `server/import_controller/${controller}.php`; 
             return this.AjaxRequest(url, data, "post"); 
         }, 
@@ -81,33 +81,44 @@ var support_mixin =
         ValidObject(object)
         {
             return !(Object.values(object).includes(false));
+        }, 
+        StateObject(state_property)
+        {
+            return window.store_track.state[state_property]; 
         }
     }, 
     computed: 
     {
-        Username()
-        {
-            return window.store_track.state.username; 
-        }, 
-        UserId()
-        {
-            return window.store_track.state.user_id; 
-        }, 
         BuildingId()
         {
             return window.store_track.state.building_id; 
         }, 
-        ObjectId()
-        {
-            return window.store_track.state.object_id; 
-        }, 
         StateController()
         {
             return window.store_track.state.controller; 
-        }, 
-        StateAction()
-        {
-            return window.store_track.state.action; 
-        } 
+        }
     },
+}; 
+
+var edit_mixin = 
+{
+    mixins: [support_mixin], 
+    mounted() 
+    {
+        if(this.edit_data)
+        {
+            this.value = this.edit_data[this.name]; 
+        }    
+    }
+}; 
+
+var simple_input_mixin = 
+{
+    mixins: [edit_mixin], 
+    data()
+    {
+        return {
+            value:""
+        }
+    } 
 }
