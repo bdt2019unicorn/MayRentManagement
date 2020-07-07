@@ -94,8 +94,7 @@
 	"; 
 
 	$raw_table = Connect::GetData($sql); 
-	// id is the apartment id 
-	// Tenant_ID is the tenant id 
+
 
 	$column_match = array
 	(
@@ -131,9 +130,21 @@
 			$row[$ocupant_title] = substr_replace($row[$ocupant_title], '', strrpos($row[$ocupant_title], ','), 1); 
 		}
 
-		array_push($table, $row); 
-	}
 
+		$CheckElementInArray = function($row, &$table)
+		{
+			for ($i=0; $i < count($table) ; $i++) 
+			{ 
+				if($table[$i]==$row)
+				{
+					return; 
+				}
+			}
+			array_push($table, $row); 
+		}; 
+
+		$CheckElementInArray($row, $table); 
+	}
 	echo json_encode($table);
 ?>
 
