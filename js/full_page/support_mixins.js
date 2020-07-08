@@ -41,7 +41,7 @@ var support_mixin =
                 return []; 
             }          
         }, 
-        SpecialColumnsIndexes(action)
+        SpecialColumnsIndexes(action, supper_special=true)
         {
             try 
             {
@@ -51,7 +51,14 @@ var support_mixin =
                 (   
                     element => 
                     {
-                        index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
+                        if(supper_special)
+                        {
+                            index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
+                        }
+                        else 
+                        {
+                            index_object[element] = this.thead[element]; 
+                        }
                     }
                 );
                 return index_object; 

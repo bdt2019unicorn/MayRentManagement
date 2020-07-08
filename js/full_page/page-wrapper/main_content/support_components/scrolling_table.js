@@ -18,6 +18,34 @@ Vue.component
 
         methods: 
         {
+            HyperlinkObject(index, row)
+            {
+                
+                BindingKeys = ()=>
+                {
+                    var special_columns = this.table_actions["hyperlink"];
+                    var keys = Object.keys(special_columns); 
+                    for(var i=0; i<keys.length; i++)
+                    {
+                        if(this.thead[keys[i]]==index)
+                        {
+                            return special_columns[keys[i]]; 
+                        }
+                    }
+                }
+
+                HyperlinkObjectId = (hyperlink_object)=>
+                {
+                    let row_index = this.thead[hyperlink_object["object_id"]]; 
+                    return row[row_index]; 
+                }
+
+                let hyperlink_object = BindingKeys(); 
+                return {
+                    controller: hyperlink_object.controller, 
+                    object_id: HyperlinkObjectId(hyperlink_object)
+                }; 
+            }, 
             SetupTable()
             {
                 THead = ()=>
@@ -106,6 +134,25 @@ Vue.component
             }
         },
 
+        computed: 
+        {
+            Hyperlink()
+            {
+                // var hyperlink = {}; 
+                // var special_columns = this.table_actions["hyperlink"];
+                // console.log(Object.keys(special_columns)); 
+                // Object.keys(special_columns).forEach
+                // (
+                //     key=>
+                //     {
+                //         hyperlink[key] = this.thead[key]; 
+                //     }
+                // ); 
+                // return hyperlink; 
+                return this.SpecialColumnsIndexes("hyperlink", false); 
+            }    
+        },
+
         watch: 
         {
             table_data: function()
@@ -149,7 +196,15 @@ Vue.component
                                 :key="index-1"
                                 v-if='!Object.values(SpecialColumnsIndexes("hidden_columns")).includes(index-1)'
                             >
-                                {{row[index-1]}}
+                                <template v-if='Object.values(Hyperlink).includes(index-1)'>
+                                    <a-hyperlink 
+                                        v-bind="HyperlinkObject(index-1, row)"
+                                        :text="row[index-1]"
+                                    ></a-hyperlink>
+                                </template>
+                                <template v-else>
+                                    {{row[index-1]}}
+                                </template>
                             </td>
                         </tr>
                     </tbody>
