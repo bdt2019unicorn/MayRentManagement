@@ -1,5 +1,16 @@
 var support_mixin = 
 {
+    computed: 
+    {
+        BuildingId()
+        {
+            return window.store_track.state.building_id; 
+        }, 
+        StateController()
+        {
+            return window.store_track.state.controller; 
+        }
+    },
     methods: 
     {
         AjaxRequest(url, data=new FormData(), type="get") 
@@ -41,33 +52,7 @@ var support_mixin =
                 return []; 
             }          
         }, 
-        SpecialColumnsIndexes(action, supper_special=true)
-        {
-            try 
-            {
-                var special_columns = this.table_actions[action];
-                var index_object = {}; 
-                Object.keys(special_columns).forEach
-                (   
-                    element => 
-                    {
-                        if(supper_special)
-                        {
-                            index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
-                        }
-                        else 
-                        {
-                            index_object[element] = this.thead[element]; 
-                        }
-                    }
-                );
-                return index_object; 
-            }
-            catch
-            {
-                return {}; 
-            }
-        }, 
+
         ImportData(excel_data, controller=undefined)
         {
             var data = new FormData(); 
@@ -81,10 +66,6 @@ var support_mixin =
             based_classes.push((item_value==compared_value)?good_class: bad_class); 
             return based_classes; 
         }, 
-        CapitalizeFirstWord(string)
-        {
-            return string[0].toUpperCase() +  string.slice(1); 
-        }, 
         ValidObject(object)
         {
             return !(Object.values(object).includes(false));
@@ -93,18 +74,7 @@ var support_mixin =
         {
             return window.store_track.state[state_property]; 
         }
-    }, 
-    computed: 
-    {
-        BuildingId()
-        {
-            return window.store_track.state.building_id; 
-        }, 
-        StateController()
-        {
-            return window.store_track.state.controller; 
-        }
-    },
+    } 
 }; 
 
 var edit_mixin = 

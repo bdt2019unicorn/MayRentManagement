@@ -2,6 +2,7 @@ Vue.component
 (
     "side-bar", 
     {
+        mixins: [support_mixin], 
         data()
         {
             return {
@@ -35,7 +36,6 @@ Vue.component
                 ]
             }
         }, 
-        mixins: [support_mixin], 
         template: 
         `
             <div class="side-bar">

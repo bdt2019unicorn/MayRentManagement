@@ -97,13 +97,13 @@ Vue.component
 (
     "page-administration", 
     {
+        mixins: [support_mixin], 
         data()
         {
             return {
                 current_controller: "login"
             }
         }, 
-        mixins: [support_mixin], 
         methods: 
         {
             HandleLoginRegister(controller, data)
@@ -192,11 +192,11 @@ function PageElements()
     (
         {
             el: "#full_page", 
+            mixins:[support_mixin], 
             data: 
             {
                 buildings_data: []
             }, 
-            mixins:[support_mixin], 
             created() 
             {
                 this.buildings_data = this.TableData("buildings"); 
