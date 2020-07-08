@@ -12,19 +12,19 @@ Vue.component
             }
         }, 
         methods: 
-        {        
-            PopulateFormValidation()
-            {
-                $(this.$refs["action_form"]).trigger("reset"); 
-                $(this.$refs["action_form"]).validate().destroy(); 
-                $(this.$refs["action_form"]).validate(this.validate); 
-            }, 
+        {    
             FormValid()
             {
                 return (
                     $(this.$refs["action_form"]).valid() && 
                     this.ValidObject(this.row_valid)
                 ); 
+            },     
+            PopulateFormValidation()
+            {
+                $(this.$refs["action_form"]).trigger("reset"); 
+                $(this.$refs["action_form"]).validate().destroy(); 
+                $(this.$refs["action_form"]).validate(this.validate); 
             }, 
             RowGroupValidation(index, validation)
             {
@@ -41,20 +41,17 @@ Vue.component
                 this.$emit("form-information-valid", data); 
             }
         },
-
+        mounted()
+        {
+            this.PopulateFormValidation(); 
+        }, 
         watch: 
         {
             title: function(new_value, old_value)
             {
                 this.PopulateFormValidation(); 
             }   
-        },
-
-        mounted()
-        {
-            this.PopulateFormValidation(); 
         }, 
-
         template: 
         `
             <form 

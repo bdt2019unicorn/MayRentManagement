@@ -15,7 +15,13 @@ Vue.component
         {
             this.SetupTable();   
         }, 
-
+        computed: 
+        {
+            Hyperlink()
+            {
+                return this.SpecialColumnsIndexes("hyperlink", false); 
+            }    
+        },
         methods: 
         {
             HyperlinkObject(index, row)
@@ -131,28 +137,35 @@ Vue.component
                     return items;
                 }
                 this.tbody = QuickSort(this.tbody, 0, this.tbody.length-1).reverse(); 
+            }, 
+            SpecialColumnsIndexes(action, supper_special=true)
+            {
+                try 
+                {
+                    var special_columns = this.table_actions[action];
+                    var index_object = {}; 
+                    Object.keys(special_columns).forEach
+                    (   
+                        element => 
+                        {
+                            if(supper_special)
+                            {
+                                index_object[(this.thead[element])?element:special_columns[element]] = this.thead[special_columns[element]]; 
+                            }
+                            else 
+                            {
+                                index_object[element] = this.thead[element]; 
+                            }
+                        }
+                    );
+                    return index_object; 
+                }
+                catch
+                {
+                    return {}; 
+                }
             }
         },
-
-        computed: 
-        {
-            Hyperlink()
-            {
-                // var hyperlink = {}; 
-                // var special_columns = this.table_actions["hyperlink"];
-                // console.log(Object.keys(special_columns)); 
-                // Object.keys(special_columns).forEach
-                // (
-                //     key=>
-                //     {
-                //         hyperlink[key] = this.thead[key]; 
-                //     }
-                // ); 
-                // return hyperlink; 
-                return this.SpecialColumnsIndexes("hyperlink", false); 
-            }    
-        },
-
         watch: 
         {
             table_data: function()

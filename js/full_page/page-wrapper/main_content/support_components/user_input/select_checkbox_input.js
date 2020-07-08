@@ -11,6 +11,10 @@ Vue.component
                 value: undefined
             }
         }, 
+        created() 
+        {
+            this.PopulateSelectData();     
+        },
         methods: 
         {
             PopulateSelectData()
@@ -33,20 +37,17 @@ Vue.component
                 ); 
             }   
         },
-        created() 
-        {
-            this.PopulateSelectData();     
-        },
         watch: 
         {
-            select_data: function(new_value, old_value)
-            {   
-                this.PopulateSelectData(); 
-            }, 
             controller: function(new_value, old_value)    
             {
                 this.PopulateSelectData(); 
+            }, 
+            select_data: function(new_value, old_value)
+            {   
+                this.PopulateSelectData(); 
             }
+
         },
         template: 
         `

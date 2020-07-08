@@ -66,6 +66,10 @@ Vue.component
                 validate: {} 
             }
         }, 
+        created() 
+        {
+            this.PopulateFormField(); 
+        }, 
         methods: 
         {
             SubmitForm(data)
@@ -88,11 +92,7 @@ Vue.component
                     alert(this.title+" Fails, please try again!"); 
                 }
             }    
-        },
-        created() 
-        {
-            this.PopulateFormField(); 
-        },
+        }
     }
 ); 
 
@@ -112,6 +112,12 @@ Vue.component
                 validate: {}, 
                 edit_data: undefined
             }
+        }, 
+        created() 
+        {
+            this.PopulateFormField(); 
+            this.ModifyForm(); 
+            this.PopulateDateIntoFields(); 
         }, 
         methods: 
         {
@@ -133,6 +139,18 @@ Vue.component
                     }
                 }
             }, 
+            PopulateDateIntoFields()
+            {
+                var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
+                this.edit_data = JSON.parse(data)[0];  
+                Object.keys(this.edit_data).forEach
+                (
+                    property=>
+                    {
+                        this.edit_data[property.toLowerCase()] = this.edit_data[property]; 
+                    }
+                ); 
+            }, 
             SubmitForm(data)
             {
                 var url = `server/edit_controller/${this.CurrentController}.php?id=${this.object_id}`; 
@@ -146,25 +164,7 @@ Vue.component
                 {
                     alert("Edit Information fails"); 
                 }
-            }, 
-            PopulateDateIntoFields()
-            {
-                var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
-                this.edit_data = JSON.parse(data)[0];  
-                Object.keys(this.edit_data).forEach
-                (
-                    property=>
-                    {
-                        this.edit_data[property.toLowerCase()] = this.edit_data[property]; 
-                    }
-                ); 
             }
-        },
-        created() 
-        {
-            this.PopulateFormField(); 
-            this.ModifyForm(); 
-            this.PopulateDateIntoFields(); 
         }
     }
 ); 

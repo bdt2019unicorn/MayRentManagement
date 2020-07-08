@@ -7,16 +7,11 @@ Vue.component
         data() 
         {
             return {
-                date_required: {}, 
                 date_group: {}, 
+                date_required: {}, 
                 row_group_valid: true 
             }
         }, 
-        mounted() 
-        {
-            this.row_group_valid = (this.ValidObject(this.date_required) && this.ValidObject(this.date_group)); 
-            this.$emit("row-group-validation", this.index, this.row_group_valid); 
-        },
         methods: 
         {
             InputValidation(data_field, name, boolean)
@@ -24,6 +19,11 @@ Vue.component
                 this[data_field][name] = boolean; 
                 this.row_group_valid = (this.ValidObject(this.date_required) && this.ValidObject(this.date_group)); 
             }
+        },
+        mounted() 
+        {
+            this.row_group_valid = (this.ValidObject(this.date_required) && this.ValidObject(this.date_group)); 
+            this.$emit("row-group-validation", this.index, this.row_group_valid); 
         },
         watch: 
         {

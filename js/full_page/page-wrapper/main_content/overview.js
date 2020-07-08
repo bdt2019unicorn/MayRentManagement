@@ -16,15 +16,14 @@ var overview_component = Vue.component
         },
         methods: 
         {
+            CapitalizeFirstWord(string)
+            {
+                return string[0].toUpperCase() +  string.slice(1); 
+            }, 
             PopulateData()
             {
                 this.table_data = this.TableData(this.StateObject('controller')); 
                 this.search_data = this.SearchData(); 
-            }, 
-            TableActions(controller)
-            {
-                var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
-                return (table_actions)?table_actions:{}; 
             }, 
             Search()
             {
@@ -94,15 +93,20 @@ var overview_component = Vue.component
                     return search_data; 
                 }
                 
+            }, 
+            TableActions(controller)
+            {
+                var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
+                return (table_actions)?table_actions:{}; 
             }
         },
         watch: 
         {
-            StateController: function(new_value, old_value)
+            BuildingId: function(new_value, old_value)
             {
                 this.PopulateData(); 
             }, 
-            BuildingId: function(new_value, old_value)
+            StateController: function(new_value, old_value)
             {
                 this.PopulateData(); 
             }
