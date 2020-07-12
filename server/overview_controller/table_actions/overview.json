@@ -1,11 +1,6 @@
 {
-    "hidden_columns": ["Rental Status Value", "Paid Until Value", "tenantid"], 
-    "sort": 
-    {
-        "Rental Status": "Rental Status Value", 
-        "Paid Until": "Paid Until Value"
-    }, 
-    "search": ["Apartment Name"], 
+    "date_compare_now": ["Paid Until"], 
+    "hidden_columns": ["Rent Until Value", "leaseid", "Paid Until Value", "tenantid"], 
     "hyperlink": 
     {
         "Apartment Name":
@@ -17,6 +12,18 @@
         {
             "controller": "tenant", 
             "object_id": "tenantid"
+        }, 
+        "Rent Until":
+        {
+            "controller": "leaseagrm", 
+            "object_id": "leaseid"
         }
+    }, 
+    "search": ["Apartment Name", "Tenant Name", "Rent Until", "Paid Until"], 
+    "sort": 
+    {
+        "Rent Until": "Rent Until Value", 
+        "Paid Until": "Paid Until Value", 
+        "Apartment Name": "Apartment Name"
     }
 }
