@@ -11,14 +11,14 @@
 			`overview`.*, 
 		    (
 		        CASE
-		        	WHEN `overview`.`leaseid` IS NULL THEN 'Vacant'
+		        	WHEN `overview`.`leaseid` IS NULL THEN ''
 		        	ELSE 
 		        		CASE
-		        			WHEN `overview`.`leasestart`<=CURRENT_DATE THEN CONCAT('Until ', DATE_FORMAT(`overview`.`leasefinish`, '%M %d, %Y')) 
+		        			WHEN `overview`.`leasestart`<=CURRENT_DATE THEN DATE_FORMAT(`overview`.`leasefinish`, '%M %d, %Y')
 		        			ELSE CONCAT('Move in on ', DATE_FORMAT(`overview`.`leasestart`, '%M %d, %Y'))
 		        		END       
 		        END
-		    ) AS `Rental Status`, 
+		    ) AS `Rent Until`, 
             (
 		        CASE
 		        	WHEN `overview`.`leaseid` IS NULL THEN '0'
@@ -28,7 +28,7 @@
 		        			ELSE CONCAT('1', DATE_FORMAT(`overview`.`leasestart`, '%Y%m%d'))
 		        		END       
 		        END
-		    ) AS `Rental Status Value`, 
+		    ) AS `Rent Until Value`, 
 		    (
 		        CASE
 		        	WHEN `overview`.`leaseid` IS NULL THEN ''
@@ -86,7 +86,7 @@
 				        ) AS `revenues` ON `apartments`.`id`= `revenues`.`apartmentid` 
 				    LEFT JOIN 
 				    	(
-				            SELECT `id` AS `tenantid`, CONCAT(`tenant`.`First_Name`,' ',`tenant`.`Last_Name`) AS `tenantname`
+				            SELECT `id` AS `tenantid`, CONCAT(`tenant`.`First_Name`,' ',`tenant`.`Middle_Name`,' ',`tenant`.`Last_Name`) AS `tenantname`
 				            FROM `tenant`
 				        ) AS `tenants` ON `tenants`.`tenantid` = `currentlease`.`Tenant_ID`
 
@@ -95,13 +95,13 @@
 
 	$raw_table = Connect::GetData($sql); 
 
-
 	$column_match = array
 	(
-		'id' => 'Apartment ID',
+		'id' => 'ID',
 		'apartmentname'=> 'Apartment Name', 
-		'Rental Status'=>'Rental Status', 
-		'Rental Status Value'=>'Rental Status Value', 
+		'Rent Until'=>'Rent Until', 
+		'Rent Until Value'=>'Rent Until Value', 
+		'leaseid'=>'leaseid',
 		'Paid Until'=>'Paid Until', 
 		'Paid Until Value'=>'Paid Until Value', 
 		'tenantname'=> 'Tenant Name', 
