@@ -15,13 +15,6 @@ Vue.component
         {
             this.SetupTable();   
         }, 
-        computed: 
-        {
-            Hyperlink()
-            {
-                return this.SpecialColumnsIndexes("hyperlink", false); 
-            }    
-        },
         methods: 
         {
             HyperlinkObject(index, row)
@@ -209,12 +202,16 @@ Vue.component
                                 :key="index-1"
                                 v-if='!Object.values(SpecialColumnsIndexes("hidden_columns")).includes(index-1)'
                             >
-                                <template v-if='Object.values(Hyperlink).includes(index-1)'>
+                                <template v-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)'>
                                     <a-hyperlink 
                                         v-bind="HyperlinkObject(index-1, row)"
                                         :text="row[index-1]"
                                     ></a-hyperlink>
                                 </template>
+                                <date-compare-now 
+                                    v-else-if='Object.values(SpecialColumnsIndexes("date_compare_now")).includes(index-1)'
+                                    :text="row[index-1]"
+                                ></date-compare-now>
                                 <template v-else>
                                     {{row[index-1]}}
                                 </template>
