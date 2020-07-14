@@ -185,7 +185,6 @@ Vue.component
     }
 ); 
 
-
 function PageElements()
 {
     window.full_page = new Vue 

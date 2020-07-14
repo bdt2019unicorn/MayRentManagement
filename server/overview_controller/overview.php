@@ -125,7 +125,16 @@
 			foreach ($list as $id) 
 			{
 				$ocupant = Connect::GetDataWithId($id, 'tenant')[0]; 
-				$row[$ocupant_title].="{$ocupant['First_Name']} {$ocupant['Last_Name']}, "; 
+				$text = "{$ocupant['First_Name']} {$ocupant['Last_Name']} "; 
+				$template = 
+				"
+					<a-hyperlink
+						controller='tenant'
+						object_id='{$id}'
+						text='{$text}'
+					></a-hyperlink>
+				"; 
+				$row[$ocupant_title].="{$template}, "; 
 			}
 			$row[$ocupant_title] = substr_replace($row[$ocupant_title], '', strrpos($row[$ocupant_title], ','), 1); 
 		}
