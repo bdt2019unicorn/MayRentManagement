@@ -19,6 +19,7 @@
             "object_id": "leaseid"
         }
     }, 
+    "hyperlink_list": ["Ocupant Name"], 
     "search": ["Apartment Name", "Tenant Name", "Rent Until", "Paid Until"], 
     "sort": 
     {
