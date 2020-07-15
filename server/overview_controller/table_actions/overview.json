@@ -20,6 +20,7 @@
         }
     }, 
     "hyperlink_list": ["Ocupant Name"], 
+    "page_title": "Overview", 
     "search": ["Apartment Name", "Tenant Name", "Rent Until", "Paid Until"], 
     "sort": 
     {
