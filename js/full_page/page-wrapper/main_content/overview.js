@@ -7,23 +7,54 @@ var overview_component = Vue.component
         {
             return {
                 table_data: [], 
-                search_data: []
+                search_data: [], 
+                check_array: []
             }; 
         }, 
+        computed: 
+        {
+            PageTitle()
+            {
+                try 
+                {
+                    let table_actions = this.TableActions(this.StateObject('controller')); 
+                    return table_actions.page_title; 
+                }
+                catch
+                {
+                    return this.StateObject("controller"); 
+                }
+            }    
+        },
         created() 
         {
             this.PopulateData(); 
         },
         methods: 
         {
-            CapitalizeFirstWord(string)
+            IdCheckChanged(object_id, checked)
             {
-                return string[0].toUpperCase() +  string.slice(1); 
+                if(checked)
+                {
+                    this.check_array.push(object_id); 
+                }
+                else 
+                {
+                    for(var index=0; index<this.check_array.length; index++)
+                    {
+                        if(this.check_array[index]==object_id)
+                        {
+                            this.check_array.splice(index, 1); 
+                            index--; 
+                        }
+                    }
+                }
             }, 
             PopulateData()
             {
                 this.table_data = this.TableData(this.StateObject('controller')); 
                 this.search_data = this.SearchData(); 
+                this.check_array = []; 
             }, 
             Search()
             {
@@ -114,23 +145,11 @@ var overview_component = Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>{{CapitalizeFirstWord(StateObject('controller'))}}</h1>
+                <h1>{{PageTitle}}</h1>
                 <div class="row">
-                    <form 
-                        class="container-fluid row col"
-                        v-if="search_data && (TableData(StateObject('controller')).length>0)"
-                        ref="search_form"
-                        @submit.prevent="Search"
-                    >
+                    <form class="container-fluid row col" v-if="search_data && (TableData(StateObject('controller')).length>0)" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
-                        <select-input 
-                            name='search_category' 
-                            v-if="search_data.length>0"
-                            :select_data="search_data" 
-                            select_value="value"
-                            text="text"
-                            not_required="false"
-                        ></select-input>
+                        <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="false"></select-input>
                         <div class="col--2">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </div>
@@ -142,25 +161,17 @@ var overview_component = Vue.component
                             <button class="btn btn-danger" type="button">Delete</button>
                         </div>
                         <div class="col text-center">
-                            <button class="btn btn-secondary" type="button">Edit</button>
+                            <button class="btn btn-secondary" v-if="check_array.length!=1">Edit</button>
+                            <a-hyperlink class="btn btn-secondary" v-else :controller="StateObject('controller')" text="Edit" :object_id="check_array[0]"></a-hyperlink>
                         </div>
                         <div class="col text-left">
-                            <a 
-                                class="btn btn-success" 
-                                href='javascript:window.store_track.commit("RedirectUrl",{param: "action", value: "add"});'
-                            >
-                                    Add
-                            </a>
+                            <a class="btn btn-success" href='javascript:window.store_track.commit("RedirectUrl",{param: "action", value: "add"});'>Add</a>
                         </div>
 
                     </div>
                 </div>
                 <br>
-                <scrolling-table
-                    class="row"
-                    :table_data="table_data"
-                    :table_actions="TableActions(StateObject('controller'))"
-                ></scrolling-table>
+                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(StateObject('controller'))" @id-check-changed="IdCheckChanged"></scrolling-table>
             </div>
         `
     }
