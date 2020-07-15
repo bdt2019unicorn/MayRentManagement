@@ -12,15 +12,7 @@ Vue.component
                 window.store_track.commit("RedirectUrl", {param: "object_id", value: this.object_id}); 
             }
         },
-        template: 
-        `
-            <a 
-                href="javascript:void(0);" 
-                @click="EditObject"
-            >
-                {{text}}
-            </a>
-        `
+        template: `<a href="javascript:void(0);" @click="EditObject">{{text}}</a>`
     }
 ); 
 

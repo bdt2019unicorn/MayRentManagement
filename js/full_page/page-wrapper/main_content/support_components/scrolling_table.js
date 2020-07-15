@@ -11,6 +11,13 @@ Vue.component
                 tbody: []
             };
         }, 
+        computed: 
+        {
+            IdTickbox()
+            {
+                return(this.table_actions.id)?this.thead[this.table_actions.id]:undefined; 
+            }    
+        },
         created() 
         {
             this.SetupTable();   
@@ -168,56 +175,24 @@ Vue.component
         }, 
         template: 
         `
-            <div 
-                :class="['scrolling-div', 'table-responsive', 'container-fluid']"
-                :style="tb_style"
-            >
+            <div :class="['scrolling-div', 'table-responsive', 'container-fluid']" :style="tb_style">
                 <table ref='main_table' class="table table-striped table-bordered table-hover">
                     <thead class="thead-dark">
                         <tr>
-                            <th 
-                                v-for="key in Object.keys(thead)" 
-                                :key="key"
-                                v-if='!SpecialColumnsIndexes("hidden_columns")[key]'
-                                class="sticky-top"
-                            >
-                                <a-sort-table
-                                    v-if='SpecialColumnsIndexes("sort")[key]' 
-                                    :text="key"
-                                    :index='SpecialColumnsIndexes("sort")[key]'
-                                    @sort-table="SortTable"
-                                >
-                                </a-sort-table>
-                                <template v-else>
-                                    {{key}}
-                                </template>
+                            <th v-for="key in Object.keys(thead)" :key="key" v-if='!SpecialColumnsIndexes("hidden_columns")[key]' class="sticky-top">
+                                <a-sort-table v-if='SpecialColumnsIndexes("sort")[key]' :text="key" :index='SpecialColumnsIndexes("sort")[key]'@sort-table="SortTable"></a-sort-table>
+                                <template v-else>{{key}}</template>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="row in tbody">
-                            <td 
-                                v-for="index in row.length"
-                                :key="index-1"
-                                v-if='!Object.values(SpecialColumnsIndexes("hidden_columns")).includes(index-1)'
-                            >
-                                <template v-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)'>
-                                    <a-hyperlink 
-                                        v-bind="HyperlinkObject(index-1, row)"
-                                        :text="row[index-1]"
-                                    ></a-hyperlink>
-                                </template>
-                                <date-compare-now 
-                                    v-else-if='Object.values(SpecialColumnsIndexes("date_compare_now")).includes(index-1)'
-                                    :text="row[index-1]"
-                                ></date-compare-now>
-                                <hyperlink-list-compile
-                                    v-else-if='Object.values(SpecialColumnsIndexes("hyperlink_list")).includes(index-1)'
-                                    :list="row[index-1]"
-                                ></hyperlink-list-compile>
-                                <template v-else>
-                                    {{row[index-1]}}
-                                </template>
+                            <td v-for="index in row.length" :key="index-1" v-if='!Object.values(SpecialColumnsIndexes("hidden_columns")).includes(index-1)'>
+                                <id-tickbox v-if="(index-1)==IdTickbox" :object_id="row[index-1]" v-on="$listeners"></id-tickbox>
+                                <a-hyperlink v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)' v-bind="HyperlinkObject(index-1, row)" :text="row[index-1]"></a-hyperlink>
+                                <date-compare-now v-else-if='Object.values(SpecialColumnsIndexes("date_compare_now")).includes(index-1)' :text="row[index-1]"></date-compare-now>
+                                <hyperlink-list-compile v-else-if='Object.values(SpecialColumnsIndexes("hyperlink_list")).includes(index-1)' :list="row[index-1]"></hyperlink-list-compile>
+                                <template v-else>{{row[index-1]}}</template>
                             </td>
                         </tr>
                     </tbody>
