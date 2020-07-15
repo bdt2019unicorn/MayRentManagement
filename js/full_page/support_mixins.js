@@ -73,6 +73,12 @@ var support_mixin =
         StateObject(state_property)
         {
             return window.store_track.state[state_property]; 
+        }, 
+        SubmitData(key, url, data)
+        {
+            var form_data = new FormData(); 
+            form_data.append(key, JSON.stringify(data)); 
+            return this.AjaxRequest(url,form_data, "post");
         }
     } 
 }; 

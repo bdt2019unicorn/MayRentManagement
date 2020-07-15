@@ -32,6 +32,20 @@ var overview_component = Vue.component
         },
         methods: 
         {
+            DeleteData()
+            {
+                var url = `server/delete_controller/${this.StateObject('controller')}.php`; 
+                var result = this.SubmitData("delete", url, this.check_array); 
+                if(Number(result))
+                {
+                    alert("Delete success!"); 
+                    this.PopulateData(); 
+                }
+                else
+                {
+                    alert("Delete fails, there seems to be a server error"); 
+                }
+            }, 
             IdCheckChanged(object_id, checked)
             {
                 if(checked)
@@ -158,10 +172,10 @@ var overview_component = Vue.component
                     <div class="col-5 row" v-if="StateObject('controller')!='overview'">
 
                         <div class="col text-right">
-                            <button class="btn btn-danger" type="button">Delete</button>
+                            <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
                         </div>
                         <div class="col text-center">
-                            <button class="btn btn-secondary" v-if="check_array.length!=1">Edit</button>
+                            <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
                             <a-hyperlink class="btn btn-secondary" v-else :controller="StateObject('controller')" text="Edit" :object_id="check_array[0]"></a-hyperlink>
                         </div>
                         <div class="col text-left">
