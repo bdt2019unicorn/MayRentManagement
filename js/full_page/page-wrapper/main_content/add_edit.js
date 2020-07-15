@@ -24,12 +24,6 @@ var add_edit_mixin =
                 this.form = []; 
                 this.title ="Edit "; 
             }
-        }, 
-        SubmitData(url, data)
-        {
-            var form_data = new FormData(); 
-            form_data.append("edit", JSON.stringify(data)); 
-            return this.AjaxRequest(url,form_data, "post");
         }
     },
     watch: 
@@ -154,7 +148,7 @@ Vue.component
             SubmitForm(data)
             {
                 var url = `server/edit_controller/${this.CurrentController}.php?id=${this.object_id}`; 
-                var result = this.SubmitData(url,data); 
+                var result = this.SubmitData("edit",url,data); 
                 if(Number(result))
                 {
                     alert("Edit Information success"); 

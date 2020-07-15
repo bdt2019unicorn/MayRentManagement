@@ -28,7 +28,18 @@
         	$sql = Query::RemoveLastCharacter($sql, ","); 
         	$sql.= " ". Query::Where($conditions); 
         	return $sql; 
-        }
+		}
+		
+		static public function Delete($table, $id_column, $ids)
+		{
+			$queries = array(); 
+			foreach ($ids as $id) 
+			{
+				$sql = "DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'"; 
+				array_push($queries, $sql); 
+			}
+			return $queries; 
+		}
 
         static public function Where($conditions)
         {
