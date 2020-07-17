@@ -15,7 +15,14 @@ Vue.component
         {
             IdTickbox()
             {
-                return(this.table_actions.id)?this.thead[this.table_actions.id]:undefined; 
+                try 
+                {
+                    return(this.table_actions.id)?this.thead[this.table_actions.id]:undefined; 
+                }
+                catch 
+                {
+                    return undefined; 
+                }
             }    
         },
         created() 

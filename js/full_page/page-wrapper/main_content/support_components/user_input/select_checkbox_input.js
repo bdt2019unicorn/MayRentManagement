@@ -2,15 +2,15 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["controller", "edit_data", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
+        props: ["controller", "edit_data", "name", "not_required", "option_title", "overview_controller", "select_data", "select_value", "text", "title"], 
         mixins: [edit_mixin], 
         data() 
         {
             return {
                 options: [], 
-                value: undefined
+                value: ""
             }
-        }, 
+        },
         created() 
         {
             this.PopulateSelectData();     
@@ -19,9 +19,9 @@ Vue.component
         {
             PopulateSelectData()
             {
-                this.value = undefined; 
-                var select_data = (this.select_data)?this.select_data: this.TableData(this.overview_controller);
+                this.value = ""; 
                 this.options = []; 
+                var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller);
                 select_data.forEach
                 (
                     option => 
@@ -29,13 +29,13 @@ Vue.component
                         this.options.push 
                         (
                             {
-                                value: option[this.value], 
+                                value: option[this.select_value], 
                                 text: option[this.text]
                             }
                         ); 
                     }
                 ); 
-            }   
+            }, 
         },
         watch: 
         {
@@ -54,13 +54,8 @@ Vue.component
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
                 <select :name="name" class="form-control" v-model="value">
-                    <option v-if="options.length>0" v-show="not_required&&value" value selected></option>
-                    <option
-                        v-for="option in options"
-                        :value="option.value"
-                    >
-                    {{option.text}}
-                    </option>
+                    <option v-if="options.length>0" v-show="not_required&&value" value selected>{{option_title}}</option>
+                    <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
             </div>
         `
