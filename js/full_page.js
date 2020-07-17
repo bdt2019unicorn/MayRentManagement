@@ -199,6 +199,13 @@ function PageElements()
             created() 
             {
                 this.buildings_data = this.TableData("buildings"); 
+                for(var index=0; index<this.buildings_data.length; index++)
+                {
+                    this.buildings_data[index]["params"] = 
+                    {
+                        building_id: this.buildings_data[index]["id"]
+                    }
+                }
             },
         }
     ); 

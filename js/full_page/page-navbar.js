@@ -16,27 +16,21 @@ Vue.component
 (
     "main-nav-item", 
     {
-        props: ["controller", "grid_area_surfix", "icon", "id", "index", "name"], 
+        props: ["grid_area_surfix", "icon", "id", "index", "name", "params"], 
         mixins: [support_mixin], 
         computed: 
         {
             Href()
             {
-                let params = 
-                {
-                    id: "building_id", 
-                    controller: "controller"
-                }
-                let param_ranking = ["id", "controller"]; 
-                for (let index = 0; index < param_ranking.length; index++) 
-                {
-                    const param = param_ranking[index];
-                    if(this[param])
+                let href = ""; 
+                Object.keys(this.params).forEach
+                (
+                    param=>
                     {
-                        return "javascript:window.store_track.commit('RedirectUrl', {param: '"+params[param]+ "',value:'" + this[param] + "'});"; 
+                        href+=`javascript:window.store_track.commit('RedirectUrl', {param: '${param}',value:'${this.params[param]}'}); `; 
                     }
-                }
-                return undefined; 
+                ); 
+                return (href)?href:undefined; 
             }, 
             ItemStyle()
             {
@@ -48,11 +42,7 @@ Vue.component
         }, 
         template: 
         `
-            <a 
-                :class="ItemsClasses(id, StateObject('building_id'), ['btn'], 'btn-warning', 'btn-primary')" 
-                :style="ItemStyle" 
-                :href="Href"
-            >
+            <a :style="ItemStyle" :href="Href">
                 <i style="font-size: xx-large;" :class="['fas', 'fa-'+ this.icon]"></i>
                 <p>{{name}}</p>
             </a>
@@ -99,6 +89,7 @@ Vue.component
                 <main-nav-item
                     v-for="index in buildings_data.length"
                     v-bind="buildings_data[index-1]"
+                    :class="ItemsClasses(buildings_data[index-1].id, StateObject('building_id'), ['btn'], 'btn-warning', 'btn-primary')" 
                     :index="index"
                     :icon="(buildings_data[index-1].icon)?buildings_data[index-1].icon: default_icon"
                     :grid_area_surfix="grid_area_surfix"
