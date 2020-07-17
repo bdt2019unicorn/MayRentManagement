@@ -54,7 +54,7 @@ Vue.component
                         params: 
                         {
                             controller: "utilities", 
-                            action: "UltilitiesOverview"
+                            action: "UtilitiesOverview"
                         }
                     }
                 ]

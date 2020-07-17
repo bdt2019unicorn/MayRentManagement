@@ -163,7 +163,7 @@ var overview_component = Vue.component
                 <div class="row">
                     <form class="container-fluid row col" v-if="search_data && (TableData(StateObject('controller')).length>0)" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
-                        <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="false"></select-input>
+                        <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
                         <div class="col--2">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </div>
