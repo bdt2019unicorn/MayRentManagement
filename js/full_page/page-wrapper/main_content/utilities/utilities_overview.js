@@ -8,6 +8,7 @@ Vue.component
         {
             return {
                 apartment_id: "", 
+                just_started_parent: true, 
                 select_data: 
                 [
                     {
@@ -30,9 +31,47 @@ Vue.component
                         name: "test"
                     }
                 ], 
-                utility_id: ""
+                utility_id: "", 
+                test_picker: false, 
+                vmodel: undefined
             }
         }, 
+        components: {FunctionalCalendar}, 
+        mounted() 
+        {
+            ChooseDate = ()=>
+            {
+                return new Promise
+                (
+                    (resolve,reject)=>
+                    {
+                        this.$refs["Calendar"].ChooseDate("today"); 
+                        resolve(); 
+                    }
+                ); 
+            }; 
+            ChooseDate().then
+            (
+                ()=>
+                {
+                    this.vmodel.dateRange.start="2020-7-1"; 
+                    this.vmodel.dateRange.end="2020-7-21"; 
+                }
+            );
+        },
+        methods: 
+        {
+            TestBtn()
+            {
+                
+                this.test_picker = !this.test_picker; 
+            }, 
+            TestClickedRange()
+            {
+                console.log("ranged"); 
+                console.log(this.vmodel); 
+            }
+        },
         template:
         `
             <div class="container-fluid">
@@ -47,9 +86,21 @@ Vue.component
                                 <button class="btn btn-primary">Search</button>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <input type="text" class="form-control" @click="TestBtn">
+                            <FunctionalCalendar 
+                                v-show='test_picker' 
+                                class="col"
+                                dateFormat="yyyy-mm-dd" 
+                                :is-date-range='true' 
+                                v-model="vmodel" 
+                                @dayClicked="TestClickedRange" 
+                                ref="Calendar"
+                            ></FunctionalCalendar>
+                        </div>
                     </form>
                 </div>
-
                 <scrolling-table :table_data="table_data"></scrolling-table>
 
             </div>

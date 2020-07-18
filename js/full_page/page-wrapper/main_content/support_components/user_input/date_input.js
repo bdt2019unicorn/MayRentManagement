@@ -9,6 +9,7 @@ var date_input = Vue.component
                 date_value:undefined, 
             }
         }, 
+        components: {vuejsDatepicker}, 
         computed: 
         {
             DateRequired()
@@ -47,35 +48,14 @@ var date_input = Vue.component
                 this.$emit("date-value-changed", new_value, this.reference); 
             }
         },
-        components: 
-        {
-            vuejsDatepicker
-        }, 
         template: 
         `
             <div class="form-group col">
                 <label for="company_address"><b>{{title}}</b></label>
-                <vuejs-datepicker 
-                    input-class="form-control" 
-                    format="dd/MM/yyyy" 
-                    v-model="date_value"
-                >
-                </vuejs-datepicker>
-                <vuejs-datepicker
-                    format="MM/dd/yy"
-                    v-model="date_value"
-                    v-show="false"
-                    :name="name"
-                >
-                </vuejs-datepicker>
-
-                <label :for="name" v-show="RequiredLabel">
-                    This field is required.
-                </label> 
-
-                <label :for="name" v-if="SpecialMessageLabel">
-                    {{bad_message}}
-                </label>
+                <vuejs-datepicker input-class="form-control" format="dd/MM/yyyy" v-model="date_value"></vuejs-datepicker>
+                <vuejs-datepicker format="MM/dd/yy" v-model="date_value" v-show="false" :name="name"></vuejs-datepicker>
+                <label :for="name" v-show="RequiredLabel">This field is required.</label> 
+                <label :for="name" v-if="SpecialMessageLabel">{{bad_message}}</label>
             </div>
         `
     }
@@ -164,9 +144,7 @@ var date_group = Vue.component
                         reference="small_value"
                         @date-value-changed="DateChange"
                         @input-validation="DateInputValidation"
-                    >
-                    </date-input>
-
+                    ></date-input>
 
                     <date-input 
                         v-bind=date_data.big_date
@@ -176,8 +154,7 @@ var date_group = Vue.component
                         reference="big_value"
                         @date-value-changed="DateChange"
                         @input-validation="DateInputValidation"
-                    >
-                    </date-input>
+                    ></date-input>
 
                 </div>
 
