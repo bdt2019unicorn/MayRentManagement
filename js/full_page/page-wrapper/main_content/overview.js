@@ -138,11 +138,6 @@ var overview_component = Vue.component
                     return search_data; 
                 }
                 
-            }, 
-            TableActions(controller)
-            {
-                var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
-                return (table_actions)?table_actions:{}; 
             }
         },
         watch: 

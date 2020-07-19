@@ -1,0 +1,3 @@
+{
+    "hidden_columns": ["apartment_id", "revenue_type_id"]
+}

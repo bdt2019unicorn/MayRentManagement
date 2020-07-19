@@ -7,7 +7,7 @@ Vue.component
         data()
         {
             return {
-                date_picker: false, 
+                date_picker_opened: false, 
                 end_date: undefined, 
                 function_calendar_model: undefined, 
                 main_url: "server/utilities_controller/utility_overview.php?command=", 
@@ -17,30 +17,65 @@ Vue.component
                     utilities: [], 
                     select_value: "id", 
                     text: "name", 
-                    not_required: true
                 }, 
                 start_date: undefined, 
-                table_data: []
+                table_action: {}, 
+                table_data: [],
             }
         }, 
         components: {FunctionalCalendar}, 
+        computed: 
+        {
+            EditSelectUtilitiesData()
+            {
+                try 
+                {
+                    return {
+                        revenue_type_id: this.select_data.utilities[0].id 
+                    }; 
+                }
+                catch
+                {
+                    return undefined; 
+                }
+            }, 
+            LabelDateRange()
+            {
+                return `${moment(this.start_date).format('DD MMM YYYY')} - ${moment(this.end_date).format('DD MMM YYYY')}`; 
+            }, 
+            TableDataUrl()
+            {
+                return `server/overview_controller/utilities.php?building_id=${this.BuildingId}`; 
+            }
+        },
         created()
         {
             this.SelectData(); 
-            this.UtilitiesTableData(); 
+            this.ThisMonthDayRange();
+            this.table_action = this.TableActions("utilities"); 
+            
+            var search_data = new FormData(); 
+            search_data.append("revenue_type_id", this.EditSelectUtilitiesData.revenue_type_id); 
+            search_data.append("start_date", this.start_date); 
+            search_data.append("end_date", this.end_date); 
+            this.table_data = JSON.parse(this.AjaxRequest(this.TableDataUrl, search_data,"post")); 
         }, 
         methods: 
         {
-            TestBtn()
+            CalendarChooseDay()
             {
-                this.date_picker = !this.date_picker; 
+                try 
+                {
+                    if(this.function_calendar_model.dateRange.end)
+                    {
+                        this.start_date = this.function_calendar_model.dateRange.start; 
+                        this.end_date = this.function_calendar_model.dateRange.end; 
+                        this.function_calendar_model = undefined; 
+                        this.date_picker_opened = false; 
+                    }
+                }
+                catch {}
             }, 
-            TestClickedRange()
-            {
-                console.log("ranged"); 
-                console.log(this.function_calendar_model); 
-            }, 
-
             CalendarOpened()
             {
                 new Promise
@@ -72,6 +107,11 @@ Vue.component
                     }
                 ); 
                 
+            },
+            SearchData(event)
+            {
+                var search_data = new FormData(event.target); 
+                this.table_data = JSON.parse(this.AjaxRequest(this.TableDataUrl, search_data,"post")); 
             }, 
             SelectData()
             {
@@ -79,34 +119,15 @@ Vue.component
                 this.select_data.utilities = JSON.parse(utility_data); 
                 this.select_data.apartment = this.TableData("apartment"); 
             }, 
-            UtilitiesTableData()
+            ThisMonthDayRange()
             {
-                this.table_data =                 
-                [
-                    {
-                        id: 1, 
-                        name: "test"
-                    }, 
-                    {
-                        id: 2, 
-                        name: "test"
-                    }
-                ]; 
+                var today = new Date(); 
+                let month = today.getMonth(); 
+                let year = today.getFullYear(); 
+                let last_day_of_month = new Date(year, month+1,0).getDate();   
+                this.start_date = `${year}-${month+1}-1`; 
+                this.end_date = `${year}-${month+1}-${last_day_of_month}`; 
             }
-        
-
-
-
-
-        },
-        mounted() 
-        {
-            var today = new Date(); 
-            let month = today.getMonth(); 
-            let year = today.getFullYear(); 
-            let last_day_of_month = new Date(year, month+1,0).getDate();   
-            this.start_date = `${year}-${month+1}-1`; 
-            this.end_date = `${year}-${month+1}-${last_day_of_month}`; 
         },
         template:
         `
@@ -114,56 +135,49 @@ Vue.component
                 <h1>Utilities</h1>
 
                 <div class="row">
-                    <form class="container-fluid col">  
+                    <form class="container-fluid col" @submit.prevent="SearchData">  
                         <div class="row">
-                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="utilities_id">All Utilities</select-input>
-                            <select-input :select_data="select_data.apartment" v-bind="select_data" name="apartment_id">All Apartment</select-input>
+                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData"></select-input>
+                            <select-input :select_data="select_data.apartment" v-bind="select_data" name="apartment_id" :not_required="true">All Apartment</select-input>
                             <div class="col-2">
-                                <button class="btn btn-primary">Search</button>
+                                <button type="submit" class="btn btn-primary">Search</button>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" @click="TestBtn">
+                                <input type="text" 
+                                    class="form-control" 
+                                    @click="date_picker_opened = !date_picker_opened" 
+                                    readonly 
+                                    style="text-align: center;"
+                                    :value="LabelDateRange"
+                                >
                                 <FunctionalCalendar 
                                     ref="calendar" 
-                                    v-if='date_picker' 
+                                    v-if='date_picker_opened' 
                                     class="col"
                                     dateFormat="yyyy-mm-dd" 
                                     :is-date-range='true' 
                                     v-model="function_calendar_model" 
-                                    @dayClicked="TestClickedRange" 
                                     @opened="CalendarOpened"
+                                    @choseDay="CalendarChooseDay"
                                 ></FunctionalCalendar>
 
-                                <input type="text" name="start_date" v-model="start_date">
-                                <input type="text" name="end_date" v-model="end_date">
+                                <input type="text" name="start_date" v-model="start_date" hidden>
+                                <input type="text" name="end_date" v-model="end_date" hidden>
                             </div>
 
                             <div class="col-2">
-                                <button class="btn btn-primary">Add</button>
+                                <button type="button" class="btn btn-primary">Add</button>
                             </div>
                         </div>
                     </form>
                 </div>
                 <br>
-                <scrolling-table :table_data="table_data"></scrolling-table>
+                <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table>
 
             </div>
         `
     }
 ); 
-
-
-
-
-
-// initialy, the function_calendar_model will be null 
-// if the thing is opened, if it is just started, then choose the date. Otherwise
-
-/// what we want, first start - choose the date for us. 
-// close, get the date then set it to undefined. 
-// mounted - choose the date then change the range 
-
-// opened - set the date - then set it to undefined. 
