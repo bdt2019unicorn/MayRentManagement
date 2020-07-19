@@ -39,6 +39,11 @@ var support_mixin =
             ); 
             return result; 
         }, 
+        TableActions(controller)
+        {
+            var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
+            return (table_actions)?table_actions:{}; 
+        }, 
         TableData(overview_controller)
         {
             var data = this.AjaxRequest(`server/overview_controller/${overview_controller}.php?building_id=${this.BuildingId}`);
