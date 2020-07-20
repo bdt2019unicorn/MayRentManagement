@@ -1,45 +1,5 @@
 Vue.component
 (
-    "logo-image", 
-    {
-        props: ["img_class"], 
-        template: 
-        `
-            <a href="javascript:window.store_track.commit('RedirectUrl',{});">
-                <img :class="img_class" src="img/logo.jpeg" alt="logo">
-            </a>
-        `
-    }
-); 
-
-Vue.component 
-(
-    "main-nav-item", 
-    {
-        props: ["grid_area_surfix", "icon", "id", "index", "name", "params"], 
-        mixins: [support_mixin], 
-        computed: 
-        {
-            ItemStyle()
-            {
-                return { 
-                    gridArea: (this.grid_area_surfix)?this.grid_area_surfix+"-"+this.index:undefined, 
-                    textAlign: "center"
-                }
-            }
-        }, 
-        template: 
-        `
-            <a-hyperlink :style="ItemStyle" :params="params">
-                <i style="font-size: xx-large;" :class="['fas', 'fa-'+ this.icon]"></i>
-                <p>{{name}}</p>
-            </a-hyperlink>
-        `
-    }
-); 
-
-Vue.component
-(
     "main-nav-items", 
     {
         props: ["buildings_data", "default_icon", "grid_area_surfix"], 
@@ -73,26 +33,28 @@ Vue.component
         `
             <div :style="MainNavItems">
 
-
-                <main-nav-item
-                    v-for="index in buildings_data.length"
-                    v-bind="buildings_data[index-1]"
+                <a-hyperlink 
+                    v-for="index in buildings_data.length" 
                     :class="ItemsClasses(buildings_data[index-1].id, StateObject('building_id'), ['btn'], 'btn-warning', 'btn-primary')" 
-                    :index="index"
-                    :icon="(buildings_data[index-1].icon)?buildings_data[index-1].icon: default_icon"
-                    :grid_area_surfix="grid_area_surfix"
+                    :style='{textAlign: "center", gridArea: grid_area_surfix+"-"+index}'
+                    :params="{building_id: buildings_data[index-1].id}" 
                     :key="index"
                 >
-                </main-nav-item>
-                <a 
+                    <i style="font-size: xx-large;" :class="['fas', 'fa-'+ default_icon]"></i>
+                    <p>{{buildings_data[index-1]["name"]}}</p>
+                </a-hyperlink>
+
+
+
+                <a-hyperlink
                     class="btn btn-success" 
                     title="Import Excel Data"
                     v-if="StateObject('building_id') && StateObject('controller')!='overview'"
                     :style="'grid-area: '+grid_area_surfix+'-'+(buildings_data.length+1)+';'"
-                    href='javascript: window.store_track.commit("RedirectUrl",{param: "action", value: "import-export"});'
+                    :params="{action: 'import-export'}"
                 >
                     <i class="fas fa-table" style="font-size: xx-large;"></i>
-                </a>
+                </a-hyperlink>
             </div>
         `
     }

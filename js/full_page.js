@@ -18,29 +18,15 @@ Vue.component
                 ); 
                 window.store_track.commit("RedirectUrl",{}); 
             }, 
-            ManageMyAccount()
-            {
-                window.store_track.commit("RedirectUrl",{}); 
-                window.store_track.commit
-                (
-                    "RedirectUrl",
-                    {
-                        param: "controller", 
-                        value: "user"
-                    }
-                ); 
-            }
         },
 
         template: 
         `   
             <nav class="navbar navbar-expand-lg top-page-nav">
 
-                <logo-image
-                    style="grid-area: logo;"
-                    img_class="top-logo-img"
-                >
-                </logo-image>
+                <a-hyperlink style="grid-area: logo;">
+                    <img class="top-logo-img" src="img/logo.jpeg" alt="logo">
+                </a-hyperlink>
 
                 <main-nav-items
                     class="main-nav-items"
@@ -59,8 +45,8 @@ Vue.component
                             <p>{{StateObject('username')}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <button class="btn dropdown-item" @click="ManageMyAccount">Manage your Account</button>
-                            <button class="btn dropdown-item" @click="Logout">Logout</button>
+                            <a-hyperlink class="btn dropdown-item" :params="{'':'', controller: 'user'}">Manage your Account</a-hyperlink>
+                            <a-hyperlink innitial_action='"SetStateAuthorize", {param: "username", value: ""}' class="btn dropdown-item">Logout</a-hyperlink>
                         </div>
                     </div>
 
@@ -147,7 +133,11 @@ Vue.component
 
                             <div class="row">
                                 <div class="col"></div>
-                                <logo-image img_class="col"></logo-image>
+
+                                <a-hyperlink class="col">
+                                    <img src="img/logo.jpeg" alt="logo">
+                                </a-hyperlink>
+
                                 <div class="col"></div>
                             </div>
 
