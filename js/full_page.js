@@ -4,22 +4,6 @@ Vue.component
     {
         props: ["buildings_data", "grid_area_surfix"], 
         mixins: [support_mixin], 
-        methods: 
-        {
-            Logout()
-            {
-                window.store_track.commit
-                (
-                    "SetStateAuthorize", 
-                    {
-                        param: "username", 
-                        value: ""
-                    }
-                ); 
-                window.store_track.commit("RedirectUrl",{}); 
-            }, 
-        },
-
         template: 
         `   
             <nav class="navbar navbar-expand-lg top-page-nav">
@@ -28,14 +12,7 @@ Vue.component
                     <img class="top-logo-img" src="img/logo.jpeg" alt="logo">
                 </a-hyperlink>
 
-                <main-nav-items
-                    class="main-nav-items"
-                    v-if="StateObject('building_id')"
-                    :buildings_data="buildings_data"
-                    default_icon="building"
-                    :grid_area_surfix="grid_area_surfix"
-                >
-                </main-nav-items>
+                <main-nav-items class="main-nav-items" v-if="StateObject('building_id')" :buildings_data="buildings_data" default_icon="building" :grid_area_surfix="grid_area_surfix"></main-nav-items>
 
                 <div class="container-fluid" style="grid-area: username;">
 
@@ -64,16 +41,14 @@ Vue.component
         mixins: [support_mixin], 
         template: 
         `
-        <div class="wrapper">
+            <div class="wrapper">
 
-            <side-bar></side-bar>
-            <div class="main-content">
-                <component :is="StateObject('action')" :object_id="StateObject('object_id')"></component>
+                <side-bar></side-bar>
+                <div class="main-content">
+                    <component :is="StateObject('action')" :object_id="StateObject('object_id')"></component>
+                </div>
+
             </div>
-
-        </div>
-
-
 
         `
     }
@@ -134,8 +109,8 @@ Vue.component
                             <div class="row">
                                 <div class="col"></div>
 
-                                <a-hyperlink class="col">
-                                    <img src="img/logo.jpeg" alt="logo">
+                                <a-hyperlink>
+                                    <img class="col" src="img/logo.jpeg" alt="logo">
                                 </a-hyperlink>
 
                                 <div class="col"></div>
@@ -145,17 +120,11 @@ Vue.component
 
                             <div class="row">
 
-                                <button 
-                                    :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" 
-                                    @click="current_controller='login'"
-                                >
+                                <button :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='login'">
                                     Login
                                 </button>
 
-                                <button 
-                                    :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" 
-                                    @click="current_controller='user'"
-                                >
+                                <button :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='user'">
                                     Register
                                 </button>
                             </div>
@@ -177,7 +146,7 @@ Vue.component
 
 function PageElements()
 {
-    window.full_page = new Vue 
+    new Vue 
     (
         {
             el: "#full_page", 

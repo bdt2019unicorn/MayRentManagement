@@ -10,20 +10,9 @@
         <div id="full_page">
 
             <div v-if="StateObject('username')">
-                <page-navbar
-                    :buildings_data="buildings_data"
-                    grid_area_surfix="main-nav-item"
-                >
-                </page-navbar>
+                <page-navbar :buildings_data="buildings_data" grid_area_surfix="main-nav-item"></page-navbar>
 
-                <main-nav-items
-                    class="container-fluid"
-                    v-if="!StateObject('building_id') && StateObject('controller')!='user'"
-                    :buildings_data="buildings_data"
-                    default_icon="building"
-                    grid_area_surfix="home-page"
-                >
-                </main-nav-items>
+                <main-nav-items class="container-fluid" v-if="!StateObject('building_id') && StateObject('controller')!='user'" :buildings_data="buildings_data" default_icon="building" grid_area_surfix="home-page"></main-nav-items>
 
                 <edit form_title="Edit My Information" :object_id="StateObject('user_id')" v-if="StateObject('controller')=='user'"></edit>
 

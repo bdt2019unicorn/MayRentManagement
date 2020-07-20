@@ -1,6 +1,6 @@
 Vue.component
 (
-    "UtilitiesOverview", 
+    "utilities-overview", 
     {
         props: [], 
         mixins: [support_mixin], 

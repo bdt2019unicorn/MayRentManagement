@@ -171,10 +171,10 @@ var overview_component = Vue.component
                         </div>
                         <div class="col text-center">
                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <a-hyperlink class="btn btn-secondary" v-else :controller="StateObject('controller')" text="Edit" :object_id="check_array[0]"></a-hyperlink>
+                            <a-hyperlink class="btn btn-secondary" v-else :params="{controller: StateObject('controller'), action: 'edit', object_id: check_array[0]}">Edit</a-hyperlink>
                         </div>
                         <div class="col text-left">
-                            <a class="btn btn-success" href='javascript:window.store_track.commit("RedirectUrl",{param: "action", value: "add"});'>Add</a>
+                            <a-hyperlink class="btn btn-success" :params="{action: 'add'}">Add</a-hyperlink>
                         </div>
 
                     </div>
