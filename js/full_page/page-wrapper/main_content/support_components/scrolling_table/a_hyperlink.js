@@ -2,21 +2,25 @@ Vue.component
 (
     "a-hyperlink", 
     {
-        props: ["controller", "object_id", "text"], 
-        methods: 
+        props: ["params"], 
+        computed: 
         {
-            EditObject()
+            Href()
             {
-                window.store_track.commit("RedirectUrl", {param: "controller", value: this.controller});
-                window.store_track.commit("RedirectUrl", {param: "action", value: "edit"}); 
-                window.store_track.commit("RedirectUrl", {param: "object_id", value: this.object_id}); 
-            }
+                let href = ""; 
+                Object.keys(this.params).forEach
+                (
+                    param=>
+                    {
+                        href+=`javascript:window.store_track.commit('RedirectUrl', {param: '${param}',value:'${this.params[param]}'}); `; 
+                    }
+                ); 
+                return (href)?href:undefined; 
+            }, 
         },
-        template: `<a href="javascript:void(0);" @click="EditObject">{{text}}</a>`
+        template: `<a :href="Href"><slot></slot></a>`
     }
 ); 
-
-
 
 Vue.component
 (

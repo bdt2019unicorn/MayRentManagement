@@ -6,7 +6,7 @@
         "Apartment Name":
         {
             "controller": "apartment", 
-            "object_id": "Apartment ID"
+            "object_id": "ID"
         }, 
         "Tenant Name":
         {

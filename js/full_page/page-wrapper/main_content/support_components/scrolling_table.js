@@ -56,6 +56,7 @@ Vue.component
                 let hyperlink_object = BindingKeys(); 
                 return {
                     controller: hyperlink_object.controller, 
+                    action: "edit", 
                     object_id: HyperlinkObjectId(hyperlink_object)
                 }; 
             }, 
@@ -196,9 +197,15 @@ Vue.component
                         <tr v-for="row in tbody">
                             <td v-for="index in row.length" :key="index-1" v-if='!Object.values(SpecialColumnsIndexes("hidden_columns")).includes(index-1)'>
                                 <id-tickbox v-if="(index-1)==IdTickbox" :object_id="row[index-1]" v-on="$listeners"></id-tickbox>
-                                <a-hyperlink v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)' v-bind="HyperlinkObject(index-1, row)" :text="row[index-1]"></a-hyperlink>
+
+                                <a-hyperlink v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)' :params="HyperlinkObject(index-1, row)">
+                                    {{row[index-1]}}
+                                </a-hyperlink>
+
                                 <date-compare-now v-else-if='Object.values(SpecialColumnsIndexes("date_compare_now")).includes(index-1)' :text="row[index-1]"></date-compare-now>
+
                                 <hyperlink-list-compile v-else-if='Object.values(SpecialColumnsIndexes("hyperlink_list")).includes(index-1)' :list="row[index-1]"></hyperlink-list-compile>
+
                                 <template v-else>{{row[index-1]}}</template>
                             </td>
                         </tr>
