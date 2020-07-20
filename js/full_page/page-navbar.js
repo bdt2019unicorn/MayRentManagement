@@ -12,6 +12,46 @@ Vue.component
     }
 ); 
 
+// Vue.component 
+// (
+//     "main-nav-item", 
+//     {
+//         props: ["grid_area_surfix", "icon", "id", "index", "name", "params"], 
+//         mixins: [support_mixin], 
+//         computed: 
+//         {
+//             Href()
+//             {
+//                 let href = ""; 
+//                 Object.keys(this.params).forEach
+//                 (
+//                     param=>
+//                     {
+//                         href+=`javascript:window.store_track.commit('RedirectUrl', {param: '${param}',value:'${this.params[param]}'}); `; 
+//                     }
+//                 ); 
+//                 return (href)?href:undefined; 
+//             }, 
+//             ItemStyle()
+//             {
+//                 return { 
+//                     gridArea: (this.grid_area_surfix)?this.grid_area_surfix+"-"+this.index:undefined, 
+//                     textAlign: "center"
+//                 }
+//             }
+//         }, 
+//         template: 
+//         `
+//             <a :style="ItemStyle" :href="Href">
+//                 <i style="font-size: xx-large;" :class="['fas', 'fa-'+ this.icon]"></i>
+//                 <p>{{name}}</p>
+//             </a>
+//         `
+//     }
+// ); 
+
+
+
 Vue.component 
 (
     "main-nav-item", 
@@ -20,18 +60,6 @@ Vue.component
         mixins: [support_mixin], 
         computed: 
         {
-            Href()
-            {
-                let href = ""; 
-                Object.keys(this.params).forEach
-                (
-                    param=>
-                    {
-                        href+=`javascript:window.store_track.commit('RedirectUrl', {param: '${param}',value:'${this.params[param]}'}); `; 
-                    }
-                ); 
-                return (href)?href:undefined; 
-            }, 
             ItemStyle()
             {
                 return { 
@@ -42,13 +70,18 @@ Vue.component
         }, 
         template: 
         `
-            <a :style="ItemStyle" :href="Href">
+            <a-hyperlink :style="ItemStyle" :params="params">
                 <i style="font-size: xx-large;" :class="['fas', 'fa-'+ this.icon]"></i>
                 <p>{{name}}</p>
-            </a>
+            </a-hyperlink>
         `
     }
 ); 
+
+
+
+
+
 
 Vue.component
 (

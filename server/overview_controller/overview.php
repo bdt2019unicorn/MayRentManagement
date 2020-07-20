@@ -128,11 +128,9 @@
 				$text = "{$ocupant['First_Name']} {$ocupant['Last_Name']} "; 
 				$template = 
 				"
-					<a-hyperlink
-						controller='tenant'
-						object_id='{$id}'
-						text='{$text}'
-					></a-hyperlink>
+					<a-hyperlink :params='{controller:`tenant`, action: `edit`, object_id:`{$id}`}'>
+						{$text}
+					</a-hyperlink>
 				"; 
 				$row[$ocupant_title].="{$template}, "; 
 			}
