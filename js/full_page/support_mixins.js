@@ -93,11 +93,18 @@ var edit_mixin =
     mixins: [support_mixin], 
     mounted() 
     {
-        if(this.edit_data)
+        this.BringEditData(); 
+    }, 
+    methods: 
+    {
+        BringEditData()
         {
-            this.value = this.edit_data[this.name]; 
+            if(this.edit_data)
+            {
+                this.value = this.edit_data[this.name]; 
+            }    
         }    
-    }
+    },
 }; 
 
 var simple_input_mixin = 

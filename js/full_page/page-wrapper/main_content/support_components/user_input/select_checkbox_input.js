@@ -46,6 +46,14 @@ Vue.component
             select_data: function(new_value, old_value)
             {   
                 this.PopulateSelectData(); 
+            }, 
+            value: function(new_value, old_value)
+            {
+                this.$emit("search-data-changed"); 
+            }, 
+            edit_data: function(new_value, old_value)
+            {
+                this.BringEditData(); 
             }
 
         },

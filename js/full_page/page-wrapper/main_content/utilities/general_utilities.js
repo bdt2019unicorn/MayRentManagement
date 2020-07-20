@@ -1,8 +1,8 @@
 Vue.component
 (
-    "utilities-overview", 
+    "general-utilities", 
     {
-        props: [], 
+        props: ["table_data"],
         mixins: [support_mixin], 
         data()
         {
@@ -13,14 +13,12 @@ Vue.component
                 main_url: "server/utilities_controller/utility_overview.php?command=", 
                 select_data: 
                 {
-                    apartment: [], 
                     utilities: [], 
                     select_value: "id", 
                     text: "name", 
                 }, 
                 start_date: undefined, 
                 table_action: {}, 
-                table_data: [],
             }
         }, 
         components: {FunctionalCalendar}, 
@@ -48,18 +46,6 @@ Vue.component
                 return `server/overview_controller/utilities.php?building_id=${this.BuildingId}`; 
             }
         },
-        created()
-        {
-            this.SelectData(); 
-            this.ThisMonthDayRange();
-            this.table_action = this.TableActions("utilities"); 
-            
-            var search_data = new FormData(); 
-            search_data.append("revenue_type_id", this.EditSelectUtilitiesData.revenue_type_id); 
-            search_data.append("start_date", this.start_date); 
-            search_data.append("end_date", this.end_date); 
-            this.table_data = JSON.parse(this.AjaxRequest(this.TableDataUrl, search_data,"post")); 
-        }, 
         methods: 
         {
             CalendarChooseDay()
@@ -72,6 +58,7 @@ Vue.component
                         this.end_date = this.function_calendar_model.dateRange.end; 
                         this.function_calendar_model = undefined; 
                         this.date_picker_opened = false; 
+                        this.Search(); 
                     }
                 }
                 catch {}
@@ -108,16 +95,15 @@ Vue.component
                 ); 
                 
             },
-            SearchData(event)
+            Search(event=undefined)
             {
-                var search_data = new FormData(event.target); 
-                this.table_data = JSON.parse(this.AjaxRequest(this.TableDataUrl, search_data,"post")); 
+                var search_data = new FormData($(this.$refs["search_form"])[0]); 
+                this.$emit("search-data-changed", search_data, Boolean(event)); 
             }, 
             SelectData()
             {
                 let utility_data = this.AjaxRequest(`${this.main_url}SelectData`); 
                 this.select_data.utilities = JSON.parse(utility_data); 
-                this.select_data.apartment = this.TableData("apartment"); 
             }, 
             ThisMonthDayRange()
             {
@@ -129,19 +115,29 @@ Vue.component
                 this.end_date = `${year}-${month+1}-${last_day_of_month}`; 
             }
         },
+        mounted()
+        {
+            new Promise
+            (
+                (resolve, reject)=>
+                {
+                    this.SelectData(); 
+                    this.ThisMonthDayRange();
+                    this.table_action = this.TableActions("utilities"); 
+                    resolve(true); 
+                }
+            ).then(this.Search); 
+        }, 
         template:
         `
             <div class="container-fluid">
                 <h1>Utilities</h1>
 
                 <div class="row">
-                    <form class="container-fluid col" @submit.prevent="SearchData">  
+                    <form class="container-fluid col" @submit.prevent="Search" ref="search_form">  
                         <div class="row">
-                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData"></select-input>
-                            <select-input :select_data="select_data.apartment" v-bind="select_data" name="apartment_id" :not_required="true">All Apartment</select-input>
-                            <div class="col-2">
-                                <button type="submit" class="btn btn-primary">Search</button>
-                            </div>
+                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData" @search-data-changed="Search"></select-input>
+                            <slot name="form_apartments_select" v-bind:select_data="select_data"></slot>
                         </div>
 
                         <div class="row">
@@ -162,9 +158,7 @@ Vue.component
                                 <input type="text" name="end_date" v-model="end_date" hidden>
                             </div>
 
-                            <div class="col-2">
-                                <button type="button" class="btn btn-primary">Add</button>
-                            </div>
+                            <slot name="add_utilities"></slot>
                         </div>
                     </form>
                 </div>
