@@ -47,17 +47,10 @@ Vue.component
                     }
                 }
 
-                HyperlinkObjectId = (hyperlink_object)=>
-                {
-                    let row_index = this.thead[hyperlink_object["object_id"]]; 
-                    return row[row_index]; 
-                }
-
                 let hyperlink_object = BindingKeys(); 
                 return {
-                    controller: hyperlink_object.controller, 
-                    action: "edit", 
-                    object_id: HyperlinkObjectId(hyperlink_object)
+                    ...hyperlink_object, 
+                    object_id: row[this.thead[hyperlink_object["object_id"]]]
                 }; 
             }, 
             SetupTable()
