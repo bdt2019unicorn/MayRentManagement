@@ -4,7 +4,6 @@
     {
         "Apartment Name":
         {
-            "controller": "utility", 
             "action": "apartment-utilities", 
             "object_id": "apartment_id"
         }
