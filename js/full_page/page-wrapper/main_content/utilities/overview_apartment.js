@@ -2,29 +2,17 @@ Vue.component
 (
     "utilities-overview", 
     {
-        mixins: [support_mixin], 
+        mixins: [utilities_mixin], 
         data() 
         {
             return {
                 apartments: [], 
-                table_data: []
             }
         },
-
-        computed: 
-        {
-            TableDataUrl()
-            {
-                return `server/overview_controller/utilities.php?building_id=${this.BuildingId}`; 
-            }
-        },
-
         created() 
         {
             this.apartments = this.TableData("apartment");     
         },
-
-
         methods: 
         {
             Search(search_data, search_button=false)
@@ -61,44 +49,24 @@ Vue.component
 (
     "apartment-utilities", 
     {
-        mixins: [support_mixin], 
-        data() 
-        {
-            return {
-                table_data: []
-            }
-        },
-
-        computed: 
-        {
-            TableDataUrl()
-            {
-                return `server/overview_controller/utilities.php?building_id=${this.BuildingId}`; 
-            }
-        },
-
-        created() 
-        {
-
-        },
-
-
+        mixins: [utilities_mixin], 
         methods: 
         {
-            Search(search_data, search_button=false)
+            Search(search_data)
             {
-                window.test_search_data = search_data; 
-                if(search_button)
+                try 
                 {
-                    this.table_data = JSON.parse(this.AjaxRequest(this.TableDataUrl, search_data,"post")); 
+                    search_data.append("apartment_id", this.StateObject("object_id")); 
+                    let apartment_utitlities_json = this.AjaxRequest(this.TableDataUrl, search_data,"post"); 
+                    let url = "server/utilities_controller/apartment_utilities.php"; 
+                    let table_data = this.SubmitData("apartment_utilities", url, apartment_utitlities_json, false); 
+                    console.log(table_data); 
+                    this.table_data = JSON.parse(apartment_utitlities_json); 
                 }
+                catch {}
             }
         },
-        template: 
-        `
-            <general-utilities @search-data-changed="Search" :table_data="table_data">
-            </general-utilities>
-        `
+        template: `<general-utilities @search-data-changed="Search" :table_data="table_data"></general-utilities>`
     }
 ); 
 
