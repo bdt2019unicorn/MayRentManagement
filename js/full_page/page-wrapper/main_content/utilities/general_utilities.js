@@ -54,11 +54,17 @@ Vue.component
                 {
                     if(this.function_calendar_model.dateRange.end)
                     {
-                        this.start_date = this.function_calendar_model.dateRange.start; 
-                        this.end_date = this.function_calendar_model.dateRange.end; 
-                        this.function_calendar_model = undefined; 
-                        this.date_picker_opened = false; 
-                        this.Search(); 
+                        new Promise
+                        (
+                            (resolve, reject)=>
+                            {
+                                this.start_date = this.function_calendar_model.dateRange.start; 
+                                this.end_date = this.function_calendar_model.dateRange.end; 
+                                this.function_calendar_model = undefined; 
+                                this.date_picker_opened = false; 
+                                resolve(); 
+                            }
+                        ).then(this.Search); 
                     }
                 }
                 catch {}
@@ -97,7 +103,7 @@ Vue.component
             },
             Search(event=undefined)
             {
-                var search_data = new FormData($(this.$refs["search_form"])[0]); 
+                var search_data = new FormData(this.$refs["search_form"]); 
                 this.$emit("search-data-changed", search_data, Boolean(event)); 
             }, 
             SelectData()

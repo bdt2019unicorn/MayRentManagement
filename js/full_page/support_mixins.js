@@ -79,10 +79,10 @@ var support_mixin =
         {
             return window.store_track.state[state_property]; 
         }, 
-        SubmitData(key, url, data)
+        SubmitData(key, url, data, stringify=true)
         {
             var form_data = new FormData(); 
-            form_data.append(key, JSON.stringify(data)); 
+            form_data.append(key, (stringify)?JSON.stringify(data): data); 
             return this.AjaxRequest(url,form_data, "post");
         }
     } 
@@ -116,4 +116,23 @@ var simple_input_mixin =
             value:""
         }
     } 
+}
+
+
+var utilities_mixin = 
+{
+    mixins: [support_mixin], 
+    data() 
+    {
+        return {
+            table_data: [], 
+        }
+    },
+    computed: 
+    {
+        TableDataUrl()
+        {
+            return `server/overview_controller/utilities.php?building_id=${this.BuildingId}`; 
+        }
+    }
 }
