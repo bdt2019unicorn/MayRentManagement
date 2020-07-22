@@ -1,5 +1,5 @@
 {
-    "hidden_columns": ["apartment_id", "revenue_type_id"], 
+    "hidden_columns": ["apartment_id", "apartment_table", "revenue_type_id"], 
     "hyperlink": 
     {
         "Apartment Name":
