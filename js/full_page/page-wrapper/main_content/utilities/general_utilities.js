@@ -41,9 +41,17 @@ Vue.component
             {
                 return `${moment(this.start_date).format('DD MMM YYYY')} - ${moment(this.end_date).format('DD MMM YYYY')}`; 
             }, 
-            TableDataUrl()
+            UtilityNameSearchById()
             {
-                return `server/overview_controller/utilities.php?building_id=${this.BuildingId}`; 
+                let utility_name_by_id = {}; 
+                this.select_data.utilities.forEach
+                (
+                    element => 
+                    {
+                        utility_name_by_id[element.id] = element.name; 
+                    }
+                );
+                return utility_name_by_id; 
             }
         },
         methods: 
@@ -169,6 +177,7 @@ Vue.component
                     </form>
                 </div>
                 <br>
+                <slot name="utility_price" v-bind:UtilityNameSearchById="UtilityNameSearchById"></slot>
                 <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table>
 
             </div>

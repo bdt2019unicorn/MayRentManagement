@@ -35,19 +35,33 @@
             `utility_reading`.`number`, 
             (
                 SELECT MAX(`ur`.`number`)
-                from `utility_reading` ur
-                where `ur`.`date` = 
-                                (
-                                    SELECT MAX(`u_r`.`date`)
-                                    FROM `utility_reading` u_r 
-                                    WHERE 
-                                        `utility_reading`.`date`>`u_r`.`date`
-                                        AND `u_r`.`apartment_id` = `utility_reading`.`apartment_id`
-                                        AND `u_r`.`revenue_type_id` = `utility_reading`.`revenue_type_id`
-                                )
+                FROM `utility_reading` ur
+                WHERE 
+                    `ur`.`date` = 
+                    (
+                        SELECT MAX(`u_r`.`date`)
+                        FROM `utility_reading` u_r 
+                        WHERE 
+                            `utility_reading`.`date`>`u_r`.`date`
+                            AND `u_r`.`apartment_id` = `utility_reading`.`apartment_id`
+                            AND `u_r`.`revenue_type_id` = `utility_reading`.`revenue_type_id`
+                    )
                     AND `ur`.`apartment_id` = `utility_reading`.`apartment_id`
                     AND `ur`.`revenue_type_id` = `utility_reading`.`revenue_type_id`
-            ) AS 'smaller_number'
+            ) AS 'smaller_number', 
+            (
+                SELECT MAX(`up`.`value`)
+                FROM `utility_price` up
+                WHERE 
+                    `up`.`date_valid` = 
+                    (
+                        SELECT MAX(`utility_price`.`date_valid`)
+                        FROM `utility_price`
+                        WHERE `utility_price`.`date_valid`<=`utility_reading`.`date`
+                        AND `utility_price`.`revenue_type_id` = `utility_reading`.`revenue_type_id`
+                    )
+                    AND `up`.`revenue_type_id` = `utility_reading`.`revenue_type_id`
+            ) AS 'unit_price'
         {$conditions_sql}
     "; 
 
@@ -91,15 +105,19 @@
     {
         if($values["date"])
         {
-            $data[$values["apartment_id"]][date_format(date_create($values["date"]), "d M Y")] = $values["number"]; 
+            $date = date_format(date_create($values["date"]), "d M Y"); 
+            $data[$values["apartment_id"]][$date] = $values["number"]; 
             
             $consumption = doubleval($values["number"]) - doubleval($values["smaller_number"]); 
             $data[$values["apartment_id"]]["apartment_table"][$values["date"]] =
             array
             (
-                "reading"=>$values["number"], 
-                "smaller_number"=>$values["smaller_number"], 
-                "consumption"=> $consumption
+                "Date"=> $date,
+                "Time"=>date_format(date_create($values["date"]), "G:i:s"), 
+                "Reading"=>$values["number"], 
+                "Consumption"=> $consumption, 
+                "Unit price (VND/kWh)"=> $values["unit_price"],
+                "Bill"=>$consumption*doubleval($values["unit_price"])
             );  
 
         }
@@ -113,6 +131,4 @@
     }
 
     echo json_encode($utilities_overview); 
-
-
 ?>

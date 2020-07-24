@@ -7,6 +7,7 @@ Vue.component
         {
             return {
                 apartments: [], 
+                revenue_type_id: undefined
             }
         },
         created() 
@@ -19,7 +20,8 @@ Vue.component
             {
                 if(search_button)
                 {
-                    this.table_data = JSON.parse(this.AjaxRequest(this.TableDataUrl, search_data,"post")); 
+                    this.table_data = JSON.parse(this.AjaxRequest(this.OverviewUrl, search_data,"post")); 
+                    this.revenue_type_id = search_data.get("revenue_type_id"); 
                 }
             }
         },
@@ -39,7 +41,13 @@ Vue.component
                         <button type="button" class="btn btn-primary">Add</button>
                     </div>
                 </template>
+                
+                <template #utility_price="slotProps">
+                    <h4>{{slotProps.UtilityNameSearchById[revenue_type_id]}} price</h4>
+                    <p>quick test</p>
 
+                    <h4>Overview</h4>
+                </template>
             </general-utilities>
         `
     }
@@ -57,11 +65,9 @@ Vue.component
                 try 
                 {
                     search_data.append("apartment_id", this.StateObject("object_id")); 
-                    let apartment_utitlities_json = this.AjaxRequest(this.TableDataUrl, search_data,"post"); 
-                    let url = "server/utilities_controller/apartment_utilities.php"; 
-                    let table_data = this.SubmitData("apartment_utilities", url, apartment_utitlities_json, false); 
-                    console.log(table_data); 
-                    this.table_data = JSON.parse(apartment_utitlities_json); 
+                    let apartment_utitlities_json = this.AjaxRequest(this.OverviewUrl, search_data,"post"); 
+                    let apartment_utitlities = JSON.parse(apartment_utitlities_json)[0]; 
+                    this.table_data = Object.values(apartment_utitlities.apartment_table).reverse(); 
                 }
                 catch {}
             }

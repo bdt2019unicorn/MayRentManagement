@@ -39,7 +39,7 @@ Vue.component
 
             SendData()
             {
-                var result = this.ImportData(this.excel_data); 
+                let result = this.SubmitData("excel", this.ImportUrl,this.excel_data); 
                 if(result==true)
                 {
                     alert("data imported"); 

@@ -17,7 +17,7 @@ var overview_component = Vue.component
             {
                 try 
                 {
-                    let table_actions = this.TableActions(this.StateObject('controller')); 
+                    let table_actions = this.TableActions(this.StateController); 
                     return table_actions.page_title; 
                 }
                 catch
@@ -34,7 +34,7 @@ var overview_component = Vue.component
         {
             DeleteData()
             {
-                var url = `server/delete_controller/${this.StateObject('controller')}.php`; 
+                var url = `server/delete_controller/${this.StateController}.php`; 
                 var result = this.SubmitData("delete", url, this.check_array); 
                 if(Number(result))
                 {
@@ -66,14 +66,14 @@ var overview_component = Vue.component
             }, 
             PopulateData()
             {
-                this.table_data = this.TableData(this.StateObject('controller')); 
+                this.table_data = this.TableData(this.StateController); 
                 this.search_data = this.SearchData(); 
                 this.check_array = []; 
             }, 
             Search()
             {
                 let data = $(this.$refs['search_form']).serializeObject(); 
-                let overview_data = this.TableData(this.StateObject('controller')); 
+                let overview_data = this.TableData(this.StateController); 
                 if(data['search_value'])
                 {
                     this.table_data = []; 
@@ -118,7 +118,7 @@ var overview_component = Vue.component
             }, 
             SearchData()
             {
-                var search_columns = this.TableActions(this.StateObject('controller')).search; 
+                var search_columns = this.TableActions(this.StateController).search; 
                 if(search_columns)
                 {
                     var search_data = []; 
@@ -156,7 +156,7 @@ var overview_component = Vue.component
             <div class="container-fluid">
                 <h1>{{PageTitle}}</h1>
                 <div class="row">
-                    <form class="container-fluid row col" v-if="search_data && (TableData(StateObject('controller')).length>0)" ref="search_form" @submit.prevent="Search">
+                    <form class="container-fluid row col" v-if="search_data && (TableData(StateController).length>0)" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
                         <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
                         <div class="col--2">
@@ -164,14 +164,14 @@ var overview_component = Vue.component
                         </div>
                     </form>
 
-                    <div class="col-5 row" v-if="StateObject('controller')!='overview'">
+                    <div class="col-5 row" v-if="StateController!='overview'">
 
                         <div class="col text-right">
                             <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
                         </div>
                         <div class="col text-center">
                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <a-hyperlink class="btn btn-secondary" v-else :params="{controller: StateObject('controller'), action: 'edit', object_id: check_array[0]}">Edit</a-hyperlink>
+                            <a-hyperlink class="btn btn-secondary" v-else :params="{controller: StateController, action: 'edit', object_id: check_array[0]}">Edit</a-hyperlink>
                         </div>
                         <div class="col text-left">
                             <a-hyperlink class="btn btn-success" :params="{action: 'add'}">Add</a-hyperlink>
@@ -180,7 +180,7 @@ var overview_component = Vue.component
                     </div>
                 </div>
                 <br>
-                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(StateObject('controller'))" @id-check-changed="IdCheckChanged"></scrolling-table>
+                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(StateController)" @id-check-changed="IdCheckChanged"></scrolling-table>
             </div>
         `
     }
