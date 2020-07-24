@@ -1,51 +1,3 @@
-var add_edit_mixin = 
-{
-    mixins: [support_mixin], 
-    computed: 
-    {
-        CurrentController()
-        {
-            return ((this.controller)?this.controller:this.StateObject('controller')); 
-        }
-    },
-    methods: 
-    {
-        PopulateFormField()
-        {
-            var data = this.AjaxRequest(`server/user_input_controller/${this.CurrentController}.json`); 
-            try 
-            {
-                this.form = data.form; 
-                this.title = (this.form_title)?this.form_title: (this.controller)? data.title :this.title+data.title; 
-                this.validate = (data.validate)?data.validate:this.validate; 
-            } 
-            catch
-            {
-                this.form = []; 
-                this.title ="Edit "; 
-            }
-        }
-    },
-    watch: 
-    {
-        CurrentController: function(new_value, old_value)
-        {
-            this.PopulateFormField(); 
-        }   
-    },
-    template: 
-    `
-        <user-input 
-            v-bind="$data" 
-            :id="CurrentController"
-            :edit_data="(this.edit_data)?this.edit_data:undefined"
-            @form-information-valid="SubmitForm"
-        ></user-input>
-    `
-}
-
-
-
 Vue.component
 (
     "add", 
@@ -68,7 +20,7 @@ Vue.component
         {
             SubmitForm(data)
             {
-                let result = this.ImportData([data], this.controller); 
+                let result = this.SubmitData("excel", this.ImportUrl,[data]); 
                 if(Number(result))
                 {
                     alert(this.title+" Success!"); 
@@ -89,8 +41,6 @@ Vue.component
         }
     }
 ); 
-
-
 
 Vue.component
 (
@@ -135,7 +85,7 @@ Vue.component
             }, 
             PopulateDateIntoFields()
             {
-                var data = this.AjaxRequest(`server/overview_controller/${this.CurrentController}.php?id=${this.object_id}`);    
+                var data = this.AjaxRequest(this.OverviewUrl); 
                 this.edit_data = JSON.parse(data)[0];  
                 Object.keys(this.edit_data).forEach
                 (

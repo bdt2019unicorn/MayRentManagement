@@ -1,15 +1,3 @@
-var text_mixin = 
-{
-    mixins: [simple_input_mixin], 
-    watch: 
-    {
-        controller: function(new_value, old_value)
-        {
-            this.value = ""; 
-        }
-    }, 
-}
-
 Vue.component
 (
     "text-input", 
@@ -27,13 +15,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <input 
-                    class="form-control"
-                    :type="InputType"  
-                    :name="name" 
-                    :id="id"
-                    v-model="value"
-                >
+                <input class="form-control" :type="InputType" :name="name" :id="id" v-model="value">
             </div>
         `
     }
@@ -48,18 +30,8 @@ Vue.component
         `
             <div class="form-group col">
                 <div class="row">
-                    <text-input
-                        :name="name"
-                        :title="title"
-                        :id="id"
-                    >
-                    </text-input>
-
-                    <text-input
-                        :name="confirm_name"
-                        :title="confirm_title"
-                    >
-                    </text-input>
+                    <text-input :name="name" :title="title":id="id"></text-input>
+                    <text-input :name="confirm_name" :title="confirm_title"></text-input>
                 </div>
             </div>
         `
@@ -76,8 +48,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
-                <textarea class="form-control" :name="name" v-model="value">
-                </textarea>
+                <textarea class="form-control" :name="name" v-model="value"></textarea>
             </div>
         `
     }
