@@ -1,7 +1,8 @@
 <?php 
 
 	require_once("./general.php"); 
-	if(isset($_GET['building_id']))
+
+	if(isset($_GET['building_id'])&&!isset($_GET["id"]))
 	{
 		$sql = 
 		"
@@ -20,7 +21,7 @@
 
 	else 
 	{
-		GetDataFromTable("leaseagrm", $_GET); 
+		GetDataFromTable("leaseagrm", $conditions); 
 	}
 
 ?>

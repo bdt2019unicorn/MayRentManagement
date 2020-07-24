@@ -3,6 +3,12 @@
 	require_once("../helper/connect.php"); 
 	require_once("../helper/query.php"); 
 
+	$conditions = []; 
+	if(isset($_GET["id"]))
+	{
+		$conditions["id"] = $_GET["id"]; 
+	}
+
 	function GetDataGeneral($sql)
 	{
 		$data = Connect::GetData($sql); 
