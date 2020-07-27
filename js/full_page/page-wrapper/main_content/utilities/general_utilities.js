@@ -2,7 +2,7 @@ Vue.component
 (
     "general-utilities", 
     {
-        props: ["table_data"],
+        props: ["select_data", "table_data"],
         mixins: [support_mixin], 
         data()
         {
@@ -10,13 +10,6 @@ Vue.component
                 date_picker_opened: false, 
                 end_date: undefined, 
                 function_calendar_model: undefined, 
-                main_url: "server/utilities_controller/utility_overview.php?command=", 
-                select_data: 
-                {
-                    utilities: [], 
-                    select_value: "id", 
-                    text: "name", 
-                }, 
                 start_date: undefined, 
                 table_action: {}, 
             }
@@ -40,18 +33,6 @@ Vue.component
             LabelDateRange()
             {
                 return `${moment(this.start_date).format('DD MMM YYYY')} - ${moment(this.end_date).format('DD MMM YYYY')}`; 
-            }, 
-            UtilityNameSearchById()
-            {
-                let utility_name_by_id = {}; 
-                this.select_data.utilities.forEach
-                (
-                    element => 
-                    {
-                        utility_name_by_id[element.id] = element.name; 
-                    }
-                );
-                return utility_name_by_id; 
             }
         },
         methods: 
@@ -114,11 +95,6 @@ Vue.component
                 var search_data = new FormData(this.$refs["search_form"]); 
                 this.$emit("search-data-changed", search_data, Boolean(event)); 
             }, 
-            SelectData()
-            {
-                let utility_data = this.AjaxRequest(`${this.main_url}SelectData`); 
-                this.select_data.utilities = JSON.parse(utility_data); 
-            }, 
             ThisMonthDayRange()
             {
                 var today = new Date(); 
@@ -135,7 +111,6 @@ Vue.component
             (
                 (resolve, reject)=>
                 {
-                    this.SelectData(); 
                     this.ThisMonthDayRange();
                     this.table_action = this.TableActions("utilities"); 
                     resolve(true); 
@@ -177,7 +152,7 @@ Vue.component
                     </form>
                 </div>
                 <br>
-                <slot name="utility_price" v-bind:UtilityNameSearchById="UtilityNameSearchById"></slot>
+                <slot name="utility_price"></slot>
                 <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table>
 
             </div>

@@ -1,0 +1,39 @@
+{
+    "title": "New Utility Price", 
+    "form":
+    [
+        [
+            {
+                "component": "select-input",
+                "name": "revenue_type_id",
+                "title": "Utility type",
+                "select_value": "id",
+                "text": "name"
+            },             
+            {
+                "component": "number-input",
+                "name": "value",
+                "title": "Price Value"
+            },
+            {
+                "component": "date-input",
+                "name": "date_valid",
+                "title": "Valid Date",
+                "required": true
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "revenue_type_id": "required",
+            "value": 
+            {
+                "required": true, 
+                "number_input_min": 0 
+            }, 
+            "date_valid": "required"
+        }
+    }
+}
