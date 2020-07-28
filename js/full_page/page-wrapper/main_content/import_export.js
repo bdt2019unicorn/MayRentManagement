@@ -57,47 +57,20 @@ Vue.component
         `
             <div class="import-export-layout container-fluid">
 
-                <a 
-                    class="btn" 
-                    style="grid-area: template-btn;"
-                    :href='"excel_templates/" + StateObject("controller") + "-template.xls"'
-                >
+                <a class="btn" style="grid-area: template-btn;" :href='"excel_templates/" + StateObject("controller") + "-template.xlsx"'>
                     <p>Download Excel Template</p>
                     <i style="font-size: xx-large;" class="fas fa-file-excel"></i>
                 </a>
 
-                <a 
-                    class="btn" 
-                    style="grid-area: import-btn;"
-                    href="javascript:void(0);" 
-                    @click.prevent="$refs['excel_input'].click()"
-                >
+                <a class="btn" style="grid-area: import-btn;" href="javascript:void(0);" @click.prevent="$refs['excel_input'].click()">
                     <p>Import Excel File</p>
                     <i style="font-size: xx-large;" class="fas fa-file-import"></i>
                 </a>
-                <input 
-                    type="file" 
-                    hidden 
-                    ref="excel_input" 
-                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    @change="ReadExcel"
-                >
+                <input type="file" hidden ref="excel_input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"@change="ReadExcel">
 
-                <scrolling-table
-                    tb_style="grid-area: scrolling-div;"
-                    v-if="this.excel_data!=[]"
-                    :table_data="excel_data"
-                >
-                </scrolling-table>
+                <scrolling-table tb_style="grid-area: scrolling-div;" v-if="this.excel_data!=[]" :table_data="excel_data"></scrolling-table>
 
-                <button 
-                    class="btn" 
-                    type="button" 
-                    style="grid-area: next-btn;" 
-                    title="Import Data"
-                    v-show="this.excel_data!=null"
-                    @click="SendData"
-                >
+                <button class="btn" type="button" style="grid-area: next-btn;" title="Import Data" v-show="this.excel_data!=null" @click="SendData">
                     <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
                 </button>
 

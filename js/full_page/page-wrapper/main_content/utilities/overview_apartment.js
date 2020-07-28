@@ -28,10 +28,6 @@ Vue.component
                 return utility_name_by_id; 
             }
         },
-        created() 
-        {
-            this.select_data.apartments = this.TableData("apartment");     
-        },
         methods: 
         {
             AddPriceForm()
@@ -40,9 +36,47 @@ Vue.component
                 add_price.form[0][0]["select_data"] = this.select_data.utilities; 
                 this.add_price_form = add_price; 
             }, 
+            CurrentPriceInformation(revenue_type_id)
+            {
+                let price_information = this.AjaxRequest(`${this.main_url}CurrentPrice&revenue_type_id=${revenue_type_id}`); 
+                return JSON.parse(price_information)[0]; 
+            }, 
             NewPrice(data)
             {
-                console.log(data); 
+                let current_price = this.CurrentPriceInformation(data.revenue_type_id); 
+                let data_date_valid = moment(data.date_valid, "MM/DD/YY"); 
+                let current_price_date_valid= moment(current_price.date_valid); 
+
+                ModifyDateValid = (bad_message=undefined)=>
+                {
+                    let date_valid = this.add_price_form.form[0].pop(); 
+                    date_valid["bad_message"] = bad_message; 
+                    date_valid["edit_data"] = {date_valid: data_date_valid.format("MM/DD/YY")}; 
+                    this.add_price_form.form[0].push(date_valid); 
+                }
+
+                if(data_date_valid<current_price_date_valid)
+                {
+                    ModifyDateValid(`Please enter a later date than the current date at ${current_price_date_valid.format("DD/MM/YYYY")}`); 
+                }
+                else
+                {
+                    ModifyDateValid(); 
+                    data.date_enter = moment().format("YYYY-MM-DD"); 
+                    data.date_valid = data_date_valid.format("YYYY-MM-DD"); 
+                    let url = `${this.main_url}NewPrice`; 
+                    let result = this.SubmitData("NewPrice", url, data); 
+                    if(Number(result))
+                    {
+                        alert("New Price is entered in the server"); 
+                        this.add_price_form = false; 
+                        this.PriceInformation(); 
+                    }
+                    else 
+                    {
+                        alert("There seems to be a problem with the server, please try again"); 
+                    }
+                }
             }, 
             Search(search_data, search_button=false)
             {
@@ -54,12 +88,11 @@ Vue.component
             }, 
             PriceInformation()
             {
-                let price_information = this.AjaxRequest(`${this.main_url}CurrentPrice&revenue_type_id=${this.revenue_type_id}`); 
                 try 
                 {
-                    price_information = JSON.parse(price_information)[0]; 
+                    let price_information = this.CurrentPriceInformation(this.revenue_type_id); 
                     this.current_price = price_information.value; 
-                    this.valid_price_date = price_information.date_valid; 
+                    this.valid_price_date = moment(price_information.date_valid).format("DD/MM/YYYY"); 
                 }
                 catch
                 {
@@ -98,7 +131,7 @@ Vue.component
 
                 <template #add_utilities>
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary">Add</button>
+                        <a-hyperlink class="btn btn-primary" :params="{action: 'utility-reading'}">Add</a-hyperlink>
                     </div>
                 </template>
                 
