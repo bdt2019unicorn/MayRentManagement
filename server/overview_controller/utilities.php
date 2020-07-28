@@ -24,7 +24,7 @@
             $apartments = Connect::GetDataWithId($_POST["apartment_id"], "apartment"); 
         }
     }
-    $conditions_sql.="\nORDER BY `apartment`.`id`, `utility_reading`.`date`\n"; 
+    $conditions_sql.="\nORDER BY `utility_reading`.`date`, `apartment`.`id`\n"; 
 	$full_data_sql = 
 	"
         SELECT DISTINCT 

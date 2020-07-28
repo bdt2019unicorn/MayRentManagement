@@ -6,60 +6,13 @@ Vue.component
         data()
         {
             return {
-                nav_list_items: 
-                [
-                    {
-                        icon: "bed", 
-                        name: "Apartments", 
-                        params: 
-                        {
-                            controller: "apartment"
-                        }
-                    }, 
-                    {
-                        icon: "users", 
-                        name: "Tenants", 
-                        params: 
-                        {
-                            controller: "tenant"
-                        }
-                    }, 
-                    {
-                        icon: "handshake",
-                        name: "Lease Agreement", 
-                        params: 
-                        {
-                            controller: "leaseagrm"
-                        }
-                    }, 
-                    {
-                        icon: "hand-holding-usd",
-                        name: "Income", 
-                        params: 
-                        {
-                            controller: "revenue"
-                        }
-                    }, 
-                    {
-                        icon: "file-invoice-dollar",
-                        name: "Expenses", 
-                        params: 
-                        {
-                            controller: "expense"
-                        }
-                    }, 
-                    {
-                        icon: "cog",
-                        name: "Utilities", 
-                        params: 
-                        {
-                            controller: "utilities", 
-                            action: "utilities-overview"
-                        }
-                    }
-                ]
+                nav_list_items: []
             }
         }, 
+        created() 
+        {
+            this.nav_list_items = this.AjaxRequest("server/sidebar.json"); 
+        },
         template: 
         `
             <div class="side-bar">

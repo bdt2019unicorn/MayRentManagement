@@ -1,5 +1,6 @@
 <?php
     require_once("../helper/connect.php"); 
+    require_once("../helper/query.php"); 
     $overview = array 
     (
         "SelectData"=>function()
@@ -23,6 +24,13 @@
             "; 
             $current_price = Connect::GetData($sql); 
             echo(json_encode($current_price)); 
+        }, 
+        "NewPrice"=>function()
+        {
+            $data = json_decode($_POST["NewPrice"]); 
+            $sql = Query::Insert("utility_price", $data); 
+            $result = Connect::GetData($sql); 
+            echo $result; 
         }
     ); 
 
