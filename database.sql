@@ -3,6 +3,12 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+
 DROP TABLE IF EXISTS `apartment`;
 CREATE TABLE IF NOT EXISTS `apartment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -27,12 +33,12 @@ INSERT INTO `apartment` (`name`, `building_id`, `area`, `number_of_bedrooms`, `n
 ('201', 1, '0', 1, 1, 1, 0),
 ('202', 1, '0', 1, 1, 0, 0),
 ('203', 1, '0', 1, 1, 0, 0),
-( '301', 1, '0', 1, 1, 0, 0),
-( '302', 1, '0', 1, 1, 0, 0),
-( '303', 1, '0', 1, 1, 0, 0),
-( '304', 1, '0', 1, 1, 0, 0);
-( '401', 1, '0', 1, 1, 0, 0),
-( '402', 1, '0', 1, 1, 0, 0),
+('301', 1, '0', 1, 1, 0, 0),
+('302', 1, '0', 1, 1, 0, 0),
+('303', 1, '0', 1, 1, 0, 0),
+('304', 1, '0', 1, 1, 0, 0),
+('401', 1, '0', 1, 1, 0, 0),
+('402', 1, '0', 1, 1, 0, 0);
 
 DROP TABLE IF EXISTS `buildings`;
 CREATE TABLE IF NOT EXISTS `buildings` (
@@ -209,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `tenant` (
   `Company_Name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Company_address` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=457 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=459 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`) VALUES
 ('Kan', 'Test', 'Alan', '1985-06-18', 'Chinese', 'AK1223', '02615513546', '0654132', 'a.k@gmail.com', 'a.k@gmail.com', 'Mission Ready HQ ', 's34ydfg'),
@@ -225,7 +231,9 @@ INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_b
 ('Deffein', '', 'Patrick', '1919-04-08', '', '10AP23821', '0903102418', NULL, NULL, 'deffeinp@yahoo.fr', NULL, NULL),
 ('Clark', 'William', 'Michael', '1919-04-05', '', '46357961', '', NULL, NULL, '', NULL, NULL),
 ('Mills', '', 'Adrian Robert', '1919-05-07', 'England', '521542670', '', NULL, NULL, '', NULL, NULL),
-('Kornyk', '', 'Natalia', '1920-07-20', '', '234lks', '06354684545', '', '', '', '', '');
+('Kornyk', '', 'Natalia', '1920-07-20', '', '234lks', '06354684545', '', '', '', '', ''),
+('Lon', '', 'Jen', '1920-07-15', '', 'gfsdgsg', '34536457456', '', '', '', '', ''),
+('DJ', NULL, 'Spash', '1998-07-31', 'VN', 'lskjoi0294', '2298438538', NULL, NULL, NULL, NULL, NULL);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
@@ -243,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `password`, `phone_number`, `email`, `viber_number`, `approved`) VALUES
-(1, 'blastor555', '123456', '0259784563', 'blastor555@gmail.com', '0123654789', 1);
+(1, 'blastor555', 'TB3456', '0259784563', 'blastor555@gmail.com', '0123654789', 1);
 
 DROP TABLE IF EXISTS `utility_price`;
 CREATE TABLE IF NOT EXISTS `utility_price` (
@@ -254,19 +262,64 @@ CREATE TABLE IF NOT EXISTS `utility_price` (
   `date_enter` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`) VALUES
+(1, 2, '100', '2020-06-01', '2020-07-01'),
+(2, 3, '200', '2020-06-01', '2020-06-01'),
+(3, 2, '200', '2020-07-06', '2020-07-06'),
+(4, 3, '500', '2020-07-25', '2020-07-06'),
+(5, 2, '234', '2020-07-09', '2020-07-28'),
+(6, 2, '125', '2020-07-17', '2020-07-28'),
+(7, 3, '900', '2020-08-08', '2020-07-28');
 
 DROP TABLE IF EXISTS `utility_reading`;
 CREATE TABLE IF NOT EXISTS `utility_reading` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `revenue_type_id` int(11) NOT NULL,
   `apartment_id` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `number` decimal(10,0) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`),
   KEY `apartment_id` (`apartment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `utility_reading` (`revenue_type_id`, `apartment_id`, `date`, `number`) VALUES
+(2, 10, '2020-05-12 15:48:00', '125'),
+(3, 10, '2020-05-12 15:49:00', '85'),
+(2, 8, '2020-05-18 15:48:00', '564564'),
+(3, 8, '2020-05-17 15:49:00', '5484'),
+(2, 9, '2020-05-18 15:48:00', '332'),
+(3, 9, '2020-05-17 15:49:00', '799'),
+(2, 12, '2020-05-18 15:48:00', '215'),
+(3, 12, '2020-05-17 15:49:00', '1647'),
+(2, 11, '2020-05-18 15:48:00', '356'),
+(3, 11, '2020-05-17 15:49:00', '1618'),
+(2, 2, '2020-06-01 00:00:00', '10'),
+(3, 2, '2020-06-01 00:00:00', '10'),
+(2, 3, '2020-06-15 00:00:00', '2'),
+(3, 3, '2020-06-15 00:00:00', '2'),
+(2, 2, '2020-06-30 00:00:00', '13'),
+(3, 2, '2020-06-30 00:00:00', '13'),
+(2, 3, '2020-06-30 00:00:00', '10'),
+(3, 3, '2020-06-30 00:00:00', '10'),
+(2, 4, '2020-06-30 00:00:00', '7'),
+(3, 4, '2020-06-30 00:00:00', '7'),
+(2, 3, '2020-07-07 00:00:00', '15'),
+(3, 3, '2020-07-07 00:00:00', '15'),
+(2, 4, '2020-07-07 00:00:00', '19'),
+(3, 4, '2020-07-07 00:00:00', '19'),
+(2, 4, '2020-07-19 00:00:00', '20'),
+(3, 4, '2020-07-19 00:00:00', '20'),
+(2, 2, '2020-07-28 15:48:00', '564564'),
+(3, 2, '2020-07-27 15:49:00', '5484'),
+(2, 3, '2020-07-28 15:48:01', '332'),
+(3, 3, '2020-07-27 15:49:01', '799'),
+(2, 4, '2020-07-28 15:48:02', '215'),
+(3, 4, '2020-07-27 15:49:02', '1647'),
+(2, 5, '2020-07-28 15:48:03', '356'),
+(3, 5, '2020-07-27 15:49:03', '1618');
 
 
 ALTER TABLE `apartment`
@@ -293,3 +346,6 @@ ALTER TABLE `utility_reading`
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
