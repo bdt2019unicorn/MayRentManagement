@@ -23,22 +23,22 @@ CREATE TABLE IF NOT EXISTS `apartment` (
   KEY `building_id` (`building_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `apartment` (`name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`) VALUES
-('MAY', 1, '0', 1, 1, 0, 0),
-('G01', 1, '0', 1, 1, 0, 0),
-('G02', 1, '0', 1, 1, 0, 0),
-('101', 1, '0', 1, 1, 0, 0),
-('102', 1, '0', 1, 1, 0, 0),
-('103', 1, '0', 1, 1, 0, 0),
-('201', 1, '0', 1, 1, 1, 0),
-('202', 1, '0', 1, 1, 0, 0),
-('203', 1, '0', 1, 1, 0, 0),
-('301', 1, '0', 1, 1, 0, 0),
-('302', 1, '0', 1, 1, 0, 0),
-('303', 1, '0', 1, 1, 0, 0),
-('304', 1, '0', 1, 1, 0, 0),
-('401', 1, '0', 1, 1, 0, 0),
-('402', 1, '0', 1, 1, 0, 0);
+INSERT INTO `apartment` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`) VALUES
+( 1, 'MAY', 1, '0', 1, 1, 0, 0),
+( 2, 'G01', 1, '0', 1, 1, 0, 0),
+( 3, 'G02', 1, '0', 1, 1, 0, 0),
+( 4, '101', 1, '0', 1, 1, 0, 0),
+( 5, '102', 1, '0', 1, 1, 0, 0),
+( 6, '103', 1, '0', 1, 1, 0, 0),
+( 7, '201', 1, '0', 1, 1, 1, 0),
+( 8, '202', 1, '0', 1, 1, 0, 0),
+( 9, '203', 1, '0', 1, 1, 0, 0),
+(10, '301', 1, '0', 1, 1, 0, 0),
+(11, '302', 1, '0', 1, 1, 0, 0),
+(12, '303', 1, '0', 1, 1, 0, 0),
+(13, '304', 1, '0', 1, 1, 0, 0),
+(14, '401', 1, '0', 1, 1, 0, 0),
+(15, '402', 1, '0', 1, 1, 0, 0);
 
 DROP TABLE IF EXISTS `buildings`;
 CREATE TABLE IF NOT EXISTS `buildings` (
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `revenue` (
   KEY `apartment_id` (`apartment_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `revenue` (`id`, `name`, `Revenue_type_id`, `Start_period`, `End_period`, `apartment_id`, `Payment_date`, `Amount`, `Note`) VALUES
+INSERT INTO `revenue` (`name`, `Revenue_type_id`, `Start_period`, `End_period`, `apartment_id`, `Payment_date`, `Amount`, `Note`) VALUES
 ('Rent paid until date 1st time', 1, '2020-02-01', '2020-07-04', 4, '2020-02-01', '253242', NULL),
 ('102**done in the past**Allada', 1, '2019-10-01', '2019-12-31', 5, '2019-12-31', '2323', NULL),
 ('102**done in the past**Olivier', 1, '2020-01-01', '2020-05-31', 5, '2020-05-31', '534542', NULL),
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `tenant` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=459 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`) VALUES
+INSERT INTO `tenant` (`Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`) VALUES
 ('Kan', 'Test', 'Alan', '1985-06-18', 'Chinese', 'AK1223', '02615513546', '0654132', 'a.k@gmail.com', 'a.k@gmail.com', 'Mission Ready HQ ', 's34ydfg'),
 ('Bernardin Christophe', 'Christophe', 'Jean', '1919-11-09', 'Phap', '17CE19159', '0888411139', NULL, NULL, 'jeanchristophebernardin@gmail.com', NULL, NULL),
 ('Schill', '', 'Christoph', NULL, 'Austria', 'P6845625', '0936658805', NULL, NULL, 'christoph.schill@pracsis.com', NULL, NULL),
