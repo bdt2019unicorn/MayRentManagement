@@ -1,5 +1,6 @@
 <?php 
-	require_once("../helper/connect.php"); 
+    require_once("../helper/database.php"); 
+
 	$data = json_decode($_POST["excel"])[0]; 
 	$sql = 
 	"

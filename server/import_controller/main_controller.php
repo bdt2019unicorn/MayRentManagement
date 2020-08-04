@@ -1,5 +1,6 @@
 <?php 
-	require_once("../helper/connect.php"); 
+    require_once("../helper/database.php"); 
+
 
 	function ExecExcelCommand($table, $date_collumns, $exclude_columns, $get_id, $year_number, $comma)
 	{
