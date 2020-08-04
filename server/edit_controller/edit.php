@@ -1,6 +1,5 @@
 <?php 
-    require_once("../helper/query.php"); 
-    require_once("../helper/connect.php"); 
+    require_once("../helper/database.php"); 
 
     $post_key = "edit"; 
     $data = json_decode($_POST[$post_key]); 
