@@ -1,5 +1,5 @@
 <?php 
-	require_once "../helper/connect.php"; 
+    require_once("../helper/database.php"); 
 
 	$key = "building_id"; 
 

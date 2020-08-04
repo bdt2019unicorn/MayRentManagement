@@ -1,6 +1,6 @@
 <?php
-    require_once("../helper/connect.php"); 
-    require_once("../helper/query.php"); 
+    require_once("../helper/database.php"); 
+
     $overview = array 
     (
         "SelectData"=>function()

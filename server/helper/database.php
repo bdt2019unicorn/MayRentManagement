@@ -1,5 +1,63 @@
 <?php 
-    require_once("../../vendor/autoload.php"); 
+    class Query
+    {
+    	static public function Insert($table, $data)
+    	{
+    		$sql = "INSERT INTO `{$table}`"; 
+    		$columns = "("; 
+    		$values = "VALUES ("; 
+
+    		foreach ($data as $column => $value) 
+    		{
+    			$columns.="`{$column}`,"; 
+    			$values.="'{$value}',"; 
+    		}
+    		$sql.=" ".Query::RemoveLastCharacter($columns, ',').") ".Query::RemoveLastCharacter($values, ',').");"; 
+    		return $sql; 
+    	}
+
+        static public function Update($table, $data, $conditions)
+        {
+        	$sql = "UPDATE `{$table}` SET "; 
+
+        	foreach ($data as $column => $value) 
+        	{
+        		$sql.="`{$column}` = '{$value}', "; 
+        	}
+
+        	$sql = Query::RemoveLastCharacter($sql, ","); 
+        	$sql.= " ". Query::Where($conditions); 
+        	return $sql; 
+		}
+		
+		static public function Delete($table, $id_column, $ids)
+		{
+			$queries = array(); 
+			foreach ($ids as $id) 
+			{
+				$sql = "DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'"; 
+				array_push($queries, $sql); 
+			}
+			return $queries; 
+		}
+
+        static public function Where($conditions)
+        {
+            $sql = "WHERE "; 
+            foreach ($conditions as $key => $value) 
+            {
+            	$sql.="`{$key}` = '{$value}' AND "; 
+            }
+            return Query::RemoveLastCharacter($sql, "AND"); 
+        }
+
+        static private function RemoveLastCharacter($sql, $character)
+        {
+        	return substr($sql,0, strrpos($sql, $character)); 
+        }
+    }
+
+    require_once(realpath(__DIR__."../../../vendor/autoload.php")); 
     use Dotenv\Dotenv; 
     $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__))); 
     $dotenv->load(); 

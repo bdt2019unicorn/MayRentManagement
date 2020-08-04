@@ -34,12 +34,12 @@ var overview_component = Vue.component
         {
             DeleteData()
             {
-                var url = `server/delete_controller/${this.StateController}.php`; 
+                var url = `server/delete_controller.php?table=${this.StateController}`; 
                 var result = this.SubmitData("delete", url, this.check_array); 
                 if(Number(result))
                 {
                     alert("Delete success!"); 
-                    this.PopulateData(); 
+                    window.location.reload(); 
                 }
                 else
                 {
