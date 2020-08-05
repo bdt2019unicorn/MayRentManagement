@@ -12,7 +12,7 @@ var support_mixin =
         }, 
         ImportUrl()
         {
-            return `server/import_controller/${this.CurrentController}.php`; 
+            return `server/import_controller/action.php?import_controller=${this.CurrentController}`; 
         }, 
         OverviewUrl()
         {
