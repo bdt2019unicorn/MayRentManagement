@@ -39,9 +39,21 @@
 				array_push($queries, $sql); 
 			}
 			return $queries; 
-		}
+        }
+        
+        static public function GeneralData($table, $id= null, $id_field='id')
+        {
+            $sql = "SELECT * FROM `{$table}`"; 
+            
+            if($id)
+            {
+                $sql.= " WHERE `{$id_field}`='{$id}'"; 
+            }
 
-        static public function Where($conditions)
+            return $sql; 
+        }
+
+        static private function Where($conditions) 
         {
             $sql = "WHERE "; 
             foreach ($conditions as $key => $value) 
@@ -172,9 +184,9 @@
             }
         }
 
-        public static function GetDataWithId($id, $table, $id_field='id')
+        public static function GeneralData($table, $id= null, $id_field='id')
         {
-            $sql = "SELECT * FROM {$table} WHERE `{$id_field}`='{$id}'"; 
+            $sql = Query::GeneralData($table, $id, $id_field); 
             return Connect::GetData($sql); 
         }
     }

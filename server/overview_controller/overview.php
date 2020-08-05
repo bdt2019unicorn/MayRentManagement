@@ -122,9 +122,10 @@
 		$row[$ocupant_title] = ''; 
 		if($list)
 		{
+
 			foreach ($list as $id) 
 			{
-				$ocupant = Connect::GetDataWithId($id, 'tenant')[0]; 
+				$ocupant = Connect::GeneralData('tenant', $id)[0]; 
 				$text = "{$ocupant['First_Name']} {$ocupant['Last_Name']} "; 
 				$template = 
 				"

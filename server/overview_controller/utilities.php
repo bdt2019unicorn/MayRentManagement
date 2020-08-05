@@ -20,7 +20,7 @@
         if($_POST["apartment_id"])
         {
             $conditions_sql.="AND `apartment`.`id`='{$_POST['apartment_id']}'"; 
-            $apartments = Connect::GetDataWithId($_POST["apartment_id"], "apartment"); 
+            $apartments = Connect::GeneralData("apartment", $_POST["apartment_id"]); 
         }
     }
     $conditions_sql.="\nORDER BY `utility_reading`.`date`, `apartment`.`id`\n"; 

@@ -58,7 +58,7 @@ var support_mixin =
         }, 
         OverviewDataUrl(overview_controller)
         {
-            return `server/overview_controller/${overview_controller}.php?building_id=${this.BuildingId}`; 
+            return `server/overview_controller/overview_controller.php?building_id=${this.BuildingId}&overview_controller=${overview_controller}`; 
         }, 
         StateObject(state_property)
         {
