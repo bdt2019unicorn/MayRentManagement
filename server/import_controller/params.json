@@ -1,0 +1,114 @@
+{
+    "apartment": 
+    {
+        "table": "apartment", 
+        "get_id": 
+        {
+            "building": 
+            {
+                "search": "name",
+                "change": "building_id", 
+                "table": "buildings"
+            }
+        }
+    }, 
+    "buildings": 
+    {
+        "table": "buildings"
+    }, 
+    "expense": 
+    {
+        "table": "expense", 
+        "date_collumns": ["start_period", "end_period", "payment_date"], 
+        "get_id": 
+        {
+            "apartment":  
+            {
+                "search": "name", 
+                "change": "apartment_id", 
+                "table": "apartment"
+            }, 
+            "expense_type":  
+            {
+                "search": "name", 
+                "change": "expense_type_id", 
+                "table": "expense_type"
+            }
+        },
+        "comma": ["amount"]
+    }, 
+    "leaseagrm": 
+    {
+        "table": "leaseagrm", 
+        "date_collumns": ["start_date", "finish", "deposit_payment_date", "deposit_payback_date"], 
+        "get_id": 
+        {
+            "apartment": 
+            {
+                "search": "name", 
+                "change": "apartment_id", 
+                "table": "apartment"
+            }, 
+            "tenant_passport_id_number": 
+            {
+                "search": "passport_id_number", 
+                "change": "tenant_id", 
+                "table": "tenant"
+            }
+        },
+        "comma": ["rent_amount","deposit_amount", "deposit_exchange_rate"]
+    }, 
+    "revenue": 
+    {
+        "table": "revenue", 
+        "date_collumns": ["start_period", "end_period", "payment_date"], 
+        "get_id": 
+        {
+            "apartment":  
+            {
+                "search": "name", 
+                "change": "apartment_id", 
+                "table": "apartment"
+            }, 
+            "revenue_type":  
+            {
+                "search": "name", 
+                "change": "revenue_type_id", 
+                "table": "revenue_type"
+            }
+        },
+        "comma": ["amount"]
+    }, 
+    "tenant": 
+    {
+        "table": "tenant",  
+        "date_collumns": ["date_of_birth"],  
+        "exclude_columns": ["tenant_id", "apartment"],  
+        "year_number": "19"
+    }, 
+    "user": 
+    {
+        "table": "user", 
+        "exclude_columns": ["email_confirm"]
+    }, 
+    "utilities": 
+    {
+        "table": "utility_reading", 
+        "get_id":  
+        {
+            "utility_type": 
+            {
+                "search": "name",
+                "change": "revenue_type_id", 
+                "table": "revenue_type"
+            }, 
+            "apartment": 
+            {
+                "search": "name", 
+                "change": "apartment_id", 
+                "table": "apartment"
+            }
+        }
+    }
+}  
+
