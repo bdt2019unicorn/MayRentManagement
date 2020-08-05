@@ -77,7 +77,6 @@
         $overview_data = Connect::GetData($sql); 
     }
 
-
     if(isset($overview_data))
     {
         echo json_encode($overview_data); 
