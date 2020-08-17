@@ -152,7 +152,7 @@ Vue.component
             <div class="container-fluid">
                 <h1>{{PageTitle}}</h1>
                 <div class="row">
-                    <form class="container-fluid row col" v-if="search_data && (table_data.length>0)" ref="search_form" @submit.prevent="Search">
+                    <form class="container-fluid row col" v-if="search_data" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
                         <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
                         <div class="col--2">
