@@ -1,4 +1,4 @@
-var overview_component = Vue.component 
+Vue.component 
 (
     "overview", 
     {

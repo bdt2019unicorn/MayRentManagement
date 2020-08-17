@@ -66,7 +66,7 @@ Vue.component
     }
 ); 
 
-Vue.component 
+var page_wrapper = Vue.component 
 (
     "page-wrapper", 
     {
@@ -175,29 +175,3 @@ Vue.component
         `
     }
 ); 
-
-function PageElements()
-{
-    new Vue 
-    (
-        {
-            el: "#full_page", 
-            mixins:[support_mixin], 
-            data: 
-            {
-                buildings_data: []
-            }, 
-            created() 
-            {
-                this.buildings_data = this.TableData("buildings"); 
-                for(var index=0; index<this.buildings_data.length; index++)
-                {
-                    this.buildings_data[index]["params"] = 
-                    {
-                        building_id: this.buildings_data[index]["id"]
-                    }
-                }
-            },
-        }
-    ); 
-}
