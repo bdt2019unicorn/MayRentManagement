@@ -162,3 +162,12 @@ Vue.component
         `
     }
 ); 
+
+var user = Vue.component
+(
+    "user", 
+    {
+        mixins: [support_mixin], 
+        template: `<edit form_title="Edit My Information" :object_id="StateObject('user_id')"></edit>`
+    }
+); 
