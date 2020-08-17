@@ -31,9 +31,9 @@ jQuery
             (
                 (to, from, next) => 
                 {
-                    if(!to.name && !sessionStorage.getItem("username"))
+                    if(to.name!="home" && !sessionStorage.getItem("username"))
                     {
-                        next("/"); 
+                        next({name: "home"}); 
                     }
                     else 
                     {
@@ -41,7 +41,7 @@ jQuery
                     }
                 }
             ); 
-            window.router = router; 
+            return router; 
         }
 
 
@@ -61,17 +61,12 @@ jQuery
                     }, 
                     mutations: 
                     {
-                        SetStateAuthorize
-                        (
-                            state, 
-                            {
-                                param, 
-                                value
-                            }
-                        )
+                        Authorize(state, {username, user_id})
                         {
-                            state[param] = value; 
-                            sessionStorage.setItem(param, value); 
+                            state["username"] = username; 
+                            state["user_id"] = user_id; 
+                            sessionStorage.setItem("username", username); 
+                            sessionStorage.setItem("user_id", user_id); 
                         }, 
 
                         RedirectUrl
@@ -128,9 +123,10 @@ jQuery
             return store_track; 
         }
 
-        function PageElements(store_track)
+        function PageElements({router, store_track})
         {
             window.store_track = store_track; 
+            window.router = router; 
             new Vue 
             (
                 {
@@ -169,6 +165,7 @@ jQuery
                             }
                         ); 
                     },
+                    router: router 
                 }
             ); 
         }
@@ -177,8 +174,7 @@ jQuery
         (
             (resolve, reject)=>
             {
-                Router(); 
-                resolve(StoreTrack()); 
+                resolve({router: Router(), store_track: StoreTrack()}); 
             }
         ).then(PageElements); 
     }

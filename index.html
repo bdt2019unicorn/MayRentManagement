@@ -16,7 +16,8 @@
 
                 <edit form_title="Edit My Information" :object_id="StateObject('user_id')" v-if="StateObject('controller')=='user'"></edit>
 
-                <page-wrapper v-if="StateObject('building_id')"></page-wrapper>
+                <!-- <page-wrapper v-if="StateObject('building_id')"></page-wrapper> -->
+                <router-view></router-view>
             </div>
 
             <page-administration v-if="!StateObject('username')"></page-administration>
