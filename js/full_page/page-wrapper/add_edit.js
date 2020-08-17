@@ -6,14 +6,8 @@ Vue.component
         data()
         {
             return {
-                title: "Add ",
-                form: [], 
-                validate: {} 
+                title: "Add "
             }
-        }, 
-        created() 
-        {
-            this.PopulateFormField(); 
         }, 
         methods: 
         {
@@ -23,7 +17,6 @@ Vue.component
                 if(Number(result))
                 {
                     alert(this.title+" Success!"); 
-                    $(`#${this.CurrentController}`).trigger("reset"); 
                     if(this.controller)
                     {
                         data["user_id"] = Number(result); 
@@ -51,16 +44,13 @@ Vue.component
         {
             return {
                 title: "Edit ",
-                form: [], 
-                validate: {}, 
                 edit_data: undefined
             }
         }, 
         created() 
         {
-            this.PopulateFormField(); 
             this.ModifyForm(); 
-            this.PopulateDateIntoFields(); 
+            this.PopulateDataIntoFields(); 
         }, 
         methods: 
         {
@@ -82,7 +72,7 @@ Vue.component
                     }
                 }
             }, 
-            PopulateDateIntoFields()
+            PopulateDataIntoFields()
             {
                 var data = this.AjaxRequest(this.OverviewUrl); 
                 this.edit_data = JSON.parse(data)[0];  

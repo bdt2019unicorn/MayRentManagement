@@ -61,7 +61,7 @@ Vue.component
                         <router-link 
                             :class="ItemsClasses(item.to, $route.params.controller, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
                             style="text-align: center;" 
-                            :to="item.to"
+                            :to="'/'+ $route.params.building_id+'/'+ item.to"
                             :append="$route.params.controller==undefined" 
                             :replace="Boolean($route.params.controller)"
                         >

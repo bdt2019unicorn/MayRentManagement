@@ -6,13 +6,7 @@ var support_mixin =
         {
             return window.store_track.state.building_id; 
         }, 
-        // get rid of this after checking 
         CurrentController()
-        {
-            return ((this.controller)?this.controller:this.StateController); 
-        }, 
-        // /////////////////////
-        CurrentControllerTest()
         {
             return ((this.$route.params.controller)? this.$route.params.controller: "overview"); 
         }, 
@@ -22,7 +16,7 @@ var support_mixin =
         }, 
         OverviewUrl()
         {
-            return this.OverviewDataUrl(this.CurrentController) + ((this.object_id)?`&id=${this.object_id}`: ""); 
+            return this.OverviewDataUrl(this.CurrentController) + ((this.$route.query.id)?`&id=${this.$route.query.id}`: ""); 
         }, 
         StateController()
         {
@@ -147,6 +141,18 @@ var add_edit_mixin =
 {
     props: ["controller"], 
     mixins: [support_mixin], 
+    data()
+    {
+        return {
+            form: [], 
+            validate: {} 
+        }
+    }, 
+
+    created() 
+    {
+        this.PopulateFormField(); 
+    }, 
     methods: 
     {
         PopulateFormField()
@@ -165,14 +171,7 @@ var add_edit_mixin =
             }
         }
     },
-    watch: 
-    {
-        CurrentController: function(new_value, old_value)
-        {
-            this.PopulateFormField(); 
-        }   
-    },
-    template: `<user-input v-bind="$data" :id="CurrentController" :edit_data="(this.edit_data)?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
+    template: `<user-input v-bind="$data" :edit_data="(this.edit_data)?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
 }
 
 var utilities_mixin = 
