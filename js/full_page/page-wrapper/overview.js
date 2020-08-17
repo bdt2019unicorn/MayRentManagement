@@ -1,5 +1,3 @@
-// change all state controller test back after the work completed 
-
 Vue.component 
 (
     "overview", 
@@ -19,7 +17,7 @@ Vue.component
             {
                 try 
                 {
-                    let table_actions = this.TableActions(this.CurrentControllerTest); 
+                    let table_actions = this.TableActions(this.CurrentController); 
                     return table_actions.page_title; 
                 }
                 catch
@@ -36,7 +34,7 @@ Vue.component
         {
             DeleteData()
             {
-                var url = `server/delete_controller.php?table=${this.StateController}`; 
+                var url = `server/delete_controller.php?table=${this.CurrentController}`; 
                 var result = this.SubmitData("delete", url, this.check_array); 
                 if(Number(result))
                 {
@@ -68,14 +66,14 @@ Vue.component
             }, 
             PopulateData()
             {
-                this.table_data = this.TableData(this.CurrentControllerTest); 
+                this.table_data = this.TableData(this.CurrentController); 
                 this.search_data = this.SearchData(); 
                 this.check_array = []; 
             }, 
             Search()
             {
                 let data = $(this.$refs['search_form']).serializeObject(); 
-                let overview_data = this.TableData(this.CurrentControllerTest); 
+                let overview_data = this.TableData(this.CurrentController); 
                 if(data['search_value'])
                 {
                     this.table_data = []; 
@@ -120,7 +118,7 @@ Vue.component
             }, 
             SearchData()
             {
-                var search_columns = this.TableActions(this.CurrentControllerTest).search; 
+                var search_columns = this.TableActions(this.CurrentController).search; 
                 if(search_columns)
                 {
                     var search_data = []; 
@@ -162,23 +160,23 @@ Vue.component
                         </div>
                     </form>
 
-                    <div class="col-5 row" v-if="CurrentControllerTest!='overview'">
+                    <div class="col-5 row" v-if="CurrentController!='overview'">
 
                         <div class="col text-right">
                             <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
                         </div>
                         <div class="col text-center">
                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <a-hyperlink class="btn btn-secondary" v-else :params="{controller: StateController, action: 'edit', object_id: check_array[0]}">Edit</a-hyperlink>
+                            <router-link class="btn btn-secondary" v-else :to="'edit?id=' + check_array[0]" append>Edit</router-link>
                         </div>
                         <div class="col text-left">
-                            <a-hyperlink class="btn btn-success" :params="{action: 'add'}">Add</a-hyperlink>
+                            <router-link class="btn btn-success" to="add" append>Add</router-link>
                         </div>
 
                     </div>
                 </div>
                 <br>
-                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(CurrentControllerTest)" @id-check-changed="IdCheckChanged"></scrolling-table>
+                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(CurrentController)" @id-check-changed="IdCheckChanged"></scrolling-table>
             </div>
         `
     }
