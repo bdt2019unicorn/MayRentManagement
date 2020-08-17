@@ -1,3 +1,5 @@
+// change all state controller test back after the work completed 
+
 Vue.component 
 (
     "overview", 
@@ -17,12 +19,12 @@ Vue.component
             {
                 try 
                 {
-                    let table_actions = this.TableActions(this.StateController); 
+                    let table_actions = this.TableActions(this.CurrentControllerTest); 
                     return table_actions.page_title; 
                 }
                 catch
                 {
-                    return this.StateObject("controller"); 
+                    return "Overview"; 
                 }
             }    
         },
@@ -66,14 +68,14 @@ Vue.component
             }, 
             PopulateData()
             {
-                this.table_data = this.TableData(this.StateController); 
+                this.table_data = this.TableData(this.CurrentControllerTest); 
                 this.search_data = this.SearchData(); 
                 this.check_array = []; 
             }, 
             Search()
             {
                 let data = $(this.$refs['search_form']).serializeObject(); 
-                let overview_data = this.TableData(this.StateController); 
+                let overview_data = this.TableData(this.CurrentControllerTest); 
                 if(data['search_value'])
                 {
                     this.table_data = []; 
@@ -118,7 +120,7 @@ Vue.component
             }, 
             SearchData()
             {
-                var search_columns = this.TableActions(this.StateController).search; 
+                var search_columns = this.TableActions(this.CurrentControllerTest).search; 
                 if(search_columns)
                 {
                     var search_data = []; 
@@ -156,7 +158,7 @@ Vue.component
             <div class="container-fluid">
                 <h1>{{PageTitle}}</h1>
                 <div class="row">
-                    <form class="container-fluid row col" v-if="search_data && (TableData(StateController).length>0)" ref="search_form" @submit.prevent="Search">
+                    <form class="container-fluid row col" v-if="search_data && (table_data.length>0)" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
                         <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
                         <div class="col--2">
@@ -164,7 +166,7 @@ Vue.component
                         </div>
                     </form>
 
-                    <div class="col-5 row" v-if="StateController!='overview'">
+                    <div class="col-5 row" v-if="CurrentControllerTest!='overview'">
 
                         <div class="col text-right">
                             <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
@@ -180,7 +182,7 @@ Vue.component
                     </div>
                 </div>
                 <br>
-                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(StateController)" @id-check-changed="IdCheckChanged"></scrolling-table>
+                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(CurrentControllerTest)" @id-check-changed="IdCheckChanged"></scrolling-table>
             </div>
         `
     }

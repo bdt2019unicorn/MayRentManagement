@@ -33,22 +33,14 @@ Vue.component
         `
             <div :style="MainNavItems">
 
-                <!-- 
-
-                <a-hyperlink 
-                    v-for="index in buildings_data.length" 
-                    :class="ItemsClasses(buildings_data[index-1].id, StateObject('building_id'), ['btn'], 'btn-warning', 'btn-primary')" 
+                <router-link
+                    v-for="index in buildings_data.length"
+                    :class="ItemsClasses(buildings_data[index-1].id, $route.params.building_id, ['btn'], 'btn-warning', 'btn-primary')" 
                     :style='{textAlign: "center", gridArea: grid_area_surfix+"-"+index}'
-                    :params="{building_id: buildings_data[index-1].id}" 
-                    :key="index"
+                    :to="'/'+ buildings_data[index-1]['id']"
                 >
                     <i style="font-size: xx-large;" :class="['fas', 'fa-'+ default_icon]"></i>
                     <p>{{buildings_data[index-1]["name"]}}</p>
-                </a-hyperlink>
-
-                -->
-
-                <router-link>
                 </router-link>
 
                 <a-hyperlink
