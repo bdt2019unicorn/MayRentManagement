@@ -23,7 +23,10 @@ Vue.component
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <a-hyperlink class="btn dropdown-item" :params="{'':'', controller: 'user'}">Manage your Account</a-hyperlink>
-                            <a-hyperlink innitial_action='"SetStateAuthorize", {param: "username", value: ""}' class="btn dropdown-item">Logout</a-hyperlink>
+                            <button 
+                                class="btn dropdown-item" 
+                                onclick="window.store_track.commit('Authorize', {username: '', user_id: ''}); window.router.push({name: 'home'}).catch(error=>{});"
+                            >Logout</button>
                         </div>
                     </div>
 
@@ -70,6 +73,7 @@ var page_wrapper = Vue.component
 (
     "page-wrapper", 
     {
+        props: ["building_id"], 
         mixins: [support_mixin], 
         template: 
         `
@@ -104,24 +108,7 @@ Vue.component
                 switch (controller) 
                 {
                     case "login":
-                        window.store_track.commit
-                        (                        
-                            "SetStateAuthorize", 
-                            {
-                                param: "username", 
-                                value: data.username
-                            }
-                        ); 
-
-                        window.store_track.commit
-                        (                        
-                            "SetStateAuthorize", 
-                            {
-                                param: "user_id", 
-                                value: data.user_id
-                            }
-                        ); 
-                        
+                        window.store_track.commit("Authorize", {username: data.username, user_id: data.user_id}); 
                         break;
                     case "user": 
                         this.current_controller = "login"; 
