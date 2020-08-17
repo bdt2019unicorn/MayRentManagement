@@ -58,10 +58,16 @@ Vue.component
                 <nav class="navbar container-fluid">
                     <div class="row" style="margin:0.5vh 0; width: 100%;" v-for="item in nav_list_items">
                         
-                        <a-hyperlink :class="ItemsClasses(item.params.controller, StateObject('controller'), ['btn', 'col'], 'btn-warning', 'btn-primary')" style="text-align: center;" :params="item.params">
+                        <router-link 
+                            :class="ItemsClasses(item.to, $route.params.controller, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
+                            style="text-align: center;" 
+                            :to="item.to"
+                            :append="$route.params.controller==undefined" 
+                            :replace="Boolean($route.params.controller)"
+                        >
                             <i style="font-size: xx-large;" :class="['fas', 'fa-'+ item.icon]"></i>
                             <p>{{item.name}}</p>
-                        </a-hyperlink>
+                        </router-link>
                     </div>
                 </nav>
             </div>
@@ -81,7 +87,7 @@ var page_wrapper = Vue.component
 
                 <side-bar></side-bar>
                 <div class="main-content">
-                    <component :is="($route.params.controller)?$route.params.controller: 'overview'" :object_id="StateObject('object_id')"></component>
+                    <component :is="($route.params.action)?$route.params.action: 'overview'" :object_id="StateObject('object_id')"></component>
                 </div>
 
             </div>
@@ -155,7 +161,6 @@ Vue.component
                 </div>
 
             </div>
-
 
         `
     }

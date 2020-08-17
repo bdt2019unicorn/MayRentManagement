@@ -33,6 +33,11 @@ jQuery
                             path:"/:building_id/:controller", 
                             component: page_wrapper, 
                             props: true 
+                        }, 
+                        {
+                            path:"/:building_id/:controller/:action", 
+                            component: page_wrapper, 
+                            props: true 
                         }
                     ]
                 }
