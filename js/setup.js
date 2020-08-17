@@ -71,11 +71,7 @@ jQuery
                     {
                         username: "", 
                         user_id: 0, 
-                        object_id: 0, 
-                        building_id: "", 
-                        buildings_data: [], 
-                        controller: "", 
-                        action: "Overview"
+                        buildings_data: []
                     }, 
                     mutations: 
                     {

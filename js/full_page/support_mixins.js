@@ -2,13 +2,10 @@ var support_mixin =
 {
     computed: 
     {
-        BuildingId()
-        {
-            return window.store_track.state.building_id; 
-        }, 
         CurrentController()
         {
-            return ((this.$route.params.controller)? this.$route.params.controller: "overview"); 
+            let controller = this.controller? this.controller: this.$route.params.controller; 
+            return controller? controller: "overview"; 
         }, 
         ImportUrl()
         {
@@ -16,11 +13,8 @@ var support_mixin =
         }, 
         OverviewUrl()
         {
-            return this.OverviewDataUrl(this.CurrentController) + ((this.$route.query.id)?`&id=${this.$route.query.id}`: ""); 
-        }, 
-        StateController()
-        {
-            return window.store_track.state.controller; 
+            let id = this.object_id? this.object_id: this.$route.query.id; 
+            return this.OverviewDataUrl(this.CurrentController) + (id?`&id=${id}`: ""); 
         }
     },
     methods: 
@@ -73,7 +67,7 @@ var support_mixin =
         TableActions(controller)
         {
             var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
-            return (table_actions)?table_actions:{}; 
+            return table_actions?table_actions:{}; 
         }, 
         TableData(overview_controller)
         {
@@ -161,8 +155,8 @@ var add_edit_mixin =
             try 
             {
                 this.form = data.form; 
-                this.title = (this.form_title)?this.form_title: (this.controller)? data.title :this.title+data.title; 
-                this.validate = (data.validate)?data.validate:this.validate; 
+                this.title = this.form_title?this.form_title: this.controller? data.title :this.title+data.title; 
+                this.validate = data.validate?data.validate:this.validate; 
             } 
             catch
             {
@@ -171,7 +165,7 @@ var add_edit_mixin =
             }
         }
     },
-    template: `<user-input v-bind="$data" :edit_data="(this.edit_data)?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
+    template: `<user-input v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
 }
 
 var utilities_mixin = 
