@@ -11,10 +11,13 @@ var support_mixin =
         {
             return `server/import_controller/action.php?import_controller=${this.CurrentController}`; 
         }, 
+        ObjectId()
+        {
+            return this.object_id? this.object_id: this.$route.query.id; 
+        }, 
         OverviewUrl()
         {
-            let id = this.object_id? this.object_id: this.$route.query.id; 
-            return this.OverviewDataUrl(this.CurrentController) + (id?`&id=${id}`: ""); 
+            return this.OverviewDataUrl(this.CurrentController) + (this.ObjectId?`&id=${this.ObjectId}`: ""); 
         }
     },
     methods: 
