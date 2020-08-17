@@ -6,9 +6,15 @@ var support_mixin =
         {
             return window.store_track.state.building_id; 
         }, 
+        // get rid of this after checking 
         CurrentController()
         {
             return ((this.controller)?this.controller:this.StateController); 
+        }, 
+        // /////////////////////
+        CurrentControllerTest()
+        {
+            return ((this.$route.params.controller)? this.$route.params.controller: "overview"); 
         }, 
         ImportUrl()
         {
@@ -58,7 +64,7 @@ var support_mixin =
         }, 
         OverviewDataUrl(overview_controller)
         {
-            return `server/overview_controller/overview_controller.php?building_id=${this.BuildingId}&overview_controller=${overview_controller}`; 
+            return `server/overview_controller/overview_controller.php?building_id=${this.$route.params.building_id}&overview_controller=${overview_controller}`; 
         }, 
         StateObject(state_property)
         {
