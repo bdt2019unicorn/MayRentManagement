@@ -144,11 +144,7 @@ Vue.component
         },
         watch: 
         {
-            BuildingId: function(new_value, old_value)
-            {
-                this.PopulateData(); 
-            }, 
-            StateController: function(new_value, old_value)
+            $route(to, from)
             {
                 this.PopulateData(); 
             }
