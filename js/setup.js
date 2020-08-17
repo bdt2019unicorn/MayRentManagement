@@ -15,6 +15,11 @@ jQuery
                             name: "home"
                         }, 
                         {
+                            path: "/user", 
+                            name: "user", 
+                            component: user 
+                        }, 
+                        {
                             path: "/:building_id", 
                             component: page_wrapper, 
                             props: true 
@@ -149,19 +154,10 @@ jQuery
 
                         store_track.commit
                         (
-                            "SetStateAuthorize", 
+                            "Authorize", 
                             {
-                                param: "username", 
-                                value: (sessionStorage.getItem("username"))?sessionStorage.getItem("username"):""
-                            }
-                        ); 
-    
-                        store_track.commit
-                        (
-                            "SetStateAuthorize", 
-                            {
-                                param: "user_id", 
-                                value: (sessionStorage.getItem("user_id"))?sessionStorage.getItem("user_id"):""
+                                username: (sessionStorage.getItem("username"))?sessionStorage.getItem("username"):"", 
+                                user_id: (sessionStorage.getItem("user_id"))?sessionStorage.getItem("user_id"):""
                             }
                         ); 
                     },
