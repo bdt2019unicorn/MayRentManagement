@@ -11,18 +11,13 @@
 
             <div v-if="StateObject('username')">
                 <page-navbar :buildings_data="buildings_data" grid_area_surfix="main-nav-item"></page-navbar>
-
-                <!-- <main-nav-items class="container-fluid" v-if="!StateObject('building_id') && StateObject('controller')!='user'" :buildings_data="buildings_data" default_icon="building" grid_area_surfix="home-page"></main-nav-items> -->
-
-                <!-- <edit form_title="Edit My Information" :object_id="StateObject('user_id')" v-if="StateObject('controller')=='user'"></edit> -->
-
-                <!-- <page-wrapper v-if="StateObject('building_id')"></page-wrapper> -->
                 <router-view></router-view>
             </div>
 
             <page-administration v-if="!StateObject('username')"></page-administration>
 
             <!-- able to do both vietnamese and english -->
+            <!-- overview.js need to work on the delete button and try the best the get rid of the controller in the state  -->
         </div>
 
         <footer>

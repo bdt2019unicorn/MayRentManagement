@@ -87,7 +87,7 @@ var page_wrapper = Vue.component
 
                 <side-bar></side-bar>
                 <div class="main-content">
-                    <component :is="($route.params.action)?$route.params.action: 'overview'" :object_id="StateObject('object_id')"></component>
+                    <component :is="($route.params.action)?$route.params.action: 'overview'"></component>
                 </div>
 
             </div>
@@ -95,8 +95,6 @@ var page_wrapper = Vue.component
         `
     }
 ); 
-
-// line 84 the place for the object_id - delete after use 
 
 Vue.component
 (
