@@ -2,7 +2,6 @@ Vue.component
 (
     "add", 
     {
-        props: ["controller"], 
         mixins: [add_edit_mixin], 
         data()
         {

@@ -15,6 +15,11 @@ jQuery
                             name: "home"
                         }, 
                         {
+                            path: "/dashboard", 
+                            name: "dashboard", 
+                            component: dashboard 
+                        }, 
+                        {
                             path: "/user", 
                             name: "user", 
                             component: user 
@@ -40,10 +45,12 @@ jQuery
                     {
                         next({name: "home"}); 
                     }
-                    else 
+                    else if (to.name=="home" && sessionStorage.getItem("username"))
                     {
-                        next(); 
+                        next("dashboard"); 
+                        window.location.reload(); 
                     }
+                    next(); 
                 }
             ); 
             return router; 
@@ -61,6 +68,7 @@ jQuery
                         user_id: 0, 
                         object_id: 0, 
                         building_id: "", 
+                        buildings_data: [], 
                         controller: "", 
                         action: "Overview"
                     }, 
@@ -72,6 +80,11 @@ jQuery
                             state["user_id"] = user_id; 
                             sessionStorage.setItem("username", username); 
                             sessionStorage.setItem("user_id", user_id); 
+                        }, 
+
+                        BuildingsData(state, payload)
+                        {
+                            state.buildings_data = payload; 
                         }, 
 
                         RedirectUrl
@@ -152,6 +165,7 @@ jQuery
                             }
                         }
 
+                        store_track.commit("BuildingsData", this.buildings_data); 
                         store_track.commit
                         (
                             "Authorize", 

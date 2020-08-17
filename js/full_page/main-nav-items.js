@@ -33,6 +33,8 @@ Vue.component
         `
             <div :style="MainNavItems">
 
+                <!-- 
+
                 <a-hyperlink 
                     v-for="index in buildings_data.length" 
                     :class="ItemsClasses(buildings_data[index-1].id, StateObject('building_id'), ['btn'], 'btn-warning', 'btn-primary')" 
@@ -44,7 +46,10 @@ Vue.component
                     <p>{{buildings_data[index-1]["name"]}}</p>
                 </a-hyperlink>
 
+                -->
 
+                <router-link>
+                </router-link>
 
                 <a-hyperlink
                     class="btn btn-success" 
