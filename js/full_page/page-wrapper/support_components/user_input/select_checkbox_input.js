@@ -2,7 +2,7 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["controller", "edit_data", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
+        props: ["edit_data", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
         mixins: [edit_mixin], 
         data() 
         {
@@ -39,10 +39,6 @@ Vue.component
         },
         watch: 
         {
-            controller: function(new_value, old_value)    
-            {
-                this.PopulateSelectData(); 
-            }, 
             select_data: function(new_value, old_value)
             {   
                 this.PopulateSelectData(); 
