@@ -127,7 +127,7 @@ var text_mixin =
     mixins: [simple_input_mixin], 
     watch: 
     {
-        controller: function(new_value, old_value)
+        $route: function(new_value, old_value)
         {
             this.value = ""; 
         }

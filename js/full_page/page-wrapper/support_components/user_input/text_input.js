@@ -2,13 +2,13 @@ Vue.component
 (
     "text-input", 
     {
-        props: ["controller", "edit_data", "id", "name", "title", "type"], 
+        props: ["edit_data", "id", "name", "title", "type"], 
         mixins: [text_mixin], 
         computed: 
         {
             InputType()
             {
-                return (this.type)?this.type: "text"; 
+                return this.type?this.type: "text"; 
             }
         }, 
         template: 
@@ -42,7 +42,7 @@ Vue.component
 (
     "textarea-input", 
     {
-        props: ["controller", "edit_data", "name", "title"],
+        props: ["edit_data", "name", "title"],
         mixins: [text_mixin],  
         template: 
         `
