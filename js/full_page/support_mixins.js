@@ -139,6 +139,7 @@ var text_mixin =
 
 var add_edit_mixin = 
 {
+    props: ["controller"], 
     mixins: [support_mixin], 
     methods: 
     {
