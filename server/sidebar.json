@@ -2,47 +2,27 @@
     {
         "icon": "bed",
         "name": "Apartments",
-        "to": "apartment", 
-        "params": 
-        {
-            "controller": "apartment"
-        }
+        "to": "apartment"
     },
     {
         "icon": "users",
         "name": "Tenants",
-        "to": "tenant", 
-        "params": 
-        {
-            "controller": "tenant"
-        }
+        "to": "tenant"
     },
     {
         "icon": "handshake",
         "name": "Lease Agreement",
-        "to": "leaseagrm", 
-        "params": 
-        {
-            "controller": "leaseagrm"
-        }
+        "to": "leaseagrm"
     },
     {
         "icon": "hand-holding-usd",
         "name": "Income",
-        "to": "revenue", 
-        "params": 
-        {
-            "controller": "revenue"
-        }
+        "to": "revenue"
     },
     {
         "icon": "file-invoice-dollar",
         "name": "Expenses",
-        "to": "expense", 
-        "params": 
-        {
-            "controller": "expense"
-        }
+        "to": "expense"
     },
     {
         "icon": "cog",
