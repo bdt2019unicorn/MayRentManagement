@@ -1,33 +1,50 @@
 Vue.component
 (
-    "a-hyperlink", 
+    "a-sort-table", 
     {
-        props: ["innitial_action", "params"], 
-        computed: 
+        props: ["index", "text"], 
+        data()
         {
-            Href()
+            return {
+                current_operation: "<", 
+                operation_switch: 
+                {
+                    ">": "<", 
+                    "<": ">"
+                }
+            }
+        }, 
+        methods: 
+        {
+            SortTable()
             {
-                let href = this.innitial_action?`javascript: window.store_track.commit(${this.innitial_action}); ` :""; 
-                try 
-                {
-                    Object.keys(this.params).forEach
-                    (
-                        param=>
-                        {
-                            href+=`javascript:window.store_track.commit('RedirectUrl', {param: '${param}',value:'${this.params[param]}'}); `; 
-                        }
-                    ); 
-                }
-                catch
-                {
-                    return `${href} javascript:window.store_track.commit('RedirectUrl', {}); `; 
-                }
-                return (href)?href: `javascript:window.store_track.commit('RedirectUrl', {}); `; 
-            }, 
+                let script = 
+                `
+                    while (Number(items[i][key]) ${this.current_operation} pivot) 
+                    {
+                        i++;
+                    }
+                    while (Number(items[j][key]) ${this.operation_switch[this.current_operation]} pivot) 
+                    {
+                        j--;
+                    }
+                `; 
+                this.$emit("sort-table", this.index, script); 
+                this.current_operation = this.operation_switch[this.current_operation]; 
+            }    
         },
-        template: `<a :href="Href"><slot></slot></a>`
+        template: 
+        `
+            <a 
+                href="javascript:void(0);" 
+                class="text-white" 
+                @click="SortTable"
+            >
+                {{text}}
+            </a>
+        `
     }
-); 
+);
 
 Vue.component
 (

@@ -8,11 +8,11 @@ Vue.component
         `   
             <nav class="navbar navbar-expand-lg top-page-nav">
 
-                <a-hyperlink style="grid-area: logo;">
+                <router-link :to="{name: 'dashboard'}" style="grid-area: logo;">
                     <img class="top-logo-img" src="img/logo.jpeg" alt="logo">
-                </a-hyperlink>
+                </router-link>
 
-                <main-nav-items class="main-nav-items" v-if="StateObject('building_id')" :buildings_data="buildings_data" default_icon="building" :grid_area_surfix="grid_area_surfix"></main-nav-items>
+                <main-nav-items class="main-nav-items" v-if="$route.params.building_id" :buildings_data="buildings_data" default_icon="building" :grid_area_surfix="grid_area_surfix"></main-nav-items>
 
                 <div class="container-fluid" style="grid-area: username;">
 
@@ -22,8 +22,11 @@ Vue.component
                             <p>{{StateObject('username')}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a-hyperlink class="btn dropdown-item" :params="{'':'', controller: 'user'}">Manage your Account</a-hyperlink>
-                            <a-hyperlink innitial_action='"SetStateAuthorize", {param: "username", value: ""}' class="btn dropdown-item">Logout</a-hyperlink>
+                            <router-link class="btn dropdown-item" :to="{name: 'user'}">Manage you Account</router-link>
+                            <button 
+                                class="btn dropdown-item" 
+                                onclick="window.store_track.commit('Authorize', {username: '', user_id: ''}); window.router.push({name: 'home'}).catch(error=>{});"
+                            >Logout</button>
                         </div>
                     </div>
 
@@ -55,10 +58,16 @@ Vue.component
                 <nav class="navbar container-fluid">
                     <div class="row" style="margin:0.5vh 0; width: 100%;" v-for="item in nav_list_items">
                         
-                        <a-hyperlink :class="ItemsClasses(item.params.controller, StateObject('controller'), ['btn', 'col'], 'btn-warning', 'btn-primary')" style="text-align: center;" :params="item.params">
+                        <router-link 
+                            :class="ItemsClasses(item.item, $route.params.controller, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
+                            style="text-align: center;" 
+                            :to="'/'+ $route.params.building_id+'/'+ item.to"
+                            :append="$route.params.controller==undefined" 
+                            :replace="Boolean($route.params.controller)"
+                        >
                             <i style="font-size: xx-large;" :class="['fas', 'fa-'+ item.icon]"></i>
                             <p>{{item.name}}</p>
-                        </a-hyperlink>
+                        </router-link>
                     </div>
                 </nav>
             </div>
@@ -66,10 +75,11 @@ Vue.component
     }
 ); 
 
-Vue.component 
+var page_wrapper = Vue.component 
 (
     "page-wrapper", 
     {
+        props: ["building_id"], 
         mixins: [support_mixin], 
         template: 
         `
@@ -77,7 +87,7 @@ Vue.component
 
                 <side-bar></side-bar>
                 <div class="main-content">
-                    <component :is="StateObject('action')" :object_id="StateObject('object_id')"></component>
+                    <component :is="($route.params.action)?$route.params.action: 'overview'"></component>
                 </div>
 
             </div>
@@ -104,24 +114,8 @@ Vue.component
                 switch (controller) 
                 {
                     case "login":
-                        window.store_track.commit
-                        (                        
-                            "SetStateAuthorize", 
-                            {
-                                param: "username", 
-                                value: data.username
-                            }
-                        ); 
-
-                        window.store_track.commit
-                        (                        
-                            "SetStateAuthorize", 
-                            {
-                                param: "user_id", 
-                                value: data.user_id
-                            }
-                        ); 
-                        
+                        window.store_track.commit("Authorize", {username: data.username, user_id: data.user_id}); 
+                        window.router.push({name: "dashboard"}); 
                         break;
                     case "user": 
                         this.current_controller = "login"; 
@@ -141,9 +135,9 @@ Vue.component
                             <div class="row">
                                 <div class="col"></div>
 
-                                <a-hyperlink>
+                                <router-link :to="{name: 'home'}">
                                     <img class="col" src="img/logo.jpeg" alt="logo">
-                                </a-hyperlink>
+                                </router-link>
 
                                 <div class="col"></div>
                             </div>
@@ -152,13 +146,8 @@ Vue.component
 
                             <div class="row">
 
-                                <button :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='login'">
-                                    Login
-                                </button>
-
-                                <button :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='user'">
-                                    Register
-                                </button>
+                                <button :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='login'">Login</button>
+                                <button :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='user'">Register</button>
                             </div>
                         </div>
                     </div>
@@ -171,33 +160,26 @@ Vue.component
 
             </div>
 
-
         `
+    }
+);
+
+var dashboard = Vue.component
+(
+    "dashboard", 
+    {
+        mixins: [support_mixin], 
+        template: `<main-nav-items class="container-fluid" :buildings_data="StateObject('buildings_data')" default_icon="building" grid_area_surfix="home-page"></main-nav-items>`
     }
 ); 
 
-function PageElements()
-{
-    new Vue 
-    (
-        {
-            el: "#full_page", 
-            mixins:[support_mixin], 
-            data: 
-            {
-                buildings_data: []
-            }, 
-            created() 
-            {
-                this.buildings_data = this.TableData("buildings"); 
-                for(var index=0; index<this.buildings_data.length; index++)
-                {
-                    this.buildings_data[index]["params"] = 
-                    {
-                        building_id: this.buildings_data[index]["id"]
-                    }
-                }
-            },
-        }
-    ); 
-}
+
+var user = Vue.component
+(
+    "user", 
+    {
+        mixins: [support_mixin], 
+        template: `<edit controller="user" form_title="Edit My Information" :object_id="StateObject('user_id')"></edit>`
+    }
+); 
+

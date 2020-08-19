@@ -2,7 +2,7 @@ Vue.component
 (
     "row-group", 
     {
-        props: ["controller", "edit_data", "index", "just_started_parent", "row"],
+        props: ["edit_data", "index", "just_started_parent", "row"],
         mixins: [support_mixin], 
         data() 
         {
@@ -47,7 +47,6 @@ Vue.component
                     v-bind="col"
                     :key="col.name"
                     :just_started_parent="just_started_parent"
-                    :controller="controller"
                     :edit_data="edit_data"
                     @input-validation="InputValidation"
                 >

@@ -57,7 +57,7 @@ Vue.component
         `
             <div class="import-export-layout container-fluid">
 
-                <a class="btn" style="grid-area: template-btn;" :href='"excel_templates/" + StateObject("controller") + "-template.xlsx"'>
+                <a class="btn" style="grid-area: template-btn;" :href='"excel_templates/" + $route.params.controller + "-template.xlsx"'>
                     <p>Download Excel Template</p>
                     <i style="font-size: xx-large;" class="fas fa-file-excel"></i>
                 </a>
