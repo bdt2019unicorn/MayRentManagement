@@ -25,7 +25,7 @@ Vue.component
                             
                         </tbody>
                     </table>
-                <div>
+                </div>
             </div>
         `
     }    

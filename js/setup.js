@@ -86,54 +86,6 @@ jQuery
                         BuildingsData(state, payload)
                         {
                             state.buildings_data = payload; 
-                        }, 
-
-                        RedirectUrl
-                        (
-                            state, 
-                            {
-                                param="", 
-                                value=""
-                            }
-                        )
-                        {
-                            var default_value = 
-                            {
-                                controller: "overview", 
-                                action: "overview"
-                            }; 
-                            var params_ranking = ["", "building_id", "controller", "action", "object_id"]; 
-                            let current_search_params = new URLSearchParams(window.location.search); 
-                            let final_search_params = new URLSearchParams(); 
-                            let ranking_index = params_ranking.indexOf(param); 
-                            for (let index = 0; index < params_ranking.length; index++) 
-                            {
-                                if(index<ranking_index)
-                                {
-                                    let current_value = current_search_params.get(params_ranking[index]); 
-                                    if(current_value)
-                                    {
-                                        final_search_params.set(params_ranking[index],current_value); 
-                                    }
-                                }
-                                else if(index==ranking_index)
-                                {
-                                    if(param)
-                                    {
-                                        final_search_params.set(param,value); 
-                                        if(state[param]==value)
-                                        {
-                                            continue; 
-                                        }
-                                        state[param] = value; 
-                                    }
-                                }
-                                else
-                                {
-                                    this.state[params_ranking[index]] = (default_value[params_ranking[index]])?(default_value[params_ranking[index]]):""; 
-                                }
-                            }
-                            window.history.pushState(param,value,(param)?"?"+final_search_params.toString():window.location.pathname); 
                         }
                     }
                 }
