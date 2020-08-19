@@ -5,20 +5,17 @@
     {
         "Apartment Name":
         {
-            "controller": "apartment", 
-            "action": "edit", 
+            "to": "apartment/edit", 
             "object_id": "ID"
         }, 
         "Tenant Name":
         {
-            "controller": "tenant", 
-            "action": "edit", 
+            "to": "tenant/edit", 
             "object_id": "tenantid"
         }, 
         "Rent Until":
         {
-            "controller": "leaseagrm", 
-            "action": "edit", 
+            "to": "leaseagrm/edit", 
             "object_id": "leaseid"
         }
     }, 

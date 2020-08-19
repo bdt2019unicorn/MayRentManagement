@@ -4,8 +4,10 @@
     {
         "Apartment Name":
         {
-            "action": "apartment-utilities", 
-            "object_id": "apartment_id"
+            "to": "apartment-utilities", 
+            "object_id": "apartment_id", 
+            "replace": true, 
+            "append": false 
         }
     }
 }

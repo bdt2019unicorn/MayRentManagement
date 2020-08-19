@@ -2,25 +2,22 @@ var support_mixin =
 {
     computed: 
     {
-        BuildingId()
-        {
-            return window.store_track.state.building_id; 
-        }, 
         CurrentController()
         {
-            return ((this.controller)?this.controller:this.StateController); 
+            let controller = this.controller? this.controller: this.$route.params.controller; 
+            return controller? controller: "overview"; 
         }, 
         ImportUrl()
         {
             return `server/import_controller/action.php?import_controller=${this.CurrentController}`; 
         }, 
+        ObjectId()
+        {
+            return this.object_id? this.object_id: this.$route.query.id; 
+        }, 
         OverviewUrl()
         {
-            return this.OverviewDataUrl(this.CurrentController) + ((this.object_id)?`&id=${this.object_id}`: ""); 
-        }, 
-        StateController()
-        {
-            return window.store_track.state.controller; 
+            return this.OverviewDataUrl(this.CurrentController) + (this.ObjectId?`&id=${this.ObjectId}`: ""); 
         }
     },
     methods: 
@@ -58,7 +55,7 @@ var support_mixin =
         }, 
         OverviewDataUrl(overview_controller)
         {
-            return `server/overview_controller/overview_controller.php?building_id=${this.BuildingId}&overview_controller=${overview_controller}`; 
+            return `server/overview_controller/overview_controller.php?building_id=${this.$route.params.building_id}&overview_controller=${overview_controller}`; 
         }, 
         StateObject(state_property)
         {
@@ -73,7 +70,7 @@ var support_mixin =
         TableActions(controller)
         {
             var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
-            return (table_actions)?table_actions:{}; 
+            return table_actions?table_actions:{}; 
         }, 
         TableData(overview_controller)
         {
@@ -130,7 +127,7 @@ var text_mixin =
     mixins: [simple_input_mixin], 
     watch: 
     {
-        controller: function(new_value, old_value)
+        $route: function(new_value, old_value)
         {
             this.value = ""; 
         }
@@ -139,7 +136,20 @@ var text_mixin =
 
 var add_edit_mixin = 
 {
+    props: ["controller"], 
     mixins: [support_mixin], 
+    data()
+    {
+        return {
+            form: [], 
+            validate: {} 
+        }
+    }, 
+
+    created() 
+    {
+        this.PopulateFormField(); 
+    }, 
     methods: 
     {
         PopulateFormField()
@@ -148,8 +158,8 @@ var add_edit_mixin =
             try 
             {
                 this.form = data.form; 
-                this.title = (this.form_title)?this.form_title: (this.controller)? data.title :this.title+data.title; 
-                this.validate = (data.validate)?data.validate:this.validate; 
+                this.title = this.form_title?this.form_title: this.controller? data.title :this.title+data.title; 
+                this.validate = data.validate?data.validate:this.validate; 
             } 
             catch
             {
@@ -158,14 +168,7 @@ var add_edit_mixin =
             }
         }
     },
-    watch: 
-    {
-        CurrentController: function(new_value, old_value)
-        {
-            this.PopulateFormField(); 
-        }   
-    },
-    template: `<user-input v-bind="$data" :id="CurrentController" :edit_data="(this.edit_data)?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
+    template: `<user-input v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
 }
 
 var utilities_mixin = 

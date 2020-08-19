@@ -31,7 +31,7 @@ Vue.component
         }, 
         methods: 
         {
-            HyperlinkObject(index, row)
+            RouterLinkBind(index, row)
             {
                 
                 BindingKeys = ()=>
@@ -48,9 +48,18 @@ Vue.component
                 }
 
                 let hyperlink_object = BindingKeys(); 
+                let object_id = row[this.thead[hyperlink_object["object_id"]]]; 
                 return {
                     ...hyperlink_object, 
-                    object_id: row[this.thead[hyperlink_object["object_id"]]]
+                    append: hyperlink_object.append!=undefined?hyperlink_object.append: true, 
+                    to: 
+                    {
+                        path: hyperlink_object.to, 
+                        query: 
+                        {
+                            id: object_id
+                        }
+                    }
                 }; 
             }, 
             SetupTable()
@@ -191,9 +200,12 @@ Vue.component
                             <td v-for="index in row.length" :key="index-1" v-if='!Object.values(SpecialColumnsIndexes("hidden_columns")).includes(index-1)'>
                                 <id-tickbox v-if="(index-1)==IdTickbox" :object_id="row[index-1]" v-on="$listeners"></id-tickbox>
 
-                                <a-hyperlink v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)' :params="HyperlinkObject(index-1, row)">
+                                <router-link
+                                    v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)'
+                                    v-bind="RouterLinkBind(index-1, row)"
+                                >
                                     {{row[index-1]}}
-                                </a-hyperlink>
+                                </router-link>
 
                                 <date-compare-now v-else-if='Object.values(SpecialColumnsIndexes("date_compare_now")).includes(index-1)' :text="row[index-1]"></date-compare-now>
 

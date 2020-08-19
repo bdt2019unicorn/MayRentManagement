@@ -131,7 +131,7 @@ Vue.component
 
                 <template #add_utilities>
                     <div class="col-2">
-                        <a-hyperlink class="btn btn-primary" :params="{action: 'utility-reading'}">Add</a-hyperlink>
+                        <router-link class="btn btn-primary" to='utility-reading' replace>Add</router-link>
                     </div>
                 </template>
                 
@@ -178,7 +178,7 @@ Vue.component
             {
                 try 
                 {
-                    search_data.append("apartment_id", this.StateObject("object_id")); 
+                    search_data.append("apartment_id", this.$route.query.id); 
                     let apartment_utitlities_json = this.AjaxRequest(this.OverviewUrl, search_data,"post"); 
                     let apartment_utitlities = JSON.parse(apartment_utitlities_json)[0]; 
                     this.table_data = Object.values(apartment_utitlities.apartment_table).reverse(); 

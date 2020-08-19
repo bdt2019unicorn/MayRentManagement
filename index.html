@@ -11,17 +11,17 @@
 
             <div v-if="StateObject('username')">
                 <page-navbar :buildings_data="buildings_data" grid_area_surfix="main-nav-item"></page-navbar>
-
-                <main-nav-items class="container-fluid" v-if="!StateObject('building_id') && StateObject('controller')!='user'" :buildings_data="buildings_data" default_icon="building" grid_area_surfix="home-page"></main-nav-items>
-
-                <edit form_title="Edit My Information" :object_id="StateObject('user_id')" v-if="StateObject('controller')=='user'"></edit>
-
-                <page-wrapper v-if="StateObject('building_id')"></page-wrapper>
+                <router-view></router-view>
             </div>
 
             <page-administration v-if="!StateObject('username')"></page-administration>
 
             <!-- able to do both vietnamese and english -->
+
+            <!-- need to have the utility works so we can finally get rid of the StateObject and a-hyperlink 
+            couple things to tidy up 
+            check all function and make sure them works. 
+            refractor and put the actions all in 1 place.  -->
         </div>
 
         <footer>
@@ -37,6 +37,7 @@
             <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script> -->
             <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
             <script src="https://unpkg.com/vuex@3.1.3/dist/vuex.js"></script>
+            <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vuejs-datepicker/1.6.2/vuejs-datepicker.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-functional-calendar/2.8.87/FunctionalCalendar.umd.min.js"></script>
 
@@ -44,7 +45,6 @@
 
             <script async src="js/full_page/main-nav-items.js"></script>
 
-            <script async src="js/full_page/page-wrapper/support_components/scrolling_table/a_sort_table.js"></script>
             <script async src="js/full_page/page-wrapper/support_components/scrolling_table/a_hyperlink.js"></script>
             <script async src="js/full_page/page-wrapper/support_components/scrolling_table/date_compare.js"></script>
             <script async src="js/full_page/page-wrapper/support_components/scrolling_table/id_tickbox.js"></script>
