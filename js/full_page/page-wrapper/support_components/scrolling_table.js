@@ -31,7 +31,7 @@ Vue.component
         }, 
         methods: 
         {
-            RouterLinkTo(index, row)
+            RouterLinkBind(index, row)
             {
                 
                 BindingKeys = ()=>
@@ -49,7 +49,18 @@ Vue.component
 
                 let hyperlink_object = BindingKeys(); 
                 let object_id = row[this.thead[hyperlink_object["object_id"]]]; 
-                return `${hyperlink_object.to}?id=${object_id}`; 
+                return {
+                    ...hyperlink_object, 
+                    append: hyperlink_object.append!=undefined?hyperlink_object.append: true, 
+                    to: 
+                    {
+                        path: hyperlink_object.to, 
+                        query: 
+                        {
+                            id: object_id
+                        }
+                    }
+                }; 
             }, 
             SetupTable()
             {
@@ -191,8 +202,7 @@ Vue.component
 
                                 <router-link
                                     v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)'
-                                    :to="RouterLinkTo(index-1, row)"
-                                    append
+                                    v-bind="RouterLinkBind(index-1, row)"
                                 >
                                     {{row[index-1]}}
                                 </router-link>

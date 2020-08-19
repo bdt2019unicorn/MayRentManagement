@@ -59,7 +59,7 @@ Vue.component
                     <div class="row" style="margin:0.5vh 0; width: 100%;" v-for="item in nav_list_items">
                         
                         <router-link 
-                            :class="ItemsClasses(item.to, $route.params.controller, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
+                            :class="ItemsClasses(item.item, $route.params.controller, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
                             style="text-align: center;" 
                             :to="'/'+ $route.params.building_id+'/'+ item.to"
                             :append="$route.params.controller==undefined" 
