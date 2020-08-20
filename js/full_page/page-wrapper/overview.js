@@ -155,22 +155,20 @@ Vue.component
                     <form class="container-fluid row col" v-if="search_data" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
                         <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
-                        <div class="col--2">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
                     </form>
 
                     <div class="col-5 row" v-if="CurrentController!='overview'">
 
-                        <div class="col text-right">
+                        <div class="col"> 
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+
+                        <div class="col">
                             <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
                         </div>
-                        <div class="col text-center">
+                        <div class="col">
                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
                             <router-link class="btn btn-secondary" v-else :to="'edit?id=' + check_array[0]" append>Edit</router-link>
-                        </div>
-                        <div class="col text-left">
-                            <router-link class="btn btn-success" to="add" append>Add</router-link>
                         </div>
 
                     </div>

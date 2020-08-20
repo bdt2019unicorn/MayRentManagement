@@ -37,6 +37,7 @@ jQuery
                         {
                             path:"/:building_id/:controller/:action", 
                             component: page_wrapper, 
+                            name: "actions", 
                             props: true 
                         }
                     ]
@@ -75,17 +76,21 @@ jQuery
                     }, 
                     mutations: 
                     {
-                        Authorize(state, {username, user_id})
+                        Authorize(state, payload)
                         {
-                            state["username"] = username; 
-                            state["user_id"] = user_id; 
-                            sessionStorage.setItem("username", username); 
-                            sessionStorage.setItem("user_id", user_id); 
+                            Object.keys(payload).forEach
+                            (
+                                key=>
+                                {
+                                    state[key] = payload[key]; 
+                                    sessionStorage.setItem(key, payload[key]); 
+                                }
+                            );
                         }, 
 
-                        BuildingsData(state, payload)
+                        ChangeState(state, {name, value})
                         {
-                            state.buildings_data = payload; 
+                            state[name] = value; 
                         }
                     }
                 }
@@ -118,7 +123,7 @@ jQuery
                             }
                         }
 
-                        store_track.commit("BuildingsData", this.buildings_data); 
+                        store_track.commit("ChangeState", {name: "buildings_data", value: this.buildings_data}); 
                         store_track.commit
                         (
                             "Authorize", 

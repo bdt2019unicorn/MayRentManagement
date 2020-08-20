@@ -8,7 +8,7 @@ Vue.component
         {
             MainNavItems()
             {
-                let total = this.buildings_data.length +3; 
+                let total = this.buildings_data.length +2; 
                 let percentage = 100/total; 
                 var main_nav_items = 
                 {
@@ -41,16 +41,6 @@ Vue.component
                 >
                     <i style="font-size: xx-large;" :class="['fas', 'fa-'+ default_icon]"></i>
                     <p>{{buildings_data[index-1]["name"]}}</p>
-                </router-link>
-
-                <router-link
-                    class="btn btn-success" 
-                    title="Import Excel Data"
-                    v-if="$route.params.building_id && $route.params.controller"
-                    :style="'grid-area: '+grid_area_surfix+'-'+(buildings_data.length+1)+';'"
-                    :to='"/" + $route.params.building_id + "/" + $route.params.controller + "/import-export"'
-                >
-                    <i class="fas fa-table" style="font-size: xx-large;"></i>
                 </router-link>
             </div>
         `
