@@ -8,7 +8,6 @@ Vue.component
         {
             return {
                 options: [], 
-                value: ""
             }
         },
         created() 
@@ -72,17 +71,12 @@ Vue.component
     {
         props: ["edit_data", "name", "title"], 
         mixins: [edit_mixin], 
-        data()
-        {
-            return {
-                value: undefined
-            }
-        }, 
         template: 
         `
             <div class="form-group col">
                 <div class="form-check">
-                    <input :name="name" type="checkbox" class="form-check-input" value="true" :checked="Number(value)">
+                    <input type="checkbox" class="form-check-input" value="1" v-model='value'>
+                    <input hidden type="text" :name="name" v-model="Number(this.value).toString()">
                     <label :for="name" v-if="title" class="form-check-label"><b>{{title}}</b></label>
                 </div>
             </div>

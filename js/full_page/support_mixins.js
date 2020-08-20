@@ -95,6 +95,12 @@ var support_mixin =
 var edit_mixin = 
 {
     mixins: [support_mixin], 
+    data()
+    {
+        return {
+            value:""
+        }
+    }, 
     mounted() 
     {
         this.BringEditData(); 
@@ -111,20 +117,9 @@ var edit_mixin =
     },
 }; 
 
-var simple_input_mixin = 
-{
-    mixins: [edit_mixin], 
-    data()
-    {
-        return {
-            value:""
-        }
-    } 
-}
-
 var text_mixin = 
 {
-    mixins: [simple_input_mixin], 
+    mixins: [edit_mixin], 
     watch: 
     {
         $route: function(new_value, old_value)
