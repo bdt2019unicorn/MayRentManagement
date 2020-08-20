@@ -1,38 +1,182 @@
 [
     {
         "icon": "bed",
-        "name": "Apartments",
-        "item": "apartment", 
-        "to": "apartment"
+        "name": "apartment", 
+        "text": "Apartments",
+        "to": "apartment", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Apartments", 
+                "button": "warning", 
+                "icon": "home"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Apartment", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
     },
     {
         "icon": "users",
-        "name": "Tenants",
-        "item": "tenant", 
-        "to": "tenant"
+        "name": "tenant", 
+        "text": "Tenants",
+        "to": "tenant", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Tenants in this building", 
+                "button": "warning", 
+                "icon": "users"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Apartment", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
     },
     {
         "icon": "handshake",
-        "name": "Lease Agreement",
-        "item": "leaseagrm", 
-        "to": "leaseagrm"
+        "name": "leaseagrm", 
+        "text": "Lease Agreement",
+        "to": "leaseagrm", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Contracts", 
+                "button": "warning", 
+                "icon": "folder-open"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Contract", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
     },
     {
         "icon": "hand-holding-usd",
-        "name": "Income",
-        "item": "revenue", 
-        "to": "revenue"
+        "name": "revenue", 
+        "text": "Income",
+        "to": "revenue", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Incomes", 
+                "button": "warning", 
+                "icon": "hand-holding-usd"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Income", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
     },
     {
         "icon": "file-invoice-dollar",
-        "name": "Expenses",
-        "item": "expense", 
-        "to": "expense"
+        "name": "expense", 
+        "text": "Expenses",
+        "to": "expense", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Expenses", 
+                "button": "warning", 
+                "icon": "file-invoice-dollar"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Expense", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
     },
     {
         "icon": "cog",
-        "name": "Utilities",
-        "item": "utilities", 
-        "to": "utilities/utilities-overview"
+        "name": "utilities", 
+        "text": "Utilities",
+        "to": "utilities/utilities-overview", 
+        "menu": 
+        [
+            {
+                "action": "utilities-overview", 
+                "text": "Overview", 
+                "title": "All Apartments", 
+                "button": "warning", 
+                "icon": "home"
+            }, 
+            {
+                "action": "utility-reading", 
+                "text": "Add New Readings", 
+                "title": "Add New Readings", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
     }
 ]

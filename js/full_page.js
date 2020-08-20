@@ -52,23 +52,62 @@ Vue.component
         {
             this.nav_list_items = this.AjaxRequest("server/sidebar.json"); 
         },
+        methods: 
+        {
+            IconClass(icon)
+            {
+                return ['fas', 'fa-'+ icon]; 
+            }, 
+            ToActions(controller, action)
+            {
+                return {
+                    name: "actions", 
+                    params: 
+                    {
+                        building_id: this.$route.params.building_id, 
+                        controller: controller, 
+                        action: action
+                    }
+                }; 
+            }
+        }, 
         template: 
         `
             <div class="side-bar">
                 <nav class="navbar container-fluid">
+
                     <div class="row" style="margin:0.5vh 0; width: 100%;" v-for="item in nav_list_items">
-                        
-                        <router-link 
-                            :class="ItemsClasses(item.item, $route.params.controller, ['btn', 'col'], 'btn-warning', 'btn-primary')" 
-                            style="text-align: center;" 
-                            :to="'/'+ $route.params.building_id+'/'+ item.to"
-                            :append="$route.params.controller==undefined" 
-                            :replace="Boolean($route.params.controller)"
+
+                        <button 
+                            type="button" 
+                            data-toggle="collapse" 
+                            :data-target='"#" + item.name'
+                            :aria-controls="item.name"
+                            aria-expanded="false"
+                            :class="ItemsClasses(item.name, $route.params.controller, ['btn'], 'btn-warning', 'btn-primary')" 
+                            style="width: 100%;"
                         >
-                            <i style="font-size: xx-large;" :class="['fas', 'fa-'+ item.icon]"></i>
-                            <p>{{item.name}}</p>
-                        </router-link>
+                            <i style="font-size: xx-large;" :class="IconClass(item.icon)"></i>
+                            <br>
+                            <span>{{item.text}}</span>
+                        </button>
+
+                        <ul class="collapse list-unstyled" :id="item.name" style="width: 100%;">
+                            <li v-for="link in item.menu">
+                                <router-link 
+                                    :class="['btn', 'btn-'+link.button]" 
+                                    :to="ToActions(item.name,link.action)" 
+                                    :title="link.title"  
+                                    :key="item.name+': ' + link.action"   
+                                    style="width:100%;"  
+                                >
+                                    <i :class="IconClass(link.icon)"></i>&nbsp;{{link.text}}
+                                </router-link>
+                            </li>
+                        </ul>
+
                     </div>
+                    
                 </nav>
             </div>
         `
