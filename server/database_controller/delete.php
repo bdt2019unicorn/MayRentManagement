@@ -1,5 +1,5 @@
 <?php 
-    require_once("./helper/database.php"); 
+    require_once("../helper/database.php"); 
 
     $post_key = "delete"; 
     $ids = json_decode($_POST[$post_key]); 
