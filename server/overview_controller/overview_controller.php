@@ -30,7 +30,7 @@
         (
             "apartment"=>function()
             {
-                $selects = ["id AS ID", "name AS Name"]; 
+                $selects = isset($_GET["edit"])? ["*"]: ["id AS ID", "name AS Name"]; 
                 $conditions = null; 
                 try 
                 {
@@ -59,7 +59,7 @@
             }, 
             "tenant"=> function()
             {
-                $selects = ["`id` AS `ID`", "`First_Name` AS `First Name`", "`Middle_Name` AS `Middle Name`", "`Last_Name` AS `Last Name`", "`Passport_ID_number` AS `ID Number`"]; 
+                $selects = isset($_GET["edit"])? ["*"]: ["`id` AS `ID`", "`First_Name` AS `First Name`", "`Middle_Name` AS `Middle Name`", "`Last_Name` AS `Last Name`", "`Passport_ID_number` AS `ID Number`", "CONCAT(`Last_Name`, ' ', `Middle_Name`, ' ', `First_Name`) AS `Full Name`"]; 
                 $conditions = isset($_GET["id"]) ? ["id"=>$_GET['id']]: null; 
 
                 return Query::SelectData("tenant", $selects, $conditions); 

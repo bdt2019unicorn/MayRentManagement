@@ -13,16 +13,16 @@
                 "name": "tenant_id",
                 "title": "Tenant",
                 "overview_controller": "tenant",
-                "select_value": "id",
-                "text": "full_name"
+                "select_value": "ID",
+                "text": "Full Name"
             },
             {
                 "component": "select-input",
                 "name": "apartment_id",
                 "title": "Apartment",
                 "overview_controller": "apartment",
-                "select_value": "id",
-                "text": "name"
+                "select_value": "ID",
+                "text": "Name"
             }
         ],
         [

@@ -1,4 +1,5 @@
 {
+    "hidden_columns": ["Full Name"], 
     "id": "ID", 
     "page_title": "Tenants", 
     "search": ["Last Name", "Middle Name", "First Name", "ID Number"]

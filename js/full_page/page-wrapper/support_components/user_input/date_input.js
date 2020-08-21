@@ -52,8 +52,7 @@ var date_input = Vue.component
         `
             <div class="form-group col">
                 <label for="company_address"><b>{{title}}</b></label>
-                <vuejs-datepicker calendar-class="calendar-right-align" input-class="form-control" format="dd/MM/yyyy" v-model="date_value"></vuejs-datepicker>
-                <vuejs-datepicker format="MM/dd/yyyy" v-model="date_value" v-show="false" :name="name"></vuejs-datepicker>
+                <vuejs-datepicker calendar-class="calendar-right-align" input-class="form-control" format="dd/MM/yyyy" v-model="date_value" :name="name"></vuejs-datepicker>
                 <label :for="name" v-show="RequiredLabel">This field is required.</label> 
                 <label :for="name" v-if="SpecialMessageLabel">{{bad_message}}</label>
             </div>

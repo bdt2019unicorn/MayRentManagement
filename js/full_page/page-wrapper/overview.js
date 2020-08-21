@@ -34,7 +34,7 @@ Vue.component
         {
             DeleteData()
             {
-                var url = `server/delete_controller.php?table=${this.CurrentController}`; 
+                var url = `server/database_controller/delete.php?table=${this.CurrentController}`; 
                 var result = this.SubmitData("delete", url, this.check_array); 
                 if(Number(result))
                 {
