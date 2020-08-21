@@ -1,5 +1,5 @@
 {
-    "id": "id", 
+    "id": "ID", 
     "page_title": "Tenants", 
-    "search": ["Last_Name", "Middle_Name", "First_Name", "Passport_ID_number"]
+    "search": ["Last Name", "Middle Name", "First Name", "ID Number"]
 }

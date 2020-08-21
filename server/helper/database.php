@@ -3,31 +3,21 @@
     {
     	static public function Insert($table, $data)
     	{
-    		$sql = "INSERT INTO `{$table}`"; 
-    		$columns = "("; 
-    		$values = "VALUES ("; 
+            $columns = []; 
+            $values = []; 
 
     		foreach ($data as $column => $value) 
     		{
-    			$columns.="`{$column}`,"; 
-    			$values.="'{$value}',"; 
-    		}
-    		$sql.=" ".Query::RemoveLastCharacter($columns, ',').") ".Query::RemoveLastCharacter($values, ',').");"; 
-    		return $sql; 
+                array_push($columns, "`{$column}`"); 
+                array_push($values, "'{$value}'"); 
+            }
+            
+            return "INSERT INTO `{$table}`(" . implode(",",$columns) . ") VALUES (" . implode(",", $values) . ");"; 
     	}
 
         static public function Update($table, $data, $conditions)
         {
-        	$sql = "UPDATE `{$table}` SET "; 
-
-        	foreach ($data as $column => $value) 
-        	{
-        		$sql.="`{$column}` = '{$value}', "; 
-        	}
-
-        	$sql = Query::RemoveLastCharacter($sql, ","); 
-        	$sql.= " ". Query::Where($conditions); 
-        	return $sql; 
+            return "UPDATE `{$table}`" . Query::Cause("SET", $data, ",") . Query::Cause("WHERE", $conditions, "AND"); 
 		}
 		
 		static public function Delete($table, $id_column, $ids)
@@ -39,6 +29,16 @@
 				array_push($queries, $sql); 
 			}
 			return $queries; 
+        }
+
+        static public function SelectData($table, $selects, $conditions=null)
+        {
+            $sql = "SELECT ". implode(",", $selects). " FROM `{$table}` "; 
+            if(isset($conditions))
+            {
+                $sql .= Query::Cause("WHERE", $conditions, "AND"); 
+            }
+            return $sql; 
         }
         
         static public function GeneralData($table, $id= null, $id_field='id')
@@ -53,19 +53,15 @@
             return $sql; 
         }
 
-        static private function Where($conditions) 
+        static private function Cause($cause, $data, $separator)
         {
-            $sql = "WHERE "; 
-            foreach ($conditions as $key => $value) 
+            $sql = []; 
+            foreach ($data as $column => $value) 
             {
-            	$sql.="`{$key}` = '{$value}' AND "; 
+                array_push($sql, "`{$column}` = '{$value}'"); 
             }
-            return Query::RemoveLastCharacter($sql, "AND"); 
-        }
 
-        static private function RemoveLastCharacter($sql, $character)
-        {
-        	return substr($sql,0, strrpos($sql, $character)); 
+            return "\n" .$cause . " " . implode($separator ." ", $sql); 
         }
     }
 
@@ -187,6 +183,12 @@
         public static function GeneralData($table, $id= null, $id_field='id')
         {
             $sql = Query::GeneralData($table, $id, $id_field); 
+            return Connect::GetData($sql); 
+        }
+
+        public static function SelectData($table, $selects, $conditions=null)
+        {
+            $sql = Query::SelectData($table, $selects, $conditions); 
             return Connect::GetData($sql); 
         }
     }

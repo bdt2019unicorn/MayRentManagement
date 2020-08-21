@@ -57,18 +57,6 @@ Vue.component
             IconClass(icon)
             {
                 return ['fas', 'fa-'+ icon]; 
-            }, 
-            ToActions(controller, action)
-            {
-                return {
-                    name: "actions", 
-                    params: 
-                    {
-                        building_id: this.$route.params.building_id, 
-                        controller: controller, 
-                        action: action
-                    }
-                }; 
             }
         }, 
         template: 
@@ -96,9 +84,8 @@ Vue.component
                             <li v-for="link in item.menu">
                                 <router-link 
                                     :class="['btn', 'btn-'+link.button]" 
-                                    :to="ToActions(item.name,link.action)" 
+                                    :to="ToActions({controller: item.name, action: link.action})" 
                                     :title="link.title"  
-                                    :key="item.name+': ' + link.action"   
                                     style="width:100%;"  
                                 >
                                     <i :class="IconClass(link.icon)"></i>&nbsp;{{link.text}}

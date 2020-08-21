@@ -9,11 +9,8 @@
 
 	    foreach ($excel as $row) 
 	    {
-	        $sql = "INSERT INTO `{$params['table']}`"; 
-	        $columns = "("; 
-	        $values = "VALUES ("; 
-
-	        $StringAddition = function($key, $value) use (&$columns, &$values, &$StringAddition, $params)
+			$data = []; 
+	        $AddData = function($key, $value) use (&$data, &$AddData, $params)
 	        {
 
 	            $ModifyKey = function($key)
@@ -35,7 +32,7 @@
 
 	            if(isset($params['get_id'][$key]))
 	            {
-					$StringAddition
+					$AddData
 					(
 						$params['get_id'][$key]['change'], 
 						Connect::GetId
@@ -48,32 +45,27 @@
                     return; 
 	            }
 
-				$columns.=$key.',';
 
 	            if(in_array($key, $params['date_collumns']))
 	            {
-	            	$value = "STR_TO_DATE('".substr_replace($value,"/".$params['year_number'],strrpos($value,"/"),1)."','%m/%d/%Y')"; 
+					$date = date_create_from_format("d/m/Y", $value);
+					$value = date_format($date, "Y-m-d");  
 	            }
 	            else if(in_array($key, $params['comma']))
 	            {
-	            	$value = "'".str_replace(",", '', $value)."'"; 
+	            	$value = str_replace(",", '', $value); 
 	            }
-	            else 
-	            {
-	            	$value = "'".$value."'"; 
-	            }
-	            $values.= $value.",";  
-	        }; 
+				
+				$data[$key] = $value; 
+
+
+			}; 
 
 	        foreach ($row as $key => $value) 
 	        {
-	            $StringAddition($key, $value); 
-	        }   
-	        
-	        $columns = substr_replace($columns, "",strrpos($columns,","),1) . ")"; 
-	        $values = substr_replace($values, "",strrpos($values,","),1) . ")";
-	        $sql.= $columns."\n".$values.";"; 
-	        array_push($queries,$sql); 
+	            $AddData($key, $value); 
+			}   
+	        array_push($queries,Query::Insert($params['table'],$data)); 
 		}
 		
 	    $result = Connect::ExecTransaction($queries); 
@@ -84,24 +76,13 @@
 	function Login()
 	{
 		$data = json_decode($_POST["excel"])[0]; 
-		$sql = 
-		"
-			SELECT * 
-			FROM `user` 
-			WHERE 
-				`approved`=true AND 
-				`username`='". $data->username. "' AND 
-				`password`= '". $data->password . "'; 
-		"; 
-		$data = Connect::GetData($sql); 
-	
-		if(isset($data[0]["id"]))
+
+		$user_information = Connect::SelectData("user", ["*"], ["approved"=>1, "username"=>$data->username, "password"=>$data->password]); 
+		if(isset($user_information[0]["id"]))
 		{
-			echo $data[0]["id"]; 
+			echo $user_information[0]["id"]; 
 		}
 	}
-
-
 
 	$import_controller = $_GET["import_controller"]; 
 	if($import_controller=="login")

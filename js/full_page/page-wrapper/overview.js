@@ -54,14 +54,7 @@ Vue.component
                 }
                 else 
                 {
-                    for(var index=0; index<this.check_array.length; index++)
-                    {
-                        if(this.check_array[index]==object_id)
-                        {
-                            this.check_array.splice(index, 1); 
-                            index--; 
-                        }
-                    }
+                    this.check_array = this.check_array.filter(value=>value!=object_id); 
                 }
             }, 
             PopulateData()
@@ -76,42 +69,40 @@ Vue.component
                 let overview_data = this.TableData(this.CurrentController); 
                 if(data['search_value'])
                 {
-                    this.table_data = []; 
-                    overview_data.forEach
+                    this.table_data = overview_data.filter 
                     (
-                        row => 
+                        row=>
                         {
-                            if(data['search_category'])
+                            function CheckRow()
                             {
-                                if(row[data['search_category']].toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
+                                for(var value of Object.values(row))
                                 {
-                                    this.table_data.push(row); 
-                                }
-                            }
-                            else
-                            {
-                                function CheckRow()
-                                {
-                                    for(var value of Object.values(row))
+                                    try 
                                     {
-                                        try 
+                                        if(value.toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
                                         {
-                                            if(value.toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
-                                            {
-                                                return true; 
-                                            }
+                                            return true; 
                                         }
-                                        catch{}
                                     }
+                                    catch{}
+                                }
+                                return false; 
+                            }
+
+                            function CheckCategory()
+                            {
+                                try 
+                                {
+                                    return (row[data['search_category']].toLowerCase().indexOf(data['search_value'].toLowerCase())>=0); 
+                                }
+                                catch 
+                                {
                                     return false; 
                                 }
-                                if(CheckRow())
-                                {
-                                    this.table_data.push(row); 
-                                }
                             }
+                            return (data['search_category'])? CheckCategory() : CheckRow(); 
                         }
-                    );
+                    ); 
                     return; 
                 }
                 this.table_data = overview_data; 
@@ -119,25 +110,7 @@ Vue.component
             SearchData()
             {
                 var search_columns = this.TableActions(this.CurrentController).search; 
-                if(search_columns)
-                {
-                    var search_data = []; 
-                    search_columns.forEach
-                    (
-                        element => 
-                        {
-                            search_data.push
-                            (
-                                {
-                                    value: element, 
-                                    text: element
-                                }
-                            ); 
-                        }
-                    );
-                    return search_data; 
-                }
-                
+                return (search_columns)? search_columns.map(element=>({value: element, text: element})): undefined; 
             }
         },
         watch: 
@@ -155,20 +128,19 @@ Vue.component
                     <form class="container-fluid row col" v-if="search_data" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
                         <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
-                    </form>
-
-                    <div class="col-5 row" v-if="CurrentController!='overview'">
-
-                        <div class="col"> 
+                        <div class="col--2"> 
                             <button class="btn btn-primary" type="submit">Search</button>
                         </div>
+                    </form>
 
-                        <div class="col">
+                    <div class="col-4 row" v-if="CurrentController!='overview'">
+
+                        <div class="col text-right">
                             <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
                         </div>
-                        <div class="col">
+                        <div class="col text-center">
                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <router-link class="btn btn-secondary" v-else :to="'edit?id=' + check_array[0]" append>Edit</router-link>
+                            <router-link class="btn btn-secondary" v-else :to="ToActions({action: 'edit', query: {id: check_array[0]}})">Edit</router-link>
                         </div>
 
                     </div>
