@@ -83,8 +83,7 @@
     {
         "table": "tenant",  
         "date_collumns": ["date_of_birth"],  
-        "exclude_columns": ["tenant_id", "apartment"],  
-        "year_number": "19"
+        "exclude_columns": ["tenant_id", "apartment"]
     }, 
     "user": 
     {

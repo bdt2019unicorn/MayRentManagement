@@ -9,7 +9,7 @@ var support_mixin =
         }, 
         ImportUrl()
         {
-            return `server/import_controller/action.php?import_controller=${this.CurrentController}`; 
+            return `server/database_controller/import.php?import_controller=${this.CurrentController}`; 
         }, 
         ObjectId()
         {
