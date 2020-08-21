@@ -30,7 +30,15 @@
         (
             "apartment"=>function()
             {
-                return Query::GeneralData("apartment", $_GET["id"]??null); 
+                $selects = ["id AS ID", "name AS Name"]; 
+                $conditions = null; 
+                try 
+                {
+                    $conditions = isset($_GET["id"]) ? ["id"=>$_GET["id"]] : ["building_id"=>$_GET["building_id"]]; 
+                }
+                catch(\Throwable $throwable) {}
+
+                return Query::SelectData("apartment", $selects, $conditions); 
             }, 
             "user" => function()
             {
@@ -51,12 +59,10 @@
             }, 
             "tenant"=> function()
             {
-                $sql = 
-                "
-                    SELECT *, concat(`First_Name`, ' ', `Middle_Name`,' ', `Last_Name`) as `full_name` 
-                    FROM `tenant`
-                "; 
-                return (isset($_GET["id"]))? $sql.=" WHERE id = '{$_GET['id']}' ": $sql; 
+                $selects = ["`id` AS `ID`", "`First_Name` AS `First Name`", "`Middle_Name` AS `Middle Name`", "`Last_Name` AS `Last Name`", "`Passport_ID_number` AS `ID Number`"]; 
+                $conditions = isset($_GET["id"]) ? ["id"=>$_GET['id']]: null; 
+
+                return Query::SelectData("tenant", $selects, $conditions); 
             }, 
             "expense_revenue"=> function($controller)
             {
@@ -74,6 +80,7 @@
         ); 
 
         $sql =(isset($sql_queries[$overview_controller]))?$sql_queries[$overview_controller](): $sql_queries["expense_revenue"]($overview_controller); 
+
         $overview_data = Connect::GetData($sql); 
     }
 

@@ -15,9 +15,13 @@ var support_mixin =
         {
             return this.object_id? this.object_id: this.$route.query.id; 
         }, 
+        OverviewEditUrl()
+        {
+            return this.OverviewDataUrl(this.CurrentController,{id: this.ObjectId, edit: 1}); 
+        }, 
         OverviewUrl()
         {
-            return this.OverviewDataUrl(this.CurrentController) + (this.ObjectId?`&id=${this.ObjectId}`: ""); 
+            return this.OverviewDataUrl(this.CurrentController, {id: this.ObjectId}); 
         }
     },
     methods: 
@@ -53,9 +57,17 @@ var support_mixin =
             based_classes.push((item_value==compared_value)?good_class: bad_class); 
             return based_classes; 
         }, 
-        OverviewDataUrl(overview_controller)
+        OverviewDataUrl(overview_controller, params=undefined)
         {
-            return `server/overview_controller/overview_controller.php?building_id=${this.$route.params.building_id}&overview_controller=${overview_controller}`; 
+            params = 
+            {
+                building_id: this.$route.params.building_id, 
+                overview_controller: overview_controller, 
+                ...params
+            }
+
+            let search = Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
+            return `server/overview_controller/overview_controller.php?${search}`; 
         }, 
         StateObject(state_property)
         {
@@ -84,6 +96,19 @@ var support_mixin =
             {
                 return []; 
             }          
+        }, 
+        ToActions({controller=undefined, action, query=undefined})
+        {
+            return {
+                name: "actions", 
+                params: 
+                {
+                    building_id: this.$route.params.building_id, 
+                    controller: controller?controller: this.CurrentController, 
+                    action: action
+                }, 
+                query: query
+            }; 
         }, 
         ValidObject(object)
         {

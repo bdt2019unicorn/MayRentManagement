@@ -74,7 +74,7 @@ Vue.component
             }, 
             PopulateDataIntoFields()
             {
-                var data = this.AjaxRequest(this.OverviewUrl); 
+                var data = this.AjaxRequest(this.OverviewEditUrl); 
                 this.edit_data = JSON.parse(data)[0];  
                 Object.keys(this.edit_data).forEach
                 (
@@ -88,7 +88,6 @@ Vue.component
             {
                 var url = `server/edit_controller.php?table=${this.CurrentController}&id=${this.ObjectId}`; 
                 var result = this.SubmitData("edit",url,data); 
-                console.log(result); 
                 if(Number(result))
                 {
                     alert("Edit Information success"); 
