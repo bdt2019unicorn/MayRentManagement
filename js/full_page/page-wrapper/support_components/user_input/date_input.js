@@ -33,7 +33,13 @@ var date_input = Vue.component
         {
             if(this.edit_data)
             {
-                this.date_value = new Date(this.edit_data[this.name]); 
+                let date = this.edit_data[this.name]? new Date(this.edit_data[this.name]): undefined; 
+                if(date instanceof Date && isNaN(date))
+                {
+                    date = undefined; 
+                }
+
+                this.date_value = date; 
             }
             this.$emit("input-validation", "date_required", this.name, this.DateRequired); 
         }, 
