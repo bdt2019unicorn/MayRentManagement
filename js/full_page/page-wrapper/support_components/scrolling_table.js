@@ -189,7 +189,7 @@ Vue.component
                 <table ref='main_table' class="table table-striped table-bordered table-hover">
                     <thead class="thead-dark">
                         <tr>
-                            <th v-for="key in Object.keys(thead)" :key="key" v-if='SpecialColumnsIndexes("hidden_columns")[key]==undefined' class="sticky-top">
+                            <th v-for="key in Object.keys(thead)" :key="key" v-if='SpecialColumnsIndexes("hidden_columns")[key]==undefined' :class="StateObject('table_th_sticky')?'sticky-top':undefined">
                                 <a-sort-table v-if='SpecialColumnsIndexes("sort")[key]' :text="key" :index='SpecialColumnsIndexes("sort")[key]'@sort-table="SortTable"></a-sort-table>
                                 <template v-else>{{key}}</template>
                             </th>
