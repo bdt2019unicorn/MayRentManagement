@@ -9,7 +9,6 @@ Vue.component
                 add_price_form: false, 
                 current_price: undefined, 
                 revenue_type_id: undefined, 
-                temporary_table_data: undefined, 
                 valid_price_date: undefined,
             }
         },
@@ -104,15 +103,7 @@ Vue.component
         {
             add_price_form: function(new_value, old_value)
             {
-                if(new_value)
-                {
-                    this.temporary_table_data = this.table_data; 
-                    this.table_data = []; 
-                }
-                else
-                {
-                    this.table_data = this.temporary_table_data; 
-                }
+                window.store_track.commit("ChangeState", {name:"table_th_sticky", value:!Boolean(new_value)}); 
             }, 
             revenue_type_id: function(new_value, old_value)
             {
