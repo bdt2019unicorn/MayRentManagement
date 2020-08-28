@@ -39,10 +39,21 @@
                 catch(\Throwable $throwable) {}
 
                 return Query::SelectData("apartment", $selects, $conditions); 
-            }, 
-            "user" => function()
+            },            
+            "expense"=> function()
             {
-                return Query::GeneralData("user", $_GET["id"]); 
+                return isset($_GET["edit"])? Query::SelectData("expense", ["*"], ["id"=>$_GET['id']]): 
+                "
+                    SELECT `expense`.`id` AS `ID`, `expense`.`name` AS `Name`, `expense_type`.`name` AS `Type`, DATE_FORMAT(`expense`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`, `expense`.`Amount`
+                    FROM `expense`, `expense_type` 
+                    WHERE 
+                        `expense`.`expense_type_id` = `expense_type`.`id` AND
+                        `expense`.`building_id` = '{$_GET['building_id']}'
+                "; 
+            }, 
+            "invoice"=>function()
+            {
+                return Query::GeneralData("invoice"); 
             }, 
             "leaseagrm"=> function()
             {
@@ -56,6 +67,15 @@
                         `leaseagrm`.`Tenant_ID` = `tenant`.`id` AND 
                         `apartment`.`building_id` = '{$_GET['building_id']}'; 
                 ": Query::GeneralData("leaseagrm", $_GET["id"]??null);
+            },             
+            "revenue"=>function()
+            {
+                return isset($_GET["edit"])? Query::SelectData("revenue", ["*"], ["id"=>$_GET['id']]): 
+                "
+                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`,`invoice`.`name` AS `Invoice`, `apartment`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
+                    FROM `revenue` LEFT JOIN `invoice` ON `revenue`.`invoice_id` = `invoice`.`id` LEFT JOIN `apartment` ON `invoice`.`apartment` = `apartment`.`id`
+                    WHERE `apartment`.`building_id` = '{$_GET['building_id']}'
+                "; 
             }, 
             "tenant"=> function()
             {
@@ -64,28 +84,12 @@
 
                 return Query::SelectData("tenant", $selects, $conditions); 
             }, 
-            "revenue"=>function()
+            "user" => function()
             {
-                $selects = isset($_GET["edit"])? ["*"]: ["id AS ID", "name AS Name"]; 
-            }, 
-            "expense_revenue"=> function($controller)
-            {
-                $controller = ucfirst($controller); 
-                return 
-                "
-                    SELECT `{$controller}`.`name` AS `Name`, {$controller}_type.name AS `{$controller} Type`, `Start_period`, `End_period`, apartment.name AS `Apartment`, `Payment_date`, `Amount`, `Note` 
-                    FROM `{$controller}`, `{$controller}_type`, `apartment`
-                    WHERE 
-                        `{$controller}`.`{$controller}_type_id` = `{$controller}_type`.`id` AND 
-                        `{$controller}`.`apartment_id` = `apartment`.`id` AND 
-                        `apartment`.`building_id` = '{$_GET['building_id']}'; 
-                "; 
+                return Query::GeneralData("user", $_GET["id"]); 
             }
         ); 
-
-        $sql =(isset($sql_queries[$overview_controller]))?$sql_queries[$overview_controller](): $sql_queries["expense_revenue"]($overview_controller); 
-
-        $overview_data = Connect::GetData($sql); 
+        $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
     }
 
     if(isset($overview_data))
