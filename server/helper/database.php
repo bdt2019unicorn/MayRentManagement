@@ -127,6 +127,33 @@
             return $result; 
         }
 
+        public static function MultiQuery($sql)
+        {
+            $connection = Connect::Connection(); 
+            if($connection==null)
+            {
+                return null; 
+            }
+            $array = []; 
+            $connection->multi_query($sql); 
+            try 
+            {
+                do 
+                {
+                    if ($result = $connection->store_result()) 
+                    {
+                        while($result_set = $result->fetch_array(MYSQLI_ASSOC))
+                        {
+                            array_push($array, $result_set); 
+                        }                      
+                    }
+                } while ($connection->next_result());
+            }
+            catch(Throwable $t){}
+            $connection->close(); 
+            return $array; 
+        }
+
         public static function ExecTransaction($sql)
         {
             $connection = Connect::Connection(); 
@@ -163,7 +190,7 @@
         public static function GetId($column, $value, $table,$id_field='id')
         {
             $value = str_replace("'","\'",$value); 
-            $sql = "SELECT * FROM `". $table."` WHERE ".$column." = '".$value."'"; 
+            $sql = "SELECT * FROM `{$table}` WHERE `{$column}` = '{$value}'"; 
             $data = Connect::GetData($sql);
             if(is_bool($data))
             {
@@ -175,7 +202,7 @@
             } 
             else 
             {
-                $sql = "INSERT INTO ".$table."(".$column.") VALUES ('".$value."'); ";
+                $sql = "INSERT INTO `{$table}`(`$column`) VALUES ('{$value}'); ";
                 return Connect::GetData($sql, true); 
             }
         }
