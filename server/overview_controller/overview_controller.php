@@ -64,6 +64,10 @@
 
                 return Query::SelectData("tenant", $selects, $conditions); 
             }, 
+            "revenue"=>function()
+            {
+                $selects = isset($_GET["edit"])? ["*"]: ["id AS ID", "name AS Name"]; 
+            }, 
             "expense_revenue"=> function($controller)
             {
                 $controller = ucfirst($controller); 

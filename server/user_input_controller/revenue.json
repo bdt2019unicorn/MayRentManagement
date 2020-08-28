@@ -10,54 +10,24 @@
             },
             {
                 "component": "select-input",
-                "name": "revenue_type_id",
-                "title": "Type",
-                "overview_controller": "revenue_type",
+                "name": "invoice_id",
+                "title": "Invoice",
+                "overview_controller": "invoice",
                 "select_value": "id",
                 "text": "name"
             }
         ],
         [
-            {
-                "component": "date-group",
-                "name": "period", 
-                "date_data":
-                {
-                    "small_date":
-                    {
-                        "name": "start_period",
-                        "title": "Start Period",
-                        "required": true,
-                        "message": "The start period should be before the end period"
-                    },
-                    "big_date":
-                    {
-                        "name": "end_period",
-                        "title": "End Period",
-                        "required": true,
-                        "message": "The end period should be after the start period"
-                    }
-                }
-            },
-            {
-                "component": "date-input",
-                "name": "payment_date",
-                "title": "Payment Date"
-            }
-        ],
-        [
-            {
-                "component": "select-input",
-                "name": "apartment_id",
-                "title": "Apartment",
-                "overview_controller": "apartment",
-                "select_value": "id",
-                "text": "name"
-            },
             {
                 "component": "number-input",
                 "name": "amount",
                 "title": "Amount"
+            }, 
+            {
+                "component": "date-input",
+                "name": "payment_date",
+                "title": "Payment date",
+                "required": true
             }
         ],
         [
@@ -74,7 +44,6 @@
         {
             "name": "required",
             "revenue_type_id": "required",
-            "apartment_id": "required",
             "amount":
             {
                 "required": true, 
