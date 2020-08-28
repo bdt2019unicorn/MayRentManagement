@@ -150,6 +150,43 @@
         ]
     },
     {
+        "icon": "file-contract",
+        "name": "invoice", 
+        "text": "Invoices",
+        "to": "invoice", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Invoices", 
+                "button": "warning", 
+                "icon": "file-contract"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Invoice", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Invoice", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
         "icon": "cog",
         "name": "utilities", 
         "text": "Utilities",

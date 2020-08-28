@@ -61,20 +61,14 @@
     "revenue": 
     {
         "table": "revenue", 
-        "date_collumns": ["start_period", "end_period", "payment_date"], 
+        "date_collumns": ["payment_date"], 
         "get_id": 
         {
-            "apartment":  
+            "invoice":  
             {
                 "search": "name", 
-                "change": "apartment_id", 
-                "table": "apartment"
-            }, 
-            "revenue_type":  
-            {
-                "search": "name", 
-                "change": "revenue_type_id", 
-                "table": "revenue_type"
+                "change": "invoice_id", 
+                "table": "invoice"
             }
         },
         "comma": ["amount"]
