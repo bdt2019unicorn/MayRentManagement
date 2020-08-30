@@ -87,7 +87,7 @@ var date_group = Vue.component
         {
             DateRangeValid()
             {
-                return this.big_value>this.small_value; 
+                return this.big_value>=this.small_value; 
             }, 
             JustStarted()
             {

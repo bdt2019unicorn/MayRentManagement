@@ -10,8 +10,7 @@
             `apartment`.`building_id` = `buildings`.`id` 
             AND `buildings`.`id` = '{$_GET['building_id']}'
             AND `utility_reading`.`revenue_type_id` = '{$_POST['revenue_type_id']}' 
-            AND `utility_reading`.`date`>='{$_POST['start_date']}' 
-            AND `utility_reading`.`date`<='{$_POST['end_date']}'
+            AND (`utility_reading`.`date` BETWEEN '{$_POST['start_date']}' AND '{$_POST['end_date']}')
     "; 
     $apartments = null; 
 

@@ -15,10 +15,6 @@ var support_mixin =
         {
             return this.object_id? this.object_id: this.$route.query.id; 
         }, 
-        OverviewEditUrl()
-        {
-            return this.OverviewDataUrl(this.CurrentController,{id: this.ObjectId, edit: 1}); 
-        }, 
         OverviewUrl()
         {
             return this.OverviewDataUrl(this.CurrentController, {id: this.ObjectId}); 
@@ -84,10 +80,9 @@ var support_mixin =
             var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
             return table_actions?table_actions:{}; 
         }, 
-        TableData(overview_controller)
+        TableData(overview_controller, params=undefined)
         {
-            var data = this.AjaxRequest(this.OverviewDataUrl(overview_controller));
-
+            var data = this.AjaxRequest(this.OverviewDataUrl(overview_controller, params));
             try 
             {
                return JSON.parse(data); 
@@ -161,11 +156,11 @@ var add_edit_mixin =
     data()
     {
         return {
+            title: "", 
             form: [], 
             validate: {} 
         }
     }, 
-
     created() 
     {
         this.PopulateFormField(); 
@@ -178,7 +173,7 @@ var add_edit_mixin =
             try 
             {
                 this.form = data.form; 
-                this.title = this.form_title?this.form_title: this.controller? data.title :this.title+data.title; 
+                this.title = this.form_title?this.form_title: this.controller? data.title :this.title_surfix+data.title; 
                 this.validate = data.validate?data.validate:this.validate; 
             } 
             catch
@@ -187,6 +182,13 @@ var add_edit_mixin =
                 this.title ="Edit "; 
             }
         }
+    },
+    watch: 
+    {
+        $route: function(new_value, old_value)
+        {
+            this.PopulateFormField(); 
+        }    
     },
     template: `<user-input v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
 }
@@ -217,7 +219,7 @@ var utilities_mixin =
     {
         SelectData()
         {
-            this.select_data.apartments = this.TableData("apartment");     
+            this.select_data.apartments = this.TableData("apartment", {edit: 1});     
             let utility_data = this.AjaxRequest(`${this.main_url}SelectData`); 
             this.select_data.utilities = JSON.parse(utility_data); 
         }

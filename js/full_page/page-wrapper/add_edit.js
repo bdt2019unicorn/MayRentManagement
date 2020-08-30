@@ -6,7 +6,7 @@ Vue.component
         data()
         {
             return {
-                title: "Add "
+                title_surfix: "Add "
             }
         }, 
         methods: 
@@ -16,7 +16,7 @@ Vue.component
                 let result = this.SubmitData("excel", this.ImportUrl,[data]); 
                 if(Number(result))
                 {
-                    alert(this.title+" Success!"); 
+                    alert(this.Title+" Success!"); 
                     if(this.controller)
                     {
                         data["user_id"] = Number(result); 
@@ -27,7 +27,7 @@ Vue.component
                 }
                 else
                 {
-                    alert(this.title+" Fails, please try again!"); 
+                    alert(this.Title+" Fails, please try again!"); 
                 }
             }    
         }
@@ -43,7 +43,7 @@ Vue.component
         data()
         {
             return {
-                title: "Edit ",
+                title_surfix: "Edit ",
                 edit_data: undefined
             }
         }, 
@@ -74,8 +74,8 @@ Vue.component
             }, 
             PopulateDataIntoFields()
             {
-                var data = this.AjaxRequest(this.OverviewEditUrl); 
-                this.edit_data = JSON.parse(data)[0];  
+                let data = this.TableData(this.CurrentController, {id: this.ObjectId, edit: 1}); 
+                this.edit_data = data[0];  
                 Object.keys(this.edit_data).forEach
                 (
                     property=>
