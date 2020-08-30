@@ -27,6 +27,22 @@
         ],
         [
             {
+                "component": "multi-select-input",
+                "name": "ocupants_ids",
+                "title": "Ocupants",
+                "overview_controller": "tenant",
+                "select_value": "id",
+                "text": "Full Name", 
+                "select_atributes": 
+                {
+                    "label": "text", 
+                    "multiple": true, 
+                    "track-by": "value"
+                }
+            }
+        ], 
+        [
+            {
                 "component": "date-group",
                 "name": "rent_date_group", 
                 "date_data":

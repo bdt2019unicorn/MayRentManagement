@@ -19,20 +19,16 @@ Vue.component
             PopulateSelectData()
             {
                 this.value = ""; 
-                this.options = []; 
                 var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
-                select_data.forEach
+                this.options = select_data.map
                 (
-                    option => 
-                    {
-                        this.options.push 
-                        (
-                            {
-                                value: option[this.select_value], 
-                                text: option[this.text]
-                            }
-                        ); 
-                    }
+                    option=>
+                    (
+                        {
+                            value: option[this.select_value], 
+                            text: option[this.text]
+                        }
+                    )
                 ); 
             }, 
         },
@@ -64,6 +60,88 @@ Vue.component
         `
     }
 ); 
+
+Vue.component
+(
+    "multi-select-input", 
+    {
+        props: ["edit_data", "name", "not_required", "overview_controller", "select_atributes", "select_data", "select_value", "text", "title"], 
+        mixins: [edit_mixin], 
+        data() 
+        {
+            return {
+                options: [], 
+                value_model: []
+            }
+        },
+        components: {Multiselect: window.VueMultiselect.default}, 
+        computed: 
+        {
+            MultiSelectBind()
+            {
+                return {
+                    ...this.select_atributes, 
+                    options: this.options, 
+                    name: this.name 
+                }
+            }
+        },
+        created() 
+        {
+            this.PopulateSelectData();     
+        },
+        methods: 
+        {
+            PopulateSelectData()
+            {
+                this.value_model = []; 
+                var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
+                this.options = select_data.map
+                (
+                    option=>
+                    (
+                        {
+                            value: option[this.select_value], 
+                            text: option[this.text]
+                        }
+                    )
+                ); 
+            }, 
+        },
+        watch: 
+        {
+            select_data: function(new_value, old_value)
+            {   
+                this.PopulateSelectData(); 
+            }, 
+            value: function(new_value, old_value)
+            {
+                this.$emit("search-data-changed"); 
+            }, 
+            value_model: function(new_value, old_value)
+            {
+                this.value = `[${new_value.map(option=>option.value).join(",")}]`; 
+            }, 
+            edit_data: function(new_value, old_value)
+            {
+                this.BringEditData(); 
+            }
+
+        },
+        template: 
+        `
+            <div class="form-group col">
+                <label :for="name" v-if="title"><b>{{title}}</b></label>
+                <multiselect v-bind="MultiSelectBind" v-model="value_model"></multiselect>
+            </div>
+        `
+    }
+); 
+
+
+
+
+
 
 Vue.component
 (
