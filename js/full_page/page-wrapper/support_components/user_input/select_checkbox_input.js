@@ -20,7 +20,7 @@ Vue.component
             {
                 this.value = ""; 
                 this.options = []; 
-                var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller);
+                var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
                 select_data.forEach
                 (
                     option => 

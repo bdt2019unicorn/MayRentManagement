@@ -13,7 +13,7 @@
                 "name": "tenant_id",
                 "title": "Tenant",
                 "overview_controller": "tenant",
-                "select_value": "ID",
+                "select_value": "id",
                 "text": "Full Name"
             },
             {
@@ -21,8 +21,8 @@
                 "name": "apartment_id",
                 "title": "Apartment",
                 "overview_controller": "apartment",
-                "select_value": "ID",
-                "text": "Name"
+                "select_value": "id",
+                "text": "name"
             }
         ],
         [
