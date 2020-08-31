@@ -9,10 +9,27 @@
                 "title": "Contract Name"
             },
             {
-                "component": "select-input",
+                "component": "multi-select-input",
                 "name": "tenant_id",
+                "empty_option": 
+                {
+                    "id": "", 
+                    "Full Name": ""
+                }, 
                 "title": "Tenant",
                 "overview_controller": "tenant",
+                "select_atributes": 
+                {
+                    "hideSelected": true, 
+                    "label": "Full Name", 
+                    "openDirection": "bottom", 
+                    "placeholder": "", 
+                    "tagPlaceholder": "", 
+                    "track-by": "id", 
+                    "searchable": false, 
+                    "selectLabel": "", 
+                    "show-labels": false
+                }, 
                 "select_value": "id",
                 "text": "Full Name"
             },
@@ -47,9 +64,13 @@
         [
             {
                 "component": "multi-select-input",
-                "name": "ocupants_ids",
+                "empty_option": 
+                {
+                    "id": "", 
+                    "Full Name": ""
+                }, 
+                "name": "ocupants_ids_test",
                 "title": "Ocupants Test",
-                "not_required": true, 
                 "overview_controller": "tenant",
                 "select_atributes": 
                 {
