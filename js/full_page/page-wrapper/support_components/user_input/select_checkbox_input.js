@@ -65,7 +65,7 @@ Vue.component
 (
     "multi-select-input", 
     {
-        props: ["edit_data", "name", "not_required", "overview_controller", "select_atributes", "select_data", "select_value", "text", "title"], 
+        props: ["edit_data", "name", "not_required", "overview_controller", "select_atributes", "select_data", "title"], 
         mixins: [edit_mixin], 
         data() 
         {
@@ -77,12 +77,19 @@ Vue.component
         components: {Multiselect: window.VueMultiselect.default}, 
         computed: 
         {
+            EmptyOption()
+            {
+                return {
+                    [this.select_atributes["track-by"]]: "", 
+                    [this.select_atributes.label]: ""
+                }; 
+            }, 
             MultiSelectBind()
             {
                 return {
                     ...this.select_atributes, 
                     options: this.options, 
-                    name: this.name 
+                    ... !this.select_atributes.multiple && {value: this.EmptyOption}
                 }
             }
         },
@@ -94,17 +101,19 @@ Vue.component
         {
             PopulateSelectData()
             {
-                this.value_model = []; 
-                var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
-                this.options = select_data.map
+                new Promise
                 (
-                    option=>
-                    (
-                        {
-                            value: option[this.select_value], 
-                            text: option[this.text]
-                        }
-                    )
+                    (resolve, reject)=>
+                    {
+                        this.value_model = []; 
+                        this.options = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
+                    }
+                ).then
+                (
+                    ()=>
+                    {
+                        this.options.unshift(this.EmptyOption); 
+                    }
                 ); 
             }, 
         },
@@ -120,7 +129,24 @@ Vue.component
             }, 
             value_model: function(new_value, old_value)
             {
-                this.value = `[${new_value.map(option=>option.value).join(",")}]`; 
+                if(this.select_atributes.multiple)
+                {
+                    this.value = `[${new_value.map(option=>option[this.select_atributes["track-by"]]).join(",")}]`; 
+                }
+                else if(new_value)
+                {
+                    this.value = new_value[this.select_atributes["track-by"]]; 
+                    if(this.value)
+                    {
+                        this.options.unshift(this.EmptyOption); 
+                    }
+                }
+                else 
+                {
+                    this.value = ""; 
+                    this.options.unshift(this.EmptyOption); 
+                }
+                this.value =(this.select_atributes.multiple)?`[${new_value.map(option=>option[this.select_atributes["track-by"]]).join(",")}]`:(new_value)? new_value[this.select_atributes["track-by"]]: ""; 
             }, 
             edit_data: function(new_value, old_value)
             {
