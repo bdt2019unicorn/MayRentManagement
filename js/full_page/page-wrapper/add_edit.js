@@ -16,7 +16,7 @@ Vue.component
                 let result = this.SubmitData("excel", this.ImportUrl,[data]); 
                 if(Number(result))
                 {
-                    alert(this.Title+" Success!"); 
+                    alert(`${this.title} Success!`); 
                     if(this.controller)
                     {
                         data["user_id"] = Number(result); 
@@ -27,7 +27,7 @@ Vue.component
                 }
                 else
                 {
-                    alert(this.Title+" Fails, please try again!"); 
+                    alert(`${this.title} Fails, please try again!`); 
                 }
             }    
         }
