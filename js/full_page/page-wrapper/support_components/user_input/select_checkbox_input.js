@@ -65,7 +65,7 @@ Vue.component
 (
     "multi-select-input", 
     {
-        props: ["edit_data", "name", "not_required", "overview_controller", "select_atributes", "select_data", "title"], 
+        props: ["edit_data", "empty_option", "name", "overview_controller", "select_atributes", "select_data", "title"], 
         mixins: [edit_mixin], 
         data() 
         {
@@ -77,19 +77,11 @@ Vue.component
         components: {Multiselect: window.VueMultiselect.default}, 
         computed: 
         {
-            EmptyOption()
-            {
-                return {
-                    [this.select_atributes["track-by"]]: "", 
-                    [this.select_atributes.label]: ""
-                }; 
-            }, 
             MultiSelectBind()
             {
                 return {
                     ...this.select_atributes, 
                     options: this.options, 
-                    ... !this.select_atributes.multiple && {value: this.EmptyOption}
                 }
             }
         },
@@ -99,23 +91,30 @@ Vue.component
         },
         methods: 
         {
+            ID(option)
+            {
+                return Number(option[this.select_atributes["track-by"]]); 
+            }, 
             PopulateSelectData()
             {
-                new Promise
-                (
-                    (resolve, reject)=>
-                    {
-                        this.value_model = []; 
-                        this.options = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
-                    }
-                ).then
-                (
-                    ()=>
-                    {
-                        this.options.unshift(this.EmptyOption); 
-                    }
-                ); 
+                this.options = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
+                if(this.empty_option)
+                {
+                    this.options.unshift(this.empty_option); 
+                }
             }, 
+        },
+        mounted() 
+        {
+            if(this.value)
+            {
+                let value = JSON.parse(this.value); 
+                this.value_model = this.empty_option?this.options.filter(option=>this.ID(option)==value)[0]: this.options.filter(option=>value.includes(this.ID(option))); 
+            }
+            else if(this.empty_option)
+            {
+                this.value_model = this.empty_option; 
+            }
         },
         watch: 
         {
@@ -129,24 +128,7 @@ Vue.component
             }, 
             value_model: function(new_value, old_value)
             {
-                if(this.select_atributes.multiple)
-                {
-                    this.value = `[${new_value.map(option=>option[this.select_atributes["track-by"]]).join(",")}]`; 
-                }
-                else if(new_value)
-                {
-                    this.value = new_value[this.select_atributes["track-by"]]; 
-                    if(this.value)
-                    {
-                        this.options.unshift(this.EmptyOption); 
-                    }
-                }
-                else 
-                {
-                    this.value = ""; 
-                    this.options.unshift(this.EmptyOption); 
-                }
-                this.value =(this.select_atributes.multiple)?`[${new_value.map(option=>option[this.select_atributes["track-by"]]).join(",")}]`:(new_value)? new_value[this.select_atributes["track-by"]]: ""; 
+                this.value =(this.select_atributes.multiple)?`[${new_value.map(option=>this.ID(option)).join(",")}]`:(new_value)? this.ID(new_value): ""; 
             }, 
             edit_data: function(new_value, old_value)
             {
@@ -159,6 +141,7 @@ Vue.component
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
                 <multiselect v-bind="MultiSelectBind" v-model="value_model"></multiselect>
+                <input type="text" hidden v-model="value" :name="name">
             </div>
         `
     }
