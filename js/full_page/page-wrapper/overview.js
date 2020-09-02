@@ -6,26 +6,11 @@ Vue.component
         data()
         {
             return {
+                table_actions: {}, 
                 table_data: [], 
-                search_data: [], 
                 check_array: []
             }; 
         }, 
-        computed: 
-        {
-            PageTitle()
-            {
-                try 
-                {
-                    let table_actions = this.TableActions(this.CurrentController); 
-                    return table_actions.page_title; 
-                }
-                catch
-                {
-                    return "Overview"; 
-                }
-            }    
-        },
         created() 
         {
             this.PopulateData(); 
@@ -60,7 +45,7 @@ Vue.component
             PopulateData()
             {
                 this.table_data = this.TableData(this.CurrentController); 
-                this.search_data = this.SearchData(); 
+                this.table_actions = this.TableActions(this.CurrentController); 
                 this.check_array = []; 
             }, 
             Search()
@@ -106,11 +91,6 @@ Vue.component
                     return; 
                 }
                 this.table_data = overview_data; 
-            }, 
-            SearchData()
-            {
-                var search_columns = this.TableActions(this.CurrentController).search; 
-                return (search_columns)? search_columns.map(element=>({value: element, text: element})): undefined; 
             }
         },
         watch: 
@@ -123,11 +103,18 @@ Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>{{PageTitle}}</h1>
+                <h1>{{table_actions.page_title?table_actions.page_title:"Overview"}}</h1>
                 <div class="row">
-                    <form class="container-fluid row col" v-if="search_data" ref="search_form" @submit.prevent="Search">
+                    <form class="container-fluid row col" v-if="table_actions.search" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
-                        <select-input name='search_category' v-if="search_data.length>0" :select_data="search_data" select_value="value" text="text" not_required="true"></select-input>
+                        <select-input 
+                            name='search_category' 
+                            v-if="table_actions.search.length>0" 
+                            :select_data="table_actions.search?table_actions.search.map(element=>({value: element, text: element})): undefined" 
+                            select_value="value" 
+                            text="text" 
+                            not_required="true"
+                        ></select-input>
                         <div class="col--2"> 
                             <button class="btn btn-primary" type="submit">Search</button>
                         </div>
@@ -140,13 +127,19 @@ Vue.component
                         </div>
                         <div class="col text-center">
                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <router-link class="btn btn-secondary" v-else :to="ToActions({action: 'edit', query: {id: check_array[0]}})">Edit</router-link>
+                            <router-link 
+                                class="btn btn-secondary" 
+                                v-else 
+                                :to="ToActions({action: table_actions.edit_action?table_actions.edit_action:'edit', query: {id: check_array[0]}})"
+                            >
+                                Edit
+                            </router-link>
                         </div>
 
                     </div>
                 </div>
                 <br>
-                <scrolling-table class="row" :table_data="table_data" :table_actions="TableActions(CurrentController)" @id-check-changed="IdCheckChanged"></scrolling-table>
+                <scrolling-table class="row" v-bind="$data" @id-check-changed="IdCheckChanged"></scrolling-table>
             </div>
         `
     }
