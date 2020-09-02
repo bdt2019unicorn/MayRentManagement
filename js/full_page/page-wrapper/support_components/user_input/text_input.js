@@ -3,7 +3,7 @@ Vue.component
     "text-input", 
     {
         props: ["edit_data", "id", "name", "title", "type"], 
-        mixins: [text_mixin], 
+        mixins: [user_input_components_mixin], 
         computed: 
         {
             InputType()
@@ -43,7 +43,7 @@ Vue.component
     "textarea-input", 
     {
         props: ["edit_data", "name", "title"],
-        mixins: [text_mixin],  
+        mixins: [user_input_components_mixin],  
         template: 
         `
             <div class="form-group col">

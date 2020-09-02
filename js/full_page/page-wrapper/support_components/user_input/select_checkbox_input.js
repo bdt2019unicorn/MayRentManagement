@@ -3,7 +3,7 @@ Vue.component
     "select-input", 
     {
         props: ["edit_data", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
-        mixins: [edit_mixin], 
+        mixins: [user_input_components_mixin], 
         data() 
         {
             return {
@@ -66,7 +66,7 @@ Vue.component
     "multi-select-input", 
     {
         props: ["edit_data", "empty_option", "name", "overview_controller", "select_atributes", "select_data", "title"], 
-        mixins: [edit_mixin], 
+        mixins: [user_input_components_mixin], 
         data() 
         {
             return {
@@ -98,10 +98,6 @@ Vue.component
             PopulateSelectData()
             {
                 this.options = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
-                if(this.empty_option)
-                {
-                    this.options.unshift(this.empty_option); 
-                }
             }, 
         },
         mounted() 
@@ -109,11 +105,7 @@ Vue.component
             if(this.value)
             {
                 let value = JSON.parse(this.value); 
-                this.value_model = this.empty_option?this.options.filter(option=>this.ID(option)==value)[0]: this.options.filter(option=>value.includes(this.ID(option))); 
-            }
-            else if(this.empty_option)
-            {
-                this.value_model = this.empty_option; 
+                this.value_model = this.options.filter(option=>value.includes(this.ID(option))); 
             }
         },
         watch: 
@@ -128,7 +120,7 @@ Vue.component
             }, 
             value_model: function(new_value, old_value)
             {
-                this.value =(this.select_atributes.multiple)?`[${new_value.map(option=>this.ID(option)).join(",")}]`:(new_value)? this.ID(new_value): ""; 
+                this.value =`[${new_value.map(option=>this.ID(option)).join(",")}]`; 
             }, 
             edit_data: function(new_value, old_value)
             {
@@ -157,7 +149,7 @@ Vue.component
     "checkbox-input", 
     {
         props: ["edit_data", "name", "title"], 
-        mixins: [edit_mixin], 
+        mixins: [user_input_components_mixin], 
         template: 
         `
             <div class="form-group col">

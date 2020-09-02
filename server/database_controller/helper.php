@@ -61,6 +61,10 @@
 			if(in_array($key, $params['date_collumns']))
 			{
 				$date = date_create_from_format("d/m/Y", $value);
+				if(!$date)
+				{
+					return; 
+				}
 				$value = date_format($date, "Y-m-d");  
 			}
 			else if(in_array($key, $params['comma']))
