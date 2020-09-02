@@ -87,8 +87,12 @@
                 return (isset($_GET["edit"]))? Query::GeneralData("revenue", $_GET["id"]??null): 
                 "
                     SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`,`invoice`.`name` AS `Invoice`, `apartment`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
-                    FROM `revenue` LEFT JOIN `invoice` ON `revenue`.`invoice_id` = `invoice`.`id` LEFT JOIN `apartment` ON `invoice`.`apartment` = `apartment`.`id`
-                    WHERE `apartment`.`building_id` = '{$_GET['building_id']}'
+                    FROM `revenue`, `invoice`,`leaseagrm`, `apartment`
+                    WHERE 
+                        `revenue`.`invoice_id` = `invoice`.`id` AND
+                        `invoice`.`leaseagrm_id` = `leaseagrm`.`id` AND
+                        `leaseagrm`.`apartment_id` = `apartment`.`id` AND
+                        `apartment`.`building_id` = '{$_GET['building_id']}'
                 "; 
             }, 
             "tenant"=> function()
