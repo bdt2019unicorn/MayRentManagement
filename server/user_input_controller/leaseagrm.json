@@ -9,27 +9,10 @@
                 "title": "Contract Name"
             },
             {
-                "component": "multi-select-input",
+                "component": "select-input",
                 "name": "tenant_id",
-                "empty_option": 
-                {
-                    "id": "", 
-                    "Full Name": ""
-                }, 
                 "title": "Tenant",
                 "overview_controller": "tenant",
-                "select_atributes": 
-                {
-                    "hideSelected": true, 
-                    "label": "Full Name", 
-                    "openDirection": "bottom", 
-                    "placeholder": "", 
-                    "tagPlaceholder": "", 
-                    "track-by": "id", 
-                    "searchable": false, 
-                    "selectLabel": "", 
-                    "show-labels": false
-                }, 
                 "select_value": "id",
                 "text": "Full Name"
             },
@@ -55,28 +38,9 @@
                     "hideSelected": true, 
                     "label": "Full Name", 
                     "multiple": true, 
+                    "openDirection": "bottom", 
                     "placeholder": "", 
-                    "tagPlaceholder": "", 
-                    "track-by": "id"
-                }
-            }
-        ], 
-        [
-            {
-                "component": "multi-select-input",
-                "empty_option": 
-                {
-                    "id": "", 
-                    "Full Name": ""
-                }, 
-                "name": "ocupants_ids_test",
-                "title": "Ocupants Test",
-                "overview_controller": "tenant",
-                "select_atributes": 
-                {
-                    "hideSelected": true, 
-                    "label": "Full Name", 
-                    "placeholder": "", 
+                    "selectLabel": "", 
                     "tagPlaceholder": "", 
                     "track-by": "id"
                 }

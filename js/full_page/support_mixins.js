@@ -112,7 +112,7 @@ var support_mixin =
     } 
 }; 
 
-var edit_mixin = 
+var user_input_components_mixin = 
 {
     mixins: [support_mixin], 
     data()
@@ -135,18 +135,13 @@ var edit_mixin =
             }    
         }    
     },
-}; 
-
-var text_mixin = 
-{
-    mixins: [edit_mixin], 
     watch: 
     {
         $route: function(new_value, old_value)
         {
             this.value = ""; 
         }
-    }, 
+    }
 }
 
 var add_edit_mixin = 
@@ -179,13 +174,17 @@ var add_edit_mixin =
             catch
             {
                 this.form = []; 
-                this.title ="Edit "; 
+                this.title =""; 
             }
         }
     },
     watch: 
     {
         $route: function(new_value, old_value)
+        {
+            this.PopulateFormField(); 
+        }, 
+        controller: function(new_value, old_value)
         {
             this.PopulateFormField(); 
         }    
