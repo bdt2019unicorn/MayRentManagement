@@ -140,10 +140,6 @@ Vue.component
 ); 
 
 
-
-
-
-
 Vue.component
 (
     "checkbox-input", 

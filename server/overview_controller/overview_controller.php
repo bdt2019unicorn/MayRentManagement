@@ -61,8 +61,7 @@
                         `apartment`.`name` AS `Apartment`, 
                         `invoice`.`start_date` AS `Start Date`, 
                         `invoice`.`end_date` AS `End Date`, 
-                        (SELECT SUM(`amount`) FROM `invoice_details` WHERE `invoice_details`.`invoice_id` = `invoice`.`id`) AS `Amount`,
-                        (SELECT SUM(`Amount`) FROM `revenue` WHERE `revenue`.`invoice_id` = `invoice`.`id`) AS `Paid Amount`
+                        (SELECT SUM(`amount`) FROM `invoice_details` WHERE `invoice_details`.`invoice_id` = `invoice`.`id`) AS `Amount`
                     FROM `invoice`, `leaseagrm`, `apartment`
                     WHERE 
                     	`invoice`.`leaseagrm_id` = `leaseagrm`.`id` AND 
@@ -74,7 +73,23 @@
             {
                 return (isset($_GET["edit"]))? Query::GeneralData("leaseagrm", $_GET["id"]??null): 
                 "
-                    SELECT `leaseagrm`.`id` as `ID`, `leaseagrm`.`name` AS `Name`, apartment.name as `Apartment`, CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, `Start_date`, `Finish`, `Rent_amount`, `Deposit_amount`, `Deposit_payment_date`, `Deposit_payback_date`, `Monthly_payment_date`, `Deposit_currency`, `Deposit_exchange_rate` 
+                    SELECT 
+                        `leaseagrm`.`id` as `ID`, 
+                        `leaseagrm`.`name` AS `Name`, 
+                        `apartment`.`name` as `Apartment`, 
+                        CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
+                        `Start_date` AS `Start Date`, 
+                        `Finish` AS `End Date`, 
+                        (
+                            SELECT SUM(`invoice_details`.`amount`) 
+                            FROM `invoice_details` 
+                            WHERE `invoice_details`.`invoice_id` IN (SELECT `invoice`.`id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = `leaseagrm`.`id`)
+                        ) AS `Amount`,
+                        (
+                            SELECT SUM(Amount) 
+                            FROM `revenue`
+                            WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
+                        ) AS `Paid Amount`
                     FROM `leaseagrm`, `apartment`, `tenant`
                     WHERE 
                         `leaseagrm`.`apartment_id` = `apartment`.`id` AND 
@@ -86,11 +101,10 @@
             {
                 return (isset($_GET["edit"]))? Query::GeneralData("revenue", $_GET["id"]??null): 
                 "
-                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`,`invoice`.`name` AS `Invoice`, `apartment`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
-                    FROM `revenue`, `invoice`,`leaseagrm`, `apartment`
+                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`, `apartment`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
+                    FROM `revenue`,`leaseagrm`, `apartment`
                     WHERE 
-                        `revenue`.`invoice_id` = `invoice`.`id` AND
-                        `invoice`.`leaseagrm_id` = `leaseagrm`.`id` AND
+                        `revenue`.`leaseagrm_id` = `leaseagrm`.`id` AND
                         `leaseagrm`.`apartment_id` = `apartment`.`id` AND
                         `apartment`.`building_id` = '{$_GET['building_id']}'
                 "; 

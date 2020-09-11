@@ -127,7 +127,7 @@
             return $result; 
         }
 
-        public static function MultiQuery($sql)
+        public static function MultiQuery($sql, $multi_result=false)
         {
             $connection = Connect::Connection(); 
             if($connection==null)
@@ -142,10 +142,22 @@
                 {
                     if ($result = $connection->store_result()) 
                     {
+                        $data_table = []; 
                         while($result_set = $result->fetch_array(MYSQLI_ASSOC))
                         {
-                            array_push($array, $result_set); 
+                            if($multi_result)
+                            {
+                                array_push($data_table, $result_set); 
+                            }
+                            else 
+                            {
+                                array_push($array, $result_set); 
+                            }
                         }                      
+                        if($multi_result)
+                        {
+                            array_push($array, $data_table); 
+                        }
                     }
                 } while ($connection->next_result());
             }
