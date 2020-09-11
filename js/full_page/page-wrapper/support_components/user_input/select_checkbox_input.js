@@ -132,7 +132,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <multiselect v-bind="MultiSelectBind" v-model="value_model"></multiselect>
+                <multiselect v-bind="MultiSelectBind" v-model="value_model" v-on="$listeners"></multiselect>
                 <input type="text" hidden v-model="value" :name="name">
             </div>
         `

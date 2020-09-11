@@ -59,8 +59,6 @@
                         `invoice`.`id` AS `ID`, 
                         `invoice`.`name` AS `Name`, 
                         `apartment`.`name` AS `Apartment`, 
-                        `invoice`.`start_date` AS `Start Date`, 
-                        `invoice`.`end_date` AS `End Date`, 
                         (SELECT SUM(`amount`) FROM `invoice_details` WHERE `invoice_details`.`invoice_id` = `invoice`.`id`) AS `Amount`
                     FROM `invoice`, `leaseagrm`, `apartment`
                     WHERE 
@@ -78,8 +76,8 @@
                         `leaseagrm`.`name` AS `Name`, 
                         `apartment`.`name` as `Apartment`, 
                         CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
-                        `Start_date` AS `Start Date`, 
-                        `Finish` AS `End Date`, 
+                        DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
+                        DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
                         (
                             SELECT SUM(`invoice_details`.`amount`) 
                             FROM `invoice_details` 
