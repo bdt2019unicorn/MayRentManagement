@@ -65,7 +65,7 @@ Vue.component
 (
     "multi-select-input", 
     {
-        props: ["edit_data", "empty_option", "name", "overview_controller", "select_atributes", "select_data", "title"], 
+        props: ["edit_data", "name", "overview_controller", "select_atributes", "select_data", "title"], 
         mixins: [user_input_components_mixin], 
         data() 
         {
