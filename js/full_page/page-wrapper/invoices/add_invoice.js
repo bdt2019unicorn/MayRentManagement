@@ -15,7 +15,12 @@ Vue.component
                     name: "", 
                     start_date: undefined
                 }, 
-                main_url: "server/invoice_controller/action.php?command="
+                revenue_type: 
+                {
+                    rent_and_other_cost: [], 
+                    utilities: []
+                }, 
+                user_input: {}
 
             }; 
         },
@@ -27,6 +32,14 @@ Vue.component
                 return this.invoice.start_date?`${moment(this.invoice.start_date).format('DD MMM YYYY')} - ${moment(this.invoice.end_date).format('DD MMM YYYY')}`: ""; 
             }, 
         }, 
+        created() 
+        {
+            this.user_input = this.AjaxRequest("server/user_input_controller/invoice.json"); 
+            let revenue_types = this.AjaxRequest(this.OverviewDataUrl("revenue_type")); 
+            revenue_types = JSON.parse(revenue_types); 
+            this.revenue_type.utilities = revenue_types.filter(revenue_type=>Number(revenue_type.is_utility)); 
+            this.revenue_type.rent_and_other_cost = revenue_types.filter(revenue_type=>!this.revenue_type.utilities.includes(revenue_type)); 
+        },
         methods: 
         {
             CalendarChooseDay()
@@ -45,7 +58,7 @@ Vue.component
 
                 try
                 {
-                    let date_data = this.AjaxRequest(`${this.main_url}LastInvoiceDate&leaseagrm_id=${this.leaseagrm_id}`); 
+                    let date_data = this.AjaxRequest(`${this.user_input.main_url}LastInvoiceDate&leaseagrm_id=${this.leaseagrm_id}`); 
                     date_data = JSON.parse(date_data); 
                     this.invoice.start_date = Object.values(date_data[0])[0]; 
 
@@ -74,14 +87,7 @@ Vue.component
                 <h1>Add New Invoice</h1>
                 <br>
                 <div class="row" ref="leaseagrm_id_select">
-                    <select-input
-                        name="leaseagrm_id"
-                        title="Lease Agreement"
-                        overview_controller="leaseagrm"
-                        select_value="id"
-                        text="name"
-                        @search-data-changed="LeaseagrmIdSelectChanged"
-                    ></select-input>
+                    <select-input v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged"></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -106,8 +112,26 @@ Vue.component
                         ></FunctionalCalendar>
                     </div>
                 </div>
+                <hr>
+                <h3>Invoice Details</h3>
+                <br>
+                <div class="row">
+                    <multi-select-input title="Rent and other cost" :select_atributes="user_input.select_atributes" :select_data="revenue_type.rent_and_other_cost"></multi-select-input>
+                    <multi-select-input title="Utilities" :select_atributes="user_input.select_atributes" :select_data="revenue_type.utilities"></multi-select-input>
+                </div>
 
-                
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <h6>Rent and other cost</h6>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <h6>Utilities</h6>
+                    </div>
+                </div>
             </div>
         `
     }
