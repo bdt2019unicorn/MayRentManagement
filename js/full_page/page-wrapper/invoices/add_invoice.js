@@ -2,6 +2,7 @@ Vue.component
 (
     "add-invoice", 
     {
+        mixins:[support_mixin], 
         data() 
         {
             return {
@@ -13,7 +14,8 @@ Vue.component
                     leaseagrm_id: undefined, 
                     name: "", 
                     start_date: undefined
-                }
+                }, 
+                main_url: "server/invoice_controller/action.php?command="
 
             }; 
         },
@@ -41,29 +43,25 @@ Vue.component
             {
                 this.leaseagrm_id = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(); 
 
-                console.log(this.leaseagrm_id); 
+                try
+                {
+                    let date_data = this.AjaxRequest(`${this.main_url}LastInvoiceDate&leaseagrm_id=${this.leaseagrm_id}`); 
+                    date_data = JSON.parse(date_data); 
+                    this.invoice.start_date = Object.values(date_data[0])[0]; 
 
-// neeed to do some modification for this function so I can get the whole thing working. 
-// more work needed here. We need to add the function so that it can find the date and take the period possible. 
+                    let start_date = new Date(this.invoice.start_date); 
+                    let now = new Date(); 
+                    let end_month_date = new Date(now.getFullYear(), now.getMonth(), 0); 
+
+                    this.invoice.end_date = (start_date>=now)? this.invoice.start_date: moment(end_month_date).format("YYYY-MM-DD"); 
+                }
+                catch {}
 
 
                 if(!this.invoice.name.trim().length>0)
                 {
-                    let test = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").children(); 
-                    console.log(test); 
-
-                    console.log(Object.keys(test).filter(key=>!isNaN(key))); 
-
-                    let options = Object.keys(test).filter(key=>test[key].value==this.leaseagrm_id).map(key=>({value: test[key].value, text: test[key].innerText})); 
-
-                    console.log(options); 
-
-
-                    let name = Object.keys(test).filter(key=>test[key].value==this.leaseagrm_id).map(key=>test[key].innerText)[0]; 
-
-                    this.invoice.name = name; 
-
-
+                    let options = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").children(); 
+                    this.invoice.name = `${Object.keys(options).filter(key=>options[key].value==this.leaseagrm_id).map(key=>options[key].innerText)[0]} ${this.LabelDateRange}`; 
                 }
 
             }
@@ -108,6 +106,8 @@ Vue.component
                         ></FunctionalCalendar>
                     </div>
                 </div>
+
+                
             </div>
         `
     }
