@@ -64,11 +64,11 @@
         "date_collumns": ["payment_date"], 
         "get_id": 
         {
-            "invoice":  
+            "lease_agreement":  
             {
                 "search": "name", 
-                "change": "invoice_id", 
-                "table": "invoice"
+                "change": "leaseagrm_id", 
+                "table": "leaseagrm"
             }
         },
         "comma": ["amount"]

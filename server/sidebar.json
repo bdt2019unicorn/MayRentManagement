@@ -90,6 +90,43 @@
         ]
     },
     {
+        "icon": "file-contract",
+        "name": "invoice", 
+        "text": "Invoices",
+        "to": "invoice", 
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Invoices", 
+                "button": "warning", 
+                "icon": "file-contract"
+            }, 
+            {
+                "action": "add-monthly-invoices", 
+                "text": "Add Monthly Invoices",  
+                "title": "Add Monthly Invoices", 
+                "button": "secondary", 
+                "icon": "file-upload"
+            }, 
+            {
+                "action": "add-invoice", 
+                "text": "Add", 
+                "title": "Add New Invoice", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
         "icon": "hand-holding-usd",
         "name": "revenue", 
         "text": "Income",
@@ -137,43 +174,6 @@
                 "action": "add", 
                 "text": "Add", 
                 "title": "Add New Expense", 
-                "button": "secondary", 
-                "icon": "plus"
-            }, 
-            {
-                "action": "import-export", 
-                "text": "Import", 
-                "title": "Import Excel Data", 
-                "button": "success", 
-                "icon": "table"
-            }
-        ]
-    },
-    {
-        "icon": "file-contract",
-        "name": "invoice", 
-        "text": "Invoices",
-        "to": "invoice", 
-        "menu": 
-        [
-            {
-                "action": "overview", 
-                "text": "Overview", 
-                "title": "All Invoices", 
-                "button": "warning", 
-                "icon": "file-contract"
-            }, 
-            {
-                "action": "add", 
-                "text": "Add", 
-                "title": "Add New Invoice", 
-                "button": "secondary", 
-                "icon": "plus"
-            }, 
-            {
-                "action": "add", 
-                "text": "Add", 
-                "title": "Add New Invoice", 
                 "button": "secondary", 
                 "icon": "plus"
             }, 
