@@ -59,7 +59,7 @@
                         `invoice`.`id` AS `ID`, 
                         `invoice`.`name` AS `Name`, 
                         `apartment`.`name` AS `Apartment`, 
-                        (SELECT SUM(`amount`) FROM `invoice_details` WHERE `invoice_details`.`invoice_id` = `invoice`.`id`) AS `Amount`
+                        (SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoice`.`id`) AS `Amount`
                     FROM `invoice`, `leaseagrm`, `apartment`
                     WHERE 
                     	`invoice`.`leaseagrm_id` = `leaseagrm`.`id` AND 
@@ -79,9 +79,9 @@
                         DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
                         DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
                         (
-                            SELECT SUM(`invoice_details`.`amount`) 
-                            FROM `invoice_details` 
-                            WHERE `invoice_details`.`invoice_id` IN (SELECT `invoice`.`id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = `leaseagrm`.`id`)
+                            SELECT SUM(`invoice_leaseagrm`.`amount`) 
+                            FROM `invoice_leaseagrm` 
+                            WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoice`.`id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = `leaseagrm`.`id`)
                         ) AS `Amount`,
                         (
                             SELECT SUM(Amount) 

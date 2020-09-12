@@ -23,17 +23,17 @@
                 FROM `revenue` 
                 WHERE `leaseagrm_id` =@leaseagrm_id; 
 
-                SELECT @total_amount := SUM(`Amount`) 
-                FROM `invoice_details` 
+                SELECT @total_leaseagrm := SUM(`Amount`) 
+                FROM `invoice_leaseagrm` 
                 WHERE 
                     `invoice_id` IN 
                         (SELECT `id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = @leaseagrm_id); 
 
-                SELECT @start_period := MAX(`invoice_details`.`end_date`)
-                FROM `invoice_details`, `invoice` 
+                SELECT @start_period := MAX(`invoice_leaseagrm`.`end_date`)
+                FROM `invoice_leaseagrm`, `invoice` 
                 WHERE  
-                    `invoice`.`id` = `invoice_details`.`invoice_id` AND 
-                    `invoice_details`.`revenue_type_id` = '1' AND  
+                    `invoice`.`id` = `invoice_leaseagrm`.`invoice_id` AND 
+                    `invoice_leaseagrm`.`revenue_type_id` = '1' AND  
                     `invoice`.`leaseagrm_id` = @leaseagrm_id; 
                 SET @start_period = IF(@start_period IS NULL, @start_lease, @start_period); 
 
@@ -50,8 +50,8 @@
                     DATE_FORMAT(@end_period,'%d/%m/%Y') AS `End Period`, 
                     @rent_amount AS `Rent Amount`, 
                     @paid_amount AS `Paid Amount`, 
-                    @total_amount AS `Total Amount`, 
-                    (@total_amount - @paid_amount) AS `Difference`; 
+                    @total_leaseagrm AS `Total Amount`, 
+                    (@total_leaseagrm - @paid_amount) AS `Difference`; 
 
 
                 /**********************************************************************/
