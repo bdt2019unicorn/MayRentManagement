@@ -3,6 +3,27 @@ Vue.component
     "utility-reading", 
     {
         mixins: [utilities_mixin], 
+        data() 
+        {
+            return {
+                test_model: "Test Edit"        
+            }
+        },
+        methods: 
+        {
+            TestInput(event)
+            {
+                console.log("input test"); 
+                this.test_model = event.target.innerText; 
+            }    
+        },
+        watch: 
+        {
+            test_model: function(new_value, old_value)
+            {
+                console.log(new_value, old_value); 
+            }    
+        },
         template:
         `
             <div class="container-fluid">
@@ -22,7 +43,31 @@ Vue.component
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <tr>
+                                <td>
+                                    you cann't edit me 
+                                </td>
+                                <td contenteditable>
+                                    you should be able to edit me 
+                                </td>
+                            </tr>
+                            <tr contenteditable>
+                                <td>Edit me</td>
+                                <td>Edit me</td>
+                                <td>Edit me</td>
+                                <td>Edit me</td>
+                            </tr>
+                            <tr contenteditable>
+                                <td @input="TestInput">{{test_model}}</td>
+                                <td @input="TestInput">{{test_model}}</td>
+                                <td @input="TestInput">{{test_model}}</td>
+                                <td @input="TestInput">{{test_model}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p contenteditable @input="TestInput">Change me </p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
