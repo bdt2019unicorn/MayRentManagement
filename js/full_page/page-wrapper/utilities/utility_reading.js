@@ -19,7 +19,31 @@ Vue.component
                 (
                     ({revenue_type_id, apartment_id, ...rest}) => rest
                 ); 
-            }    
+            }, 
+            
+            
+            UtilitiesReadingValid()
+            {
+                let valid = this.utilities_readings.filter
+                (
+                    ({date, time, number, current_reading, ...rest })=>
+                    {
+                        let validation = 
+                        {
+                            date: moment(date).isValid(), 
+                            time: moment(time, "HH:mm").isValid(), 
+                            number: Number(number)>=current_reading
+                        }
+                        return !Object.values(validation).includes(false); 
+                    }
+                ); 
+                return valid.length==this.utilities_readings.length?                
+                this.utilities_readings.map 
+                (
+                    ({apartment_name, service, current_reading, ...rest })=>rest 
+                ): 
+                false; 
+            }
         },
         methods: 
         {
@@ -68,19 +92,14 @@ Vue.component
             }, 
             NewUtilityReadingValue(event)
             {
-                console.log(event.target); 
                 let index = $(event.target).attr("data-index"); 
                 let property = $(event.target).attr("data-property"); 
-                console.log(index, property); 
-                // put new work here to get the reading and then I need to get some stuffs with the validation as well. 
+                let value = $(event.target).text(); 
+                
+                this.utilities_readings[index][property] = value; 
+                $(event.target).text(value); 
+                
             }
-        },
-        watch: 
-        {
-            test_model: function(new_value, old_value)
-            {
-                console.log(new_value, old_value); 
-            }    
         },
         template:
         `
@@ -110,20 +129,32 @@ Vue.component
                                         :contenteditable="contenteditable.includes(property)" 
                                         :data-index="index"
                                         :data-property="property"
-                                        @input="NewUtilityReadingValue"
+                                        @blur="NewUtilityReadingValue"
                                     >{{reading[property]}}</p>
                                 </td>
                                 <td class="text-center">
                                     <button 
                                         class="btn" 
                                         @click="utilities_readings = utilities_readings.filter((value, i)=>i!=index)"
-                                    ><i class="fas fa-trash-alt"></i></button>
+                                    ><i style="font-size: xx-large;" class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <div class="row text-right" v-if="UtilitiesReadingValid">
+                        <div class="col">
+                            <button class="btn" title="Add New Readings">
+                                <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         `
     }    
 ); 
+
+
+// conteneditable div does not change 
+// the delete button does not get rid of the bad content editable div 
