@@ -127,10 +127,8 @@ Vue.component
                     </div>
                 </template>
 
-                <template #add_utilities>
-                    <div class="col-2">
-                        <router-link class="btn btn-primary" to='utility-reading' replace>Add</router-link>
-                    </div>
+                <template #utility_overview>
+                    <div class="col-2"></div>
                 </template>
                 
                 <template #utility_price>
