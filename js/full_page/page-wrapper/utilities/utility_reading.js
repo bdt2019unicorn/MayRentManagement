@@ -6,8 +6,8 @@ Vue.component
         data() 
         {
             return {
-                test_model: "Test Edit", 
                 apartment_id: "", 
+                contenteditable: ["date", "time", "number"], 
                 utilities_readings: []
             }
         },
@@ -17,17 +17,12 @@ Vue.component
             {
                 return this.utilities_readings.map 
                 (
-                    ({revenue_type_id, apartment_id, ...rest}) => rest 
+                    ({revenue_type_id, apartment_id, ...rest}) => rest
                 ); 
             }    
         },
         methods: 
         {
-            TestInput(event)
-            {
-                console.log("input test"); 
-                this.test_model = event.target.innerText; 
-            }, 
             ApartmentIdValueChanged()
             {
                 this.apartment_id = $(this.$refs["apartments_select"]).find("[name='apartment_id']").val();
@@ -70,6 +65,14 @@ Vue.component
                     this.utilities_readings = []; 
                 }
 
+            }, 
+            NewUtilityReadingValue(event)
+            {
+                console.log(event.target); 
+                let index = $(event.target).attr("data-index"); 
+                let property = $(event.target).attr("data-property"); 
+                console.log(index, property); 
+                // put new work here to get the reading and then I need to get some stuffs with the validation as well. 
             }
         },
         watch: 
@@ -97,40 +100,25 @@ Vue.component
                                 <th>Time</th>
                                 <th>Reading</th>
                                 <th>Previous Reading</th>
+                                <th>Remove</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    you cann't edit me 
-                                </td>
-                                <td contenteditable>
-                                    you should be able to edit me 
-                                </td>
-                            </tr>
-                            <tr contenteditable>
-                                <td>Edit me</td>
-                                <td>Edit me</td>
-                                <td>Edit me</td>
-                                <td>Edit me</td>
-                            </tr>
-                            <tr contenteditable>
-                                <td @input="TestInput">{{test_model}}</td>
-                                <td @input="TestInput">{{test_model}}</td>
-                                <td @input="TestInput">{{test_model}}</td>
-                                <td @input="TestInput">{{test_model}}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p contenteditable @input="TestInput">Change me </p>
-                                </td>
-                            </tr>
-
-
-
                             <tr v-for="(reading, index) in UtilitiesReadingDisplay">
-                                <td v-for="property in Object.keys(reading)"><p contenteditable @input="TestInput">{{property}}</p><td>
-                                <td>{{index}} - {{reading}}</td>
+                                <td v-for="property in Object.keys(reading)">
+                                    <p 
+                                        :contenteditable="contenteditable.includes(property)" 
+                                        :data-index="index"
+                                        :data-property="property"
+                                        @input="NewUtilityReadingValue"
+                                    >{{reading[property]}}</p>
+                                </td>
+                                <td class="text-center">
+                                    <button 
+                                        class="btn" 
+                                        @click="utilities_readings = utilities_readings.filter((value, i)=>i!=index)"
+                                    ><i class="fas fa-trash-alt"></i></button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -139,6 +127,3 @@ Vue.component
         `
     }    
 ); 
-
-
-// need to see why I have an extra field in my table. 
