@@ -146,8 +146,7 @@ Vue.component
                                 <input type="text" name="start_date" v-model="start_date" hidden>
                                 <input type="text" name="end_date" v-model="end_date" hidden>
                             </div>
-
-                            <slot name="add_utilities"></slot>
+                            <slot name="utility_overview"></slot>
                         </div>
                     </form>
                 </div>
