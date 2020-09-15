@@ -18,6 +18,11 @@ Vue.component
                     rent_and_other_cost: [], 
                     utilities: []
                 }, 
+                invoice_information: 
+                {
+                    rent_and_other_cost: {}, 
+                    utilities: {}
+                }, 
                 revenue_type: 
                 {
                     rent_and_other_cost: [], 
@@ -67,38 +72,46 @@ Vue.component
 
             InputRentAndOtherCost(value)
             {
-                let convert = value.map 
+                let rent_and_other_cost_details = value.map 
                 (
                     revenue_type=>
                     {
-                        if(revenue_type.id==this.user_input.rent_id)
-                        {
-                            return {
-                                revenue_type_id: revenue_type.id, 
-                                name: revenue_type.name, 
-                                amount: 0 
-                            }; 
-                        }
-                        else 
-                        {
-                            return {
-                                revenue_type_id: revenue_type.id, 
-                                name: revenue_type.name, 
-                                amount: 0 
-                            }; 
-                        }
-                    }
-                ).sort
-                (
-                    (a, b)=>
-                    {
-                        let x = Number(a.revenue_type_id>b.revenue_type_id); 
-                        return 2*x-1; 
-                    }
-                ); 
+                        // need to tidy up this soon 
+                        // if(revenue_type.id==this.user_input.rent_id)
+                        // {
+                        //     return {
+                        //         revenue_type_id: revenue_type.id, 
+                        //         name: revenue_type.name, 
+                        //         amount: Number(this.invoice_information.rent_and_other_cost["Rent Amount"])
+                        //     }; 
+                        // }
+                        // else 
+                        // {
+                        //     return {
+                        //         revenue_type_id: revenue_type.id, 
+                        //         name: revenue_type.name, 
+                        //         amount: 0 
+                        //     }; 
+                        // }
 
+                        let details = 
+                        {
+                            revenue_type_id: revenue_type.id, 
+                            name: revenue_type.name, 
+                            price: (revenue_type.id==this.user_input.rent_id)?Number(this.invoice_information.rent_and_other_cost["rent_amount"]): 0, 
+                            quatity: 1
+                        }; 
 
-                console.log(convert); 
+                        return {
+                            ...details, 
+                            amount: details.price * details.quatity
+                        }; 
+                    }
+                ).sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
+
+                // console.log(convert); 
+
+                this.invoice_details.rent_and_other_cost = rent_and_other_cost_details; 
             }, 
 
 
@@ -106,6 +119,15 @@ Vue.component
             LeaseagrmIdSelectChanged()
             {
                 this.invoice.leaseagrm_id = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(); 
+
+                let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${this.invoice.leaseagrm_id}`); 
+                // invoice_information = JSON.parse(invoice_information); 
+                // console.log(invoice_information); 
+
+                this.invoice_information = JSON.parse(invoice_information); 
+
+
+                // this.invoice_information.rent_and_other_cost = 
 
                 // try
                 // {
@@ -130,6 +152,32 @@ Vue.component
                     this.invoice.name = `${this.invoice.leaseagrm_id}-${moment().format("DD MMM YYYY")}`; 
                 }
 
+            }, 
+
+            RentQuantityCalculation(start_date, end_date)
+            {
+                /*
+let date = moment('2020-9-30')
+date
+k {_isAMomentObject: true, _i: "2020-9-30", _isUTC: false, _pf: {…}, _locale: x, …}
+date.month()
+8
+let month = date.month(); 
+undefined
+let new_date = new Date(date.year(), month+1, 0)
+undefined
+new_date==date 
+false
+new_date.getDate()
+30
+date.date()
+30
+
+
+
+
+
+                */
             }
         },
 
@@ -159,13 +207,23 @@ Vue.component
                     </div>
 
                     <br>
-                    <div class="row">
+                    <div class="row" v-if="invoice_details.rent_and_other_cost.length>0">
                         <div class="col">
                             <h6>Rent and other cost</h6>
+                            <template v-for="revenue_type in invoice_details.rent_and_other_cost">
+                                <br>
+                                <div>
+                                    <div class="col">
+                                        <p>
+                                            {{revenue_type}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <br>
-                    <div class="row">
+                    <div class="row" v-show="false">
                         <div class="col">
                             <h6>Utilities</h6>
                         </div>
