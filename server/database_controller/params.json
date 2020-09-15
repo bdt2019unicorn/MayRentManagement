@@ -87,6 +87,7 @@
     "utilities": 
     {
         "table": "utility_reading", 
+        "date_columns": ["date_enter"], 
         "get_id":  
         {
             "utility_type": 
