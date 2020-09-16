@@ -76,30 +76,14 @@ Vue.component
                 (
                     revenue_type=>
                     {
-                        // need to tidy up this soon 
-                        // if(revenue_type.id==this.user_input.rent_id)
-                        // {
-                        //     return {
-                        //         revenue_type_id: revenue_type.id, 
-                        //         name: revenue_type.name, 
-                        //         amount: Number(this.invoice_information.rent_and_other_cost["Rent Amount"])
-                        //     }; 
-                        // }
-                        // else 
-                        // {
-                        //     return {
-                        //         revenue_type_id: revenue_type.id, 
-                        //         name: revenue_type.name, 
-                        //         amount: 0 
-                        //     }; 
-                        // }
-
                         let details = 
                         {
                             revenue_type_id: revenue_type.id, 
                             name: revenue_type.name, 
+                            start_period: this.invoice_information.rent_and_other_cost["start_period"], 
+                            end_period: this.invoice_information.rent_and_other_cost["end_period"], 
                             price: (revenue_type.id==this.user_input.rent_id)?Number(this.invoice_information.rent_and_other_cost["rent_amount"]): 0, 
-                            quatity: 1
+                            quatity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.rent_and_other_cost["start_period"], this.invoice_information.rent_and_other_cost["end_period"]):1
                         }; 
 
                         return {
@@ -108,8 +92,6 @@ Vue.component
                         }; 
                     }
                 ).sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
-
-                // console.log(convert); 
 
                 this.invoice_details.rent_and_other_cost = rent_and_other_cost_details; 
             }, 
@@ -154,30 +136,33 @@ Vue.component
 
             }, 
 
-            RentQuantityCalculation(start_date, end_date)
+            RentQuantityCalculation(start_period, end_period)
             {
-                /*
-let date = moment('2020-9-30')
-date
-k {_isAMomentObject: true, _i: "2020-9-30", _isUTC: false, _pf: {…}, _locale: x, …}
-date.month()
-8
-let month = date.month(); 
-undefined
-let new_date = new Date(date.year(), month+1, 0)
-undefined
-new_date==date 
-false
-new_date.getDate()
-30
-date.date()
-30
+                function ValidateMoment(moment_start, moment_end)
+                {   
+                    let [str_start, str_end] = [moment_start, moment_end].map(moment_object=>moment_object.format("YYYY-MM-DD")); 
+                    return moment(str_end)>moment(str_start); 
+                }
 
+                var quatity = 0; 
+                start_period = moment(start_period); 
+                end_period = moment(end_period); 
 
+                while(ValidateMoment(start_period, end_period))
+                {
 
+                    let end_of_month = new Date(start_period.year(), start_period.month()+1, 0); 
+                    end_of_month = moment(end_of_month); 
 
+                    let date_compare = moment(Math.min(end_of_month, end_period)); 
+                    let days_diff = date_compare.diff(start_period, "days") + 1; 
 
-                */
+                    quatity+=(days_diff/end_of_month.date()); 
+
+                    start_period = end_of_month.add(1, "days"); 
+                }
+
+                return quatity; 
             }
         },
 
