@@ -1,4 +1,14 @@
 {
+    "invoice_details": 
+    {
+        "rent_and_other_cost": 
+        {
+        }, 
+        "utilities": 
+        {
+
+        }
+    }, 
     "leaseagrm_id": 
     {
         "name": "leaseagrm_id",
