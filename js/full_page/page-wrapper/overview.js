@@ -119,7 +119,7 @@ Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>{{table_actions.page_title?table_actions.page_title:"Overview"}}</h1>
+                <h1>{{table_actions.page_title || "Overview"}}</h1>
                 <div class="row">
                     <form class="container-fluid row col" v-if="table_actions.search" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
