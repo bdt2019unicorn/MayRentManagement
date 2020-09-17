@@ -8,7 +8,7 @@ Vue.component
         {
             InputType()
             {
-                return this.type?this.type: "text"; 
+                return this.type || "text"; 
             }
         }, 
         template: 

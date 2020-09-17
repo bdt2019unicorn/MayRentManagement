@@ -4,8 +4,7 @@ var support_mixin =
     {
         CurrentController()
         {
-            let controller = this.controller? this.controller: this.$route.params.controller; 
-            return controller? controller: "overview"; 
+            return this.controller || this.$route.params.controller || "overview"; 
         }, 
         ImportUrl()
         {
@@ -13,7 +12,7 @@ var support_mixin =
         }, 
         ObjectId()
         {
-            return this.object_id? this.object_id: this.$route.query.id; 
+            return this.object_id || this.$route.query.id; 
         }, 
         OverviewUrl()
         {
@@ -78,7 +77,7 @@ var support_mixin =
         TableActions(controller)
         {
             var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
-            return table_actions?table_actions:{}; 
+            return table_actions || {}; 
         }, 
         TableData(overview_controller, params=undefined)
         {
@@ -99,7 +98,7 @@ var support_mixin =
                 params: 
                 {
                     building_id: this.$route.params.building_id, 
-                    controller: controller?controller: this.CurrentController, 
+                    controller: controller || this.CurrentController, 
                     action: action
                 }, 
                 query: query
@@ -168,8 +167,8 @@ var add_edit_mixin =
             try 
             {
                 this.form = data.form; 
-                this.title = this.form_title?this.form_title: this.controller? data.title :this.title_surfix+data.title; 
-                this.validate = data.validate?data.validate:this.validate; 
+                this.title = this.form_title || this.controller? data.title :this.title_surfix+data.title; 
+                this.validate = data.validate || this.validate; 
             } 
             catch
             {
@@ -189,7 +188,7 @@ var add_edit_mixin =
             this.PopulateFormField(); 
         }    
     },
-    template: `<user-input v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
+    template: `<user-input v-bind="$data" :edit_data="edit_data" @form-information-valid="SubmitForm"></user-input>`
 }
 
 var utilities_mixin = 
