@@ -8,7 +8,8 @@ Vue.component
             return {
                 table_actions: {}, 
                 table_data: [], 
-                check_array: []
+                check_array: [], 
+                scrolling_table: true 
             }; 
         }, 
         created() 
@@ -24,7 +25,22 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Delete success!"); 
-                    window.location.reload(); 
+                    // window.location.reload(); 
+                    new Promise
+                    (
+                        (resolve, reject)=>
+                        {
+                            this.scrolling_table = false; 
+                            this.PopulateData(); 
+                            resolve(); 
+                        }
+                    ).then 
+                    (
+                        ()=>
+                        {
+                            this.scrolling_table = true; 
+                        }
+                    ); 
                 }
                 else
                 {
@@ -131,15 +147,13 @@ Vue.component
                                 class="btn btn-secondary" 
                                 v-else 
                                 :to="ToActions({action: table_actions.edit_action?table_actions.edit_action:'edit', query: {id: check_array[0]}})"
-                            >
-                                Edit
-                            </router-link>
+                            >Edit</router-link>
                         </div>
 
                     </div>
                 </div>
                 <br>
-                <scrolling-table class="row" v-bind="$data" @id-check-changed="IdCheckChanged"></scrolling-table>
+                <scrolling-table v-if="scrolling_table" class="row" v-bind="$data" @id-check-changed="IdCheckChanged"></scrolling-table>
             </div>
         `
     }
