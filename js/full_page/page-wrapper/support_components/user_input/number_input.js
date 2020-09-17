@@ -69,6 +69,10 @@ Vue.component
             }, 
             number_value: function(new_value, old_value)
             {
+                if(new_value==undefined)
+                {
+                    return; 
+                }
                 function CountDecimals(number)
                 {
                     if(Math.floor(number.valueOf()) === number.valueOf())
