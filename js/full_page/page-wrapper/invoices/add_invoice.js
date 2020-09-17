@@ -207,7 +207,6 @@ Vue.component
                                 </div>
                                 <row-group
                                     :row="user_input.invoice_details.rent_and_other_cost.form"
-                                    :edit_data="revenue_type"
                                 ></row-group>
                             </template>
                         </div>
