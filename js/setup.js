@@ -129,8 +129,8 @@ jQuery
                         (
                             "Authorize", 
                             {
-                                username: (sessionStorage.getItem("username"))?sessionStorage.getItem("username"):"", 
-                                user_id: (sessionStorage.getItem("user_id"))?sessionStorage.getItem("user_id"):""
+                                username: sessionStorage.getItem("username") ||"", 
+                                user_id: sessionStorage.getItem("user_id") ||""
                             }
                         ); 
                     },

@@ -103,7 +103,7 @@ Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>{{table_actions.page_title?table_actions.page_title:"Overview"}}</h1>
+                <h1>{{table_actions.page_title || "Overview"}}</h1>
                 <div class="row">
                     <form class="container-fluid row col" v-if="table_actions.search" ref="search_form" @submit.prevent="Search">
                         <text-input name='search_value'></text-input>
@@ -130,7 +130,7 @@ Vue.component
                             <router-link 
                                 class="btn btn-secondary" 
                                 v-else 
-                                :to="ToActions({action: table_actions.edit_action?table_actions.edit_action:'edit', query: {id: check_array[0]}})"
+                                :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
                             >
                                 Edit
                             </router-link>
