@@ -19,7 +19,7 @@ Vue.component
             PopulateSelectData()
             {
                 this.value = ""; 
-                var select_data = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
+                var select_data = this.select_data || this.TableData(this.overview_controller, {edit: 1});
                 this.options = select_data.map
                 (
                     option=>
@@ -97,7 +97,7 @@ Vue.component
             }, 
             PopulateSelectData()
             {
-                this.options = (this.select_data)?this.select_data:this.TableData(this.overview_controller, {edit: 1});
+                this.options = this.select_data || this.TableData(this.overview_controller, {edit: 1});
             }, 
         },
         mounted() 
