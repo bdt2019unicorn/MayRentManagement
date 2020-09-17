@@ -113,7 +113,7 @@ var page_wrapper = Vue.component
 
                 <side-bar></side-bar>
                 <div class="main-content">
-                    <component :is="($route.params.action)?$route.params.action: 'overview'"></component>
+                    <component :is="$route.params.action || 'overview'"></component>
                 </div>
 
             </div>
