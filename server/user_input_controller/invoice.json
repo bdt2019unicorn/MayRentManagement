@@ -3,6 +3,50 @@
     {
         "rent_and_other_cost": 
         {
+            "lock": ["start_period", "amount"], 
+            "rent_lock": ["price", "quantity"], 
+            "hide": ["revenue_type_id"], 
+            "form": 
+            [
+                {
+                    "component": "date-group",
+                    "name": "period", 
+                    "date_data":
+                    {
+                        "small_date":
+                        {
+                            "name": "start_period",
+                            "title": "Start Period",
+                            "required": true,
+                            "message": "The start period should be before the end period"
+                        },
+                        "big_date":
+                        {
+                            "name": "end_period",
+                            "title": "End Period",
+                            "required": true,
+                            "message": "The end period should be after the start period"
+                        }
+                    }
+                }, 
+                {
+                    "component": "component-group", 
+                    "name": "price_quantity", 
+                    "component_data": 
+                    [
+                        {
+                            "component": "number-input",
+                            "name": "price",
+                            "title": "Price"
+                        },
+                        {
+                            "component": "number-input",
+                            "name": "quantity",
+                            "title": "Quantity"
+                        }
+                    ]
+                }
+            ]
         }, 
         "utilities": 
         {

@@ -79,6 +79,7 @@ Vue.component
                         let details = 
                         {
                             revenue_type_id: revenue_type.id, 
+                            title: revenue_type.name, 
                             name: revenue_type.name, 
                             start_period: this.invoice_information.rent_and_other_cost["start_period"], 
                             end_period: this.invoice_information.rent_and_other_cost["end_period"], 
@@ -204,6 +205,10 @@ Vue.component
                                         </p>
                                     </div>
                                 </div>
+                                <row-group
+                                    :row="user_input.invoice_details.rent_and_other_cost.form"
+                                    :edit_data="revenue_type"
+                                ></row-group>
                             </template>
                         </div>
                     </div>
