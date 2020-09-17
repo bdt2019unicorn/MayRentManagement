@@ -153,6 +153,7 @@ var add_edit_mixin =
         return {
             title: "", 
             form: [], 
+            user_input: true, 
             validate: {} 
         }
     }, 
@@ -176,6 +177,27 @@ var add_edit_mixin =
                 this.form = []; 
                 this.title =""; 
             }
+        }, 
+        ReloadUserInput(callback=undefined)
+        {
+            new Promise 
+            (
+                (resolve, reject)=>
+                {
+                    this.user_input = false;
+                    resolve(callback);  
+                }
+            ).then 
+            (
+                (callback)=>
+                {
+                    if(callback)
+                    {
+                        callback(); 
+                    }
+                    this.user_input = true; 
+                }
+            ); 
         }
     },
     watch: 
@@ -189,7 +211,7 @@ var add_edit_mixin =
             this.PopulateFormField(); 
         }    
     },
-    template: `<user-input v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
+    template: `<user-input v-if="user_input" v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
 }
 
 var utilities_mixin = 
