@@ -23,7 +23,7 @@ Vue.component
                         this.$emit("authorize-controller-success", this.controller, data); 
                         return; 
                     }
-                    window.location.reload(); 
+                    this.ReloadUserInput(); 
                 }
                 else
                 {
@@ -92,7 +92,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Edit Information success"); 
-                    window.location.reload();
+                    this.ReloadUserInput(this.PopulateDataIntoFields); 
                 }
                 else
                 {
