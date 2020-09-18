@@ -52,7 +52,17 @@ Vue.component
                         }
                         return !Object.values(validation).includes(false); 
                     }
-                ); 
+                ).map 
+                (
+                    (revenue_type)=>
+                    {
+                        return revenue_type; 
+                    }
+                )
+                if(leaseagrm.length==0)
+                {
+                    return false; 
+                }
                 return leaseagrm; 
             }
         }, 
@@ -211,7 +221,7 @@ Vue.component
                                 <br>
                                 <form v-if="revenue_type.display">
                                     <div class="row">
-                                        <text-input :edit_data="revenue_type" name="name"></text-input>
+                                        <text-input :edit_data="revenue_type" name="name" @new-value-change-valid="NewValueChangeValid"></text-input>
                                         <div class="col text-center">
                                             <h5>{{revenue_type.title}}</h5>
                                         </div>
@@ -236,6 +246,12 @@ Vue.component
                         </div>
                     </div>
                 </template>
+
+                <div class="row text-right" v-if="ValidInvoiceDetails">
+                    <div class="col">
+                        <button class="btn" title="Add New Invoice"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
+                    </div>
+                </div>
             </div>
         `
     }

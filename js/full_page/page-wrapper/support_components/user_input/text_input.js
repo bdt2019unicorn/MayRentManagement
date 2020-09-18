@@ -4,18 +4,11 @@ Vue.component
     {
         props: ["edit_data", "id", "name", "title", "type"], 
         mixins: [user_input_components_mixin], 
-        computed: 
-        {
-            InputType()
-            {
-                return this.type || "text"; 
-            }
-        }, 
         template: 
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <input class="form-control" :type="InputType" :name="name" :id="id" v-model="value">
+                <input class="form-control" :type="type||'text'" :name="name" :id="id" v-model="value">
             </div>
         `
     }

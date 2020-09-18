@@ -139,6 +139,13 @@ var user_input_components_mixin =
         $route: function(new_value, old_value)
         {
             this.value = ""; 
+        }, 
+        value: function(new_value, old_value)
+        {
+            if(this.edit_data)
+            {
+                this.$emit("new-value-change-valid", this.edit_data, this.name, new_value, true); 
+            }
         }
     }
 }
