@@ -36,6 +36,24 @@ Vue.component
             {
                 let invoice_complete = Object.values(this.invoice).map(value=>Boolean(value));
                 return !invoice_complete.includes(false);  
+            }, 
+            ValidInvoiceDetails()
+            {
+                let leaseagrm = this.invoice_details.leaseagrm.filter 
+                (
+                    revenue_type=>
+                    {
+                        let validation = 
+                        {
+                            valid: revenue_type.valid, 
+                            period: this.ValidPeriod(revenue_type.start_period, revenue_type.end_period, true), 
+                            price: revenue_type.price>=0,
+                            quantity: revenue_type.quantity>=0 
+                        }
+                        return !Object.values(validation).includes(false); 
+                    }
+                ); 
+                return leaseagrm; 
             }
         }, 
         created() 
@@ -68,7 +86,8 @@ Vue.component
                             start_period: this.invoice_information.leaseagrm["start_period"], 
                             end_period: this.invoice_information.leaseagrm["end_period"], 
                             price: (revenue_type.id==this.user_input.rent_id)?Number(this.invoice_information.leaseagrm["rent_amount"]): 0, 
-                            quantity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.leaseagrm["start_period"], this.invoice_information.leaseagrm["end_period"]):1
+                            quantity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.leaseagrm["start_period"], this.invoice_information.leaseagrm["end_period"]):1, 
+                            valid: true 
                         }; 
 
                         return {
@@ -129,17 +148,9 @@ Vue.component
 
             RentQuantityCalculation(start_period, end_period)
             {
-                function ValidateMoment(moment_start, moment_end)
-                {   
-                    let [str_start, str_end] = [moment_start, moment_end].map(moment_object=>moment_object.format("YYYY-MM-DD")); 
-                    return moment(str_end)>moment(str_start); 
-                }
-
                 var quatity = 0; 
-                start_period = moment(start_period); 
-                end_period = moment(end_period); 
-
-                while(ValidateMoment(start_period, end_period))
+                [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+                while(this.ValidPeriod(start_period, end_period))
                 {
                     let end_of_month = new Date(start_period.year(), start_period.month()+1, 0); 
                     end_of_month = moment(end_of_month); 
@@ -153,6 +164,18 @@ Vue.component
                 }
 
                 return quatity.toFixed(3); 
+            }, 
+
+            ValidPeriod(start_period, end_period, equal=false)
+            {
+                [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+
+                let [str_start, str_end] = [start_period, end_period].map(moment_object=>moment_object.format("YYYY-MM-DD")); 
+                if((str_start==str_end) && equal)
+                {
+                    return true; 
+                }
+                return moment(str_end)>moment(str_start); 
             }
         },
 

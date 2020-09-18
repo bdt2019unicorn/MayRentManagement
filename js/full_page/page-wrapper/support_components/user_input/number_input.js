@@ -65,16 +65,21 @@ Vue.component
         {
             number_display: function(new_value, old_value)
             {
-                this.number_value = numeral(new_value).value(); 
+                this.number_value = isNaN(Number(new_value))? undefined: numeral(new_value).value(); 
             }, 
             number_value: function(new_value, old_value)
             {
                 if(new_value!=this.edit_data[this.name])
                 {
+                    this.$emit("new-value-change-valid", this.edit_data, "valid", true, true); 
                     this.$emit("new-value-change-valid", this.edit_data, this.name, new_value, true); 
                 }
                 if(new_value==undefined)
                 {
+                    if(this.number_display.trim())
+                    {
+                        this.$emit("new-value-change-valid", this.edit_data, "valid", false, true); 
+                    }
                     return; 
                 }
                 function CountDecimals(number)
