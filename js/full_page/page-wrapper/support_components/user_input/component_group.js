@@ -69,16 +69,24 @@ var date_group = Vue.component
                 this[reference] = new_value; 
                 this.just_started_child = true; 
                 this.valid = this.Valid(); 
+                let name = this.date_data[reference].name; 
                 if(this.valid)
                 {
                     if(this.edit_data)
                     {
-                        let name = this.date_data[reference].name; 
                         let new_value_format = moment(new_value).format("YYYY-MM-DD"); 
                         if(this.edit_data[name]!=new_value_format)
                         {
+                            this.$emit("new-value-change-valid", this.edit_data, "valid", true, true); 
                             this.$emit("new-value-change-valid", this.edit_data, name, new_value_format); 
                         }
+                    }
+                }
+                else 
+                {
+                    if(this.edit_data)
+                    {
+                        this.$emit("new-value-change-valid", this.edit_data, "valid", false, true); 
                     }
                 }
             }, 
