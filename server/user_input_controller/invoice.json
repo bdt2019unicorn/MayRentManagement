@@ -1,9 +1,8 @@
 {
     "invoice_details": 
     {
-        "rent_and_other_cost": 
+        "leaseagrm": 
         {
-            "lock": ["start_period", "amount"], 
             "rent_lock": ["price", "quantity"], 
             "hide": ["revenue_type_id"], 
             "form": 
@@ -18,6 +17,7 @@
                             "name": "start_period",
                             "title": "Start Period",
                             "required": true,
+                            "lock": true, 
                             "message": "The start period should be before the end period"
                         },
                         "big_date":

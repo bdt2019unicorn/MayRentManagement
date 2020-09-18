@@ -96,7 +96,7 @@
 
             $invoice_information = array
             (
-                "rent_and_other_cost"=>$data[4][0], 
+                "leaseagrm"=>$data[4][0], 
                 "utilities"=>array()
             ); 
 

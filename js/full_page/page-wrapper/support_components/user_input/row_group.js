@@ -2,7 +2,7 @@ Vue.component
 (
     "row-group", 
     {
-        props: ["edit_data", "index", "just_started_parent", "row"],
+        props: ["edit_data", "index", "just_started_parent", "lock", "row"],
         mixins: [support_mixin], 
         data() 
         {
@@ -45,10 +45,11 @@ Vue.component
                     v-for="col in row"
                     :is="col.component"
                     v-bind="col"
-                    :key="col.name"
+                    :lock="lock"
                     :just_started_parent="just_started_parent"
                     :edit_data="edit_data"
                     @input-validation="InputValidation"
+                    v-on="$listeners"
                 >
                 </component>
 
