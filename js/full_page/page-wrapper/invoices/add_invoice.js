@@ -71,13 +71,10 @@ Vue.component
                             quantity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.leaseagrm["start_period"], this.invoice_information.leaseagrm["end_period"]):1
                         }; 
 
-                        let amount = details.price * details.quantity; 
-
                         return {
                             ...details, 
                             name: `${revenue_type.name} (${moment(details.start_period).format("DD MMM YYYY")} - ${moment(details.end_period).format("DD MMM YYYY")})`, 
-                            amount: amount.toFixed(3), 
-                            amount_format: numeral(amount).format("0,0[.]000")
+                            amount: numeral(details.price * details.quantity).format("0,0[.]000")
                         }; 
                     }
                 ).sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
@@ -95,7 +92,6 @@ Vue.component
                 {
                     this.invoice.name = `${this.invoice.leaseagrm_id}-${moment().format("DD MMM YYYY")}`; 
                 }
-
             }, 
 
             NewValueChangeValid(edit_data, name, new_value, reactive=false)
@@ -116,9 +112,7 @@ Vue.component
                                 {
                                     this.invoice_details.leaseagrm[index].quantity = this.RentQuantityCalculation(this.invoice_details.leaseagrm[index].start_period, this.invoice_details.leaseagrm[index].end_period); 
                                 }
-                                let amount = this.invoice_details.leaseagrm[index].quantity * this.invoice_details.leaseagrm[index].price; 
-                                this.invoice_details.leaseagrm[index].amount = amount.toFixed(3); 
-                                this.invoice_details.leaseagrm[index].amount_format = numeral(amount).format("0,0[.]000"); 
+                                this.invoice_details.leaseagrm[index].amount = numeral(this.invoice_details.leaseagrm[index].quantity * this.invoice_details.leaseagrm[index].price).format("0,0[.]000"); 
                                 break; 
                             }
                         }
@@ -147,7 +141,6 @@ Vue.component
 
                 while(ValidateMoment(start_period, end_period))
                 {
-
                     let end_of_month = new Date(start_period.year(), start_period.month()+1, 0); 
                     end_of_month = moment(end_of_month); 
 
@@ -198,11 +191,9 @@ Vue.component
                                         <text-input :edit_data="revenue_type" name="name"></text-input>
                                         <div class="col text-center">
                                             <h5>{{revenue_type.title}}</h5>
-                                            <input type="number" name="revenue_type_id" hidden v-model="revenue_type.revenue_type_id">
                                         </div>
                                         <div class="col text-right">
-                                            <b>{{revenue_type.amount_format}}</b>
-                                            <input type="text" name="amount" hidden v-model="revenue_type.amount">
+                                            <b>{{revenue_type.amount}}</b>
                                         </div>
                                     </div>
                                     <row-group
