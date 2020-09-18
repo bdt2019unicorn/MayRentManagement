@@ -97,6 +97,18 @@
             return $connection; 
         }
 
+        private static function PdoConnection()
+        {
+            $servername = $_ENV['SERVERNAME'];
+            $username = $_ENV['USERNAME'];
+            $password = $_ENV['PASSWORD'];
+            $dbname = $_ENV['DBNAME']; 
+
+            $pdo = new PDO("mysql:host={$servername};dbname={$dbname}", $username, $password); 
+            // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+            return $pdo; 
+        }
+
         public static function GetData($sql, $get_id=false)
         {
             $connection = Connect::Connection(); 
@@ -164,6 +176,97 @@
             catch(Throwable $t){}
             $connection->close(); 
             return $array; 
+        }
+
+        public static function TestMultiQuery($sql, $multi_result=false)
+        {
+
+            $pdo = Connect::PdoConnection(); 
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1); 
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+            $result = false; 
+
+            try 
+            {
+                $pdo->beginTransaction(); 
+                $pdo->prepare($sql); 
+                $pdo->commit(); 
+                $result = true; 
+            }
+
+            catch(PDOException $e)
+            {
+                $pdo->rollBack(); 
+                echo "Error: " . $e->getMessage();
+            }
+
+            return $result; 
+
+
+
+            // $connection = Connect::Connection(); 
+            // if($connection==null)
+            // {
+            //     return null; 
+            // }
+            // $multi_query_result = $connection->multi_query($sql); 
+            // if($multi_query_result===true)
+            // {
+            //     echo "<h1>I am super good </h1>"; 
+            // }
+            // else 
+            // {
+            //     echo "<h1 style='color: red;'>I am bad</h1>"; 
+            // }
+            // echo"<h1>"; 
+            // print_r($multi_query_result); 
+            // echo"</h1>"; 
+            // $array = []; 
+            // try 
+            // {
+            //     do 
+            //     {
+            //         if ($result = $connection->store_result()) 
+            //         {
+            //             $data_table = []; 
+            //             while($result_set = $result->fetch_array(MYSQLI_ASSOC))
+            //             {
+            //                 if($multi_result)
+            //                 {
+            //                     array_push($data_table, $result_set); 
+            //                 }
+            //                 else 
+            //                 {
+            //                     array_push($array, $result_set); 
+            //                 }
+            //             }                      
+            //             if($multi_result)
+            //             {
+            //                 array_push($array, $data_table); 
+            //             }
+            //         }
+            //     } while ($connection->next_result());
+            // }
+            // catch(Throwable $t){}
+            // $connection->close(); 
+            // return $array; 
+
+                // $result = true; 
+                // try 
+                // {
+                //     $connection->autocommit(false);
+                //     $connection->multi_query($sql); 
+                //     $connection->commit(); 
+                // }
+                // catch(Throwable $t)
+                // {
+                //     echo $t->getMessage(); 
+                //     $connection->rollback(); 
+                //     $result = false; 
+                // }
+
+                // $connection->close(); 
+                // return $result; 
         }
 
         public static function ExecTransaction($sql)
