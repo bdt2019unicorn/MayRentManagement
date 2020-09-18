@@ -48,22 +48,29 @@ Vue.component
                             valid: revenue_type.valid, 
                             period: this.ValidPeriod(revenue_type.start_period, revenue_type.end_period, true), 
                             price: revenue_type.price>=0,
-                            quantity: revenue_type.quantity>=0 
+                            quantity: revenue_type.quantity>=0, 
+                            amount: numeral(revenue_type.amount).value()>0
                         }
                         return !Object.values(validation).includes(false); 
                     }
                 ).map 
                 (
-                    (revenue_type)=>
+                    ({amount, display, valid, title, ...rest})=>
                     {
-                        return revenue_type; 
+                        return {
+                            amount: amount.toString().replaceAll(",",""), 
+                            ...rest
+                        }; 
                     }
-                )
-                if(leaseagrm.length==0)
+                ); 
+                if((leaseagrm.length!=this.invoice_details.leaseagrm.length) || (leaseagrm.length==0))
                 {
                     return false; 
                 }
-                return leaseagrm; 
+                return {
+                    invoice_leaseagrm: leaseagrm, 
+                    invoice_utilities: {}
+                }; 
             }
         }, 
         created() 
@@ -176,6 +183,19 @@ Vue.component
                 return quatity.toFixed(3); 
             }, 
 
+            Submit()
+            {
+                let invoice = 
+                {
+                    invoice: this.invoice, 
+                    details: this.ValidInvoiceDetails
+                }
+
+                let url = "server/invoice_controller/import.php"; 
+                let result = this.SubmitData("invoices", url, invoice); 
+                console.log(result); 
+            }, 
+
             ValidPeriod(start_period, end_period, equal=false)
             {
                 [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
@@ -249,7 +269,7 @@ Vue.component
 
                 <div class="row text-right" v-if="ValidInvoiceDetails">
                     <div class="col">
-                        <button class="btn" title="Add New Invoice"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
+                        <button class="btn" title="Add New Invoice" @click="Submit"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
                     </div>
                 </div>
             </div>

@@ -144,7 +144,10 @@ var user_input_components_mixin =
         {
             if(this.edit_data)
             {
-                this.$emit("new-value-change-valid", this.edit_data, this.name, new_value, true); 
+                if(this.edit_data[this.name]!=new_value)
+                {
+                    this.$emit("new-value-change-valid", this.edit_data, this.name, new_value, true); 
+                }
             }
         }
     }

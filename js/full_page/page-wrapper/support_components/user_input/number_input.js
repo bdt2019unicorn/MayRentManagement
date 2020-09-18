@@ -65,6 +65,11 @@ Vue.component
         {
             number_display: function(new_value, old_value)
             {
+                try 
+                {
+                    new_value = new_value.toString().replaceAll(",", ""); 
+                }
+                catch {}
                 this.number_value = isNaN(Number(new_value))? undefined: numeral(new_value).value(); 
             }, 
             number_value: function(new_value, old_value)
