@@ -2,7 +2,7 @@ Vue.component
 (
     "number-input", 
     {
-        props: ["edit_data", "name", "title"], 
+        props: ["edit_data", "lock", "name", "title"], 
         data()
         {
             return {
@@ -69,6 +69,10 @@ Vue.component
             }, 
             number_value: function(new_value, old_value)
             {
+                if(new_value!=this.edit_data[this.name])
+                {
+                    this.$emit("new-value-change-valid", this.edit_data, this.name, new_value, true); 
+                }
                 if(new_value==undefined)
                 {
                     return; 
@@ -93,7 +97,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
-                <input type="text" class="form-control" v-model="number_display">
+                <input type="text" :style="lock?{pointerEvents: 'none'}:undefined" class="form-control" v-model="number_display">
                 <input type="text" hidden :name="name" v-model="number_value">
             </div>
         `

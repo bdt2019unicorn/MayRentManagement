@@ -2,7 +2,7 @@ var date_input = Vue.component
 (
     "date-input", 
     {
-        props: ["bad_message", "edit_data", "just_started_parent", "name", "reference", "required", "title"], 
+        props: ["bad_message", "edit_data", "just_started_parent", "lock", "name", "reference", "required", "title"], 
         data()
         {
             return {
@@ -58,7 +58,14 @@ var date_input = Vue.component
         `
             <div class="form-group col">
                 <label for="company_address"><b>{{title}}</b></label>
-                <vuejs-datepicker calendar-class="calendar-right-align" input-class="form-control" format="dd/MM/yyyy" v-model="date_value" :name="name"></vuejs-datepicker>
+                <vuejs-datepicker 
+                    :style="lock?{pointerEvents: 'none'}:undefined" 
+                    calendar-class="calendar-right-align" 
+                    input-class="form-control" 
+                    format="dd/MM/yyyy" 
+                    v-model="date_value" 
+                    :name="name"
+                ></vuejs-datepicker>
                 <label :for="name" v-show="RequiredLabel">This field is required.</label> 
                 <label :for="name" v-if="SpecialMessageLabel">{{bad_message}}</label>
             </div>

@@ -2,16 +2,18 @@ Vue.component
 (
     "component-group", 
     {
-        props: ["component_data", "edit_data", "just_started_parent", "name"], 
+        props: ["component_data", "edit_data", "just_started_parent", "lock", "name"], 
         template: 
         `
             <div class="form-group col">
                 <div class="row">
                     <component
                         v-for="component in component_data"
+                        v-on="$listeners"
                         :is="component.component"
                         v-bind="component"
                         :edit_data="edit_data"
+                        :lock="lock?lock.includes(component.name):undefined"
                         :just_started_parent="just_started_parent"
                     ></component>
                 </div>
@@ -30,8 +32,8 @@ var date_group = Vue.component
         {
             return {
                 just_started_child: false, 
-                small_value: undefined, 
-                big_value: undefined, 
+                small_date: undefined, 
+                big_date: undefined, 
                 date_required: {}, 
                 valid: true 
             }
@@ -41,7 +43,7 @@ var date_group = Vue.component
         {
             DateRangeValid()
             {
-                return this.big_value>=this.small_value; 
+                return this.big_date>=this.small_date; 
             }, 
             JustStarted()
             {
@@ -52,7 +54,7 @@ var date_group = Vue.component
         {
             BadMessage(reference)
             {
-                if([this.big_value, this.small_value].includes(undefined))
+                if([this.big_date, this.small_date].includes(undefined))
                 {
                     return undefined; 
                 }
@@ -67,6 +69,18 @@ var date_group = Vue.component
                 this[reference] = new_value; 
                 this.just_started_child = true; 
                 this.valid = this.Valid(); 
+                if(this.valid)
+                {
+                    if(this.edit_data)
+                    {
+                        let name = this.date_data[reference].name; 
+                        let new_value_format = moment(new_value).format("YYYY-MM-DD"); 
+                        if(this.edit_data[name]!=new_value_format)
+                        {
+                            this.$emit("new-value-change-valid", this.edit_data, name, new_value_format); 
+                        }
+                    }
+                }
             }, 
             DateInputValidation(data_field, name, boolean)
             {
@@ -75,7 +89,7 @@ var date_group = Vue.component
             }, 
             Valid()
             {
-                return (this.big_value && this.small_value)? this.DateRangeValid: this.ValidObject(this.date_required); 
+                return (this.big_date && this.small_date)? this.DateRangeValid: this.ValidObject(this.date_required); 
             }
         },
         mounted()
@@ -100,7 +114,7 @@ var date_group = Vue.component
                         :just_started_parent="JustStarted"
                         :bad_message="BadMessage('small_date')"
                         :edit_data="edit_data"
-                        reference="small_value"
+                        reference="small_date"
                         @date-value-changed="DateChange"
                         @input-validation="DateInputValidation"
                     ></date-input>
@@ -110,7 +124,7 @@ var date_group = Vue.component
                         :just_started_parent="JustStarted"
                         :bad_message="BadMessage('big_date')"
                         :edit_data="edit_data"
-                        reference="big_value"
+                        reference="big_date"
                         @date-value-changed="DateChange"
                         @input-validation="DateInputValidation"
                     ></date-input>
