@@ -75,9 +75,9 @@ var date_group = Vue.component
                     if(this.edit_data)
                     {
                         let new_value_format = moment(new_value).format("YYYY-MM-DD"); 
+                        this.$emit("new-value-change-valid", this.edit_data, "valid", true, true); 
                         if(this.edit_data[name]!=new_value_format)
                         {
-                            this.$emit("new-value-change-valid", this.edit_data, "valid", true, true); 
                             this.$emit("new-value-change-valid", this.edit_data, name, new_value_format); 
                         }
                     }
