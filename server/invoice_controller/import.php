@@ -1,21 +1,16 @@
 <?php 
+    require_once("../helper/database.php"); 
+    $invoices = json_decode($_POST["invoices"], true); 
+    $queries = []; 
+    array_push($queries, Query::Insert("invoice", $invoices["invoice"]), "SET @invoice_id=LAST_INSERT_ID();"); 
 
-    $invoices = json_decode($_POST["invoices"]); 
-
-
-    echo"<pre>"; 
-    print_r($_POST); 
-    print_r($invoices); 
-    echo "</pre>"; 
-
-    // INSERT INTO `invoice`(`name`, `leaseagrm_id`) VALUES ('TEST 1', '1'); 
-    // SET @invoice_id=LAST_INSERT_ID(); 
-    
-    // INSERT INTO `invoice`(`name`, `leaseagrm_id`) VALUES (CONCAT(CAST(@invoice_id AS CHAR),' TESTING FOR THE NEW INSERT ID BASY '), '1'); 
-
-    //     SET @invoice_id=LAST_INSERT_ID(); 
-    
-    // INSERT INTO `invoice`(`name`, `leaseagrm_id`) VALUES (CONCAT(CAST(@invoice_id AS CHAR),' TESTING FOR THE NEW INSERT ID BASY '), '1'); 
-
-
+    foreach ($invoices["details"] as $table => $values) 
+    {
+        foreach ($values as $data) 
+        {
+            array_push($queries, Query::Insert($table, $data, ["invoice_id"=>"@invoice_id"])); 
+        }
+    }
+    $result = Connect::ExecTransaction($queries); 
+    echo $result; 
 ?>
