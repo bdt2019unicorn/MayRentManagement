@@ -1,7 +1,7 @@
 <?php 
     class Query
     {
-    	static public function Insert($table, $data)
+    	static public function Insert($table, $data, $variable_data=[])
     	{
             $columns = []; 
             $values = []; 
@@ -10,6 +10,12 @@
     		{
                 array_push($columns, "`{$column}`"); 
                 array_push($values, "'{$value}'"); 
+            }
+
+            foreach ($variable_data as $column => $value) 
+            {
+                array_push($columns, "`{$column}`"); 
+                array_push($values, $value); 
             }
             
             return "INSERT INTO `{$table}`(" . implode(",",$columns) . ") VALUES (" . implode(",", $values) . ");"; 
@@ -95,18 +101,6 @@
             }
             
             return $connection; 
-        }
-
-        private static function PdoConnection()
-        {
-            $servername = $_ENV['SERVERNAME'];
-            $username = $_ENV['USERNAME'];
-            $password = $_ENV['PASSWORD'];
-            $dbname = $_ENV['DBNAME']; 
-
-            $pdo = new PDO("mysql:host={$servername};dbname={$dbname}", $username, $password); 
-            // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-            return $pdo; 
         }
 
         public static function GetData($sql, $get_id=false)

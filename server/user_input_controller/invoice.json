@@ -14,7 +14,7 @@
                     {
                         "small_date":
                         {
-                            "name": "start_period",
+                            "name": "start_date",
                             "title": "Start Period",
                             "required": true,
                             "lock": true, 
@@ -22,7 +22,7 @@
                         },
                         "big_date":
                         {
-                            "name": "end_period",
+                            "name": "end_date",
                             "title": "End Period",
                             "required": true,
                             "message": "The end period should be after the start period"

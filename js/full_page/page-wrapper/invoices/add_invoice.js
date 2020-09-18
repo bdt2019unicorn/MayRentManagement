@@ -9,7 +9,7 @@ Vue.component
                 invoice: 
                 {
                     leaseagrm_id: undefined, 
-                    name: ""
+                    name: undefined
                 }, 
                 invoice_details: 
                 {
@@ -26,8 +26,8 @@ Vue.component
                     leaseagrm: [], 
                     utilities: []
                 }, 
+                select_leaseagrm: true, 
                 user_input: {}
-
             }; 
         },
         computed: 
@@ -46,7 +46,7 @@ Vue.component
                         let validation = 
                         {
                             valid: revenue_type.valid, 
-                            period: this.ValidPeriod(revenue_type.start_period, revenue_type.end_period, true), 
+                            period: this.ValidPeriod(revenue_type.start_date, revenue_type.end_date, true), 
                             price: revenue_type.price>=0,
                             quantity: revenue_type.quantity>=0, 
                             amount: numeral(revenue_type.amount).value()>0
@@ -91,43 +91,69 @@ Vue.component
 
             InputRentAndOtherCost(value)
             {
-                let leaseagrm_details = value.map 
+                new Promise
                 (
-                    revenue_type=>
+                    (resolve, reject)=>
                     {
-                        let details = 
-                        {
-                            display: true, 
-                            revenue_type_id: revenue_type.id, 
-                            title: revenue_type.name, 
-                            start_period: this.invoice_information.leaseagrm["start_period"], 
-                            end_period: this.invoice_information.leaseagrm["end_period"], 
-                            price: (revenue_type.id==this.user_input.rent_id)?Number(this.invoice_information.leaseagrm["rent_amount"]): 0, 
-                            quantity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.leaseagrm["start_period"], this.invoice_information.leaseagrm["end_period"]):1, 
-                            valid: true 
-                        }; 
-
-                        return {
-                            ...details, 
-                            name: `${revenue_type.name} (${moment(details.start_period).format("DD MMM YYYY")} - ${moment(details.end_period).format("DD MMM YYYY")})`, 
-                            amount: numeral(details.price * details.quantity).format("0,0[.]000")
-                        }; 
+                        let revenue_type_ids = value.map(revenue_type=>revenue_type.id); 
+                        let leaseagrm_details = this.invoice_details.leaseagrm.filter(details=>(revenue_type_ids.includes(details.revenue_type_id))); 
+                        this.invoice_details.leaseagrm = []; 
+                        resolve(leaseagrm_details); 
                     }
-                ).sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
-
-                this.invoice_details.leaseagrm = leaseagrm_details; 
+                ).then 
+                (
+                    leaseagrm_details=>
+                    {
+                        let revenue_type_ids = leaseagrm_details.map(details=>details.revenue_type_id); 
+                        let additional_details = value.filter(revenue_type=>!revenue_type_ids.includes(revenue_type.id)).map
+                        (
+                            revenue_type=>
+                            {
+                                let details = 
+                                {
+                                    display: true, 
+                                    revenue_type_id: revenue_type.id, 
+                                    title: revenue_type.name, 
+                                    start_date: this.invoice_information.leaseagrm["start_date"], 
+                                    end_date: this.invoice_information.leaseagrm["end_date"], 
+                                    price: (revenue_type.id==this.user_input.rent_id)?Number(this.invoice_information.leaseagrm["rent_amount"]): 0, 
+                                    quantity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.leaseagrm["start_date"], this.invoice_information.leaseagrm["end_date"]):1, 
+                                    valid: true 
+                                }; 
+        
+                                return {
+                                    ...details, 
+                                    name: `${revenue_type.name} (${moment(details.start_date).format("DD MMM YYYY")} - ${moment(details.end_date).format("DD MMM YYYY")})`, 
+                                    amount: numeral(details.price * details.quantity).format("0,0[.]000")
+                                }; 
+                            }
+                        ); 
+                        this.invoice_details.leaseagrm = [...leaseagrm_details, ...additional_details].sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
+                    }
+                ); 
             }, 
 
             LeaseagrmIdSelectChanged()
             {
-                this.invoice.leaseagrm_id = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(); 
-
-                let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${this.invoice.leaseagrm_id}`); 
-                this.invoice_information = JSON.parse(invoice_information); 
-                if(!this.invoice.name.trim().length>0)
-                {
-                    this.invoice.name = `${this.invoice.leaseagrm_id}-${moment().format("DD MMM YYYY")}`; 
-                }
+                new Promise 
+                (
+                    (resolve, reject)=>
+                    {
+                        let leaseagrm_id = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(); 
+                        this.invoice.leaseagrm_id = undefined; 
+                        let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`); 
+                        this.invoice_information = JSON.parse(invoice_information); 
+                        Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
+                        resolve(leaseagrm_id);  
+                    }
+                ).then 
+                (
+                    leaseagrm_id=>
+                    {
+                        this.invoice.leaseagrm_id = leaseagrm_id; 
+                        this.invoice.name = `${this.invoice.leaseagrm_id}-${moment().format("DD MMM YYYY")}`; 
+                    }
+                ); 
             }, 
 
             NewValueChangeValid(edit_data, name, new_value, reactive=false)
@@ -146,7 +172,7 @@ Vue.component
                                 this.invoice_details.leaseagrm[index][name] = new_value; 
                                 if(this.invoice_details.leaseagrm[index].revenue_type_id==this.user_input.rent_id)
                                 {
-                                    this.invoice_details.leaseagrm[index].quantity = this.RentQuantityCalculation(this.invoice_details.leaseagrm[index].start_period, this.invoice_details.leaseagrm[index].end_period); 
+                                    this.invoice_details.leaseagrm[index].quantity = this.RentQuantityCalculation(this.invoice_details.leaseagrm[index].start_date, this.invoice_details.leaseagrm[index].end_date); 
                                 }
                                 this.invoice_details.leaseagrm[index].amount = numeral(this.invoice_details.leaseagrm[index].quantity * this.invoice_details.leaseagrm[index].price).format("0,0[.]000"); 
                                 break; 
@@ -193,7 +219,31 @@ Vue.component
 
                 let url = "server/invoice_controller/import.php"; 
                 let result = this.SubmitData("invoices", url, invoice); 
-                console.log(result); 
+                if(Number(result))
+                {
+                    alert("Add Invoice Success!"); 
+                    new Promise
+                    (
+                        (resolve, reject)=>
+                        {
+                            this.select_leaseagrm = false; 
+                            Object.keys(this.invoice).forEach(key=>this.invoice[key]=undefined); 
+                            Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
+                            Object.keys(this.invoice_information).forEach(key=>this.invoice_information[key]={});
+                            resolve(); 
+                        }
+                    ).then
+                    (
+                        ()=>
+                        {
+                            this.select_leaseagrm = true; 
+                        }
+                    ); 
+                }
+                else
+                {
+                    alert("Add Invoice Fails! Please try again"); 
+                }
             }, 
 
             ValidPeriod(start_period, end_period, equal=false)
@@ -215,7 +265,7 @@ Vue.component
                 <h1>Add New Invoice</h1>
                 <br>
                 <div class="row" ref="leaseagrm_id_select">
-                    <select-input v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged"></select-input>
+                    <select-input v-if="select_leaseagrm" v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged"></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -234,7 +284,7 @@ Vue.component
                     </div>
 
                     <br>
-                    <div class="row" v-if="invoice_details.leaseagrm.length>0" ref="invoice_leaseagrm">
+                    <div class="row" v-if="invoice_details.leaseagrm.length>0">
                         <div class="col">
                             <h4>Rent and other cost</h4>
                             <template v-for="revenue_type in invoice_details.leaseagrm">

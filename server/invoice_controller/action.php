@@ -29,25 +29,25 @@
                     `invoice_id` IN 
                         (SELECT `id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = @leaseagrm_id); 
 
-                SELECT @start_period := MAX(`invoice_leaseagrm`.`end_date`)
+                SELECT @start_date := MAX(`invoice_leaseagrm`.`end_date`)
                 FROM `invoice_leaseagrm`, `invoice` 
                 WHERE  
                     `invoice`.`id` = `invoice_leaseagrm`.`invoice_id` AND 
                     `invoice_leaseagrm`.`revenue_type_id` = '1' AND  
                     `invoice`.`leaseagrm_id` = @leaseagrm_id; 
-                SET @start_period = IF(@start_period IS NULL, @start_lease, @start_period); 
+                SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date); 
 
-                SET @end_period= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
-                SET @end_period = IF
+                SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
+                SET @end_date = IF
                     (
-                        @start_period > @end_period, 
-                        IF(@start_period <= CURRENT_DATE(), CURRENT_DATE(), @start_period), 
-                        @end_period
+                        @start_date > @end_date, 
+                        IF(@start_date <= CURRENT_DATE(), CURRENT_DATE(), @start_date), 
+                        @end_date
                     ); 
 
                 SELECT 
-                    @start_period AS `start_period`, 
-                    @end_period AS `end_period`, 
+                    @start_date AS `start_date`, 
+                    @end_date AS `end_date`, 
                     @rent_amount AS `rent_amount`, 
                     @paid_amount AS `paid_amount`, 
                     @total_leaseagrm AS `total_leaseagrm`, 
