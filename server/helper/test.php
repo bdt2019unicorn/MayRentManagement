@@ -9,12 +9,14 @@
 
     $something_path = __DIR__."../../../vendor/autoload.php"; 
 
-    echo "<h1>$something_path</h1>"; 
+    echo "<h1 style='color:blue;'>$something_path</h1>"; 
 
 
     $test_path = realpath(__DIR__."../../vendor/autoload.php"); 
 
     echo "<h1 style='color:red;'>$test_path</h1>"; 
+
+    echo "<h1 style='color:green;'>".__DIR__."</h1>"; 
 
 
 ?>
