@@ -53,83 +53,148 @@
                     @total_leaseagrm AS `total_leaseagrm`, 
                     (@total_leaseagrm - @paid_amount) AS `difference`; 
 
-                /*
-
-                SELECT 
-                    DATE_FORMAT(@start_period,'%d/%m/%Y') AS `Start Period`, 
-                    DATE_FORMAT(@end_period,'%d/%m/%Y') AS `End Period`, 
-                    @rent_amount AS `Rent Amount`, 
-                    @paid_amount AS `Paid Amount`, 
-                    @total_leaseagrm AS `Total Amount`, 
-                    (@total_leaseagrm - @paid_amount) AS `Difference`; 
-                
-                */
 
 
-                /**********************************************************************/
 
-                /*
-                CREATE TEMPORARY TABLE IF NOT EXISTS `revenue_vs_max_date` AS 
+                CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_utilities_checking_apartment` AS
                 (
-                    SELECT `revenue_type_id`, MAX(`date_valid`) AS `date_valid`
-                    FROM `utility_price`
+                    SELECT 
+                        `invoice_utilities`.*, 
+                        (SELECT `date` FROM `utility_reading` WHERE `invoice_utilities`.`utility_reading_id` = `utility_reading`.`id`) AS `date`, 
+                        (SELECT `number` FROM `utility_reading` WHERE `invoice_utilities`.`utility_reading_id` = `utility_reading`.`id`) AS `number`, 
+                        `invoice`.`leaseagrm_id`
+                    FROM `invoice_utilities` LEFT JOIN `invoice` ON `invoice_utilities`.`invoice_id` = `invoice`.`id`
+                    WHERE `invoice`.`leaseagrm_id` = @leaseagrm_id
+                ); 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `utilities_previous_reading_temp` AS
+                (
+                    SELECT `revenue_type_id`, MAX(`date`) AS `date`
+                    FROM `invoice_utilities_checking_apartment`
                     GROUP BY `revenue_type_id`
                 ); 
 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `utilities_previous_reading` AS
+                (
+                    SELECT 
+                        *, 
+                        (
+                            SELECT `number` 
+                            FROM `invoice_utilities_checking_apartment` 
+                            WHERE 
+                                `utilities_previous_reading_temp`.`revenue_type_id` = `invoice_utilities_checking_apartment`.`revenue_type_id` AND 
+                                `utilities_previous_reading_temp`.`date` = `invoice_utilities_checking_apartment`.`date`
+                        ) AS `number`
+                    FROM `utilities_previous_reading_temp`
+                ); 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `utilities_reading_apartment` AS 
+                (
+                    SELECT * 
+                    FROM `utility_reading`
+                    WHERE 
+                        `apartment_id` = @apartment_id AND 
+                        `date`>=@start_lease AND 
+                        `id` NOT IN 
+                        (
+                            SELECT `utility_reading_id` 
+                            FROM `invoice_utilities_checking_apartment`
+                        )
+                ); 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `utility_reading_min_date` AS 
+                (
+                    SELECT 
+                        `revenue_type_id`, 
+                        MIN(`date`) AS `date`, 
+                        `number`, 
+                        (SELECT `date` FROM `utilities_previous_reading` WHERE `utilities_reading_apartment`.`revenue_type_id` = `utilities_previous_reading`.`revenue_type_id`) AS `previous_date`, 
+                        (SELECT `number` FROM `utilities_previous_reading` WHERE `utilities_reading_apartment`.`revenue_type_id` = `utilities_previous_reading`.`revenue_type_id`) AS `previous_number`
+                    FROM `utilities_reading_apartment`
+                    GROUP BY `revenue_type_id`
+                ); 
+
+                CREATE TEMPORARY TABLE `utilities_information_apartment` AS 
+                (
+                    SELECT 
+                        *,
+                        IF
+                        (
+                            `utilities_reading_apartment`.`date` IN (SELECT `utility_reading_min_date`.`date` FROM `utility_reading_min_date` WHERE `utility_reading_min_date`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id`), 
+                            (
+                                SELECT `utility_reading_min_date`.`previous_date` 
+                                FROM `utility_reading_min_date` 
+                                WHERE `utility_reading_min_date`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id`
+                            ),
+                            (
+                                SELECT MAX(`ura`.`date`)
+                                FROM `utilities_reading_apartment` AS `ura` 
+                                WHERE 
+                                    `ura`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id` AND 
+                                    `ura`.`date`<`utilities_reading_apartment`.`date`
+                            )
+                        ) AS `previous_date`, 
+                        IF
+                        (
+                            `utilities_reading_apartment`.`date` IN (SELECT `utility_reading_min_date`.`date` FROM `utility_reading_min_date` WHERE `utility_reading_min_date`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id`), 
+                            (
+                                SELECT `utility_reading_min_date`.`previous_number`
+                                FROM `utility_reading_min_date` 
+                                WHERE `utility_reading_min_date`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id`
+                            ),
+                            (
+                                SELECT `ura`.`number` 
+                                FROM `utilities_reading_apartment` AS `ura` 
+                                WHERE 
+                                    `ura`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id` AND 
+                                    `ura`.`date`=
+                                    (
+                                        SELECT MAX(`ura`.`date`) 
+                                        FROM `utilities_reading_apartment` AS `ura` 
+                                        WHERE 
+                                            `ura`.`revenue_type_id` = `utilities_reading_apartment`.`revenue_type_id` AND 
+                                            `ura`.`date`<`utilities_reading_apartment`.`date`
+                                    )
+                            )
+                        ) AS `previous_number`
+                    FROM `utilities_reading_apartment`
+                );
+
+                CREATE TEMPORARY TABLE `invoice_utility_information` AS 
+                (
+                    SELECT 
+                        *, 
+                        (
+                            SELECT `utility_price`.`value`
+                            FROM `utility_price` 
+                            WHERE 
+                                `utility_price`.`revenue_type_id` = `utilities_information_apartment`.`revenue_type_id` AND 
+                                `utility_price`.`date_valid` <=`utilities_information_apartment`.`previous_date`
+                            ORDER BY `date_valid` DESC 
+                            LIMIT 1
+                        ) AS `price`
+                    FROM `utilities_information_apartment`
+                    WHERE `previous_date` IS NOT NULL
+                ); 
+
                 SELECT 
-                    *,
-                    (
-                        SELECT `value` 
-                        FROM `utility_price` 
-                        WHERE 
-                            `utility_price`.`revenue_type_id` = `revenue_vs_max_date`.`revenue_type_id` AND 
-                            `utility_price`.`date_valid` = `revenue_vs_max_date`.`date_valid`
-                    ) AS `value` 
-                FROM `revenue_vs_max_date`;
-
-                */
-
-
+                    *, 
+                    (`number`-`previous_number`) AS `quantity`,
+                    ((`number`-`previous_number`) * `price`) AS `amount`
+                FROM `invoice_utility_information`; 
             "; 
 
             $data = Connect::MultiQuery($sql,true); 
-
             $invoice_information = array
             (
                 "leaseagrm"=>$data[4][0], 
-                "utilities"=>array()
+                "utilities"=>$data[5]
             ); 
 
             echo(json_encode($invoice_information)); 
         }
     ); 
-
-
-//     SET @apartment_id = '2'; 
-
-// SELECT *  
-// FROM `utility_reading`
-// WHERE `apartment_id` = @apartment_id; 
-
-// CREATE TEMPORARY TABLE IF NOT EXISTS `utility_reading_vs_date` AS 
-// (
-//     SELECT `revenue_type_id`, MAX(`date`) AS `date`
-//     FROM `utility_reading`
-//     WHERE `apartment_id` = @apartment_id
-//     GROUP BY `revenue_type_id`
-// ); 
-
-// SELECT 
-//     *, 
-//     (
-//         SELECT `number`  
-//         FROM `utility_reading` 
-//         WHERE 
-//             `utility_reading`.`apartment_id` = @apartment_id AND 
-//             `utility_reading`.`revenue_type_id` = `utility_reading_vs_date`.`revenue_type_id` AND 
-//             `utility_reading`.`date` = `utility_reading_vs_date`.`date`
-//     ) AS `number`
-// FROM `utility_reading_vs_date`; 
 
     try 
     {
@@ -139,41 +204,6 @@
     {
         echo false; 
     }
-
-
-
-
-
-
-
-
-
-//     SET @apartment_id = '2'; 
-
-// SELECT *  
-// FROM `utility_reading`
-// WHERE `apartment_id` = @apartment_id; 
-
-// CREATE TEMPORARY TABLE IF NOT EXISTS `utility_reading_vs_date` AS 
-// (
-//     SELECT `revenue_type_id`, MAX(`date`) AS `date`
-//     FROM `utility_reading`
-//     WHERE `apartment_id` = @apartment_id
-//     GROUP BY `revenue_type_id`
-// ); 
-
-// SELECT 
-//     *, 
-//     (
-//         SELECT `number`  
-//         FROM `utility_reading` 
-//         WHERE 
-//             `utility_reading`.`apartment_id` = @apartment_id AND 
-//             `utility_reading`.`revenue_type_id` = `utility_reading_vs_date`.`revenue_type_id` AND 
-//             `utility_reading`.`date` = `utility_reading_vs_date`.`date`
-//     ) AS `number`
-// FROM `utility_reading_vs_date`; 
-
 ?>
 
 
