@@ -32,7 +32,7 @@ Vue.component
             }, 
             LabelDateRange()
             {
-                return `${moment(this.start_date).format('DD MMM YYYY')} - ${moment(this.end_date).format('DD MMM YYYY')}`; 
+                return `${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`; 
             }
         },
         methods: 
