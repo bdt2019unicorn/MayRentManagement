@@ -13,7 +13,7 @@
         {
             $sql = 
             "
-                SET @leaseagrm_id = '{$_GET['leaseagrm_id']}'; 
+                SET @leaseagrm_id = '1'; 
 
                 SELECT @apartment_id:= `apartment_id`, @start_lease:= `Start_date`, @rent_amount:=`Rent_amount`
                 FROM `leaseagrm`
@@ -113,7 +113,7 @@
                     GROUP BY `revenue_type_id`
                 ); 
 
-                CREATE TEMPORARY TABLE `utilities_information_apartment` AS 
+                CREATE TEMPORARY TABLE IF NOT EXISTS `utilities_information_apartment` AS 
                 (
                     SELECT 
                         *,
@@ -159,7 +159,7 @@
                     FROM `utilities_reading_apartment`
                 );
 
-                CREATE TEMPORARY TABLE `invoice_utility_information` AS 
+                CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_utility_information` AS 
                 (
                     SELECT 
                         *, 
@@ -173,7 +173,9 @@
                             LIMIT 1
                         ) AS `price`
                     FROM `utilities_information_apartment`
-                    WHERE `previous_date` IS NOT NULL
+                    WHERE 
+                        `previous_date` IS NOT NULL AND 
+                        `previous_date` < `date`
                 ); 
 
                 SELECT 
