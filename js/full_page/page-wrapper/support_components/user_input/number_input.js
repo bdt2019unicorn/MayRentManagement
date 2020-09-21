@@ -39,8 +39,8 @@ Vue.component
             let script = Object.keys(list).reduce
             (
                 (accumulator, current_value)=>
-                {
-                    return accumulator+ 
+                (
+                    accumulator+ 
                     `
                         jQuery.validator.addMethod
                         (
@@ -56,8 +56,8 @@ Vue.component
                             }, 
                             jQuery.validator.format("${list[current_value].message}")
                         ); 
-                    `; 
-                }, ""
+                    `
+                ), ""
             ); 
             eval(script); 
         },

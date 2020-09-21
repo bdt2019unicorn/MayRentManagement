@@ -35,6 +35,10 @@ Vue.component
                 let price_information = this.AjaxRequest(`${this.main_url}CurrentPrice&revenue_type_id=${revenue_type_id}`); 
                 return JSON.parse(price_information)[0]; 
             }, 
+            DateFormat(string)
+            {
+                return moment(string).format("DD/MM/YYYY"); 
+            }, 
             NewPrice(data)
             {
                 let current_price = this.CurrentPriceInformation(data.revenue_type_id); 
@@ -52,19 +56,19 @@ Vue.component
                 {
                     let date_valid = this.add_price_form.form[0].pop(); 
                     date_valid["bad_message"] = bad_message; 
-                    date_valid["edit_data"] = {date_valid: data_date_valid.format("YYYY-MM-DD")}; 
+                    date_valid["edit_data"] = {date_valid: this.DateReformatDatabase(data_date_valid)}; 
                     this.add_price_form.form[0].push(date_valid); 
                 }
 
                 if(data_date_valid<current_price_date_valid)
                 {
-                    ModifyDateValid(`Please enter a later date than the current date at ${current_price_date_valid.format("DD/MM/YYYY")}`); 
+                    ModifyDateValid(`Please enter a later date than the current date at ${this.DateFormat( current_price_date_valid)}`); 
                 }
                 else
                 {
                     ModifyDateValid(); 
-                    data.date_enter = moment().format("YYYY-MM-DD"); 
-                    data.date_valid = data_date_valid.format("YYYY-MM-DD"); 
+                    data.date_enter = this.DateReformatDatabase(); 
+                    data.date_valid = this.DateReformatDatabase(data_date_valid); 
                     let url = `${this.main_url}NewPrice`; 
                     let result = this.SubmitData("NewPrice", url, data); 
                     if(Number(result))
@@ -93,7 +97,7 @@ Vue.component
                 {
                     let price_information = this.CurrentPriceInformation(this.revenue_type_id); 
                     this.current_price = price_information.value; 
-                    this.valid_price_date = moment(price_information.date_valid).format("DD/MM/YYYY"); 
+                    this.valid_price_date = this.DateFormat(price_information.date_valid); 
                 }
                 catch
                 {

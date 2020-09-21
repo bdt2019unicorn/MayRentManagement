@@ -22,7 +22,7 @@ Vue.component
                         {
 
                             ...rest, 
-                            current_date: current_date?moment(current_date).format("DD MMM YYYY"): ""
+                            current_date: current_date?this.DateReformatDisplay(current_date): ""
                         }
                     )
                 ); 
@@ -55,7 +55,7 @@ Vue.component
                     (
                         {
                             number: Number(number), 
-                            date: `${moment(date).format("YYYY-MM-DD")} ${moment(time, "HH:mm").format("HH:mm:ss")}`,  
+                            date: `${this.DateReformatDatabase(date)} ${moment(time, "HH:mm").format("HH:mm:ss")}`,  
                             ...rest
                         }
                     ) 
@@ -105,7 +105,7 @@ Vue.component
                                         apartment_id: this.apartment_id, 
                                         service: revenue_type.name, 
                                         apartment_name: this.select_data.apartments.filter(apartment=>apartment.id==this.apartment_id)[0].name, 
-                                        date: moment().format("DD MMM YYYY"), 
+                                        date: this.DateReformatDatabase(), 
                                         time: moment().format("HH:mm"), 
                                         number: "", 
                                         current_reading: CurrentReading(revenue_type.id, "number"), 
