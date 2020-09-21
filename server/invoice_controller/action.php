@@ -54,8 +54,6 @@
                     (@total_leaseagrm - @paid_amount) AS `difference`; 
 
 
-
-
                 CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_utilities_checking_apartment` AS
                 (
                     SELECT 
@@ -183,13 +181,18 @@
                     (`number`-`previous_number`) AS `quantity`,
                     ((`number`-`previous_number`) * `price`) AS `amount`
                 FROM `invoice_utility_information`; 
+
+                SELECT `name` 
+                FROM `apartment`
+                WHERE `id` = @apartment_id; 
             "; 
 
             $data = Connect::MultiQuery($sql,true); 
             $invoice_information = array
             (
                 "leaseagrm"=>$data[4][0], 
-                "utilities"=>$data[5]
+                "utilities"=>$data[5], 
+                "apartment_name"=>$data[6][0]["name"]
             ); 
 
             echo(json_encode($invoice_information)); 

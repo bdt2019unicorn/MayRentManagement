@@ -39,6 +39,11 @@ Vue.component
             }, 
             ValidInvoiceDetails()
             {
+                let total_details = Object.values(this.invoice_details).reduce((accumulator, current_value)=>(accumulator+current_value.length), 0); 
+                if(!total_details)
+                {
+                    return false; 
+                }
                 let leaseagrm = this.invoice_details.leaseagrm.filter 
                 (
                     revenue_type=>
@@ -63,14 +68,27 @@ Vue.component
                         }; 
                     }
                 ); 
-                if((leaseagrm.length!=this.invoice_details.leaseagrm.length) || (leaseagrm.length==0))
+
+                let utilities = this.invoice_details.utilities.map 
+                (
+                    ({revenue_type, date, previous_date, number, previous_number, id, apartment_id, ...rest})=>
+                    (
+                        {
+                            utility_reading_id: id, 
+                            ...rest
+                        }
+                    )
+                ); 
+
+                var valid = 
                 {
-                    return false; 
-                }
-                return {
                     invoice_leaseagrm: leaseagrm, 
-                    invoice_utilities: {}
+                    invoice_utilities: utilities
                 }; 
+
+                let valid_details = Object.values(valid).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
+
+                return (valid_details==total_details)?valid: false; 
             }
         }, 
         created() 
@@ -83,12 +101,6 @@ Vue.component
         },
         methods: 
         {
-            TestMethod(value, id)
-            {
-                console.log(value, id); 
-            }, 
-
-
             InputRentAndOtherCost(value)
             {
                 new Promise
@@ -123,14 +135,38 @@ Vue.component
         
                                 return {
                                     ...details, 
-                                    name: `${revenue_type.name} (${moment(details.start_date).format("DD MMM YYYY")} - ${moment(details.end_date).format("DD MMM YYYY")})`, 
-                                    amount: numeral(details.price * details.quantity).format("0,0[.]000")
+                                    name: `${revenue_type.name} (${this.DateReformatDisplay(details.start_date)} - ${this.DateReformatDisplay(details.end_date)})`, 
+                                    amount: this.NumeralFormat(details.price * details.quantity)
                                 }; 
                             }
                         ); 
                         this.invoice_details.leaseagrm = [...leaseagrm_details, ...additional_details].sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
                     }
                 ); 
+            }, 
+
+            InputUtilities(value)
+            {
+
+                let revenue_type_ids = value.map(revenue_type=>revenue_type.id); 
+
+                this.invoice_details.utilities = this.invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
+                (
+                    (details)=>
+                    {
+                        let revenue_type = this.revenue_type.utilities.filter(revenue_type=>revenue_type.id == details.revenue_type_id)[0].name; 
+                        let numbers = ["previous_number", "number", "price", "quantity", "amount"]; 
+                        let number = {}; 
+                        numbers.forEach(key=>number[key] = this.NumeralFormat(Number(details[key]))); 
+                        return {
+                            name: `${this.invoice_information.apartment_name} - ${revenue_type} ${this.DateReformatDisplay(details.previous_date)} - ${this.DateReformatDisplay(details.date)}`, 
+                            revenue_type: revenue_type, 
+                            ...details, 
+                            ...number
+                        }
+                    }
+                ); 
+
             }, 
 
             LeaseagrmIdSelectChanged()
@@ -151,7 +187,7 @@ Vue.component
                     leaseagrm_id=>
                     {
                         this.invoice.leaseagrm_id = leaseagrm_id; 
-                        this.invoice.name = `${this.invoice.leaseagrm_id}-${moment().format("DD MMM YYYY")}`; 
+                        this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
                     }
                 ); 
             }, 
@@ -174,7 +210,7 @@ Vue.component
                                 {
                                     this.invoice_details.leaseagrm[index].quantity = this.RentQuantityCalculation(this.invoice_details.leaseagrm[index].start_date, this.invoice_details.leaseagrm[index].end_date); 
                                 }
-                                this.invoice_details.leaseagrm[index].amount = numeral(this.invoice_details.leaseagrm[index].quantity * this.invoice_details.leaseagrm[index].price).format("0,0[.]000"); 
+                                this.invoice_details.leaseagrm[index].amount = this.NumeralFormat(this.invoice_details.leaseagrm[index].quantity * this.invoice_details.leaseagrm[index].price); 
                                 break; 
                             }
                         }
@@ -187,6 +223,11 @@ Vue.component
                         this.invoice_details.leaseagrm[change_index].display = true; 
                     }
                 ); 
+            }, 
+
+            NumeralFormat(number)
+            {
+                return numeral(number).format("0,0[.]000"); 
             }, 
 
             RentQuantityCalculation(start_period, end_period)
@@ -250,7 +291,7 @@ Vue.component
             {
                 [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
 
-                let [str_start, str_end] = [start_period, end_period].map(moment_object=>moment_object.format("YYYY-MM-DD")); 
+                let [str_start, str_end] = [start_period, end_period].map(moment_object=>this.DateReformatDatabase(moment_object)); 
                 if((str_start==str_end) && equal)
                 {
                     return true; 
@@ -280,7 +321,7 @@ Vue.component
                     <br>
                     <div class="row">
                         <multi-select-input title="Rent and other cost" :select_atributes="user_input.select_atributes" :select_data="revenue_type.leaseagrm" @input="InputRentAndOtherCost"></multi-select-input>
-                        <multi-select-input title="Utilities" :select_atributes="user_input.select_atributes" :select_data="revenue_type.utilities" @input="TestMethod"></multi-select-input>
+                        <multi-select-input title="Utilities" :select_atributes="user_input.select_atributes" :select_data="revenue_type.utilities" @input="InputUtilities"></multi-select-input>
                     </div>
 
                     <br>
@@ -306,13 +347,57 @@ Vue.component
                                         @new-value-change-valid="NewValueChangeValid"
                                     ></row-group>
                                 </form>
+                                <hr>
                             </template>
                         </div>
                     </div>
                     <br>
-                    <div class="row" v-show="false">
+                    <div class="row" v-if="invoice_details.utilities.length>0">
                         <div class="col">
-                            <h6>Utilities</h6>
+                            <h4>Utilities</h4>
+                            <template v-for="revenue_type in invoice_details.utilities">
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>{{revenue_type.name}}</h5>
+                                    </div>
+                                    <div class="col">
+                                        <h5>{{revenue_type.revenue_type}}</h5>
+                                    </div>
+                                    <div>
+                                        <h5>{{revenue_type.amount}}</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
+                                    </div>
+                                    <div class="col">
+                                        <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
+                                    </div>
+                                    <div class="col">
+                                        <b>Price</b>
+                                    </div>
+                                    <div class="col">
+                                        <b>Quantity</b>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        {{revenue_type.previous_number}}
+                                    </div>
+                                    <div class="col">
+                                        {{revenue_type.number}}
+                                    </div>
+                                    <div class="col">
+                                        {{revenue_type.price}}
+                                    </div>
+                                    <div class="col">
+                                        {{revenue_type.quantity}}
+                                    </div>
+                                </div>
+                                <hr>
+                            </template>
                         </div>
                     </div>
                 </template>
