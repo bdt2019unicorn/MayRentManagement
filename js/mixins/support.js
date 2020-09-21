@@ -47,6 +47,22 @@ var support_mixin =
             ); 
             return result; 
         }, 
+
+        DateReformat(string=undefined)
+        {
+            return string?moment(string):moment(); 
+        }, 
+
+        DateReformatDatabase(string=undefined)
+        {
+            return this.DateReformat(string).format("YYYY-MM-DD"); 
+        }, 
+
+        DateReformatDisplay(string=undefined)
+        {
+            return this.DateReformat(string).format("DD MMM YYYY"); 
+        }, 
+
         ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class=undefined)
         {
             based_classes.push((item_value==compared_value)?good_class: bad_class); 
@@ -110,149 +126,3 @@ var support_mixin =
         }
     } 
 }; 
-
-var user_input_components_mixin = 
-{
-    mixins: [support_mixin], 
-    data()
-    {
-        return {
-            value:""
-        }
-    }, 
-    mounted() 
-    {
-        this.BringEditData(); 
-    }, 
-    methods: 
-    {
-        BringEditData()
-        {
-            if(this.edit_data)
-            {
-                this.value = this.edit_data[this.name]; 
-            }    
-        }    
-    },
-    watch: 
-    {
-        $route: function(new_value, old_value)
-        {
-            this.value = ""; 
-        }, 
-        value: function(new_value, old_value)
-        {
-            if(this.edit_data)
-            {
-                if(this.edit_data[this.name]!=new_value)
-                {
-                    this.$emit("new-value-change-valid", this.edit_data, this.name, new_value, true); 
-                }
-            }
-        }
-    }
-}
-
-var add_edit_mixin = 
-{
-    props: ["controller"], 
-    mixins: [support_mixin], 
-    data()
-    {
-        return {
-            title: "", 
-            form: [], 
-            user_input: true, 
-            validate: {} 
-        }
-    }, 
-    created() 
-    {
-        this.PopulateFormField(); 
-    }, 
-    methods: 
-    {
-        PopulateFormField()
-        {
-            var data = this.AjaxRequest(`server/user_input_controller/${this.CurrentController}.json`); 
-            try 
-            {
-                this.form = data.form; 
-                this.title = this.form_title || this.controller? data.title :this.title_surfix+data.title; 
-                this.validate = data.validate || this.validate; 
-            } 
-            catch
-            {
-                this.form = []; 
-                this.title =""; 
-            }
-        }, 
-        ReloadUserInput(callback=undefined)
-        {
-            new Promise 
-            (
-                (resolve, reject)=>
-                {
-                    this.user_input = false;
-                    resolve(callback);  
-                }
-            ).then 
-            (
-                (callback)=>
-                {
-                    if(callback)
-                    {
-                        callback(); 
-                    }
-                    this.user_input = true; 
-                }
-            ); 
-        }
-    },
-    watch: 
-    {
-        $route: function(new_value, old_value)
-        {
-            this.PopulateFormField(); 
-        }, 
-        controller: function(new_value, old_value)
-        {
-            this.PopulateFormField(); 
-        }    
-    },
-
-    template: `<user-input v-if="user_input" v-bind="$data" :edit_data="this.edit_data?this.edit_data:undefined" @form-information-valid="SubmitForm"></user-input>`
-}
-
-var utilities_mixin = 
-{
-    mixins: [support_mixin], 
-    data() 
-    {
-        return {
-            main_url: "server/utilities_controller/action.php?command=", 
-            select_data: 
-            {
-                utilities: [], 
-                apartments: [], 
-                select_value: "id", 
-                text: "name", 
-            }, 
-            table_data: []
-        }
-    }, 
-    created() 
-    {
-        this.SelectData(); 
-    },
-
-    methods: 
-    {
-        SelectData()
-        {
-            this.select_data.apartments = this.TableData("apartment", {edit: 1});     
-            let utility_data = this.AjaxRequest(`${this.main_url}SelectData`); 
-            this.select_data.utilities = JSON.parse(utility_data); 
-        }
-    },
-}
