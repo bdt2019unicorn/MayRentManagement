@@ -315,6 +315,24 @@ Vue.component
                         <input class="form-control" name="name" v-model="invoice.name">
                     </div>
                 </div>
+
+                <hr>
+
+                <div v-if="invoice.leaseagrm_id" class="row">
+                    <div class="col text-center">
+                        <p><b>Total</b></p>
+                        <p>{{NumeralFormat(Number(invoice_information.leaseagrm.total_amount)||0)}}</p>
+                    </div>
+                    <div class="col text-center">
+                        <p><b>Paid</b></p>
+                        <p>{{NumeralFormat(Number(invoice_information.leaseagrm.paid_amount)||0)}}</p>
+                    </div>
+                    <div class="col text-center">
+                        <p><b>Difference</b></p>
+                        <p>{{NumeralFormat(Number(invoice_information.leaseagrm.difference)||0)}}</p>
+                    </div>
+                </div>
+
                 <hr>
                 <template v-if="InvoiceDetails">
                     <h2>Invoice Details</h2>
