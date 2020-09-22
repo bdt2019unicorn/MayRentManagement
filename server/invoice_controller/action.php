@@ -13,7 +13,7 @@
         {
             $sql = 
             "
-                SET @leaseagrm_id = '1'; 
+                SET @leaseagrm_id = '{$_GET['leaseagrm_id']}'; 
 
                 SELECT @apartment_id:= `apartment_id`, @start_lease:= `Start_date`, @rent_amount:=`Rent_amount`
                 FROM `leaseagrm`
@@ -23,11 +23,21 @@
                 FROM `revenue` 
                 WHERE `leaseagrm_id` =@leaseagrm_id; 
 
-                SELECT @total_leaseagrm := SUM(`Amount`) 
-                FROM `invoice_leaseagrm` 
-                WHERE 
-                    `invoice_id` IN 
-                        (SELECT `id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = @leaseagrm_id); 
+                SET @total_amount := 
+                (
+                    SELECT SUM(`Amount`) 
+                    FROM `invoice_leaseagrm` 
+                    WHERE 
+                        `invoice_id` IN 
+                            (SELECT `id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = @leaseagrm_id)
+                ) + 
+                (
+                    SELECT SUM(`Amount`) 
+                    FROM `invoice_utilities` 
+                    WHERE 
+                        `invoice_id` IN 
+                            (SELECT `id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = @leaseagrm_id)
+                ); 
 
                 SELECT @start_date := MAX(`invoice_leaseagrm`.`end_date`)
                 FROM `invoice_leaseagrm`, `invoice` 
@@ -50,8 +60,8 @@
                     @end_date AS `end_date`, 
                     @rent_amount AS `rent_amount`, 
                     @paid_amount AS `paid_amount`, 
-                    @total_leaseagrm AS `total_leaseagrm`, 
-                    (@total_leaseagrm - @paid_amount) AS `difference`; 
+                    @total_amount AS `total_amount`, 
+                    (IFNULL(@total_amount, 0) - IFNULL(@paid_amount, 0)) AS `difference`; 
 
 
                 CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_utilities_checking_apartment` AS
@@ -192,11 +202,10 @@
             $data = Connect::MultiQuery($sql,true); 
             $invoice_information = array
             (
-                "leaseagrm"=>$data[4][0], 
-                "utilities"=>$data[5], 
-                "apartment_name"=>$data[6][0]["name"]
+                "leaseagrm"=>$data[3][0], 
+                "utilities"=>$data[4], 
+                "apartment_name"=>$data[5][0]["name"]
             ); 
-
             echo(json_encode($invoice_information)); 
         }
     ); 
