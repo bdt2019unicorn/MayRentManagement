@@ -3,11 +3,24 @@
 
     $actions = array 
     (
-        "LastInvoiceDate"=>function()
+        "InvoiceDetails"=>function()
         {
-            $sql = "SELECT MAX(`end_date`) FROM `invoice` WHERE `leaseagrm_id`='{$_GET['leaseagrm_id']}';"; 
-            $select_data = Connect::GetData($sql); 
-            echo(json_encode($select_data)); 
+            $tables = ["invoice_leaseagrm", "invoice_utilities"]; 
+            $conditions = ["invoice_id"=>$_GET["invoice_id"]]; 
+            $sql = ""; 
+            foreach ($tables as $table) 
+            {
+                $sql.= Query::SelectData($table, ["*"], $conditions) ."\n"; 
+            }
+            $data = Connect::MultiQuery($sql, true); 
+
+            $result = []; 
+            foreach ($tables as $key => $table) 
+            {
+                $result[$table] = $data[$key]; 
+            }
+
+            echo json_encode($result); 
         }, 
         "InvoiceInformation"=>function()
         {
@@ -207,6 +220,12 @@
                 "apartment_name"=>$data[5][0]["name"]
             ); 
             echo(json_encode($invoice_information)); 
+        }, 
+        "LastInvoiceDate"=>function()
+        {
+            $sql = "SELECT MAX(`end_date`) FROM `invoice` WHERE `leaseagrm_id`='{$_GET['leaseagrm_id']}';"; 
+            $select_data = Connect::GetData($sql); 
+            echo(json_encode($select_data)); 
         }
     ); 
 

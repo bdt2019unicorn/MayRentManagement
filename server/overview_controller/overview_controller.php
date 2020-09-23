@@ -1,24 +1,14 @@
 <?php 
     require_once("../helper/database.php"); 
 
-    $actions = array 
-    (
-        "overview"=> function()
-        {
-            require_once("./overview.php"); 
-        }, 
-        "utilities"=> function()
-        {
-            require_once("./utilities.php"); 
-        }
-    ); 
+    $actions = ["overview", "utilities"]; 
 
     $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
     $overview_controller = $_GET["overview_controller"]; 
 
-    if(isset($actions[$overview_controller]))
+    if(in_array($overview_controller, $actions))
     {
-        $actions[$overview_controller](); 
+        require_once("./{$overview_controller}.php"); 
     }
     else if (in_array($overview_controller, $generic_controllers))
     {
@@ -51,7 +41,7 @@
                         `expense`.`building_id` = '{$_GET['building_id']}'
                 "; 
             }, 
-            "invoice"=>function()
+            "invoices"=>function()
             {
                 return (isset($_GET["edit"]))? Query::GeneralData("invoice", $_GET["id"]??null): 
                 "

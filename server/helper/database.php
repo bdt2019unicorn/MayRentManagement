@@ -44,7 +44,7 @@
             {
                 $sql .= Query::Cause("WHERE", $conditions, "AND"); 
             }
-            return $sql; 
+            return $sql.";"; 
         }
         
         static public function GeneralData($table, $id= null, $id_field='id')
