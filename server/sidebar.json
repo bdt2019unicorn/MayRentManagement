@@ -3,7 +3,6 @@
         "icon": "bed",
         "name": "apartment", 
         "text": "Apartments",
-        "to": "apartment", 
         "menu": 
         [
             {
@@ -33,7 +32,6 @@
         "icon": "users",
         "name": "tenant", 
         "text": "Tenants",
-        "to": "tenant", 
         "menu": 
         [
             {
@@ -63,7 +61,6 @@
         "icon": "handshake",
         "name": "leaseagrm", 
         "text": "Lease Agreement",
-        "to": "leaseagrm", 
         "menu": 
         [
             {
@@ -93,7 +90,6 @@
         "icon": "file-contract",
         "name": "invoice", 
         "text": "Invoices",
-        "to": "invoice", 
         "menu": 
         [
             {
@@ -130,7 +126,6 @@
         "icon": "hand-holding-usd",
         "name": "revenue", 
         "text": "Income",
-        "to": "revenue", 
         "menu": 
         [
             {
@@ -160,7 +155,6 @@
         "icon": "file-invoice-dollar",
         "name": "expense", 
         "text": "Expenses",
-        "to": "expense", 
         "menu": 
         [
             {
@@ -190,7 +184,6 @@
         "icon": "cog",
         "name": "utilities", 
         "text": "Utilities",
-        "to": "utilities/utilities-overview", 
         "menu": 
         [
             {
