@@ -43,16 +43,16 @@
             }, 
             "invoices"=>function()
             {
-                return (isset($_GET["edit"]))? Query::GeneralData("invoice", $_GET["id"]??null): 
+                return (isset($_GET["edit"]))? Query::GeneralData("invoices", $_GET["id"]??null): 
                 "
                     SELECT 
-                        `invoice`.`id` AS `ID`, 
-                        `invoice`.`name` AS `Name`, 
+                        `invoices`.`id` AS `ID`, 
+                        `invoices`.`name` AS `Name`, 
                         `apartment`.`name` AS `Apartment`, 
-                        ((SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoice`.`id`) + (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoice`.`id`)) AS `Amount`
-                    FROM `invoice`, `leaseagrm`, `apartment`
+                        ((SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoices`.`id`) + (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`)) AS `Amount`
+                    FROM `invoices`, `leaseagrm`, `apartment`
                     WHERE 
-                    	`invoice`.`leaseagrm_id` = `leaseagrm`.`id` AND 
+                    	`invoices`.`leaseagrm_id` = `leaseagrm`.`id` AND 
                         `leaseagrm`.`apartment_id` = `apartment`.`id` AND
                         `apartment`.`building_id` = '{$_GET['building_id']}'
                 "; 
@@ -72,12 +72,12 @@
                             (
                                 SELECT SUM(`invoice_leaseagrm`.`amount`) 
                                 FROM `invoice_leaseagrm` 
-                                WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoice`.`id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = `leaseagrm`.`id`)
+                                WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
                             ) + 
                             (
                                 SELECT SUM(`invoice_utilities`.`amount`) 
                                 FROM `invoice_utilities` 
-                                WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoice`.`id` FROM `invoice` WHERE `invoice`.`leaseagrm_id` = `leaseagrm`.`id`)
+                                WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
                             )
                         ) AS `Amount`,
                         (
