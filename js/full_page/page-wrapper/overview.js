@@ -25,7 +25,6 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Delete success!"); 
-                    // window.location.reload(); 
                     new Promise
                     (
                         (resolve, reject)=>
@@ -146,7 +145,7 @@ Vue.component
                             <router-link 
                                 class="btn btn-secondary" 
                                 v-else 
-                                :to="ToActions({action: table_actions.edit_action?table_actions.edit_action:'edit', query: {id: check_array[0]}})"
+                                :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
                             >Edit</router-link>
                         </div>
 
