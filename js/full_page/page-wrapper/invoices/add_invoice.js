@@ -60,7 +60,7 @@ Vue.component
                     }
                 ).map 
                 (
-                    ({amount, display, valid, title, ...rest})=>
+                    ({amount, display, valid, title, row, ...rest})=>
                     {
                         return {
                             amount: amount.toString().replaceAll(",",""), 
@@ -87,7 +87,6 @@ Vue.component
                 }; 
 
                 let valid_details = Object.values(valid).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
-
                 return (valid_details==total_details)?valid: false; 
             }
         }, 
@@ -117,7 +116,7 @@ Vue.component
                     leaseagrm_details=>
                     {
                         let revenue_type_ids = leaseagrm_details.map(details=>details.revenue_type_id); 
-                        let additional_details = value.filter(revenue_type=>!revenue_type_ids.includes(revenue_type.id)).map
+                        let additional_details = value.filter(revenue_type=>!revenue_type_ids.includes(revenue_type.id)).flatMap
                         (
                             revenue_type=>
                             {
@@ -126,18 +125,68 @@ Vue.component
                                     display: true, 
                                     revenue_type_id: revenue_type.id, 
                                     title: revenue_type.name, 
-                                    start_date: this.invoice_information.leaseagrm["start_date"], 
-                                    end_date: this.invoice_information.leaseagrm["end_date"], 
-                                    price: (revenue_type.id==this.user_input.rent_id)?Number(this.invoice_information.leaseagrm["rent_amount"]): 0, 
-                                    quantity: (revenue_type.id==this.user_input.rent_id)?this.RentQuantityCalculation(this.invoice_information.leaseagrm["start_date"], this.invoice_information.leaseagrm["end_date"]):1, 
                                     valid: true 
-                                }; 
-        
-                                return {
-                                    ...details, 
-                                    name: `${revenue_type.name} (${this.DateReformatDisplay(details.start_date)} - ${this.DateReformatDisplay(details.end_date)})`, 
-                                    amount: this.NumeralFormat(details.price * details.quantity)
-                                }; 
+                                }
+                                if(revenue_type.id==this.user_input.rent_id)
+                                {
+                                    let final_details = 
+                                    {
+                                        ...details, 
+                                        price: Number(this.invoice_information.leaseagrm["rent_amount"]) 
+                                    }; 
+
+                                    let rent_information = this.invoice_information.leaseagrm.rent_information.map
+                                    (
+                                        ({start_date, end_date})=>
+                                        {
+                                            let row = R.clone(this.user_input.invoice_details.leaseagrm.form); 
+                                            row[0].date_data.big_date.lock = Boolean(end_date); 
+                                            let rent_end_date = end_date||this.invoice_information.leaseagrm["end_date"]; 
+                                            let rent = 
+                                            {
+                                                ...final_details, 
+                                                start_date: start_date, 
+                                                end_date: rent_end_date, 
+                                                quantity: this.RentQuantityCalculation(start_date, rent_end_date), 
+                                                row: row 
+                                            }
+                                            return rent; 
+                                        }
+                                    ); 
+
+                                    return rent_information.map
+                                    (
+                                        rent=>
+                                        (
+                                            {
+                                                ...rent, 
+                                                name: `${revenue_type.name} (${this.DateReformatDisplay(rent.start_date)} - ${this.DateReformatDisplay(rent.end_date)})`,
+                                                amount: this.NumeralFormat(rent.price * rent.quantity)
+                                            }
+                                        )
+                                    ); 
+                                }
+                                else 
+                                {
+                                    let final_details = 
+                                    {
+                                        ...details, 
+                                        start_date: this.invoice_information.leaseagrm["start_date"], 
+                                        end_date: this.invoice_information.leaseagrm["end_date"], 
+                                        price: 0, 
+                                        quantity: 1 
+                                    }; 
+            
+                                    return [
+                                        {
+                                            ...final_details, 
+                                            name: `${revenue_type.name} (${this.DateReformatDisplay(details.start_date)} - ${this.DateReformatDisplay(details.end_date)})`, 
+                                            amount: this.NumeralFormat(details.price * details.quantity), 
+                                            row: this.user_input.invoice_details.leaseagrm.form
+                                        }
+                                    ]; 
+                                }
+
                             }
                         ); 
                         this.invoice_details.leaseagrm = [...leaseagrm_details, ...additional_details].sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
@@ -234,6 +283,7 @@ Vue.component
             {
                 var quatity = 0; 
                 [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+                start_period = start_period.add(1, "days"); 
                 while(this.ValidPeriod(start_period, end_period))
                 {
                     let end_of_month = new Date(start_period.year(), start_period.month()+1, 0); 
@@ -358,11 +408,11 @@ Vue.component
                                             <b>{{revenue_type.amount}}</b>
                                         </div>
                                     </div>
-                                    <row-group
-                                        :row="user_input.invoice_details.leaseagrm.form"
-                                        :edit_data="revenue_type"
+                                    <row-group 
+                                        :row="revenue_type.row" 
+                                        :edit_data="revenue_type" 
+                                        @new-value-change-valid="NewValueChangeValid" 
                                         :lock="Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined"
-                                        @new-value-change-valid="NewValueChangeValid"
                                     ></row-group>
                                 </form>
                                 <hr>

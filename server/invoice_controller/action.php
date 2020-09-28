@@ -27,6 +27,7 @@
             $sql = 
             "
                 SET @leaseagrm_id = '{$_GET['leaseagrm_id']}'; 
+                SET @rent_id = '1'; 
 
                 SELECT @apartment_id:= `apartment_id`, @start_lease:= `Start_date`, @rent_amount:=`Rent_amount` 
                 FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
@@ -47,7 +48,7 @@
                 FROM `invoice_leaseagrm`, `invoices` 
                 WHERE  
                     `invoices`.`id` = `invoice_leaseagrm`.`invoice_id` AND 
-                    `invoice_leaseagrm`.`revenue_type_id` = '1' AND  
+                    `invoice_leaseagrm`.`revenue_type_id` = @rent_id AND  
                     `invoices`.`leaseagrm_id` = @leaseagrm_id; 
 
                 SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date); 
@@ -104,6 +105,43 @@
                     );
 
                 SELECT `name` FROM `apartment` WHERE `id` = @apartment_id; 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_leaseagrm_rent_search` AS 
+                (               
+                    SELECT * FROM `invoice_leaseagrm` 
+                    WHERE 
+                        `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `leaseagrm_id` = @leaseagrm_id) 
+                        AND `revenue_type_id` = '1' 
+                ); 
+                
+                CREATE TEMPORARY TABLE IF NOT EXISTS `rent_start_not_in_end` AS
+                (
+                    SELECT `start_date` FROM `invoice_leaseagrm_rent_search`
+                    WHERE `start_date` NOT IN (SELECT `end_date` FROM `invoice_leaseagrm_rent_search`)
+                ); 
+                                
+                CREATE TEMPORARY TABLE IF NOT EXISTS `rent_end_not_in_start` AS
+                (
+                    SELECT `end_date` FROM `invoice_leaseagrm_rent_search`
+                    WHERE `end_date` NOT IN (SELECT `start_date` FROM `invoice_leaseagrm_rent_search`)
+                ); 
+
+                SET @minimum_start_date = (SELECT MIN(`start_date`) FROM `rent_start_not_in_end`); 
+                
+                SET @extra_end_date = IF
+                (
+                    ISNULL(@minimum_start_date), 
+                    @start_lease, 
+                    IF(@start_lease<@minimum_start_date, @start_lease, NULL) 
+                ); 
+                INSERT INTO `rent_end_not_in_start` VALUES (@extra_end_date); 
+                SELECT 
+                    `end_date` AS `start_date`, 
+                    (
+                        SELECT MIN(`start_date`) FROM `rent_start_not_in_end` 
+                        WHERE `start_date`>`rent_end_not_in_start`.`end_date`
+                    ) AS `end_date`
+                FROM `rent_end_not_in_start` WHERE `end_date` IS NOT NULL ORDER BY `end_date` DESC;
             "; 
 
             $data = Connect::MultiQuery($sql,true); 
@@ -113,6 +151,7 @@
                 "utilities"=>$data[4], 
                 "apartment_name"=>$data[5][0]["name"]
             ); 
+            $invoice_information["leaseagrm"]["rent_information"] = $data[6]; 
             echo(json_encode($invoice_information)); 
         }, 
         "LastInvoiceDate"=>function()

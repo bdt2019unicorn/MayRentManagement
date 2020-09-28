@@ -49,7 +49,16 @@
                         `invoices`.`id` AS `ID`, 
                         `invoices`.`name` AS `Name`, 
                         `apartment`.`name` AS `Apartment`, 
-                        ((SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoices`.`id`) + (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`)) AS `Amount`
+                        (
+                            IFNULL
+                            (
+                                (SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoices`.`id`), 0
+                            ) + 
+                            IFNULL
+                            (
+                                (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`), 0 
+                            )
+                        ) AS `Amount`
                     FROM `invoices`, `leaseagrm`, `apartment`
                     WHERE 
                     	`invoices`.`leaseagrm_id` = `leaseagrm`.`id` AND 
@@ -69,15 +78,21 @@
                         DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
                         DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
                         (
+                            IFNULL
                             (
-                                SELECT SUM(`invoice_leaseagrm`.`amount`) 
-                                FROM `invoice_leaseagrm` 
-                                WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
+                                (
+                                    SELECT SUM(`invoice_leaseagrm`.`amount`) 
+                                    FROM `invoice_leaseagrm` 
+                                    WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
+                                ), 0
                             ) + 
+                            IFNULL
                             (
-                                SELECT SUM(`invoice_utilities`.`amount`) 
-                                FROM `invoice_utilities` 
-                                WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
+                                (
+                                    SELECT SUM(`invoice_utilities`.`amount`) 
+                                    FROM `invoice_utilities` 
+                                    WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
+                                ), 0 
                             )
                         ) AS `Amount`,
                         (
