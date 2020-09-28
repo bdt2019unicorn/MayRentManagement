@@ -14,11 +14,11 @@ var invoices_mixin =
             //     leaseagrm: [], 
             //     utilities: []
             // }, 
-            invoice_information: 
-            {
-                leaseagrm: {}, 
-                utilities: {}
-            }, 
+            // invoice_information: 
+            // {
+            //     leaseagrm: {}, 
+            //     utilities: {}
+            // }, 
             revenue_type: 
             {
                 leaseagrm: [], 

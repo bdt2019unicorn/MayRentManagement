@@ -2,7 +2,7 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["edit_data", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
+        props: ["edit_data", "lock", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
         mixins: [user_input_components_mixin], 
         data() 
         {
@@ -52,7 +52,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <select :name="name" class="form-control" v-model="value">
+                <select :name="name" :style="LockStyle" class="form-control" v-model="value">
                     <option v-if="options.length>0" v-show="not_required&&value" value selected><slot></slot></option>
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>

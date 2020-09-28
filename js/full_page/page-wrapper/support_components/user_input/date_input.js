@@ -3,6 +3,7 @@ var date_input = Vue.component
     "date-input", 
     {
         props: ["bad_message", "edit_data", "just_started_parent", "lock", "name", "reference", "required", "title"], 
+        mixins: [support_mixin], 
         data()
         {
             return {
@@ -59,7 +60,7 @@ var date_input = Vue.component
             <div class="form-group col">
                 <label for="company_address"><b>{{title}}</b></label>
                 <vuejs-datepicker 
-                    :style="lock?{pointerEvents: 'none'}:undefined" 
+                    :style="LockStyle" 
                     calendar-class="calendar-right-align" 
                     input-class="form-control" 
                     format="dd/MM/yyyy" 

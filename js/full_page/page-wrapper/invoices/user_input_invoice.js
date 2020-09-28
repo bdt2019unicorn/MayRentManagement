@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input-invoice", 
     {
-        props: ["edit_data", "invoice_information", "revenue_type", "user_input"], 
+        props: ["edit_data", "revenue_type", "user_input"], 
         mixins:[support_mixin], 
         data() 
         {
@@ -17,18 +17,13 @@ Vue.component
                     leaseagrm: [], 
                     utilities: []
                 }, 
-                // invoice_information: 
-                // {
-                //     leaseagrm: {}, 
-                //     utilities: {}
-                // }, 
-                // revenue_type: 
-                // {
-                //     leaseagrm: [], 
-                //     utilities: []
-                // }, 
+                invoice_information: 
+                {
+                    leaseagrm: {}, 
+                    utilities: {}
+                }, 
+                multi_select_edit_data: undefined, 
                 select_leaseagrm: true, 
-                // user_input: {}
             }; 
         },
         computed: 
@@ -91,14 +86,32 @@ Vue.component
                 return (valid_details==total_details)?valid: false; 
             }
         }, 
-        // created() 
-        // {
-        //     this.user_input = this.AjaxRequest("server/user_input_controller/invoice.json"); 
-        //     let revenue_types = this.AjaxRequest(this.OverviewDataUrl("revenue_type")); 
-        //     revenue_types = JSON.parse(revenue_types); 
-        //     this.revenue_type.utilities = revenue_types.filter(revenue_type=>Number(revenue_type.is_utility)); 
-        //     this.revenue_type.leaseagrm = revenue_types.filter(revenue_type=>!this.revenue_type.utilities.includes(revenue_type)); 
-        // },
+        created() 
+        {
+            if(this.edit_data)
+            {
+                this.invoice = R.clone(this.edit_data.invoice);  
+                this.invoice_details = R.clone(this.edit_data.details); 
+                this.InvoiceInformation(this.edit_data.invoice.leaseagrm_id); 
+                MultiSelectValues = (details_part)=>
+                {
+                    let values = this.edit_data.details[details_part].map(detail=>Number(detail.revenue_type_id)); 
+                    return JSON.stringify([...new Set(values)]); 
+                }; 
+                this.multi_select_edit_data = 
+                {
+                    leaseagrm_multi_select: MultiSelectValues("leaseagrm"), 
+                    utilities_multi_select: MultiSelectValues("utilities")
+                }; 
+            }
+        },
+        mounted() 
+        {
+            if(this.edit_data)
+            {
+                $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(this.edit_data.invoice.leaseagrm_id); 
+            }
+        },
         methods: 
         {
             InputRentAndOtherCost(value)
@@ -197,26 +210,36 @@ Vue.component
 
             InputUtilities(value)
             {
-
                 let revenue_type_ids = value.map(revenue_type=>revenue_type.id); 
-
-                this.invoice_details.utilities = this.invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
-                (
-                    (details)=>
-                    {
-                        let revenue_type = this.revenue_type.utilities.filter(revenue_type=>revenue_type.id == details.revenue_type_id)[0].name; 
-                        let numbers = ["previous_number", "number", "price", "quantity", "amount"]; 
-                        let number = {}; 
-                        numbers.forEach(key=>number[key] = this.NumeralFormat(Number(details[key]))); 
-                        return {
-                            name: `${this.invoice_information.apartment_name} - ${revenue_type} ${this.DateReformatDisplay(details.previous_date)} - ${this.DateReformatDisplay(details.date)}`, 
-                            revenue_type: revenue_type, 
-                            ...details, 
-                            ...number
+                if(this.edit_data)
+                {
+                    this.invoice_details.utilities = this.invoice_details.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)); 
+                }
+                else 
+                {
+                    this.invoice_details.utilities = this.invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
+                    (
+                        (details)=>
+                        {
+                            let revenue_type = this.revenue_type.utilities.filter(revenue_type=>revenue_type.id == details.revenue_type_id)[0].name; 
+                            let numbers = ["previous_number", "number", "price", "quantity", "amount"]; 
+                            let number = {}; 
+                            numbers.forEach(key=>number[key] = this.NumeralFormat(Number(details[key]))); 
+                            return {
+                                name: `${this.invoice_information.apartment_name} - ${revenue_type} ${this.DateReformatDisplay(details.previous_date)} - ${this.DateReformatDisplay(details.date)}`, 
+                                revenue_type: revenue_type, 
+                                ...details, 
+                                ...number
+                            }
                         }
-                    }
-                ); 
+                    ); 
+                }
+            }, 
 
+            InvoiceInformation(leaseagrm_id)
+            {
+                let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`); 
+                this.invoice_information = JSON.parse(invoice_information); 
             }, 
 
             LeaseagrmIdSelectChanged()
@@ -227,8 +250,7 @@ Vue.component
                     {
                         let leaseagrm_id = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(); 
                         this.invoice.leaseagrm_id = undefined; 
-                        let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`); 
-                        this.invoice_information = JSON.parse(invoice_information); 
+                        this.InvoiceInformation(leaseagrm_id); 
                         Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
                         resolve(leaseagrm_id);  
                     }
@@ -309,33 +331,33 @@ Vue.component
                     details: this.ValidInvoiceDetails
                 }
 
-                let url = "server/invoice_controller/import.php"; 
-                let result = this.SubmitData("invoices", url, invoice); 
-                if(Number(result))
-                {
-                    alert("Add Invoice Success!"); 
-                    new Promise
-                    (
-                        (resolve, reject)=>
-                        {
-                            this.select_leaseagrm = false; 
-                            Object.keys(this.invoice).forEach(key=>this.invoice[key]=undefined); 
-                            Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
-                            Object.keys(this.invoice_information).forEach(key=>this.invoice_information[key]={});
-                            resolve(); 
-                        }
-                    ).then
-                    (
-                        ()=>
-                        {
-                            this.select_leaseagrm = true; 
-                        }
-                    ); 
-                }
-                else
-                {
-                    alert("Add Invoice Fails! Please try again"); 
-                }
+                // let url = "server/invoice_controller/import.php"; 
+                // let result = this.SubmitData("invoices", url, invoice); 
+                // if(Number(result))
+                // {
+                //     alert("Add Invoice Success!"); 
+                //     new Promise
+                //     (
+                //         (resolve, reject)=>
+                //         {
+                //             this.select_leaseagrm = false; 
+                //             Object.keys(this.invoice).forEach(key=>this.invoice[key]=undefined); 
+                //             Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
+                //             Object.keys(this.invoice_information).forEach(key=>this.invoice_information[key]={});
+                //             resolve(); 
+                //         }
+                //     ).then
+                //     (
+                //         ()=>
+                //         {
+                //             this.select_leaseagrm = true; 
+                //         }
+                //     ); 
+                // }
+                // else
+                // {
+                //     alert("Add Invoice Fails! Please try again"); 
+                // }
             }, 
 
             ValidPeriod(start_period, end_period, equal=false)
@@ -357,7 +379,7 @@ Vue.component
                 <h1>Add New Invoice</h1>
                 <br>
                 <div class="row" ref="leaseagrm_id_select">
-                    <select-input v-if="select_leaseagrm" v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged"></select-input>
+                    <select-input v-if="select_leaseagrm" v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged" :lock="edit_data"></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -367,30 +389,45 @@ Vue.component
                     </div>
                 </div>
 
-                <hr>
+                <template v-if="!edit_data">
+                    <hr>
+                    <div v-if="invoice.leaseagrm_id" class="row">
+                        <div class="col text-center">
+                            <p><b>Total</b></p>
+                            <p>{{NumeralFormat(Number(invoice_information.leaseagrm.total_amount)||0)}}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p><b>Paid</b></p>
+                            <p>{{NumeralFormat(Number(invoice_information.leaseagrm.paid_amount)||0)}}</p>
+                        </div>
+                        <div class="col text-center">
+                            <p><b>Difference</b></p>
+                            <p>{{NumeralFormat(Number(invoice_information.leaseagrm.difference)||0)}}</p>
+                        </div>
+                    </div>
+                </template>
 
-                <div v-if="invoice.leaseagrm_id" class="row">
-                    <div class="col text-center">
-                        <p><b>Total</b></p>
-                        <p>{{NumeralFormat(Number(invoice_information.leaseagrm.total_amount)||0)}}</p>
-                    </div>
-                    <div class="col text-center">
-                        <p><b>Paid</b></p>
-                        <p>{{NumeralFormat(Number(invoice_information.leaseagrm.paid_amount)||0)}}</p>
-                    </div>
-                    <div class="col text-center">
-                        <p><b>Difference</b></p>
-                        <p>{{NumeralFormat(Number(invoice_information.leaseagrm.difference)||0)}}</p>
-                    </div>
-                </div>
-
                 <hr>
-                <template v-if="InvoiceDetails">
+                <template v-if="edit_data||InvoiceDetails">
                     <h2>Invoice Details</h2>
                     <br>
                     <div class="row">
-                        <multi-select-input title="Rent and other cost" :select_atributes="user_input.select_atributes" :select_data="revenue_type.leaseagrm" @input="InputRentAndOtherCost"></multi-select-input>
-                        <multi-select-input title="Utilities" :select_atributes="user_input.select_atributes" :select_data="revenue_type.utilities" @input="InputUtilities"></multi-select-input>
+                        <multi-select-input 
+                            name="leaseagrm_multi_select" 
+                            title="Rent and other cost" 
+                            :select_atributes="user_input.select_atributes" 
+                            :select_data="revenue_type.leaseagrm" 
+                            :edit_data="multi_select_edit_data"
+                            @input="InputRentAndOtherCost"
+                        ></multi-select-input>
+                        <multi-select-input 
+                            name="utilities_multi_select" 
+                            title="Utilities" 
+                            :select_atributes="user_input.select_atributes" 
+                            :select_data="revenue_type.utilities" 
+                            :edit_data="multi_select_edit_data"
+                            @input="InputUtilities"
+                        ></multi-select-input>
                     </div>
 
                     <br>
@@ -442,7 +479,7 @@ Vue.component
                                         <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
                                     </div>
                                     <div class="col">
-                                        <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
+                                        <b>{{DateReformatDisplay(revenue_type.date)}}</b>
                                     </div>
                                     <div class="col">
                                         <b>Price</b>
@@ -471,9 +508,9 @@ Vue.component
                     </div>
                 </template>
 
-                <div class="row text-right" v-if="ValidInvoiceDetails">
+                <div class="row text-right" v-if="ValidInvoiceDetails && InvoiceDetails">
                     <div class="col">
-                        <button class="btn" title="Add New Invoice" @click="Submit"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
+                        <button class="btn" :title="edit_data?'Edit Invoice': 'Add New Invoice'" @click="Submit"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
                     </div>
                 </div>
             </div>

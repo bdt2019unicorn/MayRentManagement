@@ -3,6 +3,7 @@ Vue.component
     "number-input", 
     {
         props: ["edit_data", "lock", "name", "title"], 
+        mixins: [support_mixin], 
         data()
         {
             return {
@@ -111,7 +112,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
-                <input type="text" :style="lock?{pointerEvents: 'none'}:undefined" class="form-control" v-model="number_display">
+                <input type="text" :style="LockStyle" class="form-control" v-model="number_display">
                 <input type="text" hidden :name="name" v-model="number_value">
             </div>
         `

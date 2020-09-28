@@ -441,7 +441,7 @@ Vue.component
                                         <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
                                     </div>
                                     <div class="col">
-                                        <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
+                                        <b>{{DateReformatDisplay(revenue_type.date)}}</b>
                                     </div>
                                     <div class="col">
                                         <b>Price</b>
