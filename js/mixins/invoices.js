@@ -4,16 +4,16 @@ var invoices_mixin =
     data() 
     {
         return {
-            invoice: 
-            {
-                leaseagrm_id: undefined, 
-                name: undefined
-            }, 
-            invoice_details: 
-            {
-                leaseagrm: [], 
-                utilities: []
-            }, 
+            // invoice: 
+            // {
+            //     leaseagrm_id: undefined, 
+            //     name: undefined
+            // }, 
+            // invoice_details: 
+            // {
+            //     leaseagrm: [], 
+            //     utilities: []
+            // }, 
             invoice_information: 
             {
                 leaseagrm: {}, 
@@ -24,17 +24,17 @@ var invoices_mixin =
                 leaseagrm: [], 
                 utilities: []
             }, 
-            select_leaseagrm: true, 
+            // select_leaseagrm: true, 
             user_input: {}
         }; 
     },
     computed: 
     {
-        InvoiceDetails()
-        {
-            let invoice_complete = Object.values(this.invoice).map(value=>Boolean(value));
-            return !invoice_complete.includes(false);  
-        }, 
+        // InvoiceDetails()
+        // {
+        //     let invoice_complete = Object.values(this.invoice).map(value=>Boolean(value));
+        //     return !invoice_complete.includes(false);  
+        // }, 
         // ValidInvoiceDetails()
         // {
         //     let total_details = Object.values(this.invoice_details).reduce((accumulator, current_value)=>(accumulator+current_value.length), 0); 
@@ -58,7 +58,7 @@ var invoices_mixin =
         //         }
         //     ).map 
         //     (
-        //         ({amount, display, valid, title, ...rest})=>
+        //         ({amount, display, valid, title, row, ...rest})=>
         //         {
         //             return {
         //                 amount: amount.toString().replaceAll(",",""), 
@@ -85,7 +85,6 @@ var invoices_mixin =
         //     }; 
 
         //     let valid_details = Object.values(valid).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
-
         //     return (valid_details==total_details)?valid: false; 
         // }
     }, 
