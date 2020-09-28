@@ -7,7 +7,7 @@ Vue.component
         {
             return {
                 edit_data: undefined, 
-                user_input_invoice: false 
+                // user_input_invoice: false 
                  
             }
         },
@@ -25,14 +25,14 @@ Vue.component
 
             this.edit_data = 
             {
-                invoice: invoice, 
+                invoice: invoice[0], 
                 details: JSON.parse(invoice_details)
             }; 
         },
         template: 
         `
             <div>
-                <user-input-invoice v-if="user_input_invoice"></user-input-invoice>
+                <user-input-invoice v-if="edit_data" v-bind="$data"></user-input-invoice>
             </div>
         `
     }

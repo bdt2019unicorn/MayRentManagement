@@ -10,6 +10,10 @@ var support_mixin =
         {
             return `server/database_controller/import.php?import_controller=${this.CurrentController}`; 
         }, 
+        LockStyle()
+        {
+            return this.lock?{pointerEvents: 'none'}: undefined; 
+        }, 
         ObjectId()
         {
             return this.object_id || this.$route.query.id; 
