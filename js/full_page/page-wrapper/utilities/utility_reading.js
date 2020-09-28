@@ -142,7 +142,7 @@ Vue.component
                             (
                                 (resolve, reject)=>
                                 {
-                                    let apartments = this.select_data.apartments.map(apartment=>apartment); 
+                                    let apartments = R.clone(this.select_data.apartments); 
                                     this.select_data.apartments = undefined; 
                                     resolve(apartments); 
                                 }
