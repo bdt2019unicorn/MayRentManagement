@@ -76,8 +76,8 @@ Vue.component
 
                 var valid = 
                 {
-                    invoice_leaseagrm: leaseagrm, 
-                    invoice_utilities: utilities
+                    leaseagrm: leaseagrm, 
+                    utilities: utilities
                 }; 
 
                 let valid_details = Object.values(valid).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
@@ -268,6 +268,9 @@ Vue.component
 
             NewValueChangeValid(edit_data, name, new_value, reactive=false)
             {
+                console.log(name); 
+                console.log(new_value); 
+                console.log("some thing just changed"); 
                 new Promise
                 (
                     (resolve, reject)=>
@@ -528,3 +531,6 @@ Vue.component
 
 //https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax
 // https://www.youtube.com/watch?v=GWdOucfAzTo
+
+
+// https://www.digitalocean.com/community/tutorials/vuejs-add-v-model-support
