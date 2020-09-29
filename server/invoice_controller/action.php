@@ -39,7 +39,11 @@
                 }
                 return $selects; 
             }
-            $selects = ["leaseagrm" => ["*"], "utilities"=>SelectUtilities()]; 
+            $selects = 
+            [
+                "leaseagrm" => ["*", "`id` AS `edit_id`", "(SELECT `name` FROM `revenue_type` WHERE `revenue_type`.`id` = `revenue_type_id`) AS `title`"], 
+                "utilities"=>SelectUtilities()
+            ]; 
             $sql = ""; 
             foreach ($tables as $table) 
             {

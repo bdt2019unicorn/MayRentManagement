@@ -21,9 +21,7 @@ Vue.component
                 {
                     leaseagrm: {}, 
                     utilities: {}
-                }, 
-                multi_select_edit_data: undefined, 
-                select_leaseagrm: true, 
+                } 
             }; 
         },
         computed: 
@@ -86,29 +84,13 @@ Vue.component
                 return (valid_details==total_details)?valid: false; 
             }
         }, 
-        created() 
+        mounted() 
         {
             if(this.edit_data)
             {
                 this.invoice = R.clone(this.edit_data.invoice);  
                 this.invoice_details = R.clone(this.edit_data.details); 
                 this.InvoiceInformation(this.edit_data.invoice.leaseagrm_id); 
-                MultiSelectValues = (details_part)=>
-                {
-                    let values = this.edit_data.details[details_part].map(detail=>Number(detail.revenue_type_id)); 
-                    return JSON.stringify([...new Set(values)]); 
-                }; 
-                this.multi_select_edit_data = 
-                {
-                    leaseagrm_multi_select: MultiSelectValues("leaseagrm"), 
-                    utilities_multi_select: MultiSelectValues("utilities")
-                }; 
-            }
-        },
-        mounted() 
-        {
-            if(this.edit_data)
-            {
                 $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(this.edit_data.invoice.leaseagrm_id); 
             }
         },
@@ -134,6 +116,14 @@ Vue.component
                         (
                             revenue_type=>
                             {
+                                if(this.edit_data)
+                                {
+                                    let details = this.edit_data.details.leaseagrm.filter(detail=>detail.revenue_type_id==revenue_type.id); 
+                                    if(details.length>0)
+                                    {
+                                        return details; 
+                                    }
+                                }
                                 let details = 
                                 {
                                     display: true, 
@@ -202,7 +192,7 @@ Vue.component
                                 }
 
                             }
-                        ); 
+                        );                        
                         this.invoice_details.leaseagrm = [...leaseagrm_details, ...additional_details].sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
                     }
                 ); 
@@ -211,13 +201,9 @@ Vue.component
             InputUtilities(value)
             {
                 let revenue_type_ids = value.map(revenue_type=>revenue_type.id); 
-                if(this.edit_data)
+                InvoiceInformationDetails = ()=>
                 {
-                    this.invoice_details.utilities = this.invoice_details.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)); 
-                }
-                else 
-                {
-                    this.invoice_details.utilities = this.invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
+                    return this.invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
                     (
                         (details)=>
                         {
@@ -233,6 +219,22 @@ Vue.component
                             }
                         }
                     ); 
+                }; 
+                if(this.edit_data)
+                {
+                    let details_utilities = this.invoice_details.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)); 
+
+                    let edit_ids = details_utilities.map(detail=>detail.edit_id); 
+                    let edit_data_utilities = this.edit_data.details.utilities.filter(detail=>(!edit_ids.includes(detail.edit_id)) && (revenue_type_ids.includes(detail.revenue_type_id))); 
+
+                    let invoice_information_details = InvoiceInformationDetails(); 
+
+                    this.invoice_details.utilities = [...details_utilities, ...edit_data_utilities, ...invoice_information_details]; 
+
+                }
+                else 
+                {
+                    this.invoice_details.utilities = InvoiceInformationDetails(); 
                 }
             }, 
 
@@ -330,6 +332,7 @@ Vue.component
                     invoice: this.invoice, 
                     details: this.ValidInvoiceDetails
                 }
+                this.$emit("invoice-submit", invoice); 
 
                 // let url = "server/invoice_controller/import.php"; 
                 // let result = this.SubmitData("invoices", url, invoice); 
@@ -376,10 +379,10 @@ Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>Add New Invoice</h1>
+                <h1><slot name="title">Add New Invoice</slot></h1>
                 <br>
                 <div class="row" ref="leaseagrm_id_select">
-                    <select-input v-if="select_leaseagrm" v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged" :lock="edit_data"></select-input>
+                    <select-input v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged" :lock="edit_data"></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -388,6 +391,8 @@ Vue.component
                         <input class="form-control" name="name" v-model="invoice.name">
                     </div>
                 </div>
+
+                <slot name="invoice_information" :invoice="invoice"></slot>
 
                 <template v-if="!edit_data">
                     <hr>
@@ -417,7 +422,7 @@ Vue.component
                             title="Rent and other cost" 
                             :select_atributes="user_input.select_atributes" 
                             :select_data="revenue_type.leaseagrm" 
-                            :edit_data="multi_select_edit_data"
+                            :edit_data="edit_data.multi_select"
                             @input="InputRentAndOtherCost"
                         ></multi-select-input>
                         <multi-select-input 
@@ -425,7 +430,7 @@ Vue.component
                             title="Utilities" 
                             :select_atributes="user_input.select_atributes" 
                             :select_data="revenue_type.utilities" 
-                            :edit_data="multi_select_edit_data"
+                            :edit_data="edit_data.multi_select"
                             @input="InputUtilities"
                         ></multi-select-input>
                     </div>
@@ -517,3 +522,9 @@ Vue.component
         `
     }
 ); 
+
+
+
+
+//https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax
+// https://www.youtube.com/watch?v=GWdOucfAzTo

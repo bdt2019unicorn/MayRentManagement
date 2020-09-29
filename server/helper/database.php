@@ -23,7 +23,7 @@
 
         static public function Update($table, $data, $conditions)
         {
-            return "UPDATE `{$table}`" . Query::Cause("SET", $data, ",") . Query::Cause("WHERE", $conditions, "AND"); 
+            return "UPDATE `{$table}`" . Query::Cause("SET", $data, ",") . Query::Cause("WHERE", $conditions, "AND") . ";"; 
 		}
 		
 		static public function Delete($table, $id_column, $ids)
