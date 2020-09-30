@@ -1,14 +1,9 @@
 <?php 
-    require_once("../helper/database.php"); 
+    require_once("./helper.php"); 
 
     $invoices = json_decode($_POST["invoices"], true); 
 
-    $queries = 
-    [
-        "insert"=>[], 
-        "update"=>[], 
-        "delete"=>[]
-    ]; 
+    $queries = []; 
 
     if($invoices["new_data"]["invoice"]!=$invoices["edit_data"]["invoice"])
     {
@@ -23,7 +18,7 @@
             }
         }
         $sql = Query::Update("invoices", $data, $conditions); 
-        array_push($queries["update"], $sql); 
+        array_push($sql); 
     }
 
     $invoice_id = $invoices["new_data"]["invoice"]["id"]; 
@@ -50,16 +45,9 @@
         {
             if(isset($row["edit_id"]))
             {
-                // update 
                 $edit_id = $row["edit_id"]; 
                 $index = $edit_data_details[$table][$edit_id]; 
                 $old_row = $invoices["edit_data"]["details"][$table][$index]; 
-                echo '<pre>'; 
-                print_r($old_row); 
-                echo '<b>*****************</b>'; 
-                print_r($row); 
-                echo '<b>-----------------</b>'; 
-                echo '</pre>'; 
                 $data = []; 
                 foreach ($table_columns[$table] as $column) 
                 {
@@ -68,27 +56,57 @@
                         $data[$column] = $row[$column]; 
                     }
                 }
-                echo '<h3>Final data </h3>'; 
-                echo '<pre>'; 
-                print_r($data); 
-                echo '</pre>'; 
-                echo '<h3>////////////</h3>'; 
+
+                if(count($data)>0)
+                {
+                    $conditions = ["id"=>$edit_id]; 
+                    $sql = Query::Update("invoice_{$table}", $data, $conditions); 
+                    array_push($queries, $sql); 
+                }
+                unset($edit_data_details[$table][$edit_id]); 
             }
             else 
             {
-                // insert 
+                $data = $row; 
+                $data["invoice_id"] = $invoice_id; 
+                $sql = Query::Insert("invoice_{$table}", $data); 
+                array_push($queries, $sql); 
             }
         }
     }
 
+    foreach ($edit_data_details as $table => $rows) 
+    {
+        if(count($rows)>0)
+        {
+            $delete_ids = array_keys($rows); 
+            $sql = "DELETE FROM `invoice_{$table}` WHERE `id` IN ('" . implode("', '", $delete_ids) ."');"; 
+            array_push($queries, $sql);  
+        }
+    }
 
-    echo '<pre>'; 
-    print_r($invoices); 
 
-    print_r($edit_data_details); 
+    $result = Connect::ExecTransaction($queries); 
+    if($result)
+    {
+        $sql = Query::GeneralData("invoices", $invoice_id); 
+        $sql.="\n" . InvoiceInformationSql($invoice_id); 
 
-    print_r($queries); 
-    echo '</pre>'; 
+        $edit_data = Connect::MultiQuery($sql, true); 
 
-
+        $result = 
+        [
+            "invoice"=>$edit_data[0][0], 
+            "details"=>
+            [
+                "leaseagrm"=>$edit_data[1], 
+                "utilities"=>$edit_data[2]
+            ]
+        ]; 
+        echo json_encode($result); 
+    }
+    else 
+    {
+        echo $result; 
+    }
 ?>
