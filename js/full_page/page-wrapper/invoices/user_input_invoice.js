@@ -268,9 +268,6 @@ Vue.component
 
             NewValueChangeValid(edit_data, name, new_value, reactive=false)
             {
-                console.log(name); 
-                console.log(new_value); 
-                console.log("some thing just changed"); 
                 new Promise
                 (
                     (resolve, reject)=>

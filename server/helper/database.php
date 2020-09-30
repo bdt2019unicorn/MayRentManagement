@@ -56,7 +56,7 @@
                 $sql.= " WHERE `{$id_field}`='{$id}'"; 
             }
 
-            return $sql; 
+            return $sql.";"; 
         }
 
         static private function Cause($cause, $data, $separator)
