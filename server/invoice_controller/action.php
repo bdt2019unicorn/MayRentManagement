@@ -110,13 +110,15 @@
                     SELECT *, (SELECT MAX(`date`) FROM `utility_reading` AS `ur` WHERE `utility_reading`.`date`>`ur`.`date`) AS `previous_date`
                     FROM `utility_reading` WHERE `apartment_id`=@apartment_id ORDER BY `revenue_type_id`
                 ); 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `all_utility_reading_temp` AS (SELECT * FROM `all_utility_reading`); 
                     
                 CREATE TEMPORARY TABLE IF NOT EXISTS `all_utility_reading_with_numbers` AS 
                 (
                     SELECT 
                         *, 
                         (
-                            SELECT `number` FROM `all_utility_reading` AS `aur` 
+                            SELECT `number` FROM `all_utility_reading_temp` AS `aur` 
                             WHERE 
                                 `all_utility_reading`.`previous_date` = `aur`.`date` AND 
                                 `all_utility_reading`.`revenue_type_id` = `aur`.`revenue_type_id`
@@ -150,17 +152,19 @@
                         `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `leaseagrm_id` = @leaseagrm_id) 
                         AND `revenue_type_id` = '1' 
                 ); 
+
+                CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_leaseagrm_rent_search_temp` AS (SELECT * FROM `invoice_leaseagrm_rent_search`);
                 
                 CREATE TEMPORARY TABLE IF NOT EXISTS `rent_start_not_in_end` AS
                 (
                     SELECT `start_date` FROM `invoice_leaseagrm_rent_search`
-                    WHERE `start_date` NOT IN (SELECT `end_date` FROM `invoice_leaseagrm_rent_search`)
+                    WHERE `start_date` NOT IN (SELECT `end_date` FROM `invoice_leaseagrm_rent_search_temp`)
                 ); 
                                 
                 CREATE TEMPORARY TABLE IF NOT EXISTS `rent_end_not_in_start` AS
                 (
                     SELECT `end_date` FROM `invoice_leaseagrm_rent_search`
-                    WHERE `end_date` NOT IN (SELECT `start_date` FROM `invoice_leaseagrm_rent_search`)
+                    WHERE `end_date` NOT IN (SELECT `start_date` FROM `invoice_leaseagrm_rent_search_temp`)
                 ); 
 
                 SET @minimum_start_date = (SELECT MIN(`start_date`) FROM `rent_start_not_in_end`); 
