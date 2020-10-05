@@ -89,16 +89,20 @@ INSERT INTO `expense_type` (`id`, `name`) VALUES
 (8, 'Cash payback to tenants'),
 (9, 'Other');
 
-DROP TABLE IF EXISTS `invoice`;
-CREATE TABLE IF NOT EXISTS `invoice` (
+DROP TABLE IF EXISTS `invoices`;
+CREATE TABLE IF NOT EXISTS `invoices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `leaseagrm_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `apartment` (`leaseagrm_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE `invoice`;
+TRUNCATE TABLE `invoices`;
+INSERT INTO `invoices` (`id`, `name`, `leaseagrm_id`) VALUES
+(8, '1-23 Sep 2020', 1),
+(15, '2-29 Sep 2020', 2);
+
 DROP TABLE IF EXISTS `invoice_leaseagrm`;
 CREATE TABLE IF NOT EXISTS `invoice_leaseagrm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -113,30 +117,34 @@ CREATE TABLE IF NOT EXISTS `invoice_leaseagrm` (
   PRIMARY KEY (`id`),
   KEY `invoice_id` (`invoice_id`),
   KEY `revenue_type_id` (`revenue_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 
 TRUNCATE TABLE `invoice_leaseagrm`;
+INSERT INTO `invoice_leaseagrm` (`id`, `name`, `revenue_type_id`, `invoice_id`, `start_date`, `end_date`, `price`, `quantity`, `amount`) VALUES
+(26, 'Rent (14 Sep 2020 - 30 Sep 2020)', 1, 8, '2020-09-14', '2020-09-30', '11111.000', '0.533', '5922.163');
+
 DROP TABLE IF EXISTS `invoice_utilities`;
 CREATE TABLE IF NOT EXISTS `invoice_utilities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `revenue_type_id` int(11) NOT NULL,
   `invoice_id` int(11) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `current_utility_reading_id` int(11) NOT NULL,
-  `past_utility_reading_id` int(11) NOT NULL,
+  `utility_reading_id` int(11) NOT NULL,
+  `revenue_type_id` int(11) NOT NULL,
   `price` decimal(13,3) NOT NULL,
   `quantity` decimal(13,3) NOT NULL,
   `amount` decimal(13,3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`),
   KEY `invoice_id` (`invoice_id`),
-  KEY `current_utility_reading_id` (`current_utility_reading_id`),
-  KEY `past_utility_reading_id` (`past_utility_reading_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `utility_reading_id` (`utility_reading_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 TRUNCATE TABLE `invoice_utilities`;
+INSERT INTO `invoice_utilities` (`id`, `name`, `invoice_id`, `utility_reading_id`, `revenue_type_id`, `price`, `quantity`, `amount`) VALUES
+(11, 'G01 - Electricity 16 Sep 2020 - 20 Sep 2020', 8, 7, 2, '21.000', '6.000', '126.000'),
+(12, 'G01 - Water 16 Sep 2020 - 20 Sep 2020', 8, 8, 3, '32.000', '6.000', '192.000'),
+(13, 'G02 - Electricity 21 Sep 2020 - 28 Sep 2020', 15, 11, 2, '31.000', '11.000', '341.000');
+
 DROP TABLE IF EXISTS `leaseagrm`;
 CREATE TABLE IF NOT EXISTS `leaseagrm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -212,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `tenant` (
   `Company_Name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Company_address` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 TRUNCATE TABLE `tenant`;
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`) VALUES
@@ -250,9 +258,17 @@ CREATE TABLE IF NOT EXISTS `utility_price` (
   `date_enter` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
 TRUNCATE TABLE `utility_price`;
+INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`) VALUES
+(8, 2, '11.000', '2020-09-01', '2020-09-20'),
+(9, 3, '22.000', '2020-09-02', '2020-09-20'),
+(10, 2, '21.000', '2020-09-15', '2020-09-20'),
+(11, 3, '32.000', '2020-09-16', '2020-09-20'),
+(12, 2, '31.000', '2020-09-19', '2020-09-20'),
+(13, 3, '42.000', '2020-09-19', '2020-09-20');
+
 DROP TABLE IF EXISTS `utility_reading`;
 CREATE TABLE IF NOT EXISTS `utility_reading` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -263,9 +279,19 @@ CREATE TABLE IF NOT EXISTS `utility_reading` (
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`),
   KEY `apartment_id` (`apartment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
 TRUNCATE TABLE `utility_reading`;
+INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `apartment_id`, `date`, `number`) VALUES
+(5, 2, 2, '2020-09-16 23:11:00', '5.000'),
+(6, 3, 2, '2020-09-16 23:11:00', '6.000'),
+(7, 2, 2, '2020-09-20 23:12:00', '11.000'),
+(8, 3, 2, '2020-09-20 23:12:00', '12.000'),
+(9, 2, 3, '2020-09-21 21:00:00', '0.000'),
+(10, 3, 3, '2020-09-21 21:00:00', '0.000'),
+(11, 2, 3, '2020-09-28 21:00:00', '11.000'),
+(12, 3, 3, '2020-09-28 21:00:00', '22.000');
+
 
 ALTER TABLE `apartment`
   ADD CONSTRAINT `apartment_ibfk_1` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -274,18 +300,17 @@ ALTER TABLE `expense`
   ADD CONSTRAINT `expense_ibfk_1` FOREIGN KEY (`expense_type_id`) REFERENCES `expense_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `expense_ibfk_2` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE `invoice`
-  ADD CONSTRAINT `invoice_ibfk_1` FOREIGN KEY (`leaseagrm_id`) REFERENCES `leaseagrm` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `invoices`
+  ADD CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`leaseagrm_id`) REFERENCES `leaseagrm` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `invoice_leaseagrm`
   ADD CONSTRAINT `invoice_leaseagrm_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `invoice_leaseagrm_ibfk_2` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `invoice_leaseagrm_ibfk_2` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `invoice_utilities`
-  ADD CONSTRAINT `invoice_utilities_ibfk_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `invoice_utilities_ibfk_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `invoice_utilities_ibfk_2` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `invoice_utilities_ibfk_3` FOREIGN KEY (`past_utility_reading_id`) REFERENCES `utility_reading` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `invoice_utilities_ibfk_4` FOREIGN KEY (`current_utility_reading_id`) REFERENCES `utility_reading` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `invoice_utilities_ibfk_3` FOREIGN KEY (`utility_reading_id`) REFERENCES `utility_reading` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `leaseagrm`
   ADD CONSTRAINT `leaseagrm_ibfk_1` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
