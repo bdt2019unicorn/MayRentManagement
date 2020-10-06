@@ -2,14 +2,7 @@ Vue.component
 (
     "invoice-utilities",
     {
-        props: ["edit_data", "invoice_information", "list", "revenue_type"], 
-        mixins: [support_mixin], 
-        data() 
-        {
-            return {
-                invoice_details: []
-            }; 
-        },
+        mixins: [user_input_invoice_component_mixin], 
         computed: 
         {
             ValidInvoiceDetails()
@@ -25,10 +18,6 @@ Vue.component
                     )
                 ); 
             }    
-        },
-        created() 
-        {
-            this.PopulateList(this.list);     
         },
         methods: 
         {
@@ -71,17 +60,6 @@ Vue.component
                     this.invoice_details = InvoiceInformationDetails(); 
                 }
             }
-        },
-        watch: 
-        {
-            list: function(new_value, old_value)
-            {
-                this.PopulateList(new_value); 
-            }, 
-            ValidInvoiceDetails: function(new_value, old_value)
-            {
-                this.$emit("input", new_value); 
-            }  
         },
         template: 
         `
