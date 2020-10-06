@@ -13,31 +13,27 @@ var user_input_components_mixin =
     }, 
     methods: 
     {
-        BringEditData(callback=undefined)
+        BringEditData(callback="")
         {
-            if(this.edit_data)
-            {
-                this.value = this.edit_data[this.name]; 
-            }   
-            eval(callback);  
+            let script = 
+            `
+                if(this.edit_data)
+                {
+                    this.value = this.edit_data[this.name]; 
+                }   
+                ${callback}
+            `; 
+            eval(script);  
         }    
     },
     watch: 
     {
-        $attrs: function(new_value, old_value)
-        {
-            if(new_value.value!=old_value.value)
-            {
-                this.value = new_value.value; 
-            }
-        }, 
         $route: function(new_value, old_value)
         {
             this.value = ""; 
         }, 
         value: function(new_value, old_value)
         {
-            this.$emit("input", new_value); 
             if(this.edit_data)
             {
                 if(this.edit_data[this.name]!=new_value)
@@ -71,6 +67,10 @@ var user_input_components_v_model_support_mixin =
             {
                 this.value = new_value.value; 
             }
+        }, 
+        value: function(new_value, old_value)
+        {
+            this.$emit("input", new_value); 
         }
     }
 }
