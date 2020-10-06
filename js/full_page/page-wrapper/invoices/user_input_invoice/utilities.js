@@ -2,7 +2,7 @@ Vue.component
 (
     "invoice-utilities",
     {
-        props: ["apartment_name", "edit_data", "invoice_information", "list"], 
+        props: ["edit_data", "invoice_information", "list", "revenue_type"], 
         mixins: [support_mixin], 
         data() 
         {
@@ -26,15 +26,15 @@ Vue.component
                 ); 
             }    
         },
+        created() 
+        {
+            this.PopulateList(this.list);     
+        },
         methods: 
         {
-            
-        },
-        watch: 
-        {
-            list: function(new_value, old_value)
+            PopulateList(value)
             {
-                let revenue_type_ids = new_value.map(revenue_type=>revenue_type.id); 
+                let revenue_type_ids = value.map(revenue_type=>revenue_type.id); 
                 InvoiceInformationDetails = ()=>
                 {
                     return this.invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
@@ -70,11 +70,22 @@ Vue.component
                 {
                     this.invoice_details = InvoiceInformationDetails(); 
                 }
-            }    
+            }
+        },
+        watch: 
+        {
+            list: function(new_value, old_value)
+            {
+                this.PopulateList(new_value); 
+            }, 
+            ValidInvoiceDetails: function(new_value, old_value)
+            {
+                this.$emit("input", new_value); 
+            }  
         },
         template: 
         `
-            <div class="row">
+            <div class="row" v-if="invoice_details.length>0">
                 <div class="col">
                     <h4>Utilities</h4>
                     <template v-for="revenue_type in invoice_details">
