@@ -21,7 +21,12 @@ Vue.component
                 {
                     leaseagrm: {}, 
                     utilities: {}
-                } 
+                }, 
+                list: 
+                {
+                    leaseagrm: [], 
+                    utilities: []
+                }
             }; 
         },
         computed: 
@@ -63,21 +68,21 @@ Vue.component
                     }
                 ); 
 
-                let utilities = this.invoice_details.utilities.map 
-                (
-                    ({revenue_type, date, previous_date, number, previous_number, id, apartment_id, ...rest})=>
-                    (
-                        {
-                            utility_reading_id: id, 
-                            ...rest
-                        }
-                    )
-                ); 
+                // let utilities = this.invoice_details.utilities.map 
+                // (
+                //     ({revenue_type, date, previous_date, number, previous_number, id, apartment_id, ...rest})=>
+                //     (
+                //         {
+                //             utility_reading_id: id, 
+                //             ...rest
+                //         }
+                //     )
+                // ); 
 
                 var valid = 
                 {
                     leaseagrm: leaseagrm, 
-                    utilities: utilities
+                    utilities: []
                 }; 
 
                 let valid_details = Object.values(valid).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
@@ -244,16 +249,16 @@ Vue.component
                 this.invoice_information = JSON.parse(invoice_information); 
             }, 
 
-            LeaseagrmIdSelectChanged()
+            LeaseagrmIdSelectChanged(leaseagrm_id)
             {
                 new Promise 
                 (
                     (resolve, reject)=>
                     {
-                        let leaseagrm_id = this.invoice.leaseagrm_id; 
                         this.invoice.leaseagrm_id = undefined; 
                         this.InvoiceInformation(leaseagrm_id); 
                         Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
+                        Object.keys(this.list).forEach(key=>this.list[key]=[]); 
                         resolve(leaseagrm_id);  
                     }
                 ).then 
@@ -336,8 +341,8 @@ Vue.component
             <div class="container-fluid">
                 <h1><slot name="title">Add New Invoice</slot></h1>
                 <br>
-                <div class="row" ref="leaseagrm_id_select">
-                    <select-input v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged" :lock="edit_data" v-model="invoice.leaseagrm_id"></select-input>
+                <div class="row">
+                    <select-input v-bind="user_input.leaseagrm_id" @input="LeaseagrmIdSelectChanged" :lock="edit_data"></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -364,7 +369,7 @@ Vue.component
                             :select_atributes="user_input.select_atributes" 
                             :select_data="revenue_type.utilities" 
                             :edit_data="edit_data?edit_data.multi_select:undefined"
-                            @input="InputUtilities"
+                            v-model="list.utilities"
                         ></multi-select-input>
                     </div>
 
