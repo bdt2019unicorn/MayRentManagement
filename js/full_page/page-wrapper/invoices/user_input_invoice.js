@@ -250,7 +250,7 @@ Vue.component
                 (
                     (resolve, reject)=>
                     {
-                        let leaseagrm_id = $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(); 
+                        let leaseagrm_id = this.invoice.leaseagrm_id; 
                         this.invoice.leaseagrm_id = undefined; 
                         this.InvoiceInformation(leaseagrm_id); 
                         Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
@@ -328,18 +328,6 @@ Vue.component
                     details: this.ValidInvoiceDetails
                 }
                 this.$emit("invoice-submit", invoices); 
-            }, 
-
-            ValidPeriod(start_period, end_period, equal=false)
-            {
-                [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
-
-                let [str_start, str_end] = [start_period, end_period].map(moment_object=>this.DateReformatDatabase(moment_object)); 
-                if((str_start==str_end) && equal)
-                {
-                    return true; 
-                }
-                return moment(str_end)>moment(str_start); 
             }
         },
 
@@ -349,7 +337,7 @@ Vue.component
                 <h1><slot name="title">Add New Invoice</slot></h1>
                 <br>
                 <div class="row" ref="leaseagrm_id_select">
-                    <select-input v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged" :lock="edit_data"></select-input>
+                    <select-input v-bind="user_input.leaseagrm_id" @search-data-changed="LeaseagrmIdSelectChanged" :lock="edit_data" v-model="invoice.leaseagrm_id"></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -445,4 +433,3 @@ Vue.component
         `
     }
 ); 
-// https://www.digitalocean.com/community/tutorials/vuejs-add-v-model-support
