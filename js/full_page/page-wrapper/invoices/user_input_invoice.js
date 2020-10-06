@@ -36,12 +36,19 @@ Vue.component
             {
                 let invoice_complete = Object.values(this.invoice).map(value=>Boolean(value));
                 return !invoice_complete.includes(false);  
+            }, 
+            ValidInvoiceDetails()
+            {
+                if(this.ValidObject(this.invoice_details))
+                {
+                    let total_details = Object.values(this.invoice_details).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
+                    return (total_details>0)?this.invoice_details: false; 
+                }
+                return false; 
             }
         }, 
         mounted() 
         {
-            console.log(this.$props); 
-            //need to do something with this so we can work something out for binding the thing 
             if(this.edit_data)
             {
                 this.invoice = R.clone(this.edit_data.invoice);  
@@ -55,13 +62,12 @@ Vue.component
             BindObjectComponent(property)
             {
                 return {
-                    edit_data: this.edit_data, 
+                    ...this.$props, 
                     invoice_information: this.invoice_information,
                     list: this.list[property],
-                    revenue_type: this.revenue_type,
-                    user_input: this.user_input
                 }
             }, 
+
             BindObjectMultiSelect(property)
             {
                 let title = 
@@ -77,6 +83,15 @@ Vue.component
                     edit_data: this.edit_data?this.edit_data.multi_select:undefined
                 }
             }, 
+
+            InputMultiSelect(property)
+            {
+                if(this.list[property].length==0)
+                {
+                    this.invoice_details[property] = []; 
+                }
+            }, 
+
             InvoiceInformation(leaseagrm_id)
             {
                 let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`); 
@@ -136,21 +151,15 @@ Vue.component
                     <br>
                     <div class="row">
                         <multi-select-input 
-                            name="leaseagrm_multi_select" 
-                            title="Rent and other cost" 
-                            :select_atributes="user_input.select_atributes" 
-                            :select_data="revenue_type.leaseagrm" 
-                            :edit_data="edit_data?edit_data.multi_select:undefined"
+                            v-bind="BindObjectMultiSelect('leaseagrm')" 
                             v-model="list.leaseagrm"
+                            @search-data-changed="InputMultiSelect('leaseagrm')"
                         ></multi-select-input>
                         <multi-select-input 
-                            name="utilities_multi_select" 
-                            title="Utilities" 
-                            :select_atributes="user_input.select_atributes" 
-                            :select_data="revenue_type.utilities" 
-                            :edit_data="edit_data?edit_data.multi_select:undefined"
+                            v-bind="BindObjectMultiSelect('utilities')" 
                             v-model="list.utilities"
-                        ></multi-select-input>
+                            @search-data-changed="InputMultiSelect('utilities')"
+                            ></multi-select-input>
                     </div>
 
                     <br>
@@ -170,7 +179,7 @@ Vue.component
                     ></invoice-utilities>
                 </template>
 
-                <div class="row text-right" v-if="ValidObject(invoice_details) && InvoiceDetails">
+                <div class="row text-right" v-if="ValidInvoiceDetails && InvoiceDetails">
                     <div class="col">
                         <button class="btn" :title="edit_data?'Edit Invoice': 'Add New Invoice'" @click="Submit"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
                     </div>

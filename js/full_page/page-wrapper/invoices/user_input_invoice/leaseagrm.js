@@ -2,14 +2,8 @@ Vue.component
 (
     "invoice-leaseagrm", 
     {
-        props: ["edit_data", "invoice_information", "list", "revenue_type", "user_input"], 
-        mixins: [support_mixin], 
-        data() 
-        {
-            return {
-                invoice_details: []
-            }; 
-        },
+        props: ["user_input"], 
+        mixins: [user_input_invoice_component_mixin], 
         computed: 
         {
             ValidInvoiceDetails()
@@ -49,7 +43,7 @@ Vue.component
         },
         created() 
         {
-            this.PopulateList(this.list);     
+            this.$emit("input", this.ValidInvoiceDetails); 
         },
         methods: 
         {
@@ -209,17 +203,6 @@ Vue.component
 
                 return quatity.toFixed(3); 
             }
-        },
-        watch: 
-        {
-            list: function(new_value, old_value)
-            {
-                this.PopulateList(new_value); 
-            }, 
-            ValidInvoiceDetails: function(new_value, old_value)
-            {
-                this.$emit("input", new_value); 
-            }  
         },
         template: 
         `
