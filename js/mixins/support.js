@@ -133,6 +133,17 @@ var support_mixin =
         ValidObject(object)
         {
             return !(Object.values(object).includes(false));
+        }, 
+        ValidPeriod(start_period, end_period, equal=false)
+        {
+            [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+
+            let [str_start, str_end] = [start_period, end_period].map(moment_object=>this.DateReformatDatabase(moment_object)); 
+            if((str_start==str_end) && equal)
+            {
+                return true; 
+            }
+            return moment(str_end)>moment(str_start); 
         }
     } 
 }; 
