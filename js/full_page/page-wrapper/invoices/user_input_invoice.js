@@ -299,11 +299,6 @@ Vue.component
                 ); 
             }, 
 
-            NumeralFormat(number)
-            {
-                return numeral(number).format("0,0[.]000"); 
-            }, 
-
             RentQuantityCalculation(start_period, end_period)
             {
                 var quatity = 0; 
@@ -327,40 +322,12 @@ Vue.component
 
             Submit()
             {
-                let invoice = 
+                let invoices = 
                 {
                     invoice: this.invoice, 
                     details: this.ValidInvoiceDetails
                 }
-                this.$emit("invoice-submit", invoice); 
-
-                // let url = "server/invoice_controller/import.php"; 
-                // let result = this.SubmitData("invoices", url, invoice); 
-                // if(Number(result))
-                // {
-                //     alert("Add Invoice Success!"); 
-                //     new Promise
-                //     (
-                //         (resolve, reject)=>
-                //         {
-                //             this.select_leaseagrm = false; 
-                //             Object.keys(this.invoice).forEach(key=>this.invoice[key]=undefined); 
-                //             Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
-                //             Object.keys(this.invoice_information).forEach(key=>this.invoice_information[key]={});
-                //             resolve(); 
-                //         }
-                //     ).then
-                //     (
-                //         ()=>
-                //         {
-                //             this.select_leaseagrm = true; 
-                //         }
-                //     ); 
-                // }
-                // else
-                // {
-                //     alert("Add Invoice Fails! Please try again"); 
-                // }
+                this.$emit("invoice-submit", invoices); 
             }, 
 
             ValidPeriod(start_period, end_period, equal=false)
@@ -386,32 +353,10 @@ Vue.component
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col form-group">
-                        <label for="name"><b>Invoice Name</b></label>
-                        <input class="form-control" name="name" v-model="invoice.name">
-                    </div>
+                    <text-input name="name" v-model="invoice.name" title="Invoice Name"></text-input>
                 </div>
 
-                <slot name="invoice_information" :invoice="invoice"></slot>
-
-                <template v-if="!edit_data">
-                    <hr>
-                    <div v-if="invoice.leaseagrm_id" class="row">
-                        <div class="col text-center">
-                            <p><b>Total</b></p>
-                            <p>{{NumeralFormat(Number(invoice_information.leaseagrm.total_amount)||0)}}</p>
-                        </div>
-                        <div class="col text-center">
-                            <p><b>Paid</b></p>
-                            <p>{{NumeralFormat(Number(invoice_information.leaseagrm.paid_amount)||0)}}</p>
-                        </div>
-                        <div class="col text-center">
-                            <p><b>Difference</b></p>
-                            <p>{{NumeralFormat(Number(invoice_information.leaseagrm.difference)||0)}}</p>
-                        </div>
-                    </div>
-                </template>
-
+                <slot name="invoice_information" :invoice="invoice" :invoice_information="invoice_information"></slot>
                 <hr>
                 <template v-if="edit_data||InvoiceDetails">
                     <h2>Invoice Details</h2>
@@ -422,7 +367,7 @@ Vue.component
                             title="Rent and other cost" 
                             :select_atributes="user_input.select_atributes" 
                             :select_data="revenue_type.leaseagrm" 
-                            :edit_data="edit_data.multi_select"
+                            :edit_data="edit_data?edit_data.multi_select:undefined"
                             @input="InputRentAndOtherCost"
                         ></multi-select-input>
                         <multi-select-input 
@@ -430,7 +375,7 @@ Vue.component
                             title="Utilities" 
                             :select_atributes="user_input.select_atributes" 
                             :select_data="revenue_type.utilities" 
-                            :edit_data="edit_data.multi_select"
+                            :edit_data="edit_data?edit_data.multi_select:undefined"
                             @input="InputUtilities"
                         ></multi-select-input>
                     </div>
@@ -469,43 +414,21 @@ Vue.component
                             <template v-for="revenue_type in invoice_details.utilities">
                                 <br>
                                 <div class="row">
-                                    <div class="col">
-                                        <h5>{{revenue_type.name}}</h5>
-                                    </div>
-                                    <div class="col">
-                                        <h5>{{revenue_type.revenue_type}}</h5>
-                                    </div>
-                                    <div>
-                                        <h5>{{revenue_type.amount}}</h5>
-                                    </div>
+                                    <div class="col"><h5>{{revenue_type.name}}</h5></div>
+                                    <div class="col"><h5>{{revenue_type.revenue_type}}</h5></div>
+                                    <div><h5>{{revenue_type.amount}}</h5></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
-                                        <b>{{DateReformatDisplay(revenue_type.previous_date)}}</b>
-                                    </div>
-                                    <div class="col">
-                                        <b>{{DateReformatDisplay(revenue_type.date)}}</b>
-                                    </div>
-                                    <div class="col">
-                                        <b>Price</b>
-                                    </div>
-                                    <div class="col">
-                                        <b>Quantity</b>
-                                    </div>
+                                    <div class="col"><b>{{DateReformatDisplay(revenue_type.previous_date)}}</b></div>
+                                    <div class="col"><b>{{DateReformatDisplay(revenue_type.date)}}</b></div>
+                                    <div class="col"><b>Price</b></div>
+                                    <div class="col"><b>Quantity</b></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
-                                        {{revenue_type.previous_number}}
-                                    </div>
-                                    <div class="col">
-                                        {{revenue_type.number}}
-                                    </div>
-                                    <div class="col">
-                                        {{revenue_type.price}}
-                                    </div>
-                                    <div class="col">
-                                        {{revenue_type.quantity}}
-                                    </div>
+                                    <div class="col">{{revenue_type.previous_number}}</div>
+                                    <div class="col">{{revenue_type.number}}</div>
+                                    <div class="col">{{revenue_type.price}}</div>
+                                    <div class="col">{{revenue_type.quantity}}</div>
                                 </div>
                                 <hr>
                             </template>
@@ -522,12 +445,4 @@ Vue.component
         `
     }
 ); 
-
-
-
-
-//https://vuejs.org/v2/guide/components-slots.html#Deprecated-Syntax
-// https://www.youtube.com/watch?v=GWdOucfAzTo
-
-
 // https://www.digitalocean.com/community/tutorials/vuejs-add-v-model-support

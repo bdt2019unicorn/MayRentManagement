@@ -3,7 +3,7 @@ Vue.component
     "select-input", 
     {
         props: ["edit_data", "lock", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
-        mixins: [user_input_components_mixin], 
+        mixins: [user_input_components_v_model_support_mixin], 
         data() 
         {
             return {
@@ -145,7 +145,7 @@ Vue.component
     "checkbox-input", 
     {
         props: ["edit_data", "name", "title"], 
-        mixins: [user_input_components_mixin], 
+        mixins: [user_input_components_v_model_support_mixin], 
         template: 
         `
             <div class="form-group col">

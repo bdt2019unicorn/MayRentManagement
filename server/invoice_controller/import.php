@@ -8,7 +8,7 @@
     {
         foreach ($values as $data) 
         {
-            array_push($queries, Query::Insert($table, $data, ["invoice_id"=>"@invoice_id"])); 
+            array_push($queries, Query::Insert("invoice_$table", $data, ["invoice_id"=>"@invoice_id"])); 
         }
     }
     $result = Connect::ExecTransaction($queries); 
