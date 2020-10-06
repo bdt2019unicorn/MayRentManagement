@@ -72,6 +72,12 @@ var support_mixin =
             based_classes.push((item_value==compared_value)?good_class: bad_class); 
             return based_classes; 
         }, 
+
+        NumeralFormat(number)
+        {
+            return numeral(number).format("0,0[.]000"); 
+        }, 
+        
         OverviewDataUrl(overview_controller, params=undefined)
         {
             params = 

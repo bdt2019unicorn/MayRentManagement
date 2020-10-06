@@ -114,8 +114,3 @@ Vue.component
         `
     }
 ); 
-
-
-//<template slot="invoice_information" slot-scope="{ invoice }">
-//<b>{{invoice}}</b>
-//</template>
