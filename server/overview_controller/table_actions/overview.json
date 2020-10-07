@@ -1,6 +1,6 @@
 {
     "date_compare_now": ["Paid Until"], 
-    "hidden_columns": ["Rent Until Value", "leaseid", "Paid Until Value", "tenantid"], 
+    "hidden_columns": ["leaseid","ocupants_ids", "Payment Status Value", "Rental Status Value", "tenantid"], 
     "hyperlink": 
     {
         "Apartment Name":
@@ -13,7 +13,7 @@
             "to": "tenant/edit", 
             "object_id": "tenantid"
         }, 
-        "Rent Until":
+        "Rental Status":
         {
             "to": "leaseagrm/edit", 
             "object_id": "leaseid"
@@ -21,11 +21,11 @@
     }, 
     "hyperlink_list": ["Ocupant Name"], 
     "page_title": "Overview", 
-    "search": ["Apartment Name", "Tenant Name", "Rent Until", "Paid Until"], 
+    "search": ["Apartment Name", "Tenant Name", "Rental Status", "Payment Status"], 
     "sort": 
     {
-        "Rent Until": "Rent Until Value", 
-        "Paid Until": "Paid Until Value", 
+        "Rental Status": "Rental Status Value", 
+        "Payment Status": "Payment Status Value", 
         "Apartment Name": "Apartment Name"
     }
 }
