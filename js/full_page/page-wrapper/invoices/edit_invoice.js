@@ -64,7 +64,6 @@ Vue.component
                         }
                         let url = "server/invoice_controller/update.php";
                         let result = this.SubmitData("invoices", url, data); 
-
                         var new_edit_data = undefined; 
                         try 
                         {
