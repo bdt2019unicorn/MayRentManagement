@@ -18,7 +18,7 @@
             }
         }
         $sql = Query::Update("invoices", $data, $conditions); 
-        array_push($sql); 
+        array_push($queries, $sql); 
     }
 
     $invoice_id = $invoices["new_data"]["invoice"]["id"]; 

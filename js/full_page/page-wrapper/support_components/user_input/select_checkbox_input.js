@@ -121,6 +121,7 @@ Vue.component
             value_model: function(new_value, old_value)
             {
                 this.value =`[${new_value.map(option=>this.ID(option)).join(",")}]`; 
+                this.$emit("input", new_value); 
             }, 
             edit_data: function(new_value, old_value)
             {

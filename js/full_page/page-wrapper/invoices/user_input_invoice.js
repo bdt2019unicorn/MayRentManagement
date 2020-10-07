@@ -47,14 +47,12 @@ Vue.component
                 return false; 
             }
         }, 
-        mounted() 
+        created() 
         {
             if(this.edit_data)
             {
-                this.invoice = R.clone(this.edit_data.invoice);  
-                this.invoice_details = R.clone(this.edit_data.details); 
+                this.invoice = R.clone(this.edit_data.invoice); 
                 this.InvoiceInformation(this.edit_data.invoice.leaseagrm_id); 
-                $(this.$refs["leaseagrm_id_select"]).find("[name='leaseagrm_id']").val(this.edit_data.invoice.leaseagrm_id); 
             }
         },
         methods: 
@@ -81,14 +79,6 @@ Vue.component
                     select_atributes: this.user_input.select_atributes, 
                     select_data: this.revenue_type[property], 
                     edit_data: this.edit_data?this.edit_data.multi_select:undefined
-                }
-            }, 
-
-            InputMultiSelect(property)
-            {
-                if(this.list[property].length==0)
-                {
-                    this.invoice_details[property] = []; 
                 }
             }, 
 
@@ -120,6 +110,14 @@ Vue.component
                 ); 
             }, 
 
+            MultiSelectInput(property)
+            {
+                if(this.list[property].length==0)
+                {
+                    this.invoice_details[property] = []; 
+                }
+            }, 
+
             Submit()
             {
                 let invoices = 
@@ -137,7 +135,12 @@ Vue.component
                 <h1><slot name="title">Add New Invoice</slot></h1>
                 <br>
                 <div class="row">
-                    <select-input v-bind="user_input.leaseagrm_id" @input="LeaseagrmIdSelectChanged" :lock="edit_data"></select-input>
+                    <select-input 
+                        v-bind="user_input.leaseagrm_id" 
+                        @input="LeaseagrmIdSelectChanged" 
+                        :lock="edit_data"
+                        :edit_data="edit_data?edit_data.invoice:undefined"
+                    ></select-input>
                 </div>
                 <br>
                 <div class="row">
@@ -153,12 +156,12 @@ Vue.component
                         <multi-select-input 
                             v-bind="BindObjectMultiSelect('leaseagrm')" 
                             v-model="list.leaseagrm"
-                            @search-data-changed="InputMultiSelect('leaseagrm')"
+                            @search-data-changed="MultiSelectInput('leaseagrm')"
                         ></multi-select-input>
                         <multi-select-input 
                             v-bind="BindObjectMultiSelect('utilities')" 
                             v-model="list.utilities"
-                            @search-data-changed="InputMultiSelect('utilities')"
+                            @search-data-changed="MultiSelectInput('utilities')"
                             ></multi-select-input>
                     </div>
 
