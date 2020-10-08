@@ -207,8 +207,6 @@ Vue.component
                                     {{row[index-1]}}
                                 </router-link>
 
-                                <date-compare-now v-else-if='Object.values(SpecialColumnsIndexes("date_compare_now")).includes(index-1)' :text="row[index-1]"></date-compare-now>
-
                                 <hyperlink-list-compile v-else-if='Object.values(SpecialColumnsIndexes("hyperlink_list")).includes(index-1)' :list="row[index-1]"></hyperlink-list-compile>
 
                                 <template v-else>{{row[index-1]}}</template>

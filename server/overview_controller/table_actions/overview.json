@@ -1,6 +1,5 @@
 {
-    "date_compare_now": ["Paid Until"], 
-    "hidden_columns": ["leaseid","ocupants_ids", "Payment Status Value", "Rental Status Value", "tenantid"], 
+    "hidden_columns": ["leaseid", "ocupants_ids", "Payment Status Value", "Rental Status Value", "tenantid"], 
     "hyperlink": 
     {
         "Apartment Name":
@@ -12,14 +11,9 @@
         {
             "to": "tenant/edit", 
             "object_id": "tenantid"
-        }, 
-        "Rental Status":
-        {
-            "to": "leaseagrm/edit", 
-            "object_id": "leaseid"
         }
     }, 
-    "hyperlink_list": ["Ocupant Name"], 
+    "hyperlink_list": ["Ocupant Name", "Rental Status"], 
     "page_title": "Overview", 
     "search": ["Apartment Name", "Tenant Name", "Rental Status", "Payment Status"], 
     "sort": 
