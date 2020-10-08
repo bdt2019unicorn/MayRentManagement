@@ -20,6 +20,6 @@
     {
         "Rental Status": "Rental Status Value", 
         "Payment Status": "Payment Status Value", 
-        "Apartment Name": "Apartment Name"
+        "Apartment Name": "ID"
     }
 }
