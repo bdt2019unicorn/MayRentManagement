@@ -190,7 +190,7 @@ Vue.component
                     <thead class="thead-dark">
                         <tr>
                             <th v-for="key in Object.keys(thead)" :key="key" v-if='SpecialColumnsIndexes("hidden_columns")[key]==undefined' :class="StateObject('table_th_sticky')?'sticky-top':undefined">
-                                <a-sort-table v-if='SpecialColumnsIndexes("sort")[key]' :text="key" :index='SpecialColumnsIndexes("sort")[key]'@sort-table="SortTable"></a-sort-table>
+                                <a-sort-table v-if='SpecialColumnsIndexes("sort")[key]!=undefined' :text="key" :index='SpecialColumnsIndexes("sort")[key]'@sort-table="SortTable"></a-sort-table>
                                 <template v-else>{{key}}</template>
                             </th>
                         </tr>
@@ -203,9 +203,7 @@ Vue.component
                                 <router-link
                                     v-else-if='Object.values(SpecialColumnsIndexes("hyperlink", false)).includes(index-1)'
                                     v-bind="RouterLinkBind(index-1, row)"
-                                >
-                                    {{row[index-1]}}
-                                </router-link>
+                                >{{row[index-1]}}</router-link>
 
                                 <hyperlink-list-compile v-else-if='Object.values(SpecialColumnsIndexes("hyperlink_list")).includes(index-1)' :list="row[index-1]"></hyperlink-list-compile>
 
