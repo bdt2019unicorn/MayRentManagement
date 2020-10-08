@@ -147,6 +147,13 @@ Vue.component
     {
         props: ["edit_data", "name", "title"], 
         mixins: [user_input_components_v_model_support_mixin], 
+        mounted()
+        {
+            if(this.edit_data)
+            {
+                this.value = Number(this.value); 
+            }
+        }, 
         template: 
         `
             <div class="form-group col">

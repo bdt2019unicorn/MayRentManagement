@@ -35,11 +35,7 @@ Vue.component
         },
         template: 
         `
-            <a 
-                href="javascript:void(0);" 
-                class="text-white" 
-                @click="SortTable"
-            >
+            <a href="javascript:void(0);" class="text-white" @click="SortTable">
                 {{text}}
             </a>
         `
