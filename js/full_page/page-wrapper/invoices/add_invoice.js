@@ -38,9 +38,9 @@ Vue.component
         `
             <user-input-invoice v-if="user_input" @invoice-submit="Submit" v-bind="$data">
                 <template #title>Add New Invoice</template>
-                <template slot="invoice_information" slot-scope="{ invoice, invoice_information }">
+                <template v-if="invoice.leaseagrm_id" slot="invoice_information" slot-scope="{ invoice, invoice_information }">
                     <hr>
-                    <div v-if="invoice.leaseagrm_id" class="row">
+                    <div class="row">
                         <div class="col text-center">
                             <p><b>Total</b></p>
                             <p>{{NumeralFormat(Number(invoice_information.leaseagrm.total_amount)||0)}}</p>
