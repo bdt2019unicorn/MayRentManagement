@@ -9,6 +9,22 @@ Vue.component
                 monthly_invoices: {}
             }
         },
+        computed: 
+        {
+            MonthlyInvoices()
+            {
+                try 
+                {
+                    let monthly_invoices = {}; 
+                    Object.keys(this.monthly_invoices).forEach(leaseagrm_id=>monthly_invoices[leaseagrm_id] = {leaseagrm: [], utilities: []}); 
+                    
+                }   
+                catch
+                {
+                    return {}; 
+                } 
+            }
+        },
         created() 
         {
             var url = `server/invoice_controller/action.php?command=AddMonthlyInvoices&building_id=${this.$route.params.building_id}`; 
