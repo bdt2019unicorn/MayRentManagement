@@ -1,22 +1,46 @@
 Vue.component
 (
+    "utilities-row", 
+    {
+        props: ["amount", "date", "name", "number", "previous_date", "previous_number", "price", "quantity", "revenue_type"], 
+        mixins: [support_mixin], 
+        template: 
+        `
+            <div>
+                <br>
+                <h5 class="text-center">{{revenue_type}}</h5>
+                <div class="row">
+                    <div class="col-10"><h6>{{name}}</h6></div>
+                    <div class="col text-right"><h6>{{amount}}</h6></div>
+                </div>
+                <div class="row">
+                    <div class="col"><b>{{DateReformatDisplay(previous_date)}}</b></div>
+                    <div class="col"><b>{{DateReformatDisplay(date)}}</b></div>
+                    <div class="col"><b>Price</b></div>
+                    <div class="col"><b>Quantity</b></div>
+                </div>
+                <div class="row">
+                    <div class="col">{{previous_number}}</div>
+                    <div class="col">{{number}}</div>
+                    <div class="col">{{price}}</div>
+                    <div class="col">{{quantity}}</div>
+                </div>
+                <hr>
+            </div>
+        `
+    }
+); 
+
+Vue.component
+(
     "invoice-utilities",
     {
-        mixins: [user_input_invoice_component_mixin], 
+        mixins: [user_input_invoice_component_mixin, valid_invoice_details_mixin], 
         computed: 
         {
             ValidInvoiceDetails()
             {
-                return this.invoice_details.map 
-                (
-                    ({revenue_type, date, previous_date, number, previous_number, id, apartment_id, ...rest})=>
-                    (
-                        {
-                            utility_reading_id: id, 
-                            ...rest
-                        }
-                    )
-                ); 
+                return this.ValidInvoiceDetailsUtilities(this.invoice_details); 
             }    
         },
         methods: 
@@ -66,27 +90,7 @@ Vue.component
             <div class="row" v-if="invoice_details.length>0">
                 <div class="col">
                     <h4>Utilities</h4>
-                    <template v-for="revenue_type in invoice_details">
-                        <br>
-                        <div class="row">
-                            <div class="col"><h5>{{revenue_type.name}}</h5></div>
-                            <div class="col"><h5>{{revenue_type.revenue_type}}</h5></div>
-                            <div><h5>{{revenue_type.amount}}</h5></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><b>{{DateReformatDisplay(revenue_type.previous_date)}}</b></div>
-                            <div class="col"><b>{{DateReformatDisplay(revenue_type.date)}}</b></div>
-                            <div class="col"><b>Price</b></div>
-                            <div class="col"><b>Quantity</b></div>
-                        </div>
-                        <div class="row">
-                            <div class="col">{{revenue_type.previous_number}}</div>
-                            <div class="col">{{revenue_type.number}}</div>
-                            <div class="col">{{revenue_type.price}}</div>
-                            <div class="col">{{revenue_type.quantity}}</div>
-                        </div>
-                        <hr>
-                    </template>
+                    <utilities-row v-for="revenue_type in invoice_details" v-bind="revenue_type"></utilities-row>
                 </div>
             </div>
         `

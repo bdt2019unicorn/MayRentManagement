@@ -75,3 +75,23 @@ var user_input_invoice_component_mixin =
         }  
     }
 }
+
+var valid_invoice_details_mixin = 
+{
+    methods: 
+    {
+        ValidInvoiceDetailsUtilities(invoice_details)
+        {
+            return invoice_details.map 
+            (
+                ({revenue_type, date, previous_date, number, previous_number, id, apartment_id, ...rest})=>
+                (
+                    {
+                        utility_reading_id: id, 
+                        ...rest
+                    }
+                )
+            ); 
+        }    
+    },
+}
