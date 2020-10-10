@@ -61,65 +61,33 @@ Vue.component
         }, 
         template: 
         `
-            <div class="side-bar">
-                <!--<nav class="navbar container-fluid">-->
+            <vs-collapse accordion class="side-bar"> 
+                <vs-collapse-item v-for="item in nav_list_items"> 
+                    <button
+                        slot="header"
+                        :class="ItemsClasses(item.name, $route.params.controller, ['btn'], 'btn-warning', 'btn-primary')" 
+                        style="width: 100%;"
+                    >
+                        <i style="font-size: xx-large;" :class="IconClass(item.icon)"></i>
+                        <br>
+                        <span>{{item.text}}</span>
+                    </button>
 
-                    
-                    <!--
-                    <div class="row" style="margin:0.5vh 0; width: 100%;" v-for="item in nav_list_items">
-
-                    -->
-
-                        <!--
-                        <button 
-                            type="button" 
-                            data-toggle="collapse" 
-                            :data-target='"#" + item.name'
-                            :aria-controls="item.name"
-                            aria-expanded="false"
-                            :class="ItemsClasses(item.name, $route.params.controller, ['btn'], 'btn-warning', 'btn-primary')" 
-                            style="width: 100%;"
-                        >
-                            <i style="font-size: xx-large;" :class="IconClass(item.icon)"></i>
-                            <br>
-                            <span>{{item.text}}</span>
-                        </button>
-
-
-                        -->
-
-                    <vs-collapse accordion> 
-                        <vs-collapse-item v-for="item in nav_list_items"> 
-                            <button
-                                slot="header"
-                                :class="ItemsClasses(item.name, $route.params.controller, ['btn'], 'btn-warning', 'btn-primary')" 
-                                style="width: 100%;"
+                    <ul class="list-unstyled" :id="item.name" style="width: 100%;">
+                        <li v-for="link in item.menu">
+                            <router-link 
+                                :class="['btn', 'btn-'+link.button]" 
+                                :to="ToActions({controller: item.name, action: link.action})" 
+                                :title="link.title"  
+                                style="width:100%;"  
                             >
-                                <i style="font-size: xx-large;" :class="IconClass(item.icon)"></i>
-                                <br>
-                                <span>{{item.text}}</span>
-                            </button>
+                                <i :class="IconClass(link.icon)"></i>&nbsp;{{link.text}}
+                            </router-link>
+                        </li>
+                    </ul>
+                </vs-collapse-item> 
 
-                            <ul class="list-unstyled" :id="item.name" style="width: 100%;">
-                                <li v-for="link in item.menu">
-                                    <router-link 
-                                        :class="['btn', 'btn-'+link.button]" 
-                                        :to="ToActions({controller: item.name, action: link.action})" 
-                                        :title="link.title"  
-                                        style="width:100%;"  
-                                    >
-                                        <i :class="IconClass(link.icon)"></i>&nbsp;{{link.text}}
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </vs-collapse-item> 
-
-                    </vs-collapse>
-
-                    <!--</div>-->
-                    
-                <!--</nav>-->
-            </div>
+            </vs-collapse>
         `
     }
 ); 
@@ -231,4 +199,3 @@ var user = Vue.component
         template: `<edit controller="user" form_title="Edit My Information" :object_id="StateObject('user_id')"></edit>`
     }
 ); 
-
