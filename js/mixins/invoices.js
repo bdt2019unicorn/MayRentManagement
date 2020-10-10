@@ -22,6 +22,33 @@ var invoices_mixin =
     },
 }; 
 
+var rent_invoice_mixin = 
+{
+    methods: 
+    {
+        RentQuantityCalculation(start_period, end_period)
+        {
+            var quatity = 0; 
+            [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+            start_period = start_period.add(1, "days"); 
+            while(this.ValidPeriod(start_period, end_period))
+            {
+                let end_of_month = new Date(start_period.year(), start_period.month()+1, 0); 
+                end_of_month = moment(end_of_month); 
+
+                let date_compare = moment(Math.min(end_of_month, end_period)); 
+                let days_diff = date_compare.diff(start_period, "days") + 1; 
+
+                quatity+=(days_diff/end_of_month.date()); 
+
+                start_period = end_of_month.add(1, "days"); 
+            }
+
+            return quatity.toFixed(3); 
+        }        
+    },
+}
+
 var user_input_invoice_component_mixin = 
 {
     props: ["edit_data", "invoice_information", "list", "revenue_type"], 

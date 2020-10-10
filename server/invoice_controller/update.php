@@ -90,7 +90,7 @@
     if($result)
     {
         $sql = Query::GeneralData("invoices", $invoice_id); 
-        $sql.="\n" . InvoiceInformationSql($invoice_id); 
+        $sql.="\n" . InvoiceDetails($invoice_id); 
 
         $edit_data = Connect::MultiQuery($sql, true); 
 
