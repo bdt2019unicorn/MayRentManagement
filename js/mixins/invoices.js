@@ -48,7 +48,7 @@ var rent_invoice_mixin =
             return quatity.toFixed(3); 
         }, 
         
-        PopulateRentInformation({revenue_type, price, rent_information, user_input})
+        PopulateRentInformation({revenue_type, price, rent_information, user_input, leaseagrm_id=undefined})
         {
             let details = 
             {
@@ -57,6 +57,11 @@ var rent_invoice_mixin =
                 title: revenue_type.name, 
                 valid: true, 
                 price: Number(price)
+            }; 
+            
+            if(leaseagrm_id)
+            {
+                details.leaseagrm_id = leaseagrm_id; 
             }
 
             let populate_rent_information = rent_information.map

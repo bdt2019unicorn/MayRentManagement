@@ -7,6 +7,7 @@ Vue.component
         {
             return {
                 monthly_invoices: {}, 
+                monthly_invoices_display: {}, 
                 user_input: {}
             }
         },
@@ -31,7 +32,8 @@ Vue.component
                                     }, 
                                     price: this.monthly_invoices[leaseagrm_id].rent_amount, 
                                     rent_information: this.monthly_invoices[leaseagrm_id].leaseagrm, 
-                                    user_input: this.user_input
+                                    user_input: this.user_input, 
+                                    leaseagrm_id: leaseagrm_id
                                 }
                             ), 
                             utilities: this.monthly_invoices[leaseagrm_id].utilities.map
@@ -93,7 +95,20 @@ Vue.component
             let monthly_invoices = this.AjaxRequest(url); 
             this.monthly_invoices = JSON.parse(monthly_invoices); 
         },
+        methods: 
+        {
+            NewValueChangeValid(edit_data, name, new_value, reactive=false)
+            {
+                console.log(edit_data); 
+                console.log(name); 
+                console.log(new_value); 
+            }    
+        },
 
+        watch: 
+        {
+                
+        },
         template: 
         `
             <div>
@@ -119,6 +134,7 @@ Vue.component
                                 v-for="rent in MonthlyInvoicesDisplay[leaseagrm_id].leaseagrm" 
                                 :revenue_type="rent"
                                 :user_input="user_input"
+                                @new-value-change-valid="NewValueChangeValid" 
                             ></leaseagrm-row>
                         </div>
 
