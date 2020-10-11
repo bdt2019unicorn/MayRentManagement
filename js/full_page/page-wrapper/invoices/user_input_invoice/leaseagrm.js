@@ -1,5 +1,33 @@
 Vue.component
 (
+    "leaseagrm-row", 
+    {
+        props: ["revenue_type", "user_input"], 
+        template: 
+        `
+            <div>
+                <br>
+                <form v-if="revenue_type.display">
+                    <div class="row">
+                        <text-input :edit_data="revenue_type" name="name" v-on="$listeners"></text-input>
+                        <div class="col text-center"><h5>{{revenue_type.title}}</h5></div>
+                        <div class="col text-right"><b>{{revenue_type.amount}}</b></div>
+                    </div>
+                    <row-group 
+                        :row="revenue_type.row" 
+                        :edit_data="revenue_type" 
+                        v-on="$listeners" 
+                        :lock="Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined"
+                    ></row-group>
+                </form>
+                <hr>
+            </div>
+        `
+    }
+); 
+
+Vue.component
+(
     "invoice-leaseagrm", 
     {
         props: ["user_input"], 
@@ -105,76 +133,36 @@ Vue.component
                                     let details = this.edit_data.details.leaseagrm.filter(detail=>detail.revenue_type_id==revenue_type.id); 
                                     if(details.length>0)
                                     {
-                                        return details; 
+                                        return R.clone(details); 
                                     }
                                 }
-                                let details = 
-                                {
-                                    display: true, 
-                                    revenue_type_id: revenue_type.id, 
-                                    title: revenue_type.name, 
-                                    valid: true 
-                                }
-                                if(revenue_type.id==this.user_input.rent_id)
-                                {
-                                    let final_details = 
-                                    {
-                                        ...details, 
-                                        price: Number(this.invoice_information.leaseagrm["rent_amount"]) 
-                                    }; 
 
-                                    let rent_information = this.invoice_information.leaseagrm.rent_information.map
-                                    (
-                                        ({start_date, end_date})=>
-                                        {
-                                            let row = R.clone(this.user_input.invoice_details.leaseagrm.form); 
-                                            row[0].date_data.big_date.lock = Boolean(end_date); 
-                                            let rent_end_date = end_date||this.invoice_information.leaseagrm["end_date"]; 
-                                            let rent = 
-                                            {
-                                                ...final_details, 
-                                                start_date: start_date, 
-                                                end_date: rent_end_date, 
-                                                quantity: this.RentQuantityCalculation(start_date, rent_end_date), 
-                                                row: row 
-                                            }
-                                            return rent; 
-                                        }
-                                    ); 
 
-                                    return rent_information.map
-                                    (
-                                        rent=>
-                                        (
-                                            {
-                                                ...rent, 
-                                                name: `${revenue_type.name} (${this.DateReformatDisplay(rent.start_date)} - ${this.DateReformatDisplay(rent.end_date)})`,
-                                                amount: this.NumeralFormat(rent.price * rent.quantity)
-                                            }
-                                        )
-                                    ); 
-                                }
-                                else 
-                                {
-                                    let final_details = 
+                                return (revenue_type.id==this.user_input.rent_id) ? 
+                                this.PopulateRentInformation
+                                (
                                     {
-                                        ...details, 
+                                        revenue_type: revenue_type, 
+                                        price: this.invoice_information.leaseagrm["rent_amount"], 
+                                        rent_information: this.invoice_information.leaseagrm.rent_information, 
+                                        user_input: this.user_input
+                                    }
+                                ): 
+                                [
+                                    {
+                                        display: true, 
+                                        revenue_type_id: revenue_type.id, 
+                                        title: revenue_type.name, 
+                                        valid: true, 
                                         start_date: this.invoice_information.leaseagrm["start_date"], 
                                         end_date: this.invoice_information.leaseagrm["end_date"], 
                                         price: 0, 
-                                        quantity: 1 
-                                    }; 
-            
-                                    return [
-                                        {
-                                            ...final_details, 
-                                            name: `${revenue_type.name} (${this.DateReformatDisplay(details.start_date)} - ${this.DateReformatDisplay(details.end_date)})`, 
-                                            amount: this.NumeralFormat(details.price * details.quantity), 
-                                            row: this.user_input.invoice_details.leaseagrm.form
-                                        }
-                                    ]; 
-                                }
-
+                                        quantity: 1, 
+                                        name: `${revenue_type.name} (${this.DateReformatDisplay(this.invoice_information.leaseagrm["start_date"])} - ${this.DateReformatDisplay(this.invoice_information.leaseagrm["end_date"])})`, 
+                                        amount: 0, 
+                                        row: this.user_input.invoice_details.leaseagrm.form
+                                    }
+                                ]; 
                             }
                         );                        
                         this.invoice_details = [...leaseagrm_details, ...additional_details].sort((a, b)=> ((a.revenue_type_id>b.revenue_type_id)?1: -1)); 
@@ -188,27 +176,12 @@ Vue.component
             <div class="row">
                 <div class="col">
                     <h4>Rent and other cost</h4>
-                    <template v-for="revenue_type in invoice_details">
-                        <br>
-                        <form v-if="revenue_type.display">
-                            <div class="row">
-                                <text-input :edit_data="revenue_type" name="name" @new-value-change-valid="NewValueChangeValid"></text-input>
-                                <div class="col text-center">
-                                    <h5>{{revenue_type.title}}</h5>
-                                </div>
-                                <div class="col text-right">
-                                    <b>{{revenue_type.amount}}</b>
-                                </div>
-                            </div>
-                            <row-group 
-                                :row="revenue_type.row" 
-                                :edit_data="revenue_type" 
-                                @new-value-change-valid="NewValueChangeValid" 
-                                :lock="Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined"
-                            ></row-group>
-                        </form>
-                        <hr>
-                    </template>
+                    <leaseagrm-row 
+                        v-for="revenue_type in invoice_details"
+                        :revenue_type="revenue_type"
+                        :user_input="user_input"
+                        @new-value-change-valid="NewValueChangeValid" 
+                    ></leaseagrm-row>
                 </div>
             </div>
         `
