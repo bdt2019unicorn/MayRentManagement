@@ -24,6 +24,7 @@ var invoices_mixin =
 
 var rent_invoice_mixin = 
 {
+    mixins: [support_mixin], 
     methods: 
     {
         RentQuantityCalculation(start_period, end_period)
@@ -45,7 +46,48 @@ var rent_invoice_mixin =
             }
 
             return quatity.toFixed(3); 
-        }        
+        }, 
+        
+        PopulateRentInformation({revenue_type, price, rent_information, user_input})
+        {
+            let details = 
+            {
+                display: true, 
+                revenue_type_id: revenue_type.id, 
+                title: revenue_type.name, 
+                valid: true, 
+                price: Number(price)
+            }
+
+            let populate_rent_information = rent_information.map
+            (
+                ({start_date, end_date})=>
+                {
+                    let row = R.clone(user_input.invoice_details.leaseagrm.form); 
+                    row[0].date_data.big_date.lock = Boolean(end_date); 
+                    let rent_end_date = end_date||this.invoice_information.leaseagrm["end_date"]; 
+                    return {
+                        ...details, 
+                        start_date: start_date, 
+                        end_date: rent_end_date, 
+                        quantity: this.RentQuantityCalculation(start_date, rent_end_date), 
+                        row: row 
+                    }
+                }
+            ); 
+
+            return populate_rent_information.map
+            (
+                rent=>
+                (
+                    {
+                        ...rent, 
+                        name: `${revenue_type.name} (${this.DateReformatDisplay(rent.start_date)} - ${this.DateReformatDisplay(rent.end_date)})`,
+                        amount: this.NumeralFormat(rent.price * rent.quantity)
+                    }
+                )
+            ); 
+        }
     },
 }
 

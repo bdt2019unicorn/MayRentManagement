@@ -84,8 +84,7 @@
             array_push($queries, $sql);  
         }
     }
-
-
+    
     $result = Connect::ExecTransaction($queries); 
     if($result)
     {
