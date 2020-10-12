@@ -1,5 +1,20 @@
 <?php 
     require_once("../helper/database.php"); 
+
+    function ImportInvoice($invoices)
+    {
+        $queries = []; 
+        array_push($queries, Query::Insert("invoices", $invoices["invoice"]), "SET @invoice_id=LAST_INSERT_ID();"); 
+    
+        foreach ($invoices["details"] as $table => $values) 
+        {
+            foreach ($values as $data) 
+            {
+                array_push($queries, Query::Insert("invoice_$table", $data, ["invoice_id"=>"@invoice_id"])); 
+            }
+        }
+        return $queries; 
+    }
     
     function InvoiceDetails($invoice_id)
     {

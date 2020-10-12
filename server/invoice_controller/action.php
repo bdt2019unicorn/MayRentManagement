@@ -49,12 +49,15 @@
                         if($start_date<$lease_end)
                         {
                             $end_date = min($last_date_of_month, $lease_end); 
-                            $new_information = 
-                            [
-                                "start_date"=> $rent_information["start_date"], 
-                                "end_date"=>$end_date->format($date_format)
-                            ]; 
-                            array_push($invoice_leaseagrm, $new_information); 
+                            if($start_date<$end_date)
+                            {
+                                $new_information = 
+                                [
+                                    "start_date"=> $rent_information["start_date"], 
+                                    "end_date"=>$end_date->format($date_format)
+                                ]; 
+                                array_push($invoice_leaseagrm, $new_information); 
+                            }
                         }
                     }
                 } 

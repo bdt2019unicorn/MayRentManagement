@@ -92,9 +92,7 @@ Vue.component
 
                 <scrolling-table tb_style="grid-area: scrolling-div;" v-if="this.excel_data.length>0" :table_data="excel_data"></scrolling-table>
 
-                <button class="btn" type="button" style="grid-area: next-btn;" title="Import Data" v-show="this.excel_data.length>0" @click="SendData">
-                    <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
-                </button>
+                <submit-button title="Import Data" style="grid-area: next-btn;" v-show="this.excel_data.length>0" @submit-button-clicked="SendData"></submit-button>
 
             </div>
 

@@ -184,7 +184,7 @@ Vue.component
 
                 <div class="row text-right" v-if="ValidInvoiceDetails && InvoiceDetails">
                     <div class="col">
-                        <button class="btn" :title="edit_data?'Edit Invoice': 'Add New Invoice'" @click="Submit"><i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i></button>
+                        <submit-button :title="edit_data?'Edit Invoice': 'Add New Invoice'" @submit-button-clicked="Submit"></submit-button>
                     </div>
                 </div>
             </div>

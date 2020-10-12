@@ -71,18 +71,9 @@ Vue.component
             
                 <br>
                 <div class="row">
-                    <div class="form-group col-2">
-                        <button type="reset" class="btn" title="Clear">
-                            <i style="font-size: xx-large;" class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="form-group col-8">
-                    </div>
-                    <div class="form-group col-2">
-                        <button type="submit" class="btn" :title="title">
-                            <i style="font-size: xx-large;" class="fas fa-arrow-alt-circle-right"></i>
-                        </button>
-                    </div>
+                    <div class="form-group col-2"><submit-button icon="times" title="Clear" type="reset"></submit-button></div>
+                    <div class="form-group col-8"></div>
+                    <div class="form-group col-2"><submit-button type="submit" :title="title"></submit-button></div>
                 </div>
 
             </form>
