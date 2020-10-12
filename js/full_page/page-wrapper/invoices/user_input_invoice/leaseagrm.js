@@ -31,42 +31,12 @@ Vue.component
     "invoice-leaseagrm", 
     {
         props: ["user_input"], 
-        mixins: [user_input_invoice_component_mixin, rent_invoice_mixin], 
+        mixins: [user_input_invoice_component_mixin, rent_invoice_mixin, valid_invoice_details_mixin], 
         computed: 
         {
             ValidInvoiceDetails()
             {
-                if(!this.invoice_details.length)
-                {
-                    return false; 
-                }
-
-                let leaseagrm = this.invoice_details.filter 
-                (
-                    revenue_type=>
-                    {
-                        let validation = 
-                        {
-                            valid: revenue_type.valid, 
-                            period: this.ValidPeriod(revenue_type.start_date, revenue_type.end_date, true), 
-                            price: revenue_type.price>=0,
-                            quantity: revenue_type.quantity>=0, 
-                            amount: numeral(revenue_type.amount).value()>0
-                        }
-                        return this.ValidObject(validation); 
-                    }
-                ).map 
-                (
-                    ({amount, display, valid, title, row, ...rest})=>
-                    {
-                        return {
-                            amount: amount.toString().replaceAll(",",""), 
-                            ...rest
-                        }; 
-                    }
-                ); 
-
-                return (leaseagrm.length<this.invoice_details.length)?false: leaseagrm; 
+                return this.ValidInvoiceDetailsLeaseagrm(this.invoice_details); 
             }    
         },
         created() 
