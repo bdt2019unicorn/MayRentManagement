@@ -58,7 +58,7 @@ var rent_invoice_mixin =
                 valid: true, 
                 price: Number(price)
             }; 
-            
+
             if(leaseagrm_id)
             {
                 details.leaseagrm_id = leaseagrm_id; 
@@ -127,6 +127,40 @@ var valid_invoice_details_mixin =
 {
     methods: 
     {
+        ValidInvoiceDetailsLeaseagrm(invoice_details)
+        {
+            if(!invoice_details.length)
+            {
+                return false; 
+            }
+
+            let leaseagrm = invoice_details.filter 
+            (
+                revenue_type=>
+                {
+                    let validation = 
+                    {
+                        valid: revenue_type.valid, 
+                        period: this.ValidPeriod(revenue_type.start_date, revenue_type.end_date, true), 
+                        price: revenue_type.price>=0,
+                        quantity: revenue_type.quantity>=0, 
+                        amount: numeral(revenue_type.amount).value()>0
+                    }
+                    return this.ValidObject(validation); 
+                }
+            ).map 
+            (
+                ({amount, display, valid, title, row, ...rest})=>
+                {
+                    return {
+                        amount: amount.toString().replaceAll(",",""), 
+                        ...rest
+                    }; 
+                }
+            ); 
+
+            return (leaseagrm.length<invoice_details.length)?false: leaseagrm; 
+        }, 
         ValidInvoiceDetailsUtilities(invoice_details)
         {
             return invoice_details.map 
