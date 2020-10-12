@@ -8,6 +8,7 @@ Vue.component
             return {
                 monthly_invoices: {}, 
                 monthly_invoices_display: {}, 
+                title: "Add Monthly Invoices", 
                 user_input: {}
             }
         },
@@ -34,8 +35,18 @@ Vue.component
                                 }
                             }
                         ) 
-                    ); 
-                    return monthly_invoices; 
+                    ).map 
+                    (
+                        ({invoice, details})=>
+                        (
+                            {
+                                invoice: invoice, 
+                                details: details, 
+                                total_details: Object.values(details).reduce((accumulator, current_value)=>(accumulator + current_value.length), 0)
+                            }
+                        )
+                    ).filter(({total_details, ...rest})=>total_details); 
+                    return monthly_invoices.length>0? monthly_invoices: false; 
                 }   
                 catch
                 {
@@ -46,12 +57,16 @@ Vue.component
         created() 
         {
             this.user_input = this.AjaxRequest("server/user_input_controller/invoice.json"); 
-            var url = `${this.user_input.main_url}AddMonthlyInvoices&building_id=${this.$route.params.building_id}`; 
-            let monthly_invoices = this.AjaxRequest(url); 
-            this.monthly_invoices = JSON.parse(monthly_invoices); 
+            this.MonthlyInvoices(); 
         },
         methods: 
         {
+            MonthlyInvoices()
+            {
+                var url = `${this.user_input.main_url}AddMonthlyInvoices&building_id=${this.$route.params.building_id}`; 
+                let monthly_invoices = this.AjaxRequest(url); 
+                this.monthly_invoices = JSON.parse(monthly_invoices); 
+            }, 
             NewValueChangeValid(edit_data, name, new_value)
             {
                 for (let index = 0; index < this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm.length; index++) 
@@ -62,7 +77,21 @@ Vue.component
                         break; 
                     }
                 }
-            }    
+            }, 
+            Submit()
+            {
+                let url = "server/invoice_controller/add_monthly_invoices.php"; 
+                let result = this.SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
+                if(Number(result))
+                {
+                    alert(`${this.title} Success!`); 
+                    this.MonthlyInvoices(); 
+                }
+                else 
+                {
+                    alert(`${this.title} Fails! Please try again later.`); 
+                }
+            }   
         },
         watch: 
         {
@@ -114,8 +143,18 @@ Vue.component
         },
         template: 
         `
-            <div>
-                <h1>Add monthly invoices</h1>
+            <div class="container-fluid">
+                <h1>{{title}}</h1>
+                <div class="container-fluid" v-if="Object.keys(monthly_invoices_display).length==0">
+                    <br>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-6 border border-info">
+                            <h3 class="text-danger text-center">All monthly invoices for this month has been created</h3>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
                 <vs-collapse accordion>
                     <vs-collapse-item 
                         v-for="leaseagrm_id in Object.keys(monthly_invoices_display)"
@@ -147,6 +186,9 @@ Vue.component
                         </div>
                     </vs-collapse-item>
                 </vs-collapse>
+                <section v-if="MonthlyInvoicesSubmit" class="row">
+                    <div class="col text-right"><submit-button :title="title" @submit-button-clicked="Submit"></submit-button></div>
+                </section>
             </div>
         `
     }

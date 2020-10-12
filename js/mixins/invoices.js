@@ -150,7 +150,7 @@ var valid_invoice_details_mixin =
                 }
             ).map 
             (
-                ({amount, display, valid, title, row, ...rest})=>
+                ({amount, display, valid, title, row, leaseagrm_id, ...rest})=>
                 {
                     return {
                         amount: amount.toString().replaceAll(",",""), 
