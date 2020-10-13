@@ -2,6 +2,7 @@
     require_once("../helper/database.php"); 
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet; 
+    use PhpOffice\PhpSpreadsheet\NamedRange; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
     $data = Connect::GeneralData("tenant"); 
@@ -10,6 +11,8 @@
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setTitle("First Sheet"); 
     // $sheet = new Worksheet($spreadsheet, "First Sheet"); 
+
+    $col_count = 0; 
 
     for ($i=0; $i < count($data) ; $i++) 
     { 
@@ -22,24 +25,22 @@
             $cell = chr($column); 
             if($i==0)
             {
+                $col_count = count($data[$i]); 
                 $sheet->setCellValue($cell."1", $key); 
             }
             
             $sheet->setCellValue($cell.strval($i+2), $value); 
         } 
-
-        // if($i==0)
-        // {
-        //     $column = ord("A")-1;
-        //     foreach ($data[$i] as $key => $value) 
-        //     {
-        //         $column++; 
-        //         $cell = chr($column) ."1"; 
-        //         $sheet->setCellValue($cell, $key); 
-        //     } 
-        // }
-        // $sheet->setCellValue("A{$cell}", json_encode($data[$i])); 
     }
+
+
+    $range = "=\$A\$1:\$". chr(ord("A")-1+$col_count)."\$". strval(count($data)+1); 
+
+    // echo $range; 
+
+    $spreadsheet->addNamedRange(new NamedRange("tenants", $sheet, $range)); 
+
+
 
     // $spreadsheet->addSheet($sheet); 
 
