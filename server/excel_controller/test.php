@@ -4,13 +4,14 @@
     use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet; 
     use PhpOffice\PhpSpreadsheet\NamedRange; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    use PhpOffice\PhpSpreadsheet\Cell\DataValidation; 
 
     $data = Connect::GeneralData("tenant"); 
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
     $sheet->setTitle("First Sheet"); 
-    // $sheet = new Worksheet($spreadsheet, "First Sheet"); 
+
 
     $col_count = 0; 
 
@@ -40,9 +41,14 @@
 
     $spreadsheet->addNamedRange(new NamedRange("tenants", $sheet, $range)); 
 
+    $second_sheet = new Worksheet($spreadsheet, "Second Sheet"); 
+    $validation = $second_sheet->getCell('A1')->getDataValidation();
+    $validation->setType(DataValidation::TYPE_LIST); 
+    $row_end = count($data) + 1; 
+    $validation->setFormula1("='First Sheet'!B2:B{$row_end}"); 
+    $validation->setShowDropDown(true); 
 
-
-    // $spreadsheet->addSheet($sheet); 
+    $spreadsheet->addSheet($second_sheet); 
 
     // $sheet->setCellValue('A1', 'Hello World !');
 
