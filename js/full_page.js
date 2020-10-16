@@ -101,12 +101,10 @@ var page_wrapper = Vue.component
         template: 
         `
             <div class="wrapper">
-
                 <side-bar></side-bar>
                 <div class="main-content">
                     <component :is="$route.params.action || 'overview'"></component>
                 </div>
-
             </div>
 
         `
@@ -151,18 +149,13 @@ Vue.component
 
                             <div class="row">
                                 <div class="col"></div>
-
-                                <router-link :to="{name: 'home'}">
-                                    <img class="col" src="img/logo.jpeg" alt="logo">
-                                </router-link>
-
+                                <router-link :to="{name: 'home'}"><img class="col" src="img/logo.jpeg" alt="logo"></router-link>
                                 <div class="col"></div>
                             </div>
 
                             <br>
 
                             <div class="row">
-
                                 <button :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='login'">Login</button>
                                 <button :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='user'">Register</button>
                             </div>
