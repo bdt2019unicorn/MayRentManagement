@@ -1,4 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -13,17 +12,16 @@ DROP TABLE IF EXISTS `apartment`;
 CREATE TABLE IF NOT EXISTS `apartment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(3) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `building_id` int(11) NOT NULL DEFAULT 1,
-  `area` decimal(10,0) NOT NULL DEFAULT 0,
-  `number_of_bedrooms` tinyint(4) NOT NULL DEFAULT 1,
-  `number_of_bathroom` tinyint(4) NOT NULL DEFAULT 1,
-  `balcony` tinyint(1) NOT NULL DEFAULT 0,
-  `number_of_windows` tinyint(4) NOT NULL DEFAULT 0,
+  `building_id` int(11) NOT NULL DEFAULT '1',
+  `area` decimal(10,0) NOT NULL DEFAULT '0',
+  `number_of_bedrooms` tinyint(4) NOT NULL DEFAULT '1',
+  `number_of_bathroom` tinyint(4) NOT NULL DEFAULT '1',
+  `balcony` tinyint(1) NOT NULL DEFAULT '0',
+  `number_of_windows` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `building_id` (`building_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `apartment`;
 INSERT INTO `apartment` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`) VALUES
 (1, 'MAY', 1, '0', 1, 1, 0, 0),
 (2, 'G01', 1, '0', 1, 1, 0, 0),
@@ -46,9 +44,8 @@ CREATE TABLE IF NOT EXISTS `buildings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `buildings`;
 INSERT INTO `buildings` (`id`, `name`) VALUES
 (1, 'May An Phu'),
 (2, 'May Thi Nghe');
@@ -63,21 +60,19 @@ CREATE TABLE IF NOT EXISTS `expense` (
   `building_id` int(11) DEFAULT NULL,
   `Payment_date` date DEFAULT NULL,
   `Amount` decimal(13,3) DEFAULT NULL,
-  `Note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Note` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `expense_type_id` (`expense_type_id`,`building_id`),
   KEY `apartment_id` (`building_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `expense`;
 DROP TABLE IF EXISTS `expense_type`;
 CREATE TABLE IF NOT EXISTS `expense_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `expense_type`;
 INSERT INTO `expense_type` (`id`, `name`) VALUES
 (1, 'Salary'),
 (2, 'Supplies (Flower, fuel)'),
@@ -96,12 +91,11 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   `leaseagrm_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `apartment` (`leaseagrm_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE `invoices`;
 INSERT INTO `invoices` (`id`, `name`, `leaseagrm_id`) VALUES
-(8, '1-23 Sep 2020', 1),
-(15, '2-29 Sep 2020', 2);
+(1, '1-23 Sep 2020', 1),
+(2, '2-07 Oct 2020', 2);
 
 DROP TABLE IF EXISTS `invoice_leaseagrm`;
 CREATE TABLE IF NOT EXISTS `invoice_leaseagrm` (
@@ -112,16 +106,15 @@ CREATE TABLE IF NOT EXISTS `invoice_leaseagrm` (
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `price` decimal(13,3) NOT NULL,
-  `quantity` decimal(13,3) NOT NULL DEFAULT 1.000,
+  `quantity` decimal(13,3) NOT NULL DEFAULT '1.000',
   `amount` decimal(13,3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `invoice_id` (`invoice_id`),
   KEY `revenue_type_id` (`revenue_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE `invoice_leaseagrm`;
 INSERT INTO `invoice_leaseagrm` (`id`, `name`, `revenue_type_id`, `invoice_id`, `start_date`, `end_date`, `price`, `quantity`, `amount`) VALUES
-(26, 'Rent (14 Sep 2020 - 30 Sep 2020)', 1, 8, '2020-09-14', '2020-09-30', '11111.000', '0.533', '5922.163');
+(1, 'Rent (14 Sep 2020 - 30 Sep 2020)', 1, 1, '2020-09-14', '2020-09-30', '11111.000', '0.533', '5922.163');
 
 DROP TABLE IF EXISTS `invoice_utilities`;
 CREATE TABLE IF NOT EXISTS `invoice_utilities` (
@@ -137,13 +130,12 @@ CREATE TABLE IF NOT EXISTS `invoice_utilities` (
   KEY `revenue_type_id` (`revenue_type_id`),
   KEY `invoice_id` (`invoice_id`),
   KEY `utility_reading_id` (`utility_reading_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE `invoice_utilities`;
 INSERT INTO `invoice_utilities` (`id`, `name`, `invoice_id`, `utility_reading_id`, `revenue_type_id`, `price`, `quantity`, `amount`) VALUES
-(11, 'G01 - Electricity 16 Sep 2020 - 20 Sep 2020', 8, 7, 2, '21.000', '6.000', '126.000'),
-(12, 'G01 - Water 16 Sep 2020 - 20 Sep 2020', 8, 8, 3, '32.000', '6.000', '192.000'),
-(13, 'G02 - Electricity 21 Sep 2020 - 28 Sep 2020', 15, 11, 2, '31.000', '11.000', '341.000');
+(1, 'G01 - Electricity 16 Sep 2020 - 20 Sep 2020', 1, 3, 2, '21.000', '6.000', '126.000'),
+(2, 'G01 - Water 16 Sep 2020 - 20 Sep 2020', 1, 4, 3, '32.000', '6.000', '192.000'),
+(3, 'G02 - Electricity 21 Sep 2020 - 28 Sep 2020', 2, 7, 2, '31.000', '11.000', '341.000');
 
 DROP TABLE IF EXISTS `leaseagrm`;
 CREATE TABLE IF NOT EXISTS `leaseagrm` (
@@ -164,9 +156,8 @@ CREATE TABLE IF NOT EXISTS `leaseagrm` (
   PRIMARY KEY (`id`),
   KEY `apartment_id` (`apartment_id`,`Tenant_ID`),
   KEY `Tenant_ID` (`Tenant_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `leaseagrm`;
 INSERT INTO `leaseagrm` (`id`, `name`, `apartment_id`, `Tenant_ID`, `ocupants_ids`, `Start_date`, `Finish`, `Rent_amount`, `Deposit_amount`, `Deposit_payment_date`, `Deposit_payback_date`, `Monthly_payment_date`, `Deposit_currency`, `Deposit_exchange_rate`) VALUES
 (1, 'AP Alan Kan G01', 2, 1, '[2,3]', '2020-09-14', '2020-12-24', '11111.000', '1.000', '2020-09-10', NULL, 1, 'vnd', '1.000'),
 (2, 'AP Proctor G02 ', 3, 4, '[5]', '2020-09-21', '2021-01-14', '22222.000', '1.000', '2020-09-21', NULL, 1, 'vnd', '1.000');
@@ -178,21 +169,19 @@ CREATE TABLE IF NOT EXISTS `revenue` (
   `leaseagrm_id` int(11) NOT NULL,
   `Payment_date` date DEFAULT NULL,
   `Amount` decimal(13,3) DEFAULT NULL,
-  `Note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Note` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `leaseagrm_id` (`leaseagrm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `revenue`;
 DROP TABLE IF EXISTS `revenue_type`;
 CREATE TABLE IF NOT EXISTS `revenue_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_utility` tinyint(1) NOT NULL DEFAULT 0,
+  `is_utility` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `revenue_type`;
 INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (1, 'Rent', 0),
 (2, 'Electricity', 1),
@@ -220,9 +209,8 @@ CREATE TABLE IF NOT EXISTS `tenant` (
   `Company_Name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Company_address` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `tenant`;
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`) VALUES
 (1, 'Kan', 'MIssion', 'Alan', '1978-10-09', 'Chinese', 'AK1223', '02615513546', '0654132', 'a.k@gmail.com', 'a.k@gmail.com', 'Mission Ready HQ ', 's34ydfg'),
 (2, 'Bernardin Christophe', 'Christophe', 'Jean', '1998-11-09', 'Phap', '17CE19159', '0888411139', NULL, NULL, 'jeanchristophebernardin@gmail.com', NULL, NULL),
@@ -238,14 +226,13 @@ CREATE TABLE IF NOT EXISTS `user` (
   `phone_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `viber_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `approved` tinyint(1) NOT NULL DEFAULT 0,
+  `approved` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `phone_number` (`phone_number`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `username`, `password`, `phone_number`, `email`, `viber_number`, `approved`) VALUES
 (1, 'blastor555', '123456', '0259784563', 'blastor555@gmail.com', '0123654789', 1);
 
@@ -258,16 +245,15 @@ CREATE TABLE IF NOT EXISTS `utility_price` (
   `date_enter` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE `utility_price`;
 INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`) VALUES
-(8, 2, '11.000', '2020-09-01', '2020-09-20'),
-(9, 3, '22.000', '2020-09-02', '2020-09-20'),
-(10, 2, '21.000', '2020-09-15', '2020-09-20'),
-(11, 3, '32.000', '2020-09-16', '2020-09-20'),
-(12, 2, '31.000', '2020-09-19', '2020-09-20'),
-(13, 3, '42.000', '2020-09-19', '2020-09-20');
+(1, 2, '11.000', '2020-09-01', '2020-09-20'),
+(2, 3, '22.000', '2020-09-02', '2020-09-20'),
+(3, 2, '21.000', '2020-09-15', '2020-09-20'),
+(4, 3, '32.000', '2020-09-16', '2020-09-20'),
+(5, 2, '31.000', '2020-09-19', '2020-09-20'),
+(6, 3, '42.000', '2020-09-19', '2020-09-20');
 
 DROP TABLE IF EXISTS `utility_reading`;
 CREATE TABLE IF NOT EXISTS `utility_reading` (
@@ -279,18 +265,17 @@ CREATE TABLE IF NOT EXISTS `utility_reading` (
   PRIMARY KEY (`id`),
   KEY `revenue_type_id` (`revenue_type_id`),
   KEY `apartment_id` (`apartment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-TRUNCATE TABLE `utility_reading`;
 INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `apartment_id`, `date`, `number`) VALUES
-(5, 2, 2, '2020-09-16 23:11:00', '5.000'),
-(6, 3, 2, '2020-09-16 23:11:00', '6.000'),
-(7, 2, 2, '2020-09-20 23:12:00', '11.000'),
-(8, 3, 2, '2020-09-20 23:12:00', '12.000'),
-(9, 2, 3, '2020-09-21 21:00:00', '0.000'),
-(10, 3, 3, '2020-09-21 21:00:00', '0.000'),
-(11, 2, 3, '2020-09-28 21:00:00', '11.000'),
-(12, 3, 3, '2020-09-28 21:00:00', '22.000');
+(1, 2, 2, '2020-09-16 23:11:00', '5.000'),
+(2, 3, 2, '2020-09-16 23:11:00', '6.000'),
+(3, 2, 2, '2020-09-20 23:12:00', '11.000'),
+(4, 3, 2, '2020-09-20 23:12:00', '12.000'),
+(5, 2, 3, '2020-09-21 21:00:00', '0.000'),
+(6, 3, 3, '2020-09-21 21:00:00', '0.000'),
+(7, 2, 3, '2020-09-28 21:00:00', '11.000'),
+(8, 3, 3, '2020-09-28 21:00:00', '22.000');
 
 
 ALTER TABLE `apartment`
@@ -325,7 +310,6 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`id`),
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`);
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
