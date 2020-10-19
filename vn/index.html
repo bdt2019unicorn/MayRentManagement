@@ -14,9 +14,7 @@
             <p>Đây là thử nghiệm, hi vọng cái này hoạt động</p>
         </div>
 
-        <div id="full_page">
-
-        </div>
+        <div id="full_page"></div>
 
         <footer>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -29,6 +27,34 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+
+
+            <script src="../js/mixins/support.js"></script>
+
+
+
+            <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+
+            <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
+
+            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js" integrity="sha512-zhDD6mpjQmjTOqcC2jd9iRgxmAlk/pmCCUPjKA9XWbcmvk7o0Jr8/9Dr0qQ5V54DPQJcRgCvlgFrtWMxgRjSOQ==" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.js" integrity="sha512-TIathoFfWe7+zySJxdN5fkUaYTmGX0Vg7gtgufWNA91bLfNA77x3Ale+KeHGxHLF8JDmvMOWGLsROVJzgYcYkw==" crossorigin="anonymous"></script> -->
+
+
+            <script type="text/babel" src="FullPage.js"></script>
+
+            <script defer type="text/babel">
+                ReactDOM.render
+                (   
+                    <FullPage />, 
+                    document.getElementById("full_page") 
+                ); 
+            </script>
         </footer>
     </body>
 </html>
