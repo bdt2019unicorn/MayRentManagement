@@ -22,7 +22,7 @@
 	    foreach ($excel as $row) 
 	    {
 			$data = RowData($row, $params); 
-	        array_push($queries,Query::Insert($params['table'],$data)); 
+			array_push($queries,Query::Insert($params['table'],$data)); 
 		}
 		
 	    $result = Connect::ExecTransaction($queries); 
