@@ -3,22 +3,16 @@ class ImportExcel extends React.Component
     constructor(props)
     {
         super(props); 
-        BindFucntions(this); 
+        BindFucntionsTest(this); 
         this.state = 
         {
             table: []
         }
     }
 
-    SupportFunction(component)
+    Methods = 
     {
-        this.Test = function()
-        {
-            console.log("test"); 
-        }; 
-
-
-        this.ReadExcelFile = async function(event)
+        ReadExcelFile: async(event)=>
         {
             var file = event.currentTarget.files[0]; 
     
@@ -39,9 +33,9 @@ class ImportExcel extends React.Component
                 }
             );
     
-            component.setState({table: json_data}); 
+            this.setState({table: json_data}); 
         }
-    }
+    }; 
 
     render()
     {
