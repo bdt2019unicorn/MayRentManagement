@@ -214,15 +214,7 @@
             {
                 return null; 
             }
-            if(count($data)>0)
-            {
-                return $data[0][$id_field]; 
-            } 
-            else 
-            {
-                $sql = "INSERT INTO `{$table}`(`$column`) VALUES ('{$value}'); ";
-                return Connect::GetData($sql, true); 
-            }
+            return (count($data)>0)? $data[0][$id_field]: null; 
         }
 
         public static function GeneralData($table, $id= null, $id_field='id')
