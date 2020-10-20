@@ -100,11 +100,10 @@
                             FROM `revenue`
                             WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
                         ) AS `Paid Amount`
-                    FROM `leaseagrm`, `apartment`, `tenant`
-                    WHERE 
-                        `leaseagrm`.`apartment_id` = `apartment`.`id` AND 
-                        `leaseagrm`.`Tenant_ID` = `tenant`.`id` AND 
-                        `apartment`.`building_id` = '{$_GET['building_id']}'; 
+                    FROM `leaseagrm`
+                        LEFT JOIN `apartment` ON `leaseagrm`.`apartment_id` = `apartment`.`id`
+                        LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
+                    WHERE `apartment`.`building_id` = '{$_GET['building_id']}'; 
                 ";
             },             
             "revenue"=>function()
