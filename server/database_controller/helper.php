@@ -5,9 +5,9 @@
 		(
 			"table" => "", 
 			"date_collumns" => [], 
-			"exclude_columns" => [], 
 			"get_id" => [], 
-			"comma" => []
+			"comma" => [], 
+			"change" => []
 		); 
 	
 		$data =  file_get_contents("params.json"); 
@@ -36,29 +36,25 @@
 			}; 
 
 			$key = $ModifyKey($key); 
-
-			if(in_array($key, $params['exclude_columns']))
-			{
-				return; 
-			}
-
 			if(isset($params['get_id'][$key]))
 			{
-				$AddData
+				$reference_id = Connect::GetId
 				(
-					$params['get_id'][$key]['change'], 
-					Connect::GetId
-					(
-						$params['get_id'][$key]['search'],
-						$value,
-						$params['get_id'][$key]['table']
-					)
+					$params['get_id'][$key]['search'],
+					$value,
+					$params['get_id'][$key]['table']
 				); 
-				return; 
+				if($reference_id)
+				{
+					$key = $params['get_id'][$key]['change']; 
+					$value = $reference_id; 
+				}
+				else 
+				{
+					return; 
+				}
 			}
-
-
-			if(in_array($key, $params['date_collumns']))
+			else if(in_array($key, $params['date_collumns']))
 			{
 				$date = date_create_from_format("d/m/Y", $value);
 				if(!$date)
@@ -71,10 +67,11 @@
 			{
 				$value = str_replace(",", '', $value); 
 			}
-			
+			else if(isset($params['change'][$key]))
+			{
+				$key = $params['change'][$key]; 
+			}
 			$data[$key] = $value; 
-
-
 		}; 
 
 		foreach ($row as $key => $value) 
