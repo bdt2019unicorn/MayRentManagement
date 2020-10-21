@@ -12,7 +12,7 @@ Vue.component
                     <img class="top-logo-img" src="img/logo.jpeg" alt="logo">
                 </router-link>
 
-                <main-nav-items class="main-nav-items" v-if="$route.params.building_id" :buildings_data="buildings_data" default_icon="building" :grid_area_surfix="grid_area_surfix"></main-nav-items>
+                <main-nav-items class="main-nav-items" :buildings_data="buildings_data" default_icon="building"></main-nav-items>
 
                 <div class="container-fluid" style="grid-area: username;">
 
@@ -179,7 +179,7 @@ var dashboard = Vue.component
     "dashboard", 
     {
         mixins: [support_mixin], 
-        template: `<main-nav-items class="container-fluid" :buildings_data="StateObject('buildings_data')" default_icon="building" grid_area_surfix="home-page"></main-nav-items>`
+        template: `<main-nav-items :buildings_data="StateObject('buildings_data')" default_icon="building" grid_area_surfix="home-page"></main-nav-items>`
     }
 ); 
 

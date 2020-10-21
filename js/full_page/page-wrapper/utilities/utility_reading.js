@@ -88,7 +88,7 @@ Vue.component
                             {
                                 try 
                                 {
-                                    return current_readings.filter(reading=>reading.revenue_type_id==revenue_type_id)[0][look_up]; 
+                                    return current_readings.find(reading=>reading.revenue_type_id==revenue_type_id)[look_up]; 
                                 }
                                 catch
                                 {
@@ -104,7 +104,7 @@ Vue.component
                                         revenue_type_id: revenue_type.id, 
                                         apartment_id: this.apartment_id, 
                                         service: revenue_type.name, 
-                                        apartment_name: this.select_data.apartments.filter(apartment=>apartment.id==this.apartment_id)[0].name, 
+                                        apartment_name: this.select_data.apartments.find(apartment=>apartment.id==this.apartment_id).name, 
                                         date: this.DateReformatDatabase(), 
                                         time: moment().format("HH:mm"), 
                                         number: "", 
