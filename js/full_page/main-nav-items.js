@@ -2,46 +2,43 @@ Vue.component
 (
     "main-nav-items", 
     {
-        props: ["buildings_data", "default_icon", "grid_area_surfix"], 
+        props: ["buildings_data", "default_icon"], 
         mixins: [support_mixin], 
+        components: {...bootstrap}, 
         computed: 
         {
-            MainNavItems()
+            CurrentBuilding()
             {
-                let total = this.buildings_data.length +2; 
-                let percentage = 100/total; 
-                var main_nav_items = 
-                {
-                    display: "grid", 
-                    gridTemplateRows: "auto", 
-                    gridColumnGap: "1%", 
-                    gridTemplateColumns: "", 
-                    gridTemplateAreas: "'"
-                }; 
-                for (let index = 0; index < total; index++) 
-                {
-                    main_nav_items.gridTemplateColumns+=percentage+"% "; 
-                    main_nav_items.gridTemplateAreas+= this.grid_area_surfix + "-"+index+ " "; 
-                }
-                main_nav_items.gridTemplateAreas = main_nav_items.gridTemplateAreas.trim() + "'"; 
-                return main_nav_items;  
+                return this.buildings_data.find(building=>building.id==this.$route.params.building_id); 
             }
-        },
-
+        }, 
         template: 
 
         `
-            <div :style="MainNavItems">
+            <div class="container-fluid">
 
-                <router-link
-                    v-for="index in buildings_data.length"
-                    :class="ItemsClasses(buildings_data[index-1].id, $route.params.building_id, ['btn'], 'btn-warning', 'btn-primary')" 
-                    :style='{textAlign: "center", gridArea: grid_area_surfix+"-"+index}'
-                    :to="'/'+ buildings_data[index-1]['id']"
-                >
-                    <i style="font-size: xx-large;" :class="['fas', 'fa-'+ default_icon]"></i>
-                    <p>{{buildings_data[index-1]["name"]}}</p>
-                </router-link>
+                <div class="row w-100">
+                    <div class="col-2"></div>
+                    <div class="col">
+                        <b-dropdown 
+                            :text="CurrentBuilding?CurrentBuilding.name: 'Buildings'" 
+                            block 
+                            lazy 
+                            menu-class="w-100" 
+                            :variant="CurrentBuilding?'warning':'info'"
+                        >
+                            <b-dropdown-item v-for="index in buildings_data.length">
+                                <router-link
+                                    :to="'/'+ buildings_data[index-1]['id']"
+                                    :class="ItemsClasses(buildings_data[index-1].id, $route.params.building_id, ['btn', 'w-100'], 'btn-warning', 'btn-primary')" 
+                                >
+                                    <p><i style="font-size: xx-large;" :class="['fas', 'fa-'+ default_icon]"></i>&nbsp;{{buildings_data[index-1]["name"]}}</p>
+                                </router-link>
+                            </b-dropdown-item>
+                        </b-dropdown>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
             </div>
         `
     }

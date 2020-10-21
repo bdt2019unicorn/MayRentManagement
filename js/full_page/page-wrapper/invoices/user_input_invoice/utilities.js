@@ -54,7 +54,7 @@ Vue.component
                     (
                         (details)=>
                         {
-                            let revenue_type = this.revenue_type.utilities.filter(revenue_type=>revenue_type.id == details.revenue_type_id)[0].name; 
+                            let revenue_type = this.revenue_type.utilities.find(revenue_type=>revenue_type.id == details.revenue_type_id).name; 
                             let numbers = ["previous_number", "number", "price", "quantity", "amount"]; 
                             let number = {}; 
                             numbers.forEach(key=>number[key] = this.NumeralFormat(Number(details[key]))); 
