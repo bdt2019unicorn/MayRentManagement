@@ -49,14 +49,18 @@
                 "change": "apartment_id", 
                 "table": "apartment"
             }, 
-            "tenant_passport_id_number": 
+            "tenant_id": 
             {
-                "search": "passport_id_number", 
+                "search": "id", 
                 "change": "tenant_id", 
                 "table": "tenant"
             }
         },
-        "comma": ["rent_amount","deposit_amount", "deposit_exchange_rate"]
+        "comma": ["rent_amount","deposit_amount", "deposit_exchange_rate"], 
+        "change": 
+        {
+            "agreement_number": "name"
+        }
     }, 
     "revenue": 
     {
@@ -76,8 +80,7 @@
     "tenant": 
     {
         "table": "tenant",  
-        "date_collumns": ["date_of_birth"],  
-        "exclude_columns": ["tenant_id", "apartment"]
+        "date_collumns": ["date_of_birth"]
     }, 
     "user": 
     {
