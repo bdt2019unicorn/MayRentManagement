@@ -48,6 +48,12 @@
                 "search": "name", 
                 "change": "apartment_id", 
                 "table": "apartment"
+            }, 
+            "tenant_id": 
+            {
+                "search": "id", 
+                "change": "tenant_id", 
+                "table": "tenant"
             }
         },
         "comma": ["rent_amount","deposit_amount", "deposit_exchange_rate"], 
