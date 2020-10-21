@@ -1,11 +1,12 @@
 var user_input_support_mixin = 
 {
-    
-}; 
+    props: ["edit_data", "lock", "name", "title"], 
+    mixins: [support_mixin], 
+}
 
 var user_input_components_mixin = 
 {
-    mixins: [support_mixin], 
+    mixins: [user_input_support_mixin], 
     data()
     {
         return {

@@ -2,7 +2,7 @@ Vue.component
 (
     "select-input", 
     {
-        props: ["edit_data", "lock", "name", "not_required", "overview_controller", "select_data", "select_value", "text", "title"], 
+        props: ["not_required", "overview_controller", "select_data", "select_value", "text"], 
         mixins: [user_input_components_v_model_support_mixin], 
         data() 
         {
@@ -65,7 +65,7 @@ Vue.component
 (
     "multi-select-input", 
     {
-        props: ["edit_data", "name", "overview_controller", "select_atributes", "select_data", "title"], 
+        props: ["overview_controller", "select_atributes", "select_data"], 
         mixins: [user_input_components_mixin], 
         data() 
         {
@@ -145,7 +145,6 @@ Vue.component
 (
     "checkbox-input", 
     {
-        props: ["edit_data", "name", "title"], 
         mixins: [user_input_components_v_model_support_mixin], 
         mounted()
         {
