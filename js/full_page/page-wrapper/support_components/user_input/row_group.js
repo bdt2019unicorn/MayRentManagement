@@ -2,8 +2,8 @@ Vue.component
 (
     "row-group", 
     {
-        props: ["edit_data", "index", "just_started_parent", "lock", "row"],
-        mixins: [support_mixin], 
+        props: ["index", "just_started_parent", "row"],
+        mixins: [user_input_support_mixin], 
         data() 
         {
             return {

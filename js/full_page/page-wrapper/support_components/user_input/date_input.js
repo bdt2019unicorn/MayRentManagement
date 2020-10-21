@@ -2,8 +2,8 @@ var date_input = Vue.component
 (
     "date-input", 
     {
-        props: ["bad_message", "edit_data", "just_started_parent", "lock", "name", "reference", "required", "title"], 
-        mixins: [support_mixin], 
+        props: ["bad_message", "just_started_parent", "reference", "required"], 
+        mixins: [user_input_support_mixin], 
         data()
         {
             return {

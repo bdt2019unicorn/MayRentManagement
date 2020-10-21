@@ -2,8 +2,8 @@ Vue.component
 (
     "number-input", 
     {
-        props: ["edit_data", "lock", "name", "title"], 
-        mixins: [support_mixin], 
+        // props: ["edit_data", "lock", "name", "title"], 
+        mixins: [user_input_support_mixin], 
         data()
         {
             return {

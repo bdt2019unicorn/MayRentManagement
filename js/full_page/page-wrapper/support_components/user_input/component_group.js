@@ -2,7 +2,8 @@ Vue.component
 (
     "component-group", 
     {
-        props: ["component_data", "edit_data", "just_started_parent", "lock", "name"], 
+        props: ["component_data", "just_started_parent"], 
+        mixins: [user_input_support_mixin], 
         template: 
         `
             <div class="form-group col">
@@ -26,8 +27,8 @@ var date_group = Vue.component
 (
     "date-group", 
     {
-        props: ["date_data", "edit_data", "just_started_parent", "name"],
-        mixins: [support_mixin], 
+        props: ["date_data", "just_started_parent"],
+        mixins: [user_input_support_mixin], 
         data()
         {
             return {
