@@ -56,6 +56,11 @@ Vue.component
         `
             <form class="container-fluid" @submit.prevent="SubmitForm" ref="action_form">
                 <h1 style="text-align: center;">{{title}}</h1>
+                <div v-if="edit_data" class="row">
+                    <div class="col">
+                        <p><b>ID: </b><span>{{edit_data.id}}</span></p>
+                    </div>
+                </div>
                 <template v-for="(row, index) in form">
                     <br>
                     <row-group

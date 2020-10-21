@@ -1,3 +1,8 @@
+var user_input_support_mixin = 
+{
+    
+}; 
+
 var user_input_components_mixin = 
 {
     mixins: [support_mixin], 
