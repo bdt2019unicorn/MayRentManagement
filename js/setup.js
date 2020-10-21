@@ -109,22 +109,13 @@ jQuery
                 {
                     el: "#full_page", 
                     mixins:[support_mixin], 
-                    data: 
-                    {
-                        buildings_data: []
-                    }, 
                     created() 
                     {
-                        this.buildings_data = this.TableData("buildings"); 
-                        for(var index=0; index<this.buildings_data.length; index++)
+                        let buildings_data = this.BuildingsData(); 
+                        if(buildings_data)
                         {
-                            this.buildings_data[index]["params"] = 
-                            {
-                                building_id: this.buildings_data[index]["id"]
-                            }
+                            store_track.commit("ChangeState", {name: "buildings_data", value: buildings_data}); 
                         }
-
-                        store_track.commit("ChangeState", {name: "buildings_data", value: this.buildings_data}); 
                         store_track.commit
                         (
                             "Authorize", 

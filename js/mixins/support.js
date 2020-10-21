@@ -52,6 +52,32 @@ var support_mixin =
             return result; 
         }, 
 
+        BuildingsData()
+        {
+            let buildings_data = this.TableData("buildings").map 
+            (
+                building=>
+                (
+                    {
+                        ...building, 
+                        params: 
+                        {
+                            building_id: building["id"]
+                        }
+                    }
+                )
+            ); 
+            try 
+            {
+                window.store_track.commit("ChangeState", {name: "buildings_data", value: buildings_data}); 
+                return undefined; 
+            }
+            catch
+            {
+                return buildings_data; 
+            }
+        }, 
+
         DateReformat(string=undefined)
         {
             return string?moment(string):moment(); 
