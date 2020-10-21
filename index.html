@@ -19,7 +19,7 @@
         <div id="full_page">
 
             <div v-if="StateObject('username')">
-                <page-navbar :buildings_data="buildings_data" grid_area_surfix="main-nav-item"></page-navbar>
+                <page-navbar :buildings_data="StateObject('buildings_data')" grid_area_surfix="main-nav-item"></page-navbar>
                 <router-view></router-view>
             </div>
             <page-administration v-if="!StateObject('username')"></page-administration>
@@ -58,6 +58,8 @@
             <script src="js/mixins/invoices.js"></script>
 
             <script async src="js/full_page/main-nav-items.js"></script>
+            <script async src="js/full_page/page_administration.js"></script>
+            <script async src="js/full_page/dashboard.js"></script>
 
             <script async src="js/full_page/page-wrapper/support_components/scrolling_table/a_hyperlink.js"></script>
             <script async src="js/full_page/page-wrapper/support_components/scrolling_table/id_tickbox.js"></script>
