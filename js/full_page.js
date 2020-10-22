@@ -61,25 +61,23 @@ Vue.component
         }, 
         template: 
         `
-            <vs-collapse accordion class="side-bar"> 
+            <vs-collapse type="margin" accordion class="side-bar"> 
                 <vs-collapse-item v-for="item in nav_list_items"> 
                     <button
                         slot="header"
-                        :class="ItemsClasses(item.name, $route.params.controller, ['btn'], 'btn-warning', 'btn-primary')" 
-                        style="width: 100%;"
+                        :class="ItemsClasses(item.name, $route.params.controller, ['w-100', 'btn'], 'btn-warning', 'btn-primary')" 
                     >
                         <i style="font-size: xx-large;" :class="IconClass(item.icon)"></i>
                         <br>
                         <span>{{item.text}}</span>
                     </button>
 
-                    <ul class="list-unstyled" :id="item.name" style="width: 100%;">
+                    <ul class="list-unstyled w-100" :id="item.name">
                         <li v-for="link in item.menu">
                             <router-link 
-                                :class="['btn', 'btn-'+link.button]" 
+                                :class="['w-100', 'btn', 'btn-'+link.button]" 
                                 :to="ToActions({controller: item.name, action: link.action})" 
                                 :title="link.title"  
-                                style="width:100%;"  
                             >
                                 <i :class="IconClass(link.icon)"></i>&nbsp;{{link.text}}
                             </router-link>
