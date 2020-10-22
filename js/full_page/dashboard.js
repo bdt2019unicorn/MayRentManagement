@@ -6,19 +6,15 @@ var dashboard = Vue.component
         data()
         {
             return {
+                backup_restore_tab: 0, 
+                current_tab: 0, 
+                file: undefined 
             }
         }, 
         components: {...bootstrap}, 
-        computed: 
-        {
-        },
 
         methods: 
         {
-            TestMethod()
-            {
-                alert("good"); 
-            }, 
             DeleteBuilding(building_id)
             {
                 var url = `server/database_controller/delete.php?table=buildings`; 
@@ -35,11 +31,25 @@ var dashboard = Vue.component
             }    
         },
 
+        watch: 
+        {
+            backup_restore_tab: function(new_value, old_value)
+            {
+                this.file = undefined; 
+            }, 
+
+            current_tab: function(new_value, old_value)
+            {
+                this.file = undefined; 
+            }
+
+        },
+
         template: 
         `
             <vs-row vs-justify="center">
                 <vs-col vs-w="10">
-                    <vs-tabs alignment="fixed">
+                    <vs-tabs alignment="fixed" v-model="current_tab">
                         <vs-tab label="Buildings">
                             <vs-row>
                                 <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline">Add</vs-button>
@@ -61,12 +71,28 @@ var dashboard = Vue.component
                             </vs-row>
                         </vs-tab>
 
+                        <vs-tab label="Income/Expense Types">
+                            <div>Test</div>
+                        </vs-tab>
+
                         <vs-tab label="Backup/Restore Data">
-                            <b-tabs content-class="mt-3" justified vertical pills lazy nav-wrapper-class="col-4" nav-class="text-center">
-                                <b-tab title="Backup" lazy>
+                            <b-tabs content-class="mt-3" justified vertical pills lazy nav-wrapper-class="col-4" nav-class="text-center" v-model="backup_restore_tab">
+                                <b-tab title="Backup">
+                                    <b-button variant="link" href="#">
+                                        <b-icon-cloud-upload></b-icon-cloud-upload>
+                                        Download back up file
+                                    </b-button>
                                 </b-tab>
-                                <b-tab title="Restore" lazy>
-                                    <vs-upload limit="2" :show-upload-button="false" @on-success="TestMethod" />
+                                <b-tab title="Restore">
+                                    <vs-upload 
+                                        limit="1" 
+                                        :show-upload-button="false" 
+                                        text="Upload the restore File" 
+                                        @change="file = arguments[1][arguments[1].length-1]" 
+                                        @on-delete="file=undefined" 
+                                    />
+                                    <br>
+                                    <submit-button v-if="file" title="Backup data"></submit-button>
                                 </b-tab>
                             </b-tabs>
                         </vs-tab>
