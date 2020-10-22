@@ -39,9 +39,8 @@ var dashboard = Vue.component
         `
             <vs-row vs-justify="center">
                 <vs-col vs-w="10">
-                    <vs-collapse accordion type="margin">
-                        <vs-collapse-item>
-                            <h3 slot="header">Buildings</h3>
+                    <vs-tabs alignment="fixed">
+                        <vs-tab label="Buildings">
                             <vs-row>
                                 <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline">Add</vs-button>
                                 <vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on">Import Excel</vs-button>
@@ -60,10 +59,9 @@ var dashboard = Vue.component
                                     </vs-card>
                                 </vs-col>
                             </vs-row>
-                        </vs-collapse-item>
+                        </vs-tab>
 
-                        <vs-collapse-item>
-                            <h3 slot="header">Backup/Restore Data</h3>
+                        <vs-tab label="Backup/Restore Data">
                             <b-tabs content-class="mt-3" justified>
                                 <b-tab title="Backup" lazy>
                                     <p>I'm the first tab</p>
@@ -81,8 +79,8 @@ var dashboard = Vue.component
                                     <p>I'm the first tab</p>
                                 </b-tab>
                             </b-tabs>
-                        </vs-collapse-item>
-                    </vs-collapse>
+                        </vs-tab>
+                    </vs-tabs>
                 </vs-col>
             </vs-row>
         `
