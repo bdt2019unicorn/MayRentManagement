@@ -62,21 +62,11 @@ var dashboard = Vue.component
                         </vs-tab>
 
                         <vs-tab label="Backup/Restore Data">
-                            <b-tabs content-class="mt-3" justified>
+                            <b-tabs content-class="mt-3" justified vertical pills lazy nav-wrapper-class="col-4" nav-class="text-center">
                                 <b-tab title="Backup" lazy>
-                                    <p>I'm the first tab</p>
                                 </b-tab>
                                 <b-tab title="Restore" lazy>
-                                    <p>I'm the second tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
-                                    <p>I'm the first tab</p>
+                                    <vs-upload limit="2" :show-upload-button="false" @on-success="TestMethod" />
                                 </b-tab>
                             </b-tabs>
                         </vs-tab>
