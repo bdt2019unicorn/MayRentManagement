@@ -19,7 +19,7 @@ var dashboard = Vue.component
                 }
             }
         }, 
-        components: {...bootstrap, Multiselect: window.VueMultiselect.default}, 
+        // components: {...bootstrap, Multiselect: window.VueMultiselect.default}, 
 
         computed: 
         {
@@ -106,10 +106,10 @@ var dashboard = Vue.component
                 <vs-col vs-w="10">
                     <vs-tabs alignment="fixed" v-model="current_tab">
 
-                        <vs-tab label="Contract need attention">
+                        <!--<vs-tab label="Contract need attention">
                             <b-form-select size="lg" class="my-3" style="text-align-last: center;" :options="Object.keys(LeaseagrmCategorized)" v-model="leaseagrm_table"></b-form-select>
                             <b-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" :selected.sync="leaseagrm_edit"></b-table>
-                        </vs-tab>
+                        </vs-tab>-->
                         <vs-tab label="Buildings">
                             <vs-row>
                                 <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline">Add</vs-button>
