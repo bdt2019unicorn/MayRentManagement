@@ -9,7 +9,7 @@
     		foreach ($data as $column => $value) 
     		{
                 array_push($columns, "`{$column}`"); 
-                array_push($values, "'{$value}'"); 
+                array_push($values, $value=="" ? "NULL": "'{$value}'"); 
             }
 
             foreach ($variable_data as $column => $value) 
