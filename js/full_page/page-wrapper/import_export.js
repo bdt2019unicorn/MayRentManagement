@@ -35,7 +35,7 @@ Vue.component
                         raw:false
                     }
                 );
-                this.excel_data = json_data; 
+                this.excel_data = json_data.filter(row=>row["__EMPTY"]==undefined); 
                 new Promise
                 (
                     (resolve, reject)=>

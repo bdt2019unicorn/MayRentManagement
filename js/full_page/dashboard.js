@@ -14,7 +14,6 @@ var dashboard = Vue.component
                 }
             }
         }, 
-        components: {...bootstrap, ...vueGoodTable}, 
         created() 
         {
             let data = this.AjaxRequest("server/dashboard_controller/dashboard.php"); 
@@ -26,7 +25,7 @@ var dashboard = Vue.component
         `
             <vs-row vs-justify="center">
                 <vs-col vs-w="10">
-                    <vs-tabs alignment="fixed" v-model="current_tab">
+                    <vs-tabs alignment="fixed">
 
                         <vs-tab label="Contract need attention">
                             <problem-leaseagrms :leaseagrm="leaseagrm"></problem-leaseagrms>
