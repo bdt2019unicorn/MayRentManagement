@@ -10,7 +10,7 @@ Vue.component
                 leaseagrm_table: "Contracts with no tenants and apartment", 
             }
         },
-        components: {...bootstrap, ...vueGoodTable, ...vueFragment}, 
+        components: {...vueGoodTable, ...vueFragment}, 
         computed: 
         {
             LeaseagrmCategorized()
@@ -73,7 +73,9 @@ Vue.component
         template: 
         `
             <fragment>
-                <b-form-select size="lg" class="my-3" style="text-align-last: center;" :options="Object.keys(LeaseagrmCategorized)" v-model="leaseagrm_table"></b-form-select>
+            <vs-select :success="true" class="my-3 w-100" style="text-align-last: center;" v-model="leaseagrm_table">
+                <vs-select-item v-for="key in Object.keys(LeaseagrmCategorized).map(title=>({text: title, value: title}))" v-bind="key" />
+            </vs-select>
                 <vue-good-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable"></vue-good-table>
             </fragment>
         `
