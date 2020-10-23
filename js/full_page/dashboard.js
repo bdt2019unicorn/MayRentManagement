@@ -108,7 +108,7 @@ var dashboard = Vue.component
 
                         <vs-tab label="Contract need attention">
                             <b-form-select size="lg" class="my-3" style="text-align-last: center;" :options="Object.keys(LeaseagrmCategorized)" v-model="leaseagrm_table"></b-form-select>
-                            <b-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" :selected.sync="leaseagrm_edit"></b-table>
+                            <!--<b-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" :selected.sync="leaseagrm_edit"></b-table>-->
                         </vs-tab>
                         <vs-tab label="Buildings">
                             <vs-row>
