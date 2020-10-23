@@ -31,6 +31,7 @@ var dashboard = Vue.component
                         <vs-tab label="Contract need attention">
                             <problem-leaseagrms :leaseagrm="leaseagrm"></problem-leaseagrms>
                         </vs-tab>
+                        
                         <vs-tab label="Buildings">
                             <buildings></buildings>
                         </vs-tab>
