@@ -67,7 +67,7 @@
 			{
 				$value = str_replace(",", '', $value); 
 			}
-			else if(isset($params['change'][$key]))
+			if(isset($params['change'][$key]))
 			{
 				$key = $params['change'][$key]; 
 			}

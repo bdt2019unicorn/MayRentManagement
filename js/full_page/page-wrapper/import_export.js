@@ -68,6 +68,14 @@ Vue.component
                 }   
             }
         },
+
+        watch: 
+        {
+            $route: function(to, from)
+            {
+                this.excel_data = []; 
+            }
+        },
         template: 
         `
             <div class="import-export-layout container-fluid">
