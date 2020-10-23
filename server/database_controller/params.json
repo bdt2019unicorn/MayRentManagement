@@ -80,7 +80,11 @@
     "tenant": 
     {
         "table": "tenant",  
-        "date_collumns": ["date_of_birth"]
+        "date_collumns": ["date_of_birth"], 
+        "change": 
+        {
+            "expected_departure_date_for_police_registration": "expected_departure_date"
+        }
     }, 
     "user": 
     {
