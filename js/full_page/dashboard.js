@@ -19,7 +19,7 @@ var dashboard = Vue.component
                 }
             }
         }, 
-        components: {...bootstrap, Multiselect: window.VueMultiselect.default}, 
+        components: {...bootstrap}, 
 
         computed: 
         {
