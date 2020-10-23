@@ -8,10 +8,65 @@ var dashboard = Vue.component
             return {
                 backup_restore_tab: 0, 
                 current_tab: 0, 
-                file: undefined 
+                file: undefined,
+                leaseagrm: [], 
+                leaseagrm_edit: undefined, 
+                leaseagrm_table: "Contracts with no tenants and apartment", 
+                revenue_expense: 
+                {
+                    revenue: [], 
+                    expense: []
+                }
             }
         }, 
-        components: {...bootstrap}, 
+        components: {...bootstrap, Multiselect: window.VueMultiselect.default}, 
+
+        computed: 
+        {
+            LeaseagrmCategorized()
+            {
+                let partition_all_null = R.partition(leaseagrm=>(leaseagrm["Apartment"]==undefined && leaseagrm["Tenant Name"]==undefined), this.leaseagrm); 
+                let apartment_tenant_partition = R.partition(leaseagrm=>leaseagrm["Apartment"]==undefined, partition_all_null[1]); 
+                return {
+                    "Contracts with no tenants and apartment": partition_all_null[0], 
+                    "Contract with no apartment": apartment_tenant_partition[0], 
+                    "Contract with no head tenant": apartment_tenant_partition[1]
+                }; 
+            }, 
+
+            LeaseagrmCurrentTable()
+            {
+                let data= this.LeaseagrmCategorized[this.leaseagrm_table]; 
+                if(data.length==0)
+                {
+                    return undefined; 
+                }
+                let columns = Object.keys(data[0]).map
+                (
+                    column=>
+                    (
+                        {
+                            field: column, 
+                            label: column, 
+                            searchable: true, 
+                            sortable: true, 
+                            centered: true
+                        }
+                    )
+                ); 
+                return {
+                    data: data, 
+                    columns: columns
+                }; 
+            }
+        },
+        
+        created() 
+        {
+            let data = this.AjaxRequest("server/dashboard_controller/dashboard.php"); 
+            data = JSON.parse(data); 
+            Object.keys(data).forEach(key=>this[key] = data[key]); 
+        },
 
         methods: 
         {
@@ -50,6 +105,11 @@ var dashboard = Vue.component
             <vs-row vs-justify="center">
                 <vs-col vs-w="10">
                     <vs-tabs alignment="fixed" v-model="current_tab">
+
+                        <vs-tab label="Contract need attention">
+                            <b-form-select size="lg" class="my-3" style="text-align-last: center;" :options="Object.keys(LeaseagrmCategorized)" v-model="leaseagrm_table"></b-form-select>
+                            <b-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" :selected.sync="leaseagrm_edit"></b-table>
+                        </vs-tab>
                         <vs-tab label="Buildings">
                             <vs-row>
                                 <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline">Add</vs-button>
@@ -72,7 +132,7 @@ var dashboard = Vue.component
                         </vs-tab>
 
                         <vs-tab label="Income/Expense Types">
-                            <div>Test</div>
+                            <div>Need to have 2 tables showing the expense and income types, potentially do it like a to do list</div>
                         </vs-tab>
 
                         <vs-tab label="Backup/Restore Data">

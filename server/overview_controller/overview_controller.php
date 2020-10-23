@@ -1,5 +1,6 @@
 <?php 
     require_once("../helper/database.php"); 
+    require_once("../helper/overview_queries.php"); 
 
     $actions = ["overview", "utilities"]; 
 
@@ -68,43 +69,7 @@
             }, 
             "leaseagrm"=> function()
             {
-                return (isset($_GET["edit"]))? Query::GeneralData("leaseagrm", $_GET["id"]??null): 
-                "
-                    SELECT 
-                        `leaseagrm`.`id` as `ID`, 
-                        `leaseagrm`.`name` AS `Name`, 
-                        `apartment`.`name` as `Apartment`, 
-                        CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
-                        DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
-                        DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
-                        (
-                            IFNULL
-                            (
-                                (
-                                    SELECT SUM(`invoice_leaseagrm`.`amount`) 
-                                    FROM `invoice_leaseagrm` 
-                                    WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
-                                ), 0
-                            ) + 
-                            IFNULL
-                            (
-                                (
-                                    SELECT SUM(`invoice_utilities`.`amount`) 
-                                    FROM `invoice_utilities` 
-                                    WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
-                                ), 0 
-                            )
-                        ) AS `Amount`,
-                        (
-                            SELECT SUM(Amount) 
-                            FROM `revenue`
-                            WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
-                        ) AS `Paid Amount`
-                    FROM `leaseagrm`
-                        LEFT JOIN `apartment` ON `leaseagrm`.`apartment_id` = `apartment`.`id`
-                        LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
-                    WHERE `apartment`.`building_id` = '{$_GET['building_id']}'; 
-                ";
+                return (isset($_GET["edit"]))? Query::GeneralData("leaseagrm", $_GET["id"]??null): OverviewQueries\LeaseAgrm::OverviewBuildingId($_GET['building_id']); 
             },             
             "revenue"=>function()
             {

@@ -3,12 +3,13 @@
     <head>
         <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
-        <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         <link href="https://cdn.jsdelivr.net/npm/vuesax/dist/vuesax.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+        <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
 
@@ -24,6 +25,9 @@
             </div>
             <page-administration v-if="!StateObject('username')"></page-administration>
         </div>
+
+        <!-- potentially fix the boostrap vue and buefy - one need to go and get all the other one.  -->
+        <!-- search for ...bootstrap  -->
 
         <footer>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -48,8 +52,10 @@
             <script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
             <script src="https://unpkg.com/vuesax"></script>
             <script src="https://wzrd.in/standalone/vue-fragment@latest"></script>
+            <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
             <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
             <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+            
             
             <script src="js/mixins/support.js"></script>
             <script src="js/mixins/user_input_components.js"></script>
@@ -92,6 +98,7 @@
             <script src="js/full_page.js"></script>
 
             <script async src="js/setup.js"></script>
+
 
         </footer>
     </body>
