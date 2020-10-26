@@ -4,28 +4,6 @@
   right: 0;
 }
 
-.import-export-layout
-{
-  display: grid;
-  grid-row-gap: 1vh; 
-  grid-template-rows: auto;
-  grid-template-columns: 10% 10% 20% 20% 20% 10% 10%;
-  grid-template-areas: 
-    "template-btn template-btn template-btn . import-btn import-btn import-btn"
-    ". scrolling-div scrolling-div scrolling-div scrolling-div scrolling-div . "
-    ". scrolling-div scrolling-div scrolling-div scrolling-div scrolling-div next-btn";
-}
-
-.import-export-layout button 
-{
-  font-size: 2vmin;
-}
-
-.import-export-layout p 
-{
-  font-size: 2vmin;
-}
-
 .popup-div
 {
   position: absolute;
