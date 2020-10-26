@@ -2,6 +2,7 @@ Vue.component
 (
     "import-export", 
     {
+        mixins: [support_mixin], 
         data()
         {
             return {
@@ -9,7 +10,45 @@ Vue.component
                 excel_input: true 
             }
         }, 
-        mixins: [support_mixin], 
+        components: {...vueGoodTable}, 
+        computed: 
+        {
+            DisplayTable()    
+            {
+                if(this.excel_data.length==0)
+                {
+                    return undefined; 
+                }
+
+                return {
+                    rows: this.excel_data, 
+                    columns: Object.keys(this.excel_data[0]).map 
+                    (
+                        column=>
+                        (
+                            {
+                                field: column, 
+                                label: column, 
+                                sortable: true, 
+                                thClass: 'text-center'
+                            }
+                        )
+                    ), 
+                    paginationOptions: 
+                    {
+                        enabled: true, 
+                        perPage: 5
+                    }, 
+                    styleClass: "vgt-table striped", 
+                    theme: "nocturnal", 
+                    searchOptions: {enabled: true}, 
+                    style: 
+                    {
+                        gridArea: "scrolling-div"
+                    }
+                }
+            }
+        },
         methods: 
         {
             async ReadExcel()
@@ -98,7 +137,9 @@ Vue.component
                     @change="ReadExcel"
                 >
 
-                <scrolling-table tb_style="grid-area: scrolling-div;" v-if="this.excel_data.length>0" :table_data="excel_data"></scrolling-table>
+                <!--<scrolling-table tb_style="grid-area: scrolling-div;" v-if="this.excel_data.length>0" :table_data="excel_data"></scrolling-table>-->
+
+                <vue-good-table v-if="DisplayTable" v-bind="DisplayTable"></vue-good-table>
 
                 <submit-button title="Import Data" style="grid-area: next-btn;" v-show="this.excel_data.length>0" @submit-button-clicked="SendData"></submit-button>
 
