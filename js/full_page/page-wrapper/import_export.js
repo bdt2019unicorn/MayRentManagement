@@ -37,9 +37,11 @@ Vue.component
                     paginationOptions: 
                     {
                         enabled: true, 
-                        perPage: 5
+                        perPage: 5, 
+                        perPageDropdown: [5, 10], 
+                        dropdownAllowAll: false 
                     }, 
-                    styleClass: "vgt-table striped", 
+                    styleClass: "vgt-table condensed", 
                     theme: "nocturnal", 
                     searchOptions: {enabled: true}, 
                     style: 
@@ -148,3 +150,5 @@ Vue.component
         `
     }
 ); 
+
+// potentially change the layout given that we have really good technologies 
