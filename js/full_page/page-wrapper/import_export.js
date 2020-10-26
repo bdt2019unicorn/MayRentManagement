@@ -6,8 +6,7 @@ Vue.component
         data()
         {
             return {
-                excel_data: [], 
-                files: []
+                excel_data: []
             }
         }, 
         components: {...vueGoodTable, ...vueFragment, FileUpload: VueUploadComponent}, 
@@ -33,8 +32,8 @@ Vue.component
                     paginationOptions: 
                     {
                         enabled: true, 
-                        perPage: 5, 
-                        perPageDropdown: [5], 
+                        perPage: 10, 
+                        perPageDropdown: [10], 
                         dropdownAllowAll: false 
                     }, 
                     styleClass: "vgt-table condensed", 
@@ -44,12 +43,13 @@ Vue.component
         },
         methods: 
         {
-            async ReadExcel(file)
+            async ReadExcel(files)
             {
-                if(!file)
+                if(files.length==0)
                 {
                     return; 
                 }
+                let file = files[0].file; 
                 var buffer = await file.arrayBuffer();
                 var workbook = XLSX.read
                 (
@@ -101,16 +101,10 @@ Vue.component
                         <vs-button color="primary" type="border" icon="table_view" :href='"excel_templates/" + $route.params.controller + "-template.xlsx"'>Download Excel Template</vs-button>
                     </vs-col>
                     <vs-col vs-w="6" vs-align="flex-end" vs-justify="center" vs-type="flex">
-                        <!--<vs-upload 
-                            limit="1" 
-                            :show-upload-button="false" 
-                            text="Import Excel file" 
-                            @change="ReadExcel(arguments[1][arguments[1].length-1])" 
-                            @on-delete="excel_data=[]" 
-                        />-->
                         <vs-button color="success" type="gradient" icon="cloud_download">
                             <file-upload
-                                v-model="files"
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
+                                @input="ReadExcel"
                             >Import Excel file</file-upload>
                         </vs-button>
                     </vs-col>
