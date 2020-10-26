@@ -6,20 +6,17 @@ Vue.component
         data()
         {
             return {
-                excel_data: []
+                excel_data: [], 
+                files: []
             }
         }, 
-        components: {...vueGoodTable, ...vueFragment}, 
+        components: {...vueGoodTable, ...vueFragment, FileUpload: VueUploadComponent}, 
         computed: 
         {
             DisplayTable()    
             {
-                if(this.excel_data.length==0)
+                return (this.excel_data.length==0)? undefined: 
                 {
-                    return undefined; 
-                }
-
-                return {
                     rows: this.excel_data, 
                     columns: Object.keys(this.excel_data[0]).map 
                     (
@@ -41,8 +38,7 @@ Vue.component
                         dropdownAllowAll: false 
                     }, 
                     styleClass: "vgt-table condensed", 
-                    theme: "nocturnal", 
-                    searchOptions: {enabled: true}, 
+                    theme: "nocturnal" 
                 }
             }
         },
@@ -105,13 +101,18 @@ Vue.component
                         <vs-button color="primary" type="border" icon="table_view" :href='"excel_templates/" + $route.params.controller + "-template.xlsx"'>Download Excel Template</vs-button>
                     </vs-col>
                     <vs-col vs-w="6" vs-align="flex-end" vs-justify="center" vs-type="flex">
-                        <vs-upload 
+                        <!--<vs-upload 
                             limit="1" 
                             :show-upload-button="false" 
                             text="Import Excel file" 
                             @change="ReadExcel(arguments[1][arguments[1].length-1])" 
                             @on-delete="excel_data=[]" 
-                        />
+                        />-->
+                        <vs-button color="success" type="gradient" icon="cloud_download">
+                            <file-upload
+                                v-model="files"
+                            >Import Excel file</file-upload>
+                        </vs-button>
                     </vs-col>
                 </vs-row>
                 <br>
