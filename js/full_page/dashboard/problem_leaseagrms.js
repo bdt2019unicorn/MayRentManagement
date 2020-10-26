@@ -27,39 +27,35 @@ Vue.component
             LeaseagrmCurrentTable()
             {
                 let rows= this.LeaseagrmCategorized[this.leaseagrm_table]; 
-                if(rows.length==0)
+                return (rows.length==0)? undefined: 
                 {
-                    return undefined; 
-                }
-                let columns = Object.keys(rows[0]).map
-                (
-                    column=>
-                    (
-                        {
-                            field: column, 
-                            label: column, 
-                            type: column=="ID"?"number": column.includes("Date")? "date": undefined, 
-                            sortable: true, 
-                            filterOptions: {enabled: true},
-                            thClass: 'text-center'
-                        }
-                    )
-                ).map
-                (
-                    ({type, ...rest})=>
-                    (
-                        type=="date"? 
-                        {
-                            type: type, 
-                            ...rest, 
-                            dateInputFormat: 'dd/MM/yyyy', 
-                            dateOutputFormat: 'dd/MM/yyyy'
-                        }: {type, ...rest}
-                    )
-                ); 
-                return {
                     rows: rows, 
-                    columns: columns, 
+                    columns: Object.keys(rows[0]).map
+                    (
+                        column=>
+                        (
+                            {
+                                field: column, 
+                                label: column, 
+                                type: column=="ID"?"number": column.includes("Date")? "date": undefined, 
+                                sortable: true, 
+                                filterOptions: {enabled: true},
+                                thClass: 'text-center'
+                            }
+                        )
+                    ).map
+                    (
+                        ({type, ...rest})=>
+                        (
+                            type=="date"? 
+                            {
+                                type: type, 
+                                ...rest, 
+                                dateInputFormat: 'dd/MM/yyyy', 
+                                dateOutputFormat: 'dd/MM/yyyy'
+                            }: {type, ...rest}
+                        )
+                    ), 
                     styleClass: "vgt-table striped", 
                     searchOptions: {enabled: true}, 
                     selectOptions: 
