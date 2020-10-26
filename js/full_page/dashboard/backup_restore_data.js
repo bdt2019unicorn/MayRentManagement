@@ -5,7 +5,7 @@ Vue.component
         components: {...bootstrap}, 
         template: 
         `
-            <b-button variant="link" href="#">
+            <b-button variant="link" href="server/dashboard_controller/backup.php">
                 <b-icon-cloud-upload></b-icon-cloud-upload>
                 Download back up file
             </b-button>
@@ -48,7 +48,7 @@ Vue.component
         components: {...bootstrap}, 
         template: 
         `
-            <b-tabs content-class="mt-3" justified vertical pills lazy nav-wrapper-class="col-4" nav-class="text-center" v-model="backup_restore_tab">
+            <b-tabs content-class="mt-3" justified vertical pills lazy nav-wrapper-class="col-4" nav-class="text-center">
                 <b-tab title="Backup">
                     <backup-data></backup-data>
                 </b-tab>
