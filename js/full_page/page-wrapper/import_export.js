@@ -25,7 +25,7 @@ Vue.component
                                 field: column, 
                                 label: column, 
                                 sortable: true, 
-                                thClass: 'text-center'
+                                thClass: 'text-center' 
                             }
                         )
                     ), 
@@ -36,7 +36,7 @@ Vue.component
                         perPageDropdown: [10], 
                         dropdownAllowAll: false 
                     }, 
-                    styleClass: "vgt-table condensed", 
+                    styleClass: "vgt-table condensed bordered", 
                     theme: "nocturnal" 
                 }
             }

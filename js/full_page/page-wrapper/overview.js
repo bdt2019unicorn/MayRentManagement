@@ -23,14 +23,7 @@ Vue.component
                     (
                         column=>
                         {
-                            try 
-                            {
-                                return !this.table_actions.hidden_columns.includes(column); 
-                            }
-                            catch
-                            {
-                                return true; 
-                            }
+                            return !this.SpecialColumns("hidden_columns").includes(column); 
                         }
                     ).map
                     (
@@ -46,21 +39,42 @@ Vue.component
                                 {
                                     return undefined; 
                                 }
+                            }; 
+
+                            let sort_actions = this.SpecialColumns("sort"); 
+
+                            SortFunction = (row1_value, row2_value, col, row1_object, row2_object)=>
+                            {
+                                let sort_by = sort_actions[column]; 
+                                let result = Number(row1_object[sort_by]) - Number(row2_object[sort_by]); 
+                                return result==0? 0: (result/Math.abs(result)); 
+                            }; 
+
+                            let sort = !Object.keys(sort_actions).includes(column)? {sortable: false}: 
+                            {
+                                sortable: true,
+                                sortFn: SortFunction 
                             }
+
                             return {
                                 field: column, 
                                 label: column, 
                                 thClass: 'text-center', 
-                                filterOptions: FilterOptions(column)
+                                filterOptions: FilterOptions(column), 
+                                ...sort 
                             }
                         }                    
                     ), 
                     rows: this.table_data, 
                     theme: "black-rhino", 
-                    styleClass: "vgt-table striped", 
+                    styleClass: "vgt-table bordered striped", 
                     searchOptions: {enabled: true}, 
                     maxHeight: "80vh", 
-                    fixedHeader: true
+                    fixedHeader: true, 
+                    selectOptions: 
+                    {
+                        enabled: this.CurrentController!='overview'
+                    }
                 }
             }    
         },
@@ -115,6 +129,30 @@ Vue.component
                 this.table_actions = this.TableActions(this.CurrentController); 
                 this.check_array = []; 
             }, 
+            RouterLinkBind(column, row)
+            {
+                let hyperlink_object = this.SpecialColumns("hyperlink"); 
+                try
+                {
+                    hyperlink_object = hyperlink_object[column]; 
+                    return {
+                        ...hyperlink_object, 
+                        append: hyperlink_object.append!=undefined?hyperlink_object.append: true, 
+                        to: 
+                        {
+                            path: hyperlink_object.to, 
+                            query: 
+                            {
+                                id: row[hyperlink_object["object_id"]]
+                            }
+                        }
+                    }
+                }
+                catch 
+                {
+                    return {}; 
+                }
+            }, 
             Search()
             {
                 let data = $(this.$refs['search_form']).serializeObject(); 
@@ -158,13 +196,30 @@ Vue.component
                     return; 
                 }
                 this.table_data = overview_data; 
+            }, 
+            SpecialColumns(action)
+            {
+                return this.table_actions[action]||[]; 
             }
         },
         watch: 
         {
             $route(to, from)
             {
-                this.PopulateData(); 
+                new Promise
+                (
+                    (resolve, reject)=>
+                    {
+                        this.table_data = []; 
+                        resolve(); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        this.PopulateData(); 
+                    }
+                ); 
             }
         },
         template: 
@@ -177,6 +232,20 @@ Vue.component
                             <div slot="table-actions" v-if="CurrentController!='overview'">
                                 This will show up on the top right of the table. 
                             </div>
+
+                            <template slot="table-row" slot-scope="props">
+                                <hyperlink-list-compile v-if='SpecialColumns("hyperlink_list").includes(props.column.field)' :list="props.row[props.column.field]"></hyperlink-list-compile>
+
+                                <router-link
+                                    v-else-if='Object.keys(SpecialColumns("hyperlink")).includes(props.column.field)'
+                                    v-bind="RouterLinkBind(props.column.field, props.row)"
+                                >{{props.formattedRow[props.column.field]}}</router-link>
+
+                                <template v-else>
+                                    {{props.formattedRow[props.column.field]}}
+                                </template>
+                            </template>
+
                         </vue-good-table>
                     </vs-col>
                 </vs-row>
