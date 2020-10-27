@@ -72,8 +72,7 @@ jQuery
                     {
                         username: "", 
                         user_id: 0, 
-                        buildings_data: [],
-                        table_th_sticky: true 
+                        buildings_data: [] 
                     }, 
                     mutations: 
                     {

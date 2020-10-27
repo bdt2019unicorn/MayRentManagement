@@ -2,23 +2,54 @@ Vue.component
 (
     "import-export", 
     {
+        mixins: [support_mixin], 
         data()
         {
             return {
-                excel_data: [], 
-                excel_input: true 
+                excel_data: []
             }
         }, 
-        mixins: [support_mixin], 
+        components: {...vueGoodTable, ...vueFragment, FileUpload: VueUploadComponent}, 
+        computed: 
+        {
+            DisplayTable()    
+            {
+                return (this.excel_data.length==0)? undefined: 
+                {
+                    rows: this.excel_data, 
+                    columns: Object.keys(this.excel_data[0]).map 
+                    (
+                        column=>
+                        (
+                            {
+                                field: column, 
+                                label: column, 
+                                sortable: true, 
+                                thClass: 'text-center' 
+                            }
+                        )
+                    ), 
+                    paginationOptions: 
+                    {
+                        enabled: true, 
+                        perPage: 10, 
+                        perPageDropdown: [10], 
+                        dropdownAllowAll: false 
+                    }, 
+                    styleClass: "vgt-table condensed bordered", 
+                    theme: "nocturnal" 
+                }
+            }
+        },
         methods: 
         {
-            async ReadExcel()
+            async ReadExcel(files)
             {
-                var file = this.$refs['excel_input'].files[0]; 
-                if(!file)
+                if(files.length==0)
                 {
                     return; 
                 }
+                let file = files[0].file; 
                 var buffer = await file.arrayBuffer();
                 var workbook = XLSX.read
                 (
@@ -36,20 +67,6 @@ Vue.component
                     }
                 );
                 this.excel_data = json_data.filter(row=>row["__EMPTY"]==undefined); 
-                new Promise
-                (
-                    (resolve, reject)=>
-                    {
-                        this.excel_input = false; 
-                        resolve(); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.excel_input = true; 
-                    }
-                ); 
             }, 
 
             SendData()
@@ -59,7 +76,6 @@ Vue.component
                 {
                     alert("data imported"); 
                     this.excel_data = []; 
-                    this.$refs['excel_input'].value=""; 
                 } 
                 else 
                 {
@@ -76,34 +92,38 @@ Vue.component
                 this.excel_data = []; 
             }
         },
+
         template: 
         `
-            <div class="import-export-layout container-fluid">
+            <fragment>
+                <vs-row>
+                    <vs-col vs-w="6" vs-align="center" vs-justify="center" vs-type="flex">
+                        <vs-button color="primary" type="border" icon="table_view" :href='"excel_templates/" + $route.params.controller + "-template.xlsx"'>Download Excel Template</vs-button>
+                    </vs-col>
+                    <vs-col vs-w="6" vs-align="flex-end" vs-justify="center" vs-type="flex">
+                        <vs-button color="success" type="gradient" icon="cloud_download">
+                            <file-upload
+                                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
+                                @input="ReadExcel"
+                            >Import Excel file</file-upload>
+                        </vs-button>
+                    </vs-col>
+                </vs-row>
+                <br>
+                <template v-if="DisplayTable">
+                    <vs-row vs-align="center" vs-justify="center" vs-type="flex">
+                        <vs-col vs-w="11">
+                            <vue-good-table v-bind="DisplayTable"></vue-good-table>
+                        </vs-col>
+                    </vs-row>
+                    <br>
+                    <vs-row vs-align="flex-end" vs-justify="flex-end" vs-type="flex">
+                        <submit-button title="Import Data" @submit-button-clicked="SendData"></submit-button>
+                    </vs-row>
+                </template>
 
-                <a class="btn" style="grid-area: template-btn;" :href='"excel_templates/" + $route.params.controller + "-template.xlsx"'>
-                    <p>Download Excel Template</p>
-                    <i style="font-size: xx-large;" class="fas fa-file-excel"></i>
-                </a>
-
-                <a class="btn" style="grid-area: import-btn;" href="javascript:void(0);" @click.prevent="$refs['excel_input'].click()">
-                    <p>Import Excel File</p>
-                    <i style="font-size: xx-large;" class="fas fa-file-import"></i>
-                </a>
-                <input 
-                    v-if="excel_input"
-                    type="file" 
-                    hidden 
-                    ref="excel_input" 
-                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" 
-                    @change="ReadExcel"
-                >
-
-                <scrolling-table tb_style="grid-area: scrolling-div;" v-if="this.excel_data.length>0" :table_data="excel_data"></scrolling-table>
-
-                <submit-button title="Import Data" style="grid-area: next-btn;" v-show="this.excel_data.length>0" @submit-button-clicked="SendData"></submit-button>
-
-            </div>
-
+            </fragment>
         `
+
     }
 ); 

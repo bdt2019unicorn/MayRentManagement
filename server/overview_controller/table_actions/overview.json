@@ -4,12 +4,14 @@
     {
         "Apartment Name":
         {
-            "to": "apartment/edit", 
+            "controller": "apartment", 
+            "action": "edit", 
             "object_id": "ID"
         }, 
         "Tenant Name":
         {
-            "to": "tenant/edit", 
+            "controller": "tenant", 
+            "action": "edit", 
             "object_id": "tenantid"
         }
     }, 
