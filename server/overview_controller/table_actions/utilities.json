@@ -4,10 +4,9 @@
     {
         "Apartment Name":
         {
-            "to": "apartment-utilities", 
-            "object_id": "apartment_id", 
-            "replace": true, 
-            "append": false 
+            "controller": "utilities", 
+            "action": "apartment-utilities", 
+            "object_id": "apartment_id" 
         }
     }
 }
