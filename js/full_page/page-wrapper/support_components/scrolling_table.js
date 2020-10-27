@@ -1,5 +1,18 @@
 Vue.component
 (
+    "hyperlink-list-compile", 
+    {
+        props: ["list"], 
+        render(create_element) 
+        {
+            let template = `<p>${this.list}</p>`; 
+            return create_element("p", [create_element(Vue.compile(template))]); 
+        },
+    }
+); 
+
+Vue.component
+(
     "scrolling-table", 
     {
         props: ["table_actions", "table_data"], 
