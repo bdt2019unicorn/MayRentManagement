@@ -8,8 +8,7 @@ Vue.component
             return {
                 table_actions: {}, 
                 table_data: [], 
-                check_array: [], 
-                scrolling_table: true 
+                check_array: [] 
             }; 
         }, 
         components: {...vueGoodTable, ...vueFragment, ...bootstrap}, 
@@ -80,21 +79,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Delete success!"); 
-                    new Promise
-                    (
-                        (resolve, reject)=>
-                        {
-                            this.scrolling_table = false; 
-                            this.PopulateData(); 
-                            resolve(); 
-                        }
-                    ).then 
-                    (
-                        ()=>
-                        {
-                            this.scrolling_table = true; 
-                        }
-                    ); 
+                    this.PopulateData(); 
                 }
                 else
                 {
@@ -105,13 +90,26 @@ Vue.component
             {
                 let filter_by = this.table_actions.id; 
                 this.check_array = selected_rows.map(row=>row[filter_by]); 
-                console.log(this.check_array); 
             }, 
             PopulateData()
             {
-                this.table_data = this.TableData(this.CurrentController); 
-                this.table_actions = this.TableActions(this.CurrentController); 
-                this.check_array = []; 
+                new Promise
+                (
+                    (resolve, reject)=>
+                    {
+                        this.table_data = []; 
+                        resolve(); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        this.table_data = this.TableData(this.CurrentController); 
+                        this.table_actions = this.TableActions(this.CurrentController); 
+                        this.check_array = []; 
+                    }
+                ); 
+
             }, 
             RouterLinkBind(column, row)
             {
@@ -137,50 +135,6 @@ Vue.component
                     return {}; 
                 }
             }, 
-            Search()
-            {
-                let data = $(this.$refs['search_form']).serializeObject(); 
-                let overview_data = this.TableData(this.CurrentController); 
-                if(data['search_value'])
-                {
-                    this.table_data = overview_data.filter 
-                    (
-                        row=>
-                        {
-                            function CheckRow()
-                            {
-                                for(var value of Object.values(row))
-                                {
-                                    try 
-                                    {
-                                        if(value.toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
-                                        {
-                                            return true; 
-                                        }
-                                    }
-                                    catch{}
-                                }
-                                return false; 
-                            }
-
-                            function CheckCategory()
-                            {
-                                try 
-                                {
-                                    return (row[data['search_category']].toLowerCase().indexOf(data['search_value'].toLowerCase())>=0); 
-                                }
-                                catch 
-                                {
-                                    return false; 
-                                }
-                            }
-                            return (data['search_category'])? CheckCategory() : CheckRow(); 
-                        }
-                    ); 
-                    return; 
-                }
-                this.table_data = overview_data; 
-            }, 
             SpecialColumns(action)
             {
                 return this.table_actions[action]||[]; 
@@ -190,20 +144,7 @@ Vue.component
         {
             $route(to, from)
             {
-                new Promise
-                (
-                    (resolve, reject)=>
-                    {
-                        this.table_data = []; 
-                        resolve(); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.PopulateData(); 
-                    }
-                ); 
+                this.PopulateData(); 
             }
         },
         template: 
@@ -213,15 +154,15 @@ Vue.component
                 <vs-row v-if="DisplayTable" vs-align="center" vs-justify="center" vs-type="flex">
                     <vs-col vs-w="11">
                         <vue-good-table v-bind="DisplayTable" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows)">
-                            <div slot="table-actions" v-if="CurrentController!='overview'">
-                                <vs-button color="danger" type="gradient" icon="trash">Delete</vs-button>
-                                <b-button disabled v-if="check_array.length!=1">Edit</b-button>
+                            <vs-row vs-type="flex" vs-align="space-between" slot="table-actions" v-if="CurrentController!='overview'">
+                                <b-button variant="danger" class="mx-1" :disabled="check_array.length==0" @click="DeleteData">Delete</b-button>
+                                <b-button class="mx-1" disabled v-if="check_array.length!=1">Edit</b-button>
                                 <router-link 
-                                    class="btn btn-secondary" 
+                                    class="btn btn-secondary mx-1" 
                                     v-else 
                                     :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
                                 >Edit</router-link>
-                            </div>
+                            </vs-row>
 
                             <template slot="table-row" slot-scope="props">
                                 <hyperlink-list-compile v-if='SpecialColumns("hyperlink_list").includes(props.column.field)' :list="props.row[props.column.field]"></hyperlink-list-compile>
@@ -240,258 +181,6 @@ Vue.component
                     </vs-col>
                 </vs-row>
             </div>
-        <!--
-            <div class="container-fluid">
-                <h1>{{table_actions.page_title || "Overview"}}</h1>
-                <div class="row">
-                    <form class="container-fluid row col" v-if="table_actions.search" ref="search_form" @submit.prevent="Search">
-                        <text-input name='search_value'></text-input>
-                        <select-input 
-                            name='search_category' 
-                            v-if="table_actions.search.length>0" 
-                            :select_data="table_actions.search?table_actions.search.map(element=>({value: element, text: element})): undefined" 
-                            select_value="value" 
-                            text="text" 
-                            not_required="true"
-                        ></select-input>
-                        <div class="col--2"> 
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
-
-                    <div class="col-4 row" v-if="CurrentController!='overview'">
-
-                        <div class="col text-right">
-                            <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
-                        </div>
-                        <div class="col text-center">
-                            <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <router-link 
-                                class="btn btn-secondary" 
-                                v-else 
-                                :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
-                            >Edit</router-link>
-                        </div>
-
-                    </div>
-                </div>
-                <br>
-                <scrolling-table v-if="scrolling_table" class="row" v-bind="$data" @id-check-changed="IdCheckChanged"></scrolling-table>
-            </div>
-            -->
-
-
         `
     }
 ); 
-
-// template: 
-//         `
-//             <div class="container-fluid">
-//                 <h1>{{table_actions.page_title || "Overview"}}</h1>
-//                 <div class="row">
-//                     <form class="container-fluid row col" v-if="table_actions.search" ref="search_form" @submit.prevent="Search">
-//                         <text-input name='search_value'></text-input>
-//                         <select-input 
-//                             name='search_category' 
-//                             v-if="table_actions.search.length>0" 
-//                             :select_data="table_actions.search?table_actions.search.map(element=>({value: element, text: element})): undefined" 
-//                             select_value="value" 
-//                             text="text" 
-//                             not_required="true"
-//                         ></select-input>
-//                         <div class="col--2"> 
-//                             <button class="btn btn-primary" type="submit">Search</button>
-//                         </div>
-//                     </form>
-
-//                     <div class="col-4 row" v-if="CurrentController!='overview'">
-
-//                         <div class="col text-right">
-//                             <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
-//                         </div>
-//                         <div class="col text-center">
-//                             <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-//                             <router-link 
-//                                 class="btn btn-secondary" 
-//                                 v-else 
-//                                 :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
-//                             >Edit</router-link>
-//                         </div>
-
-//                     </div>
-//                 </div>
-//                 <br>
-//                 <scrolling-table v-if="scrolling_table" class="row" v-bind="$data" @id-check-changed="IdCheckChanged"></scrolling-table>
-//             </div>
-//         `
-//     }
-
-
-
-
-
-/*
-Vue.component 
-(
-    "overview", 
-    {
-        mixins:[support_mixin], 
-        data()
-        {
-            return {
-                table_actions: {}, 
-                table_data: [], 
-                check_array: [], 
-                scrolling_table: true 
-            }; 
-        }, 
-        created() 
-        {
-            this.PopulateData(); 
-        },
-        methods: 
-        {
-            DeleteData()
-            {
-                var url = `server/database_controller/delete.php?table=${this.CurrentController}`; 
-                var result = this.SubmitData("delete", url, this.check_array); 
-                if(Number(result))
-                {
-                    alert("Delete success!"); 
-                    new Promise
-                    (
-                        (resolve, reject)=>
-                        {
-                            this.scrolling_table = false; 
-                            this.PopulateData(); 
-                            resolve(); 
-                        }
-                    ).then 
-                    (
-                        ()=>
-                        {
-                            this.scrolling_table = true; 
-                        }
-                    ); 
-                }
-                else
-                {
-                    alert("Delete fails, there seems to be a server error"); 
-                }
-            }, 
-            IdCheckChanged(object_id, checked)
-            {
-                if(checked)
-                {
-                    this.check_array.push(object_id); 
-                }
-                else 
-                {
-                    this.check_array = this.check_array.filter(value=>value!=object_id); 
-                }
-            }, 
-            PopulateData()
-            {
-                this.table_data = this.TableData(this.CurrentController); 
-                this.table_actions = this.TableActions(this.CurrentController); 
-                this.check_array = []; 
-            }, 
-            Search()
-            {
-                let data = $(this.$refs['search_form']).serializeObject(); 
-                let overview_data = this.TableData(this.CurrentController); 
-                if(data['search_value'])
-                {
-                    this.table_data = overview_data.filter 
-                    (
-                        row=>
-                        {
-                            function CheckRow()
-                            {
-                                for(var value of Object.values(row))
-                                {
-                                    try 
-                                    {
-                                        if(value.toLowerCase().indexOf(data['search_value'].toLowerCase())>=0)
-                                        {
-                                            return true; 
-                                        }
-                                    }
-                                    catch{}
-                                }
-                                return false; 
-                            }
-
-                            function CheckCategory()
-                            {
-                                try 
-                                {
-                                    return (row[data['search_category']].toLowerCase().indexOf(data['search_value'].toLowerCase())>=0); 
-                                }
-                                catch 
-                                {
-                                    return false; 
-                                }
-                            }
-                            return (data['search_category'])? CheckCategory() : CheckRow(); 
-                        }
-                    ); 
-                    return; 
-                }
-                this.table_data = overview_data; 
-            }
-        },
-        watch: 
-        {
-            $route(to, from)
-            {
-                this.PopulateData(); 
-            }
-        },
-        template: 
-        `
-            <div class="container-fluid">
-                <h1>{{table_actions.page_title || "Overview"}}</h1>
-                <div class="row">
-                    <form class="container-fluid row col" v-if="table_actions.search" ref="search_form" @submit.prevent="Search">
-                        <text-input name='search_value'></text-input>
-                        <select-input 
-                            name='search_category' 
-                            v-if="table_actions.search.length>0" 
-                            :select_data="table_actions.search?table_actions.search.map(element=>({value: element, text: element})): undefined" 
-                            select_value="value" 
-                            text="text" 
-                            not_required="true"
-                        ></select-input>
-                        <div class="col--2"> 
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                    </form>
-
-                    <div class="col-4 row" v-if="CurrentController!='overview'">
-
-                        <div class="col text-right">
-                            <button :disabled="check_array.length==0" class="btn btn-danger" type="button" @click="DeleteData">Delete</button>
-                        </div>
-                        <div class="col text-center">
-                            <button class="btn btn-secondary" v-if="check_array.length!=1" disabled>Edit</button>
-                            <router-link 
-                                class="btn btn-secondary" 
-                                v-else 
-                                :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
-                            >Edit</router-link>
-                        </div>
-
-                    </div>
-                </div>
-                <br>
-                <scrolling-table v-if="scrolling_table" class="row" v-bind="$data" @id-check-changed="IdCheckChanged"></scrolling-table>
-            </div>
-        `
-    }
-); 
-
-
-
-*/
