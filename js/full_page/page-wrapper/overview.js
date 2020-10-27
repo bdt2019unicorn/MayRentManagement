@@ -12,7 +12,7 @@ Vue.component
                 scrolling_table: true 
             }; 
         }, 
-        components: {...vueGoodTable, ...vueFragment}, 
+        components: {...vueGoodTable, ...vueFragment, ...bootstrap}, 
         computed: 
         {
             DisplayTable()
@@ -29,18 +29,6 @@ Vue.component
                     (
                         column=>
                         {
-                            FilterOptions = (column)=>
-                            {
-                                try 
-                                {
-                                    return this.table_actions.search.includes(column)? {enabled: true}: undefined; 
-                                }
-                                catch 
-                                {
-                                    return undefined; 
-                                }
-                            }; 
-
                             let sort_actions = this.SpecialColumns("sort"); 
 
                             SortFunction = (row1_value, row2_value, col, row1_object, row2_object)=>
@@ -60,7 +48,7 @@ Vue.component
                                 field: column, 
                                 label: column, 
                                 thClass: 'text-center', 
-                                filterOptions: FilterOptions(column), 
+                                filterOptions: {enabled: this.table_actions.search.includes(column)}, 
                                 ...sort 
                             }
                         }                    
@@ -73,7 +61,8 @@ Vue.component
                     fixedHeader: true, 
                     selectOptions: 
                     {
-                        enabled: this.CurrentController!='overview'
+                        enabled: Boolean(this.table_actions.id), 
+                        disableSelectInfo: true
                     }
                 }
             }    
@@ -112,16 +101,11 @@ Vue.component
                     alert("Delete fails, there seems to be a server error"); 
                 }
             }, 
-            IdCheckChanged(object_id, checked)
+            IdCheckChanged(selected_rows)
             {
-                if(checked)
-                {
-                    this.check_array.push(object_id); 
-                }
-                else 
-                {
-                    this.check_array = this.check_array.filter(value=>value!=object_id); 
-                }
+                let filter_by = this.table_actions.id; 
+                this.check_array = selected_rows.map(row=>row[filter_by]); 
+                console.log(this.check_array); 
             }, 
             PopulateData()
             {
@@ -228,9 +212,15 @@ Vue.component
                 <h1>{{table_actions.page_title || "Overview"}}</h1>
                 <vs-row v-if="DisplayTable" vs-align="center" vs-justify="center" vs-type="flex">
                     <vs-col vs-w="11">
-                        <vue-good-table v-bind="DisplayTable">
+                        <vue-good-table v-bind="DisplayTable" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows)">
                             <div slot="table-actions" v-if="CurrentController!='overview'">
-                                This will show up on the top right of the table. 
+                                <vs-button color="danger" type="gradient" icon="trash">Delete</vs-button>
+                                <b-button disabled v-if="check_array.length!=1">Edit</b-button>
+                                <router-link 
+                                    class="btn btn-secondary" 
+                                    v-else 
+                                    :to="ToActions({action: table_actions.edit_action || 'edit', query: {id: check_array[0]}})"
+                                >Edit</router-link>
                             </div>
 
                             <template slot="table-row" slot-scope="props">
