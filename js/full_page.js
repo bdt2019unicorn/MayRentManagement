@@ -22,7 +22,7 @@ Vue.component
                             <p>{{StateObject('username')}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <router-link class="btn dropdown-item" :to="{name: 'user'}">Manage you Account</router-link>
+                            <router-link class="btn dropdown-item" :to="{name: 'user'}">Manage your Account</router-link>
                             <button 
                                 class="btn dropdown-item" 
                                 onclick="window.store_track.commit('Authorize', {username: '', user_id: ''}); window.router.push({name: 'home'}).catch(error=>{});"
