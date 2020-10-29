@@ -2,9 +2,9 @@
     "hidden_columns": ["leaseid", "ocupants_ids", "Payment Status Value", "Rental Status Value", "tenantid"], 
     "hyperlink": 
     {
-        "Apartment Name":
+        "Unit Name":
         {
-            "controller": "apartment", 
+            "controller": "unit", 
             "action": "edit", 
             "object_id": "ID"
         }, 
@@ -17,11 +17,11 @@
     }, 
     "hyperlink_list": ["Ocupant Name", "Rental Status"], 
     "page_title": "Overview", 
-    "search": ["Apartment Name", "Tenant Name", "Rental Status", "Payment Status"], 
+    "search": ["Unit Name", "Tenant Name", "Rental Status", "Payment Status"], 
     "sort": 
     {
         "Rental Status": "Rental Status Value", 
         "Payment Status": "Payment Status Value", 
-        "Apartment Name": "ID"
+        "Unit Name": "ID"
     }
 }

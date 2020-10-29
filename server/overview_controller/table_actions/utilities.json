@@ -1,12 +1,12 @@
 {
-    "hidden_columns": ["apartment_id", "apartment_table", "revenue_type_id"], 
+    "hidden_columns": ["unit_id", "unit_table", "revenue_type_id"], 
     "hyperlink": 
     {
         "Apartment Name":
         {
             "controller": "utilities", 
-            "action": "apartment-utilities", 
-            "object_id": "apartment_id" 
+            "action": "unit-utilities", 
+            "object_id": "unit_id" 
         }
     }
 }
