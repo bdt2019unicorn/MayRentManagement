@@ -13,7 +13,7 @@
 				`id` AS `leaseid`, 
 				`Tenant_ID` AS `tenantid`, 
 				`ocupants_ids`, 
-				`apartment_id`, 
+				`unit_id`, 
 				`Start_date`, 
 				`Finish`, 
 				`Deposit_payment_date`, 
@@ -60,8 +60,8 @@
 		); 
 
 		SELECT 
-			`apartment`.`id` AS `ID`, 
-			`apartment`.`name` AS `Apartment Name`, 
+			`unit`.`id` AS `ID`, 
+			`unit`.`name` AS `Unit Name`, 
 			IF
 			(
 				ISNULL(`leaseagrm_overview`.`Rental Status`), 'Vacant', 
@@ -80,9 +80,9 @@
 			`leaseagrm_overview`.`ocupants_ids`, 
 			`leaseagrm_overview`.`leaseid`, 
 			`leaseagrm_overview`.`tenantid`	
-		FROM `apartment` LEFT JOIN `leaseagrm_overview` ON `apartment`.`id` = `leaseagrm_overview`.`apartment_id`
-		WHERE `apartment`.`building_id` = '{$_GET['building_id']}'
-		ORDER BY `apartment`.`id`; 
+		FROM `unit` LEFT JOIN `leaseagrm_overview` ON `unit`.`id` = `leaseagrm_overview`.`unit_id`
+		WHERE `unit`.`building_id` = '{$_GET['building_id']}'
+		ORDER BY `unit`.`id`; 
 	"; 
 
 	$raw_table = Connect::MultiQuery($sql); 

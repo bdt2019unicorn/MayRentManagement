@@ -59,7 +59,7 @@ Vue.component
                             let number = {}; 
                             numbers.forEach(key=>number[key] = this.NumeralFormat(Number(details[key]))); 
                             return {
-                                name: `${this.invoice_information.apartment_name} - ${revenue_type} ${this.DateReformatDisplay(details.previous_date)} - ${this.DateReformatDisplay(details.date)}`, 
+                                name: `${this.invoice_information.unit_name} - ${revenue_type} ${this.DateReformatDisplay(details.previous_date)} - ${this.DateReformatDisplay(details.date)}`, 
                                 revenue_type: revenue_type, 
                                 ...details, 
                                 ...number

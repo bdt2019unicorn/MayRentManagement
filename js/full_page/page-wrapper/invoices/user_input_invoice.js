@@ -19,7 +19,7 @@ Vue.component
                 }, 
                 invoice_information: 
                 {
-                    apartment_name: undefined, 
+                    unit_name: undefined, 
                     leaseagrm: {}, 
                     utilities: {}
                 }, 

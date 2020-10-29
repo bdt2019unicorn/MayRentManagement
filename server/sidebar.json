@@ -1,21 +1,21 @@
 [
     {
         "icon": "bed",
-        "name": "apartment", 
-        "text": "Apartments",
+        "name": "unit", 
+        "text": "Units",
         "menu": 
         [
             {
                 "action": "overview", 
                 "text": "Overview", 
-                "title": "All Apartments", 
+                "title": "All Units", 
                 "button": "warning", 
                 "icon": "home"
             }, 
             {
                 "action": "add", 
                 "text": "Add", 
-                "title": "Add New Apartment", 
+                "title": "Add New Unit", 
                 "button": "secondary", 
                 "icon": "plus"
             }, 

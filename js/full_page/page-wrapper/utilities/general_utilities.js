@@ -126,7 +126,7 @@ Vue.component
                     <form class="container-fluid col" @submit.prevent="Search" ref="search_form">  
                         <div class="row">
                             <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData" @search-data-changed="Search"></select-input>
-                            <slot name="form_apartments_select" v-bind:select_data="select_data"></slot>
+                            <slot name="form_units_select" v-bind:select_data="select_data"></slot>
                         </div>
 
                         <div class="row">

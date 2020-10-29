@@ -1,7 +1,7 @@
 {
-    "apartment": 
+    "unit": 
     {
-        "table": "apartment", 
+        "table": "unit", 
         "get_id": 
         {
             "building": 
@@ -22,11 +22,11 @@
         "date_collumns": ["start_period", "end_period", "payment_date"], 
         "get_id": 
         {
-            "apartment":  
+            "unit":  
             {
                 "search": "name", 
-                "change": "apartment_id", 
-                "table": "apartment"
+                "change": "unit_id", 
+                "table": "unit"
             }, 
             "expense_type":  
             {
@@ -43,11 +43,11 @@
         "date_collumns": ["start_date", "finish", "deposit_payment_date", "deposit_payback_date"], 
         "get_id": 
         {
-            "apartment": 
+            "unit": 
             {
                 "search": "name", 
-                "change": "apartment_id", 
-                "table": "apartment"
+                "change": "unit_id", 
+                "table": "unit"
             }, 
             "tenant_id": 
             {
@@ -103,11 +103,11 @@
                 "change": "revenue_type_id", 
                 "table": "revenue_type"
             }, 
-            "apartment": 
+            "unit": 
             {
                 "search": "name", 
-                "change": "apartment_id", 
-                "table": "apartment"
+                "change": "unit_id", 
+                "table": "unit"
             }
         }
     }
