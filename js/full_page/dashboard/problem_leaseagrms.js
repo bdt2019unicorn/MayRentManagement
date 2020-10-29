@@ -7,7 +7,7 @@ Vue.component
         {
             return {
                 leaseagrm_edit: undefined, 
-                leaseagrm_table: "Contracts with no tenants and apartment", 
+                leaseagrm_table: "Contracts with no tenants and unit", 
             }
         },
         components: {...vueGoodTable, ...vueFragment}, 
@@ -15,12 +15,12 @@ Vue.component
         {
             LeaseagrmCategorized()
             {
-                let partition_all_null = R.partition(leaseagrm=>(leaseagrm["Apartment"]==undefined && leaseagrm["Tenant Name"]==undefined), this.leaseagrm); 
-                let apartment_tenant_partition = R.partition(leaseagrm=>leaseagrm["Apartment"]==undefined, partition_all_null[1]); 
+                let partition_all_null = R.partition(leaseagrm=>(leaseagrm["Unit"]==undefined && leaseagrm["Tenant Name"]==undefined), this.leaseagrm); 
+                let unit_tenant_partition = R.partition(leaseagrm=>leaseagrm["Unit"]==undefined, partition_all_null[1]); 
                 return {
-                    "Contracts with no tenants and apartment": partition_all_null[0], 
-                    "Contract with no apartment": apartment_tenant_partition[0], 
-                    "Contract with no head tenant": apartment_tenant_partition[1]
+                    "Contracts with no tenants and unit": partition_all_null[0], 
+                    "Contract with no unit": unit_tenant_partition[0], 
+                    "Contract with no head tenant": unit_tenant_partition[1]
                 }; 
             }, 
 

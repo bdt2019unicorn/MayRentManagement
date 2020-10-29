@@ -74,7 +74,7 @@
         {
             "name": "required",
             "expense_type_id": "required",
-            "apartment_id": "required",
+            "building_id": "required",
             "amount":
             {
                 "required": true, 

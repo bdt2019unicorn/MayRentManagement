@@ -6,7 +6,7 @@ Vue.component
         data() 
         {
             return {
-                apartment_id: "", 
+                unit_id: "", 
                 contenteditable: ["date", "time", "number"], 
                 utilities_readings: []
             }
@@ -17,7 +17,7 @@ Vue.component
             {
                 return this.utilities_readings.map 
                 (
-                    ({revenue_type_id, apartment_id, current_date, ...rest}) => 
+                    ({revenue_type_id, unit_id, current_date, ...rest}) => 
                     (
                         {
 
@@ -51,7 +51,7 @@ Vue.component
                 return valid.length==this.utilities_readings.length?                
                 this.utilities_readings.map 
                 (
-                    ({apartment_name, service, current_reading, current_date, date, time, number, ...rest })=>
+                    ({unit_name, service, current_reading, current_date, date, time, number, ...rest })=>
                     (
                         {
                             number: Number(number), 
@@ -65,23 +65,23 @@ Vue.component
         },
         methods: 
         {
-            ApartmentIdValueChanged()
+            UnitIdValueChanged()
             {
                 new Promise 
                 (
                     (resolve, reject)=>
                     {
-                        this.apartment_id = ""; 
+                        this.unit_id = ""; 
                         resolve(); 
                     }
                 ).then 
                 (
                     ()=>
                     {
-                        this.apartment_id = $(this.$refs["apartments_select"]).find("[name='apartment_id']").val();
+                        this.unit_id = $(this.$refs["units_select"]).find("[name='unit_id']").val();
                         try 
                         {
-                            var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&apartment_id=${this.apartment_id}`); 
+                            var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&unit_id=${this.unit_id}`); 
                             current_readings = JSON.parse(current_readings); 
         
                             CurrentReading = function(revenue_type_id, look_up)
@@ -102,9 +102,9 @@ Vue.component
                                 (
                                     {
                                         revenue_type_id: revenue_type.id, 
-                                        apartment_id: this.apartment_id, 
+                                        unit_id: this.unit_id, 
                                         service: revenue_type.name, 
-                                        apartment_name: this.select_data.apartments.find(apartment=>apartment.id==this.apartment_id).name, 
+                                        unit_name: this.select_data.units.find(unit=>unit.id==this.unit_id).name, 
                                         date: this.DateReformatDatabase(), 
                                         time: moment().format("HH:mm"), 
                                         number: "", 
@@ -128,13 +128,13 @@ Vue.component
                     (resolve, reject)=>
                     {
                         this.utilities_readings = this.utilities_readings.filter((value, index)=>index!=remove_index); 
-                        let apartment_id = this.apartment_id; 
-                        this.apartment_id = ""; 
-                        resolve(apartment_id); 
+                        let unit_id = this.unit_id; 
+                        this.unit_id = ""; 
+                        resolve(unit_id); 
                     }
                 ).then
                 (
-                    (apartment_id)=>
+                    (unit_id)=>
                     {
                         if(this.utilities_readings.length==0)
                         {
@@ -142,22 +142,22 @@ Vue.component
                             (
                                 (resolve, reject)=>
                                 {
-                                    let apartments = R.clone(this.select_data.apartments); 
-                                    this.select_data.apartments = undefined; 
-                                    resolve(apartments); 
+                                    let units = R.clone(this.select_data.units); 
+                                    this.select_data.units = undefined; 
+                                    resolve(units); 
                                 }
                             ).then 
                             (
-                                (apartments)=>
+                                (units)=>
                                 {
-                                    this.select_data.apartments = apartments; 
-                                    this.apartment_id = ""; 
+                                    this.select_data.units = units; 
+                                    this.unit_id = ""; 
                                 }
                             ); 
                         }
                         else 
                         {
-                            this.apartment_id = apartment_id; 
+                            this.unit_id = unit_id; 
                         }
                     }
                 ); 
@@ -179,7 +179,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Add Reading Success"); 
-                    this.ApartmentIdValueChanged(); 
+                    this.UnitIdValueChanged(); 
                 }
                 else 
                 {
@@ -192,15 +192,15 @@ Vue.component
             <div class="container-fluid">
                 <h1>Utilities</h1>
                 <h6>Add new utility reading</h6>
-                <div class="row" ref="apartments_select">
-                    <select-input :select_data="select_data.apartments" v-bind="select_data" name="apartment_id" not_required="true" @search-data-changed="ApartmentIdValueChanged">All Apartment</select-input>
+                <div class="row" ref="units_select">
+                    <select-input :select_data="select_data.units" v-bind="select_data" name="unit_id" not_required="true" @search-data-changed="UnitIdValueChanged">All Units</select-input>
                 </div>
-                <div class="container-fluid" v-if="apartment_id">
+                <div class="container-fluid" v-if="unit_id">
                     <table class="table table-striped table-bordered table-hover">
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th>Service</th>
-                                <th>Apartment Name</th>
+                                <th>Unit Name</th>
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Reading</th>

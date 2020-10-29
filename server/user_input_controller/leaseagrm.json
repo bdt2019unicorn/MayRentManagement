@@ -18,9 +18,9 @@
             },
             {
                 "component": "select-input",
-                "name": "apartment_id",
-                "title": "Apartment",
-                "overview_controller": "apartment",
+                "name": "unit_id",
+                "title": "Unit",
+                "overview_controller": "unit",
                 "select_value": "id",
                 "text": "name"
             }
@@ -126,7 +126,7 @@
         {
             "name": "required",
             "tenant_id": "required",
-            "apartment_id": "required",
+            "unit_id": "required",
             "rent_amount": 
             {
                 "required": true, 

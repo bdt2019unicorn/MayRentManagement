@@ -134,8 +134,8 @@ Vue.component
         template: 
         `
             <general-utilities @search-data-changed="Search" :select_data="select_data" :table_data="table_data">
-                <template #form_apartments_select>
-                    <select-input :select_data="select_data.apartments" v-bind="select_data" name="apartment_id" :not_required="true">All Apartment</select-input>
+                <template #form_units_select>
+                    <select-input :select_data="select_data.units" v-bind="select_data" name="unit_id" :not_required="true">All Units</select-input>
                     <div class="col-2">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
@@ -179,7 +179,7 @@ Vue.component
 
 Vue.component
 (
-    "apartment-utilities", 
+    "unit-utilities", 
     {
         mixins: [utilities_mixin], 
         methods: 
@@ -188,10 +188,10 @@ Vue.component
             {
                 try 
                 {
-                    search_data.append("apartment_id", this.$route.query.id); 
-                    let apartment_utitlities_json = this.AjaxRequest(this.OverviewUrl, search_data,"post"); 
-                    let apartment_utitlities = JSON.parse(apartment_utitlities_json)[0]; 
-                    this.table_data = Object.values(apartment_utitlities.apartment_table).reverse(); 
+                    search_data.append("unit_id", this.$route.query.id); 
+                    let unit_utitlities_json = this.AjaxRequest(this.OverviewUrl, search_data,"post"); 
+                    let unit_utitlities = JSON.parse(unit_utitlities_json)[0]; 
+                    this.table_data = Object.values(unit_utitlities.unit_table).reverse(); 
                 }
                 catch {}
             }

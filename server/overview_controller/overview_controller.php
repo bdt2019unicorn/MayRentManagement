@@ -19,7 +19,7 @@
     {
         $sql_queries = array 
         (
-            "apartment"=>function()
+            "unit"=>function()
             {
                 $selects = isset($_GET["edit"])? ["*"]: ["id AS ID", "name AS Name"]; 
                 $conditions = null; 
@@ -29,7 +29,7 @@
                 }
                 catch(\Throwable $throwable) {}
 
-                return Query::SelectData("apartment", $selects, $conditions); 
+                return Query::SelectData("unit", $selects, $conditions); 
             },            
             "expense"=> function()
             {
@@ -49,7 +49,7 @@
                     SELECT 
                         `invoices`.`id` AS `ID`, 
                         `invoices`.`name` AS `Name`, 
-                        `apartment`.`name` AS `Apartment`, 
+                        `unit`.`name` AS `Unit`, 
                         (
                             IFNULL
                             (
@@ -60,11 +60,11 @@
                                 (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`), 0 
                             )
                         ) AS `Amount`
-                    FROM `invoices`, `leaseagrm`, `apartment`
+                    FROM `invoices`, `leaseagrm`, `unit`
                     WHERE 
                     	`invoices`.`leaseagrm_id` = `leaseagrm`.`id` AND 
-                        `leaseagrm`.`apartment_id` = `apartment`.`id` AND
-                        `apartment`.`building_id` = '{$_GET['building_id']}'
+                        `leaseagrm`.`unit_id` = `unit`.`id` AND
+                        `unit`.`building_id` = '{$_GET['building_id']}'
                 "; 
             }, 
             "leaseagrm"=> function()
@@ -75,12 +75,12 @@
             {
                 return (isset($_GET["edit"]))? Query::GeneralData("revenue", $_GET["id"]??null): 
                 "
-                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`, `apartment`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
-                    FROM `revenue`,`leaseagrm`, `apartment`
+                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`, `unit`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
+                    FROM `revenue`,`leaseagrm`, `unit`
                     WHERE 
                         `revenue`.`leaseagrm_id` = `leaseagrm`.`id` AND
-                        `leaseagrm`.`apartment_id` = `apartment`.`id` AND
-                        `apartment`.`building_id` = '{$_GET['building_id']}'
+                        `leaseagrm`.`unit_id` = `unit`.`id` AND
+                        `unit`.`building_id` = '{$_GET['building_id']}'
                 "; 
             }, 
             "tenant"=> function()

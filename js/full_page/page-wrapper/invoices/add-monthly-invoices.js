@@ -124,7 +124,7 @@ Vue.component
                                 (
                                     {
                                         ...utility, 
-                                        name: `${this.monthly_invoices[leaseagrm_id].apartment_name} - ${this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
+                                        name: `${this.monthly_invoices[leaseagrm_id].unit_name} - ${this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
                                         revenue_type: this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
                                     }
                                 )

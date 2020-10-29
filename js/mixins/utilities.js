@@ -8,7 +8,7 @@ var utilities_mixin =
             select_data: 
             {
                 utilities: [], 
-                apartments: [], 
+                units: [], 
                 select_value: "id", 
                 text: "name", 
             }, 
@@ -24,7 +24,7 @@ var utilities_mixin =
     {
         SelectData()
         {
-            this.select_data.apartments = this.TableData("apartment", {edit: 1});     
+            this.select_data.units = this.TableData("unit", {edit: 1});     
             let utility_data = this.AjaxRequest(`${this.main_url}SelectData`); 
             this.select_data.utilities = JSON.parse(utility_data); 
         }
