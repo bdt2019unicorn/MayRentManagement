@@ -16,9 +16,17 @@ var dashboard = Vue.component
         }, 
         created() 
         {
-            let data = this.AjaxRequest("server/dashboard_controller/dashboard.php"); 
-            data = JSON.parse(data); 
-            Object.keys(data).forEach(key=>this[key] = data[key]); 
+            this.GenerateData(); 
+        },
+
+        methods: 
+        {
+            GenerateData()
+            {
+                let data = this.AjaxRequest("server/dashboard_controller/dashboard.php"); 
+                data = JSON.parse(data); 
+                Object.keys(data).forEach(key=>this[key] = data[key]); 
+            }    
         },
 
         template: 
@@ -40,7 +48,7 @@ var dashboard = Vue.component
                         </vs-tab>
 
                         <vs-tab label="Backup/Restore Data">
-                            <backup-restore-data></backup-restore-data>
+                            <backup-restore-data @restore-success="GenerateData"></backup-restore-data>
                         </vs-tab>
                     </vs-tabs>
                 </vs-col>
