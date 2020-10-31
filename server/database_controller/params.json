@@ -1,17 +1,4 @@
 {
-    "unit": 
-    {
-        "table": "unit", 
-        "get_id": 
-        {
-            "building": 
-            {
-                "search": "name",
-                "change": "building_id", 
-                "table": "buildings"
-            }
-        }
-    }, 
     "buildings": 
     {
         "table": "buildings"
@@ -83,7 +70,30 @@
         "date_collumns": ["date_of_birth"], 
         "change": 
         {
-            "expected_departure_date_for_police_registration": "expected_departure_date"
+            "expected_departure_date_(police)": "expected_departure_date", 
+            "residential_registration_date_(police)": "police_registration_date"
+        }, 
+        "get_id": 
+        {
+            "building": 
+            {
+                "search": "name",
+                "change": "building_id", 
+                "table": "buildings"
+            }
+        }
+    },     
+    "unit": 
+    {
+        "table": "unit", 
+        "get_id": 
+        {
+            "building": 
+            {
+                "search": "name",
+                "change": "building_id", 
+                "table": "buildings"
+            }
         }
     }, 
     "user": 

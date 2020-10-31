@@ -54,12 +54,12 @@
             {
                 "component": "date-input",
                 "name": "police_registration_date",
-                "title": "Police registration date" 
+                "title": "Residential registration date (police)" 
             },             
             {
                 "component": "date-input",
                 "name": "expected_departure_date",
-                "title": "Expected departure date for police registration" 
+                "title": "Expected departure date (police)" 
             }
         ], 
         [
@@ -97,19 +97,31 @@
                 "name": "company_address",
                 "title": "Company Address"
             }
+        ],
+        [
+            {
+                "component": "textarea-input",
+                "name": "note",
+                "title": "Note"
+            }
         ]
     ],
     "validate":
     {
         "rules":
         {
-            "first_name": "required",
             "last_name": "required",
             "passport_id_number": "required",
+            "Nationality": "required", 
             "building_id": "required", 
             "mobile_phone": "required",
-            "personal_email": "email",
-            "work_email": "email"
+            "personal_email": 
+            {
+                "required": true, 
+                "email": true 
+            }, 
+            "work_email": "email", 
+            "company_name": "required"
         }
     }
 }
