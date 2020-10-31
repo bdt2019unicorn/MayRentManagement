@@ -35,8 +35,33 @@
                 "component": "text-input",
                 "name": "Nationality",
                 "title": "Nationality"
+            }, 
+            {
+                "component": "date-input",
+                "name": "visa_expiry_date",
+                "title": "Visa expiry date" 
             }
         ],
+        [
+            {
+                "component": "select-input",
+                "name": "building_id",
+                "title": "Building",
+                "overview_controller": "buildings",
+                "select_value": "id",
+                "text": "name"
+            }, 
+            {
+                "component": "date-input",
+                "name": "police_registration_date",
+                "title": "Police registration date" 
+            },             
+            {
+                "component": "date-input",
+                "name": "expected_departure_date",
+                "title": "Expected departure date for police registration" 
+            }
+        ], 
         [
             {
                 "component": "text-input",
@@ -81,6 +106,7 @@
             "first_name": "required",
             "last_name": "required",
             "passport_id_number": "required",
+            "building_id": "required", 
             "mobile_phone": "required",
             "personal_email": "email",
             "work_email": "email"
