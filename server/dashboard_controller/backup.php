@@ -33,7 +33,7 @@
         array_push($result, $comment); 
     }
 
-    array_push($result, "COMMIT;"); 
+    array_push($result, "SET FOREIGN_KEY_CHECKS=1;", "COMMIT;"); 
 
     header('Content-Type: application/sql');
     header('Content-Disposition: attachment; filename=may_backup_database.sql');
