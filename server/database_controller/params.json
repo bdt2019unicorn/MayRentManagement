@@ -13,7 +13,8 @@
             {
                 "search": "name", 
                 "change": "unit_id", 
-                "table": "unit"
+                "table": "unit", 
+                "find_by_building": true 
             }, 
             "expense_type":  
             {
@@ -27,26 +28,22 @@
     "leaseagrm": 
     {
         "table": "leaseagrm", 
-        "date_collumns": ["start_date", "finish", "deposit_payment_date", "deposit_payback_date"], 
+        "date_collumns": ["start_date", "end_date", "deposit_payment_date", "deposit_payback_date"], 
         "get_id": 
         {
             "unit": 
             {
                 "search": "name", 
                 "change": "unit_id", 
-                "table": "unit"
-            }, 
-            "tenant_id": 
-            {
-                "search": "id", 
-                "change": "tenant_id", 
-                "table": "tenant"
+                "table": "unit", 
+                "find_by_building": true 
             }
         },
         "comma": ["rent_amount","deposit_amount", "deposit_exchange_rate"], 
         "change": 
         {
-            "agreement_number": "name"
+            "agreement_number": "name", 
+            "end_date": "finish" 
         }
     }, 
     "revenue": 
@@ -94,6 +91,12 @@
                 "change": "building_id", 
                 "table": "buildings"
             }
+        }, 
+        "change": 
+        {
+            "bedroom_number": "number_of_bedrooms", 
+            "bathroom_number": "number_of_bathroom", 
+            "window_number": "number_of_windows" 
         }
     }, 
     "user": 
@@ -117,7 +120,8 @@
             {
                 "search": "name", 
                 "change": "unit_id", 
-                "table": "unit"
+                "table": "unit", 
+                "find_by_building": true 
             }
         }
     }

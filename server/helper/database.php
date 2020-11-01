@@ -205,11 +205,9 @@
             return $result; 
         }
 
-        public static function GetId($column, $value, $table,$id_field='id')
+        public static function GetId($table, $conditions, $id_field='id')
         {
-            $value = str_replace("'","\'",$value); 
-            $sql = "SELECT * FROM `{$table}` WHERE `{$column}` = '{$value}'"; 
-            $data = Connect::GetData($sql);
+            $data = Connect::SelectData($table, ["*"], $conditions); 
             if(is_bool($data))
             {
                 return null; 

@@ -2,7 +2,6 @@ Vue.component
 (
     "number-input", 
     {
-        // props: ["edit_data", "lock", "name", "title"], 
         mixins: [user_input_support_mixin], 
         data()
         {
@@ -84,10 +83,14 @@ Vue.component
                     }
                     if(new_value==undefined)
                     {
-                        if(this.number_display.trim())
+                        try 
                         {
-                            this.$emit("new-value-change-valid", this.edit_data, "valid", false, true); 
+                            if(this.number_display.trim())
+                            {
+                                this.$emit("new-value-change-valid", this.edit_data, "valid", false, true); 
+                            }
                         }
+                        catch {}
                         return; 
                     }
                 }

@@ -38,12 +38,16 @@
 			$key = $ModifyKey($key); 
 			if(isset($params['get_id'][$key]))
 			{
-				$reference_id = Connect::GetId
-				(
-					$params['get_id'][$key]['search'],
-					$value,
-					$params['get_id'][$key]['table']
-				); 
+
+				$key_params = $params['get_id'][$key]; 
+
+				$conditions = [$key_params['search'] => $value]; 
+				if($key_params["find_by_building"]??false)
+				{
+					$conditions["building_id"] = $_GET["building_id"]; 
+				}
+
+				$reference_id = Connect::GetId($key_params['table'], $conditions); 
 				if($reference_id)
 				{
 					$key = $params['get_id'][$key]['change']; 
@@ -71,7 +75,7 @@
 			{
 				$key = $params['change'][$key]; 
 			}
-			$data[$key] = $value; 
+			$data[$key] = str_replace("'","\'",$value); 
 		}; 
 
 		foreach ($row as $key => $value) 
