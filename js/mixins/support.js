@@ -8,7 +8,7 @@ var support_mixin =
         }, 
         ImportUrl()
         {
-            return `server/database_controller/import.php?import_controller=${this.CurrentController}`; 
+            return `server/database_controller/import.php?import_controller=${this.CurrentController}&building_id=${this.$route.params.building_id}`; 
         }, 
         LockStyle()
         {

@@ -118,6 +118,13 @@
                 "name": "deposit_exchange_rate",
                 "title": "Deposit Exchange Rate"
             }
+        ],
+        [
+            {
+                "component": "textarea-input",
+                "name": "note",
+                "title": "Note"
+            }
         ]
     ],
     "validate":

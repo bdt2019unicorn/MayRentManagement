@@ -9,9 +9,6 @@
         $sql = array_merge($sql, $queries); 
     }
 
-    // echo '<pre>'; 
-    // print_r($sql); 
-    // echo '</pre>';
     $result = Connect::ExecTransaction($sql); 
     echo $result; 
 ?>
