@@ -34,7 +34,6 @@ var rent_invoice_mixin =
         {
             var quatity = 0; 
             [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
-            start_period = start_period.add(1, "days"); 
             while(this.ValidPeriod(start_period, end_period))
             {
                 let end_of_month = new Date(start_period.year(), start_period.month()+1, 0); 
