@@ -25,6 +25,8 @@
     $config = file_get_contents("config.json"); 
     $config = json_decode($config, true); 
 
+    $sample_cell_styles = new SampleCellStyles(); 
+
     function InstructionTitles()
     {
         global $config; 
@@ -47,6 +49,7 @@
         global $col; 
         global $instruction_titles; 
         global $instruction_styles; 
+        global $sample_cell_styles; 
 
         foreach ($params as $column => $param) 
         {
@@ -68,11 +71,14 @@
                     ]
                 ]
             ]; 
+
+            $instruction_text_style = $sample_cell_styles->CellStyles("Instruction Text"); 
             foreach ($param as $key => $value) 
             {
                 $cell = "{$char}{$instruction_titles[$key]}"; 
                 $sheet->setCellValue($cell, $value); 
-                $sheet->getStyle($cell)->applyFromArray($styles); 
+                // $sheet->getStyle($cell)->applyFromArray($styles); 
+                $sheet->duplicateStyle($instruction_text_style, $cell); 
             }
         }
     
@@ -88,9 +94,10 @@
         global $sheet; 
         global $col; 
         global $instruction_titles; 
+        global $sample_cell_styles; 
 
         $last_char = chr($col); 
-        $merge_styles = MergeStyle(); 
+        $merge_styles = $sample_cell_styles->CellStyles("Merge"); 
         $merge_range = "B{$instruction_titles['Separate']}:{$last_char}{$instruction_titles['Separate']}"; 
         $sheet->duplicateStyle($merge_styles, $merge_range); 
         $sheet->mergeCells($merge_range); 
@@ -99,7 +106,7 @@
 
     
     $instruction_titles = $config["instruction_titles"]; 
-    $instruction_styles = CellStyles(); 
+    $instruction_styles = $sample_cell_styles->CellStyles("Instruction Title"); 
     InstructionTitles(); 
 
     
