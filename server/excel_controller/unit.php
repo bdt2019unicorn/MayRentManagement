@@ -39,6 +39,7 @@
 
     function ColumnHeaders()
     {
+        global $spreadsheet; 
         global $sheet; 
         global $col; 
         global $config; 
@@ -70,6 +71,47 @@
             $range_style = $sample_cell_styles->CellStyles($param["Data type"]); 
             $range_style->getNumberFormat()->setFormatCode($format_codes[$param["Data type"]]); 
             $sheet->duplicateStyle($range_style, "{$char}{$data_row_start}:{$char}{$config['total_row']}"); 
+
+            if(isset($params["dropdown_list"][$column]))
+            {
+                $dropdown = $params["dropdown_list"][$column]; 
+                $dropdown_list = Connect::SelectData($dropdown["table"], $dropdown["selects"]); 
+                if(count($dropdown_list))
+                {
+                    $title = null; 
+                    $cell_values = []; 
+                    foreach ($dropdown_list[0] as $key => $value) 
+                    {
+                        $title = $key; 
+                        array_push($cell_values, $title, $value); 
+                        break; 
+                    }
+                    for ($index=1; $index<count($dropdown_list); $index++) 
+                    { 
+                        array_push($cell_values, $dropdown_list[$index][$title]); 
+                    }
+
+                    $NameRange = function($title, $cell_values) use (&$spreadsheet, $config)
+                    {
+                        $end_range = count($cell_values); 
+                        $dropdown_sheet = new Worksheet($spreadsheet, $title); 
+                        $dropdown_sheet->getColumnDimension("A")->setAutoSize(true); 
+                        $dropdown_sheet->fromArray(array_chunk($cell_values, 1)); 
+                        $spreadsheet->addNamedRange(new NamedRange($title, $dropdown_sheet, "\$A\$2:\$A\${$end_range}")); 
+                        $spreadsheet->addSheet($dropdown_sheet); 
+                        $dropdown_sheet->getStyle("A1")->applyFromArray($config["dropdown_headings_styles"]); 
+                    }; 
+
+                    $NameRange($title, $cell_values); 
+                    for ($row=$data_row_start; $row <=$config['total_row']; $row++) 
+                    { 
+                        $validation = $sheet->getCell("{$char}{$row}")->getDataValidation();
+                        $validation->setType(DataValidation::TYPE_LIST); 
+                        $validation->setFormula1("={$title}"); 
+                        $validation->setShowDropDown(true); 
+                    }
+                }
+            }
         }
     
         $last_char = chr($col); 

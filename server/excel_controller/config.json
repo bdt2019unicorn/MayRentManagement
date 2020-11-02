@@ -14,5 +14,23 @@
         "Number": "#,##0.00", 
         "Number (m2)": "#,##0.00", 
         "Text": "@" 
+    }, 
+    "dropdown_headings_styles": 
+    {
+        "font": 
+        {
+            "bold": true
+        }, 
+        "alignment": 
+        {
+            "horizontal": "center"
+        }, 
+        "border": 
+        {
+            "allBorders": 
+            {
+                "borderStyle": "thin"
+            }
+        }
     }
 }
