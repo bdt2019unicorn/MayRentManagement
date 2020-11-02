@@ -53,6 +53,12 @@
     // $sheet->setCellValue('A1', 'Hello World !');
 
     $writer = new Xlsx($spreadsheet);
+    $directory = "templates/"; 
+    if(!file_exists("{$directory}hello world.xlsx"))
+    {
+        mkdir($directory);    
+    }
+
     $writer->save('templates/hello world.xlsx');
 
     // echo '<pre>'; 
