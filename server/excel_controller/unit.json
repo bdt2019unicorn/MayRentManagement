@@ -1,0 +1,42 @@
+{
+    "Name": 
+    {
+        "Data type": "Text", 
+        "Requirement": "Compulsory"
+    }, 
+    "Building": 
+    {
+        "Data type": "Text", 
+        "Requirement": "Compulsory"
+    }, 
+    "Area": 
+    {
+        "Data type": "Number (m2)", 
+        "Requirement": "Compulsory"
+    }, 
+    "Bedroom number": 
+    {
+        "Data type": "Number", 
+        "Requirement": "Optional"
+    }, 
+    "Bathroom number": 
+    {
+        "Data type": "Number", 
+        "Requirement": "Optional"
+    }, 
+    "Window number": 
+    {
+        "Data type": "Number", 
+        "Requirement": "Optional"
+    }, 
+    "Balcony": 
+    {
+        "Data type": "Binary", 
+        "Requirement": "Optional"
+    }, 
+    "Note": 
+    {
+        "Data type": "Text", 
+        "Requirement": "Optional"
+    } 
+}
