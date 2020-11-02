@@ -54,7 +54,7 @@
 
     $writer = new Xlsx($spreadsheet);
     $directory = "templates/"; 
-    if(!file_exists("{$directory}hello world.xlsx"))
+    if(!file_exists($directory))
     {
         mkdir($directory);    
     }

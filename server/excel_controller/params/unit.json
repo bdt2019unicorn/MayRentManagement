@@ -50,8 +50,12 @@
             "Requirement": "Optional"
         } 
     }, 
-    "selects": 
+    "dropdown_list": 
     {
-        
+        "Building": 
+        {
+            "table": "buildings", 
+            "selects": ["`name` AS `Buildings`"] 
+        }
     }
 }
