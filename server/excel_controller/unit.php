@@ -8,15 +8,10 @@
     use PhpOffice\PhpSpreadsheet\Style; 
 
 
-    require_once("get_style.php"); 
+    require_once("SampleCellStyles.php"); 
 
 
-    $params = file_get_contents("unit.json"); 
-    $params = json_decode($params, true); 
 
-    echo '<pre>'; 
-    print_r($params); 
-    echo '</pre>'; 
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -45,44 +40,37 @@
     function ColumnHeaders()
     {
         global $sheet; 
-        global $params; 
         global $col; 
+        global $config; 
         global $instruction_titles; 
         global $instruction_styles; 
         global $sample_cell_styles; 
 
-        foreach ($params as $column => $param) 
+        $params = file_get_contents("params/unit.json"); 
+        $params = json_decode($params, true); 
+
+        $format_codes = $config["format_codes"]; 
+        $data_row_start = $instruction_titles["Separate"] + 1; 
+
+        foreach ($params["columns"] as $column => $param) 
         {
             $col++; 
             $char = chr($col); 
             $sheet->getColumnDimension($char)->setAutoSize(true); 
             $sheet->setCellValue("{$char}1", $column); 
-            $styles = 
-            [
-                "alignment"=>
-                [
-                    'horizontal' => Style\Alignment::HORIZONTAL_CENTER 
-                ], 
-                "borders"=> 
-                [
-                    "allBorders"=>
-                    [
-                        'borderStyle' => Style\Border::BORDER_THIN,
-                    ]
-                ]
-            ]; 
 
             $instruction_text_style = $sample_cell_styles->CellStyles("Instruction Text"); 
             foreach ($param as $key => $value) 
             {
                 $cell = "{$char}{$instruction_titles[$key]}"; 
                 $sheet->setCellValue($cell, $value); 
-                // $sheet->getStyle($cell)->applyFromArray($styles); 
                 $sheet->duplicateStyle($instruction_text_style, $cell); 
             }
+
+            $range_style = $sample_cell_styles->CellStyles($param["Data type"]); 
+            $range_style->getNumberFormat()->setFormatCode($format_codes[$param["Data type"]]); 
+            $sheet->duplicateStyle($range_style, "{$char}{$data_row_start}:{$char}{$config['total_row']}"); 
         }
-    
-    
     
         $last_char = chr($col); 
     
@@ -103,7 +91,18 @@
         $sheet->mergeCells($merge_range); 
     }
 
+    function ExportToFile($spreadsheet)
+    {
+        $writer = new Xlsx($spreadsheet);
 
+        $directory = "templates/"; 
+        if(!file_exists("{$directory}unit.xlsx"))
+        {
+            mkdir($directory);    
+        }
+    
+        $writer->save('templates/unit.xlsx');
+    }
     
     $instruction_titles = $config["instruction_titles"]; 
     $instruction_styles = $sample_cell_styles->CellStyles("Instruction Title"); 
@@ -113,17 +112,5 @@
     $col = ord("A"); 
     ColumnHeaders(); 
     SeparateInstructionsData(); 
-
-    $writer = new Xlsx($spreadsheet);
-
-    $directory = "templates/"; 
-    if(!file_exists("{$directory}unit.xlsx"))
-    {
-        mkdir($directory);    
-    }
-
-    $writer->save('templates/unit.xlsx');
-
-
-
+    ExportToFile($spreadsheet); 
 ?>
