@@ -8,16 +8,31 @@
     use PhpOffice\PhpSpreadsheet\IOFactory; 
 
 
-    $file_name = "unit-template.xlsx"; 
-    $spreadsheet = IOFactory::load($file_name); 
-    $spreadsheet->setActiveSheetIndexByName("Data"); 
-    $sheet = $spreadsheet->getActiveSheet(); 
+    function CellStyles()
+    {
+        $file_name = "unit-template.xlsx"; 
+        $spreadsheet = IOFactory::load($file_name); 
+        $spreadsheet->setActiveSheetIndexByName("Data"); 
+        $sheet = $spreadsheet->getActiveSheet(); 
+    
+        $styles = $sheet->getStyle("A1");
+        return $styles; 
+    }
 
-    $style_array = $sheet->getStyle("A1");
 
-    echo '<pre>'; 
-    print_r($style_array); 
-    echo '</pre>'; 
+    function MergeStyle()
+    {
+        $file_name = "unit-template.xlsx"; 
+        $spreadsheet = IOFactory::load($file_name); 
+        $spreadsheet->setActiveSheetIndexByName("Data"); 
+        $sheet = $spreadsheet->getActiveSheet(); 
+
+        $styles = $sheet->getStyle("B5"); 
+        return $styles; 
+    }
+
+
+
 
 
 
