@@ -6,13 +6,5 @@
         "Requirement": 4, 
         "Separate": 5 
     }, 
-    "cell_fill": 
-    {
-        "end_color": "FFFFFFFF", 
-        "instruction_titles": 
-        {
-            "start_color": "#5B9BD5"
-        } 
-
-    }
+    "total_row": 20
 }
