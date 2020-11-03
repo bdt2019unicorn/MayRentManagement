@@ -16,11 +16,7 @@
                 <page-navbar :buildings_data="buildings_data" grid_area_surfix="main-nav-item"></page-navbar>
                 <router-view></router-view>
             </div>
-
             <page-administration v-if="!StateObject('username')"></page-administration>
-
-            <!-- able to do both vietnamese and english -->
-            
         </div>
 
         <footer>
