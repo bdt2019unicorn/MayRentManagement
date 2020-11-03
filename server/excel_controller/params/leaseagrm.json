@@ -1,0 +1,93 @@
+{
+    "columns": 
+    {
+        "Agreement Number": 
+        {
+            "Data type": "Text",
+            "Example": "37-U468-10Oct2020",
+            "Requirement": "Compulsory"
+        },
+        "Tenant ID": 
+        {
+            "Data type": "Number",
+            "Example": "37",
+            "Requirement": "Compulsory"
+        },
+        "Unit": 
+        {
+            "Data type": "Text",
+            "Example": "G01",
+            "Requirement": "Compulsory"
+        },
+        "Start date": 
+        {
+            "Data type": "Date",
+            "Example": "43847",
+            "Requirement": "Compulsory"
+        },
+        "End date": 
+        {
+            "Data type": "Date",
+            "Example": "43847",
+            "Requirement": "Compulsory"
+        },
+        "Rent amount": 
+        {
+            "Data type": "Number",
+            "Example": "12000000",
+            "Requirement": "Compulsory"
+        },
+        "Deposit amount": 
+        {
+            "Data type": "Number",
+            "Example": "12000000",
+            "Requirement": "Optional"
+        },
+        "Deposit payment date": 
+        {
+            "Data type": "Date",
+            "Example": "43847",
+            "Requirement": "Optional"
+        },
+        "Deposit payback date": 
+        {
+            "Data type": "Date",
+            "Example": " 01-Sept-2021",
+            "Requirement": "Compulsory"
+        },
+        "Monthly payment date": 
+        {
+            "Data type": "Number",
+            "Example": "15,\n Default: 1",
+            "Requirement": "Optional"
+        },
+        "Deposit currency": 
+        {
+            "Data type": "Text",
+            "Example": " USD \n Default: VND",
+            "Requirement": "Optional"
+        },
+        "Deposit exchange rate": 
+        {
+            "Data type": "Number",
+            "Example": "23200 \n Default: 1",
+            "Requirement": "Compulsory"
+        },
+        "Note": 
+        {
+            "Data type": "Text",
+            "Example": " 2 bikes, 1 TV",
+            "Requirement": "Optional"
+        }
+    }, 
+    "dropdown_list": 
+    {
+        "Building": 
+        {
+            "table": "buildings", 
+            "selects": ["`name` AS `Buildings`"] 
+        }
+    }
+}
+
+
