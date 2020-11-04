@@ -84,9 +84,12 @@
                 $range_style->getNumberFormat()->setFormatCode($format_codes[$param["Data type"]]); 
                 $this->sheet->duplicateStyle($range_style, "{$char}{$data_row_start}:{$char}{$this->config['total_row']}"); 
 
-                if(isset($this->params["dropdown_list"][$column]))
+                if(isset($this->params["dropdown_list"]))
                 {
-                    $this->DropdownList($this->params["dropdown_list"][$column], $data_row_start, $char); 
+                    if(isset($this->params["dropdown_list"][$column]))
+                    {
+                        $this->DropdownList($this->params["dropdown_list"][$column], $data_row_start, $char); 
+                    }
                 }
             }
             $last_char = chr($this->column_asc); 

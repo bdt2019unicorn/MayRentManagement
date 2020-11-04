@@ -1,0 +1,82 @@
+{
+    "columns": 
+    {
+        "Name":
+        {
+            "Data type": "Text",
+            "Example": "Laudry bill 12/2020",
+            "Requirement": "Compulsory"
+        },
+        "Expense type":
+        {
+            "Data type": "Text",
+            "Example": "Laundry",
+            "Requirement": "Compulsory"
+        },
+        "Amount":
+        {
+            "Data type": "Text",
+            "Example": "100",
+            "Requirement": "Compulsory"
+        },
+        "Start period":
+        {
+            "Data type": "Date",
+            "Example": "44177",
+            "Requirement": "Compulsory"
+        },
+        "End period":
+        {
+            "Data type": "Date",
+            "Example": "44180",
+            "Requirement": "Compulsory"
+        },
+        "Unit":
+        {
+            "Data type": "Text",
+            "Example": "G01",
+            "Requirement": "Compulsory"
+        },
+        "Payment date":
+        {
+            "Data type": "Text",
+            "Example": "44181",
+            "Requirement": "Compulsory"
+        },
+        "Note":
+        {
+            "Data type": "Text",
+            "Example": "Paid",
+            "Requirement": "Optional"
+        }
+    }, 
+    "dropdown_list": 
+    {
+        "Unit": 
+        {
+            "table": "unit",
+            "selects": ["`name` AS `Units`"], 
+            "building_id": true 
+        }, 
+        "Tenant ID": 
+        {
+            "table": "tenant", 
+            "selects": 
+            [
+                "`id` AS `Tenant ID`", 
+                "CONCAT(IFNULL(`Last_Name`, ''),', ', IFNULL(`Middle_Name`, ''), ', ', IFNULL(`First_Name`, '')) AS `Tenant Name`"
+            ], 
+            "building_id": true, 
+            "details": true 
+        }
+    }
+}
+
+// need to fix
+
+
+
+
+
+
+
