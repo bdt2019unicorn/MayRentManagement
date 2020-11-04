@@ -9,7 +9,7 @@
         },
         "Tenant ID": 
         {
-            "Data type": "ID",
+            "Data type": "Number",
             "Example": "37",
             "Requirement": "Compulsory"
         },
@@ -82,12 +82,6 @@
     }, 
     "dropdown_list": 
     {
-        "Unit": 
-        {
-            "table": "unit",
-            "selects": ["`name` AS `Units`"], 
-            "building_id": true 
-        }, 
         "Tenant ID": 
         {
             "table": "tenant", 
@@ -95,10 +89,13 @@
             [
                 "`id` AS `Tenant ID`", 
                 "CONCAT(IFNULL(`Last_Name`, ''), IFNULL(`Middle_Name`, ''), IFNULL(`First_Name`, '')) AS `Tenant Name`"
-            ], 
-            "building_id": true, 
-            "details": true 
-        }
+            ] 
+        }, 
+        "Unit": 
+        {
+            "table": "unit",
+            "selects": ["`name` AS `Units`"] 
+        } 
     }
 }
 

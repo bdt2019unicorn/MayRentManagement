@@ -19,10 +19,11 @@
         private $sheet; 
 
         private $params; 
+        private $building_id; 
 
         private $column_asc; 
 
-        function __construct($controller)
+        function __construct($controller, $building_id=null)
         {
             $this->spreadsheet = new Spreadsheet();
             $this->sheet = $this->spreadsheet->getActiveSheet();
@@ -37,7 +38,7 @@
 
             $params = file_get_contents("params/{$controller}.json"); 
             $this->params = json_decode($params, true); 
-
+            $this->building_id = $building_id; 
 
             $this->column_asc = ord("A"); 
         }
@@ -94,7 +95,18 @@
         
         private function DropdownList($dropdown, $data_row_start, $char)
         {
-            $dropdown_list = Connect::SelectData($dropdown["table"], $dropdown["selects"]); 
+            $conditions = null; 
+            if(!$this->building_id)
+            {
+                goto DropdownWorkSection; 
+            }
+            if(isset($dropdown["building_id"]))
+            {
+                $conditions = ["building_id"=>$this->building_id]; 
+            }
+
+            DropdownWorkSection: 
+            $dropdown_list = Connect::SelectData($dropdown["table"], $dropdown["selects"], $conditions); 
             if(!count($dropdown_list))
             {
                 return; 
@@ -117,7 +129,8 @@
             $dropdown_sheet = new Worksheet($this->spreadsheet, $title); 
             $dropdown_sheet->getColumnDimension("A")->setAutoSize(true); 
             $dropdown_sheet->fromArray(array_chunk($cell_values, 1)); 
-            $this->spreadsheet->addNamedRange(new NamedRange($title, $dropdown_sheet, "\$A\$2:\$A\${$end_range}")); 
+            $name_range_title = str_replace(" ", "", $title); 
+            $this->spreadsheet->addNamedRange(new NamedRange($name_range_title, $dropdown_sheet, "\$A\$2:\$A\${$end_range}")); 
             $this->spreadsheet->addSheet($dropdown_sheet); 
             $dropdown_sheet->getStyle("A1")->applyFromArray($this->config["dropdown_headings_styles"]); 
 
@@ -125,7 +138,7 @@
             { 
                 $validation = $this->sheet->getCell("{$char}{$row}")->getDataValidation();
                 $validation->setType(DataValidation::TYPE_LIST); 
-                $validation->setFormula1("={$title}"); 
+                $validation->setFormula1("={$name_range_title}"); 
                 $validation->setShowDropDown(true); 
             }
         }
