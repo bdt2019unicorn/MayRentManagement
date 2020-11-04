@@ -113,27 +113,58 @@
             }
 
             $title = null; 
-            $cell_values = []; 
+
+            $titles = []; 
+            $values = []; 
             foreach ($dropdown_list[0] as $key => $value) 
             {
-                $title = $key; 
-                array_push($cell_values, $title, $value); 
-                break; 
-            }
-            for ($index=1; $index<count($dropdown_list); $index++) 
-            { 
-                array_push($cell_values, $dropdown_list[$index][$title]); 
+                if(!$title)
+                {
+                    $title = $key; 
+                }
+                array_push($titles, $key); 
+                array_push($values, $value); 
+                if(!isset($dropdown["details"]))
+                {
+                    break; 
+                }
+
             }
 
+            $values = [$values]; 
+            
+            for ($index=1; $index<count($dropdown_list); $index++) 
+            { 
+                if(!isset($dropdown["details"]))
+                {
+                    array_push($values, [$dropdown_list[$index][$title]]); 
+                }
+                else 
+                {
+                    $dropdown_values = []; 
+                    foreach ($dropdown_list[$index] as $key => $value) 
+                    {
+                        array_push($dropdown_values, $value); 
+                    }
+                    array_push($values, $dropdown_values); 
+                }
+            }
+
+            $cell_values = array_merge([$titles], $values); 
             $end_range = count($cell_values); 
             $dropdown_sheet = new Worksheet($this->spreadsheet, $title); 
-            $dropdown_sheet->getColumnDimension("A")->setAutoSize(true); 
-            $dropdown_sheet->fromArray(array_chunk($cell_values, 1)); 
+            $dropdown_sheet->fromArray($cell_values); 
             $name_range_title = str_replace(" ", "", $title); 
             $this->spreadsheet->addNamedRange(new NamedRange($name_range_title, $dropdown_sheet, "\$A\$2:\$A\${$end_range}")); 
             $this->spreadsheet->addSheet($dropdown_sheet); 
-            $dropdown_sheet->getStyle("A1")->applyFromArray($this->config["dropdown_headings_styles"]); 
+            $column_asc = ord("A"); 
 
+            for ($index=0; $index < count($titles) ; $index++) 
+            { 
+                $column = chr($column_asc + $index); 
+                $dropdown_sheet->getColumnDimension($column)->setAutoSize(true); 
+                $dropdown_sheet->getStyle("{$column}1")->applyFromArray($this->config["dropdown_headings_styles"]); 
+            }
             for ($row=$data_row_start; $row <=$this->config['total_row']; $row++) 
             { 
                 $validation = $this->sheet->getCell("{$char}{$row}")->getDataValidation();
