@@ -94,7 +94,7 @@
             "selects": 
             [
                 "`id` AS `Tenant ID`", 
-                "CONCAT(IFNULL(`Last_Name`, ''), IFNULL(`Middle_Name`, ''), IFNULL(`First_Name`, '')) AS `Tenant Name`"
+                "CONCAT(IFNULL(`Last_Name`, ''),', ', IFNULL(`Middle_Name`, ''), ', ', IFNULL(`First_Name`, '')) AS `Tenant Name`"
             ], 
             "building_id": true, 
             "details": true 
