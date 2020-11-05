@@ -4,10 +4,12 @@
 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-    $controller = "buildings"; 
+    $controller = "tenant";
+    $building_id = 1;  
 
     function ExportToFile($spreadsheet)
     {
+        global $controller; 
         $writer = new Xlsx($spreadsheet);
 
         $directory = "templates/"; 
@@ -16,10 +18,10 @@
             mkdir($directory);    
         }
 
-        $writer->save('templates/buildings.xlsx');
+        $writer->save("templates/$controller-test.xlsx");
     }
 
-    $excel_spreadsheet = new ExcelSpreadSheet($controller); 
+    $excel_spreadsheet = new ExcelSpreadSheet($controller, $building_id); 
 
     $spreadsheet = $excel_spreadsheet->GenerateSpreadsheet(); 
 
