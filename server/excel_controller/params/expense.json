@@ -73,6 +73,7 @@
 }
 
 // need to fix
+// =CHAR(34)&A32&CHAR(34)&":"&CHAR(10)&"{"&CHAR(10)&TEXTJOIN(","&CHAR(10)&CHAR(9),TRUE, A34:A36)&CHAR(10)&"}"
 
 
 
