@@ -31,6 +31,12 @@
         "date_collumns": ["start_date", "end_date", "deposit_payment_date", "deposit_payback_date"], 
         "get_id": 
         {
+            "tenant_id": 
+            {
+                "search": "id", 
+                "change": "tenant_id", 
+                "table": "tenant"
+            }, 
             "unit": 
             {
                 "search": "name", 
