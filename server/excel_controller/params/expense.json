@@ -1,0 +1,73 @@
+{
+    "columns": 
+    {
+        "Name": 
+        {
+            "Data type": "Text",
+            "Example": "Laudry bill 12/2020",
+            "Requirement": "Compulsory"
+        },
+        "Expense type": 
+        {
+            "Data type": "ID",
+            "Example": "Laundry",
+            "Requirement": "Compulsory"
+        },
+        "Amount": 
+        {
+            "Data type": "Text",
+            "Example": "100",
+            "Requirement": "Compulsory"
+        },
+        "Start period": 
+        {
+            "Data type": "Date",
+            "Example": "12/12/2020",
+            "Requirement": "Compulsory"
+        },
+        "End period": 
+        {
+            "Data type": "Date",
+            "Example": "15/12/2020",
+            "Requirement": "Compulsory"
+        },
+        "Unit": 
+        {
+            "Data type": "ID",
+            "Example": "G01",
+            "Requirement": "Compulsory"
+        },
+        "Payment date": 
+        {
+            "Data type": "Text",
+            "Example": "16/12/2020",
+            "Requirement": "Compulsory"
+        },
+        "Note": 
+        {
+            "Data type": "Text",
+            "Example": "Paid",
+            "Requirement": "Optional"
+        }
+    }, 
+    "dropdown_list": 
+    {
+        "Unit": 
+        {
+            "table": "unit",
+            "selects": ["`name` AS `Units`"], 
+            "building_id": true 
+        }, 
+        "Expense type": 
+        {
+            "table": "expense_type", 
+            "selects": ["`name` AS `Expense type`"] 
+        }
+    }
+}
+
+
+
+
+
+
