@@ -98,14 +98,15 @@
         
         private function DropdownList($dropdown, $data_row_start, $char)
         {
-            $conditions = null; 
+            $conditions = $dropdown["conditions"]??null; 
             if(!$this->building_id)
             {
                 goto DropdownWorkSection; 
             }
             if(isset($dropdown["building_id"]))
             {
-                $conditions = ["building_id"=>$this->building_id]; 
+                $building_condition = ["building_id"=>$this->building_id]; 
+                $conditions = $conditions?array_merge($conditions, $building_condition): $building_condition; 
             }
 
             DropdownWorkSection: 

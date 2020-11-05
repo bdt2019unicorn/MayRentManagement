@@ -9,7 +9,7 @@
         }, 
         "Building": 
         {
-            "Data type": "Text", 
+            "Data type": "ID", 
             "Example": "PKK", 
             "Requirement": "Compulsory"
         }, 

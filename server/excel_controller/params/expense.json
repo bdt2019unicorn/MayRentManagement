@@ -1,49 +1,49 @@
 {
     "columns": 
     {
-        "Name":
+        "Name": 
         {
             "Data type": "Text",
             "Example": "Laudry bill 12/2020",
             "Requirement": "Compulsory"
         },
-        "Expense type":
+        "Expense type": 
         {
-            "Data type": "Text",
+            "Data type": "ID",
             "Example": "Laundry",
             "Requirement": "Compulsory"
         },
-        "Amount":
+        "Amount": 
         {
             "Data type": "Text",
             "Example": "100",
             "Requirement": "Compulsory"
         },
-        "Start period":
+        "Start period": 
         {
             "Data type": "Date",
-            "Example": "44177",
+            "Example": "12/12/2020",
             "Requirement": "Compulsory"
         },
-        "End period":
+        "End period": 
         {
             "Data type": "Date",
-            "Example": "44180",
+            "Example": "15/12/2020",
             "Requirement": "Compulsory"
         },
-        "Unit":
+        "Unit": 
         {
-            "Data type": "Text",
+            "Data type": "ID",
             "Example": "G01",
             "Requirement": "Compulsory"
         },
-        "Payment date":
+        "Payment date": 
         {
             "Data type": "Text",
-            "Example": "44181",
+            "Example": "16/12/2020",
             "Requirement": "Compulsory"
         },
-        "Note":
+        "Note": 
         {
             "Data type": "Text",
             "Example": "Paid",
@@ -58,23 +58,13 @@
             "selects": ["`name` AS `Units`"], 
             "building_id": true 
         }, 
-        "Tenant ID": 
+        "Expense type": 
         {
-            "table": "tenant", 
-            "selects": 
-            [
-                "`id` AS `Tenant ID`", 
-                "CONCAT(IFNULL(`Last_Name`, ''),', ', IFNULL(`Middle_Name`, ''), ', ', IFNULL(`First_Name`, '')) AS `Tenant Name`"
-            ], 
-            "building_id": true, 
-            "details": true 
+            "table": "expense_type", 
+            "selects": ["`name` AS `Expense type`"] 
         }
     }
 }
-
-// need to fix
-// =CHAR(34)&A32&CHAR(34)&":"&CHAR(10)&"{"&CHAR(10)&TEXTJOIN(","&CHAR(10)&CHAR(9),TRUE, A34:A36)&CHAR(10)&"}"
-
 
 
 
