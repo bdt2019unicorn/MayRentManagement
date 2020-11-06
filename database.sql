@@ -15,7 +15,6 @@ CREATE TABLE `buildings` (
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `buildings`;
 INSERT INTO `buildings` (`id`, `name`) VALUES
 (1, 'May An Phu'),
 (2, 'May Thi Nghe'),
@@ -34,14 +33,12 @@ CREATE TABLE `expense` (
   `Note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `expense`;
 DROP TABLE IF EXISTS `expense_type`;
 CREATE TABLE `expense_type` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `expense_type`;
 INSERT INTO `expense_type` (`id`, `name`) VALUES
 (1, 'Salary'),
 (2, 'Supplies (Flower, fuel)'),
@@ -57,10 +54,10 @@ DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `leaseagrm_id` int(11) NOT NULL
+  `leaseagrm_id` int(11) NOT NULL,
+  `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `invoices`;
 DROP TABLE IF EXISTS `invoice_leaseagrm`;
 CREATE TABLE `invoice_leaseagrm` (
   `id` int(11) NOT NULL,
@@ -74,7 +71,6 @@ CREATE TABLE `invoice_leaseagrm` (
   `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `invoice_leaseagrm`;
 DROP TABLE IF EXISTS `invoice_utilities`;
 CREATE TABLE `invoice_utilities` (
   `id` int(11) NOT NULL,
@@ -87,7 +83,6 @@ CREATE TABLE `invoice_utilities` (
   `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `invoice_utilities`;
 DROP TABLE IF EXISTS `leaseagrm`;
 CREATE TABLE `leaseagrm` (
   `id` int(11) NOT NULL,
@@ -107,11 +102,6 @@ CREATE TABLE `leaseagrm` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `leaseagrm`;
-INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `Start_date`, `Finish`, `Rent_amount`, `Deposit_amount`, `Deposit_payment_date`, `Deposit_payback_date`, `Monthly_payment_date`, `Deposit_currency`, `Deposit_exchange_rate`, `note`) VALUES
-(2, 'Test lease for invoice test ', 2, 6, NULL, '2020-10-01', '2020-12-31', '100.000', '100.000', '2020-10-01', NULL, 1, NULL, NULL, NULL),
-(3, 'Test invoice middle month ', 3, 10, NULL, '2020-10-14', '2020-12-31', '100.000', '100.000', NULL, NULL, NULL, NULL, NULL, NULL);
-
 DROP TABLE IF EXISTS `revenue`;
 CREATE TABLE `revenue` (
   `id` int(11) NOT NULL,
@@ -122,7 +112,6 @@ CREATE TABLE `revenue` (
   `Note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `revenue`;
 DROP TABLE IF EXISTS `revenue_type`;
 CREATE TABLE `revenue_type` (
   `id` int(11) NOT NULL,
@@ -130,7 +119,6 @@ CREATE TABLE `revenue_type` (
   `is_utility` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `revenue_type`;
 INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (1, 'Rent', 0),
 (2, 'Electricity', 1),
@@ -164,7 +152,6 @@ CREATE TABLE `tenant` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `tenant`;
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `visa_expiry_date`, `building_id`, `police_registration_date`, `expected_departure_date`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`, `note`) VALUES
 (6, 'Deffein', 'Marie', ' Yvon Patrick', '1989-01-01', 'FRA', '19FF66040', NULL, 1, NULL, NULL, '0903102418', '0', 'deffeinp@yahoo.fr', 'deffeinp@yahoo.fr', '0', '0', NULL),
 (10, 'Proctor', 'James', 'Travis', '1976-05-12', 'USA', '567926124', NULL, 1, NULL, NULL, '0765552956', '0', '0', 'travisproctor9@gmail.com', '0', '0', NULL),
@@ -176,19 +163,9 @@ INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_b
 (19, 'Muschamp', 'Richard', 'Timothy', '1976-05-12', '26580', 'PA9635513', NULL, 1, NULL, NULL, '0794065365', '0', '0', 'Timm@afg.vn', '0', '0', NULL),
 (21, 'Clark ', ' William', 'Michael', '1976-05-12', 'USA', '567118083', NULL, 1, NULL, NULL, '0896409764', '0', '0', '0', '0', '0', NULL),
 (23, 'Sadd', 'Azzahrae', 'Fatima', '1976-05-12', 'MAR', 'TZ5195461', NULL, 1, NULL, NULL, '0932648005', '0', '0', 'Fatimaczzahrae.sawd1@gmail.com', '0', '0', NULL),
-(50, 'A123', NULL, '0.769426502', '1984-12-19', ' France', 'A123-648', NULL, 2, NULL, NULL, '0670059789', NULL, NULL, 'A123@yopmail.com', 'Test', NULL, 'A12331035May Thi Nghe FranceA123-6480670059789A123@yopmail.comTest'),
-(51, 'A124', NULL, '0.730953546', '1993-09-02', ' France', 'A124-424', NULL, 2, NULL, NULL, '0595115024', NULL, NULL, 'A124@yopmail.com', 'Test', NULL, 'A12434214May Thi Nghe FranceA124-4240595115024A124@yopmail.comTest'),
-(52, 'A125', NULL, '0.859840589', '1998-07-18', ' France', 'A125-901', NULL, 2, NULL, NULL, '0209892844', NULL, NULL, 'A125@yopmail.com', 'Test', NULL, 'A12535994May Thi Nghe FranceA125-9010209892844A125@yopmail.comTest'),
-(53, 'A126', NULL, '0.20362042', '1992-05-28', ' France', 'A126-274', NULL, 2, NULL, NULL, '0382911010', NULL, NULL, 'A126@yopmail.com', 'Test', NULL, 'A12633752May Thi Nghe FranceA126-2740382911010A126@yopmail.comTest'),
-(54, 'A127', NULL, '0.555797146', '1987-03-05', ' France', 'A127-234', NULL, 2, NULL, NULL, '0418910379', NULL, NULL, 'A127@yopmail.com', 'Test', NULL, 'A12731841May Thi Nghe FranceA127-2340418910379A127@yopmail.comTest'),
-(55, 'A128', NULL, '0.453206863', '2000-09-07', ' France', 'A128-430', NULL, 3, NULL, NULL, '0398240203', NULL, NULL, 'A128@yopmail.com', 'Test', NULL, 'A12836776PKK FranceA128-4300398240203A128@yopmail.comTest'),
-(56, 'A129', NULL, '0.428971622', '1983-01-19', ' France', 'A129-440', NULL, 3, NULL, NULL, '0113109118', NULL, NULL, 'A129@yopmail.com', 'Test', NULL, 'A12930335PKK FranceA129-4400113109118A129@yopmail.comTest'),
-(57, 'A130', NULL, '0.57420115', '1981-10-03', ' France', 'A130-794', NULL, 3, NULL, NULL, '0469447717', NULL, NULL, 'A130@yopmail.com', 'Test', NULL, 'A13029862PKK FranceA130-7940469447717A130@yopmail.comTest'),
-(58, 'A131', NULL, '0.558041664', '1978-09-21', ' France', 'A131-707', NULL, 3, NULL, NULL, '0317172883', NULL, NULL, 'A131@yopmail.com', 'Test', NULL, 'A13128754PKK FranceA131-7070317172883A131@yopmail.comTest'),
-(59, 'A132', NULL, '0.595589747', '1978-10-17', ' France', 'A132-763', NULL, 3, NULL, NULL, '0770619269', NULL, NULL, 'A132@yopmail.com', 'Test', NULL, 'A13228780PKK FranceA132-7630770619269A132@yopmail.comTest'),
-(60, 'A133', NULL, '0.384704763', '1983-04-14', ' France', 'A133-557', NULL, 3, NULL, NULL, '0419518241', NULL, NULL, 'A133@yopmail.com', 'Test', NULL, 'A13330420PKK FranceA133-5570419518241A133@yopmail.comTest'),
-(61, 'A134', NULL, '0.107451092', '2000-08-08', ' France', 'A134-137', NULL, 3, NULL, NULL, '0779682046', NULL, NULL, 'A134@yopmail.com', 'Test', NULL, 'A13436746PKK FranceA134-1370779682046A134@yopmail.comTest'),
-(62, 'A135', NULL, '0.157009161', '1982-11-30', ' France', 'A135-485', NULL, 3, NULL, NULL, '0499002230', NULL, NULL, 'A135@yopmail.com', 'Test', NULL, 'A13530285PKK FranceA135-4850499002230A135@yopmail.comTest');
+(24, 'Muschamp Test', 'Richard', 'Timothy', '1976-05-12', '26580', 'PA9635513', NULL, 2, NULL, NULL, '0794065365', '0', '0', 'Timm@afg.vn', '0', '0', NULL),
+(25, 'Clark  test', ' William', 'Michael', '1976-05-12', 'USA', '567118083', NULL, 2, NULL, NULL, '0896409764', '0', '0', '0', '0', '0', NULL),
+(26, 'Sadd test ', 'Azzahrae', 'Fatima', '1976-05-12', 'MAR', 'TZ5195461', NULL, 2, NULL, NULL, '0932648005', '0', '0', 'Fatimaczzahrae.sawd1@gmail.com', '0', '0', NULL);
 
 DROP TABLE IF EXISTS `unit`;
 CREATE TABLE `unit` (
@@ -198,12 +175,11 @@ CREATE TABLE `unit` (
   `area` decimal(10,0) NOT NULL DEFAULT '0',
   `number_of_bedrooms` tinyint(4) NOT NULL DEFAULT '1',
   `number_of_bathroom` tinyint(4) NOT NULL DEFAULT '1',
-  `balcony` tinyint(1) NOT NULL DEFAULT '0',
+  `balcony` tinyint(1) DEFAULT '0',
   `number_of_windows` tinyint(4) NOT NULL DEFAULT '0',
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `unit`;
 INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`, `note`) VALUES
 (1, 'MAY', 1, '0', 1, 1, 0, 0, ''),
 (2, 'G01', 1, '0', 1, 1, 0, 0, ''),
@@ -220,19 +196,10 @@ INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `
 (13, '304', 1, '0', 1, 1, 0, 0, ''),
 (14, '401', 1, '0', 1, 1, 0, 0, ''),
 (15, '402', 1, '0', 1, 1, 0, 0, ''),
-(16, 'U456', 3, '972', 1, 1, 0, 0, '0.742440228'),
-(17, 'U457', 3, '572', 1, 1, 0, 0, '0.63393974'),
-(18, 'U458', 3, '598', 1, 1, 0, 0, '0.86623356'),
-(19, 'U459', 3, '886', 1, 1, 0, 0, '0.983214657'),
-(20, 'U460', 3, '154', 1, 1, 0, 0, '0.655182599'),
-(21, 'U461', 2, '919', 1, 1, 1, 0, '0.839903849'),
-(22, 'U462', 2, '615', 1, 1, 1, 0, '0.539196949'),
-(23, 'U463', 2, '479', 1, 1, 1, 0, '0.485941832'),
-(24, 'U464', 2, '816', 1, 1, 1, 0, '0.83644809'),
-(25, 'U465', 2, '184', 1, 1, 1, 0, '0.002457925'),
-(26, 'U466', 2, '964', 1, 1, 1, 0, '0.853117166'),
-(27, 'U467', 2, '403', 1, 1, 1, 0, '0.082539025'),
-(28, 'U468', 2, '266', 1, 1, 1, 0, '0.042268011');
+(16, '304TN', 2, '0', 1, 1, 0, 0, ''),
+(17, '401TN', 2, '0', 1, 1, 0, 0, ''),
+(18, '402', 2, '0', 1, 1, 0, 0, ''),
+(20, 'test', 2, '1', 1, 1, NULL, 1, NULL);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -245,7 +212,6 @@ CREATE TABLE `user` (
   `approved` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `username`, `password`, `phone_number`, `email`, `viber_number`, `approved`) VALUES
 (1, 'blastor555', '123456', '0259784563', 'blastor555@gmail.com', '0123654789', 1),
 (3, 'QuocAnh', 'MayRentManagement', '+84903959969', 'lhqanh@gmail.com', '+4915901244095', 1);
@@ -259,7 +225,6 @@ CREATE TABLE `utility_price` (
   `date_enter` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `utility_price`;
 DROP TABLE IF EXISTS `utility_reading`;
 CREATE TABLE `utility_reading` (
   `id` int(11) NOT NULL,
@@ -269,7 +234,6 @@ CREATE TABLE `utility_reading` (
   `number` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `utility_reading`;
 
 ALTER TABLE `buildings`
   ADD PRIMARY KEY (`id`);
