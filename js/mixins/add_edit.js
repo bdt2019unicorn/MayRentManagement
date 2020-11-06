@@ -58,11 +58,11 @@ var add_edit_mixin =
     {
         $route: function(new_value, old_value)
         {
-            this.PopulateFormField(); 
+            this.ReloadUserInput(this.PopulateFormField); 
         }, 
         controller: function(new_value, old_value)
         {
-            this.PopulateFormField(); 
+            this.ReloadUserInput(this.PopulateFormField); 
         }    
     },
 
