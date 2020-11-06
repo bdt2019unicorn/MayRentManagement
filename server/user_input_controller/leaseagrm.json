@@ -6,7 +6,7 @@
             {
                 "component": "text-input",
                 "name": "name",
-                "title": "Contract Name"
+                "title": "Agreement Number"
             },
             {
                 "component": "select-input",

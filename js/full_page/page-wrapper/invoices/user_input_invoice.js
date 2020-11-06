@@ -10,7 +10,8 @@ Vue.component
                 invoice: 
                 {
                     leaseagrm_id: undefined, 
-                    name: undefined
+                    name: undefined, 
+                    note: undefined 
                 }, 
                 invoice_details: 
                 {
@@ -34,7 +35,7 @@ Vue.component
         {
             InvoiceDetails()
             {
-                let invoice_complete = Object.values(this.invoice).map(value=>Boolean(value));
+                let invoice_complete = Object.keys(this.invoice).filter(key=>key!="note").map(key=>Boolean(this.invoice[key])); 
                 return !invoice_complete.includes(false);  
             }, 
             ValidInvoiceDetails()
@@ -106,6 +107,7 @@ Vue.component
                     {
                         this.invoice.leaseagrm_id = leaseagrm_id; 
                         this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
+                        this.invoice.note = undefined; 
                     }
                 ); 
             }, 
@@ -132,7 +134,7 @@ Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1><slot name="title">Add New Invoice</slot></h1>
+                <h1><slot name="title"></slot></h1>
                 <br>
                 <div class="row">
                     <select-input 
@@ -145,6 +147,10 @@ Vue.component
                 <br>
                 <div class="row">
                     <text-input name="name" v-model="invoice.name" title="Invoice Name"></text-input>
+                </div>
+
+                <div class="row">
+                    <text-input name="note" v-model="invoice.note" title="Note"></text-input>
                 </div>
 
                 <slot name="invoice_information" :invoice="invoice" :invoice_information="invoice_information"></slot>
