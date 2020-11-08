@@ -98,7 +98,7 @@ Vue.component
             <fragment>
                 <vs-row>
                     <vs-col vs-w="6" vs-align="center" vs-justify="center" vs-type="flex">
-                        <vs-button color="primary" type="border" icon="table_view" :href='"excel_templates/" + $route.params.controller + "-template.xlsx"'>Download Excel Template</vs-button>
+                        <vs-button color="primary" type="border" icon="table_view" :href="'server/excel_controller/create_file.php?building_id=' + $route.params.building_id + '&controller=' + $route.params.controller">Download Excel Template</vs-button>
                     </vs-col>
                     <vs-col vs-w="6" vs-align="flex-end" vs-justify="center" vs-type="flex">
                         <vs-button color="success" type="gradient" icon="cloud_download">
