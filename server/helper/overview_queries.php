@@ -20,15 +20,8 @@
 
         private static function GeneralQuery()
         {
-            return 
+            $sum_query_invoice = 
             "
-                SELECT 
-                `leaseagrm`.`id` as `ID`, 
-                `leaseagrm`.`name` AS `Name`, 
-                `unit`.`name` as `Unit`, 
-                CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
-                DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
-                DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
                 (
                     IFNULL
                     (
@@ -46,15 +39,54 @@
                             WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
                         ), 0 
                     )
-                ) AS `Amount`,
+                )
+            "; 
+
+            $sum_query_revenue = 
+            "
                 (
                     SELECT SUM(Amount) 
                     FROM `revenue`
                     WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
-                ) AS `Paid Amount`
-            FROM `leaseagrm`
-                LEFT JOIN `unit` ON `leaseagrm`.`unit_id` = `unit`.`id`
-                LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
+                )
+            "; 
+            return 
+            "
+                SELECT 
+                    `leaseagrm`.`id` as `ID`, 
+                    `leaseagrm`.`name` AS `Name`, 
+                    `unit`.`name` as `Unit`, 
+                    CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
+                    DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
+                    DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
+                    (
+                        IF
+                        (
+                            (
+                                {$sum_query_invoice} - 
+                                {$sum_query_revenue} > 0 
+                            ), 
+                            CONCAT
+                            (
+                                '(', 
+                                CAST
+                                (
+                                    (
+                                        {$sum_query_invoice} - 
+                                        {$sum_query_revenue}
+                                    ) AS CHAR 
+                                ),
+                                ')' 
+                            ), 
+                            (
+                                {$sum_query_revenue} - 
+                                {$sum_query_invoice}
+                            )
+                        )
+                    ) AS `Outstanding Balance` 
+                FROM `leaseagrm`
+                    LEFT JOIN `unit` ON `leaseagrm`.`unit_id` = `unit`.`id`
+                    LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
             "; 
         }
 

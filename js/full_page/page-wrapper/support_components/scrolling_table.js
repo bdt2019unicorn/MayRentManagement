@@ -53,7 +53,6 @@ Vue.component
                                 field: column, 
                                 label: column, 
                                 thClass: 'text-center', 
-                                width: "150px", 
                                 filterOptions: {enabled: this.SpecialColumns("search").includes(column)}, 
                                 ...sort 
                             }
@@ -65,14 +64,6 @@ Vue.component
                     searchOptions: {enabled: true}, 
                     maxHeight: "80vh", 
                     fixedHeader: true, 
-                    // width: "150px", 
-                    // paginationOptions: 
-                    // {
-                    //     enabled: true, 
-                    //     perPage: 10, 
-                    //     perPageDropdown: [10, 15], 
-                    //     dropdownAllowAll: false 
-                    // }, 
                     searchOptions: {enabled: this.SpecialColumns("search").length>0}, 
                     selectOptions: 
                     {
