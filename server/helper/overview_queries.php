@@ -45,9 +45,14 @@
             $sum_query_revenue = 
             "
                 (
-                    SELECT SUM(Amount) 
-                    FROM `revenue`
-                    WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
+                    IFNULL
+                    (
+                        (
+                            SELECT SUM(Amount) 
+                            FROM `revenue`
+                            WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
+                        ), 0 
+                    )
                 )
             "; 
             return 
