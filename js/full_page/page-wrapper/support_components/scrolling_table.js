@@ -64,6 +64,7 @@ Vue.component
                     searchOptions: {enabled: true}, 
                     // maxHeight: "80vh", 
                     // fixedHeader: true, 
+                    width: "150px", 
                     paginationOptions: 
                     {
                         enabled: true, 
