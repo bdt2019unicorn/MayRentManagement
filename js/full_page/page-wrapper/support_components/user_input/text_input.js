@@ -8,7 +8,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <input class="form-control" :style="LockStyle" :type="type||'text'" :name="name" :id="id" v-model="value">
+                <input class="form-control" :style="LockStyle" :type="type||'text'" :name="name" :id="id" v-model="content">
             </div>
         `
     }
@@ -41,7 +41,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name"><b>{{title}}</b></label>
-                <textarea class="form-control" :name="name" v-model="value"></textarea>
+                <textarea class="form-control" :name="name" v-model="content"></textarea>
             </div>
         `
     }

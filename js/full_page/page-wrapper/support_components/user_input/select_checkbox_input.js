@@ -18,7 +18,6 @@ Vue.component
         {
             PopulateSelectData()
             {
-                this.value = ""; 
                 var select_data = this.select_data || this.TableData(this.overview_controller, {edit: 1});
                 this.options = select_data.map
                 (
@@ -52,7 +51,7 @@ Vue.component
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <select :name="name" :style="LockStyle" class="form-control" v-model="value">
+                <select :name="name" :style="LockStyle" class="form-control" v-model="content">
                     <option v-if="options.length>0" v-show="not_required&&value" value selected><slot></slot></option>
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
