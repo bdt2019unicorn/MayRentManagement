@@ -63,16 +63,16 @@ Vue.component
                     theme: "black-rhino", 
                     styleClass: "vgt-table bordered striped", 
                     searchOptions: {enabled: true}, 
-                    // maxHeight: "80vh", 
-                    // fixedHeader: true, 
+                    maxHeight: "80vh", 
+                    fixedHeader: true, 
                     // width: "150px", 
-                    paginationOptions: 
-                    {
-                        enabled: true, 
-                        perPage: 10, 
-                        perPageDropdown: [10, 15], 
-                        dropdownAllowAll: false 
-                    }, 
+                    // paginationOptions: 
+                    // {
+                    //     enabled: true, 
+                    //     perPage: 10, 
+                    //     perPageDropdown: [10, 15], 
+                    //     dropdownAllowAll: false 
+                    // }, 
                     searchOptions: {enabled: this.SpecialColumns("search").length>0}, 
                     selectOptions: 
                     {
