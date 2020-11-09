@@ -19,17 +19,12 @@ var user_input_components_mixin =
     }, 
     methods: 
     {
-        BringEditData(callback="")
+        BringEditData()
         {
-            let script = 
-            `
-                if(this.edit_data)
-                {
-                    this.value = this.edit_data[this.name]; 
-                }   
-                ${callback}
-            `; 
-            eval(script);  
+            if(this.edit_data)
+            {
+                this.value = this.edit_data[this.name]; 
+            }   
         }    
     },
     watch: 
@@ -53,30 +48,38 @@ var user_input_components_mixin =
 
 var user_input_components_v_model_support_mixin = 
 {
-    mixins: [user_input_components_mixin], 
-    mounted()
+    props: ["value"], 
+    mixins: [user_input_support_mixin], 
+    data() 
     {
-        let callback = 
-        `
-            else if(this.$attrs.value!=undefined)
+        return {
+            content: this.value
+        }
+    },
+    methods: 
+    {
+        BringEditData()
+        {
+            if(this.edit_data)
             {
-                this.value = this.$attrs.value; 
+                this.content = this.edit_data[this.name]; 
+                this.$emit("input", this.content); 
             }
-        `; 
-        this.BringEditData(callback); 
-    }, 
+        }    
+    },
+    mounted() 
+    {
+        this.BringEditData(); 
+    },
     watch: 
     {
-        $attrs: function(new_value, old_value)
-        {
-            if(new_value.value!=old_value.value)
-            {
-                this.value = new_value.value; 
-            }
-        }, 
-        value: function(new_value, old_value)
+        content: function(new_value, old_value)
         {
             this.$emit("input", new_value); 
-        }
-    }
+        },
+        value: function(new_value, old_value)
+        {
+            this.content = new_value; 
+        }  
+    },
 }

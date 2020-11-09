@@ -53,16 +53,11 @@ Vue.component
             if(this.edit_data)
             {
                 this.invoice = R.clone(this.edit_data.invoice); 
-                console.log(JSON.stringify(this.invoice)); 
                 this.InvoiceInformation(this.edit_data.invoice.leaseagrm_id); 
             }
         },
         methods: 
         {
-            TestMethod(value)
-            {
-                console.log(value); 
-            }, 
             BindObjectComponent(property)
             {
                 return {
@@ -111,8 +106,11 @@ Vue.component
                     leaseagrm_id=>
                     {
                         this.invoice.leaseagrm_id = leaseagrm_id; 
-                        this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
-                        this.invoice.note = undefined; 
+                        if(!this.edit_data)
+                        {
+                            this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
+                            this.invoice.note = undefined; 
+                        }
                     }
                 ); 
             }, 
@@ -135,15 +133,6 @@ Vue.component
                 this.$emit("invoice-submit", invoices); 
             }
         },
-
-        watch: {
-            invoice: function(new_value, old_value)
-            {
-                console.log(JSON.stringify(new_value)); 
-                console.log(JSON.stringify(old_value)); 
-            }
-        },
-
         template: 
         `
             <div class="container-fluid">
@@ -159,7 +148,7 @@ Vue.component
                 </div>
                 <br>
                 <div class="row">
-                    <text-input name="name" v-model="invoice.name" title="Invoice Name" @input="TestMethod"></text-input>
+                    <text-input name="name" v-model="invoice.name" title="Invoice Name"></text-input>
                 </div>
 
                 <div class="row">
