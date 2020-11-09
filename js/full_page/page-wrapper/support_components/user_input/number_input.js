@@ -97,18 +97,27 @@ Vue.component
 
                 function CountDecimals(number)
                 {
-                    if(Math.floor(number.valueOf()) === number.valueOf())
+                    try 
                     {
-                        return 0;
-                    } 
-                    return number.toString().split(".")[1].length || 0; 
+                        if(Math.floor(number.valueOf()) === number.valueOf())
+                        {
+                            return 0;
+                        } 
+                        return number.toString().split(".")[1].length || 0; 
+                    }
+                    catch 
+                    {
+                        return -1; 
+                    }
                 }
 
                 let numeral_value = numeral(new_value); 
                 let decimal_places = CountDecimals(numeral_value.value()); 
-                let format = `0,0[.]${Array(decimal_places).fill("0").join("")}`; 
-
-                this.number_display = numeral_value.format(format); 
+                if(decimal_places>=0)
+                {
+                    let format = `0,0[.]${Array(decimal_places).fill("0").join("")}`; 
+                    this.number_display = numeral_value.format(format); 
+                }
             }
         },
         template: 
