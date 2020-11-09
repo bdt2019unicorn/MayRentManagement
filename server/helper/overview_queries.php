@@ -77,8 +77,8 @@
                                 CONVERT
                                 (
                                     (
-                                    {$sum_query_invoice} - 
-                                    {$sum_query_revenue}
+                                        {$sum_query_invoice} - 
+                                        {$sum_query_revenue}
                                     ), 
                                     CHAR 
                                 ),

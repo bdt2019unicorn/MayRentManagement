@@ -95,10 +95,6 @@
                 return Query::GeneralData("user", $_GET["id"]); 
             }
         ); 
-        $query_overview = $sql_queries[$overview_controller](); 
-        echo '<pre>'; 
-        print_r($query_overview); 
-        echo '</pre>'; 
         $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
     }
 
