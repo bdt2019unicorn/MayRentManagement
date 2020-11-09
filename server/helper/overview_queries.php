@@ -69,12 +69,13 @@
                             CONCAT
                             (
                                 '(', 
-                                CAST
+                                CONVERT
                                 (
                                     (
-                                        {$sum_query_invoice} - 
-                                        {$sum_query_revenue}
-                                    ) AS CHAR 
+                                    {$sum_query_invoice} - 
+                                    {$sum_query_revenue}
+                                    ), 
+                                    CHAR 
                                 ),
                                 ')' 
                             ), 
