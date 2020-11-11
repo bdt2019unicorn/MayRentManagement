@@ -7,7 +7,6 @@ Vue.component
         data() 
         {
             return {
-                all_leaseagrm: this.leaseagrm, 
                 leaseagrm_edit: undefined, 
                 leaseagrm_table: "Contracts with no tenants and unit", 
             }
@@ -17,7 +16,7 @@ Vue.component
         {
             LeaseagrmCategorized()
             {
-                let partition_all_null = R.partition(leaseagrm=>(leaseagrm["Unit"]==undefined && leaseagrm["Tenant Name"]==undefined), this.all_leaseagrm); 
+                let partition_all_null = R.partition(leaseagrm=>(leaseagrm["Unit"]==undefined && leaseagrm["Tenant Name"]==undefined), this.leaseagrm); 
                 let unit_tenant_partition = R.partition(leaseagrm=>leaseagrm["Unit"]==undefined, partition_all_null[1]); 
                 return {
                     "Contracts with no tenants and unit": partition_all_null[0], 
@@ -72,8 +71,9 @@ Vue.component
         {
             DeleteSuccess()
             {
-                this.all_leaseagrm = this.all_leaseagrm.filter(leaseagrm=>!this.check_array.includes(leaseagrm.ID)); 
+                all_leaseagrm = this.leaseagrm.filter(leaseagrm=>!this.check_array.includes(leaseagrm.ID)); 
                 this.check_array = []; 
+                this.$emit("problem-leaseagrm-deleted", all_leaseagrm); 
             }    
         },
         template: 
