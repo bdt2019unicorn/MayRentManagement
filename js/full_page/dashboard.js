@@ -36,7 +36,7 @@ var dashboard = Vue.component
                     <vs-tabs alignment="fixed">
 
                         <vs-tab label="Contract need attention">
-                            <problem-leaseagrms :leaseagrm="leaseagrm"></problem-leaseagrms>
+                            <problem-leaseagrms :leaseagrm="leaseagrm" @problem-leaseagrm-deleted="leaseagrm=arguments[0]"></problem-leaseagrms>
                         </vs-tab>
                         
                         <vs-tab label="Buildings">
