@@ -3,6 +3,7 @@ Vue.component
     "problem-leaseagrms", 
     {
         props: ["leaseagrm"], 
+        mixins: [table_actions_mixin], 
         data() 
         {
             return {
@@ -66,13 +67,30 @@ Vue.component
                 }; 
             }
         },
+        methods: 
+        {
+            DeleteSuccess()
+            {
+                all_leaseagrm = this.leaseagrm.filter(leaseagrm=>!this.check_array.includes(leaseagrm.ID)); 
+                this.check_array = []; 
+                this.$emit("problem-leaseagrm-deleted", all_leaseagrm); 
+            }    
+        },
         template: 
         `
             <fragment>
                 <vs-select :success="true" class="my-3 w-100" style="text-align-last: center;" v-model="leaseagrm_table">
                     <vs-select-item v-for="key in Object.keys(LeaseagrmCategorized).map(title=>({text: title, value: title}))" v-bind="key" />
                 </vs-select>
-                <vue-good-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable"></vue-good-table>
+                <vue-good-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows, 'ID')">
+                    <table-edit-delete
+                        slot="table-actions"
+                        action="edit"
+                        :check_array="check_array"
+                        controller="leaseagrm"
+                        @delete-success="DeleteSuccess"
+                    ></table-edit-delete>
+                </vue-good-table>
             </fragment>
         `
     }
