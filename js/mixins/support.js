@@ -149,7 +149,7 @@ var support_mixin =
                 name: "actions", 
                 params: 
                 {
-                    building_id: this.$route.params.building_id, 
+                    building_id: this.$route.params.building_id||0, 
                     controller: controller || this.CurrentController, 
                     action: action
                 }, 
