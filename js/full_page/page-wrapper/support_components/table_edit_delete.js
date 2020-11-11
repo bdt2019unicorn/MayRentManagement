@@ -1,8 +1,8 @@
 Vue.component 
 (
-    "overview", 
+    "table-edit-delete", 
     {
-        props: ["action", "check_array"], 
+        props: ["action", "check_array", "controller"], 
         mixins:[support_mixin], 
         components: {...bootstrap}, 
         methods: 
@@ -14,7 +14,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Delete success!"); 
-                    this.PopulateData(); 
+                    this.$emit("delete-success"); 
                 }
                 else
                 {
