@@ -2,7 +2,7 @@ Vue.component
 (
     "page-navbar", 
     {
-        props: ["buildings_data", "grid_area_surfix"], 
+        props: ["buildings_data"], 
         mixins: [support_mixin], 
         template: 
         `   

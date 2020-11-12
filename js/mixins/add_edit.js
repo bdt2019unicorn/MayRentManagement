@@ -23,7 +23,7 @@ var add_edit_mixin =
             try 
             {
                 this.form = data.form; 
-                this.title = this.form_title || this.controller? data.title :this.title_surfix+data.title; 
+                this.title = this.form_title || (this.controller? data.title :this.title_surfix+data.title); 
                 this.validate = data.validate || this.validate; 
             } 
             catch
