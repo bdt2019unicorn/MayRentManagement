@@ -38,6 +38,26 @@ var general_edit = Vue.component
                 }
             }    
         },
+        watch: 
+        {
+            $route: function(to, from)
+            {
+                new Promise
+                (
+                    (resolve, reject)=>
+                    {
+                        this.edit = false; 
+                        resolve(); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        this.edit = true; 
+                    }
+                ); 
+            }    
+        },
         template: `<edit v-if="edit" v-bind="EditControllerBind"></edit>`
     } 
 ); 
