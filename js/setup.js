@@ -25,6 +25,18 @@ jQuery
                             component: user 
                         }, 
                         {
+                            path: "/general-edit", 
+                            redirect: 
+                            {
+                                name: "dashboard"
+                            }
+                        }, 
+                        {
+                            path: "/general-edit/:controller", 
+                            name: "general-edit", 
+                            component: general_edit
+                        }, 
+                        {
                             path: "/:building_id", 
                             component: page_wrapper, 
                             props: true 
@@ -61,7 +73,6 @@ jQuery
             ); 
             return router; 
         }
-
 
         function StoreTrack()
         {
