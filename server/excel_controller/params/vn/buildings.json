@@ -1,0 +1,11 @@
+{
+    "columns": 
+    {
+        "Name": 
+        {
+            "Data type": "Text", 
+            "Example": "May An Phu", 
+            "Requirement": "Compulsory"
+        }
+    }
+}
