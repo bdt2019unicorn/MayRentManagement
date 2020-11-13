@@ -19,17 +19,17 @@ Vue.component
         {
             ExportExcel()
             {
-                console.log(this.table_data); 
-                console.log(this.table_actions); 
-
                 if(!this.table_data.length)
                 {
                     return; 
                 }
 
-                let hidden_collumns = this.table_actions.hidden_columns||[];
-                let header = Object.keys(this.table_data[0]).filter(column=>!hidden_collumns.includes(column)); 
-
+                let hidden_columns = this.table_actions.hidden_columns||[];
+                var worksheet = this.ExcelSheet(this.table_data, hidden_columns); 
+                let page_title = this.table_actions.page_title||'Overview'; 
+                var workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
+                XLSX.writeFile(workbook, `${page_title}.xlsx`);
             }, 
             PopulateData()
             {
