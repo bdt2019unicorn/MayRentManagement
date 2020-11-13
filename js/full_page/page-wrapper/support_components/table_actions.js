@@ -28,7 +28,7 @@ Vue.component
                 if(result)
                 {
                     alert("All duplicate values deleted"); 
-                    this.$emit("delete-success"); 
+                    this.$emit("delete-success", true); 
                 }
                 else 
                 {
