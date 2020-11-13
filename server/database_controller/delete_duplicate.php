@@ -76,8 +76,16 @@
         }
     }
 
-    $sql = "DELETE FROM {$controller} WHERE `id` IN (" . implode(", ", $duplicate) . ");"; 
+    if(count($duplicate))
+    {
+        $sql = "DELETE FROM {$controller} WHERE `id` IN (" . implode(", ", $duplicate) . ");"; 
 
-    $result = Connect::GetData($sql); 
-    echo $result; 
+        $result = Connect::GetData($sql); 
+        echo $result; 
+    }
+    else 
+    {
+        echo true; 
+    }
+
 ?>

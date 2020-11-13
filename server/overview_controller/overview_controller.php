@@ -85,7 +85,7 @@
             }, 
             "tenant"=> function()
             {
-                $selects = isset($_GET["edit"])? ["*", "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`"]: ["`id` AS `ID`", "`First_Name` AS `First Name`", "`Middle_Name` AS `Middle Name`", "`Last_Name` AS `Last Name`", "`Passport_ID_number` AS `ID Number`", "CONCAT(`Last_Name`, ' ', `Middle_Name`, ' ', `First_Name`) AS `Full Name`"]; 
+                $selects = isset($_GET["edit"])? ["*", "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`"]: ["`id` AS `ID`", "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`", "`Passport_ID_number` AS `ID Number`"]; 
                 $conditions = isset($_GET["id"]) ? ["id"=>$_GET['id']]: ["building_id"=>$_GET['building_id']]; 
 
                 return Query::SelectData("tenant", $selects, $conditions); 
