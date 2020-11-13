@@ -24,7 +24,6 @@ Vue.component
                     "Contract with no head tenant": unit_tenant_partition[1]
                 }; 
             }, 
-
             LeaseagrmCurrentTable()
             {
                 let rows= this.LeaseagrmCategorized[this.leaseagrm_table]; 
@@ -65,6 +64,32 @@ Vue.component
                         disableSelectInfo: true
                     }
                 }; 
+            }, 
+            TableEditDeleteBind()
+            {
+                let to = undefined; 
+                if(this.check_array.length==1)
+                {
+                    to = 
+                    {
+                        name: "general-edit", 
+                        params: 
+                        {
+                            controller: "leaseagrm"
+                        }, 
+                        query: 
+                        {
+                            id: this.check_array[0]
+                        }
+                    }
+                }
+                return {
+                    slot: "table-actions", 
+                    action: "edit", 
+                    check_array: this.check_array, 
+                    controller: "leaseagrm", 
+                    to: to 
+                }
             }
         },
         methods: 
@@ -83,13 +108,7 @@ Vue.component
                     <vs-select-item v-for="key in Object.keys(LeaseagrmCategorized).map(title=>({text: title, value: title}))" v-bind="key" />
                 </vs-select>
                 <vue-good-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows, 'ID')">
-                    <table-edit-delete
-                        slot="table-actions"
-                        action="edit"
-                        :check_array="check_array"
-                        controller="leaseagrm"
-                        @delete-success="DeleteSuccess"
-                    ></table-edit-delete>
+                    <table-edit-delete v-bind="TableEditDeleteBind" @delete-success="DeleteSuccess"></table-edit-delete>
                 </vue-good-table>
             </fragment>
         `

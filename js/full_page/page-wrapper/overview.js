@@ -35,7 +35,6 @@ Vue.component
                         this.check_array = []; 
                     }
                 ); 
-
             } 
         },
         watch: 

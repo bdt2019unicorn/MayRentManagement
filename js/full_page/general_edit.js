@@ -13,8 +13,17 @@ var general_edit = Vue.component
         {
             EditControllerBind()
             {
+                if(!this.edit)
+                {
+                    return undefined; 
+                }
                 let surfix = "Edit "; 
                 let controller = this.$route.params.controller; 
+
+                if(!controller)
+                {
+                    return undefined; 
+                }
 
                 let titles = "My Information"; 
                 let object_id = this.StateObject("user_id"); 
@@ -61,6 +70,6 @@ var general_edit = Vue.component
                 ); 
             }    
         },
-        template: `<edit v-if="edit" v-bind="EditControllerBind"></edit>`
+        template: `<edit v-if="EditControllerBind" v-bind="EditControllerBind"></edit>`
     } 
 ); 

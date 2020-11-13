@@ -30,7 +30,7 @@ Vue.component
                 <router-link 
                     class="btn btn-secondary mx-1" 
                     v-else 
-                    :to="ToActions({action: action, query: {id: check_array[0]}})"
+                    :to="$attrs.to||ToActions({action: action, query: {id: check_array[0]}})"
                 >Edit</router-link>
             </vs-row>
         `
