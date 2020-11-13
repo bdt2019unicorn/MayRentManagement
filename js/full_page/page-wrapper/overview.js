@@ -17,6 +17,20 @@ Vue.component
         },
         methods: 
         {
+            ExportExcel()
+            {
+                console.log(this.table_data); 
+                console.log(this.table_actions); 
+
+                if(!this.table_data.length)
+                {
+                    return; 
+                }
+
+                let hidden_collumns = this.table_actions.hidden_columns||[];
+                let header = Object.keys(this.table_data[0]).filter(column=>!hidden_collumns.includes(column)); 
+
+            }, 
             PopulateData()
             {
                 new Promise
@@ -35,7 +49,7 @@ Vue.component
                         this.check_array = []; 
                     }
                 ); 
-            } 
+            }
         },
         watch: 
         {
@@ -47,7 +61,21 @@ Vue.component
         template: 
         `
             <div class="container-fluid">
-                <h1>{{table_actions.page_title || "Overview"}}</h1>
+                <vs-row vs-align="center" vs-justify="center" vs-type="flex">    
+                    <vs-col vs-w="11">
+                        <vs-row>
+                            <vs-col vs-w="9">
+                                <h1>{{table_actions.page_title || "Overview"}} </h1>
+                            </vs-col>
+                            <vs-col v-if="table_data.length>0" vs-w="3" vs-type="flex" vs-align="flex-end" vs-justify="flex-end">
+                                <vs-button color="success" type="gradient" icon="table_view" @click="ExportExcel">Export Excel</vs-button>
+                            </vs-col>
+                        </vs-row>    
+                    </vs-col>
+                </vs-row>
+                
+                
+                <br>
                 <vs-row v-if="table_data.length>0" vs-align="center" vs-justify="center" vs-type="flex">
                     <vs-col vs-w="11">
                         <scrolling-table v-bind="$data" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows, table_actions.id)">
