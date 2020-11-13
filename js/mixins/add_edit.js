@@ -19,7 +19,7 @@ var add_edit_mixin =
     {
         PopulateFormField()
         {
-            var data = this.AjaxRequest(`server/user_input_controller/${this.CurrentController}.json`); 
+            var data = this.$attrs.user_input_json || this.AjaxRequest(`server/user_input_controller/${this.CurrentController}.json`); 
             try 
             {
                 this.form = data.form; 
