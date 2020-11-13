@@ -94,8 +94,14 @@ Vue.component
         },
         methods: 
         {
-            DeleteSuccess()
+            DeleteSuccess(delete_duplicate=undefined)
             {
+                if(delete_duplicate)
+                {
+                    this.$emit("delete-duplicate"); 
+                    return; 
+                }
+
                 all_leaseagrm = this.leaseagrm.filter(leaseagrm=>!this.check_array.includes(leaseagrm.ID)); 
                 this.check_array = []; 
                 this.$emit("problem-leaseagrm-deleted", all_leaseagrm); 
