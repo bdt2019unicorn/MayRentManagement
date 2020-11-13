@@ -51,14 +51,14 @@ Vue.component
                 <vs-row v-if="table_data.length>0" vs-align="center" vs-justify="center" vs-type="flex">
                     <vs-col vs-w="11">
                         <scrolling-table v-bind="$data" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows, table_actions.id)">
-                            <table-edit-delete 
+                            <table-actions 
                                 v-if="CurrentController!='overview'" 
                                 slot="table-actions"
                                 :action="table_actions.edit_action || 'edit'"
                                 :check_array="check_array"
                                 :controller="CurrentController"
                                 @delete-success="PopulateData"
-                            ></table-edit-delete>
+                            ></table-actions>
                         </scrolling-table>
                     </vs-col>
                 </vs-row>

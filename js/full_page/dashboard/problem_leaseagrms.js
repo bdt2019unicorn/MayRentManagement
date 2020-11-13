@@ -108,7 +108,7 @@ Vue.component
                     <vs-select-item v-for="key in Object.keys(LeaseagrmCategorized).map(title=>({text: title, value: title}))" v-bind="key" />
                 </vs-select>
                 <vue-good-table class="my-3" v-if="LeaseagrmCurrentTable" v-bind="LeaseagrmCurrentTable" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows, 'ID')">
-                    <table-edit-delete v-bind="TableEditDeleteBind" @delete-success="DeleteSuccess"></table-edit-delete>
+                    <table-actions v-bind="TableEditDeleteBind" @delete-success="DeleteSuccess"></table-actions>
                 </vue-good-table>
             </fragment>
         `
