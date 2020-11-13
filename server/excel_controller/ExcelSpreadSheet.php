@@ -186,4 +186,8 @@
             $this->sheet->mergeCells($merge_range); 
         }
     }
+
+
+    //check for the config file and "sheet_title": "Data", "important_titles": 
+        // they all need to come here - the things may break if we don't do anything. 
 ?>
