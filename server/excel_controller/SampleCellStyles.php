@@ -5,9 +5,11 @@
     {
         private $file_name = "cell-style-samples.xlsx"; 
         private $sheet_name = "Data"; 
+        private $lang; 
         private $styles_by_cells; 
-        function __construct()
+        function __construct($lang)
         {
+            $this->lang = $lang; 
             $sheet = $this->Sheet(); 
             $column = ord("A"); 
 
@@ -25,7 +27,7 @@
 
         private function Sheet()
         {
-            $spreadsheet = IOFactory::load($this->file_name); 
+            $spreadsheet = IOFactory::load("config/$this->lang/$this->file_name"); 
             $spreadsheet->setActiveSheetIndexByName($this->sheet_name); 
             $sheet = $spreadsheet->getActiveSheet();
             return $sheet; 
