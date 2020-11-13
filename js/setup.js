@@ -20,11 +20,6 @@ jQuery
                             component: dashboard 
                         }, 
                         {
-                            path: "/user", 
-                            name: "user", 
-                            component: user 
-                        }, 
-                        {
                             path: "/general-edit", 
                             redirect: 
                             {

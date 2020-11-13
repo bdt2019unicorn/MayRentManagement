@@ -22,7 +22,7 @@ Vue.component
                             <p>{{StateObject('username')}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <router-link class="btn dropdown-item" :to="{name: 'user'}">Manage your Account</router-link>
+                            <router-link class="btn dropdown-item" :to="{name: 'general-edit', params: {controller: 'user'}}">Manage your Account</router-link>
                             <button 
                                 class="btn dropdown-item" 
                                 onclick="window.store_track.commit('Authorize', {username: '', user_id: ''}); window.router.push({name: 'home'}).catch(error=>{});"
@@ -106,14 +106,5 @@ var page_wrapper = Vue.component
             </div>
 
         `
-    }
-); 
-
-var user = Vue.component
-(
-    "user", 
-    {
-        mixins: [support_mixin], 
-        template: `<edit controller="user" form_title="Edit My Information" :object_id="StateObject('user_id')"></edit>`
     }
 ); 
