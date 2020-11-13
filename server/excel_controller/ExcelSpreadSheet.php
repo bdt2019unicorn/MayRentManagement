@@ -19,26 +19,25 @@
         private $sheet; 
 
         private $params; 
-        private $building_id; 
+        public $building_id = null; 
 
         private $column_asc; 
 
-        function __construct($controller, $building_id=null)
+        function __construct($controller, $lang)
         {
             $this->spreadsheet = new Spreadsheet();
             $this->sheet = $this->spreadsheet->getActiveSheet();
             $this->sheet->setTitle($this->sheet_title); 
         
-            $config = file_get_contents("config.json"); 
+            $config = file_get_contents("config/{$lang}/config.json"); 
             $this->config = json_decode($config, true); 
         
-            $this->sample_cell_styles = new SampleCellStyles(); 
+            $this->sample_cell_styles = new SampleCellStyles($lang); 
             $this->instruction_titles = $this->config["instruction_titles"]; 
             $this->instruction_styles = $this->sample_cell_styles->CellStyles("Instruction Title"); 
 
-            $params = file_get_contents("params/{$controller}.json"); 
+            $params = file_get_contents("params/{$lang}/{$controller}.json"); 
             $this->params = json_decode($params, true); 
-            $this->building_id = $building_id; 
 
             $this->column_asc = ord("A"); 
         }
