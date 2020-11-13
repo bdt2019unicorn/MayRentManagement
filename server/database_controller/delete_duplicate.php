@@ -50,11 +50,12 @@
         {
             if(!in_array($key, $special_columns, true))
             {
-                $string.=$value."\n"; 
+                $string.="\n$key: $value\n"; 
             }
         }
         $string = trim($string); 
-        if($duplicate_index = array_search($string, $strings, true))
+        $duplicate_index = array_search($string, $strings, true); 
+        if($duplicate_index!==false)
         {
             if(ShouldDeleteValue($values))
             {
