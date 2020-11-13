@@ -18,9 +18,11 @@ var general_edit = Vue.component
 
                 let titles = "My Information"; 
                 let object_id = this.StateObject("user_id"); 
+                let user_input_json = undefined; 
                 if(controller!="user")
                 {
                     let data = this.AjaxRequest(`server/user_input_controller/${controller}.json`); 
+                    user_input_json = data; 
                     object_id = this.$route.query.id; 
                     try 
                     {
@@ -34,7 +36,8 @@ var general_edit = Vue.component
                 return {
                     controller: controller, 
                     form_title: surfix + titles, 
-                    object_id: object_id
+                    object_id: object_id, 
+                    user_input_json: user_input_json 
                 }
             }    
         },
