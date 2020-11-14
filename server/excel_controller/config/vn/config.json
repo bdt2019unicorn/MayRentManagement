@@ -1,20 +1,29 @@
 {
+    "sheet_title": "Dữ liệu", 
     "instruction_titles": 
     {
-        "Data type": 2, 
-        "Example": 3, 
-        "Requirement": 4, 
-        "Separate": 5 
+        "Kiểu dữ liệu": 2, 
+        "Ví dụ": 3, 
+        "Yêu cầu": 4, 
+        "Ngăn cách": 5 
+    }, 
+    "important_titles": 
+    {
+        "instruction_title": "Tiêu đề hướng dẫn", 
+        "instruction_text": "Hướng dẫn", 
+        "data_type": "Kiểu dữ liệu", 
+        "separate": "Ngăn cách", 
+        "merge": "Ghép"
     }, 
     "total_row": 20, 
     "format_codes": 
     {
-        "Binary": "0", 
-        "Date": "dd/mm/yyyy", 
-        "ID": "0", 
-        "Number": "#,##0.00", 
-        "Number (m2)": "#,##0.00", 
-        "Text": "@" 
+        "Nhị phân": "0", 
+        "Ngày": "dd/mm/yyyy", 
+        "Mã số": "0", 
+        "Số": "#,##0.00", 
+        "Diện tích": "#,##0.00", 
+        "Chữ": "@" 
     }, 
     "dropdown_headings_styles": 
     {
