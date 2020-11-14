@@ -3,51 +3,51 @@
     {
         "Name": 
         {
-            "Data type": "Text",
-            "Example": "Laudry bill 12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Chí phí giặt giũ 12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "Expense type": 
         {
-            "Data type": "ID",
-            "Example": "Laundry",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "Laundry",
+            "Yêu cầu": "Bắt buộc"
         },
         "Amount": 
         {
-            "Data type": "Text",
-            "Example": "100",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "100",
+            "Yêu cầu": "Bắt buộc"
         },
         "Start period": 
         {
-            "Data type": "Date",
-            "Example": "12/12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "12/12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "End period": 
         {
-            "Data type": "Date",
-            "Example": "15/12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "15/12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "Unit": 
         {
-            "Data type": "ID",
-            "Example": "G01",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "G01",
+            "Yêu cầu": "Bắt buộc"
         },
         "Payment date": 
         {
-            "Data type": "Text",
-            "Example": "16/12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "16/12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "Note": 
         {
-            "Data type": "Text",
-            "Example": "Paid",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Đã trả tiền",
+            "Yêu cầu": "Tự nguyện"
         }
     }, 
     "dropdown_list": 

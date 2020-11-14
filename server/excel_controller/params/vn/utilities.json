@@ -3,27 +3,27 @@
     {
         "Utility Type": 
         {
-            "Data type": "ID",
-            "Example": "Electricity",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "Electricity",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Date": 
+        "Ngày": 
         {
-            "Data type": "Date",
-            "Example": "15/8/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "15/8/2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "Unit": 
         {
-            "Data type": "ID",
-            "Example": "103",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "103",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Number": 
+        "Số": 
         {
-            "Data type": "Number",
-            "Example": "1235",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "1235",
+            "Yêu cầu": "Bắt buộc"
         }
     },
     "dropdown_list": 
