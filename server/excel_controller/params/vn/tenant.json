@@ -40,7 +40,7 @@
         "Số hộ chiếu": 
         {
             "Kiểu dữ liệu": "Text",
-            "Ví dụ": "0010553456 \n Company: Tax number",
+            "Ví dụ": "P34763263",
             "Yêu cầu": "Bắt buộc"
         },
         "Số điện thoại": 
