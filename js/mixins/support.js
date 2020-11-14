@@ -78,6 +78,11 @@ var support_mixin =
             }
         }, 
 
+        DateConvertFormatDisplayDatabase(string)
+        {
+            return moment(string, "DD MMM YYYY").format("YYYY-MM-DD"); 
+        }, 
+
         DateReformat(string=undefined)
         {
             return string?moment(string):moment(); 

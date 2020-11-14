@@ -38,6 +38,7 @@ Vue.component
                 (
                     ({date, time, number, current_reading, current_date, ...rest })=>
                     {
+                        date = this.DateConvertFormatDisplayDatabase(date); 
                         let validation = 
                         {
                             date: moment(date).isValid(), 
@@ -65,7 +66,7 @@ Vue.component
         },
         methods: 
         {
-            UnitIdValueChanged()
+            UnitIdValueChanged(new_value)
             {
                 new Promise 
                 (
@@ -78,7 +79,7 @@ Vue.component
                 (
                     ()=>
                     {
-                        this.unit_id = $(this.$refs["units_select"]).find("[name='unit_id']").val();
+                        this.unit_id = new_value;
                         try 
                         {
                             var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&unit_id=${this.unit_id}`); 
@@ -105,7 +106,7 @@ Vue.component
                                         unit_id: this.unit_id, 
                                         service: revenue_type.name, 
                                         unit_name: this.select_data.units.find(unit=>unit.id==this.unit_id).name, 
-                                        date: this.DateReformatDatabase(), 
+                                        date: this.DateReformatDisplay(), 
                                         time: moment().format("HH:mm"), 
                                         number: "", 
                                         current_reading: CurrentReading(revenue_type.id, "number"), 
@@ -179,7 +180,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Add Reading Success"); 
-                    this.UnitIdValueChanged(); 
+                    this.UnitIdValueChanged(this.unit_id); 
                 }
                 else 
                 {
@@ -193,7 +194,7 @@ Vue.component
                 <h1>Utilities</h1>
                 <h6>Add new utility reading</h6>
                 <div class="row" ref="units_select">
-                    <select-input :select_data="select_data.units" v-bind="select_data" name="unit_id" not_required="true" @search-data-changed="UnitIdValueChanged">All Units</select-input>
+                    <select-input :select_data="select_data.units" v-bind="select_data" name="unit_id" not_required="true" @input="UnitIdValueChanged">All Units</select-input>
                 </div>
                 <div class="container-fluid" v-if="unit_id">
                     <table class="table table-striped table-bordered table-hover">
