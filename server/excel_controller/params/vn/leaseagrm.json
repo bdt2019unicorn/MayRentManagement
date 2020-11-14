@@ -3,81 +3,81 @@
     {
         "Agreement Number": 
         {
-            "Data type": "Text",
-            "Example": "37-U468-10Oct2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "37-U468-10Oct2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "Tenant ID": 
         {
-            "Data type": "ID",
-            "Example": "37",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "37",
+            "Yêu cầu": "Bắt buộc"
         },
         "Unit": 
         {
-            "Data type": "ID",
-            "Example": "G01",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "G01",
+            "Yêu cầu": "Bắt buộc"
         },
         "Start date": 
         {
-            "Data type": "Date",
-            "Example": "14/08/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "14/08/2020",
+            "Yêu cầu": "Bắt buộc"
         },
         "End date": 
         {
-            "Data type": "Date",
-            "Example": "05/12/2021",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "05/12/2021",
+            "Yêu cầu": "Bắt buộc"
         },
         "Rent amount": 
         {
-            "Data type": "Number",
-            "Example": "12000000",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "12000000",
+            "Yêu cầu": "Bắt buộc"
         },
         "Deposit amount": 
         {
-            "Data type": "Number",
-            "Example": "12000000",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "12000000",
+            "Yêu cầu": "Tự nguyện"
         },
         "Deposit payment date": 
         {
-            "Data type": "Date",
-            "Example": "10/08/2020",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "10/08/2020",
+            "Yêu cầu": "Tự nguyện"
         },
         "Deposit payback date": 
         {
-            "Data type": "Date",
-            "Example": "05/12/2021",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "05/12/2021",
+            "Yêu cầu": "Bắt buộc"
         },
         "Monthly payment date": 
         {
-            "Data type": "Number",
-            "Example": "15,\n Default: 1",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "15,\n Mặc định: 1",
+            "Yêu cầu": "Tự nguyện"
         },
         "Deposit currency": 
         {
-            "Data type": "Text",
-            "Example": " USD \n Default: VND",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " USD \n Mặc định: VND",
+            "Yêu cầu": "Tự nguyện"
         },
         "Deposit exchange rate": 
         {
-            "Data type": "Number",
-            "Example": "23200 \n Default: 1",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "23200 \n Mặc định: 1",
+            "Yêu cầu": "Bắt buộc"
         },
         "Note": 
         {
-            "Data type": "Text",
-            "Example": " 2 bikes, 1 TV",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " 2 bikes, 1 TV",
+            "Yêu cầu": "Tự nguyện"
         }
     }, 
     "dropdown_list": 
