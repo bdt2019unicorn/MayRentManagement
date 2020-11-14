@@ -1,49 +1,49 @@
 {
     "columns": 
     {
-        "Name": 
+        "Tên": 
         {
             "Kiểu dữ liệu": "Chữ",
             "Ví dụ": "Chí phí giặt giũ 12/2020",
             "Yêu cầu": "Bắt buộc"
         },
-        "Expense type": 
+        "Loại chi phí": 
         {
             "Kiểu dữ liệu": "Mã số",
             "Ví dụ": "Laundry",
             "Yêu cầu": "Bắt buộc"
         },
-        "Amount": 
+        "Số tiền": 
         {
             "Kiểu dữ liệu": "Chữ",
             "Ví dụ": "100",
             "Yêu cầu": "Bắt buộc"
         },
-        "Start period": 
+        "Ngày bắt đầu": 
         {
             "Kiểu dữ liệu": "Ngày",
             "Ví dụ": "12/12/2020",
             "Yêu cầu": "Bắt buộc"
         },
-        "End period": 
+        "Ngày kết thúc": 
         {
             "Kiểu dữ liệu": "Ngày",
             "Ví dụ": "15/12/2020",
             "Yêu cầu": "Bắt buộc"
         },
-        "Unit": 
+        "Đơn vị": 
         {
             "Kiểu dữ liệu": "Mã số",
             "Ví dụ": "G01",
             "Yêu cầu": "Bắt buộc"
         },
-        "Payment date": 
+        "Ngày trả tiền": 
         {
             "Kiểu dữ liệu": "Chữ",
             "Ví dụ": "16/12/2020",
             "Yêu cầu": "Bắt buộc"
         },
-        "Note": 
+        "Ghi chú": 
         {
             "Kiểu dữ liệu": "Chữ",
             "Ví dụ": "Đã trả tiền",
@@ -52,16 +52,16 @@
     }, 
     "dropdown_list": 
     {
-        "Unit": 
+        "Đơn vị": 
         {
             "table": "unit",
-            "selects": ["`name` AS `Units`"], 
+            "selects": ["`name` AS `Đơn vị`"], 
             "building_id": true 
         }, 
-        "Expense type": 
+        "Loại chi phí": 
         {
             "table": "expense_type", 
-            "selects": ["`name` AS `Expense type`"] 
+            "selects": ["`name` AS `Loại chi phí`"] 
         }
     }
 }

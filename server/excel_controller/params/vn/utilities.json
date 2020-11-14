@@ -1,7 +1,7 @@
 {
     "columns": 
     {
-        "Utility Type": 
+        "Loại tiện ích": 
         {
             "Kiểu dữ liệu": "Mã số",
             "Ví dụ": "Electricity",
@@ -13,7 +13,7 @@
             "Ví dụ": "15/8/2020",
             "Yêu cầu": "Bắt buộc"
         },
-        "Unit": 
+        "Đơn vị": 
         {
             "Kiểu dữ liệu": "Mã số",
             "Ví dụ": "103",
@@ -28,16 +28,16 @@
     },
     "dropdown_list": 
     {
-        "Unit": 
+        "Đơn vị": 
         {
             "table": "unit",
-            "selects": ["`name` AS `Units`"], 
+            "selects": ["`name` AS `Đơn vị`"], 
             "building_id": true 
         }, 
-        "Utility Type": 
+        "Loại tiện ích": 
         {
             "table": "revenue_type", 
-            "selects": ["`name` AS `Utility Type`"], 
+            "selects": ["`name` AS `Loại tiện ích`"], 
             "conditions": 
             {
                 "is_utility": 1 
