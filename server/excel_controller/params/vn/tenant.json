@@ -1,115 +1,115 @@
 {
     "columns": 
     {
-        "Last Name": 
+        "Họ": 
         {
-            "Data type": "Text",
-            "Example": "Nguyen",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Nguyen",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Middle Name": 
+        "Tên đệm": 
         {
-            "Data type": "Text",
-            "Example": " Van",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " Van",
+            "Yêu cầu": "Tự nguyện"
         },
-        "First Name": 
+        "Tên": 
         {
-            "Data type": "Text",
-            "Example": " Tuan",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " Tuan",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Date of birth": 
+        "Ngày sinh": 
         {
-            "Data type": "Date",
-            "Example": "15/06/1966",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "15/06/1966",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Building": 
+        "Tòa nhà": 
         {
-            "Data type": "ID",
-            "Example": "PKK",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "PKK",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Nationality": 
+        "Quốc tịch": 
         {
-            "Data type": "Text",
-            "Example": "France",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "France",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Passport/ID number": 
+        "Số hộ chiếu": 
         {
-            "Data type": "Text",
-            "Example": "0010553456 \n Company: Tax number",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "P34763263",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Mobile Phone": 
+        "Số điện thoại": 
         {
-            "Data type": "Text",
-            "Example": "84902345678",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "84902345678",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Work Phone": 
+        "Số điện thoại công ti": 
         {
-            "Data type": "Text",
-            "Example": "84902345678",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "84902345678",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Personal E-mail": 
+        "Địa chỉ email": 
         {
-            "Data type": "Text",
-            "Example": "Tuannguyen@gmail.com",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Tuannguyen@gmail.com",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Work E-mail": 
+        "Địa chỉ email công ti": 
         {
-            "Data type": "Text",
-            "Example": "Tuannguyen@company.net",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Tuannguyen@company.net",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Company Name": 
+        "Tên công ti": 
         {
-            "Data type": "Text",
-            "Example": "TS TT Corporation",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "TS TT Corporation",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Company address": 
+        "Địa chỉ công ti": 
         {
-            "Data type": "Text",
-            "Example": "2 Ngo Duc Ke, District 1, HCMC",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "2 Ngo Duc Ke, District 1, HCMC",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Residential registration date (police)": 
+        "Ngày khai tạm trú qua mạng": 
         {
-            "Data type": "Date",
-            "Example": "15/04/2020",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "15/04/2020",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Expected departure date (police)": 
+        "Ngày đi dự kiến đăng ký với CA": 
         {
-            "Data type": "Date",
-            "Example": "17/04/2020",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "17/04/2020",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Visa Expiry Date": 
+        "Ngày hết hạn của visa": 
         {
-            "Data type": "Date",
-            "Example": "18/05/2021",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "18/05/2021",
+            "Yêu cầu": "Tự nguyện"
         },
-        "Note": 
+        "Ghi chú": 
         {
-            "Data type": "Text",
-            "Example": " 2 bikes, 1 TV",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " 2 bikes, 1 TV",
+            "Yêu cầu": "Tự nguyện"
         }
     }, 
     "dropdown_list": 
     {
-        "Building": 
+        "Tòa nhà": 
         {
             "table": "buildings", 
-            "selects": ["`name` AS `Buildings`"] 
+            "selects": ["`name` AS `Tòa nhà`"] 
         }
     }
 }

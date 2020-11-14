@@ -1,67 +1,67 @@
 {
     "columns": 
     {
-        "Name": 
+        "Tên": 
         {
-            "Data type": "Text",
-            "Example": "Laudry bill 12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Chí phí giặt giũ 12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Expense type": 
+        "Loại chi phí": 
         {
-            "Data type": "ID",
-            "Example": "Laundry",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "Laundry",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Amount": 
+        "Số tiền": 
         {
-            "Data type": "Text",
-            "Example": "100",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "100",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Start period": 
+        "Ngày bắt đầu": 
         {
-            "Data type": "Date",
-            "Example": "12/12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "12/12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
-        "End period": 
+        "Ngày kết thúc": 
         {
-            "Data type": "Date",
-            "Example": "15/12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "15/12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Unit": 
+        "Đơn vị": 
         {
-            "Data type": "ID",
-            "Example": "G01",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "G01",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Payment date": 
+        "Ngày trả tiền": 
         {
-            "Data type": "Text",
-            "Example": "16/12/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "16/12/2020",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Note": 
+        "Ghi chú": 
         {
-            "Data type": "Text",
-            "Example": "Paid",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Đã trả tiền",
+            "Yêu cầu": "Tự nguyện"
         }
     }, 
     "dropdown_list": 
     {
-        "Unit": 
+        "Đơn vị": 
         {
             "table": "unit",
-            "selects": ["`name` AS `Units`"], 
+            "selects": ["`name` AS `Đơn vị`"], 
             "building_id": true 
         }, 
-        "Expense type": 
+        "Loại chi phí": 
         {
             "table": "expense_type", 
-            "selects": ["`name` AS `Expense type`"] 
+            "selects": ["`name` AS `Loại chi phí`"] 
         }
     }
 }

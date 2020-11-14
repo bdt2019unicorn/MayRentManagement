@@ -1,43 +1,43 @@
 {
     "columns": 
     {
-        "Name": 
+        "Tên": 
         {
-            "Data type": "Text",
-            "Example": "G01 - Rent 12/2002",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "G01 - Tiền thuê 12/2002",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Lease Agreement": 
+        "Mã hợp đồng": 
         {
-            "Data type": "ID",
-            "Example": "G01 - Lease",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "G01 - Lease",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Amount": 
+        "Số tiền": 
         {
-            "Data type": "Number",
-            "Example": "1000",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "1000",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Payment date": 
+        "Ngày trả tiền": 
         {
-            "Data type": "Date",
-            "Example": "29/11/2020",
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "29/11/2020",
+            "Yêu cầu": "Bắt buộc"
         },
-        "Note": 
+        "Ghi chú": 
         {
-            "Data type": "Text",
-            "Example": "Paid",
-            "Requirement": "Optional"
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Đã trả tiền",
+            "Yêu cầu": "Tự nguyện"
         }
     }, 
     "dropdown_list": 
     {
-        "Lease Agreement": 
+        "Mã hợp đồng": 
         {
             "table": "leaseagrm",
-            "selects": ["`name` AS `Lease Agreement`"] 
+            "selects": ["`name` AS `Mã hợp đồng`"] 
         }
     }
 }

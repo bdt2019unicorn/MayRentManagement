@@ -15,7 +15,6 @@
         private $instruction_titles; 
         private $instruction_styles; 
         
-        private $sheet_title = "Data"; 
         private $sheet; 
 
         private $params; 
@@ -25,16 +24,19 @@
 
         function __construct($controller, $lang)
         {
-            $this->spreadsheet = new Spreadsheet();
-            $this->sheet = $this->spreadsheet->getActiveSheet();
-            $this->sheet->setTitle($this->sheet_title); 
-        
             $config = file_get_contents("config/{$lang}/config.json"); 
             $this->config = json_decode($config, true); 
+
+
+            $this->spreadsheet = new Spreadsheet();
+            $this->sheet = $this->spreadsheet->getActiveSheet();
+            $this->sheet->setTitle($this->config["sheet_title"]); 
+        
+
         
             $this->sample_cell_styles = new SampleCellStyles($lang); 
             $this->instruction_titles = $this->config["instruction_titles"]; 
-            $this->instruction_styles = $this->sample_cell_styles->CellStyles("Instruction Title"); 
+            $this->instruction_styles = $this->sample_cell_styles->CellStyles($this->config["important_titles"]["instruction_title"]); 
 
             $params = file_get_contents("params/{$lang}/{$controller}.json"); 
             $this->params = json_decode($params, true); 
@@ -63,7 +65,7 @@
         private function ColumnHeaders()
         {
             $format_codes = $this->config["format_codes"]; 
-            $data_row_start = $this->instruction_titles["Separate"] + 1; 
+            $data_row_start = $this->instruction_titles[$this->config["important_titles"]["separate"]] + 1; 
             foreach ($this->params["columns"] as $column => $param) 
             {
                 $this->column_asc++; 
@@ -71,7 +73,7 @@
                 $this->sheet->getColumnDimension($char)->setAutoSize(true); 
                 $this->sheet->setCellValue("{$char}1", $column); 
 
-                $instruction_text_style = $this->sample_cell_styles->CellStyles("Instruction Text"); 
+                $instruction_text_style = $this->sample_cell_styles->CellStyles($this->config["important_titles"]["instruction_text"]); 
                 foreach ($param as $key => $value) 
                 {
                     $cell = "{$char}{$this->instruction_titles[$key]}"; 
@@ -79,8 +81,9 @@
                     $this->sheet->duplicateStyle($instruction_text_style, $cell); 
                 }
 
-                $range_style = $this->sample_cell_styles->CellStyles($param["Data type"]); 
-                $range_style->getNumberFormat()->setFormatCode($format_codes[$param["Data type"]]); 
+                $data_type_title = $this->config["important_titles"]["data_type"]; 
+                $range_style = $this->sample_cell_styles->CellStyles($param[$data_type_title]); 
+                $range_style->getNumberFormat()->setFormatCode($format_codes[$param[$data_type_title]]); 
                 $this->sheet->duplicateStyle($range_style, "{$char}{$data_row_start}:{$char}{$this->config['total_row']}"); 
 
                 if(isset($this->params["dropdown_list"]))
@@ -180,8 +183,9 @@
         private function SeparateInstructionsData()
         {
             $last_char = chr($this->column_asc); 
-            $merge_styles = $this->sample_cell_styles->CellStyles("Merge"); 
-            $merge_range = "B{$this->instruction_titles['Separate']}:{$last_char}{$this->instruction_titles['Separate']}"; 
+            $merge_styles = $this->sample_cell_styles->CellStyles($this->config["important_titles"]["merge"]); 
+            $separate_row = $this->instruction_titles[$this->config["important_titles"]["separate"]]; 
+            $merge_range = "B{$separate_row}:{$last_char}{$separate_row}"; 
             $this->sheet->duplicateStyle($merge_styles, $merge_range); 
             $this->sheet->mergeCells($merge_range); 
         }
