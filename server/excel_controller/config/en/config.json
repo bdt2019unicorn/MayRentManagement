@@ -1,10 +1,19 @@
 {
+    "sheet_title": "Data", 
     "instruction_titles": 
     {
         "Data type": 2, 
         "Example": 3, 
         "Requirement": 4, 
         "Separate": 5 
+    }, 
+    "important_titles": 
+    {
+        "instruction_title": "Instruction Title", 
+        "instruction_text": "Instruction Text", 
+        "data_type": "Data type", 
+        "separate": "Separate", 
+        "merge": "Merge"
     }, 
     "total_row": 20, 
     "format_codes": 

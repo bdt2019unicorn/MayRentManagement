@@ -1,11 +1,11 @@
 {
     "columns": 
     {
-        "Name": 
+        "Tên": 
         {
-            "Data type": "Text", 
-            "Example": "May An Phu", 
-            "Requirement": "Compulsory"
+            "Kiểu dữ liệu": "Chữ", 
+            "Ví dụ": "May An Phu", 
+            "Yêu cầu": "Bắt buộc"
         }
     }
 }
