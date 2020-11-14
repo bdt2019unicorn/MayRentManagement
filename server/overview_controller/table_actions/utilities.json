@@ -2,7 +2,7 @@
     "hidden_columns": ["unit_id", "unit_table", "revenue_type_id"], 
     "hyperlink": 
     {
-        "Apartment Name":
+        "Unit Name":
         {
             "controller": "utilities", 
             "action": "unit-utilities", 
