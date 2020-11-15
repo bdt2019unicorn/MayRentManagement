@@ -131,7 +131,7 @@ Vue.component
 
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" @click="date_picker_opened = !date_picker_opened" readonly style="text-align: center;":value="LabelDateRange">
+                                <input type="text" class="form-control text-center" @click="date_picker_opened = !date_picker_opened" readonly :value="LabelDateRange">
                                 <FunctionalCalendar 
                                     ref="calendar" 
                                     v-if='date_picker_opened' 
