@@ -21,9 +21,7 @@
             "; 
 
             $data = Connect::GetData($sql); 
-            echo '<pre>'; 
-            print_r($data);
-            echo '</pre>'; 
+            echo json_encode($data); 
         }
     ]; 
 
