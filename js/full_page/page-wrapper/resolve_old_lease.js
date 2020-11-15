@@ -9,16 +9,42 @@ Vue.component
                 old_leases: []
             }
         },
-        components: {vuejsDatepicker}, 
+        components: {vuejsDatepicker, ...bootstrap}, 
+        computed: 
+        {
+            OldLeasesValid()
+            {
+                let old_leases_submit = this.old_leases.filter(leaseagrm=>!this.DateChargedUntilInvalid(leaseagrm)).map
+                (
+                    (
+                        {
+                            date_charged_until, 
+                            ...rest
+                        }
+                    )=>
+                    (
+                        {
+                            ...rest, 
+                            date_charged_until: this.DateReformatDatabase(date_charged_until)
+                        }
+                    )
+                ); 
+                return (old_leases_submit.length==this.old_leases.length)?old_leases_submit: undefined; 
+            }    
+        },
         created() 
         {
             this.LoadOldLeases(); 
         },
         methods: 
         {
+            DateChargedUntilInvalid(leaseagrm)
+            {
+                return (!this.ValidPeriod(leaseagrm.Start_date, leaseagrm.date_charged_until) || !this.ValidPeriod(leaseagrm.date_charged_until, leaseagrm.Finish)); 
+            }, 
             LoadOldLeases()
             {
-                let url = `server/overview_controller/resolve_old_contract.php?command=LoadOldLeases&building_id=${this.$route.params.building_id}`; 
+                let url = this.ServerUrl("LoadOldLeases"); 
                 let data = this.AjaxRequest(url); 
                 try 
                 {
@@ -29,13 +55,70 @@ Vue.component
                     this.old_leases = []; 
                 }
             }, 
+            ServerUrl(command)
+            {
+                return `server/overview_controller/resolve_old_contract.php?command=${command}&building_id=${this.$route.params.building_id}`; 
+            }, 
             ShowDetailsButtonBind(show_details)
             {
                 return {
+                    class: "float-right", 
                     color: "success", 
                     type: "flat", 
                     icon: show_details?"remove": "add", 
                     title: (show_details?"Hide ": "Show ") + "Details"
+                }
+            }, 
+            SubmitOldLeases()
+            {
+                let url = this.ServerUrl("ResolveOldLeases"); 
+                var result = this.SubmitData("old_leases", url, this.OldLeasesValid); 
+
+                console.log(result); 
+            }, 
+            TableDetailsBind(index)
+            {
+                var leaseagrm = this.old_leases[index]; 
+                return {
+                    headVariant: "dark", 
+                    tableVariant: "primary", 
+                    fields: 
+                    [
+                        {
+                            key: "Start_date",
+                            label: 'Contract Start Date' 
+                        }, 
+                        {
+                            key: "date_charged_until",
+                            label: 'Paid Until', 
+                            variant: this.DateChargedUntilInvalid(leaseagrm)? "danger": undefined
+                        }, 
+                        {
+                            key: "Finish",
+                            label: 'Contract End Date' 
+                        }, 
+                        {
+                            key: "Rent_amount",
+                            label: 'Rent Amount' 
+                        }, 
+                        {
+                            key: "total_amount",
+                            label: 'Total Amount Paid' 
+                        }, 
+                    ], 
+                    items: [leaseagrm].map 
+                    (
+                        ({id, name, Rent_amount, Start_date, Finish, date_charged_until, show_details, ...rest})=>
+                        (
+                            {
+                                Start_date: this.DateReformatDisplay(Start_date), 
+                                date_charged_until: this.DateReformatDisplay(date_charged_until), 
+                                Finish: this.DateReformatDisplay(Finish), 
+                                Rent_amount: Rent_amount, 
+                                total_amount: Rent_amount * this.RentQuantityCalculation(Start_date, date_charged_until)
+                            }
+                        )
+                    )
                 }
             }
         },
@@ -44,58 +127,37 @@ Vue.component
             <div class="container-fluid">
                 <h1>Old Contracts To Resolve Payment</h1>
                 <template v-if="old_leases.length">
-                    <div class="container-fluid border border-info my-2" v-for="{id, name, Rent_amount, Start_date, Finish, date_charged_until, show_details, ...rest} in old_leases">
+                    <div class="container-fluid border border-info my-2" v-for="({id, name, show_details, ...rest}, index) in old_leases">
                         <div class="row">
                             <div class="col-3">
-                                <h5 class="text-info">{{name}}</h5>
+                                <h5 class="text-info">  
+                                    <b-button title="Delete" class="mx-1" variant="danger" @click="old_leases.splice(index,1)"><b-icon icon="trash"></b-icon></b-button>
+                                    {{name}}
+                                </h5>
+
                             </div>
                             <div class="col">
-                                <p><b>Paid Until: </b>                
                                 <vuejs-datepicker 
                                     calendar-class="calendar-right-align" 
                                     input-class="form-control" 
                                     format="dd/MM/yyyy" 
-                                    v-model="date_charged_until" 
-                                ></vuejs-datepicker></p>
+                                    v-model="old_leases[index].date_charged_until" 
+                                ></vuejs-datepicker>
                             </div>
                             <div class="col-1">
-                                <vs-button v-bind="ShowDetailsButtonBind(show_details)" @click="show_details=!show_details"></vs-button>
+                                <vs-button v-bind="ShowDetailsButtonBind(show_details)" @click="old_leases[index].show_details=!old_leases[index].show_details"></vs-button>
                             </div>
                         </div>
-                        <template v-if="show_details">
-                            <div class="row">
-                                <div class="col">
-                                    <b>Contract Start Date</b>
-                                </div>
-                                <div class="col">
-                                    <b>Contract End Date</b>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>{{DateReformatDisplay(Start_date)}}</p>
-                                </div>
-                                <div class="col">
-                                    <p>{{DateReformatDisplay(Finish)}}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <b>Rent Amount</b>
-                                </div>
-                                <div class="col">
-                                    <b>Paid Until</b>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p>{{Rent_amount}}</p>
-                                </div>
-                                <div class="col">
-                                </div>
-                            </div>
-                        </template>
+                        <b-container fluid v-if="show_details">
+                            <br>
+                            <b-row align-h="center">
+                                <b-col cols="11">
+                                    <b-table v-bind="TableDetailsBind(index)"></b-table>
+                                </b-col>
+                            </b-row>
+                        </b-container>
                     </div>
+                    <submit-button class="float-right" title="Resolve Old Contracts" v-if="OldLeasesValid" @submit-button-clicked="SubmitOldLeases"></submit-button>
                 </template>
                 <template v-else>
                     <br>
