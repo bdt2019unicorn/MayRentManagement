@@ -22,6 +22,13 @@
 
             $data = Connect::GetData($sql); 
             echo json_encode($data); 
+        }, 
+        "ResolveOldLeases"=> function()
+        {
+            $old_leases = json_decode($_POST["old_leases"], true); 
+            echo '<pre>'; 
+            print_r($old_leases); 
+            echo '</pre>'; 
         }
     ]; 
 
