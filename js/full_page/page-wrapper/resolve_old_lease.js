@@ -48,12 +48,16 @@ Vue.component
                 let data = this.AjaxRequest(url); 
                 try 
                 {
-                    this.old_leases = JSON.parse(data).map(leaseagrm=>({...leaseagrm, show_details: false})); 
+                    this.OldLeasesJson(data); 
                 }
                 catch
                 {
                     this.old_leases = []; 
                 }
+            }, 
+            OldLeasesJson(data)
+            {
+                this.old_leases = JSON.parse(data).map(leaseagrm=>({...leaseagrm, show_details: false})); 
             }, 
             ServerUrl(command)
             {
@@ -73,9 +77,14 @@ Vue.component
             {
                 let url = this.ServerUrl("ResolveOldLeases"); 
                 var result = this.SubmitData("old_leases", url, this.OldLeasesValid); 
-                if(Number(result))
+                try 
                 {
-                    
+                    this.OldLeasesJson(result); 
+                    alert("Operation success! All old contracts are up to date"); 
+                }
+                catch 
+                {
+                    alert("Resolve all contracts fails. There seems like an issue with the server."); 
                 }
             }, 
             TableDetailsBind(index)
