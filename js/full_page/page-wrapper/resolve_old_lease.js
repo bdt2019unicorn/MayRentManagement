@@ -14,22 +14,22 @@ Vue.component
         {
             OldLeasesValid()
             {
-                let old_leases_submit = this.old_leases.filter(leaseagrm=>!this.DateChargedUntilInvalid(leaseagrm)).map
+                let old_leases_submit = this.old_leases.filter(leaseagrm=>!this.DateChargedUntilInvalid(leaseagrm)); 
+                return (old_leases_submit.length==this.old_leases.length)?old_leases_submit.map
                 (
-                    (
-                        {
-                            date_charged_until, 
-                            ...rest
-                        }
-                    )=>
-                    (
-                        {
+                    ({Start_date, date_charged_until, Rent_amount, ...rest})=>
+                    {
+                        let quantity = this.RentQuantityCalculation(Start_date, date_charged_until)
+                        return {
                             ...rest, 
-                            date_charged_until: this.DateReformatDatabase(date_charged_until)
+                            start_date: Start_date, 
+                            date_charged_until: this.DateReformatDatabase(date_charged_until), 
+                            price: Rent_amount, 
+                            quantity: quantity, 
+                            amount: (Rent_amount * quantity).toFixed(3)
                         }
-                    )
-                ); 
-                return (old_leases_submit.length==this.old_leases.length)?old_leases_submit: undefined; 
+                    }
+                ): undefined; 
             }    
         },
         created() 
@@ -73,8 +73,10 @@ Vue.component
             {
                 let url = this.ServerUrl("ResolveOldLeases"); 
                 var result = this.SubmitData("old_leases", url, this.OldLeasesValid); 
-
-                console.log(result); 
+                if(Number(result))
+                {
+                    
+                }
             }, 
             TableDetailsBind(index)
             {
