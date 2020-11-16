@@ -33,6 +33,11 @@ var rent_invoice_mixin =
         RentQuantityCalculation(start_period, end_period)
         {
             [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+            let [str_start, str_end] = [start_period, end_period].map(moment_object=>this.DateReformatDatabase(moment_object)); 
+            if(str_start==str_end)
+            {
+                return 0; 
+            }
             start_period.subtract(1, "days"); 
             return end_period.diff(start_period, "months", true).toFixed(3); 
         }, 

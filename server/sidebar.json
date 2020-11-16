@@ -78,6 +78,13 @@
                 "icon": "plus"
             }, 
             {
+                "action": "resolve-old-lease", 
+                "text": "Resolve Old Contracts", 
+                "title": "Put the date contract paid to keep old contract up to date", 
+                "button": "info", 
+                "icon": "file-contract"
+            }, 
+            {
                 "action": "import-export", 
                 "text": "Import", 
                 "title": "Import Excel Data", 

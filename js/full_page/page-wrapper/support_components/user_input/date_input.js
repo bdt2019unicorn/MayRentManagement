@@ -58,7 +58,7 @@ var date_input = Vue.component
         template: 
         `
             <div class="form-group col">
-                <label for="company_address"><b>{{title}}</b></label>
+                <label :for="name"><b>{{title}}</b></label>
                 <vuejs-datepicker 
                     :style="LockStyle" 
                     calendar-class="calendar-right-align" 

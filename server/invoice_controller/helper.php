@@ -1,5 +1,6 @@
 <?php 
     require_once("../helper/database.php"); 
+    require_once("../helper/overview_queries.php"); 
 
     function ImportInvoice($invoices)
     {
@@ -67,10 +68,11 @@
 
     function InvoiceInformation($leaseagrm_id)
     {
+        $rent_id = OverviewQueries\Invoices::RentId(); 
         $sql = 
         "
             SET @leaseagrm_id = '{$leaseagrm_id}'; 
-            SET @rent_id = '1'; 
+            SET @rent_id = '{$rent_id}'; 
 
             SELECT @unit_id:= `unit_id`, @start_lease:= `Start_date`, @rent_amount:=`Rent_amount` 
             FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
