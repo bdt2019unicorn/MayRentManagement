@@ -79,13 +79,20 @@
                     ]
                 ]; 
 
+                $revenue_data = 
+                [
+                    "name" => "Rent {$general_name}", 
+                    "leaseagrm_id" => $leaseagrm["id"], 
+                    "Payment_date" => $leaseagrm["date_charged_until"], 
+                    "Amount" => $leaseagrm["amount"]
+                ]; 
+
                 $queries = ImportInvoice($invoices); 
-                $sql = array_merge($sql, $queries); 
+                $sql = array_merge($sql, $queries, [Query::Insert("revenue", $revenue_data)]); 
             }
 
             if(Connect::ExecTransaction($sql))
             {
-                echo "good boy"; 
                 $this->LoadOldLeases(); 
             }
             else 
