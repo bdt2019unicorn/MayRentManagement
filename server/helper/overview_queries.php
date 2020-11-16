@@ -95,7 +95,22 @@
                     LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
             "; 
         }
+    }
 
+    class Invoices 
+    {
+        public static function RentId()
+        {
+            $path = __DIR__ . "/../user_input_controller/invoice.json"; 
+            $path = realpath($path); 
+            if(!$path)
+            {
+                return false; 
+            }
+            $invoice_user_input = file_get_contents($path); 
+            $invoice_user_input = json_decode($invoice_user_input, true); 
+            return $invoice_user_input["rent_id"]; 
+        }
     }
 
 ?>
