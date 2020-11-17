@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input-invoice", 
     {
-        props: ["edit_data", "revenue_type", "user_input"], 
+        props: ["edit_data", "leaseagrm_select_data", "revenue_type", "user_input"], 
         mixins:[support_mixin], 
         data() 
         {
@@ -141,6 +141,7 @@ Vue.component
                 <div class="row">
                     <select-input 
                         v-bind="user_input.leaseagrm_id" 
+                        :select_data="leaseagrm_select_data"
                         @input="LeaseagrmIdSelectChanged" 
                         :lock="edit_data"
                         :edit_data="edit_data?edit_data.invoice:undefined"

@@ -53,11 +53,9 @@
     {
         "name": "leaseagrm_id",
         "title": "Lease Agreement", 
-        "overview_controller": "leaseagrm",
         "select_value": "id",
         "text": "name"
     }, 
-    "main_url": "server/invoice_controller/action.php?command=", 
     "select_atributes": 
     {
         "clear-on-select": false, 

@@ -79,6 +79,34 @@
             }
             echo json_encode($monthly_invoices); 
         }, 
+        "InvoiceConfigs"=> function()
+        {
+            $building_id = $_GET['building_id']?? null; 
+            $sql = Query::SelectData("leaseagrm", ["*"]);
+            if($building_id)
+            {
+                $sql = str_replace(";", "", $sql); 
+                $unit_conditions = Query::SelectData("unit", ["id"], ["building_id"=>$building_id]); 
+                $unit_conditions = str_replace(";", "", $unit_conditions); 
+                $sql.= "WHERE `unit_id` IN ({$unit_conditions});"; 
+            } 
+            $sql.= "\n" . Query::SelectData("revenue_type", ["*"], ["is_utility"=>"0"]) . "\n" . Query::SelectData("revenue_type", ["*"], ["is_utility"=>"1"]); 
+            $user_input = OverviewQueries\Invoices::InvoiceUserInput(); 
+
+            $data = Connect::MultiQuery($sql, true); 
+            $configs = 
+            [
+                "leaseagrm_select_data" => $data[0], 
+                "revenue_type" => 
+                [
+                    "leaseagrm" => $data[1], 
+                    "utilities" => $data[2]
+                ], 
+                "user_input" => $user_input
+            ]; 
+
+            echo json_encode($configs); 
+        }, 
         "InvoiceDetails"=>function()
         {
             $tables = ["leaseagrm", "utilities"]; 
