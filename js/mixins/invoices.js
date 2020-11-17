@@ -4,6 +4,8 @@ var invoices_mixin =
     data() 
     {
         return {
+            leaseagrm_select_data: [], 
+            main_url: "server/invoice_controller/action.php?command=", 
             revenue_type: 
             {
                 leaseagrm: [], 
@@ -14,14 +16,13 @@ var invoices_mixin =
     },
     created() 
     {
-        this.user_input = this.AjaxRequest("server/user_input_controller/invoice.json"); 
-        let revenue_types = this.AjaxRequest(this.OverviewDataUrl("revenue_type")); 
-        let revenue_types_partition = R.partition(revenue_type=>Number(revenue_type.is_utility), JSON.parse(revenue_types)); 
-        this.revenue_type = 
+        let config = this.AjaxRequest(`${this.main_url}InvoiceConfigs&building_id=${this.$route.params.building_id}`); 
+        try 
         {
-            utilities: revenue_types_partition[0], 
-            leaseagrm: revenue_types_partition[1]
-        }; 
+            config = JSON.parse(config); 
+            Object.keys(config).forEach(key=>this[key]=config[key]); 
+        }
+        catch {}
     },
 }; 
 

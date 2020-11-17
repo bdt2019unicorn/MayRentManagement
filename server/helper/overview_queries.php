@@ -99,7 +99,7 @@
 
     class Invoices 
     {
-        public static function RentId()
+        public static function InvoiceUserInput()
         {
             $path = __DIR__ . "/../user_input_controller/invoice.json"; 
             $path = realpath($path); 
@@ -108,7 +108,11 @@
                 return false; 
             }
             $invoice_user_input = file_get_contents($path); 
-            $invoice_user_input = json_decode($invoice_user_input, true); 
+            return json_decode($invoice_user_input, true); 
+        }
+        public static function RentId()
+        {
+            $invoice_user_input = Invoices::InvoiceUserInput(); 
             return $invoice_user_input["rent_id"]; 
         }
     }

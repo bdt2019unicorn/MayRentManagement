@@ -12,7 +12,7 @@ Vue.component
         created() 
         {
             let invoice = this.TableData(this.CurrentController, {id: this.ObjectId, edit: 1}); 
-            let invoice_details = this.AjaxRequest(`${this.user_input.main_url}InvoiceDetails&invoice_id=${this.ObjectId}`); 
+            let invoice_details = this.AjaxRequest(`${this.main_url}InvoiceDetails&invoice_id=${this.ObjectId}`); 
             this.EditData(invoice[0], JSON.parse(invoice_details)); 
         },
         methods: 
