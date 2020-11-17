@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input-invoice", 
     {
-        props: ["edit_data", "leaseagrm_select_data", "revenue_type", "user_input"], 
+        props: ["edit_data", "leaseagrm_select_data", "main_url", "revenue_type", "user_input"], 
         mixins:[support_mixin], 
         data() 
         {
@@ -85,7 +85,7 @@ Vue.component
 
             InvoiceInformation(leaseagrm_id)
             {
-                let invoice_information = this.AjaxRequest(`${this.user_input.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`); 
+                let invoice_information = this.AjaxRequest(`${this.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`); 
                 this.invoice_information = JSON.parse(invoice_information); 
             }, 
 
