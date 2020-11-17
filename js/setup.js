@@ -112,7 +112,7 @@ jQuery
             new Vue 
             (
                 {
-                    el: "#full_page", 
+                    el: "#full-page", 
                     mixins:[support_mixin], 
                     created() 
                     {
