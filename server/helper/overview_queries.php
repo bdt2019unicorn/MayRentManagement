@@ -1,5 +1,21 @@
 <?php
     namespace OverviewQueries; 
+
+    class GeneralUserInput
+    {
+        public static function UserInput($controller)
+        {
+            $path = __DIR__ . "/../user_input_controller/{$controller}.json"; 
+            $path = realpath($path); 
+            if(!$path)
+            {
+                return false; 
+            }
+            $invoice_user_input = file_get_contents($path); 
+            return json_decode($invoice_user_input, true); 
+        }
+    }
+
     class LeaseAgrm
     {
         public static function OverviewDashboard()
@@ -99,21 +115,10 @@
 
     class Invoices 
     {
-        public static function InvoiceUserInput()
-        {
-            $path = __DIR__ . "/../user_input_controller/invoice.json"; 
-            $path = realpath($path); 
-            if(!$path)
-            {
-                return false; 
-            }
-            $invoice_user_input = file_get_contents($path); 
-            return json_decode($invoice_user_input, true); 
-        }
         public static function RentId()
         {
-            $invoice_user_input = Invoices::InvoiceUserInput(); 
-            return $invoice_user_input["rent_id"]; 
+            $invoice_user_input = GeneralUserInput::UserInput("invoice"); 
+            return $invoice_user_input? $invoice_user_input["rent_id"]: null; 
         }
     }
 
