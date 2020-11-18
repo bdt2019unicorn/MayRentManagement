@@ -137,8 +137,8 @@ var valid_invoice_details_mixin =
                     {
                         valid: revenue_type.valid, 
                         period: this.ValidPeriod(revenue_type.start_date, revenue_type.end_date, true), 
-                        price: revenue_type.price>=0,
-                        quantity: revenue_type.quantity>=0, 
+                        price: numeral(revenue_type.price).value()>0,
+                        quantity: revenue_type.quantity>0, 
                         amount: numeral(revenue_type.amount).value()>0
                     }
                     return this.ValidObject(validation); 
@@ -158,7 +158,12 @@ var valid_invoice_details_mixin =
         }, 
         ValidInvoiceDetailsUtilities(invoice_details)
         {
-            return invoice_details.map 
+            var valid_details = invoice_details.filter
+            (
+                ({amount, ...rest})=> numeral(amount).value()>0
+            ); 
+            return (valid_details.length<invoice_details.length)? false: 
+            invoice_details.map 
             (
                 ({revenue_type, date, previous_date, number, previous_number, id, unit_id, ...rest})=>
                 (
