@@ -18,15 +18,6 @@
         {
             return call_user_func_array(__CLASS__ . "::{$method}", [$this->edit, $this->building_id, $this->id]); 
         }
-    }
-
-    class Unit 
-    {
-        use OverviewTrait; 
-        public static function Selects($edit, $building_id, $id)
-        {
-            return $edit? ["*"]: ["id AS ID", "name AS Name"]; 
-        }
 
         public static function Conditions($edit, $building_id, $id)
         {
@@ -40,11 +31,34 @@
             }
             return null; 
         }
+
+    }
+
+    class Unit 
+    {
+        use OverviewTrait; 
+        public static function Selects($edit, $building_id, $id)
+        {
+            return $edit? ["*"]: ["id AS ID", "name AS Name"]; 
+        }
     }
 
     class Tenant 
     {
-        
+        use OverviewTrait; 
+        public static function Selects($edit, $building_id, $id)
+        {
+            return $edit? 
+            [
+                "*", 
+                "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`"
+            ]: 
+            [
+                "`id` AS `ID`", 
+                "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`", 
+                "`Passport_ID_number` AS `ID Number`"
+            ]; 
+        }
     }
 
 
@@ -66,6 +80,7 @@
         {
             __construct as private Contruct; 
             GetArray as private TraitGetArray; 
+            Conditions as private TraitConditions; 
         }
 
         public $class; 
