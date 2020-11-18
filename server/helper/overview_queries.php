@@ -152,6 +152,9 @@
                     )
                 )
             "; 
+
+            $deposit_amount = "(IFNULL(`Deposit_amount`, 0))"; 
+
             return 
             "
                 SELECT 
@@ -166,7 +169,7 @@
                         (
                             (
                                 {$sum_query_invoice} - 
-                                {$sum_query_revenue} > 0 
+                                {$deposit_amount} - {$sum_query_revenue} > 0 
                             ), 
                             CONCAT
                             (
@@ -175,14 +178,14 @@
                                 (
                                     (
                                         {$sum_query_invoice} - 
-                                        {$sum_query_revenue}
+                                        {$deposit_amount} - {$sum_query_revenue}
                                     ), 
                                     CHAR 
                                 ),
                                 ')' 
                             ), 
                             (
-                                {$sum_query_revenue} - 
+                                {$sum_query_revenue} + {$deposit_amount} - 
                                 {$sum_query_invoice}
                             )
                         )

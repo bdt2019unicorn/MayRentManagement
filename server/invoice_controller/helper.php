@@ -74,12 +74,16 @@
             SET @leaseagrm_id = '{$leaseagrm_id}'; 
             SET @rent_id = '{$rent_id}'; 
 
-            SELECT @unit_id:= `unit_id`, @start_lease:= `Start_date`, @rent_amount:=`Rent_amount` 
+            SELECT 
+                @unit_id:= `unit_id`, 
+                @start_lease:= `Start_date`, 
+                @rent_amount:=`Rent_amount`, 
+                @deposit_amount:=IFNULL(`Deposit_amount`, 0)
             FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
 
-            SELECT @paid_amount := SUM(`Amount`) FROM `revenue` WHERE `leaseagrm_id` =@leaseagrm_id; 
+            SELECT @paid_amount:= SUM(`Amount`) + @deposit_amount FROM `revenue` WHERE `leaseagrm_id` =@leaseagrm_id; 
 
-            SET @total_amount := 
+            SET @total_amount:= 
             IFNULL
             (
                 (
