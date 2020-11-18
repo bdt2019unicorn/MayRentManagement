@@ -30,12 +30,12 @@ var general_edit = Vue.component
                 let user_input_json = undefined; 
                 if(controller!="user")
                 {
-                    let data = this.AjaxRequest(`server/user_input_controller/${controller}.json`); 
-                    user_input_json = data; 
+                    let data = this.AjaxRequest(`server/dashboard_controller/general_edit.php?controller=${controller}`); 
+                    user_input_json = JSON.parse(data); 
                     object_id = this.$route.query.id; 
                     try 
                     {
-                        titles = data.title; 
+                        titles = user_input_json.title; 
                     }
                     catch
                     {
