@@ -80,13 +80,20 @@
             SELECT @paid_amount := SUM(`Amount`) FROM `revenue` WHERE `leaseagrm_id` =@leaseagrm_id; 
 
             SET @total_amount := 
+            IFNULL
             (
-                SELECT SUM(`Amount`) FROM `invoice_leaseagrm` 
-                WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = @leaseagrm_id)
-            ) + 
+                (
+                    SELECT SUM(`Amount`) FROM `invoice_leaseagrm` 
+                    WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = @leaseagrm_id)
+                ), 0 
+            ) 
+            + 
+            IFNULL
             (
-                SELECT SUM(`Amount`) FROM `invoice_utilities` 
-                WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = @leaseagrm_id)
+                (
+                    SELECT SUM(`Amount`) FROM `invoice_utilities` 
+                    WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = @leaseagrm_id)
+                ), 0 
             ); 
 
             SELECT @start_date := MAX(`invoice_leaseagrm`.`end_date`)
@@ -115,7 +122,14 @@
 
             CREATE TEMPORARY TABLE IF NOT EXISTS `all_utility_reading` AS
             (
-                SELECT *, (SELECT MAX(`date`) FROM `utility_reading` AS `ur` WHERE `utility_reading`.`date`>`ur`.`date`) AS `previous_date`
+                SELECT 
+                    *, 
+                    (
+                        SELECT MAX(`date`) FROM `utility_reading` AS `ur` 
+                        WHERE 
+                            `utility_reading`.`date`>`ur`.`date` AND 
+                            `utility_reading`.`revenue_type_id` = `ur`.`revenue_type_id`
+                    ) AS `previous_date`
                 FROM `utility_reading` WHERE `unit_id`=@unit_id ORDER BY `revenue_type_id`
             ); 
 
@@ -131,12 +145,15 @@
                             `all_utility_reading`.`previous_date` = `aur`.`date` AND 
                             `all_utility_reading`.`revenue_type_id` = `aur`.`revenue_type_id`
                     ) AS `previous_number`, 
+                    IFNULL
                     (
-                        SELECT `utility_price`.`value` FROM `utility_price`
-                        WHERE 
-                            `utility_price`.`revenue_type_id` = `all_utility_reading`.`revenue_type_id` AND 
-                            `utility_price`.`date_valid` <= `all_utility_reading`.`previous_date` 
-                        ORDER BY `utility_price`.`date_valid` DESC LIMIT 1 
+                        (
+                            SELECT `utility_price`.`value` FROM `utility_price`
+                            WHERE 
+                                `utility_price`.`revenue_type_id` = `all_utility_reading`.`revenue_type_id` AND 
+                                `utility_price`.`date_valid` <= `all_utility_reading`.`previous_date` 
+                            ORDER BY `utility_price`.`date_valid` DESC LIMIT 1 
+                        ), 0 
                     ) AS `price`
                 FROM `all_utility_reading`
             ); 
@@ -158,7 +175,7 @@
                 SELECT * FROM `invoice_leaseagrm` 
                 WHERE 
                     `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `leaseagrm_id` = @leaseagrm_id) 
-                    AND `revenue_type_id` = '1' 
+                    AND `revenue_type_id` = @rent_id 
             ); 
 
             CREATE TEMPORARY TABLE IF NOT EXISTS `invoice_leaseagrm_rent_search_temp` AS (SELECT * FROM `invoice_leaseagrm_rent_search`);
