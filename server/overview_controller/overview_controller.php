@@ -21,15 +21,8 @@
         (
             "unit"=>function()
             {
-                $selects = isset($_GET["edit"])? ["*"]: ["id AS ID", "name AS Name"]; 
-                $conditions = null; 
-                try 
-                {
-                    $conditions = isset($_GET["id"]) ? ["id"=>$_GET["id"]] : ["building_id"=>$_GET["building_id"]]; 
-                }
-                catch(\Throwable $throwable) {}
-
-                return Query::SelectData("unit", $selects, $conditions); 
+                $unit = new OverviewQueries\Unit($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
+                return Query::SelectData("unit", $unit->GetArray("Selects"), $unit->GetArray("Conditions")); 
             },            
             "expense"=> function()
             {
@@ -85,10 +78,8 @@
             }, 
             "tenant"=> function()
             {
-                $selects = isset($_GET["edit"])? ["*", "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`"]: ["`id` AS `ID`", "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`Middle_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`", "`Passport_ID_number` AS `ID Number`"]; 
-                $conditions = isset($_GET["id"]) ? ["id"=>$_GET['id']]: ["building_id"=>$_GET['building_id']]; 
-
-                return Query::SelectData("tenant", $selects, $conditions); 
+                $tenant = new OverviewQueries\Tenant($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
+                return Query::SelectData("tenant", $tenant->GetArray("Selects"), $tenant->GetArray("Conditions")); 
             }, 
             "user" => function()
             {

@@ -91,7 +91,7 @@
                 $sql.= "WHERE `unit_id` IN ({$unit_conditions});"; 
             } 
             $sql.= "\n" . Query::SelectData("revenue_type", ["*"], ["is_utility"=>"0"]) . "\n" . Query::SelectData("revenue_type", ["*"], ["is_utility"=>"1"]); 
-            $user_input = OverviewQueries\GeneralUserInput::UserInput("invoice"); 
+            $user_input = OverviewQueries\GeneralOverview::UserInput("invoice"); 
 
             $data = Connect::MultiQuery($sql, true); 
             $configs = 
