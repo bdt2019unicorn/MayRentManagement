@@ -1,7 +1,54 @@
 <?php
     namespace OverviewQueries; 
 
-    class GeneralUserInput
+    trait OverviewTrait 
+    {
+        public $edit; 
+        public $building_id; 
+        public $id; 
+
+        public function __construct($edit, $building_id, $id)
+        {
+            $this->edit = $edit; 
+            $this->building_id = $building_id; 
+            $this->id = $id; 
+        }
+
+        public function GetArray($method)
+        {
+            return call_user_func_array(__CLASS__ . "::{$method}", [$this->edit, $this->building_id, $this->id]); 
+        }
+    }
+
+    class Unit 
+    {
+        use OverviewTrait; 
+        public static function Selects($edit, $building_id, $id)
+        {
+            return $edit? ["*"]: ["id AS ID", "name AS Name"]; 
+        }
+
+        public static function Conditions($edit, $building_id, $id)
+        {
+            if($id)
+            {
+                return ["id"=>$id]; 
+            }
+            else if($building_id)
+            {
+                return ["building_id"=>$building_id]; 
+            }
+            return null; 
+        }
+    }
+
+    class Tenant 
+    {
+        
+    }
+
+
+    class GeneralOverview
     {
         public static function UserInput($controller)
         {
@@ -13,6 +60,25 @@
             }
             $invoice_user_input = file_get_contents($path); 
             return json_decode($invoice_user_input, true); 
+        }
+
+        use OverviewTrait
+        {
+            __construct as private Contruct; 
+            GetArray as private TraitGetArray; 
+        }
+
+        public $class; 
+        public function __construct($edit, $building_id, $id, $controller)
+        {
+            $this->Contruct($edit, $building_id, $id); 
+            $controller = ucfirst($controller); 
+            $this->class = __NAMESPACE__ . "\\{$controller}"; 
+        }
+
+        public function GetArray($method)
+        {
+            return call_user_func_array ("{$this->class}::{$method}", [$this->edit, $this->building_id, $this->id]); 
         }
     }
 
@@ -117,7 +183,7 @@
     {
         public static function RentId()
         {
-            $invoice_user_input = GeneralUserInput::UserInput("invoice"); 
+            $invoice_user_input = GeneralOverview::UserInput("invoice"); 
             return $invoice_user_input? $invoice_user_input["rent_id"]: null; 
         }
     }
