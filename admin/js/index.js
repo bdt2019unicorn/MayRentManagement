@@ -9,3 +9,8 @@ jQuery
         }
     }
 ); 
+
+function Logout()
+{
+    console.log("test"); 
+}
