@@ -5,12 +5,13 @@ jQuery
         var check_user = CheckUser(); 
         if(!check_user)
         {
-            window.location.href = "../admin/login.php"; 
+            Logout(); 
         }
     }
 ); 
 
 function Logout()
 {
-    console.log("test"); 
+    sessionStorage.clear(); 
+    window.location.href = "./login.php"; 
 }
