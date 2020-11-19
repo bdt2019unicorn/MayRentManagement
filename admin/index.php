@@ -2,55 +2,97 @@
 <html>
     <head>
         <?php include("layout/head.php") ?>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
     </head>
     <body>
         <?php 
             require_once("../server/helper/database.php"); 
             $tables = Connect::GetData("SHOW TABLES"); 
-            echo '<pre>'; 
-            print_r($tables); 
-            echo '</pre>'; 
+
+            $all_tables = []; 
+            foreach ($tables as $property) 
+            {
+                foreach ($property as $table) 
+                {
+                    array_push($all_tables, $table); 
+                }
+            }
+            $current_table = $_GET["table"]??null; 
         ?>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
             <a class="navbar-brand" href=".">Admin</a>
+
+                <div class="dropdown navbar-nav w-50">
+                    <a class="btn btn-info dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php echo($current_table?$current_table: "Choose a table"); ?>
+                    </a>
+
+                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href=".">&nbsp;</a>
+                        <?php foreach ($all_tables as $table): ?> 
+                            <a class="dropdown-item" href=".?table=<?php echo $table;?>"><?php echo $table; ?></a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="javascript:Logout();">Log out</a></li>
             </ul>
         </nav>
 
-        <div class="container-fluid">
-        <table class="table table-striped table-bordered w-100">
-            <thead>
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                </tr>
-            </tbody>
-        </table>
+        
 
+        <div class="container-fluid w-100">
+            <br>
+            <?php if($current_table): ?>
+                <?php 
+                    $sql = 
+                    "
+                        SHOW COLUMNS FROM {$current_table};
+                        SELECT * FROM `{$current_table}`; 
+                    "; 
+                    $data = Connect::MultiQuery($sql, true); 
+
+                    $thead = []; 
+                    foreach ($data[0] as $column_properties) 
+                    {
+                        array_push($thead, $column_properties["Field"]); 
+                    }
+                    $tbody = $data[1]; 
+
+                    function PopulateTableColumnNames($section)
+                    {
+                        global $thead; 
+                        echo "<{$section}>"; 
+                        echo "<tr>"; 
+                        echo "<td class='select-checkbox'></td>";
+                        foreach($thead as $column)
+                        {
+                            echo "<th>{$column}</th>"; 
+                        }
+                        echo "</tr>"; 
+
+                        echo "</{$section}>"; 
+                    } 
+                ?>
+                <table id="table-overview" class="display nowrap w-100">
+                    <?php PopulateTableColumnNames("thead"); ?>
+                    <tbody>
+                        <?php foreach ($tbody as $tr): ?>
+                            <tr>
+                                <td></td>
+                                <?php foreach($tr as $value): ?>
+                                    <td><?php echo $value; ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <?php PopulateTableColumnNames("tfoot"); ?>
+                </table>
+            <?php endif; ?>
 
         </div>
 
@@ -58,12 +100,85 @@
         <footer>
             <?php include("layout/footer.php") ?>
             <script src="js/index.js"></script>
+            <?php if($current_table): ?>
+                <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+                <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+                <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+                <script>
+                    $(document).ready
+                    ( 
+                        function () 
+                        {
+                            $('#table-overview tfoot th').each
+                            ( 
+                                function () 
+                                {
+                                    var title = $(this).text();
+                                    if(!title.trim())
+                                    {
+                                        return; 
+                                    }
+                                    $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+                                } 
+                            );
+
+                            var table = $('#table-overview').DataTable
+                            (
+                                {
+                                    columnDefs: 
+                                    [ 
+                                        {
+                                            orderable: false,
+                                            className: 'select-checkbox',
+                                            targets:   0
+                                        } 
+                                    ],
+                                    scrollX: true, 
+                                    scrollY: "70vh",
+                                    scrollCollapse: true,
+                                    paging: false,
+                                    select: 
+                                    {
+                                        style: "multi"
+                                    },
+                                    dom: 'Blfrtip',
+                                    buttons: 
+                                    [
+                                        'selectAll',
+                                        'selectNone', 
+                                        {
+                                            text: "Test", 
+                                            action: function()
+                                            {
+                                                console.log("I am testing something real quick"); 
+                                            }
+                                        }
+                                    ],
+                                }
+                            );
+
+                            table.columns().every 
+                            (
+                                function()
+                                {
+                                    var that = this; 
+                                    $('input', this.footer()).on
+                                    (
+                                        'keyup change', 
+                                        function () 
+                                        {
+                                            if (that.search() !== this.value) 
+                                            {
+                                                that.search( this.value ).draw();
+                                            }
+                                        } 
+                                    );
+                                }
+                            ); 
+                        }
+                    );
+                </script>
+            <?php endif;  ?>
         </footer>
     </body>
-    
-
-
-
-
-
 </html>
