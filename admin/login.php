@@ -3,7 +3,7 @@
     <head>
         <title>Admin Database Login</title>
         <?php include("layout/head.php") ?>
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="login.css">
     </head>
     <body>
         <div class="container">
