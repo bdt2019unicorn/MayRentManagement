@@ -4,7 +4,7 @@
         $params = array
 		(
 			"table" => "", 
-			"date_collumns" => [], 
+			"date_columns" => [], 
 			"get_id" => [], 
 			"comma" => [], 
 			"change" => []
@@ -58,7 +58,7 @@
 					return; 
 				}
 			}
-			else if(in_array($key, $params['date_collumns']))
+			else if(in_array($key, $params['date_columns']))
 			{
 				$value = trim($value); 
 				$date = date_create_from_format("d/m/Y", $value);
