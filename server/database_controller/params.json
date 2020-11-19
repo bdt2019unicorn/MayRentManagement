@@ -113,7 +113,7 @@
     "utilities": 
     {
         "table": "utility_reading", 
-        "date_columns": ["date_enter"], 
+        "date_columns": ["date"], 
         "get_id":  
         {
             "utility_type": 
@@ -129,7 +129,8 @@
                 "table": "unit", 
                 "find_by_building": true 
             }
-        }
+        }, 
+        "comma": ["number"] 
     }
 }  
 

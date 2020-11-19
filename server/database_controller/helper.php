@@ -60,6 +60,7 @@
 			}
 			else if(in_array($key, $params['date_collumns']))
 			{
+				$value = trim($value); 
 				$date = date_create_from_format("d/m/Y", $value);
 				if(!$date)
 				{
@@ -69,6 +70,7 @@
 			}
 			else if(in_array($key, $params['comma']))
 			{
+				$value = trim($value); 
 				$value = str_replace(",", '', $value); 
 			}
 			if(isset($params['change'][$key]))

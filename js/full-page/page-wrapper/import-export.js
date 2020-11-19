@@ -17,7 +17,10 @@ Vue.component
                 return (this.excel_data.length==0)? undefined: 
                 {
                     rows: this.excel_data, 
-                    columns: Object.keys(this.excel_data[0]).map 
+                    columns: this.excel_data.reduce
+                    (
+                        (accumulator, current_value)=> [...accumulator, ...Object.keys(current_value).filter(key=>!accumulator.includes(key))], []
+                    ).map 
                     (
                         column=>
                         (
