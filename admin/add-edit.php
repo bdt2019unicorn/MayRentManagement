@@ -34,17 +34,26 @@
                             "; 
                             if(isset($select_columns[$field]))
                             {
-                                $input = "<select class='form-control'>"; 
-                                $value_column = $select_columns[$field]["value_column"]; 
-                                $options = $select_columns[$field]["options"]; 
-                                foreach ($options as $values) 
+                                $GenerateOption = function($value) use ($edit_data, $field)
                                 {
-                                    $value = $values[$value_column]; 
                                     $option = "<option value='{$value}'"; 
                                     if($edit_data)
                                     {
                                         $option.=($edit_data[$field]==$value)?" selected": ""; 
                                     }
+                                    return $option; 
+                                }; 
+                                $input = 
+                                "
+                                    <select class='form-control'>
+                                        {$GenerateOption('')} selected disabled hidden>&nbsp;</option>
+                                "; 
+                                $value_column = $select_columns[$field]["value_column"]; 
+                                $options = $select_columns[$field]["options"]; 
+                                foreach ($options as $values) 
+                                {
+                                    $value = $values[$value_column]; 
+                                    $option = $GenerateOption($value); 
                                     $value = json_encode($values); 
                                     $option.=">{$value}</option>"; 
                                     $input.=$option; 
