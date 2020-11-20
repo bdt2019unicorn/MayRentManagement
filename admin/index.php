@@ -1,4 +1,3 @@
-
 <html>
     <?php include("layout/1.head.php") ?>
     <body>
@@ -55,8 +54,7 @@
         </div>
 
         <footer>
-            <?php include("layout/3.footer.php") ?>
-            <script src="js/index.js"></script>
+            <?php include("layout/3.footer.php"); ?>
             <?php if($current_table): ?>
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
@@ -65,6 +63,7 @@
                 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
                 <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
                 <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+                <script src="js/index.js"></script>
                 <script>
                     $(document).ready
                     ( 
@@ -74,7 +73,7 @@
                         }
                     );
                 </script>
-            <?php endif;  ?>
+            <?php endif; ?>
         </footer>
     </body>
 </html>
