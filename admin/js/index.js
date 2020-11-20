@@ -1,21 +1,3 @@
-jQuery 
-(
-    function()
-    {
-        var check_user = CheckUser(); 
-        if(!check_user)
-        {
-            Logout(); 
-        }
-    }
-); 
-
-function Logout()
-{
-    sessionStorage.clear(); 
-    window.location.href = "./login.php"; 
-}
-
 function OverviewTable()
 {
     $('#table-overview tfoot th').each
@@ -79,7 +61,7 @@ function OverviewTable()
                     text: "Insert", 
                     action: function()
                     {
-                        
+                        window.location.href = `./add-edit.php${window.location.search}`; 
                     }
                 }, 
                 {

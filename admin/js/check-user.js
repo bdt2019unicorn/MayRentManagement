@@ -19,3 +19,21 @@ function CheckUser()
         return false; 
     }
 }
+
+function Logout()
+{
+    sessionStorage.clear(); 
+    window.location.href = "./login.php"; 
+}
+
+jQuery 
+(
+    function()
+    {
+        var check_user = CheckUser(); 
+        if(!check_user)
+        {
+            Logout(); 
+        }
+    }
+); 
