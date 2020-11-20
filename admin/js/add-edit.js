@@ -1,10 +1,15 @@
+function ActionFails(action)
+{
+    alert(`${action} ${url_params.get("table")} Fails! There seems to be some server issue`);  
+}
+
 function AddEdit(event)
 {
     event.preventDefault();
     var form_element = event.currentTarget; 
+    var data = $(form_element).serializeObject(); 
     if($("#number-of-forms").length)
     {
-        var data = $(form_element).serializeObject(); 
         let result = ImportDatabase([data]); 
         if(Number(result))
         {
@@ -22,7 +27,21 @@ function AddEdit(event)
         }
         else 
         {
-            alert(`Add ${url_params.get("table")} Fails! There seems to be some server issue`); 
+            ActionFails("Add"); 
+        }
+    }
+    else 
+    {
+        var url = `../server/database_controller/edit.php?table=${url_params.get("table")}&id=${data.id}`; 
+        delete data.id; 
+        let result = support_mixin.methods.SubmitData("edit", url, data); 
+        if(Number(result))
+        {
+            alert("Edit data success!"); 
+        }
+        else
+        {
+            ActionFails("Edit"); 
         }
     }
 }
@@ -46,20 +65,38 @@ function AddEditAll()
             } 
         }
     ); 
-    if($("#number-of-forms").length)
+    
+    var ActionResult = (result, action)=>
     {
-        let result = ImportDatabase(data); 
         if(Number(result))
         {
-            alert(`Add all ${url_params.get("table")} Success!`); 
+            alert(`${action} all ${url_params.get("table")} Success!`); 
             window.location.href = `.?table=${url_params.get("table")}`; 
         }
         else 
         {
-            alert(`Add ${url_params.get("table")} Fails! There seems to be some server issue`); 
+            ActionFails(action); 
         }
     }
-
+    
+    if($("#number-of-forms").length)
+    {
+        let result = ImportDatabase(data); 
+        ActionResult(result, "Add"); 
+    }
+    else 
+    {
+        data = data.map
+        (
+            ({id, ...rest})=>({[id]: rest})
+        ).reduce
+        (
+            (accumulator, current_value)=>({...accumulator, ...current_value}), {}
+        );
+        let url = `../server/admin_database.php?command=EditAll&table=${url_params.get("table")}`; 
+        let result = support_mixin.methods.SubmitData("edit_all", url, data); 
+        ActionResult(result, "Edit"); 
+    }
 }
 
 function ImportDatabase(data)
@@ -130,6 +167,10 @@ jQuery
         {
             number_of_form_input.val(1); 
             InsertForm(1); 
+        }
+        else 
+        {
+            $("#main-forms").append(form); 
         }
     }
 ); 

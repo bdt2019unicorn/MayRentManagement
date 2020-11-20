@@ -65,6 +65,25 @@ function OverviewTable()
                     }
                 }, 
                 {
+                    text: "Edit", 
+                    action: function()
+                    {
+                        var data = SelectedData(table); 
+                        if(data)
+                        {
+                            console.log(data); 
+                            var url_search_params = new URLSearchParams(window.location.search); 
+                            url_search_params.set("ids", btoa(JSON.stringify(data))); 
+                            console.log(url_search_params.toString()); 
+                            window.location.href = `./add-edit.php?${url_search_params.toString()}`; 
+                        }
+                        else 
+                        {
+                            alert("There is nothing to edit. Please select some data"); 
+                        }
+                    }
+                }, 
+                {
                     text: "Delete", 
                     action: function()
                     {
