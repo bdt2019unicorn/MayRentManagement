@@ -21,6 +21,7 @@
                                     "
                                         <h1>Edit {$current_table}</h1>
                                         <h3>ID: {$edit_data['id']}</h3>
+                                        <input type='text' hidden name='id' value='{$edit_data['id']}'>
                                     "; 
                                 }
                                 continue; 
@@ -37,14 +38,18 @@
                                     $option = "<option value='{$value}'"; 
                                     if($edit_data)
                                     {
-                                        $option.=($edit_data[$field]==$value)?" selected": ""; 
+                                        if($value=="")
+                                        {
+                                            return $option; 
+                                        }
+                                        return ($edit_data[$field]==$value)? $option." selected": $option; 
                                     }
-                                    return $option; 
+                                    return ($value=="")? $option." selected": $option; 
                                 }; 
                                 $input = 
                                 "
                                     <select class='form-control' name='{$field}'>
-                                        {$GenerateOption('')} selected disabled hidden>&nbsp;</option>
+                                        {$GenerateOption('')} disabled hidden>&nbsp;</option>
                                 "; 
                                 $value_column = $select_columns[$field]["value_column"]; 
                                 $options = $select_columns[$field]["options"]; 
@@ -85,6 +90,16 @@
                         return $form; 
                     }
 
+                    function DatabaseRecords()
+                    {
+                        global $current_table; 
+                        $ids = base64_decode($_GET["ids"]); 
+                        $ids = json_decode($ids); 
+                        $id_conditions = join(", ", $ids); 
+                        $sql = "SELECT * FROM `{$current_table}` WHERE `id` IN ({$id_conditions});";
+                        return Connect::GetData($sql); 
+                    }
+
                     $sql = 
                     "
                         SET @current_table = '{$current_table}'; 
@@ -115,7 +130,20 @@
                         ]; 
                     }
 
-                    $form = CreateForm(); 
+                    $form = ""; 
+
+                    if(isset($_GET["ids"]))
+                    {
+                        $database_records = DatabaseRecords(); 
+                        foreach ($database_records as $edit_data) 
+                        {
+                            $form.= CreateForm($edit_data); 
+                        }
+                    }
+                    else 
+                    {
+                        $form = CreateForm(); 
+                    }
                 ?>
 
             <?php else: ?>

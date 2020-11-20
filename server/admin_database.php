@@ -22,6 +22,19 @@
                 echo false; 
             }
         }
+
+        public function EditAll()
+        {
+            $edit_data = json_decode($_POST["edit_all"], true); 
+            $sql = []; 
+            foreach ($edit_data as $id => $data) 
+            {
+                array_push($sql, Query::Update($_GET["table"], $data, ["id"=>$id])); 
+            }
+
+            $result = Connect::ExecTransaction($sql); 
+            echo $result; 
+        }
     }
 
     $admin_database = new AdminDatabase(); 
