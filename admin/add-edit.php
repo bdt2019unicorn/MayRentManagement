@@ -2,16 +2,14 @@
     <?php include("layout/1.head.php") ?>
     <body>
         <?php include("layout/2.header.php") ?>
-
-        <div class="container-fluid w-100">
-            <br>
+        <br>
+        <div id="main-forms" class="container-fluid w-100">
             <?php if($current_table): ?>
                 <?php 
-
                     function CreateForm($edit_data=null)
                     {
                         global $columns, $select_columns, $current_table; 
-                        $form = "<form class='container-fluid border border-info py-1'>"; 
+                        $form = "<form class='container-fluid border border-info py-1' onsubmit='AddEdit(event)'>"; 
                         foreach ($columns as $column) 
                         {
                             $field = $column["Field"]; 
@@ -78,7 +76,7 @@
                         "
                                 <div class='form-group row text-right'>
                                     <div class='col'>
-                                        <button class='btn btn-success'>Submit</button>
+                                        <button type='submit' class='btn btn-success'>Submit</button>
                                     </div>
                                 </div>
                             </form>
@@ -118,19 +116,37 @@
                     }
 
                     $form = CreateForm(); 
-
-                    echo '<pre>'; 
-                    print_r($select_columns); 
-                    
-                    echo '</pre>'; 
-                    echo $form; 
-
                 ?>
+
+            <?php else: ?>
+                <?php header("Location: ."); ?>
             <?php endif; ?>
+        </div>
+        
+        <div class="container-fluid">
+            <?php if(!isset($_GET["ids"])): ?>
+                <div class="form-group row">
+                    <div class="col">
+                        <h3>Number of records to be inserted: </h3>
+                    </div>
+                    <div class="col">
+                        <input id="number-of-forms" type="number" min="0" step="1" class="form-control" onchange="NumberOfInsertChanged(this)">
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="row text-right">
+                <div class="col">
+                    <button type='button' class='btn btn-success'>Submit</button>
+                </div>
+            </div>
         </div>
 
         <footer>
             <?php include("layout/3.footer.php") ?>
+            <script>
+                var form = `<?php echo $form; ?>`; 
+            </script>
+            <script src="js/add-edit.js"></script>
         </footer>
     </body>
 </html>
