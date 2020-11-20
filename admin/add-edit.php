@@ -43,7 +43,7 @@
                                 }; 
                                 $input = 
                                 "
-                                    <select class='form-control'>
+                                    <select class='form-control' name='{$field}'>
                                         {$GenerateOption('')} selected disabled hidden>&nbsp;</option>
                                 "; 
                                 $value_column = $select_columns[$field]["value_column"]; 
@@ -136,15 +136,17 @@
             <?php endif; ?>
             <div class="row text-right">
                 <div class="col">
-                    <button type='button' class='btn btn-success'>Submit</button>
+                    <button type='button' class='btn btn-success' onclick="AddEditAll()">Submit</button>
                 </div>
             </div>
         </div>
 
         <footer>
             <?php include("layout/3.footer.php") ?>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script>
             <script>
                 var form = `<?php echo $form; ?>`; 
+                var url_params = new URLSearchParams(window.location.search); 
             </script>
             <script src="js/add-edit.js"></script>
         </footer>
