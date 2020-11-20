@@ -2,8 +2,7 @@
     require_once("../helper/database.php"); 
     require_once("./helper.php"); 
 
-    $post_key = "edit"; 
-    $row = json_decode($_POST[$post_key]); 
+    $row = json_decode($_POST["edit"]); 
 
     $params = Params($_GET["table"]); 
     $data = RowData($row, $params); 
