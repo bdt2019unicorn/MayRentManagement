@@ -1,8 +1,71 @@
 function AddEdit(event)
 {
     event.preventDefault();
-    console.log(event.currentTarget); 
-    console.log(event); 
+    var form_element = event.currentTarget; 
+    if($("#number-of-forms").length)
+    {
+        var data = $(form_element).serializeObject(); 
+        let result = ImportDatabase([data]); 
+        if(Number(result))
+        {
+            alert(`Add ${url_params.get("table")} Success!`); 
+            var number = $("#number-of-forms").val(); 
+            if(number==1)
+            {
+                window.location.href = `.?table=${url_params.get("table")}`; 
+            }
+            else
+            {
+                $(form_element).remove();                 
+                $("#number-of-forms").val(number -1); 
+            }
+        }
+        else 
+        {
+            alert(`Add ${url_params.get("table")} Fails! There seems to be some server issue`); 
+        }
+    }
+}
+
+function AddEditAll()
+{
+    var all_forms = $("#main-forms").children(); 
+    var data = []; 
+    all_forms.each 
+    (
+        function()
+        {
+            let object = $(this).serializeArray().filter(({name, value})=>value);
+            if(object.length)
+            {
+                let result = object.map(({name, value})=>({[name]: value})).reduce 
+                (
+                    (accumulator, current_value)=>({...accumulator, ...current_value})
+                ); 
+                data.push(result); 
+            } 
+        }
+    ); 
+    if($("#number-of-forms").length)
+    {
+        let result = ImportDatabase(data); 
+        if(Number(result))
+        {
+            alert(`Add all ${url_params.get("table")} Success!`); 
+            window.location.href = `.?table=${url_params.get("table")}`; 
+        }
+        else 
+        {
+            alert(`Add ${url_params.get("table")} Fails! There seems to be some server issue`); 
+        }
+    }
+
+}
+
+function ImportDatabase(data)
+{
+    let url = `../server/database_controller/import.php?import_controller=${url_params.get("table")}`;
+    return support_mixin.methods.SubmitData("excel", url, data); 
 }
 
 function NumberOfInsertChanged(input)
@@ -56,7 +119,6 @@ function InsertForm(number)
     }
 
 }
-
 
 jQuery 
 (
