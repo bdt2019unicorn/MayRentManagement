@@ -76,6 +76,13 @@ function OverviewTable()
                 'selectAll',
                 'selectNone', 
                 {
+                    text: "Insert", 
+                    action: function()
+                    {
+                        
+                    }
+                }, 
+                {
                     text: "Delete", 
                     action: function()
                     {
