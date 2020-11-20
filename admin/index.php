@@ -2,10 +2,7 @@
 <html>
     <head>
         <?php include("layout/head.php") ?>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+
     </head>
     <body>
         <?php 
@@ -68,7 +65,7 @@
                         global $thead; 
                         echo "<{$section}>"; 
                         echo "<tr>"; 
-                        echo "<td class='select-checkbox'></td>";
+                        echo "<td></td>";
                         foreach($thead as $column)
                         {
                             echo "<th>{$column}</th>"; 
@@ -99,8 +96,13 @@
 
         <footer>
             <?php include("layout/footer.php") ?>
+
             <script src="js/index.js"></script>
             <?php if($current_table): ?>
+                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
+                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css">
+                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
                 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
                 <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
                 <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
@@ -109,72 +111,7 @@
                     ( 
                         function () 
                         {
-                            $('#table-overview tfoot th').each
-                            ( 
-                                function () 
-                                {
-                                    var title = $(this).text();
-                                    if(!title.trim())
-                                    {
-                                        return; 
-                                    }
-                                    $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-                                } 
-                            );
-
-                            var table = $('#table-overview').DataTable
-                            (
-                                {
-                                    columnDefs: 
-                                    [ 
-                                        {
-                                            orderable: false,
-                                            className: 'select-checkbox',
-                                            targets:   0
-                                        } 
-                                    ],
-                                    scrollX: true, 
-                                    scrollY: "70vh",
-                                    scrollCollapse: true,
-                                    paging: false,
-                                    select: 
-                                    {
-                                        style: "multi"
-                                    },
-                                    dom: 'Blfrtip',
-                                    buttons: 
-                                    [
-                                        'selectAll',
-                                        'selectNone', 
-                                        {
-                                            text: "Test", 
-                                            action: function()
-                                            {
-                                                console.log("I am testing something real quick"); 
-                                            }
-                                        }
-                                    ],
-                                }
-                            );
-
-                            table.columns().every 
-                            (
-                                function()
-                                {
-                                    var that = this; 
-                                    $('input', this.footer()).on
-                                    (
-                                        'keyup change', 
-                                        function () 
-                                        {
-                                            if (that.search() !== this.value) 
-                                            {
-                                                that.search( this.value ).draw();
-                                            }
-                                        } 
-                                    );
-                                }
-                            ); 
+                            OverviewTable(); 
                         }
                     );
                 </script>
