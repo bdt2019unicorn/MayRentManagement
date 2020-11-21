@@ -59,7 +59,6 @@ Vue.component
                         }                    
                     ), 
                     rows: this.table_data, 
-                    theme: "black-rhino", 
                     styleClass: "vgt-table bordered striped", 
                     searchOptions: {enabled: true}, 
                     maxHeight: "80vh", 
