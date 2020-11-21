@@ -6,12 +6,12 @@
             {
                 "component": "text-input",
                 "name": "name",
-                "title": "Name"
+                "title": "Name *"
             },
             {
                 "component": "select-input",
                 "name": "building_id",
-                "title": "Building",
+                "title": "Building *",
                 "overview_controller": "buildings",
                 "select_value": "id",
                 "text": "name"
@@ -21,7 +21,7 @@
             {
                 "component": "number-input",
                 "name": "area",
-                "title": "Area"
+                "title": "Area *"
             },
             {
                 "component": "number-input",

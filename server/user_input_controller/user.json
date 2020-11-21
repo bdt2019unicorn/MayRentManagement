@@ -6,14 +6,14 @@
             {
                 "component": "text-input",
                 "name": "username",
-                "title": "Username"
+                "title": "Username *"
             }
         ],
         [
             {
                 "component": "text-input",
                 "name": "password",
-                "title": "Password",
+                "title": "Password *",
                 "type": "password"
             }
         ],
@@ -21,7 +21,7 @@
             {
                 "component": "text-input",
                 "name": "phone_number",
-                "title": "Phone number"
+                "title": "Phone number *"
             },
             {
                 "component": "text-input",
@@ -33,7 +33,7 @@
             {
                 "component": "text-group-confirmation",
                 "name": "email",
-                "title": "Email Address",
+                "title": "Email Address *",
                 "id": "email",
                 "confirm_name": "email_confirm",
                 "confirm_title": "Confirm Email Address"
