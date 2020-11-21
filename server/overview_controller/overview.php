@@ -1,10 +1,6 @@
 <?php 
     require_once("../helper/database.php"); 
 
-	$key = "building_id"; 
-
-	$building_id = (isset($_GET[$key]))? $_GET[$key]: "";
-
 	$sql = 
 	"
 		CREATE TEMPORARY TABLE IF NOT EXISTS `leaseagrm_overview_temp` AS 

@@ -115,58 +115,64 @@
             return LeaseAgrm::GeneralQuery(). "\n WHERE `unit`.`building_id` = '{$building_id}'; "; 
         }
 
-        private static function GeneralQuery()
+        public static function TotalPaidAmountQuery()
         {
-            $sum_query_invoice = 
+            return 
+            "      
+                (         
+                    IF
+                    (
+                        ISNULL(`Deposit_payment_date`), 
+                        0, 
+                        IF
+                        (
+                            `Deposit_payment_date` < CURRENT_DATE, 
+                            IFNULL(`Deposit_amount`, 0), 
+                            0
+                        )
+                    ) 
+                    + 
+                    (
+                        IFNULL
+                        (
+                            (
+                                SELECT SUM(`Amount`) 
+                                FROM `revenue`
+                                WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
+                            ), 0 
+                        )
+                    )
+                )
+            "; 
+        }
+
+        public static function TotalInvoiceAmountQuery()
+        {
+            return 
             "
                 (
                     IFNULL
                     (
                         (
-                            SELECT SUM(`invoice_leaseagrm`.`amount`) 
-                            FROM `invoice_leaseagrm` 
+                            SELECT SUM(`invoice_leaseagrm`.`amount`) FROM `invoice_leaseagrm` 
                             WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
                         ), 0
                     ) + 
                     IFNULL
                     (
                         (
-                            SELECT SUM(`invoice_utilities`.`amount`) 
-                            FROM `invoice_utilities` 
+                            SELECT SUM(`invoice_utilities`.`amount`) FROM `invoice_utilities` 
                             WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
                         ), 0 
                     )
                 )
             "; 
+        }
 
-            $sum_query_revenue = 
-            "
-                (
-                    IFNULL
-                    (
-                        (
-                            SELECT SUM(Amount) 
-                            FROM `revenue`
-                            WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
-                        ), 0 
-                    )
-                )
-            "; 
-
-            $deposit_amount = 
-            "                
-                IF
-                (
-                    ISNULL(`Deposit_payment_date`), 
-                    0, 
-                    IF
-                    (
-                        `Deposit_payment_date` < CURRENT_DATE, 
-                        IFNULL(`Deposit_amount`, 0), 
-                        0
-                    )
-                )
-            "; 
+        private static function GeneralQuery()
+        {
+            $total_invoice = LeaseAgrm::TotalInvoiceAmountQuery(); 
+            $total_paid = LeaseAgrm::TotalPaidAmountQuery(); 
 
             return 
             "
@@ -181,8 +187,7 @@
                         IF
                         (
                             (
-                                {$sum_query_invoice} - 
-                                {$deposit_amount} - {$sum_query_revenue} > 0 
+                                {$total_invoice} - {$total_paid} > 0 
                             ), 
                             CONCAT
                             (
@@ -190,16 +195,14 @@
                                 CONVERT
                                 (
                                     (
-                                        {$sum_query_invoice} - 
-                                        {$deposit_amount} - {$sum_query_revenue}
+                                        {$total_invoice} - {$total_paid}
                                     ), 
                                     CHAR 
                                 ),
                                 ')' 
                             ), 
                             (
-                                {$sum_query_revenue} + {$deposit_amount} - 
-                                {$sum_query_invoice}
+                                {$total_paid} - {$total_invoice}
                             )
                         )
                     ) AS `Outstanding Balance` 

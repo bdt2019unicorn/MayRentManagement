@@ -69,6 +69,8 @@
     function InvoiceInformation($leaseagrm_id)
     {
         $rent_id = OverviewQueries\Invoices::RentId(); 
+        $total_paid_amount = OverviewQueries\LeaseAgrm::TotalPaidAmountQuery(); 
+        $total_invoice_amount = OverviewQueries\LeaseAgrm::TotalInvoiceAmountQuery(); 
         $sql = 
         "
             SET @leaseagrm_id = '{$leaseagrm_id}'; 
@@ -78,45 +80,18 @@
                 @unit_id:= `unit_id`, 
                 @start_lease:= `Start_date`, 
                 @rent_amount:=`Rent_amount`, 
-                @deposit_amount:=
-                IF
-                (
-                    ISNULL(`Deposit_payment_date`), 
-                    0, 
-                    IF
-                    (
-                        `Deposit_payment_date` < CURRENT_DATE, 
-                        IFNULL(`Deposit_amount`, 0), 
-                        0
-                    )
-                )
+                @total_amount:={$total_invoice_amount}, 
+                @paid_amount:={$total_paid_amount}
             FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
 
-            SELECT @paid_amount:= SUM(`Amount`) + @deposit_amount FROM `revenue` WHERE `leaseagrm_id` =@leaseagrm_id; 
-
-            SET @total_amount:= 
-            IFNULL
+            SET @start_date = 
             (
-                (
-                    SELECT SUM(`Amount`) FROM `invoice_leaseagrm` 
-                    WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = @leaseagrm_id)
-                ), 0 
-            ) 
-            + 
-            IFNULL
-            (
-                (
-                    SELECT SUM(`Amount`) FROM `invoice_utilities` 
-                    WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = @leaseagrm_id)
-                ), 0 
+                SELECT MAX(`invoice_leaseagrm`.`end_date`) FROM `invoice_leaseagrm`, `invoices` 
+                WHERE  
+                    `invoices`.`id` = `invoice_leaseagrm`.`invoice_id` AND 
+                    `invoice_leaseagrm`.`revenue_type_id` = @rent_id AND  
+                    `invoices`.`leaseagrm_id` = @leaseagrm_id
             ); 
-
-            SELECT @start_date := MAX(`invoice_leaseagrm`.`end_date`)
-            FROM `invoice_leaseagrm`, `invoices` 
-            WHERE  
-                `invoices`.`id` = `invoice_leaseagrm`.`invoice_id` AND 
-                `invoice_leaseagrm`.`revenue_type_id` = @rent_id AND  
-                `invoices`.`leaseagrm_id` = @leaseagrm_id; 
 
             SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date); 
             SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
@@ -228,11 +203,11 @@
         $data = Connect::MultiQuery($sql,true); 
         $invoice_information = array
         (
-            "leaseagrm"=>$data[3][0], 
-            "utilities"=>$data[4], 
-            "unit_name"=>$data[5][0]["name"]
+            "leaseagrm"=>$data[1][0], 
+            "utilities"=>$data[2], 
+            "unit_name"=>$data[3][0]["name"]
         ); 
-        $invoice_information["leaseagrm"]["rent_information"] = $data[6]; 
+        $invoice_information["leaseagrm"]["rent_information"] = $data[4]; 
         return $invoice_information; 
     }
 ?>
