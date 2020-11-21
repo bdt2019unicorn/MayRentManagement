@@ -153,7 +153,20 @@
                 )
             "; 
 
-            $deposit_amount = "(IFNULL(`Deposit_amount`, 0))"; 
+            $deposit_amount = 
+            "                
+                IF
+                (
+                    ISNULL(`Deposit_payment_date`), 
+                    0, 
+                    IF
+                    (
+                        `Deposit_payment_date` < CURRENT_DATE, 
+                        IFNULL(`Deposit_amount`, 0), 
+                        0
+                    )
+                )
+            "; 
 
             return 
             "
