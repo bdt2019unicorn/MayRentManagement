@@ -78,7 +78,18 @@
                 @unit_id:= `unit_id`, 
                 @start_lease:= `Start_date`, 
                 @rent_amount:=`Rent_amount`, 
-                @deposit_amount:=IFNULL(`Deposit_amount`, 0)
+                @deposit_amount:=
+                IF
+                (
+                    ISNULL(`Deposit_payment_date`), 
+                    0, 
+                    IF
+                    (
+                        `Deposit_payment_date` < CURRENT_DATE, 
+                        IFNULL(`Deposit_amount`, 0), 
+                        0
+                    )
+                )
             FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
 
             SELECT @paid_amount:= SUM(`Amount`) + @deposit_amount FROM `revenue` WHERE `leaseagrm_id` =@leaseagrm_id; 
