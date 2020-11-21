@@ -6,12 +6,12 @@
             {
                 "component": "text-input",
                 "name": "name",
-                "title": "Agreement Number"
+                "title": "Agreement Number *"
             },
             {
                 "component": "select-input",
                 "name": "tenant_id",
-                "title": "Tenant",
+                "title": "Tenant *",
                 "overview_controller": "tenant",
                 "select_value": "id",
                 "text": "Full Name"
@@ -19,7 +19,7 @@
             {
                 "component": "select-input",
                 "name": "unit_id",
-                "title": "Unit",
+                "title": "Unit *",
                 "overview_controller": "unit",
                 "select_value": "id",
                 "text": "name"
@@ -73,12 +73,12 @@
             {
                 "component": "number-input",
                 "name": "rent_amount",
-                "title": "Rent Amount"
+                "title": "Rent Amount *"
             },
             {
                 "component": "number-input",
                 "name": "deposit_amount",
-                "title": "Deposit Amount"
+                "title": "Deposit Amount *"
             }
         ],
         [
@@ -106,7 +106,7 @@
             {
                 "component": "number-input",
                 "name": "monthly_payment_date",
-                "title": "Monthly Payment Date"
+                "title": "Monthly Payment Date *"
             },
             {
                 "component": "text-input",

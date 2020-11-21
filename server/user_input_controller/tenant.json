@@ -16,7 +16,7 @@
             {
                 "component": "text-input",
                 "name": "last_name",
-                "title": "Last Name"
+                "title": "Last Name *"
             },
             {
                 "component": "date-input",
@@ -29,12 +29,12 @@
             {
                 "component": "text-input",
                 "name": "passport_id_number",
-                "title": "Passport/ID Number"
+                "title": "Passport/ID Number *"
             },
             {
                 "component": "text-input",
                 "name": "Nationality",
-                "title": "Nationality"
+                "title": "Nationality *"
             }, 
             {
                 "component": "date-input",
@@ -46,7 +46,7 @@
             {
                 "component": "select-input",
                 "name": "building_id",
-                "title": "Building",
+                "title": "Building *",
                 "overview_controller": "buildings",
                 "select_value": "id",
                 "text": "name"
@@ -66,7 +66,7 @@
             {
                 "component": "text-input",
                 "name": "mobile_phone",
-                "title": "Mobile Phone"
+                "title": "Mobile Phone *"
             },
             {
                 "component": "text-input",
@@ -78,19 +78,19 @@
             {
                 "component": "text-input",
                 "name": "personal_email",
-                "title": "Personal Email"
+                "title": "Personal Email *"
             },
             {
                 "component": "text-input",
                 "name": "work_email",
-                "title": "Work Email"
+                "title": "Work Email *"
             }
         ],
         [
             {
                 "component": "text-input",
                 "name": "company_name",
-                "title": "Company Name"
+                "title": "Company Name *"
             },
             {
                 "component": "text-input",

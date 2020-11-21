@@ -6,12 +6,12 @@
             {
                 "component": "text-input",
                 "name": "name",
-                "title": "Name"
+                "title": "Name *"
             },
             {
                 "component": "select-input",
                 "name": "expense_type_id",
-                "title": "Type",
+                "title": "Type *",
                 "overview_controller": "expense_type",
                 "select_value": "id",
                 "text": "name"
@@ -19,7 +19,7 @@
             {
                 "component": "select-input",
                 "name": "building_id",
-                "title": "Building",
+                "title": "Building *",
                 "overview_controller": "buildings",
                 "select_value": "id",
                 "text": "name"
@@ -52,7 +52,7 @@
             {
                 "component": "number-input",
                 "name": "amount",
-                "title": "Amount"
+                "title": "Amount *"
             },
             {
                 "component": "date-input",

@@ -6,12 +6,12 @@
             {
                 "component": "text-input",
                 "name": "name",
-                "title": "Name"
+                "title": "Name *"
             },
             {
                 "component": "select-input",
                 "name": "leaseagrm_id",
-                "title": "Lease Agreement",
+                "title": "Lease Agreement *",
                 "overview_controller": "leaseagrm",
                 "select_value": "id",
                 "text": "name"
@@ -21,12 +21,12 @@
             {
                 "component": "number-input",
                 "name": "amount",
-                "title": "Amount"
+                "title": "Amount *"
             }, 
             {
                 "component": "date-input",
                 "name": "payment_date",
-                "title": "Payment date",
+                "title": "Payment date *",
                 "required": true
             }
         ],
@@ -43,7 +43,7 @@
         "rules":
         {
             "name": "required",
-            "revenue_type_id": "required",
+            "leaseagrm_id": "required",
             "amount":
             {
                 "required": true, 
