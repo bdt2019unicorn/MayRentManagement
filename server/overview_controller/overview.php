@@ -8,7 +8,6 @@
 			SELECT 
 				`id` AS `leaseid`, 
 				`Tenant_ID` AS `tenantid`, 
-				`ocupants_ids`, 
 				`unit_id`, 
 				`Start_date`, 
 				`Finish`, 
@@ -73,7 +72,6 @@
 			`leaseagrm_overview`.`Payment Status`, 
 			IFNULL(`leaseagrm_overview`.`Payment Status Value`, 0) AS `Payment Status Value`, 
 			`leaseagrm_overview`.`Tenant Name`, 
-			`leaseagrm_overview`.`ocupants_ids`, 
 			`leaseagrm_overview`.`leaseid`, 
 			`leaseagrm_overview`.`tenantid`	
 		FROM `unit` LEFT JOIN `leaseagrm_overview` ON `unit`.`id` = `leaseagrm_overview`.`unit_id`
@@ -82,37 +80,5 @@
 	"; 
 
 	$raw_table = Connect::MultiQuery($sql); 
-
-	$table = array(); 
-	foreach ($raw_table as $raw_row) 
-	{
-		$row = $raw_row; 
-
-		$list = json_decode($raw_row['ocupants_ids']); 
-		if($list)
-		{
-			$ocupant_names = []; 
-			foreach ($list as $id) 
-			{
-				$ocupant = Connect::GeneralData('tenant', $id)[0]; 
-				$text = "{$ocupant['First_Name']} {$ocupant['Last_Name']} "; 
-				$template = 
-				"
-					<router-link to='tenant/edit?id={$id}' append>
-						{$text}
-					</router-link>
-				"; 
-				array_push($ocupant_names, $template); 
-			}
-
-			$row['Ocupant Name'] = implode(",", $ocupant_names); 
-		}
-		else 
-		{
-			$row['Ocupant Name'] = ""; 
-		}
-
-		array_push($table, $row); 
-	}
-	echo json_encode($table);
+	echo json_encode($raw_table); 
 ?>
