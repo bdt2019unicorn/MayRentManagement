@@ -171,6 +171,7 @@
 
         <footer>
             <?php include("layout/3.footer.php") ?>
+            <?php include("layout/4.admin.php"); ?>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script>
             <script>
                 var form = `<?php echo $form; ?>`; 

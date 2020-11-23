@@ -55,6 +55,7 @@
 
         <footer>
             <?php include("layout/3.footer.php"); ?>
+            <?php include("layout/4.admin.php"); ?>
             <?php if($current_table): ?>
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
