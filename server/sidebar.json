@@ -119,6 +119,13 @@
                 "title": "Add New Invoice", 
                 "button": "secondary", 
                 "icon": "plus"
+            }, 
+            {
+                "action": "print-invoices", 
+                "text": "Print Invoices", 
+                "title": "Print Invoices", 
+                "button": "info", 
+                "icon": "print"
             }
         ]
     },
