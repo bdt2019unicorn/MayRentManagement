@@ -5,7 +5,7 @@ jQuery
         var check_user = CheckUser(); 
         if(check_user)
         {
-            window.location.href = "../admin"; 
+            window.location.href = "."; 
         }
         else 
         {
@@ -26,7 +26,7 @@ function Login(event)
         let user = JSON.parse(result); 
         sessionStorage.setItem("user_id", user.id); 
         sessionStorage.setItem("username", user.username); 
-        window.location.href = "../admin"; 
+        window.location.href = "."; 
     }
     catch 
     {

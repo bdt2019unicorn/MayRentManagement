@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Admin Database Login</title>
-        <?php include("layout/head.php") ?>
+        <?php include("layout/1.head.php") ?>
         <link rel="stylesheet" type="text/css" href="login.css">
     </head>
     <body>
@@ -38,7 +38,7 @@
         </div>
 
         <footer>
-            <?php include("layout/footer.php") ?>
+            <?php include("layout/3.footer.php") ?>
             <script src="js/login.js"></script>
         </footer>
     </body>
