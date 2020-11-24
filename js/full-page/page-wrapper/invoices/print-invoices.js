@@ -139,21 +139,59 @@ Vue.component
                                     width: "35%", 
                                     bold: true 
                                 }
-                            ]
+                            ], 
+                            lineHeight: 2 
                         }, 
                         {
-                            layout: 'lightHorizontalLines', // optional
+                            layout: 'lightHorizontalLines', 
                             table: 
                             {
                                 headerRows: 1,
-                                widths: [ '*', 'auto', 100, '*' ],
+                                widths: [ '80%', '20%' ],
                                 body: 
                                 [
-                                    [ 'First', 'Second', 'Third', 'The last one' ],
-                                    [ 'Value 1', 'Value 2', 'Value 3', 'Value 4' ],
-                                    [ { text: 'Bold value', bold: true }, 'Val 2', 'Val 3', 'Val 4' ]
+                                    [
+                                        {
+                                            text: "DISCRIPTION", 
+                                            bold: true 
+                                        }, 
+                                        {
+                                            text: "VND", 
+                                            bold: true, 
+                                            alignment: "center"
+                                        }
+                                    ], 
+                                    [
+                                        "1. Rental payment from 15th Oct 2019 - 15th Nov 2019", 
+                                        {
+                                            text: "16,278,500", 
+                                            alignment: "right"
+                                        }
+                                    ], 
+                                    [
+                                        {
+                                            stack: 
+                                            [
+                                                "2.Electricity Amount using from 15th Sept 2019 to 15th Oct 2019", 
+                                                {
+                                                    columns: 
+                                                    [
+                                                        {
+                                                            text: "test", 
+                                                            width: "50%"
+                                                        }, 
+                                                        {
+                                                            text: "test", 
+                                                            width: "50%", 
+                                                            alignment: "right"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }, ""
+                                    ]
                                 ]
-                            }
+                            } 
                         }
                     ], 
                     styles: 
@@ -168,7 +206,30 @@ Vue.component
                 };
 
                 pdfMake.createPdf(docDefinition).open(); 
-            } 
+            }, 
+            async TestWithConversion()
+            {
+                var url = "server/invoice_controller/print-invoices/test copy.html"; 
+                var styles = this.AjaxRequest("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"); 
+                var html = this.AjaxRequest(url); 
+                html = 
+                `
+                    <style>
+                        ${styles}
+                    </style>
+
+                    ${html}
+                `; 
+                var content = htmlToPdfmake(html); 
+                var doc_definition = {content: content}; 
+                pdfMake.createPdf(doc_definition).open(); 
+                console.log(content); 
+                // var new_win = window.open("", "_blank"); 
+                
+                // new_win.open(); 
+                // new_win.document.write(html); 
+                // console.log(content); 
+            }
         },
         watch: 
         {
@@ -176,7 +237,7 @@ Vue.component
         template: 
         `
             <div>
-                <button @click="PrintTest">test</button>
+                <button @click="TestWithConversion">test</button>
             </div>
         `
     }
