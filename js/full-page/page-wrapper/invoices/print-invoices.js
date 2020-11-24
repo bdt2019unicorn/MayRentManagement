@@ -95,6 +95,10 @@ Vue.component
                 };
 
                 pdfMake.createPdf(docDefinition).open(); 
+            }, 
+            JSPDFTest()
+            {
+                
             }
         },
         watch: 
@@ -103,7 +107,7 @@ Vue.component
         template: 
         `
             <div>
-                <button @click="PrintTest">test</button>
+                <button @click="JSPDFTest">test</button>
             </div>
         `
     }
