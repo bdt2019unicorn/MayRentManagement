@@ -54,40 +54,42 @@ Vue.component
                     content: 
                     [
                         {
-                            columns: 
-                            [
-                                {
-                                    width: "*", 
-                                    text: "", 
-                                    alignment: "left"
-                                }, 
-                                {
-                                    image: image, 
-                                    width: 100
-                                }, 
-                                {
-                                    width: "*", 
-                                    text: "", 
-                                    alignment: "right"
-                                }
-                            ] 
+                            image: image, 
+                            width: 100, 
+                            alignment: "center"
                         }, 
                         {
                             text: "INVOICE", 
                             style: "header"
                         }, 
-                        // {
-                        //     columns: 
-                        //     {
-                        //     }
-                        // }
+                        {
+                            columns: 
+                            [
+                                [
+                                    "test", 
+                                    "test left " 
+                                ], 
+                                [
+                                    {
+                                        stack: 
+                                        [
+                                            "test ", 
+                                            "test right" 
+                                        ], 
+                                        alignment: "right"
+                                    }
+
+                                ]
+                            ]
+                        }
                     ], 
                     styles: 
                     {
                         header: 
                         {
                             fontSize: 22,
-                            bold: true
+                            bold: true, 
+                            margin: [1, 5]
                         },
                     }
                 };
