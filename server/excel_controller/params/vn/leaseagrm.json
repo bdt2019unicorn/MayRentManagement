@@ -1,0 +1,105 @@
+{
+    "columns": 
+    {
+        "Agreement Number": 
+        {
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "37-U468-10Oct2020",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Mã người thuê": 
+        {
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "37",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Đơn vị": 
+        {
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "G01",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ngày bắt đầu": 
+        {
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "14/08/2020",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ngày kết thúc": 
+        {
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "05/12/2021",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Giá thuê": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "12000000",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Tiền cọc": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "12000000",
+            "Yêu cầu": "Tự nguyện"
+        },
+        "Ngày trả tiền cọc": 
+        {
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "10/08/2020",
+            "Yêu cầu": "Tự nguyện"
+        },
+        "Ngày hoàn tiền cọc": 
+        {
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "05/12/2021",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ngày trả trong tháng": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "15,\n Mặc định: 1",
+            "Yêu cầu": "Tự nguyện"
+        },
+        "Ngoại tệ": 
+        {
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " USD \n Mặc định: VND",
+            "Yêu cầu": "Tự nguyện"
+        },
+        "Tỉ giá": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "23200 \n Mặc định: 1",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ghi chú": 
+        {
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": " 2 bikes, 1 TV",
+            "Yêu cầu": "Tự nguyện"
+        }
+    }, 
+    "dropdown_list": 
+    {
+        "Đơn vị": 
+        {
+            "table": "unit",
+            "selects": ["`name` AS `Đơn vị`"], 
+            "building_id": true 
+        }, 
+        "Mã người thuê": 
+        {
+            "table": "tenant", 
+            "selects": 
+            [
+                "`id` AS `Mã người thuê`", 
+                "CONCAT(IFNULL(`Last_Name`, ''),', ', IFNULL(`Middle_Name`, ''), ', ', IFNULL(`First_Name`, '')) AS `Tên người thuê`"
+            ], 
+            "building_id": true, 
+            "details": true 
+        }
+    }
+}
+
+

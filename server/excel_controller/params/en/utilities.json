@@ -1,0 +1,49 @@
+{
+    "columns": 
+    {
+        "Utility Type": 
+        {
+            "Data type": "ID",
+            "Example": "Electricity",
+            "Requirement": "Compulsory"
+        },
+        "Date": 
+        {
+            "Data type": "Date",
+            "Example": "15/8/2020",
+            "Requirement": "Compulsory"
+        },
+        "Unit": 
+        {
+            "Data type": "ID",
+            "Example": "103",
+            "Requirement": "Compulsory"
+        },
+        "Number": 
+        {
+            "Data type": "Number",
+            "Example": "1235",
+            "Requirement": "Compulsory"
+        }
+    },
+    "dropdown_list": 
+    {
+        "Unit": 
+        {
+            "table": "unit",
+            "selects": ["`name` AS `Units`"], 
+            "building_id": true 
+        }, 
+        "Utility Type": 
+        {
+            "table": "revenue_type", 
+            "selects": ["`name` AS `Utility Type`"], 
+            "conditions": 
+            {
+                "is_utility": 1 
+            } 
+        }
+    }
+}
+
+

@@ -1,0 +1,85 @@
+{
+    "title": "Expense",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "name",
+                "title": "Name *"
+            },
+            {
+                "component": "select-input",
+                "name": "expense_type_id",
+                "title": "Type *",
+                "overview_controller": "expense_type",
+                "select_value": "id",
+                "text": "name"
+            }, 
+            {
+                "component": "select-input",
+                "name": "building_id",
+                "title": "Building *",
+                "overview_controller": "buildings",
+                "select_value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "date-group",
+                "name": "period", 
+                "date_data":
+                {
+                    "small_date":
+                    {
+                        "name": "start_period",
+                        "title": "Start Period",
+                        "required": true,
+                        "message": "The start period should be before the end period"
+                    },
+                    "big_date":
+                    {
+                        "name": "end_period",
+                        "title": "End Period",
+                        "required": true,
+                        "message": "The end period should be after the start period"
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "amount",
+                "title": "Amount *"
+            },
+            {
+                "component": "date-input",
+                "name": "payment_date",
+                "title": "Payment Date"
+            }
+        ],
+        [
+            {
+                "component": "textarea-input",
+                "name": "note",
+                "title": "Note"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name": "required",
+            "expense_type_id": "required",
+            "building_id": "required",
+            "amount":
+            {
+                "required": true, 
+                "number_input_min": 0 
+            } 
+        }
+    }
+}

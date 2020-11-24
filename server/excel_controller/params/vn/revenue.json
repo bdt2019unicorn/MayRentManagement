@@ -1,0 +1,49 @@
+{
+    "columns": 
+    {
+        "Tên": 
+        {
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "G01 - Tiền thuê 12/2002",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Mã hợp đồng": 
+        {
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "G01 - Lease",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Số tiền": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "1000",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ngày trả tiền": 
+        {
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "29/11/2020",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ghi chú": 
+        {
+            "Kiểu dữ liệu": "Chữ",
+            "Ví dụ": "Đã trả tiền",
+            "Yêu cầu": "Tự nguyện"
+        }
+    }, 
+    "dropdown_list": 
+    {
+        "Mã hợp đồng": 
+        {
+            "table": "leaseagrm",
+            "selects": ["`name` AS `Mã hợp đồng`"] 
+        }
+    }
+}
+
+
+
+
+
+

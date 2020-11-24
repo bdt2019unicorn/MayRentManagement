@@ -1,0 +1,49 @@
+{
+    "columns": 
+    {
+        "Loại tiện ích": 
+        {
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "Electricity",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Ngày": 
+        {
+            "Kiểu dữ liệu": "Ngày",
+            "Ví dụ": "15/8/2020",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Đơn vị": 
+        {
+            "Kiểu dữ liệu": "Mã số",
+            "Ví dụ": "103",
+            "Yêu cầu": "Bắt buộc"
+        },
+        "Số": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "1235",
+            "Yêu cầu": "Bắt buộc"
+        }
+    },
+    "dropdown_list": 
+    {
+        "Đơn vị": 
+        {
+            "table": "unit",
+            "selects": ["`name` AS `Đơn vị`"], 
+            "building_id": true 
+        }, 
+        "Loại tiện ích": 
+        {
+            "table": "revenue_type", 
+            "selects": ["`name` AS `Loại tiện ích`"], 
+            "conditions": 
+            {
+                "is_utility": 1 
+            } 
+        }
+    }
+}
+
+
