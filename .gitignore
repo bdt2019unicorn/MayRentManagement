@@ -1,2 +1,2 @@
 .env
-server\invoice_controller\print-invoices
+server/invoice_controller/print-invoices
