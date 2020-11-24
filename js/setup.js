@@ -78,7 +78,8 @@ jQuery
                     {
                         username: "", 
                         user_id: 0, 
-                        buildings_data: [] 
+                        buildings_data: [], 
+                        building_user_input: {}
                     }, 
                     mutations: 
                     {
@@ -121,6 +122,8 @@ jQuery
                         {
                             store_track.commit("ChangeState", {name: "buildings_data", value: buildings_data}); 
                         }
+                        let building_user_input = this.AjaxRequest("server/user_input_controller/buildings.json");    
+                        store_track.commit("ChangeState", {name: "building_user_input", value: building_user_input});  
                         store_track.commit
                         (
                             "Authorize", 

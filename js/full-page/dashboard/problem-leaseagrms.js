@@ -73,14 +73,8 @@ Vue.component
                     to = 
                     {
                         name: "general-edit", 
-                        params: 
-                        {
-                            controller: "leaseagrm"
-                        }, 
-                        query: 
-                        {
-                            id: this.check_array[0]
-                        }
+                        params: {controller: "leaseagrm"}, 
+                        query: {id: this.check_array[0]}
                     }
                 }
                 return {

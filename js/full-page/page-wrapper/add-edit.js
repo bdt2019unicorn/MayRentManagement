@@ -92,6 +92,10 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Edit Information success"); 
+                    if(this.controller=="buildings")
+                    {
+                        this.$emit("edit-building-success"); 
+                    }
                     this.ReloadUserInput(this.PopulateDataIntoFields); 
                 }
                 else

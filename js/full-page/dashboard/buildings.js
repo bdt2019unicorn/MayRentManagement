@@ -6,7 +6,8 @@ Vue.component
         data() 
         {
             return {
-                add_building_form: undefined          
+                add_building_form: undefined, 
+                display: {}
             }
         },
         components: {...bootstrap, ...vueFragment}, 
@@ -41,7 +42,22 @@ Vue.component
                 {
                     alert("Delete building fails! There seems to be a server issue"); 
                 }
+            }, 
+            EditBuilding(building_id)
+            {
+                window.router.push 
+                (
+                    {
+                        name: 'general-edit', 
+                        params: {controller: 'buildings'}, 
+                        query: {id: building_id}
+                    }
+                ); 
             }    
+        },
+        created() 
+        {
+            this.display = this.StateObject("building_user_input").display;     
         },
 
         template: 
@@ -73,12 +89,14 @@ Vue.component
                     <vs-col v-for="building in StateObject('buildings_data')" type="flex" vs-w="4">
                         <vs-card fixedHeight>
                             <h6 class="text-center" slot="header">{{building.name}}</h6>
-                            <div class="text-center">
-                                <img src="img/logo.jpeg" alt="logo">
-                            </div>
+                            <template v-for="display_key in Object.keys(display)">
+                                <b>{{display[display_key]}}: </b> 
+                                <span>{{building[display_key]}}</span>
+                                <br>
+                            </template>
                             <vs-row slot="footer" vs-justify="flex-end">
                                 <b-button title="Delete" class="mx-1" variant="danger" @click="DeleteBuilding(building.id)"><b-icon icon="trash"></b-icon></b-button>
-                                <!--<vs-button class="mx-1" color="secondary" type="gradient" icon="edit" title="Edit"></vs-button>-->
+                                <vs-button class="mx-1" color="secondary" type="gradient" icon="edit" title="Edit" @click="EditBuilding(building.id)"></vs-button>
                             </vs-row>
                         </vs-card>
                     </vs-col>

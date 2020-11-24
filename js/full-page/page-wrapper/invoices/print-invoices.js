@@ -48,7 +48,6 @@ Vue.component
             async PrintTest()
             {
                 let image = await this.LogoImg(); 
-                console.log(image); 
                 var docDefinition = 
                 {
                     pageSize: 'A4',
@@ -177,21 +176,107 @@ Vue.component
                                                     columns: 
                                                     [
                                                         {
-                                                            text: "test", 
-                                                            width: "50%"
+                                                            width: "15%", 
+                                                            stack: 
+                                                            [
+                                                                "Begining", 
+                                                                "Finishing", 
+                                                                "Total"
+                                                            ]
                                                         }, 
                                                         {
-                                                            text: "test", 
                                                             width: "50%", 
-                                                            alignment: "right"
+                                                            stack: 
+                                                            [
+                                                                "10:00AM, 15th Sept 2019", 
+                                                                "10:00AM, 15th Oct 2019", 
+                                                                "3900 VND/m3"
+                                                            ]
                                                         }
                                                     ]
                                                 }
                                             ]
-                                        }, ""
+                                        }, 
+                                        {
+                                            stack: 
+                                            [
+                                                " ", 
+                                                " ", 
+                                                " ", 
+                                                {
+                                                    text: "2,550,600", 
+                                                    alignment: "right", 
+                                                }
+                                            ]
+                                        }
+                                    ], 
+                                    [
+                                        {
+                                            text: "Grand Total",
+                                            style: "sub_heading"
+                                        }, 
+                                        {
+                                            text: "19,276,105", 
+                                            style: "sub_heading", 
+                                            alignment: "right"
+                                        }
                                     ]
                                 ]
                             } 
+                        }, 
+                        " ", 
+                        {
+                            columns: 
+                            [
+                                {
+                                    stack: 
+                                    [
+                                        "Please make transfer payment to: ", 
+                                        "Account name/Tên tài khoản: HO QUOC HUNG",
+                                        "Account number/Số tài khoản: 0210107275570001",
+                                        {
+                                            text: "Bank/Ngân hàng: Ngan Hang TMCP Sai gon (https://scb.com.vn/)", 
+                                            link: "https://scb.com.vn/", 
+                                            color: "blue"
+                                        },
+                                        "Branch/Chi nhánh: TAN DINH"
+
+                                    ], 
+                                    width: "70%"
+                                }, 
+                                {
+                                    stack: 
+                                    [
+                                        "For and on behalf of ", 
+                                        {
+                                            text: "May Corporation", 
+                                            bold: true 
+                                        }, 
+                                        {
+                                            text: " ", 
+                                            lineHeight: 3
+                                        }, 
+                                        "Authorized Signature", 
+                                        {
+                                            text: `Lý Diệu Minh
+                                            Building Supervisor`, 
+                                            bold: true 
+                                        }, 
+                                        {
+                                            text: "nguyenvubinh@outlook.com", 
+                                            link: "mailto: nguyenvubinh@outlook.com"
+                                        }, 
+                                        "Phone No. 01694958317", 
+                                        {
+                                            text: `MAY Apartments
+                                            216/3/21 Nguyen Van Huong
+                                            Thao Dien Ward, Dist. 2. HCMC.`, 
+                                            italics: true 
+                                        }
+                                    ], 
+                                    width: "*"
+                                }
+                            ] 
                         }
                     ], 
                     styles: 
@@ -202,6 +287,12 @@ Vue.component
                             bold: true, 
                             margin: [1, 5]
                         },
+                        sub_heading: 
+                        {
+                            fontSize: 16, 
+                            bold: true, 
+                            margin: [1, 3]
+                        }
                     }
                 };
 
@@ -237,7 +328,7 @@ Vue.component
         template: 
         `
             <div>
-                <button @click="TestWithConversion">test</button>
+                <button @click="PrintTest">test</button>
             </div>
         `
     }
