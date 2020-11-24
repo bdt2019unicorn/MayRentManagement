@@ -53,6 +53,7 @@ Vue.component
                                 field: column, 
                                 label: column, 
                                 thClass: 'text-center', 
+                                tdClass: "text-right", 
                                 filterOptions: {enabled: this.SpecialColumns("search").includes(column)}, 
                                 ...sort 
                             }

@@ -205,14 +205,14 @@
                                 CONVERT
                                 (
                                     (
-                                        {$total_invoice} - {$total_paid}
+                                        FORMAT({$total_invoice} - {$total_paid}, 0)
                                     ), 
                                     CHAR 
                                 ),
                                 ')' 
                             ), 
                             (
-                                {$total_paid} - {$total_invoice}
+                                FORMAT({$total_paid} - {$total_invoice}, 0)
                             )
                         )
                     ) AS `Outstanding Balance` 
