@@ -13,11 +13,10 @@ Vue.component
         components: {...bootstrap, ...vueFragment}, 
         methods: 
         {
-            AddBuilding(event)
+            AddBuilding(data)
             {
-                event.preventDefault();
                 let url = "server/database_controller/import.php?import_controller=buildings"; 
-                let result = this.SubmitData("excel", url, [this.add_building_form]); 
+                let result = this.SubmitData("excel", url, [data]); 
                 if(Number(result))
                 {
                     this.BuildingsData(); 
@@ -64,28 +63,21 @@ Vue.component
         `
             <fragment>
                 <vs-row>
-                    <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline" @click="add_building_form={name: ''}">Add</vs-button>
-                    <!--<vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on">Import Excel</vs-button>-->
+                    <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline" @click="add_building_form=StateObject('building_user_input')">Add</vs-button>
+                    <vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on">Import Excel</vs-button>
                 </vs-row>
 
                 <template v-if="add_building_form">
                     <br>
-                    <div>
-                        <b-form @submit="AddBuilding">
-                            <b-form-group label="Building Name">
-                                <b-form-input v-model="add_building_form.name" required></b-form-input>
-                            </b-form-group>
-                            <vs-row vs-type="flex" vs-align="space-between" vs-justify="flex-end">
-                                <b-button pill title="Cancel" variant="danger" @click="add_building_form=undefined"><b-icon icon="x-circle"></b-icon></b-button>
-                                <submit-button type="submit" title="Add New Buidling"></submit-button>
-                            </vs-row>
-                        </b-form>
+                    <div class="container-fluid text-right">
+                        <b-button pill title="Cancel" variant="danger" @click="add_building_form=undefined"><b-icon icon="x-circle"></b-icon></b-button>
                     </div>
+                    <user-input v-bind="add_building_form" title="Add Building" @form-information-valid="AddBuilding"></user-input>
                     <br>
                 </template>
 
 
-                <vs-row class="my-2">
+                <vs-row v-else class="my-2">
                     <vs-col v-for="building in StateObject('buildings_data')" type="flex" vs-w="4">
                         <vs-card fixedHeight>
                             <h6 class="text-center" slot="header">{{building.name}}</h6>
