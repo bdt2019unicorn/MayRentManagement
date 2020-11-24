@@ -1,0 +1,219 @@
+[
+    {
+        "icon": "bed",
+        "name": "unit", 
+        "text": "Units",
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Units", 
+                "button": "warning", 
+                "icon": "home"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Unit", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "users",
+        "name": "tenant", 
+        "text": "Tenants",
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Tenants in this building", 
+                "button": "warning", 
+                "icon": "users"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Apartment", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "handshake",
+        "name": "leaseagrm", 
+        "text": "Lease Agreement",
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Contracts", 
+                "button": "warning", 
+                "icon": "folder-open"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Contract", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "resolve-old-lease", 
+                "text": "Resolve Old Contracts", 
+                "title": "Put the date contract paid to keep old contract up to date", 
+                "button": "info", 
+                "icon": "file-contract"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "file-contract",
+        "name": "invoices", 
+        "text": "Invoices",
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Invoices", 
+                "button": "warning", 
+                "icon": "file-contract"
+            }, 
+            {
+                "action": "add-monthly-invoices", 
+                "text": "Add Monthly Invoices",  
+                "title": "Add Monthly Invoices", 
+                "button": "light", 
+                "icon": "calendar-alt"
+            }, 
+            {
+                "action": "add-invoice", 
+                "text": "Add", 
+                "title": "Add New Invoice", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "print-invoices", 
+                "text": "Print Invoices", 
+                "title": "Print Invoices", 
+                "button": "info", 
+                "icon": "print"
+            }
+        ]
+    },
+    {
+        "icon": "hand-holding-usd",
+        "name": "revenue", 
+        "text": "Income",
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Incomes", 
+                "button": "warning", 
+                "icon": "hand-holding-usd"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Income", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "file-invoice-dollar",
+        "name": "expense", 
+        "text": "Expenses",
+        "menu": 
+        [
+            {
+                "action": "overview", 
+                "text": "Overview", 
+                "title": "All Expenses", 
+                "button": "warning", 
+                "icon": "file-invoice-dollar"
+            }, 
+            {
+                "action": "add", 
+                "text": "Add", 
+                "title": "Add New Expense", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "cog",
+        "name": "utilities", 
+        "text": "Utilities",
+        "menu": 
+        [
+            {
+                "action": "utilities-overview", 
+                "text": "Overview", 
+                "title": "All Apartments", 
+                "button": "warning", 
+                "icon": "home"
+            }, 
+            {
+                "action": "utility-reading", 
+                "text": "Add New Readings", 
+                "title": "Add New Readings", 
+                "button": "secondary", 
+                "icon": "plus"
+            }, 
+            {
+                "action": "import-export", 
+                "text": "Import", 
+                "title": "Import Excel Data", 
+                "button": "success", 
+                "icon": "table"
+            }
+        ]
+    }
+]
