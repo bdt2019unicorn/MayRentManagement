@@ -25,7 +25,8 @@ Vue.component
             TableBind()
             {
                 return {
-                    data: this.invoices.map(({invoice, ...rest})=>invoice) 
+                    data: this.invoices.map(({invoice, ...rest})=>invoice), 
+                    multiple: true
                 }; 
             }
         },
