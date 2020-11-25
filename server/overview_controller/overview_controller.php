@@ -14,11 +14,7 @@
     else if (in_array($overview_controller, $generic_controllers))
     {
         $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
-        echo '<pre>'; 
-        print_r($overview_data);
-        echo '</pre>'; 
-        
-        echo Query::GeneralData($overview_controller, $_GET["id"]??null); 
+        echo json_encode($overview_data); 
     }
     else 
     {
@@ -92,18 +88,10 @@
             }
         ); 
         $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
-        echo '<pre>'; 
-        print_r($overview_data);
-        echo '</pre>'; 
     }
 
     if(isset($overview_data))
     {
         echo json_encode($overview_data); 
-        echo "I am woring well, I guess"; 
-    }
-    else
-    {
-        echo "<h1>something is wrong here </h1>"; 
     }
 ?>
