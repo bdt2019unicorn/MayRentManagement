@@ -100,6 +100,6 @@
     }
     else
     {
-        echo "something is wrong here "; 
+        echo "<h1>something is wrong here </h1>"; 
     }
 ?>
