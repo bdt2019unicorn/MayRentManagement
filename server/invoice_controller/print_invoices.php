@@ -1,20 +1,5 @@
 <?php 
     require_once("./helper.php"); 
-    use PhpOffice\PhpSpreadsheet\Spreadsheet;
-    use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet; 
-    use PhpOffice\PhpSpreadsheet\NamedRange; 
-    use PhpOffice\PhpSpreadsheet\Cell\DataValidation; 
-    use PhpOffice\PhpSpreadsheet\IOFactory; 
-
-
-    // $path = "print-invoices/test_excel_invoice.xlsx"; 
-    // $spreadsheet = IOFactory::load($path);
-    
-
-    // $writer = new \PhpOffice\PhpSpreadsheet\Writer\Html($spreadsheet); 
-    // $writer->setSheetIndex(0);
-    // echo $writer->generateSheetData(); 
-    // $writer->save("print-invoices/test_excel_invoice.html"); 
     $building_id = $_GET["building_id"]; 
 
     function Base64Logo()
@@ -79,15 +64,132 @@
 
         array_push($all_invoices_information, $details); 
     }
-    
+
+    $doc_definition = 
+    [
+        "pageSize" => 'A4',
+        "content" => 
+        [
+            [
+                "image" => Base64Logo(), 
+                "width" => 100, 
+                "alignment" => "center"
+            ], 
+            [
+                "text" => "RENTAL AND UTILITY CHARGE", 
+                "style" => "header", 
+                "alignment" => "center"
+            ], 
+            [
+                "columns" => 
+                [
+                    [
+                        "text" => "Date", 
+                        "width" => "10%"
+                    ],                                 
+                    [
+                        "text" => ":", 
+                        "width" => "5%"
+                    ],                                 
+                    [
+                        "text" => date("d M Y"), 
+                        "width" => "35%"
+                    ], 
+                    [
+                        "text" => "", 
+                        "width" => "10%"
+                    ], 
+                    [
+                        "text" => "ROE: ", 
+                        "width" => "10%"
+                    ], 
+                    [
+                        "text" => "", 
+                        "width" => "*"
+                    ]
+                ]
+            ] 
+        ], 
+        "styles" => 
+        [
+            "header" => 
+            [
+                "fontSize" => 22,
+                "bold" => true, 
+                "margin" => [1, 5]
+            ],
+            "sub_heading" => 
+            [
+                "fontSize" => 16, 
+                "bold" => true, 
+                "margin" => [1, 3]
+            ]
+        ]
+    ];
+
+    $content_footer = 
+    [
+        " ", 
+        [
+            "columns" => 
+            [
+                [
+                    "stack" => 
+                    [
+                        "Please make transfer payment to",  
+                        "Account name: {$building_information['account_name']}",
+                        "Account number: {$building_information['account_number']}",
+                        [
+                            "text" => "Bank: {$building_information['bank']}", 
+                            "link" => $building_information["bank_link"], 
+                            "color" => "blue"
+                        ],
+                        "Branch: {$building_information['bank_branch']}"
+                    ], 
+                    "width" => "70%"
+                ], 
+                [
+                    "stack" => 
+                    [
+                        "For and on behalf of ", 
+                        [
+                            "text" => $building_information["company"], 
+                            "bold" => true 
+                        ], 
+                        [
+                            "text" => " ", 
+                            "lineHeight" => 3
+                        ], 
+                        "Authorized Signature", 
+                        [
+                            "text" => "{$building_information['authorize_signature']}\n{$building_information['authorize_title']}", 
+                            "bold" => true 
+                        ], 
+                        [
+                            "text" => $building_information["email"], 
+                            "link" => "mailto: {$building_information['email']}"
+                        ], 
+                        "Phone No. {$building_information['phone']}", 
+                        [
+                            "text" => $building_information["address"], 
+                            "italics" => true  
+                        ]
+                    ], 
+                    "width" => "*"
+                ]
+            ] 
+        ]
+    ]; 
+        
     $print_invoices = 
     [
-        "image"=> Base64Logo(), 
-        "building_information"=> $building_information, 
-        "invoices"=>$all_invoices_information
+        "invoices"=>$all_invoices_information, 
+        "doc_definition" => 
+        [
+            "doc_definition" => $doc_definition, 
+            "content_footer" => $content_footer
+        ]
     ]; 
 
     echo json_encode($print_invoices); 
-
-
 ?>
