@@ -2,19 +2,12 @@ Vue.component
 (
     "print-pdf", 
     {
-        props: ["invoices", "doc_definition"], 
+        props: ["invoices", "pdf"], 
         mixins: [support_mixin], 
         methods: 
         {
             DocDefinition(invoice)
             {
-                let grand_total = invoice.details.leaseagrm.reduce 
-                (
-                    (accumulator, current_value)=> accumulator + current_value["amount"], 0 
-                ) + invoice.details.utilities.reduce 
-                (
-                    (accumulator, current_value)=> accumulator + current_value["amount"], 0 
-                ); 
                 let specific_content = 
                 [
                     {
@@ -151,7 +144,7 @@ Vue.component
                                         style: "sub_heading"
                                     }, 
                                     {
-                                        text: this.NumeralFormat(grand_total), 
+                                        text: this.NumeralFormat(invoice.invoice["grand_total"]), 
                                         style: "sub_heading", 
                                         alignment: "right"
                                     }
@@ -161,8 +154,8 @@ Vue.component
                     } 
                 ]; 
 
-                var doc_definition = R.clone(this.doc_definition.doc_definition); 
-                doc_definition.content = [...doc_definition.content, ...specific_content, this.doc_definition.content_footer]; 
+                var doc_definition = R.clone(this.pdf.doc_definition); 
+                doc_definition.content = [...doc_definition.content, ...specific_content, this.pdf.content_footer]; 
                 return doc_definition; 
             }, 
 
@@ -202,9 +195,8 @@ Vue.component
 
                 PromiseChain(0).catch
                 (
-                    (error)=>
+                    ()=>
                     {
-                        console.log(error); 
                         zip.generateAsync
                         (
                         {

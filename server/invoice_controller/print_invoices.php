@@ -29,7 +29,23 @@
                     SELECT `leaseagrm`.`Tenant_ID` FROM `leaseagrm` 
                     WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
                 )
-            ) AS `tenant` 
+            ) AS `tenant`, 
+            (SELECT `leaseagrm`.`name` FROM `leaseagrm` WHERE `leaseagrm`.`id` = `invoices`.`leaseagrm_id`) AS `leaseagrm`, 
+            FORMAT
+            (
+                (
+                    IFNULL
+                    (
+                        (SELECT SUM(`invoice_leaseagrm`.`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoices`.`id`), 
+                        0
+                    ) + 
+                    IFNULL
+                    (
+                        (SELECT SUM(`invoice_utilities`.`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`),
+                        0 
+                    )
+                ), 3  
+            ) AS `grand_total`
         FROM `invoices` 
         WHERE `leaseagrm_id` IN 
         (
@@ -180,11 +196,25 @@
             ] 
         ]
     ]; 
+
+    $layout = 
+    [
+        "display" =>
+        [
+            "id" =>"ID", 
+            "name" => "Invoice Name", 
+            "leaseagrm" => "Contract",
+            "grand_total" => "Amount"
+        ], 
+        "html" => 
+        []
+    ]; 
         
     $print_invoices = 
     [
-        "invoices"=>$all_invoices_information, 
-        "doc_definition" => 
+        "layout" => $layout, 
+        "invoices" =>$all_invoices_information, 
+        "pdf" => 
         [
             "doc_definition" => $doc_definition, 
             "content_footer" => $content_footer

@@ -8,7 +8,8 @@ Vue.component
             return {
                 checked_index: [], 
                 invoices: [], 
-                doc_definition: {}
+                layout: {}, 
+                pdf: {}
             }
         },
         computed: 
@@ -18,8 +19,12 @@ Vue.component
                 let invoices = this.checked_index.map(index=> this.invoices[index]); 
                 return {
                     invoices: invoices, 
-                    doc_definition: this.doc_definition
+                    pdf: this.pdf
                 }; 
+            }, 
+            TableBind()
+            {
+                return this.invoices.map(({invoice, ...rest})=>invoice); 
             }
         },
         created() 
@@ -39,8 +44,10 @@ Vue.component
         },
         template: 
         `
-            <div>
+            <div class="container-fluid">
+                <h1>Print All Invoices</h1>
                 <print-pdf v-bind="PrintPdfBind">Print PDF</print-pdf>
+                <vs-table :data="TableBind"></vs-table>
             </div>
         `
     }
