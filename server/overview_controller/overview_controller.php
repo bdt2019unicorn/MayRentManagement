@@ -92,11 +92,15 @@
             }
         ); 
         $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
+        echo '<pre>'; 
+        print_r($overview_data);
+        echo '</pre>'; 
     }
 
     if(isset($overview_data))
     {
         echo json_encode($overview_data); 
+        echo "I am woring well, I guess"; 
     }
     else
     {
