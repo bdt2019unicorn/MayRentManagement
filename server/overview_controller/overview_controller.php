@@ -7,6 +7,8 @@
     $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
     $overview_controller = $_GET["overview_controller"]; 
 
+    $overview_data = null; 
+
     if(in_array($overview_controller, $actions))
     {
         require_once("./{$overview_controller}.php"); 
