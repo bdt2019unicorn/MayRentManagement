@@ -6,29 +6,28 @@ Vue.component
         data() 
         {
             return {
-                checked_index: [], 
                 invoices: [], 
                 layout: {display: {}, html: {}}, 
-                pdf: {}
+                pdf: {}, 
+                selected: []
             }
         },
         computed: 
         {
             PrintPdfBind()
             {
-                let invoices = this.checked_index.map(index=> this.invoices[index]); 
                 return {
-                    invoices: invoices, 
+                    invoices: this.selected.map(({index, ...rest})=>this.invoices[index]), 
                     pdf: this.pdf
                 }; 
             }, 
             TableBind()
             {
                 return {
-                    data: this.invoices.map(({invoice, ...rest})=>invoice), 
+                    data: this.invoices.map(({invoice, ...rest}, index)=>({...invoice, index: index})), 
                     multiple: true
                 }; 
-            }
+            } 
         },
         created() 
         {
@@ -36,10 +35,6 @@ Vue.component
             let data = this.AjaxRequest(url); 
             data = JSON.parse(data); 
             Object.keys(data).forEach(key=>this[key] = data[key]); 
-
-
-            //get this line out after test
-            this.checked_index = this.invoices.map((invoice, index)=>index); 
         },
         methods: 
         {
@@ -50,7 +45,7 @@ Vue.component
             <div class="container-fluid">
                 <h1>Print All Invoices</h1>
                 <print-pdf v-bind="PrintPdfBind">Print PDF</print-pdf>
-                <vs-table v-bind="TableBind">
+                <vs-table v-bind="TableBind" v-model="selected">
                     <template slot="thead">
                         <vs-th v-for="label in Object.values(layout.display)">{{label}}</vs-th>
                     </template>
