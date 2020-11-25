@@ -91,6 +91,9 @@
 
     if(isset($overview_data))
     {
+        echo '<pre>'; 
+        print_r($overview_data); 
+        echo '</pre>'; 
         echo json_encode($overview_data, JSON_UNESCAPED_UNICODE); 
     }
 ?>
