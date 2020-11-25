@@ -14,6 +14,11 @@
     else if (in_array($overview_controller, $generic_controllers))
     {
         $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
+        echo '<pre>'; 
+        print_r($overview_data);
+        echo '</pre>'; 
+        
+        echo Query::GeneralData($overview_controller, $_GET["id"]??null); 
     }
     else 
     {
