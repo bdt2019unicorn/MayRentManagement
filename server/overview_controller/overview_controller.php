@@ -14,7 +14,6 @@
     else if (in_array($overview_controller, $generic_controllers))
     {
         $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
-        echo json_encode($overview_data); 
     }
     else 
     {
@@ -92,6 +91,6 @@
 
     if(isset($overview_data))
     {
-        echo json_encode($overview_data); 
+        echo json_encode($overview_data, JSON_UNESCAPED_UNICODE); 
     }
 ?>
