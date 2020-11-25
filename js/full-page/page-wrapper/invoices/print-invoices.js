@@ -8,7 +8,7 @@ Vue.component
             return {
                 checked_index: [], 
                 invoices: [], 
-                layout: {}, 
+                layout: {display: {}, html: {}}, 
                 pdf: {}
             }
         },
@@ -24,7 +24,9 @@ Vue.component
             }, 
             TableBind()
             {
-                return this.invoices.map(({invoice, ...rest})=>invoice); 
+                return {
+                    data: this.invoices.map(({invoice, ...rest})=>invoice) 
+                }; 
             }
         },
         created() 
@@ -47,7 +49,16 @@ Vue.component
             <div class="container-fluid">
                 <h1>Print All Invoices</h1>
                 <print-pdf v-bind="PrintPdfBind">Print PDF</print-pdf>
-                <vs-table :data="TableBind"></vs-table>
+                <vs-table v-bind="TableBind">
+                    <template slot="thead">
+                        <vs-th v-for="label in Object.values(layout.display)">{{label}}</vs-th>
+                    </template>
+                    <template slot-scope="{data}">
+                        <vs-tr v-for="invoice in data" :data="invoice">
+                            <vs-td v-for="key in Object.keys(layout.display)" :data="invoice[key]">{{invoice[key]}}</vs-td>
+                        </vs-tr>
+                    </template>
+                </vs-table>
             </div>
         `
     }
