@@ -21,7 +21,7 @@
     {
         $tables = ["leaseagrm", "utilities"]; 
         $conditions = ["invoice_id"=>$invoice_id]; 
-        function SelectUtilities()
+        $SelectUtilities = function()
         {
             $selects = ["`id` AS `edit_id`","`name`", "`invoice_id`", "`price`", "`quantity`", "`amount`", "`utility_reading_id` AS `id`", "`utility_reading_id`", "(SELECT `name` FROM `revenue_type` WHERE `id` = `invoice_utilities`.`revenue_type_id`) AS `revenue_type`"]; 
 
@@ -52,11 +52,11 @@
                 array_push($selects, $select); 
             }
             return $selects; 
-        }
+        }; 
         $selects = 
         [
             "leaseagrm" => ["*", "`id` AS `edit_id`", "(SELECT `name` FROM `revenue_type` WHERE `revenue_type`.`id` = `revenue_type_id`) AS `title`"], 
-            "utilities"=>SelectUtilities()
+            "utilities"=>$SelectUtilities()
         ]; 
         $sql = ""; 
         foreach ($tables as $table) 
