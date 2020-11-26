@@ -9,24 +9,29 @@ Vue.component
                 invoices: [], 
                 layout: {display: {}, html: {}}, 
                 pdf: {}, 
-                selected: []
+                selected: [],
+                select: false 
             }
         },
         computed: 
         {
+            CheckedInvoices()
+            {
+                return this.invoices.filter(({selected, ...rest})=>selected); 
+            }, 
             PrintPdfBind()
             {
                 return {
-                    invoices: this.selected.map(({index, ...rest})=>this.invoices[index]), 
+                    invoices: this.CheckedInvoices, 
                     pdf: this.pdf
                 }; 
             }, 
-            TableBind()
+            SelectAllBind()
             {
                 return {
-                    data: this.invoices.map(({invoice, ...rest}, index)=>({...invoice, index: index})), 
-                    multiple: true
-                }; 
+                    size: "large", 
+                    icon: (this.CheckedInvoices.length==this.invoices.length)?"check": "remove"
+                }
             } 
         },
         created() 
@@ -35,6 +40,10 @@ Vue.component
             let data = this.AjaxRequest(url); 
             data = JSON.parse(data); 
             Object.keys(data).forEach(key=>this[key] = data[key]); 
+        },
+        methods: 
+        {
+            CheckSelectAll
         },
         template: 
         `
@@ -45,9 +54,7 @@ Vue.component
                 </div>
                 <div class="row">
                     <div class="row col">
-                        <div class="col-1">
-                            <vs-checkbox size="large"></vs-checkbox>
-                        </div>
+                        <div class="col-1"><vs-checkbox v-bind="SelectAllBind" v-model="select"></vs-checkbox></div>
                         <div class="col-6"><h6 class="text-info">Invoice</h6></div>
                         <div class="col-3"><b>Tenant</b></div>
                         <div class="col-1"><b>Unit</b></div>
@@ -55,9 +62,7 @@ Vue.component
                 </div>
                 <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
                     <div class="row col">
-                        <div class="col-1">
-                            <vs-checkbox v-model="invoices[index].checked" size="large"></vs-checkbox>
-                        </div>
+                        <div class="col-1"><vs-checkbox v-model="invoices[index].checked" size="large" @input="CheckSelectAll"></vs-checkbox></div>
                         <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
                         <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
                         <div class="col-1"><b>{{invoice.invoice.unit}}</b></div>
