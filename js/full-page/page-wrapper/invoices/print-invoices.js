@@ -77,7 +77,7 @@ Vue.component
                     </div>
                 </div>
                 <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
-                    <div class="row col">
+                    <div class="row col-12">
                         <div class="col-1"><b-form-checkbox v-model="invoices[index].checked" size="md" @change="selected = Boolean(CheckedInvoices.length)"></b-form-checkbox></div>
                         <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
                         <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
@@ -86,7 +86,7 @@ Vue.component
                             <details-button :show_details="invoice.show_details" @click="invoices[index].show_details=!invoices[index].show_details"></details-button>
                         </div>
                     </div>
-                    <div v-if="invoice.show_details" class="row">
+                    <div v-if="invoice.show_details" class="row col-12">
                         <pre>
                             {{invoice}}
                         </pre>
