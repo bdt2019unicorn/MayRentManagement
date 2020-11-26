@@ -75,7 +75,9 @@
             [
                 "leaseagrm" =>$invoice_details[0], 
                 "utilities" =>$invoice_details[1]
-            ]
+            ], 
+            "checked" => false, 
+            "show_details" => false 
         ]; 
 
         array_push($all_invoices_information, $details); 

@@ -63,16 +63,6 @@ Vue.component
             {
                 return `server/overview_controller/resolve_old_contract.php?command=${command}&building_id=${this.$route.params.building_id}`; 
             }, 
-            ShowDetailsButtonBind(show_details)
-            {
-                return {
-                    class: "float-right", 
-                    color: "success", 
-                    type: "flat", 
-                    icon: show_details?"remove": "add", 
-                    title: (show_details?"Hide ": "Show ") + "Details"
-                }
-            }, 
             SubmitOldLeases()
             {
                 let url = this.ServerUrl("ResolveOldLeases"); 
@@ -156,7 +146,7 @@ Vue.component
                                 ></vuejs-datepicker>
                             </div>
                             <div class="col-1">
-                                <vs-button v-bind="ShowDetailsButtonBind(show_details)" @click="old_leases[index].show_details=!old_leases[index].show_details"></vs-button>
+                                <details-button :show_details="show_details" @click="old_leases[index].show_details=!old_leases[index].show_details"></details-button>
                             </div>
                         </div>
                         <b-container fluid v-if="show_details">
