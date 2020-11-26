@@ -36,10 +36,6 @@ Vue.component
             data = JSON.parse(data); 
             Object.keys(data).forEach(key=>this[key] = data[key]); 
         },
-        methods: 
-        {
-
-        },
         template: 
         `
             <div class="container-fluid">
@@ -59,3 +55,8 @@ Vue.component
         `
     }
 ); 
+
+
+// create a check box group for whole bunch of collapsing thing - maybe the old trick like how we do before
+// icon = remove -- for the partial select 
+// icon = check if we check them all. 
