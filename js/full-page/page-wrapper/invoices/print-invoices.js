@@ -9,15 +9,15 @@ Vue.component
                 invoices: [], 
                 layout: {display: {}, html: {}}, 
                 pdf: {}, 
-                selected: [],
-                select: false 
+                selected: false 
             }
         },
+        components: {...bootstrap}, 
         computed: 
         {
             CheckedInvoices()
             {
-                return this.invoices.filter(({selected, ...rest})=>selected); 
+                return this.invoices.filter(({checked, ...rest})=>checked); 
             }, 
             PrintPdfBind()
             {
@@ -29,10 +29,11 @@ Vue.component
             SelectAllBind()
             {
                 return {
-                    size: "large", 
-                    icon: (this.CheckedInvoices.length==this.invoices.length)?"check": "remove"
+                    size: this.CheckedInvoices.length? "sm": "md", 
+                    button: Boolean(this.CheckedInvoices.length), 
+                    buttonVariant: "outline-secondary"
                 }
-            } 
+            }
         },
         created() 
         {
@@ -43,7 +44,18 @@ Vue.component
         },
         methods: 
         {
-            CheckSelectAll
+            SelectAllInput(selected)
+            {
+                if(this.CheckedInvoices.length && this.CheckedInvoices.length<this.invoices.length)
+                {
+                    this.selected = true; 
+                    this.invoices.forEach(invoice=>invoice.checked=true); 
+                }
+                else 
+                {
+                    this.invoices.forEach(invoice=>invoice.checked = selected); 
+                }
+            }
         },
         template: 
         `
@@ -54,7 +66,11 @@ Vue.component
                 </div>
                 <div class="row">
                     <div class="row col">
-                        <div class="col-1"><vs-checkbox v-bind="SelectAllBind" v-model="select"></vs-checkbox></div>
+                        <div class="col-1">
+                            <b-form-checkbox v-bind="SelectAllBind" v-model="selected" @change="SelectAllInput">
+                                <b-icon v-if="CheckedInvoices.length" :icon='(CheckedInvoices.length==invoices.length)?"check": "dash"'></b-icon>
+                            </b-form-checkbox>
+                        </div>
                         <div class="col-6"><h6 class="text-info">Invoice</h6></div>
                         <div class="col-3"><b>Tenant</b></div>
                         <div class="col-1"><b>Unit</b></div>
@@ -62,7 +78,7 @@ Vue.component
                 </div>
                 <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
                     <div class="row col">
-                        <div class="col-1"><vs-checkbox v-model="invoices[index].checked" size="large" @input="CheckSelectAll"></vs-checkbox></div>
+                        <div class="col-1"><b-form-checkbox v-model="invoices[index].checked" size="md" @change="selected = Boolean(CheckedInvoices.length)"></b-form-checkbox></div>
                         <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
                         <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
                         <div class="col-1"><b>{{invoice.invoice.unit}}</b></div>
