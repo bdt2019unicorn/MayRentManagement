@@ -2,7 +2,7 @@ Vue.component
 (
     "print-invoices", 
     {
-        mixins: [support_mixin], 
+        mixins: [print_invoices_mixin], 
         data() 
         {
             return {
@@ -87,9 +87,7 @@ Vue.component
                         </div>
                     </div>
                     <div v-if="invoice.show_details" class="row col-12">
-                        <pre>
-                            {{invoice}}
-                        </pre>
+                        <div class="col" v-html="InvoiceHtml(invoice, layout.html)"></div>
                     </div>
                 </div>
 
@@ -97,8 +95,3 @@ Vue.component
         `
     }
 ); 
-
-
-// create a check box group for whole bunch of collapsing thing - maybe the old trick like how we do before
-// icon = remove -- for the partial select 
-// icon = check if we check them all. 

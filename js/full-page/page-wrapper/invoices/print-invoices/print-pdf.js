@@ -117,7 +117,7 @@ Vue.component
                                                             [
                                                                 this.DateReformatDisplay(previous_date), 
                                                                 this.DateReformatDisplay(date), 
-                                                                `${(Number(number) - Number(previous_number)).toFixed(3)} VND/m3`
+                                                                `${this.NumeralFormat((Number(number) - Number(previous_number)))} VND/m3`
                                                             ]
                                                         }
                                                     ]
