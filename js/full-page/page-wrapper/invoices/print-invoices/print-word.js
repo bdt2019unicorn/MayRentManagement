@@ -1,44 +1,44 @@
 Vue.component
 (
-    "print-word", 
+    "print-word",
     {
-        props: ["invoices", "html"], 
-        mixins: [print_invoices_mixin], 
-        data() 
+        props: ["invoices", "html"],
+        mixins: [print_invoices_mixin],
+        data()
         {
             return {
                 styles: ""
             }
         },
-        created() 
+        created()
         {
-            let url = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"; 
-            this.styles = this.AjaxRequest(url); 
+            let url = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css";
+            this.styles = this.AjaxRequest(url);
         },
-        methods: 
+        methods:
         {
             PrintWord()
             {
                 if(!this.invoices.length)
                 {
-                    alert("No invoices are selected, please select invoice to print"); 
-                    return; 
+                    alert("No invoices are selected, please select invoice to print");
+                    return;
                 }
                 var zip = new JSZip();
                 var folder = zip.folder("invoices");
 
                 var PromiseChain = (index)=>
                 {
-                    return new Promise 
+                    return new Promise
                     (
                         (resolve, reject)=>
                         {
-                            let invoice = this.invoices[index]; 
+                            let invoice = this.invoices[index];
                             if(index==this.invoices.length)
                             {
-                                reject(zip); 
+                                reject(zip);
                             }
-                            var html = 
+                            var html =
                             `
                                 <html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
                                     <head>
@@ -51,29 +51,42 @@ Vue.component
                                         ${this.InvoiceHtml(invoice, this.html)}
                                     </body>
                                 </html>
-                            `; 
-                            let url = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`; 
+                            `;
+                            let url = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
                             fetch(url).then(response=>response.blob()).then
                             (
                                 word=>
                                 {
-                                    folder.file(`${invoice.invoice.name}.doc`, word); 
+                                    folder.file(`${invoice.invoice.name}.doc`, word);
                                     folder.file(`${invoice.invoice.name}.html`, html)
-                                    resolve(index+1); 
+                                    resolve(index+1);
                                 }
-                            ); 
+                            );
                         }
-                    ).then(PromiseChain); 
+                    ).then(PromiseChain);
                 }
 
-                PromiseChain(0).catch(this.ExportZipFile); 
-            } 
+                PromiseChain(0).catch(this.ExportZipFile);
+            },
+
+            TestPrint()
+            {
+                var url = "server/invoice_controller/print-invoices/invoices/invoices/Resolve _AP1_ period 15 Jan 2019 - 31 Oct 2020.html";
+                var html = this.AjaxRequest(url);
+                console.log(html);
+                var data = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
+                let a = document.createElement("a");
+                a.href = data;
+                a.download = "test-document.doc";
+                a.click();
+            }
+
         },
-        template: 
+        template:
         `
-            <vs-button color="light" type="gradient" icon="assignment" title="Print Word" @click="PrintWord">
+            <vs-button color="light" type="gradient" icon="assignment" title="Print Word" @click="TestPrint">
                 <slot></slot>
             </vs-button>
         `
     }
-); 
+);
