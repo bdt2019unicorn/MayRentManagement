@@ -239,7 +239,7 @@
                 "html" => 
                 [
                     "image" => $this->logo_image, 
-                    "footer" => $html_footer
+                    "footer" => $html_footer, 
                 ]
             ]; 
         }

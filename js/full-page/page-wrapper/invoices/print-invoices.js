@@ -19,13 +19,6 @@ Vue.component
             {
                 return this.invoices.filter(({checked, ...rest})=>checked); 
             }, 
-            PrintPdfBind()
-            {
-                return {
-                    invoices: this.CheckedInvoices, 
-                    pdf: this.pdf
-                }; 
-            }, 
             SelectAllBind()
             {
                 return {
@@ -62,8 +55,10 @@ Vue.component
             <div class="container-fluid">
                 <h1>Print All Invoices</h1>
                 <div class="container-fluid row">
-                    <print-pdf v-bind="PrintPdfBind">Print PDF</print-pdf>
+                    <print-pdf :invoices="CheckedInvoices" :pdf="pdf">Print PDF</print-pdf>
+                    <print-word :invoices="CheckedInvoices" :html="layout.html" class="mx-2">Print Word</print-word>
                 </div>
+                <br>
                 <div class="row">
                     <div class="row col">
                         <div class="col-1">

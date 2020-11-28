@@ -3,6 +3,10 @@ var print_invoices_mixin =
     mixins: [support_mixin], 
     methods: 
     {
+        ExportZipFile(zip)
+        {
+            zip.generateAsync({type: "blob"}).then(content=> saveAs(content, "AllInvoices.zip"));  
+        }, 
         InvoiceHtml(invoice, {footer, image})
         {
             return `
@@ -96,6 +100,6 @@ var print_invoices_mixin =
                 ${footer}
                 <br><br>
             `; 
-        }    
+        }
     },
 }

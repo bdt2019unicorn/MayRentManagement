@@ -3,7 +3,7 @@ Vue.component
     "print-pdf", 
     {
         props: ["invoices", "pdf"], 
-        mixins: [support_mixin], 
+        mixins: [print_invoices_mixin], 
         methods: 
         {
             DocDefinition(invoice)
@@ -167,7 +167,7 @@ Vue.component
                     return; 
                 }
                 var zip = new JSZip();
-                var pdf_folder = zip.folder("invoices");
+                var folder = zip.folder("invoices");
 
                 var PromiseChain = (index)=>
                 {
@@ -178,14 +178,14 @@ Vue.component
                             let invoice = this.invoices[index]; 
                             if(index==this.invoices.length)
                             {
-                                reject(); 
+                                reject(zip); 
                             }
                             let doc_definition = this.DocDefinition(invoice); 
                             pdfMake.createPdf(doc_definition).getBlob
                             (
                                 pdf=> 
                                 {
-                                    pdf_folder.file(`${invoice.invoice.name}.pdf`, pdf); 
+                                    folder.file(`${invoice.invoice.name}.pdf`, pdf); 
                                     resolve(index+1); 
                                 }
                             )
@@ -193,24 +193,7 @@ Vue.component
                     ).then(PromiseChain); 
                 }
 
-                PromiseChain(0).catch
-                (
-                    ()=>
-                    {
-                        zip.generateAsync
-                        (
-                        {
-                            type: "blob"
-                        }
-                        ).then
-                        (
-                        content=>
-                        {
-                            saveAs(content, "AllInvoices.zip");
-                        }
-                        );                        
-                    }
-                ); 
+                PromiseChain(0).catch(this.ExportZipFile); 
             
             } 
         },
