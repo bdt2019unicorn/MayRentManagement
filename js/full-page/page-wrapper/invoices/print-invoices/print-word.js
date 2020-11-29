@@ -4,17 +4,6 @@ Vue.component
     {
         props: ["invoices", "html"],
         mixins: [print_invoices_mixin],
-        data()
-        {
-            return {
-                styles: ""
-            }
-        },
-        created()
-        {
-            let url = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css";
-            this.styles = this.AjaxRequest(url);
-        },
         methods:
         {
             PrintWord()
@@ -43,9 +32,6 @@ Vue.component
                                 <html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
                                     <head>
                                         <meta charset='utf-8'>
-                                        <style>
-                                            ${this.styles}
-                                        </style>
                                     </head>
                                     <body>
                                         ${this.InvoiceHtml(invoice, this.html)}
@@ -67,24 +53,11 @@ Vue.component
                 }
 
                 PromiseChain(0).catch(this.ExportZipFile);
-            },
-
-            TestPrint()
-            {
-                var url = "server/invoice_controller/print-invoices/invoices/invoices/Resolve _AP1_ period 15 Jan 2019 - 31 Oct 2020.html";
-                var html = this.AjaxRequest(url);
-                console.log(html);
-                var data = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
-                let a = document.createElement("a");
-                a.href = data;
-                a.download = "test-document.doc";
-                a.click();
-            }
-
+            } 
         },
         template:
         `
-            <vs-button color="light" type="gradient" icon="assignment" title="Print Word" @click="TestPrint">
+            <vs-button color="light" type="gradient" icon="assignment" title="Print Word" @click="PrintWord">
                 <slot></slot>
             </vs-button>
         `
