@@ -39,9 +39,7 @@ Vue.component
                                 <router-link :to="{name: 'home'}"><img class="col" src="img/logo.jpeg" alt="logo"></router-link>
                                 <div class="col"></div>
                             </div>
-
                             <br>
-
                             <div class="row">
                                 <button :class="ItemsClasses('login', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='login'">Login</button>
                                 <button :class="ItemsClasses('user', current_controller, ['btn', 'col'], 'btn-primary', 'bg-light')" @click="current_controller='user'">Register</button>

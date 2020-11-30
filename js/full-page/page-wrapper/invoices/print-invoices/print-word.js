@@ -44,7 +44,6 @@ Vue.component
                                 word=>
                                 {
                                     folder.file(`${invoice.invoice.name}.doc`, word);
-                                    folder.file(`${invoice.invoice.name}.html`, html)
                                     resolve(index+1);
                                 }
                             );
