@@ -40,7 +40,7 @@ Vue.component
         {
             ValidInvoiceDetails()
             {
-                return this.ValidInvoiceDetailsUtilities(this.invoice_details); 
+                return this.ValidInvoiceDetailsUtilities(this.invoice_details, this.list); 
             }    
         },
         methods: 

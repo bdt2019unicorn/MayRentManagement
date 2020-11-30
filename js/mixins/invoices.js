@@ -103,7 +103,8 @@ var user_input_invoice_component_mixin =
     },
     created() 
     {
-        this.PopulateList(this.list);     
+        this.PopulateList(this.list);    
+        this.$emit("input", this.ValidInvoiceDetails);  
     },
     watch: 
     {
@@ -156,8 +157,19 @@ var valid_invoice_details_mixin =
 
             return (leaseagrm.length<invoice_details.length)?false: leaseagrm; 
         }, 
-        ValidInvoiceDetailsUtilities(invoice_details)
+        ValidInvoiceDetailsUtilities(invoice_details, list=undefined)
         {
+            if(list)
+            {
+                for (let index = 0; index < list.length; index++) 
+                {
+                    let details = invoice_details.filter(({revenue_type_id, ...rest})=>revenue_type_id==list[index].id); 
+                    if(!details.length)
+                    {
+                        return false; 
+                    }
+                }
+            }
             var valid_details = invoice_details.filter
             (
                 ({amount, ...rest})=> numeral(amount).value()>0

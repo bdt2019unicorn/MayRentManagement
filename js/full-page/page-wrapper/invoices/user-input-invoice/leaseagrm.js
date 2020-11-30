@@ -39,10 +39,6 @@ Vue.component
                 return this.ValidInvoiceDetailsLeaseagrm(this.invoice_details); 
             }    
         },
-        created() 
-        {
-            this.$emit("input", this.ValidInvoiceDetails); 
-        },
         methods: 
         {
             NewValueChangeValid(edit_data, name, new_value, reactive=false)
