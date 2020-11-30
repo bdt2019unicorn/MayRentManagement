@@ -1,3 +1,4 @@
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -8,21 +9,30 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-DROP TABLE IF EXISTS `buildings`;
-CREATE TABLE IF NOT EXISTS `buildings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `buildings` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `account_name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `account_number` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `bank` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `bank_link` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `bank_branch` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `company` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `authorize_signature` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `authorize_title` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `email` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `phone` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-INSERT INTO `buildings` (`id`, `name`) VALUES
-(1, 'May An Phu'),
-(2, 'May Thi Nghe'),
-(3, 'PKK');
+TRUNCATE TABLE `buildings`;
+INSERT INTO `buildings` (`id`, `name`, `account_name`, `account_number`, `bank`, `bank_link`, `bank_branch`, `company`, `authorize_signature`, `authorize_title`, `email`, `phone`, `address`) VALUES
+(1, 'May An Phu', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai Gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Lý Diệu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. \r\nHCMC.'),
+(2, 'May Thi Nghe', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Lý Diệu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
+(3, 'PKK', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Lý Diệu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.');
 
-DROP TABLE IF EXISTS `expense`;
-CREATE TABLE IF NOT EXISTS `expense` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `expense` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `expense_type_id` int(11) NOT NULL,
   `Start_period` date DEFAULT NULL,
@@ -30,19 +40,16 @@ CREATE TABLE IF NOT EXISTS `expense` (
   `building_id` int(11) DEFAULT NULL,
   `Payment_date` date DEFAULT NULL,
   `Amount` decimal(13,3) DEFAULT NULL,
-  `Note` text COLLATE utf8mb4_vietnamese_ci,
-  PRIMARY KEY (`id`),
-  KEY `expense_type_id` (`expense_type_id`,`building_id`),
-  KEY `building_id` (`building_id`) USING BTREE
+  `Note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-DROP TABLE IF EXISTS `expense_type`;
-CREATE TABLE IF NOT EXISTS `expense_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  PRIMARY KEY (`id`)
+TRUNCATE TABLE `expense`;
+CREATE TABLE `expense_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `expense_type`;
 INSERT INTO `expense_type` (`id`, `name`) VALUES
 (1, 'Salary'),
 (2, 'Supplies (Flower, fuel)'),
@@ -54,24 +61,21 @@ INSERT INTO `expense_type` (`id`, `name`) VALUES
 (8, 'Cash payback to tenants'),
 (9, 'Other');
 
-DROP TABLE IF EXISTS `invoices`;
-CREATE TABLE IF NOT EXISTS `invoices` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `invoices` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `leaseagrm_id` int(11) NOT NULL,
-  `note` text COLLATE utf8mb4_vietnamese_ci,
-  PRIMARY KEY (`id`),
-  KEY `leaseagrm_id` (`leaseagrm_id`) USING BTREE
+  `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `invoices`;
 INSERT INTO `invoices` (`id`, `name`, `leaseagrm_id`, `note`) VALUES
 (22, 'Resolve \"AP1\" period 15 Jan 2019 - 31 Oct 2020', 69, NULL),
 (23, 'Resolve \"AP2\" period 19 Feb 2019 - 31 Oct 2020', 70, NULL),
 (24, 'AP1 - testing 17 Nov 2020', 69, 'Test this thing ');
 
-DROP TABLE IF EXISTS `invoice_leaseagrm`;
-CREATE TABLE IF NOT EXISTS `invoice_leaseagrm` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `invoice_leaseagrm` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
   `invoice_id` int(11) NOT NULL,
@@ -79,36 +83,29 @@ CREATE TABLE IF NOT EXISTS `invoice_leaseagrm` (
   `end_date` date DEFAULT NULL,
   `price` decimal(13,3) NOT NULL,
   `quantity` decimal(13,3) NOT NULL DEFAULT '1.000',
-  `amount` decimal(13,3) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `invoice_id` (`invoice_id`),
-  KEY `revenue_type_id` (`revenue_type_id`)
+  `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `invoice_leaseagrm`;
 INSERT INTO `invoice_leaseagrm` (`id`, `name`, `revenue_type_id`, `invoice_id`, `start_date`, `end_date`, `price`, `quantity`, `amount`) VALUES
 (22, 'Rent \"AP1\" period 15 Jan 2019 - 31 Oct 2020', 1, 22, '2019-01-15', '2020-10-31', '1.000', '1.000', '21.548'),
 (23, 'Rent \"AP2\" period 19 Feb 2019 - 31 Oct 2020', 1, 23, '2019-02-19', '2020-10-31', '1.000', '1.000', '20.357'),
 (24, 'Garage rental (31 Oct 2020 - 31 Oct 2020)', 6, 24, '2020-10-31', '2020-10-31', '145.000', '1.000', '145.000');
 
-DROP TABLE IF EXISTS `invoice_utilities`;
-CREATE TABLE IF NOT EXISTS `invoice_utilities` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `invoice_utilities` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `invoice_id` int(11) NOT NULL,
   `utility_reading_id` int(11) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
   `price` decimal(13,3) NOT NULL,
   `quantity` decimal(13,3) NOT NULL,
-  `amount` decimal(13,3) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `revenue_type_id` (`revenue_type_id`),
-  KEY `invoice_id` (`invoice_id`),
-  KEY `utility_reading_id` (`utility_reading_id`)
+  `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-DROP TABLE IF EXISTS `leaseagrm`;
-CREATE TABLE IF NOT EXISTS `leaseagrm` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+TRUNCATE TABLE `invoice_utilities`;
+CREATE TABLE `leaseagrm` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `Tenant_ID` int(11) DEFAULT NULL,
@@ -122,12 +119,10 @@ CREATE TABLE IF NOT EXISTS `leaseagrm` (
   `Monthly_payment_date` tinyint(4) DEFAULT NULL,
   `Deposit_currency` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Deposit_exchange_rate` decimal(13,3) DEFAULT NULL,
-  `note` text COLLATE utf8mb4_vietnamese_ci,
-  PRIMARY KEY (`id`),
-  KEY `Tenant_ID` (`Tenant_ID`),
-  KEY `unit_id` (`unit_id`) USING BTREE
+  `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `leaseagrm`;
 INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `Start_date`, `Finish`, `Rent_amount`, `Deposit_amount`, `Deposit_payment_date`, `Deposit_payback_date`, `Monthly_payment_date`, `Deposit_currency`, `Deposit_exchange_rate`, `note`) VALUES
 (54, 'A1', NULL, NULL, NULL, '2021-04-17', '2022-06-06', '1.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
 (55, 'A2', NULL, NULL, NULL, '2021-04-22', '2022-10-19', '2.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
@@ -141,30 +136,27 @@ INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `
 (70, 'AP2', 3, 10, NULL, '2019-02-19', '2021-11-05', '1.000', '1.000', NULL, '2019-02-19', NULL, NULL, '1.000', NULL),
 (71, 'AP3', 4, 11, NULL, '2019-03-26', '2021-12-13', '1.000', '1.000', NULL, '2019-03-26', NULL, NULL, '1.000', NULL);
 
-DROP TABLE IF EXISTS `revenue`;
-CREATE TABLE IF NOT EXISTS `revenue` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `revenue` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `leaseagrm_id` int(11) NOT NULL,
   `Payment_date` date DEFAULT NULL,
   `Amount` decimal(13,3) DEFAULT NULL,
-  `Note` text COLLATE utf8mb4_vietnamese_ci,
-  PRIMARY KEY (`id`),
-  KEY `leaseagrm_id` (`leaseagrm_id`)
+  `Note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `revenue`;
 INSERT INTO `revenue` (`id`, `name`, `leaseagrm_id`, `Payment_date`, `Amount`, `Note`) VALUES
 (6, 'Rent \"AP1\" period 15 Jan 2019 - 31 Oct 2020', 69, '2020-10-31', '21.548', NULL),
 (7, 'Rent \"AP2\" period 19 Feb 2019 - 31 Oct 2020', 70, '2020-10-31', '20.357', NULL);
 
-DROP TABLE IF EXISTS `revenue_type`;
-CREATE TABLE IF NOT EXISTS `revenue_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `revenue_type` (
+  `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `is_utility` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `is_utility` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `revenue_type`;
 INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (1, 'Rent', 0),
 (2, 'Electricity', 1),
@@ -176,9 +168,8 @@ INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (8, 'Deposit', 0),
 (9, 'Other', 0);
 
-DROP TABLE IF EXISTS `tenant`;
-CREATE TABLE IF NOT EXISTS `tenant` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tenant` (
+  `id` int(11) NOT NULL,
   `Last_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Middle_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `First_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
@@ -195,11 +186,10 @@ CREATE TABLE IF NOT EXISTS `tenant` (
   `Personal_Email` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Company_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Company_address` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `note` text COLLATE utf8mb4_vietnamese_ci,
-  PRIMARY KEY (`id`),
-  KEY `building_id` (`building_id`)
+  `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `tenant`;
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `visa_expiry_date`, `building_id`, `police_registration_date`, `expected_departure_date`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`, `note`) VALUES
 (6, 'Deffein', 'Marie', ' Yvon Patrick', '1989-01-01', 'FRA', '19FF66040', NULL, 1, NULL, NULL, '0903102418', '0', 'deffeinp@yahoo.fr', 'deffeinp@yahoo.fr', '0', '0', NULL),
 (10, 'Proctor', 'James', 'Travis', '1976-05-12', 'USA', '567926124', NULL, 1, NULL, NULL, '0765552956', '0', '0', 'travisproctor9@gmail.com', '0', '0', NULL),
@@ -218,9 +208,8 @@ INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_b
 (165, 'Tenant Thi Nghe 5', NULL, NULL, '1992-03-16', 'VN', 'PPN5', NULL, 2, NULL, NULL, '0123456785', NULL, NULL, 'PPN5@YOPMAIL.COM', 'Test', NULL, NULL),
 (166, 'Tenant Thi Nghe 6', NULL, NULL, '1998-10-28', 'VN', 'PPN6', NULL, 2, NULL, NULL, '0123456786', NULL, NULL, 'PPN6@YOPMAIL.COM', 'Test', NULL, NULL);
 
-DROP TABLE IF EXISTS `unit`;
-CREATE TABLE IF NOT EXISTS `unit` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `unit` (
+  `id` int(11) NOT NULL,
   `name` char(10) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `building_id` int(11) NOT NULL DEFAULT '1',
   `area` decimal(10,0) NOT NULL DEFAULT '0',
@@ -228,11 +217,10 @@ CREATE TABLE IF NOT EXISTS `unit` (
   `number_of_bathroom` tinyint(4) NOT NULL DEFAULT '1',
   `balcony` tinyint(1) DEFAULT '0',
   `number_of_windows` tinyint(4) NOT NULL DEFAULT '0',
-  `note` text COLLATE utf8mb4_vietnamese_ci,
-  PRIMARY KEY (`id`),
-  KEY `building_id` (`building_id`)
+  `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `unit`;
 INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`, `note`) VALUES
 (1, 'MAY', 1, '0', 1, 1, 0, 0, ''),
 (2, 'G01', 1, '0', 1, 1, 0, 0, ''),
@@ -253,56 +241,152 @@ INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `
 (17, '401TN', 2, '0', 1, 1, 0, 0, ''),
 (18, '402', 2, '0', 1, 1, 0, 0, '');
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `password` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `phone_number` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `email` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `viber_number` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `approved` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `phone_number` (`phone_number`),
-  UNIQUE KEY `email` (`email`)
+  `approved` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `username`, `password`, `phone_number`, `email`, `viber_number`, `approved`) VALUES
 (1, 'blastor555', '123456', '0259784563', 'blastor555@gmail.com', '0123654789', 1),
 (3, 'QuocAnh', 'MayRentManagement', '+84903959969', 'lhqanh@gmail.com', '+4915901244095', 1);
 
-DROP TABLE IF EXISTS `utility_price`;
-CREATE TABLE IF NOT EXISTS `utility_price` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `utility_price` (
+  `id` bigint(20) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
   `value` decimal(13,3) NOT NULL,
   `date_valid` date NOT NULL,
-  `date_enter` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `revenue_type_id` (`revenue_type_id`)
+  `date_enter` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `utility_price`;
 INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`) VALUES
 (1, 2, '11.000', '2020-10-01', '2020-11-18');
 
-DROP TABLE IF EXISTS `utility_reading`;
-CREATE TABLE IF NOT EXISTS `utility_reading` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `utility_reading` (
+  `id` int(11) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `date` datetime NOT NULL,
-  `number` decimal(13,3) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `revenue_type_id` (`revenue_type_id`),
-  KEY `unit_id` (`unit_id`) USING BTREE
+  `number` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
+TRUNCATE TABLE `utility_reading`;
 INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `unit_id`, `date`, `number`) VALUES
 (1, 2, 3, '2020-11-01 17:18:00', '10.000'),
 (2, 2, 3, '2020-11-14 17:20:00', '15.000'),
 (3, 3, 3, '2020-11-10 17:34:00', '1.000'),
 (4, 3, 3, '2020-11-14 17:34:00', '10.000');
+
+
+ALTER TABLE `buildings`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `expense`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expense_type_id` (`expense_type_id`,`building_id`),
+  ADD KEY `building_id` (`building_id`) USING BTREE;
+
+ALTER TABLE `expense_type`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `leaseagrm_id` (`leaseagrm_id`) USING BTREE;
+
+ALTER TABLE `invoice_leaseagrm`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoice_id` (`invoice_id`),
+  ADD KEY `revenue_type_id` (`revenue_type_id`);
+
+ALTER TABLE `invoice_utilities`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `revenue_type_id` (`revenue_type_id`),
+  ADD KEY `invoice_id` (`invoice_id`),
+  ADD KEY `utility_reading_id` (`utility_reading_id`);
+
+ALTER TABLE `leaseagrm`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Tenant_ID` (`Tenant_ID`),
+  ADD KEY `unit_id` (`unit_id`) USING BTREE;
+
+ALTER TABLE `revenue`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `leaseagrm_id` (`leaseagrm_id`);
+
+ALTER TABLE `revenue_type`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tenant`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `building_id` (`building_id`);
+
+ALTER TABLE `unit`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `building_id` (`building_id`);
+
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `phone_number` (`phone_number`),
+  ADD UNIQUE KEY `email` (`email`);
+
+ALTER TABLE `utility_price`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `revenue_type_id` (`revenue_type_id`);
+
+ALTER TABLE `utility_reading`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `revenue_type_id` (`revenue_type_id`),
+  ADD KEY `unit_id` (`unit_id`) USING BTREE;
+
+
+ALTER TABLE `buildings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `expense`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `expense_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `invoices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `invoice_leaseagrm`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `invoice_utilities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `leaseagrm`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `revenue`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `revenue_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `tenant`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `unit`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `utility_price`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `utility_reading`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 
 ALTER TABLE `expense`
@@ -340,6 +424,7 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
