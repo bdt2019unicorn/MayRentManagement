@@ -7,7 +7,7 @@ Vue.component
         {
             return {
                 invoices: [], 
-                layout: {display: {}, html: {}}, 
+                html: {}, 
                 pdf: {}, 
                 selected: false 
             }
@@ -58,7 +58,7 @@ Vue.component
                 <template v-if="invoices.length">
                     <div class="container-fluid row">
                         <print-pdf :invoices="CheckedInvoices" :pdf="pdf">PDF</print-pdf>
-                        <print-word :invoices="CheckedInvoices" :html="layout.html" class="mx-2">Word</print-word>
+                        <print-word :invoices="CheckedInvoices" :html="html" class="mx-2">Word</print-word>
                     </div>
                     <br>
                     <div class="row">
@@ -84,7 +84,7 @@ Vue.component
                             </div>
                         </div>
                         <div v-if="invoice.show_details" class="row col-12">
-                            <div class="col" v-html="InvoiceHtml(invoice, layout.html)"></div>
+                            <div class="col" v-html="InvoiceHtml(invoice, html)"></div>
                         </div>
                     </div>
                 </template>

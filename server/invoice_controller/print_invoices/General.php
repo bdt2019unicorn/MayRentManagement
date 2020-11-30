@@ -199,7 +199,7 @@
             ]; 
         }
 
-        public function Layout()
+        public function Html()
         {
             $html_footer = 
             "
@@ -226,18 +226,8 @@
             "; 
             return 
             [
-                "display" =>
-                [
-                    "id" =>"ID", 
-                    "name" => "Invoice Name", 
-                    "leaseagrm" => "Contract",
-                    "grand_total" => "Amount"
-                ], 
-                "html" => 
-                [
-                    "image" => $this->logo_image, 
-                    "footer" => $html_footer, 
-                ]
+                "image" => $this->logo_image, 
+                "footer" => $html_footer 
             ]; 
         }
     }

@@ -1,6 +1,6 @@
 <?php 
     require_once("./helper.php"); 
-    require_once("print_invoices/PrintInvoices.php"); 
+    require_once("print_invoices/General.php"); 
     $building_id = $_GET["building_id"]; 
     $print_invoices_general = new PrintInvoices\General($building_id); 
 
@@ -29,7 +29,7 @@
         
     $print_invoices = 
     [
-        "layout" => $print_invoices_general->Layout(), 
+        "html" => $print_invoices_general->Html(), 
         "invoices" =>$all_invoices_information, 
         "pdf" => $print_invoices_general->Pdf()
     ]; 
