@@ -54,7 +54,8 @@ Vue.component
         `
             <div class="container-fluid">
                 <h1>Print All Invoices</h1>
-                <template v-if="invoice.length">
+                <br>
+                <template v-if="invoices.length">
                     <div class="container-fluid row">
                         <print-pdf :invoices="CheckedInvoices" :pdf="pdf">PDF</print-pdf>
                         <print-word :invoices="CheckedInvoices" :html="layout.html" class="mx-2">Word</print-word>
@@ -89,6 +90,12 @@ Vue.component
                 </template>
 
                 <template v-else>
+                    <div class="row justify-content-center align-self-center">
+                        <div class="col-6 border border-info text-danger text-center">
+                            <h3>There are currently no invoices in this building</h3>
+                            <h3>Please try again later</h3>
+                        </div>
+                    </div>
                 </template>
 
             </div>
