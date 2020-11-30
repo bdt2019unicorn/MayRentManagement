@@ -95,12 +95,7 @@
 
             SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date); 
             SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
-            SET @end_date = IF
-            (
-                @start_date > @end_date, 
-                IF(@start_date <= CURRENT_DATE(), CURRENT_DATE(), @start_date), 
-                @end_date
-            ); 
+            SET @end_date = GREATEST(@start_date, CURRENT_DATE, @end_date); 
 
             SELECT 
                 @start_date AS `start_date`, 
@@ -118,7 +113,8 @@
                         SELECT MAX(`date`) FROM `utility_reading` AS `ur` 
                         WHERE 
                             `utility_reading`.`date`>`ur`.`date` AND 
-                            `utility_reading`.`revenue_type_id` = `ur`.`revenue_type_id`
+                            `utility_reading`.`revenue_type_id` = `ur`.`revenue_type_id`AND 
+                            `utility_reading`.`unit_id` = `ur`.`unit_id`
                     ) AS `previous_date`
                 FROM `utility_reading` WHERE `unit_id`=@unit_id ORDER BY `revenue_type_id`
             ); 
@@ -210,46 +206,4 @@
         $invoice_information["leaseagrm"]["rent_information"] = $data[4]; 
         return $invoice_information; 
     }
-
-    // test leaseagrm_id = 144
-    // test unit_id = 114 
-
-
-
-
-    /*
-        SET @leaseagrm_id = '144'; 
-        SET @rent_id = '1'; 
-
-        SELECT 
-            @unit_id:= `unit_id`, 
-            @start_lease:= `Start_date` 
-        FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
-
-
-
-        SET @start_date = 
-        (
-            SELECT MAX(`invoice_leaseagrm`.`end_date`) FROM `invoice_leaseagrm`, `invoices` 
-            WHERE  
-                `invoices`.`id` = `invoice_leaseagrm`.`invoice_id` AND 
-                `invoice_leaseagrm`.`revenue_type_id` = @rent_id AND  
-                `invoices`.`leaseagrm_id` = @leaseagrm_id
-        ); 
-
-        SET @start_date = IFNULL(@start_date, @start_lease); 
-        SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
-
-        ----------------------------------------
-        SET @end_date = IF
-        (
-            @start_date > @end_date, 
-            IF(@start_date <= CURRENT_DATE(), CURRENT_DATE(), @start_date), 
-            @end_date
-        ); 
-
-
-        NEED TO TEST THE GREATEST FUNCTION AT THIS BIT. 
-        ------------------------------
-    */
 ?>
