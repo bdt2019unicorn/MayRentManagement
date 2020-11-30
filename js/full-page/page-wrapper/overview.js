@@ -67,7 +67,7 @@ Vue.component
                             <vs-col vs-w="9">
                                 <h1>{{table_actions.page_title || "Overview"}} </h1>
                             </vs-col>
-                            <vs-col v-if="table_data.length>0" vs-w="3" vs-type="flex" vs-align="flex-end" vs-justify="flex-end">
+                            <vs-col v-if="table_data.length" vs-w="3" vs-type="flex" vs-align="flex-end" vs-justify="flex-end">
                                 <vs-button color="success" type="gradient" icon="table_view" @click="ExportExcel">Export Excel</vs-button>
                             </vs-col>
                         </vs-row>    
@@ -76,7 +76,7 @@ Vue.component
                 
                 
                 <br>
-                <vs-row v-if="table_data.length>0" vs-align="center" vs-justify="center" vs-type="flex">
+                <vs-row v-if="table_data.length" vs-align="center" vs-justify="center" vs-type="flex">
                     <vs-col vs-w="11">
                         <scrolling-table v-bind="$data" @on-selected-rows-change="IdCheckChanged(arguments[0].selectedRows, table_actions.id)">
                             <table-actions 

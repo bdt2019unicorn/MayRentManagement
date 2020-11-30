@@ -52,7 +52,7 @@ Vue.component
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
                 <select :name="name" :style="LockStyle" class="form-control" v-model="content">
-                    <option v-if="options.length>0" v-show="not_required&&value" value selected><slot></slot></option>
+                    <option v-if="options.length" v-show="not_required&&value" value selected><slot></slot></option>
                     <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
             </div>

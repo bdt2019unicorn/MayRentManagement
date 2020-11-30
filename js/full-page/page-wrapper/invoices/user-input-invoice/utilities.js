@@ -87,7 +87,7 @@ Vue.component
         },
         template: 
         `
-            <div class="row" v-if="invoice_details.length>0">
+            <div class="row" v-if="invoice_details.length">
                 <div class="col">
                     <h4>Utilities</h4>
                     <utilities-row v-for="revenue_type in invoice_details" v-bind="revenue_type"></utilities-row>
