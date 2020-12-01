@@ -36,7 +36,7 @@ Vue.component
 
                             <div class="row">
                                 <div class="col"></div>
-                                <router-link :to="{name: 'home'}"><img class="col" src="img/logo.jpeg" alt="logo"></router-link>
+                                <router-link :to="{name: 'home'}"><img class="col" src="img/logo.png" alt="logo"></router-link>
                                 <div class="col"></div>
                             </div>
                             <br>
