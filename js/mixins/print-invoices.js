@@ -11,7 +11,7 @@ var print_invoices_mixin =
         {
             return `
                 <table style="width: 100%; margin: 3px;"
-                    <tr><td colspan="2"></td><td><img src="${image}"></td><td colspan="2"></td></tr>
+                    <tr><td colspan="5" style="text-align: center;"><div style="width: 50%;"><img style="width: 100%;" src="${image}"></div></td></tr>
                     <tr><td colspan="5"><h1 style="text-align: center;">RENTAL AND UTILITY CHARGE</h1></td></tr>
                     <tr><td><br></td></tr>
                     <tr>
