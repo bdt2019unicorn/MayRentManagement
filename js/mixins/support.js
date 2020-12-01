@@ -106,7 +106,7 @@ var support_mixin =
 
         NumeralFormat(number)
         {
-            return numeral(number).format("0,0[.]000"); 
+            return numeral(number).format("0,000"); 
         }, 
         
         OverviewDataUrl(overview_controller, params=undefined)
