@@ -64,10 +64,6 @@
             $data = \Connect::MultiQuery($sql, true); 
             $this->building_information = $data[0][0];
             $this->invoices = $data[1]; 
-            echo "<pre>"; 
-            echo $sql; 
-            print_r($data); 
-            echo "</pre>"; 
         }
         
         private function Base64Logo()
