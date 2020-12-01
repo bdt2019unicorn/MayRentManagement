@@ -61,6 +61,9 @@
                     )
                 ); 
             "; 
+            echo "<pre>"; 
+            echo $sql; 
+            echo "</pre>"; 
             $data = \Connect::MultiQuery($sql, true); 
             $this->building_information = $data[0][0];
             $this->invoices = $data[1]; 
