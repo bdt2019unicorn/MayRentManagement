@@ -50,7 +50,7 @@ var print_invoices_mixin =
                     ${
                         invoice.details.leaseagrm.map
                         (
-                            ({amount, name, ...rest})=>`<tr><td style="text-align: left;">${name}</td><td style="text-align: right;">${amount}</td></tr>`
+                            ({amount, name, ...rest})=>`<tr><td style="text-align: left;">${name}</td><td style="text-align: right;">${this.NumeralFormat(amount)}</td></tr>`
                         ).join("\n") 
                     }
                     ${
@@ -76,7 +76,7 @@ var print_invoices_mixin =
                                             </tr>
                                         </table>
                                     </td>
-                                    <td style="text-align: right;"><br><br><br>${amount}</td>
+                                    <td style="text-align: right;"><br><br><br>${this.NumeralFormat(amount)}</td>
                                 </tr>
                             `
                         ).join("\n") 

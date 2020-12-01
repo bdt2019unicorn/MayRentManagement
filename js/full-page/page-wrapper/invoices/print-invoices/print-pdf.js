@@ -85,7 +85,7 @@ Vue.component
                                     [
                                         name, 
                                         {
-                                            text: amount, 
+                                            text: this.NumeralFormat(amount), 
                                             alignment: "right"
                                         }
                                     ]
