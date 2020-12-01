@@ -70,7 +70,7 @@
     {
         $rent_id = OverviewQueries\Invoices::RentId(); 
         $total_paid_amount = OverviewQueries\LeaseAgrm::TotalPaidAmountQuery(); 
-        $total_invoice_amount = OverviewQueries\LeaseAgrm::TotalInvoiceAmountQuery(); 
+        $total_invoice_amount = OverviewQueries\LeaseAgrm::$TotalInvoiceAmountQuery; 
         $sql = 
         "
             SET @leaseagrm_id = '{$leaseagrm_id}'; 

@@ -127,62 +127,92 @@
 
         public static function TotalPaidAmountQuery()
         {
-            return 
-            "      
-                (         
-                    IF
-                    (
-                        ISNULL(`Deposit_payment_date`), 
-                        0, 
-                        IF
-                        (
-                            `Deposit_payment_date` < CURRENT_DATE, 
-                            IFNULL(`Deposit_amount`, 0), 
-                            0
-                        )
-                    ) 
-                    + 
-                    (
-                        IFNULL
-                        (
-                            (
-                                SELECT SUM(`Amount`) 
-                                FROM `revenue`
-                                WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
-                            ), 0 
-                        )
-                    )
-                )
-            "; 
+            return "(\n " . LeaseAgrm::$DepositQuery . "\n + " . LeaseAgrm::$TotalPaidRevenueQuery . "\n)"; 
         }
 
-        public static function TotalInvoiceAmountQuery()
+        public static $TotalInvoiceAmountQuery = 
+        "
+            (
+                IFNULL
+                (
+                    (
+                        SELECT SUM(`invoice_leaseagrm`.`amount`) FROM `invoice_leaseagrm` 
+                        WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
+                    ), 0
+                ) + 
+                IFNULL
+                (
+                    (
+                        SELECT SUM(`invoice_utilities`.`amount`) FROM `invoice_utilities` 
+                        WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
+                    ), 0 
+                )
+            )
+        "; 
+
+        private static $DepositQuery = 
+        "
+            IF
+            (
+                ISNULL(`Deposit_payment_date`), 
+                0, 
+                IF
+                (
+                    `Deposit_payment_date` < CURRENT_DATE, 
+                    IFNULL(`Deposit_amount`, 0), 
+                    0
+                )
+            ) 
+        "; 
+
+        private static $TotalPaidRevenueQuery = 
+        "
+            (
+                IFNULL
+                (
+                    (
+                        SELECT SUM(`Amount`) 
+                        FROM `revenue`
+                        WHERE `revenue`.`leaseagrm_id` = `leaseagrm`.`id`
+                    ), 0 
+                )
+            )
+        "; 
+
+        private static function CompareTotals($main_total_query, $compared_total_query, $as)
         {
             return 
             "
                 (
-                    IFNULL
+                    IF
                     (
                         (
-                            SELECT SUM(`invoice_leaseagrm`.`amount`) FROM `invoice_leaseagrm` 
-                            WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
-                        ), 0
-                    ) + 
-                    IFNULL
-                    (
+                            {$main_total_query} - {$compared_total_query} > 0 
+                        ), 
+                        CONCAT
                         (
-                            SELECT SUM(`invoice_utilities`.`amount`) FROM `invoice_utilities` 
-                            WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
-                        ), 0 
+                            '(', 
+                            CONVERT
+                            (
+                                (
+                                    FORMAT({$main_total_query} - {$compared_total_query}, 0)
+                                ), 
+                                CHAR 
+                            ),
+                            ')' 
+                        ), 
+                        (
+                            FORMAT({$compared_total_query} - {$main_total_query}, 0)
+                        )
                     )
-                )
+                ) AS `{$as}` 
             "; 
         }
 
         private static function GeneralQuery()
         {
-            $total_invoice = LeaseAgrm::TotalInvoiceAmountQuery(); 
-            $total_paid = LeaseAgrm::TotalPaidAmountQuery(); 
+            $out_standing_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Outstanding Balance"); 
+            $paid_invoice_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Invoice/Paid Balance"); 
 
             return 
             "
@@ -193,29 +223,8 @@
                     CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
                     DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
                     DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
-                    (
-                        IF
-                        (
-                            (
-                                {$total_invoice} - {$total_paid} > 0 
-                            ), 
-                            CONCAT
-                            (
-                                '(', 
-                                CONVERT
-                                (
-                                    (
-                                        FORMAT({$total_invoice} - {$total_paid}, 0)
-                                    ), 
-                                    CHAR 
-                                ),
-                                ')' 
-                            ), 
-                            (
-                                FORMAT({$total_paid} - {$total_invoice}, 0)
-                            )
-                        )
-                    ) AS `Outstanding Balance` 
+                    {$out_standing_balance}, 
+                    {$paid_invoice_balance}
                 FROM `leaseagrm`
                     LEFT JOIN `unit` ON `leaseagrm`.`unit_id` = `unit`.`id`
                     LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
@@ -231,5 +240,31 @@
             return $invoice_user_input? $invoice_user_input["rent_id"]: null; 
         }
     }
+
+    /*
+
+    SELECT 
+        id AS ID, 
+        name AS Name, 
+
+
+        (
+            SELECT `Tenant_ID` FROM `leaseagrm` 
+            WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
+            ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
+        ) AS `tenantid`, 
+        (
+            SELECT CONCAT(`tenant`.`Last_Name`, ' ', `tenant`.`First_Name`)
+            FROM `leaseagrm` LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
+            WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
+            ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
+        ) AS `Tenant Name`
+
+    FROM `unit` WHERE `building_id` = '6'
+
+
+
+
+    */
 
 ?>
