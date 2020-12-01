@@ -69,7 +69,8 @@
         private function Base64Logo()
         {
             $path = realpath(__DIR__ . "../../../../img/logo.jpeg"); 
-            echo "<h1>$path</h1>"; 
+            $test = realpath(__DIR__ . "../../"); 
+            echo "<h1>Path is : $test</h1>"; 
             $image = file_get_contents($path); 
             $base64 = base64_encode($image); 
             return "data:image/jpeg;base64,{$base64}"; 
