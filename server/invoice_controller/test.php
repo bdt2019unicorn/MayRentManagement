@@ -45,15 +45,16 @@
 
     function Base64Logo()
     {
-        $path = realpath(__DIR__ . "../../../img/logo.jpeg"); 
+        $path = realpath(__DIR__ . "../../../img/logo.png"); 
         $image = file_get_contents($path); 
         $base64 = base64_encode($image); 
         return "data:image/jpeg;base64,{$base64}"; 
     }
 
-    $image = Base64Logo(); 
-    $png = imagecreatefromjpeg($image); 
-    // header('Content-Type: image/jpeg');
-    imagejpeg($png); 
+    $image = Base64Logo();
+    // echo $image;  
+    $png = imagecreatefrompng($image); 
+    header('Content-Type: image/png');
+    imagepng($png); 
 
 ?>
