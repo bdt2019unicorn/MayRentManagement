@@ -69,5 +69,6 @@
         "tagPlaceholder": "", 
         "track-by": "id"
     }, 
-    "rent_id": 1
+    "rent_id": 1,
+    "main_url": "server/invoice_controller/action.php?command="
 }
