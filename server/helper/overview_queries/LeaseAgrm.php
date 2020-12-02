@@ -113,7 +113,7 @@
                     `leaseagrm`.`id` as `ID`, 
                     `leaseagrm`.`name` AS `Name`, 
                     `unit`.`name` as `Unit`, 
-                    CONCAT(tenant.Last_Name,', ',tenant.First_Name) AS `Tenant Name`, 
+                    CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, '')) AS `Tenant Name`, 
                     DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
                     DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
                     {$out_standing_balance}, 

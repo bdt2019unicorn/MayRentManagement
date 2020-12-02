@@ -1,9 +1,13 @@
 <?php 
-    require_once("../helper/database.php"); 
+	require_once("../helper/database.php"); 
+	require_once("../helper/overview_queries.php"); 
+	
+	$rent_id = OverviewQueries\Invoices::RentId(); 
 
 	$sql = 
 	"
-		CREATE TEMPORARY TABLE IF NOT EXISTS `leaseagrm_overview_temp` AS 
+		SET @rent_id = '{$rent_id}'; 
+		CREATE TEMPORARY TABLE IF NOT EXISTS `leaseagrm_overview` AS 
 		(
 			SELECT 
 				`id` AS `leaseid`, 
@@ -14,7 +18,7 @@
 				`Deposit_payment_date`, 
 				(
 					CASE 
-						WHEN `Start_date`<CURRENT_DATE THEN DATE_FORMAT(`Finish`, '%M %d, %Y')
+						WHEN `Start_date`<CURRENT_DATE THEN CONCAT('Until ', DATE_FORMAT(`Finish`, '%M %d, %Y'))
 						ELSE CONCAT('Move in on ', DATE_FORMAT(`Start_date`, '%M %d, %Y'))
 					END
 				) AS `Rental Status`, 
@@ -25,33 +29,45 @@
 					END
 				) AS `Rental Status Value`, 
 				(
-					SELECT IFNULL(SUM(`revenue`.`Amount`),0) FROM `revenue` WHERE `revenue`.`leaseagrm_id` = `id`
-				) AS `paid_amount`, 
-				(
-					SELECT IFNULL(SUM(`invoice_leaseagrm`.`amount`), 0) FROM `invoice_leaseagrm` 
-					WHERE `invoice_leaseagrm`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
-				) AS `invoice_leaseagrm_amount`, 
-				(
-					SELECT IFNULL(SUM(`invoice_utilities`.`amount`), 0) FROM `invoice_utilities` 
-					WHERE `invoice_utilities`.`invoice_id` IN (SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`)
-				) AS `invoice_utilities_amount`, 
-				(SELECT CONCAT(`tenant`.`First_Name`,' ',`tenant`.`Middle_Name`,' ',`tenant`.`Last_Name`) FROM `tenant` WHERE `tenant`.`id`=`Tenant_ID`) AS `Tenant Name`
-			FROM `leaseagrm` 
-			WHERE `Finish`>=CURRENT_DATE
-		); 
-
-		CREATE TEMPORARY TABLE `leaseagrm_overview` AS 
-		(
-			SELECT 
-				*, 
-				(
-					CASE
-						WHEN `paid_amount` = 0 THEN IF(ISNULL(`Deposit_payment_date`), NULL, 'Deposit paid')
-						ELSE `paid_amount` - `invoice_leaseagrm_amount` - `invoice_utilities_amount`
-					END
+					IFNULL
+					(
+						CONCAT
+						(
+							'Until ', 
+							(
+								SELECT DATE_FORMAT(MAX(`invoice_leaseagrm`.`end_date`), '%M %d, %Y') FROM `invoice_leaseagrm` 
+								WHERE 
+									`invoice_leaseagrm`.`invoice_id` IN 
+									(
+										SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
+									) AND 
+									`invoice_leaseagrm`.`revenue_type_id` = @rent_id
+							) 
+						), 
+						IF(ISNULL(`Deposit_payment_date`), NULL, 'Deposit paid')
+					)
 				) AS `Payment Status`, 
-				(`paid_amount` - `invoice_leaseagrm_amount` - `invoice_utilities_amount`) AS `Payment Status Value`
-			FROM `leaseagrm_overview_temp`
+				(
+					IFNULL
+					(
+						CONCAT
+						(
+							'2', 
+							(
+								SELECT DATE_FORMAT(MAX(`invoice_leaseagrm`.`end_date`), '%Y%m%d') FROM `invoice_leaseagrm` 
+								WHERE 
+									`invoice_leaseagrm`.`invoice_id` IN 
+									(
+										SELECT `invoices`.`id` FROM `invoices` WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
+									) AND 
+									`invoice_leaseagrm`.`revenue_type_id` = @rent_id
+							) 
+						), 
+						IF(ISNULL(`Deposit_payment_date`), 0, 1)
+					)
+				) AS `Payment Status Value`, 
+				(SELECT CONCAT(IFNULL(`tenant`.`First_Name`,''),' ',IFNULL(`tenant`.`Middle_Name`,''),' ',IFNULL(`tenant`.`Last_Name`,'')) FROM `tenant` WHERE `tenant`.`id`=`Tenant_ID`) AS `Tenant Name`
+			FROM `leaseagrm` WHERE `Finish`>=CURRENT_DATE
 		); 
 
 		SELECT 
