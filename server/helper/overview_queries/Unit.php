@@ -115,8 +115,8 @@
                 }; 
                 return 
                 [
-                    "id AS ID", 
-                    "name AS Name", 
+                    "id AS `ID`", 
+                    "name AS `Name`", 
                     $RentalStatusSelect(), 
                     $PaidUntilSelect(), 
                     "{$tenant_from_lease} AS `tenantid`", 
@@ -127,7 +127,8 @@
                             WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
                             ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
                         ) AS `Tenant Name`
-                    "
+                    ", 
+                    "area AS `Area`"
                 ]; 
             }
         }
