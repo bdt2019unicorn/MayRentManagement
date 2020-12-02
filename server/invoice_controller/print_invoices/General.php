@@ -84,7 +84,8 @@
             [
                 "html" => $this->Html(), 
                 "invoices" =>$this->InvoicesInformation(), 
-                "pdf" => $this->Pdf()
+                "pdf" => $this->Pdf(), 
+                "excel" => Excel::FooterArray($this->building_information)
             ]; 
         }
     }

@@ -6,8 +6,9 @@ Vue.component
         data() 
         {
             return {
-                invoices: [], 
+                excel: [], 
                 html: {}, 
+                invoices: [], 
                 pdf: {}, 
                 selected: false 
             }
