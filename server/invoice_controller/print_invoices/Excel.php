@@ -1,6 +1,11 @@
 <?php 
     namespace PrintInvoices; 
     require_once("./helper.php"); 
+    use PhpOffice\PhpSpreadsheet\Spreadsheet; 
+    use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
+
+    use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
     class Excel 
     {
         public static function FooterArray($building_information)
@@ -35,14 +40,42 @@
             ); 
         }
 
-        public static function CreateExcelFile($invoice, $image, $footer_array)
+        private $inovices; 
+        private $image; 
+        private $footer_rich_text; 
+        private $temp_path; 
+        function __construct($inovices, $image, $footer_array, $temp_path)
         {
-            $footer_rich_text = Excel::RichTextArrayConvert($footer_array); 
+            $this->inovices = $inovices; 
+            $this->image = $image; 
+            $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
+            $this->temp_path = $temp_path; 
         }
 
+        public function ZipAllExcel()
+        {
+            $invoice = $this->inovices[0]; 
+            $this->CreateExcelFile($invoice); 
+        }
 
+        private function CreateExcelFile($invoice)
+        {
+            $spreadsheet = new Spreadsheet(); 
+            $sheet = $spreadsheet->getActiveSheet();
 
-        private static function RichTextArrayConvert($array)
+            $drawing = new MemoryDrawing(); 
+            $drawing->setImageResource(imagecreatefrompng($this->image)); 
+            $drawing->setCoordinates("D1"); 
+            $drawing->setWorksheet($sheet); 
+        
+        
+        
+        
+            $writer = new Xlsx($spreadsheet); 
+            $writer->save("{$this->temp_path}/test-invoice-{$invoice['id']}.xlsx"); 
+        }
+
+        private function RichTextArrayConvert($array)
         {
             $html_helper = new \PhpOffice\PhpSpreadsheet\Helper\Html(); 
             $rich_text_convert = []; 

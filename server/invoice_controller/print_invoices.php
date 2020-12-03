@@ -25,9 +25,14 @@
 
         private function Excel()
         {
-            echo '<pre>'; 
-            print_r($_POST); 
-            echo '</pre>'; 
+            $image = json_decode($_POST["image"]); 
+            $invoices = json_decode($_POST["invoices"], true); 
+            $footer_array = json_decode($_POST["footer_array"], true); 
+
+            $print_excel = new Excel($invoices, $image, $footer_array, realpath("temp/")); 
+            $print_excel->ZipAllExcel(); 
+            
+
         }
     }
 
