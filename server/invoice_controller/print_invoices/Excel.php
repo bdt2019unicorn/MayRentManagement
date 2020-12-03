@@ -34,5 +34,29 @@
                 $AddressArray($building_information["address"])
             ); 
         }
+
+        public static function CreateExcelFile($invoice, $image, $footer_array)
+        {
+            $footer_rich_text = Excel::RichTextArrayConvert($footer_array); 
+        }
+
+
+
+        private static function RichTextArrayConvert($array)
+        {
+            $html_helper = new \PhpOffice\PhpSpreadsheet\Helper\Html(); 
+            $rich_text_convert = []; 
+            foreach ($array as $row) 
+            {
+                $rich_text_row = []; 
+                foreach ($row as $cell) 
+                {
+                    $rich_text = $cell? $html_helper->toRichTextObject($cell): null; 
+                    array_push($rich_text_row, $rich_text); 
+                }
+                array_push($rich_text_convert, $rich_text_row); 
+            }
+            return $rich_text_convert; 
+        }
     }
 ?>

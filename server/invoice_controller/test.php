@@ -7,6 +7,7 @@
     use PhpOffice\PhpSpreadsheet\Cell\DataValidation; 
     use PhpOffice\PhpSpreadsheet\Reader; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
 
 
     // $building_information = Connect::GeneralData("buildings", "5"); 
@@ -35,12 +36,11 @@
     // }
 
 
-    // $spreadsheet = new Spreadsheet(); 
-    // $sheet = $spreadsheet->getActiveSheet(); 
+    $spreadsheet = new Spreadsheet(); 
+    $sheet = $spreadsheet->getActiveSheet(); 
     // $sheet->fromArray($rich_text_convert, null, "C3"); 
 
-    // $writer = new Xlsx($spreadsheet); 
-    // $writer->save("temp/test-footer.xlsx"); 
+
 
 
     function Base64Logo()
@@ -54,7 +54,19 @@
     $image = Base64Logo();
     // echo $image;  
     $png = imagecreatefrompng($image); 
-    header('Content-Type: image/png');
-    imagepng($png); 
+    // header('Content-Type: image/png');
+    // imagepng($png); 
+
+
+    $drawing = new MemoryDrawing(); 
+    $drawing->setImageResource($png); 
+    $drawing->setCoordinates("B4"); 
+    $drawing->setWorksheet($sheet); 
+
+
+
+
+    $writer = new Xlsx($spreadsheet); 
+    $writer->save("temp/test-image.xlsx"); 
 
 ?>
