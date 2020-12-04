@@ -1,8 +1,53 @@
 <?php
-    require_once("../helper/database.php"); 
+
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+
+require_once("../helper/database.php"); 
 
     $overview = array 
     (
+        "SelectStartDate"=> function()
+        {
+            $limit = 4; 
+            $sql = "SELECT DISTINCT `date` FROM `utility_reading`"; 
+            $conditions = []; 
+            if(isset($_GET["revenue_type_id"]))
+            {
+                array_push($conditions, "`revenue_type_id` = '{$_GET['revenue_type_id']}'"); 
+            }
+            if(isset($_GET["unit_id"]))
+            {
+                array_push($conditions, "`unit_id` = '{$_GET['unit_id']}'"); 
+            }
+            else if(isset($_GET["building_id"]))
+            {
+                array_push($conditions, "`unit_id` IN (SELECT `unit`.`id` FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}')"); 
+            }
+
+            if(count($conditions))
+            {
+                $sql.= "\n WHERE " . implode("AND", $conditions); 
+            }
+            $sql.=  "\nORDER BY `date` DESC LIMIT {$limit};"; 
+            $dates = Connect::GetData($sql); 
+            $start_date = new DateTime("first day of this month"); 
+            
+            while($limit>=0)
+            {
+                $limit--; 
+                if(isset($dates[$limit]))
+                {
+                    $new_date = new DateTime($dates[$limit]["date"]); 
+                    if($new_date<$start_date)
+                    {
+                        $start_date = $new_date; 
+                    }
+                    break; 
+                }
+            }
+            echo $start_date->format("Y-m-d"); 
+
+        }, 
         "SelectData"=>function()
         {
             $sql = "SELECT * FROM `revenue_type` WHERE `is_utility`='1';"; 

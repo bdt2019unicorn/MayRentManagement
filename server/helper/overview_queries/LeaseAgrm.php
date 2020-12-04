@@ -104,8 +104,8 @@
 
         private static function GeneralQuery()
         {
-            $out_standing_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Outstanding Balance"); 
-            $paid_invoice_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Invoice/Paid Balance"); 
+            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit"); 
+            $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance"); 
 
             return 
             "
@@ -116,8 +116,8 @@
                     CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, '')) AS `Tenant Name`, 
                     DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
                     DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
-                    {$out_standing_balance}, 
-                    {$paid_invoice_balance}
+                    {$outstanding_balance},
+                    {$deposit} 
                 FROM `leaseagrm`
                     LEFT JOIN `unit` ON `leaseagrm`.`unit_id` = `unit`.`id`
                     LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
