@@ -1,10 +1,7 @@
 <?php 
     namespace PrintInvoices; 
     require_once("./helper.php"); 
-    require_once("InvoicesInformation.php"); 
-    require_once("Pdf.php"); 
-    require_once("Html.php"); 
-    require_once("Excel.php"); 
+    spl_autoload_register(function($class){require_once(str_replace(__NAMESPACE__."\\","",$class).".php");}); 
     class General 
     {
         use InvoicesInformation, Pdf, Html; 
