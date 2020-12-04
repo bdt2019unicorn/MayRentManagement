@@ -1,8 +1,6 @@
 <?php
     namespace OverviewQueries; 
-    require_once("overview_queries/LeaseAgrm.php");
-    require_once("overview_queries/Tenant.php");
-    require_once("overview_queries/Unit.php");
+    spl_autoload_register(function($class){require_once("{$class}.php");}); 
 
     class GeneralOverview
     {
