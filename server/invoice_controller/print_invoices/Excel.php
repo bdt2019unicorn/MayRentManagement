@@ -11,17 +11,6 @@
         public static function FooterArray($building_information)
         {
             $space = array_fill(0,6,""); 
-            $AddressArray = function($address_string) use ($space)
-            {
-                $address = explode("\n", $address_string); 
-                $array = []; 
-                foreach ($address as $value) 
-                {
-                    $row = array_merge([""], $space, ["<i>{$value}</i>"]); 
-                    array_push($array, $row); 
-                }
-                return $array; 
-            }; 
             return array_merge
             (
                 [
@@ -36,7 +25,11 @@
                     array_merge([""], $space, ["<a href='mailto: {$building_information["email"]}'>{$building_information["email"]}</a>"]), 
                     array_merge([""], $space, ["Phone No. {$building_information['phone']}"]), 
                 ], 
-                $AddressArray($building_information["address"])
+                array_map 
+                (
+                    fn($address)=>array_merge([""], $space, ["<i>{$address}</i>"]),  
+                    explode("\n", $building_information["address"])
+                )
             ); 
         }
 
@@ -78,18 +71,11 @@
         private function RichTextArrayConvert($array)
         {
             $html_helper = new \PhpOffice\PhpSpreadsheet\Helper\Html(); 
-            $rich_text_convert = []; 
-            foreach ($array as $row) 
-            {
-                $rich_text_row = []; 
-                foreach ($row as $cell) 
-                {
-                    $rich_text = $cell? $html_helper->toRichTextObject($cell): null; 
-                    array_push($rich_text_row, $rich_text); 
-                }
-                array_push($rich_text_convert, $rich_text_row); 
-            }
-            return $rich_text_convert; 
+            return array_map
+            (
+                fn($row)=>array_map(fn($cell)=> $cell? $html_helper->toRichTextObject($cell): null,$row), 
+                $array
+            ); 
         }
     }
 ?>

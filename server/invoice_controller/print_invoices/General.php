@@ -1,7 +1,7 @@
 <?php 
     namespace PrintInvoices; 
     require_once("./helper.php"); 
-    spl_autoload_register(function($class){require_once(str_replace(__NAMESPACE__."\\","",$class).".php");}); 
+    spl_autoload_register(fn($class)=>require_once(str_replace(__NAMESPACE__."\\","",$class).".php")); 
     class General 
     {
         use InvoicesInformation, Pdf, Html; 
