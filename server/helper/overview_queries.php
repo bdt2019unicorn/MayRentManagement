@@ -33,7 +33,7 @@
 
         public function GetArray($method)
         {
-            return call_user_func_array ("{$this->class}::{$method}", [$this->edit, $this->building_id, $this->id]); 
+            return call_user_func_array("{$this->class}::{$method}", [$this->edit, $this->building_id, $this->id]); 
         }
     }
 

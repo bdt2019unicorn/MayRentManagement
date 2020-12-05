@@ -55,10 +55,7 @@
         private function InstructionTitles()
         {
             $this->sheet->getColumnDimension("A")->setAutoSize(true); 
-            foreach ($this->instruction_titles as $title => $row) 
-            {
-                $this->sheet->setCellValue("A{$row}", $title); 
-            }
+            array_walk($this->instruction_titles, fn($row, $title)=>$this->sheet->setCellValue("A{$row}", $title)); 
             $this->sheet->duplicateStyle($this->instruction_styles, "A1:A{$this->config['total_row']}"); 
         }
         
