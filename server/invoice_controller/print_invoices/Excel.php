@@ -41,13 +41,14 @@
         }
 
         private $inovices; 
-        private $image; 
+        private $png_logo; 
         private $footer_rich_text; 
         private $temp_path; 
+
         function __construct($inovices, $image, $footer_array, $temp_path)
         {
             $this->inovices = $inovices; 
-            $this->image = $image; 
+            $this->png_logo = imagecreatefrompng($image); 
             $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
             $this->temp_path = $temp_path; 
         }
@@ -64,15 +65,14 @@
             $sheet = $spreadsheet->getActiveSheet();
 
             $drawing = new MemoryDrawing(); 
-            $drawing->setImageResource(imagecreatefrompng($this->image)); 
+            $drawing->setImageResource($this->png_logo); 
             $drawing->setCoordinates("D1"); 
             $drawing->setWorksheet($sheet); 
         
-        
-        
-        
+            $sheet->fromArray($this->footer_rich_text, null, "B10"); 
+
             $writer = new Xlsx($spreadsheet); 
-            $writer->save("{$this->temp_path}/test-invoice-{$invoice['id']}.xlsx"); 
+            $writer->save("{$this->temp_path}/test-invoice-img-{$invoice['id']}.xlsx"); 
         }
 
         private function RichTextArrayConvert($array)
