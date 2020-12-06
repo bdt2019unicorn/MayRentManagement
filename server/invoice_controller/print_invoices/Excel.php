@@ -62,8 +62,6 @@
             $drawing->setCoordinates("D1"); 
             $drawing->setWorksheet($sheet); 
         
-            // $sheet->fromArray($this->footer_rich_text, null, "B10"); 
-
             echo "<pre>"; 
             print_r($invoice); 
             echo "</pre>"; 
@@ -76,7 +74,13 @@
                 ["", "", "{$invoice['invoice']['unit']}"]
             ]; 
 
-            $SheetTitle =function() use ($sheet)
+            $CellValuesStyles = function($cell, $styles, $text=null) use ($sheet)
+            {
+                $sheet->getCell($cell)->setValue($text); 
+                $sheet->getStyle($cell)->applyFromArray($styles); 
+            }; 
+
+            $SheetTitle =function() use ($sheet, $CellValuesStyles)
             {
                 $cell= "A7"; 
                 $range = "A7:I7"; 
@@ -88,17 +92,74 @@
                     ], 
                     "alignment"=>
                     [
-                        "horizontal"=> "center"
+                        "horizontal"=>"center"
                     ]
                 ]; 
-                $sheet->getCell($cell)->setValue("RENTAL AND UTILITY CHARGE"); 
-                $sheet->getStyle($cell)->applyFromArray($styles); 
+                $CellValuesStyles($cell, $styles, "RENTAL AND UTILITY CHARGE"); 
                 $sheet->mergeCells($range); 
+            }; 
+            
+            $range_styles = 
+            [
+                "borders" =>
+                [
+                    "outline"=>["borderStyle"=>"thin"]
+                ]
+            ]; 
+
+            $SheetSubTitle = function($cell, $text, $alignment, $range=null) use ($sheet, $CellValuesStyles, $range_styles)
+            {
+                $range = $range??$cell; 
+
+                $cell_styles = 
+                [
+                    "font" =>
+                    [
+                        "size"=>14, 
+                        "bold"=>true 
+                    ], 
+                    "alignment"=>
+                    [
+                        "horizontal"=>$alignment
+                    ]
+                ]; 
+                $CellValuesStyles($cell, $cell_styles, $text); 
+                $sheet->getStyle($range)->applyFromArray($range_styles); 
             }; 
 
             $header_rich_text = $this->RichTextArrayConvert($header); 
-            $sheet->fromArray($header_rich_text, null, "B8"); 
+
+            $row_position = 8; 
+            $sheet->fromArray($header_rich_text, null, "B{$row_position}"); 
+            $sheet->getColumnDimension("I")->setWidth(28); 
             $SheetTitle(); 
+            $row_position+= count($header)+1; 
+            $SheetSubTitle("B{$row_position}", "DESCRIPTION", "left", "B{$row_position}:H{$row_position}"); 
+            $SheetSubTitle("I{$row_position}", "VND", "right"); 
+
+            $AlignmentStyle = fn($alignment)=>["alignment"=>["horizontal"=>$alignment]]; 
+            $right_number_detail_styles = array_merge($range_styles, $AlignmentStyle("right")); 
+
+            $LeaseagrmRow = function($index, $leaseagrm) use ($sheet, &$row_position, $range_styles, $AlignmentStyle, $right_number_detail_styles)
+            {
+                $range = "B{$row_position}:H{$row_position}"; 
+                $sheet->getCell("B{$row_position}")->setValue("{$index}.{$leaseagrm['name']}"); 
+                $sheet->getStyle($range)->applyFromArray(array_merge($range_styles, $AlignmentStyle("left"))); 
+                $sheet->mergeCells($range); 
+
+                $sheet->getCell("I{$row_position}")->setValue(number_format(floatval($leaseagrm['amount']), 0, ".", ",")); 
+                $sheet->getStyle("I{$row_position}")->applyFromArray($right_number_detail_styles); 
+
+                $row_position++; 
+            }; 
+
+            $index = 1; 
+            $row_position++; 
+            foreach ($invoice["details"]["leaseagrm"] as $leaseagrm) 
+            {
+                $LeaseagrmRow($index, $leaseagrm); 
+                $index++; 
+            }
 
             $writer = new Xlsx($spreadsheet); 
             $writer->save("{$this->temp_path}/test-invoice-new-{$invoice['id']}.xlsx"); 
