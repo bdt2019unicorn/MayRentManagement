@@ -62,20 +62,52 @@
             $drawing->setCoordinates("D1"); 
             $drawing->setWorksheet($sheet); 
         
-            $sheet->fromArray($this->footer_rich_text, null, "B10"); 
+            // $sheet->fromArray($this->footer_rich_text, null, "B10"); 
+
+            echo "<pre>"; 
+            print_r($invoice); 
+            echo "</pre>"; 
+
+            $header = 
+            [
+                ["Date", ":", date("d-M-Y"), "", "", "ROE:"],
+                ["Inoice", ":", $invoice["invoice"]["name"]],
+                ["To", ":", "<b>{$invoice['invoice']['tenant']}</b>"],
+                ["", "", "{$invoice['invoice']['unit']}"]
+            ]; 
+
+            $SheetTitle =function() use ($sheet)
+            {
+                $cell= "A7"; 
+                $range = "A7:I7"; 
+                $styles = 
+                [
+                    "font"=>
+                    [
+                        "size"=>18
+                    ], 
+                    "alignment"=>
+                    [
+                        "horizontal"=> "center"
+                    ]
+                ]; 
+                $sheet->getCell($cell)->setValue("RENTAL AND UTILITY CHARGE"); 
+                $sheet->getStyle($cell)->applyFromArray($styles); 
+                $sheet->mergeCells($range); 
+            }; 
+
+            $header_rich_text = $this->RichTextArrayConvert($header); 
+            $sheet->fromArray($header_rich_text, null, "B8"); 
+            $SheetTitle(); 
 
             $writer = new Xlsx($spreadsheet); 
-            $writer->save("{$this->temp_path}/test-invoice-img-{$invoice['id']}.xlsx"); 
+            $writer->save("{$this->temp_path}/test-invoice-new-{$invoice['id']}.xlsx"); 
         }
 
         private function RichTextArrayConvert($array)
         {
             $html_helper = new \PhpOffice\PhpSpreadsheet\Helper\Html(); 
-            return array_map
-            (
-                fn($row)=>array_map(fn($cell)=> $cell? $html_helper->toRichTextObject($cell): null,$row), 
-                $array
-            ); 
+            return array_map(fn($row)=>array_map(fn($cell)=> $cell? $html_helper->toRichTextObject($cell): null,$row), $array); 
         }
     }
 ?>
