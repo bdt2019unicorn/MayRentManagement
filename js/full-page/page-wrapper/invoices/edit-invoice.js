@@ -3,12 +3,7 @@ Vue.component
     "edit-invoice", 
     {
         mixins: [invoices_mixin], 
-        data() 
-        {
-            return {
-                edit_data: undefined, 
-            }
-        },
+        data: ()=>({edit_data: undefined}), 
         created() 
         {
             let invoice = this.TableData(this.CurrentController, {id: this.ObjectId, edit: 1}); 
@@ -80,29 +75,19 @@ Vue.component
                     }
                 ).then
                 (
-                    new_edit_data=>
-                    {
-                        return new Promise
-                        (
-                            (resolve, reject)=>
+                    new_edit_data=> new Promise
+                    (
+                        (resolve, reject)=>
+                        {
+                            if(new_edit_data)
                             {
-                                if(new_edit_data)
-                                {
-                                    this.edit_data = undefined; 
-                                    resolve(new_edit_data); 
-                                }
-                                reject(); 
+                                this.edit_data = undefined; 
+                                resolve(new_edit_data); 
                             }
-                        ); 
-
-                    }
-                ).then 
-                (
-                    new_edit_data=>
-                    {
-                        this.EditData(new_edit_data.invoice, new_edit_data.details); 
-                    }
-                ); 
+                            reject(); 
+                        }
+                    )
+                ).then(new_edit_data=> this.EditData(new_edit_data.invoice, new_edit_data.details));
             }
         },
         template: 

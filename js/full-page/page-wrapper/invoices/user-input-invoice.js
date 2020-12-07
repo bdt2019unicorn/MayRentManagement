@@ -4,9 +4,9 @@ Vue.component
     {
         props: ["edit_data", "leaseagrm_select_data", "main_url", "revenue_type", "user_input"], 
         mixins:[support_mixin], 
-        data() 
-        {
-            return {
+        data: ()=>
+        (
+            {
                 invoice: 
                 {
                     leaseagrm_id: undefined, 
@@ -29,8 +29,8 @@ Vue.component
                     leaseagrm: [], 
                     utilities: []
                 }
-            }; 
-        },
+            }
+        ),
         computed: 
         {
             InvoiceDetails()
@@ -58,14 +58,14 @@ Vue.component
         },
         methods: 
         {
-            BindObjectComponent(property)
-            {
-                return {
+            BindObjectComponent: (property)=>
+            (
+                {
                     ...this.$props, 
                     invoice_information: this.invoice_information,
                     list: this.list[property],
                 }
-            }, 
+            ), 
 
             BindObjectMultiSelect(property)
             {
@@ -89,31 +89,28 @@ Vue.component
                 this.invoice_information = JSON.parse(invoice_information); 
             }, 
 
-            LeaseagrmIdSelectChanged(leaseagrm_id)
-            {
-                new Promise 
-                (
-                    (resolve, reject)=>
+            LeaseagrmIdSelectChanged: (leaseagrm_id)=> new Promise 
+            (
+                (resolve, reject)=>
+                {
+                    this.invoice.leaseagrm_id = undefined; 
+                    this.InvoiceInformation(leaseagrm_id); 
+                    Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
+                    Object.keys(this.list).forEach(key=>this.list[key]=[]); 
+                    resolve(leaseagrm_id);  
+                }
+            ).then 
+            (
+                leaseagrm_id=>
+                {
+                    this.invoice.leaseagrm_id = leaseagrm_id; 
+                    if(!this.edit_data)
                     {
-                        this.invoice.leaseagrm_id = undefined; 
-                        this.InvoiceInformation(leaseagrm_id); 
-                        Object.keys(this.invoice_details).forEach(key=>this.invoice_details[key]=[]);
-                        Object.keys(this.list).forEach(key=>this.list[key]=[]); 
-                        resolve(leaseagrm_id);  
+                        this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
+                        this.invoice.note = undefined; 
                     }
-                ).then 
-                (
-                    leaseagrm_id=>
-                    {
-                        this.invoice.leaseagrm_id = leaseagrm_id; 
-                        if(!this.edit_data)
-                        {
-                            this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
-                            this.invoice.note = undefined; 
-                        }
-                    }
-                ); 
-            }, 
+                }
+            ), 
 
             MultiSelectInput(property)
             {

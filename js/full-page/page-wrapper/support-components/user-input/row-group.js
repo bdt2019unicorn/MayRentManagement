@@ -4,14 +4,14 @@ Vue.component
     {
         props: ["index", "just_started_parent", "row"],
         mixins: [user_input_support_mixin], 
-        data() 
-        {
-            return {
+        data: () =>
+        (
+            {
                 date_group: {}, 
                 date_required: {}, 
                 row_group_valid: true 
             }
-        }, 
+        ), 
         methods: 
         {
             InputValidation(data_field, name, boolean)
@@ -33,10 +33,7 @@ Vue.component
                 this.date_group = {}; 
                 this.row_group_valid = true 
             }, 
-            row_group_valid: function(new_value, old_value)
-            {
-                this.$emit("row-group-validation", this.index, this.row_group_valid); 
-            }
+            row_group_valid: (new_value, old_value)=>this.$emit("row-group-validation", this.index, this.row_group_valid)
         },
         template: 
         `

@@ -85,7 +85,7 @@ Vue.component
                                     [
                                         name, 
                                         {
-                                            text: amount, 
+                                            text: this.NumeralFormat(amount), 
                                             alignment: "right"
                                         }
                                     ]
@@ -169,29 +169,26 @@ Vue.component
                 var zip = new JSZip();
                 var folder = zip.folder("invoices");
 
-                var PromiseChain = (index)=>
-                {
-                    return new Promise 
-                    (
-                        (resolve, reject)=>
+                var PromiseChain = (index)=> new Promise 
+                (
+                    (resolve, reject)=>
+                    {
+                        let invoice = this.invoices[index]; 
+                        if(index==this.invoices.length)
                         {
-                            let invoice = this.invoices[index]; 
-                            if(index==this.invoices.length)
-                            {
-                                reject(zip); 
-                            }
-                            let doc_definition = this.DocDefinition(invoice); 
-                            pdfMake.createPdf(doc_definition).getBlob
-                            (
-                                pdf=> 
-                                {
-                                    folder.file(`${invoice.invoice.name}.pdf`, pdf); 
-                                    resolve(index+1); 
-                                }
-                            )
+                            reject(zip); 
                         }
-                    ).then(PromiseChain); 
-                }
+                        let doc_definition = this.DocDefinition(invoice); 
+                        pdfMake.createPdf(doc_definition).getBlob
+                        (
+                            pdf=> 
+                            {
+                                folder.file(`${invoice.invoice.name}.pdf`, pdf); 
+                                resolve(index+1); 
+                            }
+                        )
+                    }
+                ).then(PromiseChain); 
 
                 PromiseChain(0).catch(this.ExportZipFile); 
             

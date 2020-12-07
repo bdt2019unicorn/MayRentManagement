@@ -3,17 +3,18 @@ Vue.component
     "general-utilities", 
     {
         props: ["select_data", "table_data"],
-        mixins: [support_mixin], 
-        data()
-        {
-            return {
+        mixins: [general_utilities_mixin], 
+        data: ()=>
+        (
+            {
                 date_picker_opened: false, 
                 end_date: undefined, 
                 function_calendar_model: undefined, 
+                revenue_type_id: undefined, 
                 start_date: undefined, 
-                table_action: {}, 
+                table_action: {}
             }
-        }, 
+        ), 
         components: {FunctionalCalendar}, 
         computed: 
         {
@@ -30,10 +31,7 @@ Vue.component
                     return undefined; 
                 }
             }, 
-            LabelDateRange()
-            {
-                return `${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`; 
-            }
+            LabelDateRange: ()=>`${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`
         },
         methods: 
         {
@@ -58,38 +56,26 @@ Vue.component
                 }
                 catch {}
             }, 
-            CalendarOpened()
-            {
-                new Promise
+            CalendarOpened: ()=> new Promise
+            (
+                (resolve,reject)=>
+                {
+                    this.$refs["calendar"].ChooseDate("today"); 
+                    resolve(); 
+                }
+            ).then 
+            (
+                ()=> new Promise
                 (
-                    (resolve,reject)=>
+                    (resolve, reject)=>
                     {
-                        this.$refs["calendar"].ChooseDate("today"); 
+                        this.function_calendar_model.dateRange.start = this.start_date; 
+                        this.function_calendar_model.dateRange.end = this.end_date; 
                         resolve(); 
                     }
-                ).then 
-                (
-                    ()=>
-                    {
-                        return new Promise
-                        (
-                            (resolve, reject)=>
-                            {
-                                this.function_calendar_model.dateRange.start = this.start_date; 
-                                this.function_calendar_model.dateRange.end = this.end_date; 
-                                resolve(); 
-                            }
-                        ); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.function_calendar_model = undefined; 
-                    }
-                ); 
+                ) 
+            ).then(()=> this.function_calendar_model = undefined), 
                 
-            },
             Search(event=undefined)
             {
                 var search_data = new FormData(this.$refs["search_form"]); 
@@ -97,12 +83,8 @@ Vue.component
             }, 
             ThisMonthDayRange()
             {
-                var today = new Date(); 
-                let month = today.getMonth(); 
-                let year = today.getFullYear(); 
-                let last_day_of_month = new Date(year, month+1,0).getDate();   
-                this.start_date = `${year}-${month+1}-1`; 
-                this.end_date = `${year}-${month+1}-${last_day_of_month}`; 
+                this.start_date = this.AjaxRequest(`${this.main_url}SelectStartDate&revenue_type_id=${this.revenue_type_id}&${this.$route.query.id?`unit_id=${this.$route.query.id}`: `building_id=${this.$route.params.building_id}`}`); 
+                this.end_date = moment().endOf('month').format('YYYY-MM-DD');
             }
         },
         mounted()
@@ -125,7 +107,7 @@ Vue.component
                 <div class="row">
                     <form class="container-fluid col" @submit.prevent="Search" ref="search_form">  
                         <div class="row">
-                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData" @search-data-changed="Search"></select-input>
+                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData" @search-data-changed="Search" v-model="revenue_type_id"></select-input>
                             <slot name="form_units_select" v-bind:select_data="select_data"></slot>
                         </div>
 

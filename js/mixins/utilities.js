@@ -1,10 +1,15 @@
-var utilities_mixin = 
+var general_utilities_mixin = 
 {
     mixins: [support_mixin], 
-    data() 
-    {
-        return {
-            main_url: "server/utilities_controller/action.php?command=", 
+    data: () =>({main_url: "server/utilities_controller/action.php?command="}), 
+}
+
+var utilities_mixin = 
+{
+    mixins: [general_utilities_mixin], 
+    data: () =>
+    (
+        {
             select_data: 
             {
                 utilities: [], 
@@ -14,11 +19,8 @@ var utilities_mixin =
             }, 
             table_data: []
         }
-    }, 
-    created() 
-    {
-        this.SelectData(); 
-    },
+    ), 
+    created: () => this.SelectData(), 
 
     methods: 
     {
@@ -28,5 +30,5 @@ var utilities_mixin =
             let utility_data = this.AjaxRequest(`${this.main_url}SelectData`); 
             this.select_data.utilities = JSON.parse(utility_data); 
         }
-    },
+    } 
 }

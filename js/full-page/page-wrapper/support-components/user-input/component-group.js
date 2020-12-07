@@ -29,28 +29,23 @@ var date_group = Vue.component
     {
         props: ["date_data", "just_started_parent"],
         mixins: [user_input_support_mixin], 
-        data()
-        {
-            return {
+        data: ()=>
+        (
+            {
                 just_started_child: false, 
                 small_date: undefined, 
                 big_date: undefined, 
                 date_required: {}, 
                 valid: true 
             }
-        }, 
+        ), 
 
         computed: 
         {
-            DateRangeValid()
-            {
-                return this.big_date>=this.small_date; 
-            }, 
-            JustStarted()
-            {
-                return this.just_started_parent || this.just_started_child; 
-            }
+            DateRangeValid: ()=> this.big_date>=this.small_date, 
+            JustStarted: ()=> this.just_started_parent || this.just_started_child
         }, 
+
         methods: 
         {
             BadMessage(reference)
@@ -96,10 +91,7 @@ var date_group = Vue.component
                 this[data_field][name] = boolean; 
                 this.valid = this.Valid(); 
             }, 
-            Valid()
-            {
-                return (this.big_date && this.small_date)? this.DateRangeValid: this.ValidObject(this.date_required); 
-            }
+            Valid: ()=> (this.big_date && this.small_date)? this.DateRangeValid: this.ValidObject(this.date_required) 
         },
         mounted()
         {
@@ -108,10 +100,7 @@ var date_group = Vue.component
         }, 
         watch: 
         {
-            valid: function(new_value, old_value)
-            {
-                this.$emit("input-validation", "date_group", this.name, this.valid); 
-            }
+            valid: (new_value, old_value)=>this.$emit("input-validation", "date_group", this.name, this.valid)
         }, 
         template: 
         `

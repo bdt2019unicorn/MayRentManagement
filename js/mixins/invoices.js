@@ -1,9 +1,9 @@
 var invoices_mixin = 
 {
     mixins: [support_mixin], 
-    data() 
-    {
-        return {
+    data: () =>
+    (
+        {
             leaseagrm_select_data: [], 
             main_url: "server/invoice_controller/action.php?command=", 
             revenue_type: 
@@ -12,8 +12,8 @@ var invoices_mixin =
                 utilities: []
             }, 
             user_input: {}
-        }; 
-    },
+        } 
+    ),
     created() 
     {
         let config = this.AjaxRequest(`${this.main_url}InvoiceConfigs&building_id=${this.$route.params.building_id}`); 
@@ -95,12 +95,7 @@ var user_input_invoice_component_mixin =
 {
     props: ["edit_data", "invoice_information", "list", "revenue_type"], 
     mixins: [support_mixin], 
-    data() 
-    {
-        return {
-            invoice_details: []
-        }; 
-    },
+    data: () =>({invoice_details: []}), 
     created() 
     {
         this.PopulateList(this.list);    
@@ -108,14 +103,8 @@ var user_input_invoice_component_mixin =
     },
     watch: 
     {
-        list: function(new_value, old_value)
-        {
-            this.PopulateList(new_value); 
-        }, 
-        ValidInvoiceDetails: function(new_value, old_value)
-        {
-            this.$emit("input", new_value); 
-        }  
+        list: (new_value, old_value)=> this.PopulateList(new_value),
+        ValidInvoiceDetails: (new_value, old_value)=> this.$emit("input", new_value)
     }
 }
 

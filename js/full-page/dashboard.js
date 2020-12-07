@@ -3,9 +3,9 @@ var dashboard = Vue.component
     "dashboard", 
     {
         mixins: [support_mixin], 
-        data()
-        {
-            return {
+        data: ()=>
+        (
+            {
                 leaseagrm: [], 
                 revenue_expense: 
                 {
@@ -13,11 +13,8 @@ var dashboard = Vue.component
                     expense: []
                 }
             }
-        }, 
-        created() 
-        {
-            this.GenerateData(); 
-        },
+        ), 
+        created: () =>this.GenerateData(), 
 
         methods: 
         {

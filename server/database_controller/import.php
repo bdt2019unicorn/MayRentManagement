@@ -17,14 +17,7 @@
 		require_once("./helper.php"); 
 		$params = Params($import_controller); 
 		$excel = json_decode($_POST['excel']); 
-	    $queries = []; 
-
-	    foreach ($excel as $row) 
-	    {
-			$data = RowData($row, $params); 
-			array_push($queries,Query::Insert($params['table'],$data)); 
-		}
-		
+		$queries = array_map(fn($row)=>Query::Insert($params['table'], RowData($row, $params)), $excel); 
 	    $result = Connect::ExecTransaction($queries); 
 		echo $result; 
 	}

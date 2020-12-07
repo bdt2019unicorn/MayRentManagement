@@ -4,32 +4,23 @@ Vue.component
     {
         props: ["edit_data", "form", "title", "validate"], 
         mixins: [support_mixin], 
-        data()
-        {
-            return {
+        data: ()=>
+        (
+            {
                 just_started_parent: false,  
                 row_valid: {}
             }
-        }, 
+        ), 
         methods: 
         {    
-            FormValid()
-            {
-                return (
-                    $(this.$refs["action_form"]).valid() && 
-                    this.ValidObject(this.row_valid)
-                ); 
-            },     
+            FormValid: ()=> $(this.$refs["action_form"]).valid() && this.ValidObject(this.row_valid), 
             PopulateFormValidation()
             {
                 $(this.$refs["action_form"]).trigger("reset"); 
                 $(this.$refs["action_form"]).validate().destroy(); 
                 $(this.$refs["action_form"]).validate(this.validate); 
             }, 
-            RowGroupValidation(index, validation)
-            {
-                this.row_valid[index] = validation; 
-            }, 
+            RowGroupValidation: (index, validation)=> this.row_valid[index] = validation, 
             SubmitForm(event)
             {
                 this.just_started_parent = true; 
@@ -41,16 +32,10 @@ Vue.component
                 this.$emit("form-information-valid", data); 
             }
         },
-        mounted()
-        {
-            this.PopulateFormValidation(); 
-        }, 
+        mounted: ()=> this.PopulateFormValidation(), 
         watch: 
         {
-            title: function(new_value, old_value)
-            {
-                this.PopulateFormValidation(); 
-            }   
+            title: (new_value, old_value)=> this.PopulateFormValidation()
         }, 
         template: 
         `

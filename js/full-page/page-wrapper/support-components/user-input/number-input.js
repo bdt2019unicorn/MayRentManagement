@@ -3,13 +3,13 @@ Vue.component
     "number-input", 
     {
         mixins: [user_input_support_mixin], 
-        data()
-        {
-            return {
+        data: ()=>
+        (
+            {
                 number_display: undefined, 
                 number_value: undefined
             }
-        }, 
+        ), 
         mounted() 
         {
             if(this.edit_data)

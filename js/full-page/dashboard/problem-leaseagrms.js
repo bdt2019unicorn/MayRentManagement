@@ -4,13 +4,13 @@ Vue.component
     {
         props: ["leaseagrm"], 
         mixins: [table_actions_mixin], 
-        data() 
-        {
-            return {
+        data: ()=>
+        (
+            {
                 leaseagrm_edit: undefined, 
                 leaseagrm_table: "No tenants and unit", 
             }
-        },
+        ),
         components: {...vueGoodTable, ...vueFragment}, 
         computed: 
         {

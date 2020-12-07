@@ -3,13 +3,13 @@ Vue.component
     "buildings", 
     {
         mixins: [support_mixin], 
-        data() 
-        {
-            return {
+        data: () =>
+        (
+            {
                 add_building_form: undefined, 
                 display: {}
             }
-        },
+        ),
         components: {...bootstrap, ...vueFragment}, 
         methods: 
         {
@@ -42,23 +42,16 @@ Vue.component
                     alert("Delete building fails! There seems to be a server issue"); 
                 }
             }, 
-            EditBuilding(building_id)
-            {
-                window.router.push 
-                (
-                    {
-                        name: 'general-edit', 
-                        params: {controller: 'buildings'}, 
-                        query: {id: building_id}
-                    }
-                ); 
-            }    
+            EditBuilding: (building_id)=> window.router.push 
+            (
+                {
+                    name: 'general-edit', 
+                    params: {controller: 'buildings'}, 
+                    query: {id: building_id}
+                }
+            ) 
         },
-        created() 
-        {
-            this.display = this.StateObject("building_user_input").display;     
-        },
-
+        created: () => this.display = this.StateObject("building_user_input").display, 
         template: 
         `
             <fragment>
