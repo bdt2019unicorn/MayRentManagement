@@ -95,10 +95,7 @@ jQuery
                             );
                         }, 
 
-                        ChangeState(state, {name, value})
-                        {
-                            state[name] = value; 
-                        }
+                        ChangeState: (state, {name, value})=>state[name] = value 
                     }
                 }
     
@@ -137,13 +134,6 @@ jQuery
                 }
             ); 
         }
-
-        new Promise 
-        (
-            (resolve, reject)=>
-            {
-                resolve({router: Router(), store_track: StoreTrack()}); 
-            }
-        ).then(PageElements); 
+        new Promise((resolve, reject)=> resolve({router: Router(), store_track: StoreTrack()})).then(PageElements); 
     }
 ); 

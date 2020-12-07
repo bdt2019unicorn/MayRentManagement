@@ -3,9 +3,9 @@ Vue.component
     "utilities-overview", 
     {
         mixins: [utilities_mixin], 
-        data() 
-        {
-            return {
+        data: ()=>
+        (
+            {
                 add_price_form: false, 
                 add_price_form_temp: undefined, 
                 current_price: undefined, 
@@ -13,7 +13,7 @@ Vue.component
                 table_data_temp: [],  
                 valid_price_date: undefined
             }
-        },
+        ),
         computed: 
         {
             UtilityNameSearchById()
@@ -36,10 +36,7 @@ Vue.component
                 let price_information = this.AjaxRequest(`${this.main_url}CurrentPrice&revenue_type_id=${revenue_type_id}`); 
                 return JSON.parse(price_information)[0]; 
             }, 
-            DateFormat(string)
-            {
-                return moment(string).format("DD/MM/YYYY"); 
-            }, 
+            DateFormat: (string)=>moment(string).format("DD/MM/YYYY"), 
             NewPrice(data)
             {
                 let current_price = this.CurrentPriceInformation(data.revenue_type_id); 
@@ -126,10 +123,7 @@ Vue.component
                     this.table_data = this.table_data_temp; 
                 }
             }, 
-            revenue_type_id: function(new_value, old_value)
-            {
-                this.PriceInformation(); 
-            }    
+            revenue_type_id: (new_value, old_value)=>this.PriceInformation()
         },
         template: 
         `

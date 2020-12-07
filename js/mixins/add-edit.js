@@ -2,19 +2,16 @@ var add_edit_mixin =
 {
     props: ["controller"], 
     mixins: [support_mixin], 
-    data()
-    {
-        return {
+    data: ()=>
+    (
+        {
             title: "", 
             form: [], 
             user_input: true, 
             validate: {} 
         }
-    }, 
-    created() 
-    {
-        this.PopulateFormField(); 
-    }, 
+    ), 
+    created: () =>this.PopulateFormField(), 
     methods: 
     {
         PopulateFormField()
@@ -32,38 +29,29 @@ var add_edit_mixin =
                 this.title =""; 
             }
         }, 
-        ReloadUserInput(callback=undefined)
-        {
-            new Promise 
-            (
-                (resolve, reject)=>
+        ReloadUserInput: (callback=undefined)=> new Promise 
+        (
+            (resolve, reject)=>
+            {
+                this.user_input = false;
+                resolve(callback);  
+            }
+        ).then 
+        (
+            (callback)=>
+            {
+                if(callback)
                 {
-                    this.user_input = false;
-                    resolve(callback);  
+                    callback(); 
                 }
-            ).then 
-            (
-                (callback)=>
-                {
-                    if(callback)
-                    {
-                        callback(); 
-                    }
-                    this.user_input = true; 
-                }
-            ); 
-        }
+                this.user_input = true; 
+            }
+        ) 
     },
     watch: 
     {
-        $route: function(new_value, old_value)
-        {
-            this.ReloadUserInput(this.PopulateFormField); 
-        }, 
-        controller: function(new_value, old_value)
-        {
-            this.ReloadUserInput(this.PopulateFormField); 
-        }    
+        $route: (new_value, old_value)=> this.ReloadUserInput(this.PopulateFormField), 
+        controller: (new_value, old_value)=> this.ReloadUserInput(this.PopulateFormField) 
     },
 
     template: `<user-input v-if="user_input" v-bind="$data" :edit_data="this.edit_data" @form-information-valid="SubmitForm"></user-input>`

@@ -7,16 +7,8 @@ var user_input_support_mixin =
 var user_input_components_mixin = 
 {
     mixins: [user_input_support_mixin], 
-    data()
-    {
-        return {
-            value:""
-        }
-    }, 
-    mounted() 
-    {
-        this.BringEditData(); 
-    }, 
+    data: ()=>({value:""}), 
+    mounted: ()=> this.BringEditData(), 
     methods: 
     {
         BringEditData()
@@ -29,10 +21,7 @@ var user_input_components_mixin =
     },
     watch: 
     {
-        $route: function(new_value, old_value)
-        {
-            this.value = ""; 
-        }, 
+        $route: (new_value, old_value)=>this.value = "", 
         value: function(new_value, old_value)
         {
             if(this.edit_data)
@@ -50,12 +39,7 @@ var user_input_components_v_model_support_mixin =
 {
     props: ["value"], 
     mixins: [user_input_support_mixin], 
-    data() 
-    {
-        return {
-            content: this.value
-        }
-    },
+    data: () =>({content: this.value}), 
     methods: 
     {
         BringEditData()
@@ -67,19 +51,10 @@ var user_input_components_v_model_support_mixin =
             }
         }    
     },
-    mounted() 
-    {
-        this.BringEditData(); 
-    },
+    mounted: () =>this.BringEditData(), 
     watch: 
     {
-        content: function(new_value, old_value)
-        {
-            this.$emit("input", new_value); 
-        },
-        value: function(new_value, old_value)
-        {
-            this.content = new_value; 
-        }  
-    },
+        content: (new_value, old_value)=> this.$emit("input", new_value),
+        value: (new_value, old_value)=> this.content = new_value 
+    } 
 }

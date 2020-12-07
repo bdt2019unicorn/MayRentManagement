@@ -1,20 +1,15 @@
 var general_utilities_mixin = 
 {
     mixins: [support_mixin], 
-    data() 
-    {
-        return {
-            main_url: "server/utilities_controller/action.php?command=" 
-        }
-    } 
+    data: () =>({main_url: "server/utilities_controller/action.php?command="}), 
 }
 
 var utilities_mixin = 
 {
     mixins: [general_utilities_mixin], 
-    data() 
-    {
-        return {
+    data: () =>
+    (
+        {
             select_data: 
             {
                 utilities: [], 
@@ -24,11 +19,8 @@ var utilities_mixin =
             }, 
             table_data: []
         }
-    }, 
-    created() 
-    {
-        this.SelectData(); 
-    },
+    ), 
+    created: () => this.SelectData(), 
 
     methods: 
     {

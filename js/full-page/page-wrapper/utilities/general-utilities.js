@@ -4,9 +4,9 @@ Vue.component
     {
         props: ["select_data", "table_data"],
         mixins: [general_utilities_mixin], 
-        data()
-        {
-            return {
+        data: ()=>
+        (
+            {
                 date_picker_opened: false, 
                 end_date: undefined, 
                 function_calendar_model: undefined, 
@@ -14,7 +14,7 @@ Vue.component
                 start_date: undefined, 
                 table_action: {}
             }
-        }, 
+        ), 
         components: {FunctionalCalendar}, 
         computed: 
         {
@@ -31,10 +31,7 @@ Vue.component
                     return undefined; 
                 }
             }, 
-            LabelDateRange()
-            {
-                return `${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`; 
-            }
+            LabelDateRange: ()=>`${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`
         },
         methods: 
         {
@@ -59,38 +56,26 @@ Vue.component
                 }
                 catch {}
             }, 
-            CalendarOpened()
-            {
-                new Promise
+            CalendarOpened: ()=> new Promise
+            (
+                (resolve,reject)=>
+                {
+                    this.$refs["calendar"].ChooseDate("today"); 
+                    resolve(); 
+                }
+            ).then 
+            (
+                ()=> new Promise
                 (
-                    (resolve,reject)=>
+                    (resolve, reject)=>
                     {
-                        this.$refs["calendar"].ChooseDate("today"); 
+                        this.function_calendar_model.dateRange.start = this.start_date; 
+                        this.function_calendar_model.dateRange.end = this.end_date; 
                         resolve(); 
                     }
-                ).then 
-                (
-                    ()=>
-                    {
-                        return new Promise
-                        (
-                            (resolve, reject)=>
-                            {
-                                this.function_calendar_model.dateRange.start = this.start_date; 
-                                this.function_calendar_model.dateRange.end = this.end_date; 
-                                resolve(); 
-                            }
-                        ); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.function_calendar_model = undefined; 
-                    }
-                ); 
+                ) 
+            ).then(()=> this.function_calendar_model = undefined), 
                 
-            },
             Search(event=undefined)
             {
                 var search_data = new FormData(this.$refs["search_form"]); 

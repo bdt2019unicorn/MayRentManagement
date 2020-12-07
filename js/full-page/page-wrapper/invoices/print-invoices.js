@@ -3,30 +3,27 @@ Vue.component
     "print-invoices", 
     {
         mixins: [print_invoices_mixin], 
-        data() 
-        {
-            return {
+        data: () =>
+        (
+            {
                 invoices: [], 
                 layout: {display: {}, html: {}}, 
                 pdf: {}, 
                 selected: false 
             }
-        },
+        ),
         components: {...bootstrap}, 
         computed: 
         {
-            CheckedInvoices()
-            {
-                return this.invoices.filter(({checked, ...rest})=>checked); 
-            }, 
-            SelectAllBind()
-            {
-                return {
+            CheckedInvoices: ()=>this.invoices.filter(({checked, ...rest})=>checked), 
+            SelectAllBind: ()=>
+            (
+                {
                     size: this.CheckedInvoices.length? "sm": "md", 
                     button: Boolean(this.CheckedInvoices.length), 
                     buttonVariant: "outline-secondary"
                 }
-            }
+            )
         },
         created() 
         {

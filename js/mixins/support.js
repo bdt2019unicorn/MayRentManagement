@@ -2,26 +2,11 @@ var support_mixin =
 {
     computed: 
     {
-        CurrentController()
-        {
-            return this.controller || this.$route.params.controller || "overview"; 
-        }, 
-        ImportUrl()
-        {
-            return `server/database_controller/import.php?import_controller=${this.CurrentController}&building_id=${this.$route.params.building_id}`; 
-        }, 
-        LockStyle()
-        {
-            return this.lock?{pointerEvents: 'none'}: undefined; 
-        }, 
-        ObjectId()
-        {
-            return this.object_id || this.$route.query.id; 
-        }, 
-        OverviewUrl()
-        {
-            return this.OverviewDataUrl(this.CurrentController, {id: this.ObjectId}); 
-        }
+        CurrentController: ()=>this.controller || this.$route.params.controller || "overview", 
+        ImportUrl: ()=>`server/database_controller/import.php?import_controller=${this.CurrentController}&building_id=${this.$route.params.building_id}`, 
+        LockStyle: ()=>this.lock?{pointerEvents: 'none'}: undefined, 
+        ObjectId: ()=>this.object_id || this.$route.query.id, 
+        OverviewUrl: ()=>this.OverviewDataUrl(this.CurrentController, {id: this.ObjectId}), 
     },
     methods: 
     {
@@ -78,36 +63,12 @@ var support_mixin =
             }
         }, 
 
-        DateConvertFormatDisplayDatabase(string)
-        {
-            return moment(string, "DD MMM YYYY").format("YYYY-MM-DD"); 
-        }, 
-
-        DateReformat(string=undefined)
-        {
-            return string?moment(string):moment(); 
-        }, 
-
-        DateReformatDatabase(string=undefined)
-        {
-            return this.DateReformat(string).format("YYYY-MM-DD"); 
-        }, 
-
-        DateReformatDisplay(string=undefined)
-        {
-            return this.DateReformat(string).format("DD MMM YYYY"); 
-        }, 
-
-        ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class=undefined)
-        {
-            based_classes.push((item_value==compared_value)?good_class: bad_class); 
-            return based_classes; 
-        }, 
-
-        NumeralFormat(number)
-        {
-            return numeral(number).format("0,000"); 
-        }, 
+        DateConvertFormatDisplayDatabase: (string)=>moment(string, "DD MMM YYYY").format("YYYY-MM-DD"), 
+        DateReformat: (string=undefined)=>string?moment(string):moment(), 
+        DateReformatDatabase: (string=undefined)=>this.DateReformat(string).format("YYYY-MM-DD"), 
+        DateReformatDisplay: (string=undefined)=>this.DateReformat(string).format("DD MMM YYYY"), 
+        ItemsClasses: (item_value, compared_value, based_classes, good_class, bad_class=undefined)=>[...based_classes, (item_value==compared_value)?good_class: bad_class], 
+        NumeralFormat: (number)=>numeral(number).format("0,000"), 
         
         OverviewDataUrl(overview_controller, params=undefined)
         {
@@ -121,10 +82,7 @@ var support_mixin =
             let search = Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
             return `server/overview_controller/overview_controller.php?${search}`; 
         }, 
-        StateObject(state_property)
-        {
-            return window.store_track.state[state_property]; 
-        }, 
+        StateObject: (state_property)=>window.store_track.state[state_property],
         SubmitData(key, url, data, stringify=true)
         {
             var form_data = new FormData(); 
@@ -148,9 +106,9 @@ var support_mixin =
                 return []; 
             }          
         }, 
-        ToActions({controller=undefined, action, query=undefined})
-        {
-            return {
+        ToActions: ({controller=undefined, action, query=undefined})=>
+        (
+            {
                 name: "actions", 
                 params: 
                 {
@@ -159,12 +117,9 @@ var support_mixin =
                     action: action
                 }, 
                 query: query
-            }; 
-        }, 
-        ValidObject(object)
-        {
-            return !(Object.values(object).includes(false));
-        }, 
+            }
+        ), 
+        ValidObject: (object)=>!(Object.values(object).includes(false)),
         ValidPeriod(start_period, end_period, equal=false)
         {
             [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 

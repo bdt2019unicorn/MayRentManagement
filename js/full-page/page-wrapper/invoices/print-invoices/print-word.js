@@ -16,40 +16,37 @@ Vue.component
                 var zip = new JSZip();
                 var folder = zip.folder("invoices");
 
-                var PromiseChain = (index)=>
-                {
-                    return new Promise
-                    (
-                        (resolve, reject)=>
+                var PromiseChain = (index)=> new Promise
+                (
+                    (resolve, reject)=>
+                    {
+                        let invoice = this.invoices[index];
+                        if(index==this.invoices.length)
                         {
-                            let invoice = this.invoices[index];
-                            if(index==this.invoices.length)
-                            {
-                                reject(zip);
-                            }
-                            var html =
-                            `
-                                <html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-                                    <head>
-                                        <meta charset='utf-8'>
-                                    </head>
-                                    <body>
-                                        ${this.InvoiceHtml(invoice, this.html)}
-                                    </body>
-                                </html>
-                            `;
-                            let url = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
-                            fetch(url).then(response=>response.blob()).then
-                            (
-                                word=>
-                                {
-                                    folder.file(`${invoice.invoice.name}.doc`, word);
-                                    resolve(index+1);
-                                }
-                            );
+                            reject(zip);
                         }
-                    ).then(PromiseChain);
-                }
+                        var html =
+                        `
+                            <html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                                <head>
+                                    <meta charset='utf-8'>
+                                </head>
+                                <body>
+                                    ${this.InvoiceHtml(invoice, this.html)}
+                                </body>
+                            </html>
+                        `;
+                        let url = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
+                        fetch(url).then(response=>response.blob()).then
+                        (
+                            word=>
+                            {
+                                folder.file(`${invoice.invoice.name}.doc`, word);
+                                resolve(index+1);
+                            }
+                        );
+                    }
+                ).then(PromiseChain);
 
                 PromiseChain(0).catch(this.ExportZipFile);
             } 

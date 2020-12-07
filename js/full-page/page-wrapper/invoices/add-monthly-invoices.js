@@ -3,15 +3,15 @@ Vue.component
     "add-monthly-invoices", 
     {
         mixins: [support_mixin, rent_invoice_mixin, valid_invoice_details_mixin], 
-        data() 
-        {
-            return {
+        data: () =>
+        (
+            {
                 monthly_invoices: {}, 
                 monthly_invoices_display: {}, 
                 title: "Add Monthly Invoices", 
                 user_input: {}
             }
-        },
+        ),
         computed: 
         {
             MonthlyInvoicesSubmit()

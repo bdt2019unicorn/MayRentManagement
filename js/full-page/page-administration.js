@@ -3,12 +3,7 @@ Vue.component
     "page-administration", 
     {
         mixins: [support_mixin], 
-        data()
-        {
-            return {
-                current_controller: "login"
-            }
-        }, 
+        data: ()=>({current_controller: "login"}), 
         methods: 
         {
             HandleLoginRegister(controller, data)

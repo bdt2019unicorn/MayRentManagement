@@ -3,12 +3,7 @@ Vue.component
     "add", 
     {
         mixins: [add_edit_mixin], 
-        data()
-        {
-            return {
-                title_surfix: "Add "
-            }
-        }, 
+        data: ()=>({title_surfix: "Add "}), 
         methods: 
         {
             SubmitForm(data)
@@ -40,13 +35,13 @@ Vue.component
     {
         props: ["form_title", "object_id"], 
         mixins: [add_edit_mixin], 
-        data()
-        {
-            return {
+        data: ()=>
+        (
+            {
                 title_surfix: "Edit ",
                 edit_data: undefined
             }
-        }, 
+        ), 
         created() 
         {
             this.ModifyForm(); 
@@ -76,13 +71,7 @@ Vue.component
             {
                 let data = this.TableData(this.CurrentController, {id: this.ObjectId, edit: 1}); 
                 this.edit_data = data[0];  
-                Object.keys(this.edit_data).forEach
-                (
-                    property=>
-                    {
-                        this.edit_data[property.toLowerCase()] = this.edit_data[property]; 
-                    }
-                ); 
+                Object.keys(this.edit_data).forEach(property=> this.edit_data[property.toLowerCase()] = this.edit_data[property]); 
             }, 
             SubmitForm(data)
             {
