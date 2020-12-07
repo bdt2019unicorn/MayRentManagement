@@ -33,7 +33,10 @@ Vue.component
         },
         methods: 
         {
-            DateChargedUntilInvalid: (leaseagrm)=>(!this.ValidPeriod(leaseagrm.Start_date, leaseagrm.date_charged_until) || !this.ValidPeriod(leaseagrm.date_charged_until, leaseagrm.Finish)), 
+            DateChargedUntilInvalid(leaseagrm)
+            {
+                return (!this.ValidPeriod(leaseagrm.Start_date, leaseagrm.date_charged_until) || !this.ValidPeriod(leaseagrm.date_charged_until, leaseagrm.Finish)); 
+            }, 
             LoadOldLeases()
             {
                 let url = this.ServerUrl("LoadOldLeases"); 
@@ -47,8 +50,14 @@ Vue.component
                     this.old_leases = []; 
                 }
             }, 
-            OldLeasesJson: (data)=>this.old_leases = JSON.parse(data).map(leaseagrm=>({...leaseagrm, show_details: false})), 
-            ServerUrl: (command)=>`server/overview_controller/resolve_old_contract.php?command=${command}&building_id=${this.$route.params.building_id}`, 
+            OldLeasesJson(data)
+            {
+                this.old_leases = JSON.parse(data).map(leaseagrm=>({...leaseagrm, show_details: false})); 
+            }, 
+            ServerUrl(command)
+            {
+                return `server/overview_controller/resolve_old_contract.php?command=${command}&building_id=${this.$route.params.building_id}`; 
+            }, 
             SubmitOldLeases()
             {
                 let url = this.ServerUrl("ResolveOldLeases"); 
