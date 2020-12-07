@@ -30,9 +30,22 @@
             $footer_array = json_decode($_POST["footer_array"], true); 
 
             $print_excel = new Excel($invoices, $image, $footer_array, realpath("temp/")); 
-            $print_excel->ZipAllExcel(); 
-            
-
+            $path = $print_excel->ZipAllExcel(); 
+            if($path)
+            {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename='.basename($path));
+                header('Content-Transfer-Encoding: binary');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($path));
+                ob_clean();
+                flush();
+                readfile($path); 
+                // @unlink($path);
+            }
         }
     }
 

@@ -4,8 +4,9 @@
     use PhpOffice\PhpSpreadsheet\Spreadsheet; 
     use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use ZipArchive;
 
-    class Excel 
+class Excel 
     {
         public static function FooterArray($building_information)
         {
@@ -36,6 +37,7 @@
         private $png_logo; 
         private $footer_rich_text; 
         private $temp_path; 
+        private $folder; 
 
         function __construct($invoices, $image, $footer_array, $temp_path)
         {
@@ -43,29 +45,40 @@
             $this->png_logo = imagecreatefrompng($image); 
             $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
             $this->temp_path = $temp_path; 
+            $this->folder = "{$temp_path}/invoices"; 
         }
 
         public function ZipAllExcel()
         {
-            $folder = "invoices"; 
-            $folder = "{$this->temp_path}/{$folder}"; 
-            if(file_exists($folder))
-            {
-                foreach (scandir($folder) as $file) 
-                {
-                    if(!is_dir("{$folder}/{$file}")) unlink("{$folder}/{$file}"); 
-                }
-                rmdir($folder); 
-            }
-            mkdir($folder); 
-            
+            $this->ResolveFolder(); 
+            mkdir($this->folder); 
             foreach($this->invoices as $invoice)
             {
-                $this->CreateExcelFile($invoice, $folder); 
+                $this->CreateExcelFile($invoice); 
+            }
+            $zip = new \ZipArchive(); 
+            $zip->open("{$this->temp_path}/AllInvoices.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE); 
+            foreach (scandir($this->folder) as $file) 
+            {
+                if(!is_dir("{$this->folder}/{$file}")) $zip->addFile("{$this->folder}/{$file}", "invoices/{$file}"); 
+            }
+            $zip->close(); 
+            return "{$this->temp_path}/AllInvoices.zip"; 
+        }
+
+        public function ResolveFolder()
+        {
+            if(file_exists($this->folder))
+            {
+                foreach (scandir($this->folder) as $file) 
+                {
+                    if(!is_dir("{$this->folder}/{$file}")) unlink("{$this->folder}/{$file}"); 
+                }
+                rmdir($this->folder); 
             }
         }
 
-        private function CreateExcelFile($invoice, $folder)
+        private function CreateExcelFile($invoice)
         {
             $spreadsheet = new Spreadsheet(); 
             $sheet = $spreadsheet->getActiveSheet();
@@ -204,7 +217,7 @@
             $sheet->fromArray($this->footer_rich_text, null, "B{$row_position}"); 
 
             $writer = new Xlsx($spreadsheet); 
-            $writer->save("{$folder}/{$invoice['invoice']['name']}.xlsx"); 
+            $writer->save("{$this->folder}/{$invoice['invoice']['name']}.xlsx"); 
         }
 
         private function RichTextArrayConvert($array)
