@@ -11,7 +11,7 @@ var add_edit_mixin =
             validate: {} 
         }
     ), 
-    created()
+    created() 
     {
         this.PopulateFormField(); 
     }, 
@@ -32,29 +32,38 @@ var add_edit_mixin =
                 this.title =""; 
             }
         }, 
-        ReloadUserInput: (callback=undefined)=> new Promise 
-        (
-            (resolve, reject)=>
-            {
-                this.user_input = false;
-                resolve(callback);  
-            }
-        ).then 
-        (
-            (callback)=>
-            {
-                if(callback)
+        ReloadUserInput(callback=undefined)
+        {
+            new Promise 
+            (
+                (resolve, reject)=>
                 {
-                    callback(); 
+                    this.user_input = false;
+                    resolve(callback);  
                 }
-                this.user_input = true; 
-            }
-        ) 
+            ).then 
+            (
+                (callback)=>
+                {
+                    if(callback)
+                    {
+                        callback(); 
+                    }
+                    this.user_input = true; 
+                }
+            ); 
+        }
     },
     watch: 
     {
-        $route: (new_value, old_value)=> this.ReloadUserInput(this.PopulateFormField), 
-        controller: (new_value, old_value)=> this.ReloadUserInput(this.PopulateFormField) 
+        $route: function(new_value, old_value)
+        {
+            this.ReloadUserInput(this.PopulateFormField); 
+        }, 
+        controller: function(new_value, old_value)
+        {
+            this.ReloadUserInput(this.PopulateFormField); 
+        }    
     },
 
     template: `<user-input v-if="user_input" v-bind="$data" :edit_data="this.edit_data" @form-information-valid="SubmitForm"></user-input>`

@@ -7,34 +7,37 @@ Vue.component
         components: {...vueGoodTable, ...vueFragment, FileUpload: VueUploadComponent}, 
         computed: 
         {
-            DisplayTable: ()=> this.excel_data.length?
+            DisplayTable()    
             {
-                rows: this.excel_data, 
-                columns: this.excel_data.reduce
-                (
-                    (accumulator, current_value)=> [...accumulator, ...Object.keys(current_value).filter(key=>!accumulator.includes(key))], []
-                ).map 
-                (
-                    column=>
-                    (
-                        {
-                            field: column, 
-                            label: column, 
-                            sortable: true, 
-                            thClass: 'text-center' 
-                        }
-                    )
-                ), 
-                paginationOptions: 
+                return (this.excel_data.length==0)? undefined: 
                 {
-                    enabled: true, 
-                    perPage: 10, 
-                    perPageDropdown: [10], 
-                    dropdownAllowAll: false 
-                }, 
-                styleClass: "vgt-table condensed bordered", 
-                theme: "nocturnal" 
-            }: undefined
+                    rows: this.excel_data, 
+                    columns: this.excel_data.reduce
+                    (
+                        (accumulator, current_value)=> [...accumulator, ...Object.keys(current_value).filter(key=>!accumulator.includes(key))], []
+                    ).map 
+                    (
+                        column=>
+                        (
+                            {
+                                field: column, 
+                                label: column, 
+                                sortable: true, 
+                                thClass: 'text-center' 
+                            }
+                        )
+                    ), 
+                    paginationOptions: 
+                    {
+                        enabled: true, 
+                        perPage: 10, 
+                        perPageDropdown: [10], 
+                        dropdownAllowAll: false 
+                    }, 
+                    styleClass: "vgt-table condensed bordered", 
+                    theme: "nocturnal" 
+                }
+            }
         },
         methods: 
         {
@@ -82,7 +85,10 @@ Vue.component
 
         watch: 
         {
-            $route: (to, from)=>this.excel_data = []
+            $route: function(to, from)
+            {
+                this.excel_data = []; 
+            }
         },
 
         template: 

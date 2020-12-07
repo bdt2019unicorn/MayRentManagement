@@ -8,7 +8,10 @@ var user_input_components_mixin =
 {
     mixins: [user_input_support_mixin], 
     data: ()=>({value:""}), 
-    mounted: ()=> this.BringEditData(), 
+    mounted() 
+    {
+        this.BringEditData(); 
+    }, 
     methods: 
     {
         BringEditData()
@@ -21,7 +24,10 @@ var user_input_components_mixin =
     },
     watch: 
     {
-        $route: (new_value, old_value)=>this.value = "", 
+        $route: function(new_value, old_value)
+        {
+            this.value = ""; 
+        }, 
         value: function(new_value, old_value)
         {
             if(this.edit_data)
@@ -51,10 +57,19 @@ var user_input_components_v_model_support_mixin =
             }
         }    
     },
-    mounted: () =>this.BringEditData(), 
+    mounted() 
+    {
+        this.BringEditData(); 
+    },
     watch: 
     {
-        content: (new_value, old_value)=> this.$emit("input", new_value),
-        value: (new_value, old_value)=> this.content = new_value 
-    } 
+        content: function(new_value, old_value)
+        {
+            this.$emit("input", new_value); 
+        },
+        value: function(new_value, old_value)
+        {
+            this.content = new_value; 
+        }  
+    },
 }

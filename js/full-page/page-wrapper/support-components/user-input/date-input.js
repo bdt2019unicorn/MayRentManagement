@@ -8,10 +8,22 @@ var date_input = Vue.component
         components: {vuejsDatepicker}, 
         computed: 
         {
-            DateRequired: ()=>this.required?(this.date_value!=undefined): true, 
-            JustStaredChild: ()=>this.just_started_parent? (this.date_value==undefined): this.just_started_parent, 
-            RequiredLabel: ()=>(!this.DateRequired)&& this.JustStaredChild, 
-            SpecialMessageLabel: ()=>(this.RequiredLabel || !this.just_started_parent)?false: (this.bad_message!=undefined)
+            DateRequired()
+            {
+                return (this.required)?(this.date_value!=undefined): true; 
+            }, 
+            JustStaredChild()
+            {
+                return (this.just_started_parent)? (this.date_value==undefined): this.just_started_parent; 
+            }, 
+            RequiredLabel()
+            {
+                return (!this.DateRequired)&& this.JustStaredChild; 
+            }, 
+            SpecialMessageLabel()
+            {
+                return (this.RequiredLabel || !this.just_started_parent)?false: (this.bad_message!=undefined); 
+            }
         }, 
         mounted()
         {
@@ -29,8 +41,14 @@ var date_input = Vue.component
         }, 
         watch: 
         {
-            DateRequired: (new_value, old_value)=> this.$emit("input-validation", "date_required", this.name, this.DateRequired),
-            date_value: (new_value, old_value)=> this.$emit("date-value-changed", new_value, this.reference)
+            DateRequired: function(new_value, old_value)
+            {
+                this.$emit("input-validation", "date_required", this.name, this.DateRequired); 
+            }, 
+            date_value: function(new_value, old_value)
+            {
+                this.$emit("date-value-changed", new_value, this.reference); 
+            }
         },
         template: 
         `

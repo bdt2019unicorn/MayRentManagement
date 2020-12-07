@@ -75,19 +75,35 @@ Vue.component
                     }
                 ).then
                 (
-                    new_edit_data=> new Promise
-                    (
-                        (resolve, reject)=>
-                        {
-                            if(new_edit_data)
+                    new_edit_data=>
+                    {
+                        return new Promise
+                        (
+                            (resolve, reject)=>
                             {
+                                if(new_edit_data)
+                                {
+                                    this.edit_data = undefined; 
                                 this.edit_data = undefined; 
+                                    this.edit_data = undefined; 
+                                    resolve(new_edit_data); 
                                 resolve(new_edit_data); 
-                            }
+                                    resolve(new_edit_data); 
+                                }
+                                reject(); 
                             reject(); 
-                        }
-                    )
-                ).then(new_edit_data=> this.EditData(new_edit_data.invoice, new_edit_data.details));
+                                reject(); 
+                            }
+                        ); 
+
+                    }
+                ).then 
+                (
+                    new_edit_data=>
+                    {
+                        this.EditData(new_edit_data.invoice, new_edit_data.details); 
+                    }
+                ); 
             }
         },
         template: 

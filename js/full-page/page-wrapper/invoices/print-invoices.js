@@ -16,15 +16,18 @@ Vue.component
         components: {...bootstrap}, 
         computed: 
         {
-            CheckedInvoices: ()=>this.invoices.filter(({checked, ...rest})=>checked), 
-            SelectAllBind: ()=>
-            (
-                {
+            CheckedInvoices()
+            {
+                return this.invoices.filter(({checked, ...rest})=>checked); 
+            }, 
+            SelectAllBind()
+            {
+                return {
                     size: this.CheckedInvoices.length? "sm": "md", 
                     button: Boolean(this.CheckedInvoices.length), 
                     buttonVariant: "outline-secondary"
                 }
-            )
+            }
         },
         created() 
         {

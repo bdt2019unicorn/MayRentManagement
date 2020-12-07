@@ -42,10 +42,15 @@ var date_group = Vue.component
 
         computed: 
         {
-            DateRangeValid: ()=> this.big_date>=this.small_date, 
-            JustStarted: ()=> this.just_started_parent || this.just_started_child
+            DateRangeValid()
+            {
+                return this.big_date>=this.small_date; 
+            }, 
+            JustStarted()
+            {
+                return this.just_started_parent || this.just_started_child; 
+            }
         }, 
-
         methods: 
         {
             BadMessage(reference)
@@ -91,7 +96,10 @@ var date_group = Vue.component
                 this[data_field][name] = boolean; 
                 this.valid = this.Valid(); 
             }, 
-            Valid: ()=> (this.big_date && this.small_date)? this.DateRangeValid: this.ValidObject(this.date_required) 
+            Valid()
+            {
+                return (this.big_date && this.small_date)? this.DateRangeValid: this.ValidObject(this.date_required); 
+            }
         },
         mounted()
         {
@@ -100,7 +108,10 @@ var date_group = Vue.component
         }, 
         watch: 
         {
-            valid: (new_value, old_value)=>this.$emit("input-validation", "date_group", this.name, this.valid)
+            valid: function(new_value, old_value)
+            {
+                this.$emit("input-validation", "date_group", this.name, this.valid); 
+            }
         }, 
         template: 
         `

@@ -11,7 +11,10 @@ Vue.component
             }
         ), 
         components: {...bootstrap}, 
-        created: () =>this.PopulateData(), 
+        created() 
+        {
+            this.PopulateData(); 
+        },
         methods: 
         {
             ExportExcel()
@@ -28,26 +31,32 @@ Vue.component
                 XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
                 XLSX.writeFile(workbook, `${page_title}.xlsx`);
             }, 
-            PopulateData: ()=> new Promise
-            (
-                (resolve, reject)=>
-                {
-                    this.table_data = []; 
-                    resolve(); 
-                }
-            ).then 
-            (
-                ()=>
-                {
-                    this.table_data = this.TableData(this.CurrentController); 
-                    this.table_actions = this.TableActions(this.CurrentController); 
-                    this.check_array = []; 
-                }
-            ) 
+            PopulateData()
+            {
+                new Promise
+                (
+                    (resolve, reject)=>
+                    {
+                        this.table_data = []; 
+                        resolve(); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        this.table_data = this.TableData(this.CurrentController); 
+                        this.table_actions = this.TableActions(this.CurrentController); 
+                        this.check_array = []; 
+                    }
+                ); 
+            }
         },
         watch: 
         {
-            $route: (to, from)=>this.PopulateData()
+            $route(to, from)
+            {
+                this.PopulateData(); 
+            }
         },
         template: 
         `

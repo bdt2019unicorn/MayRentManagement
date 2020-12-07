@@ -5,7 +5,10 @@ Vue.component
         props: ["not_required", "overview_controller", "select_data", "select_value", "text"], 
         mixins: [user_input_components_v_model_support_mixin], 
         data: ()=>({options: []}),
-        created: ()=> this.PopulateSelectData(), 
+        created() 
+        {
+            this.PopulateSelectData();     
+        },
         methods: 
         {
             PopulateSelectData()
@@ -21,13 +24,23 @@ Vue.component
                         }
                     )
                 ); 
-            } 
+            }, 
         },
         watch: 
         {
-            select_data: (new_value, old_value)=>this.PopulateSelectData(),
-            value: (new_value, old_value)=>this.$emit("search-data-changed"), 
-            edit_data: (new_value, old_value)=>this.BringEditData()
+            select_data: function(new_value, old_value)
+            {   
+                this.PopulateSelectData(); 
+            }, 
+            value: function(new_value, old_value)
+            {
+                this.$emit("search-data-changed"); 
+            }, 
+            edit_data: function(new_value, old_value)
+            {
+                this.BringEditData(); 
+            }
+
         },
         template: 
         `
@@ -58,19 +71,28 @@ Vue.component
         components: {Multiselect: window.VueMultiselect.default}, 
         computed: 
         {
-            MultiSelectBind: ()=>
-            (
-                {
+            MultiSelectBind()
+            {
+                return {
                     ...this.select_atributes, 
                     options: this.options, 
                 }
-            )
+            }
         },
-        created: ()=> this.PopulateSelectData(), 
+        created() 
+        {
+            this.PopulateSelectData();     
+        },
         methods: 
         {
-            ID: (option)=>Number(option[this.select_atributes["track-by"]]),
-            PopulateSelectData: ()=>this.options = this.select_data || this.TableData(this.overview_controller, {edit: 1})
+            ID(option)
+            {
+                return Number(option[this.select_atributes["track-by"]]); 
+            }, 
+            PopulateSelectData()
+            {
+                this.options = this.select_data || this.TableData(this.overview_controller, {edit: 1});
+            }, 
         },
         mounted() 
         {
@@ -82,14 +104,24 @@ Vue.component
         },
         watch: 
         {
-            select_data: (new_value, old_value)=>this.PopulateSelectData(), 
-            value: (new_value, old_value)=>this.$emit("search-data-changed"), 
+            select_data: function(new_value, old_value)
+            {   
+                this.PopulateSelectData(); 
+            }, 
+            value: function(new_value, old_value)
+            {
+                this.$emit("search-data-changed"); 
+            }, 
             value_model: function(new_value, old_value)
             {
                 this.value =`[${new_value.map(option=>this.ID(option)).join(",")}]`; 
                 this.$emit("input", new_value); 
             }, 
-            edit_data: (new_value, old_value)=>this.BringEditData()
+            edit_data: function(new_value, old_value)
+            {
+                this.BringEditData(); 
+            }
+
         },
         template: 
         `

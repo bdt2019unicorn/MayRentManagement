@@ -20,7 +20,13 @@ Vue.component
                             this.user_input = undefined; 
                             resolve(user_input); 
                         }
-                    ).then((user_input)=> this.user_input = user_input); 
+                    ).then
+                    (
+                        (user_input)=>
+                        {
+                            this.user_input = user_input; 
+                        }
+                    ); 
                 }
                 else
                 {

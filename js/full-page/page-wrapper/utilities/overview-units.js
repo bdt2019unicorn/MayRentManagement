@@ -123,7 +123,10 @@ Vue.component
                     this.table_data = this.table_data_temp; 
                 }
             }, 
-            revenue_type_id: (new_value, old_value)=>this.PriceInformation()
+            revenue_type_id: function(new_value, old_value)
+            {
+                this.PriceInformation(); 
+            }    
         },
         template: 
         `

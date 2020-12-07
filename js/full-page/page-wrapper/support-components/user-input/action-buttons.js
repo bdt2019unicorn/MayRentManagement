@@ -19,16 +19,16 @@ Vue.component
         props: ["show_details"], 
         computed: 
         {
-            ButtonBind: ()=>
-            (
-                {
+            ButtonBind()
+            {
+                return {
                     class: "float-right", 
                     color: "success", 
                     type: "flat", 
                     icon: this.show_details?"remove": "add", 
                     title: (this.show_details?"Hide ": "Show ") + "Details"
                 }
-            )
+            }
         },
         template: `<vs-button v-bind="ButtonBind" v-on="$listeners"></vs-button>`
     }

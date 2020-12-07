@@ -3,7 +3,11 @@ Vue.component
     "hyperlink-list-compile", 
     {
         props: ["list"], 
-        render: (create_element)=> create_element("p", [create_element(Vue.compile(`<p>${this.list}</p>`))])
+        render(create_element) 
+        {
+            let template = `<p>${this.list}</p>`; 
+            return create_element("p", [create_element(Vue.compile(template))]); 
+        },
     }
 ); 
 
@@ -16,55 +20,58 @@ Vue.component
         components: {...vueGoodTable}, 
         computed: 
         {
-            DisplayTable: ()=> this.table_data.length? 
+            DisplayTable()
             {
-                columns: Object.keys(this.table_data[0]).filter
-                (
-                    column=>
-                    {
-                        return !this.SpecialColumns("hidden_columns").includes(column); 
-                    }
-                ).map
-                (
-                    column=>
-                    {
-                        let sort_actions = this.SpecialColumns("sort"); 
-
-                        SortFunction = (row1_value, row2_value, col, row1_object, row2_object)=>
-                        {
-                            let sort_by = sort_actions[column]; 
-                            let result = Number(row1_object[sort_by]) - Number(row2_object[sort_by]); 
-                            return result==0? 0: (result/Math.abs(result)); 
-                        }; 
-
-                        let sort = !Object.keys(sort_actions).includes(column)? {sortable: false}: 
-                        {
-                            sortable: true,
-                            sortFn: SortFunction 
-                        }
-
-                        return {
-                            field: column, 
-                            label: column, 
-                            thClass: 'text-center', 
-                            tdClass: "text-right", 
-                            filterOptions: {enabled: this.SpecialColumns("search").includes(column)}, 
-                            ...sort 
-                        }
-                    }                    
-                ), 
-                rows: this.table_data, 
-                styleClass: "vgt-table bordered striped", 
-                searchOptions: {enabled: true}, 
-                maxHeight: "80vh", 
-                fixedHeader: true, 
-                searchOptions: {enabled: this.SpecialColumns("search").length>0}, 
-                selectOptions: 
+                return (this.table_data.length==0)? undefined: 
                 {
-                    enabled: Boolean(this.table_actions.id), 
-                    disableSelectInfo: true
+                    columns: Object.keys(this.table_data[0]).filter
+                    (
+                        column=>
+                        {
+                            return !this.SpecialColumns("hidden_columns").includes(column); 
+                        }
+                    ).map
+                    (
+                        column=>
+                        {
+                            let sort_actions = this.SpecialColumns("sort"); 
+
+                            SortFunction = (row1_value, row2_value, col, row1_object, row2_object)=>
+                            {
+                                let sort_by = sort_actions[column]; 
+                                let result = Number(row1_object[sort_by]) - Number(row2_object[sort_by]); 
+                                return result==0? 0: (result/Math.abs(result)); 
+                            }; 
+
+                            let sort = !Object.keys(sort_actions).includes(column)? {sortable: false}: 
+                            {
+                                sortable: true,
+                                sortFn: SortFunction 
+                            }
+
+                            return {
+                                field: column, 
+                                label: column, 
+                                thClass: 'text-center', 
+                                tdClass: "text-right", 
+                                filterOptions: {enabled: this.SpecialColumns("search").includes(column)}, 
+                                ...sort 
+                            }
+                        }                    
+                    ), 
+                    rows: this.table_data, 
+                    styleClass: "vgt-table bordered striped", 
+                    searchOptions: {enabled: true}, 
+                    maxHeight: "80vh", 
+                    fixedHeader: true, 
+                    searchOptions: {enabled: this.SpecialColumns("search").length>0}, 
+                    selectOptions: 
+                    {
+                        enabled: Boolean(this.table_actions.id), 
+                        disableSelectInfo: true
+                    }
                 }
-            }: undefined     
+            }    
         },
         methods: 
         {

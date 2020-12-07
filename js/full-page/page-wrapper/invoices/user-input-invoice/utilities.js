@@ -38,7 +38,10 @@ Vue.component
         mixins: [user_input_invoice_component_mixin, valid_invoice_details_mixin], 
         computed: 
         {
-            ValidInvoiceDetails: ()=>this.ValidInvoiceDetailsUtilities(this.invoice_details, this.list)
+            ValidInvoiceDetails()
+            {
+                return this.ValidInvoiceDetailsUtilities(this.invoice_details, this.list); 
+            }    
         },
         methods: 
         {

@@ -33,7 +33,10 @@ Vue.component
                 this.date_group = {}; 
                 this.row_group_valid = true 
             }, 
-            row_group_valid: (new_value, old_value)=>this.$emit("row-group-validation", this.index, this.row_group_valid)
+            row_group_valid: function(new_value, old_value)
+            {
+                this.$emit("row-group-validation", this.index, this.row_group_valid); 
+            }
         },
         template: 
         `

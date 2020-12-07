@@ -31,7 +31,10 @@ Vue.component
                     return undefined; 
                 }
             }, 
-            LabelDateRange: ()=>`${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`
+            LabelDateRange()
+            {
+                return `${this.DateReformatDisplay(this.start_date)} - ${this.DateReformatDisplay(this.end_date)}`; 
+            }
         },
         methods: 
         {
@@ -56,26 +59,38 @@ Vue.component
                 }
                 catch {}
             }, 
-            CalendarOpened: ()=> new Promise
-            (
-                (resolve,reject)=>
-                {
-                    this.$refs["calendar"].ChooseDate("today"); 
-                    resolve(); 
-                }
-            ).then 
-            (
-                ()=> new Promise
+            CalendarOpened()
+            {
+                new Promise
                 (
-                    (resolve, reject)=>
+                    (resolve,reject)=>
                     {
-                        this.function_calendar_model.dateRange.start = this.start_date; 
-                        this.function_calendar_model.dateRange.end = this.end_date; 
+                        this.$refs["calendar"].ChooseDate("today"); 
                         resolve(); 
                     }
-                ) 
-            ).then(()=> this.function_calendar_model = undefined), 
+                ).then 
+                (
+                    ()=>
+                    {
+                        return new Promise
+                        (
+                            (resolve, reject)=>
+                            {
+                                this.function_calendar_model.dateRange.start = this.start_date; 
+                                this.function_calendar_model.dateRange.end = this.end_date; 
+                                resolve(); 
+                            }
+                        ); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        this.function_calendar_model = undefined; 
+                    }
+                ); 
                 
+            },
             Search(event=undefined)
             {
                 var search_data = new FormData(this.$refs["search_form"]); 

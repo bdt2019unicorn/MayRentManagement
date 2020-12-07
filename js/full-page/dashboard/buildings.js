@@ -42,16 +42,23 @@ Vue.component
                     alert("Delete building fails! There seems to be a server issue"); 
                 }
             }, 
-            EditBuilding: (building_id)=> window.router.push 
-            (
-                {
-                    name: 'general-edit', 
-                    params: {controller: 'buildings'}, 
-                    query: {id: building_id}
-                }
-            ) 
+            EditBuilding(building_id)
+            {
+                window.router.push 
+                (
+                    {
+                        name: 'general-edit', 
+                        params: {controller: 'buildings'}, 
+                        query: {id: building_id}
+                    }
+                ); 
+            }    
         },
-        created: () => this.display = this.StateObject("building_user_input").display, 
+        created() 
+        {
+            this.display = this.StateObject("building_user_input").display;     
+        },
+
         template: 
         `
             <fragment>

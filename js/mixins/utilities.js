@@ -20,7 +20,10 @@ var utilities_mixin =
             table_data: []
         }
     ), 
-    created: () => this.SelectData(), 
+    created() 
+    {
+        this.SelectData(); 
+    },
 
     methods: 
     {

@@ -27,7 +27,10 @@ Vue.component
                 ): undefined; 
             }    
         },
-        created: () =>this.LoadOldLeases(), 
+        created() 
+        {
+            this.LoadOldLeases(); 
+        },
         methods: 
         {
             DateChargedUntilInvalid: (leaseagrm)=>(!this.ValidPeriod(leaseagrm.Start_date, leaseagrm.date_charged_until) || !this.ValidPeriod(leaseagrm.date_charged_until, leaseagrm.Finish)), 

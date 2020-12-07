@@ -13,17 +13,20 @@ Vue.component
         ),
         computed: 
         {
-            UtilitiesReadingDisplay: ()=> this.utilities_readings.map 
-            (
-                ({revenue_type_id, unit_id, current_date, ...rest}) => 
+            UtilitiesReadingDisplay()
+            {
+                return this.utilities_readings.map 
                 (
-                    {
+                    ({revenue_type_id, unit_id, current_date, ...rest}) => 
+                    (
+                        {
 
-                        ...rest, 
-                        current_date: current_date?this.DateReformatDisplay(current_date): ""
-                    }
-                )
-            ), 
+                            ...rest, 
+                            current_date: current_date?this.DateReformatDisplay(current_date): ""
+                        }
+                    )
+                ); 
+            }, 
             
             UtilitiesReadingValid()
             {
@@ -63,98 +66,103 @@ Vue.component
         },
         methods: 
         {
-            UnitIdValueChanged: (new_value)=> new Promise 
-            (
-                (resolve, reject)=>
-                {
-                    this.unit_id = ""; 
-                    resolve(); 
-                }
-            ).then 
-            (
-                ()=>
-                {
-                    this.unit_id = new_value;
-                    try 
+            UnitIdValueChanged(new_value)
+            {
+                new Promise 
+                (
+                    (resolve, reject)=>
                     {
-                        var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&unit_id=${this.unit_id}`); 
-                        current_readings = JSON.parse(current_readings); 
-    
-                        CurrentReading = function(revenue_type_id, look_up)
+                        this.unit_id = ""; 
+                        resolve(); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        this.unit_id = new_value;
+                        try 
                         {
-                            try 
+                            var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&unit_id=${this.unit_id}`); 
+                            current_readings = JSON.parse(current_readings); 
+        
+                            CurrentReading = function(revenue_type_id, look_up)
                             {
-                                return current_readings.find(reading=>reading.revenue_type_id==revenue_type_id)[look_up]; 
-                            }
-                            catch
-                            {
-                                return 0; 
-                            }
-                        }
-    
-                        this.utilities_readings = this.select_data.utilities.map
-                        (
-                            revenue_type=>
-                            (
+                                try 
                                 {
-                                    revenue_type_id: revenue_type.id, 
-                                    unit_id: this.unit_id, 
-                                    service: revenue_type.name, 
-                                    unit_name: this.select_data.units.find(unit=>unit.id==this.unit_id).name, 
-                                    date: this.DateReformatDisplay(), 
-                                    time: moment().format("HH:mm"), 
-                                    number: "", 
-                                    current_reading: CurrentReading(revenue_type.id, "number"), 
-                                    current_date: CurrentReading(revenue_type.id, "date")
+                                    return current_readings.find(reading=>reading.revenue_type_id==revenue_type_id)[look_up]; 
                                 }
-                            )
-                        ); 
-                    } 
-                    catch
-                    {
-                        this.utilities_readings = []; 
-                    }
-                }
-            ), 
-            DeleteUtilityReading: (remove_index)=> new Promise 
-            (
-                (resolve, reject)=>
-                {
-                    this.utilities_readings = this.utilities_readings.filter((value, index)=>index!=remove_index); 
-                    let unit_id = this.unit_id; 
-                    this.unit_id = ""; 
-                    resolve(unit_id); 
-                }
-            ).then
-            (
-                (unit_id)=>
-                {
-                    if(this.utilities_readings.length==0)
-                    {
-                        new Promise 
-                        (
-                            (resolve, reject)=>
-                            {
-                                let units = R.clone(this.select_data.units); 
-                                this.select_data.units = undefined; 
-                                resolve(units); 
+                                catch
+                                {
+                                    return 0; 
+                                }
                             }
-                        ).then 
-                        (
-                            (units)=>
-                            {
-                                this.select_data.units = units; 
-                                this.unit_id = ""; 
-                            }
-                        ); 
+        
+                            this.utilities_readings = this.select_data.utilities.map
+                            (
+                                revenue_type=>
+                                (
+                                    {
+                                        revenue_type_id: revenue_type.id, 
+                                        unit_id: this.unit_id, 
+                                        service: revenue_type.name, 
+                                        unit_name: this.select_data.units.find(unit=>unit.id==this.unit_id).name, 
+                                        date: this.DateReformatDisplay(), 
+                                        time: moment().format("HH:mm"), 
+                                        number: "", 
+                                        current_reading: CurrentReading(revenue_type.id, "number"), 
+                                        current_date: CurrentReading(revenue_type.id, "date")
+                                    }
+                                )
+                            ); 
+                        } 
+                        catch
+                        {
+                            this.utilities_readings = []; 
+                        }
                     }
-                    else 
+                ); 
+            }, 
+            DeleteUtilityReading(remove_index)
+            {
+                new Promise 
+                (
+                    (resolve, reject)=>
                     {
-                        this.unit_id = unit_id; 
+                        this.utilities_readings = this.utilities_readings.filter((value, index)=>index!=remove_index); 
+                        let unit_id = this.unit_id; 
+                        this.unit_id = ""; 
+                        resolve(unit_id); 
                     }
-                }
-            ), 
-
+                ).then
+                (
+                    (unit_id)=>
+                    {
+                        if(this.utilities_readings.length==0)
+                        {
+                            new Promise 
+                            (
+                                (resolve, reject)=>
+                                {
+                                    let units = R.clone(this.select_data.units); 
+                                    this.select_data.units = undefined; 
+                                    resolve(units); 
+                                }
+                            ).then 
+                            (
+                                (units)=>
+                                {
+                                    this.select_data.units = units; 
+                                    this.unit_id = ""; 
+                                }
+                            ); 
+                        }
+                        else 
+                        {
+                            this.unit_id = unit_id; 
+                        }
+                    }
+                ); 
+            }, 
             NewUtilityReadingValue(event)
             {
                 let index = $(event.target).attr("data-index"); 
