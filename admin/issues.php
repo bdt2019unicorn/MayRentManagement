@@ -9,6 +9,9 @@
                 $url = "https://api.github.com/repos/{$repo->user}/{$repo->repo}/issues"; 
             ?>
             <?php if($issue_id): ?>
+                <?php 
+                    $url.="/{$issue_id}"; 
+                ?>
             <?php else: ?>
                 <?php
                     $issue_state = $_GET["state"]??"all"; 
@@ -28,11 +31,31 @@
                         </div>
                     </div>
                 </div>
-                <h3><?php echo $url; ?></h3>
+                <br>
+                <div class="row justify-content-center align-self-center">
+                    <div id="issues-overview" class="col-10"></div>
+                </div>
             <?php endif; ?>
         </div>
         <footer>
             <?php include_once("layout/3.footer.php"); ?>
+            <script src="js/issues.js"></script>
+            <script>
+                jQuery
+                (
+                    function()
+                    {
+                        let decode_url = `<?php echo base64_encode($url); ?>`; 
+                        var data = GetIssues(decode_url); 
+                        <?php if($issue_id): ?>
+                            console.log(data); 
+                        <?php else: ?>
+                            var issue_overview = IssueOverview(data); 
+                            $("#issues-overview").append(issue_overview); 
+                        <?php endif; ?>
+                    }
+                ); 
+            </script>
         </footer>
     </body>
 </html>
