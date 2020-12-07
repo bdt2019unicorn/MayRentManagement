@@ -100,7 +100,10 @@ Vue.component
                     return {}; 
                 }
             }, 
-            SpecialColumns: (action)=> this.table_actions[action]||[]
+            SpecialColumns(action)
+            {
+                return this.table_actions[action]||[]; 
+            }
         },
         template: 
         `
