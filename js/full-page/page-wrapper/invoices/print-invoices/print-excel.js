@@ -13,20 +13,35 @@ Vue.component
                     alert("No invoices are selected, please select invoice to print");
                     return;
                 }
+                var data = {}; 
+                Object.keys(this.$props).forEach(key=>data[key]=JSON.stringify(this.$props[key])); 
 
-                var form_data = new FormData(); 
-                Object.keys(this.$props).forEach(key=>form_data.append(key, JSON.stringify(this.$props[key]))); 
-                let url = `${this.ServerUrl}Excel`;
-                let result = this.AjaxRequest(url, form_data, "post"); 
-                console.log(result); 
-                console.log(result.length); 
-                var bytes = new Uint8Array(result.length); 
-                for (let index = 0; index < result.length; index++) 
-                {
-                    bytes[index] = result.charCodeAt(index);             
-                }
-                var blob = new Blob([bytes], {type: "application/zip"}); 
-                saveAs(blob, "test.zip"); 
+                $.ajax 
+                (
+                    {
+                        url: `${this.ServerUrl}Excel`, 
+                        type: "POST", 
+                        data: data,  
+                        async: false, 
+                        dataType: 'text',                              
+                        mimeType: 'text/plain; charset=x-user-defined',
+                        success: (data)=>
+                        {
+                            var bytes = new Uint8Array(data.length);
+                            for (var i = 0; i < data.length; i++) 
+                            {
+                                bytes[i] = data.charCodeAt(i);
+                            }
+                            var blob = new Blob([bytes], {type: "application/zip"}); 
+                            saveAs(blob, "AllInvoices.zip"); 
+                        }, 
+                        error: function(error)
+                        {
+                            alert("There is something wrong with the server! Please try again"); 
+                            console.log(error); 
+                        }
+                    }
+                ); 
             } 
         },
         template:

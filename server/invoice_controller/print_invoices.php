@@ -44,7 +44,8 @@
                 ob_clean();
                 flush();
                 readfile($path); 
-                // @unlink($path);
+                @unlink($path);
+                $print_excel->ResolveFolder(); 
             }
         }
     }
