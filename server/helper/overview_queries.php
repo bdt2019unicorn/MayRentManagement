@@ -1,6 +1,12 @@
 <?php
     namespace OverviewQueries; 
-    spl_autoload_register(function($class){require_once("{$class}.php");}); 
+    spl_autoload_register
+    (
+        function($class)
+        {
+            if(strpos($class, __NAMESPACE__)!==false) require_once("{$class}.php");
+        }
+    ); 
 
     class GeneralOverview
     {
