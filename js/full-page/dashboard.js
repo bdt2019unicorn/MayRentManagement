@@ -14,7 +14,10 @@ var dashboard = Vue.component
                 }
             }
         ), 
-        created: () =>this.GenerateData(), 
+        created()
+        {
+            this.GenerateData(); 
+        }, 
 
         methods: 
         {

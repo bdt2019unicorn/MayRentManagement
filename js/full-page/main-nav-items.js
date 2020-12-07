@@ -7,7 +7,10 @@ Vue.component
         components: {...bootstrap}, 
         computed: 
         {
-            CurrentBuilding: ()=>this.buildings_data.find(building=>building.id==this.$route.params.building_id)
+            CurrentBuilding()
+            {
+                return this.buildings_data.find(building=>building.id==this.$route.params.building_id); 
+            }
         }, 
         template: 
         `
