@@ -122,16 +122,9 @@
     }
 
     $utilities_overview = []; 
-
     foreach ($data as $unit_values) 
     {
         array_push($utilities_overview, $unit_values); 
     }
-
     echo json_encode($utilities_overview); 
-
-
-
-
-    //need to look at this, something weird in the logic 
 ?>
