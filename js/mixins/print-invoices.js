@@ -1,6 +1,13 @@
 var print_invoices_mixin = 
 {
     mixins: [support_mixin], 
+    computed: 
+    {
+        ServerUrl()
+        {
+            return `server/invoice_controller/print_invoices.php?building_id=${this.$route.params.building_id}&command=`;
+        }
+    }, 
     methods: 
     {
         ExportZipFile: (zip)=> zip.generateAsync({type: "blob"}).then(content=> saveAs(content, "AllInvoices.zip")), 

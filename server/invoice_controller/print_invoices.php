@@ -1,38 +1,54 @@
 <?php 
-    require_once("./helper.php"); 
-    require_once("print_invoices/PrintInvoices.php"); 
-    $building_id = $_GET["building_id"]; 
-    $print_invoices_general = new PrintInvoices\General($building_id); 
+    namespace PrintInvoices; 
+    require_once("print_invoices/General.php"); 
 
-    $all_invoices_information = []; 
-    foreach ($print_invoices_general->invoices as $invoice) 
+    class Actions
     {
-        $invoice_id = $invoice["id"]; 
-        $query = InvoiceDetails($invoice_id); 
-        $invoice_details = Connect::MultiQuery($query, true); 
-        
-        $details = 
-        [
-            "id" => $invoice_id, 
-            "invoice" =>$invoice, 
-            "details" => 
-            [
-                "leaseagrm" =>$invoice_details[0], 
-                "utilities" =>$invoice_details[1]
-            ], 
-            "checked" => false, 
-            "show_details" => false 
-        ]; 
+        function __construct($command)
+        {
+            if(method_exists($this, $command))
+            {
+                $this->$command(); 
+            }
+            else 
+            {
+                echo false; 
+            }
+        }
 
-        array_push($all_invoices_information, $details); 
+        private function General()
+        {
+            $building_id = $_GET["building_id"]; 
+            $print_invoices_general = new General($building_id); 
+            echo json_encode($print_invoices_general->PrintInvoices()); 
+        }
+
+        private function Excel()
+        {
+            $image = json_decode($_POST["image"]); 
+            $invoices = json_decode($_POST["invoices"], true); 
+            $footer_array = json_decode($_POST["footer_array"], true); 
+
+            $print_excel = new Excel($invoices, $image, $footer_array, realpath("temp/")); 
+            $path = $print_excel->ZipAllExcel(); 
+            if($path)
+            {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename='.basename($path));
+                header('Content-Transfer-Encoding: binary');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($path));
+                ob_clean();
+                flush();
+                readfile($path); 
+                @unlink($path);
+                $print_excel->ResolveFolder(); 
+            }
+        }
     }
-        
-    $print_invoices = 
-    [
-        "layout" => $print_invoices_general->Layout(), 
-        "invoices" =>$all_invoices_information, 
-        "pdf" => $print_invoices_general->Pdf()
-    ]; 
 
-    echo json_encode($print_invoices); 
+    $actions = new Actions($_GET["command"]); 
 ?>

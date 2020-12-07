@@ -6,8 +6,9 @@ Vue.component
         data: () =>
         (
             {
+                excel: [], 
+                html: {}, 
                 invoices: [], 
-                layout: {display: {}, html: {}}, 
                 pdf: {}, 
                 selected: false 
             }
@@ -27,7 +28,7 @@ Vue.component
         },
         created() 
         {
-            let url = `server/invoice_controller/print_invoices.php?building_id=${this.$route.params.building_id}`;
+            let url = `${this.ServerUrl}General`;
             let data = this.AjaxRequest(url); 
             data = JSON.parse(data); 
             Object.keys(data).forEach(key=>this[key] = data[key]); 
@@ -55,7 +56,8 @@ Vue.component
                 <template v-if="invoices.length">
                     <div class="container-fluid row">
                         <print-pdf :invoices="CheckedInvoices" :pdf="pdf">PDF</print-pdf>
-                        <print-word :invoices="CheckedInvoices" :html="layout.html" class="mx-2">Word</print-word>
+                        <print-word :invoices="CheckedInvoices" :html="html" class="mx-2">Word</print-word>
+                        <print-excel :invoices="CheckedInvoices" :footer_array="excel" :image="html.image" class="mx-2">Excel</print-excel>
                     </div>
                     <br>
                     <div class="row">
@@ -81,7 +83,7 @@ Vue.component
                             </div>
                         </div>
                         <div v-if="invoice.show_details" class="row col-12">
-                            <div class="col" v-html="InvoiceHtml(invoice, layout.html)"></div>
+                            <div class="col" v-html="InvoiceHtml(invoice, html)"></div>
                         </div>
                     </div>
                 </template>
