@@ -11,7 +11,10 @@ var add_edit_mixin =
             validate: {} 
         }
     ), 
-    created: () =>this.PopulateFormField(), 
+    created()
+    {
+        this.PopulateFormField(); 
+    }, 
     methods: 
     {
         PopulateFormField()
