@@ -1,9 +1,8 @@
 <?php 
     namespace PrintInvoices; 
-    require_once("./helper.php"); 
+    require_once("./helper.php");
     use PhpOffice\PhpSpreadsheet\Spreadsheet; 
     use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
-
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
     class Excel 
@@ -33,14 +32,14 @@
             ); 
         }
 
-        private $inovices; 
+        private $invoices; 
         private $png_logo; 
         private $footer_rich_text; 
         private $temp_path; 
 
-        function __construct($inovices, $image, $footer_array, $temp_path)
+        function __construct($invoices, $image, $footer_array, $temp_path)
         {
-            $this->inovices = $inovices; 
+            $this->invoices = $invoices; 
             $this->png_logo = imagecreatefrompng($image); 
             $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
             $this->temp_path = $temp_path; 
@@ -48,11 +47,25 @@
 
         public function ZipAllExcel()
         {
-            $invoice = $this->inovices[0]; 
-            $this->CreateExcelFile($invoice); 
+            $folder = "invoices"; 
+            $folder = "{$this->temp_path}/{$folder}"; 
+            if(file_exists($folder))
+            {
+                foreach (scandir($folder) as $file) 
+                {
+                    if(!is_dir("{$folder}/{$file}")) unlink("{$folder}/{$file}"); 
+                }
+                rmdir($folder); 
+            }
+            mkdir($folder); 
+            
+            foreach($this->invoices as $invoice)
+            {
+                $this->CreateExcelFile($invoice, $folder); 
+            }
         }
 
-        private function CreateExcelFile($invoice)
+        private function CreateExcelFile($invoice, $folder)
         {
             $spreadsheet = new Spreadsheet(); 
             $sheet = $spreadsheet->getActiveSheet();
@@ -61,10 +74,6 @@
             $drawing->setImageResource($this->png_logo); 
             $drawing->setCoordinates("D1"); 
             $drawing->setWorksheet($sheet); 
-        
-            echo "<pre>"; 
-            print_r($invoice); 
-            echo "</pre>"; 
 
             $header = 
             [
@@ -103,7 +112,7 @@
             [
                 "borders" =>
                 [
-                    "outline"=>["borderStyle"=>"thin"]
+                    "outline"=>["borderStyle"=>"medium"]
                 ]
             ]; 
 
@@ -131,7 +140,7 @@
 
             $row_position = 8; 
             $sheet->fromArray($header_rich_text, null, "B{$row_position}"); 
-            $sheet->getColumnDimension("I")->setWidth(28); 
+            $sheet->getColumnDimension("I")->setWidth(20); 
             $SheetTitle(); 
             $row_position+= count($header)+1; 
             $SheetSubTitle("B{$row_position}", "DESCRIPTION", "left", "B{$row_position}:H{$row_position}"); 
@@ -140,17 +149,39 @@
             $AlignmentStyle = fn($alignment)=>["alignment"=>["horizontal"=>$alignment]]; 
             $right_number_detail_styles = array_merge($range_styles, $AlignmentStyle("right")); 
 
-            $LeaseagrmRow = function($index, $leaseagrm) use ($sheet, &$row_position, $range_styles, $AlignmentStyle, $right_number_detail_styles)
+            $NumberFormat = fn($value)=>number_format(floatval($value), 0, ".", ","); 
+
+            $LeaseagrmRow = function($index, $leaseagrm) use ($sheet, &$row_position, $range_styles, $AlignmentStyle, $NumberFormat, $right_number_detail_styles)
             {
                 $range = "B{$row_position}:H{$row_position}"; 
-                $sheet->getCell("B{$row_position}")->setValue("{$index}.{$leaseagrm['name']}"); 
+                $sheet->getCell("B{$row_position}")->setValue("{$index}. {$leaseagrm['name']}"); 
                 $sheet->getStyle($range)->applyFromArray(array_merge($range_styles, $AlignmentStyle("left"))); 
                 $sheet->mergeCells($range); 
 
-                $sheet->getCell("I{$row_position}")->setValue(number_format(floatval($leaseagrm['amount']), 0, ".", ",")); 
+                $sheet->getCell("I{$row_position}")->setValue($NumberFormat($leaseagrm['amount'])); 
                 $sheet->getStyle("I{$row_position}")->applyFromArray($right_number_detail_styles); 
 
                 $row_position++; 
+            }; 
+
+            $UtilityRow =function($index, $utility) use ($sheet, &$row_position, $range_styles, $NumberFormat, $right_number_detail_styles)
+            {
+                $DateFormat = fn($date)=>(new \DateTime($date))->format("h:iA jS M Y"); 
+                $details = 
+                [
+                    ["{$index}. {$utility['name']}"], 
+                    ["Begining", $DateFormat($utility['previous_date']), "", "", "", $NumberFormat($utility['previous_number']), "Kws"], 
+                    ["Finishing", $DateFormat($utility['date']), "", "", "", $NumberFormat($utility['number']), "Kws"], 
+                    ["Total", $NumberFormat($utility['price']), "Vnd/Kws", "", "", $NumberFormat($utility['quantity']), "Kws", $NumberFormat($utility['amount'])]  
+                ]; 
+
+                $end_row = $row_position + count($details) - 1; 
+
+                $sheet->fromArray($details, null, "B{$row_position}"); 
+                $sheet->getStyle("B{$row_position}:H{$end_row}")->applyFromArray($range_styles); 
+                $sheet->getStyle("I{$row_position}:I{$end_row}")->applyFromArray($right_number_detail_styles); 
+                $sheet->mergeCells("B{$row_position}:H{$row_position}"); 
+                $row_position = $end_row + 1; 
             }; 
 
             $index = 1; 
@@ -161,8 +192,19 @@
                 $index++; 
             }
 
+            foreach ($invoice["details"]["utilities"] as $utility) 
+            {
+                $UtilityRow($index, $utility); 
+                $index++; 
+            }
+
+            $SheetSubTitle("B{$row_position}", "Grand Total", "left", "B{$row_position}:H{$row_position}"); 
+            $SheetSubTitle("I{$row_position}", $invoice['invoice']['grand_total'], "right"); 
+            $row_position+=2; 
+            $sheet->fromArray($this->footer_rich_text, null, "B{$row_position}"); 
+
             $writer = new Xlsx($spreadsheet); 
-            $writer->save("{$this->temp_path}/test-invoice-new-{$invoice['id']}.xlsx"); 
+            $writer->save("{$folder}/{$invoice['invoice']['name']}.xlsx"); 
         }
 
         private function RichTextArrayConvert($array)

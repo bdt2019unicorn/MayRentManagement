@@ -50,7 +50,7 @@
                                 (SELECT SUM(`invoice_utilities`.`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`),
                                 0 
                             )
-                        ), 3  
+                        ), 0  
                     ) AS `grand_total`
                 FROM `invoices` 
                 WHERE `leaseagrm_id` IN 
