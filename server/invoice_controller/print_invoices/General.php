@@ -1,12 +1,11 @@
 <?php 
     namespace PrintInvoices; 
-    require_once("./helper.php"); 
-    spl_autoload_register(fn($class)=>require_once(str_replace(__NAMESPACE__."\\","",$class).".php")); 
+    require_once("Excel.php"); 
     class General 
     {
-        use InvoicesInformation, Pdf; 
         private $logo_image; 
         private $building_information; 
+        private $invoices; 
         function __construct($building_id)
         {
             $this->logo_image = $this->Base64Logo(); 
@@ -74,6 +73,33 @@
             $base64 = base64_encode($image); 
             return "data:image/jpeg;base64,{$base64}"; 
         }
+
+        private function InvoicesInformation()
+        {
+            return array_map
+            (
+                function($invoice)
+                {
+                    $invoice_id = $invoice["id"]; 
+                    $query = InvoiceDetails($invoice_id); 
+                    $invoice_details = \Connect::MultiQuery($query, true); 
+                    
+                    return
+                    [
+                        "id" => $invoice_id, 
+                        "invoice" =>$invoice, 
+                        "details" => 
+                        [
+                            "leaseagrm" =>$invoice_details[0], 
+                            "utilities" =>$invoice_details[1]
+                        ], 
+                        "checked" => false, 
+                        "show_details" => false 
+                    ]; 
+                }, 
+                $this->invoices
+            ); 
+        }
         
         public function PrintInvoices()
         {
@@ -81,11 +107,9 @@
             [
                 "html" => 
                 [
-                    "image" => $this->logo_image, 
-                    "footer" => ""
+                    "image" => $this->logo_image 
                 ], 
                 "invoices" =>$this->InvoicesInformation(), 
-                "pdf" => $this->Pdf(), 
                 "excel" => Excel::FooterArray($this->building_information)
             ]; 
         }

@@ -12,7 +12,15 @@ var print_invoices_mixin =
     {
         ExportZipFile(zip)
         {
-            zip.generateAsync({type: "blob"}).then(content=> saveAs(content, "AllInvoices.zip"));  
+            try 
+            {
+                zip.generateAsync({type: "blob"}).then(content=> saveAs(content, "AllInvoices.zip"));  
+            }
+            catch
+            {
+                console.log(zip); 
+            }
+            
         }, 
         InvoiceHtml(invoice, {footer, image})
         {
@@ -26,7 +34,8 @@ var print_invoices_mixin =
                         <td>ROE:</td>
                     </tr>
                     <tr><td><b>Invoice</b></td><td>:</td><td>${invoice.invoice["name"]}</td></tr>
-                    <tr><td><b>To</b></td><td>:</td><td>${invoice.invoice["tenant"]}<br><b>${invoice.invoice["unit"]}</b></td></tr>
+                    <tr><td><b>To</b></td><td>:</td><td>${invoice.invoice["tenant"]}</td></tr>
+                    <tr><td></td><td></td><td><b>${invoice.invoice["unit"]}</b></td></tr>
                 </table>
                 <br>
                 <style>
