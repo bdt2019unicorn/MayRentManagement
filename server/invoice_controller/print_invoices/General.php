@@ -4,7 +4,7 @@
     spl_autoload_register(fn($class)=>require_once(str_replace(__NAMESPACE__."\\","",$class).".php")); 
     class General 
     {
-        use InvoicesInformation, Pdf, Html; 
+        use InvoicesInformation, Pdf; 
         private $logo_image; 
         private $building_information; 
         function __construct($building_id)
@@ -79,7 +79,11 @@
         {
             return 
             [
-                "html" => $this->Html(), 
+                "html" => 
+                [
+                    "image" => $this->logo_image, 
+                    "footer" => ""
+                ], 
                 "invoices" =>$this->InvoicesInformation(), 
                 "pdf" => $this->Pdf(), 
                 "excel" => Excel::FooterArray($this->building_information)

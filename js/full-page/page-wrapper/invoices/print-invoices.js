@@ -35,6 +35,28 @@ Vue.component
             let data = this.AjaxRequest(url); 
             data = JSON.parse(data); 
             Object.keys(data).forEach(key=>this[key] = data[key]); 
+            this.html.footer = 
+            `
+                <table style='width: 100%;'>
+                    ${
+                        this.excel.map 
+                        (
+                            row =>
+                            `
+                                <tr>
+                                    <td>
+                                        ${row[0]}
+                                    </td>
+
+                                    <td>
+                                        ${row[row.length-1]}
+                                    </td>
+                                </tr>
+                            `
+                        ).join("\n")
+                    }
+                </table>
+            `; 
         },
         methods: 
         {
