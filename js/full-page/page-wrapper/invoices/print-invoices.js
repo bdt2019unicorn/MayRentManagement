@@ -9,7 +9,6 @@ Vue.component
                 excel: [], 
                 html: {}, 
                 invoices: [], 
-                pdf: {}, 
                 selected: false 
             }
         ),
@@ -35,6 +34,28 @@ Vue.component
             let data = this.AjaxRequest(url); 
             data = JSON.parse(data); 
             Object.keys(data).forEach(key=>this[key] = data[key]); 
+            this.html.footer = 
+            `
+                <table style='width: 100%;'>
+                    ${
+                        this.excel.map 
+                        (
+                            row =>
+                            `
+                                <tr>
+                                    <td>
+                                        ${row[0]}
+                                    </td>
+
+                                    <td>
+                                        ${row[row.length-1]}
+                                    </td>
+                                </tr>
+                            `
+                        ).join("\n")
+                    }
+                </table>
+            `; 
         },
         methods: 
         {
@@ -58,7 +79,7 @@ Vue.component
                 <br>
                 <template v-if="invoices.length">
                     <div class="container-fluid row">
-                        <print-pdf :invoices="CheckedInvoices" :pdf="pdf">PDF</print-pdf>
+                        <print-pdf :invoices="CheckedInvoices" :html="html">PDF</print-pdf>
                         <print-word :invoices="CheckedInvoices" :html="html" class="mx-2">Word</print-word>
                         <print-excel :invoices="CheckedInvoices" :footer_array="excel" :image="html.image" class="mx-2">Excel</print-excel>
                     </div>

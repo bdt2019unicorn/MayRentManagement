@@ -2,163 +2,10 @@ Vue.component
 (
     "print-pdf", 
     {
-        props: ["invoices", "pdf"], 
+        props: ["html", "invoices"], 
         mixins: [print_invoices_mixin], 
         methods: 
         {
-            DocDefinition(invoice)
-            {
-                let specific_content = 
-                [
-                    {
-                        columns: 
-                        [
-                            {
-                                text: "Invoice", 
-                                width: "10%"
-                            },                                 
-                            {
-                                text: ":", 
-                                width: "5%"
-                            },                                 
-                            {
-                                text: invoice.invoice["name"], 
-                                width: "35%"
-                            }
-                        ]
-                    }, 
-                    {
-                        columns: 
-                        [
-                            {
-                                text: "To", 
-                                width: "10%"
-                            },                                 
-                            {
-                                text: ":", 
-                                width: "5%"
-                            },                                 
-                            {
-                                text: invoice.invoice["tenant"], 
-                                width: "35%"
-                            }
-                        ]
-                    }, 
-                    {
-                        columns: 
-                        [
-                            {
-                                text: "", 
-                                width: "15%"
-                            },                                                               
-                            {
-                                text: `Unit ${invoice.invoice["unit"]}`, 
-                                width: "35%", 
-                                bold: true 
-                            }
-                        ], 
-                        lineHeight: 2 
-                    }, 
-                    {
-                        layout: 'lightHorizontalLines', 
-                        table: 
-                        {
-                            headerRows: 1,
-                            widths: [ '80%', '20%' ],
-                            body: 
-                            [
-                                [
-                                    {
-                                        text: "DISCRIPTION", 
-                                        bold: true 
-                                    }, 
-                                    {
-                                        text: "VND", 
-                                        bold: true, 
-                                        alignment: "right"
-                                    }
-                                ], 
-
-                                ...invoice.details.leaseagrm.map 
-                                (
-                                    ({amount, name, ...rest})=> 
-                                    [
-                                        name, 
-                                        {
-                                            text: this.NumeralFormat(amount), 
-                                            alignment: "right"
-                                        }
-                                    ]
-                                ), 
-
-                                ...invoice.details.utilities.map 
-                                (
-                                    ({name, previous_date, date, previous_number, number, amount, ...rest})=>
-                                    [
-                                        {
-                                            stack: 
-                                            [
-                                                name, 
-                                                {
-                                                    columns: 
-                                                    [
-                                                        {
-                                                            width: "15%", 
-                                                            stack: 
-                                                            [
-                                                                "Begining", 
-                                                                "Finishing", 
-                                                                "Total"
-                                                            ]
-                                                        }, 
-                                                        {
-                                                            width: "50%", 
-                                                            stack: 
-                                                            [
-                                                                this.DateReformatDisplay(previous_date), 
-                                                                this.DateReformatDisplay(date), 
-                                                                `${this.NumeralFormat((Number(number) - Number(previous_number)))} VND/m3`
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }, 
-                                        {
-                                            stack: 
-                                            [
-                                                " ", 
-                                                " ", 
-                                                " ", 
-                                                {
-                                                    text: this.NumeralFormat(amount), 
-                                                    alignment: "right", 
-                                                }
-                                            ]
-                                        }
-                                    ] 
-                                ), 
-                                [
-                                    {
-                                        text: "Grand Total",
-                                        style: "sub_heading"
-                                    }, 
-                                    {
-                                        text: this.NumeralFormat(invoice.invoice["grand_total"]), 
-                                        style: "sub_heading", 
-                                        alignment: "right"
-                                    }
-                                ]
-                            ]
-                        } 
-                    } 
-                ]; 
-
-                var doc_definition = R.clone(this.pdf.doc_definition); 
-                doc_definition.content = [...doc_definition.content, ...specific_content, this.pdf.content_footer]; 
-                return doc_definition; 
-            }, 
-
             PrintPdf()
             {
                 if(!this.invoices.length)
@@ -168,6 +15,11 @@ Vue.component
                 }
                 var zip = new JSZip();
                 var folder = zip.folder("invoices");
+                var options = 
+                {
+                    margin: 10, 
+                    html2canvas: {scale: 5}
+                }; 
 
                 var PromiseChain = (index)=> new Promise 
                 (
@@ -178,15 +30,15 @@ Vue.component
                         {
                             reject(zip); 
                         }
-                        let doc_definition = this.DocDefinition(invoice); 
-                        pdfMake.createPdf(doc_definition).getBlob
+                        let html = this.InvoiceHtml(invoice, this.html); 
+                        html2pdf().set(options).from(html).outputPdf("blob").then
                         (
-                            pdf=> 
+                            pdf=>
                             {
                                 folder.file(`${invoice.invoice.name}.pdf`, pdf); 
                                 resolve(index+1); 
                             }
-                        )
+                        ); 
                     }
                 ).then(PromiseChain); 
 
