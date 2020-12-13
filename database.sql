@@ -1,4 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -9,6 +8,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
+DROP TABLE IF EXISTS `buildings`;
 CREATE TABLE `buildings` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -27,10 +27,11 @@ CREATE TABLE `buildings` (
 
 TRUNCATE TABLE `buildings`;
 INSERT INTO `buildings` (`id`, `name`, `account_name`, `account_number`, `bank`, `bank_link`, `bank_branch`, `company`, `authorize_signature`, `authorize_title`, `email`, `phone`, `address`) VALUES
-(1, 'May An Phu', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai Gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Lý Diệu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. \r\nHCMC.'),
-(2, 'May Thi Nghe', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Lý Diệu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
-(3, 'PKK', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Lý Diệu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.');
+(2, 'May Thi Nghe', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Ly Dieu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
+(5, 'PKK', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Ly Dieu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
+(6, 'MAP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+DROP TABLE IF EXISTS `expense`;
 CREATE TABLE `expense` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -44,6 +45,7 @@ CREATE TABLE `expense` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 TRUNCATE TABLE `expense`;
+DROP TABLE IF EXISTS `expense_type`;
 CREATE TABLE `expense_type` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
@@ -61,6 +63,7 @@ INSERT INTO `expense_type` (`id`, `name`) VALUES
 (8, 'Cash payback to tenants'),
 (9, 'Other');
 
+DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -70,10 +73,27 @@ CREATE TABLE `invoices` (
 
 TRUNCATE TABLE `invoices`;
 INSERT INTO `invoices` (`id`, `name`, `leaseagrm_id`, `note`) VALUES
-(22, 'Resolve \"AP1\" period 15 Jan 2019 - 31 Oct 2020', 69, NULL),
-(23, 'Resolve \"AP2\" period 19 Feb 2019 - 31 Oct 2020', 70, NULL),
-(24, 'AP1 - testing 17 Nov 2020', 69, 'Test this thing ');
+(4, '124 (CUULONG) - PKKG01 - Month end 30 Nov 2020', 124, NULL),
+(5, '126 (FUJIKIN) - PKK101 - Month end 30 Nov 2020', 126, NULL),
+(6, '127 (NHQUANG) - PKK102 - Month end 30 Nov 2020', 127, NULL),
+(7, '128 (ARCA) - PKK103 - Month end 30 Nov 2020', 128, NULL),
+(8, '129 (DP) - PKK104 - Month end 30 Nov 2020', 129, NULL),
+(9, '130 (KOCKS) - PKK201 - Month end 30 Nov 2020', 130, NULL),
+(10, '131 (KOCKS) - PKK202 - Month end 30 Nov 2020', 131, NULL),
+(11, '132 (DP) - PKK203 - Month end 30 Nov 2020', 132, NULL),
+(12, '133 (FUBIC) - PKK204 - Month end 30 Nov 2020', 133, NULL),
+(13, '134 (HOANGAN) - PKK301 - Month end 30 Nov 2020', 134, NULL),
+(14, '135 (CIRCLE) - PKK401 - Month end 30 Nov 2020', 135, NULL),
+(15, '136 (WIND) - PKK402 - Month end 30 Nov 2020', 136, NULL),
+(16, '137 (VOYAGER1) - PKK501 - Month end 30 Nov 2020', 137, NULL),
+(17, '138 (VOYAGER2) - PKK502 - Month end 30 Nov 2020', 138, NULL),
+(18, '139 (KIENTRUCTRANG) - PKK601 - Month end 30 Nov 20', 139, NULL),
+(19, '140 (IMT) - PKK701 - Month end 30 Nov 2020', 140, NULL),
+(20, '141 (ENSIGN) - PKK702 - Month end 30 Nov 2020', 141, NULL),
+(21, '142 (MOBIFONE) - PKKT01 - Month end 30 Nov 2020', 142, NULL),
+(23, 'Resolve \"RANGMI\" period 16 Dec 2012 - 31 Oct 2020', 125, NULL);
 
+DROP TABLE IF EXISTS `invoice_leaseagrm`;
 CREATE TABLE `invoice_leaseagrm` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -88,10 +108,27 @@ CREATE TABLE `invoice_leaseagrm` (
 
 TRUNCATE TABLE `invoice_leaseagrm`;
 INSERT INTO `invoice_leaseagrm` (`id`, `name`, `revenue_type_id`, `invoice_id`, `start_date`, `end_date`, `price`, `quantity`, `amount`) VALUES
-(22, 'Rent \"AP1\" period 15 Jan 2019 - 31 Oct 2020', 1, 22, '2019-01-15', '2020-10-31', '1.000', '1.000', '21.548'),
-(23, 'Rent \"AP2\" period 19 Feb 2019 - 31 Oct 2020', 1, 23, '2019-02-19', '2020-10-31', '1.000', '1.000', '20.357'),
-(24, 'Garage rental (31 Oct 2020 - 31 Oct 2020)', 6, 24, '2020-10-31', '2020-10-31', '145.000', '1.000', '145.000');
+(3, 'Rent (01 Jan 2020 - 30 Nov 2020)', 1, 4, '2020-01-01', '2020-11-30', '51836350.000', '11.000', '570199850.000'),
+(4, 'Rent (01 Dec 2019 - 30 Nov 2020)', 1, 5, '2019-12-01', '2020-11-30', '30690000.000', '12.000', '368280000.000'),
+(5, 'Rent (01 Apr 2020 - 30 Nov 2020)', 1, 6, '2020-04-01', '2020-11-30', '20508400.000', '8.000', '164067200.000'),
+(6, 'Rent (01 Jan 2020 - 30 Nov 2020)', 1, 7, '2020-01-01', '2020-11-30', '15856500.000', '11.000', '174421500.000'),
+(7, 'Rent (21 Oct 2020 - 30 Nov 2020)', 1, 8, '2020-10-21', '2020-11-30', '32717620.000', '1.333', '43612587.460'),
+(8, 'Rent (01 Apr 2016 - 30 Nov 2020)', 1, 9, '2016-04-01', '2020-11-30', '33741500.000', '56.000', '1889524000.000'),
+(9, 'Rent (01 Jan 2019 - 30 Nov 2020)', 1, 10, '2019-01-01', '2020-11-30', '8702980.000', '23.000', '200168540.000'),
+(10, 'Rent (21 Oct 2020 - 30 Nov 2020)', 1, 11, '2020-10-21', '2020-11-30', '14520480.000', '1.333', '19355799.840'),
+(11, 'Rent (16 Oct 2020 - 30 Nov 2020)', 1, 12, '2020-10-16', '2020-11-30', '40955200.000', '1.500', '61432800.000'),
+(12, 'Rent (01 Nov 2020 - 30 Nov 2020)', 1, 13, '2020-11-01', '2020-11-30', '78300000.000', '1.000', '78300000.000'),
+(13, 'Rent (05 Aug 2019 - 30 Nov 2020)', 1, 14, '2019-08-05', '2020-11-30', '36650250.000', '15.839', '580503309.750'),
+(14, 'Rent (16 Oct 2019 - 30 Nov 2020)', 1, 15, '2019-10-16', '2020-11-30', '42816800.000', '13.500', '578026800.000'),
+(15, 'Rent (16 Sep 2020 - 30 Nov 2020)', 1, 16, '2020-09-16', '2020-11-30', '32578000.000', '2.484', '80923752.000'),
+(16, 'Rent (22 Jan 2020 - 30 Nov 2020)', 1, 17, '2020-01-22', '2020-11-30', '40606150.000', '10.290', '417837283.500'),
+(17, 'Rent (16 Sep 2019 - 30 Nov 2020)', 1, 18, '2019-09-16', '2020-11-30', '80048800.000', '14.484', '1159426819.200'),
+(18, 'Rent (04 May 2019 - 30 Nov 2020)', 1, 19, '2019-05-04', '2020-11-30', '37464700.000', '18.900', '708082830.000'),
+(19, 'Rent (15 Jun 2020 - 30 Nov 2020)', 1, 20, '2020-06-15', '2020-11-30', '40955200.000', '5.516', '225908883.200'),
+(20, 'Rent (01 Nov 2016 - 30 Nov 2020)', 1, 21, '2016-11-01', '2020-11-30', '108000000.000', '49.000', '5292000000.000'),
+(22, 'Rent \"RANGMI\" period 16 Dec 2012 - 31 Oct 2020', 1, 23, '2012-12-16', '2020-10-31', '20909091.000', '1.000', '1976243644.956');
 
+DROP TABLE IF EXISTS `invoice_utilities`;
 CREATE TABLE `invoice_utilities` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -104,6 +141,7 @@ CREATE TABLE `invoice_utilities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 TRUNCATE TABLE `invoice_utilities`;
+DROP TABLE IF EXISTS `leaseagrm`;
 CREATE TABLE `leaseagrm` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
@@ -124,18 +162,32 @@ CREATE TABLE `leaseagrm` (
 
 TRUNCATE TABLE `leaseagrm`;
 INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `Start_date`, `Finish`, `Rent_amount`, `Deposit_amount`, `Deposit_payment_date`, `Deposit_payback_date`, `Monthly_payment_date`, `Deposit_currency`, `Deposit_exchange_rate`, `note`) VALUES
-(54, 'A1', NULL, NULL, NULL, '2021-04-17', '2022-06-06', '1.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(55, 'A2', NULL, NULL, NULL, '2021-04-22', '2022-10-19', '2.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(56, 'A3', NULL, NULL, NULL, '2021-12-10', '2022-11-23', '3.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(57, 'A4', NULL, NULL, NULL, '2021-06-22', '2022-03-08', '4.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(58, 'A5', NULL, NULL, NULL, '2021-01-03', '2022-03-05', '5.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(59, 'A6', NULL, NULL, NULL, '2021-08-14', '2022-08-03', '6.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(60, 'A7', NULL, NULL, NULL, '2021-02-18', '2023-01-25', '7.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(61, 'A8', NULL, NULL, NULL, '2021-11-20', '2022-06-22', '8.000', NULL, NULL, NULL, NULL, NULL, '1.000', NULL),
-(69, 'AP1', 2, 6, NULL, '2019-01-15', '2021-09-28', '1.000', '1.000', NULL, '2019-01-15', NULL, NULL, '1.000', NULL),
-(70, 'AP2', 3, 10, NULL, '2019-02-19', '2021-11-05', '1.000', '1.000', NULL, '2019-02-19', NULL, NULL, '1.000', NULL),
-(71, 'AP3', 4, 11, NULL, '2019-03-26', '2021-12-13', '1.000', '1.000', NULL, '2019-03-26', NULL, NULL, '1.000', NULL);
+(124, 'CUULONG', 92, 91, NULL, '2020-01-01', '2022-12-31', '51836350.000', NULL, NULL, '2022-12-31', 15, NULL, NULL, NULL),
+(125, 'RANGMI', 93, 92, NULL, '2012-12-16', '2022-12-31', '20909091.000', '66000000.000', NULL, NULL, 30, 'VND', '0.000', NULL),
+(126, 'FUJIKIN', 94, 93, NULL, '2019-12-01', '2021-11-30', '30690000.000', '45900000.000', '2018-11-29', '2021-11-30', 7, 'VND', NULL, NULL),
+(127, 'NHQUANG', 95, 94, NULL, '2020-04-01', '2022-03-31', '20508400.000', '33500000.000', '2014-04-04', '2022-03-31', 15, 'VND', NULL, NULL),
+(128, 'ARCA', 96, 95, NULL, '2020-01-01', '2021-12-31', '15856500.000', NULL, NULL, NULL, 15, NULL, NULL, NULL),
+(129, 'DP', 97, 96, NULL, '2020-10-21', '2021-04-20', '32717620.000', '74000000.000', '2013-10-08', '2021-04-20', 30, 'VND', NULL, NULL),
+(130, 'KOCKS', 98, 97, NULL, '2016-04-01', '2021-03-31', '33741500.000', '68400000.000', '2014-04-17', '2021-03-31', 7, 'VND', NULL, NULL),
+(131, 'KOCKS', 99, 97, NULL, '2019-01-01', '2020-12-31', '8702980.000', '26235000.000', '2019-01-30', '2020-12-31', 7, 'VND', NULL, NULL),
+(132, 'DP', 100, 96, NULL, '2020-10-21', '2021-04-20', '14520480.000', '43000000.000', '2019-03-30', '2021-04-20', 28, 'VND', NULL, NULL),
+(133, 'FUBIC', 101, 98, NULL, '2020-10-16', '2022-10-15', '40955200.000', '76019360.000', '2016-09-15', '2022-10-15', 30, 'USD', '22280.000', NULL),
+(134, 'HOANGAN', 102, 99, NULL, '2020-11-01', '2021-10-31', '78300000.000', '180000000.000', '2017-10-16', '2021-10-31', 15, 'VND', NULL, NULL),
+(135, 'CIRCLE', 103, 100, NULL, '2019-08-05', '2021-08-04', '36650250.000', '110045250.000', '2019-07-05', '2021-08-04', 12, 'VND', NULL, NULL),
+(136, 'WIND', 104, 101, NULL, '2019-10-16', '2022-10-15', '42816800.000', '127885065.000', '2019-10-19', '2022-10-15', 26, 'VND', NULL, NULL),
+(137, 'VOYAGER1', 105, 102, NULL, '2020-09-16', '2021-03-15', '32578000.000', '96873000.000', '2018-07-24', '2021-03-15', 23, 'VND', NULL, NULL),
+(138, 'VOYAGER2', 106, 102, NULL, '2020-01-22', '2022-01-21', '40606150.000', '79300000.000', '2015-12-08', '2022-01-21', 30, 'VND', NULL, NULL),
+(139, 'KIENTRUCTRANG', 107, 103, NULL, '2019-09-16', '2021-09-15', '80048800.000', '267000000.000', '2014-11-03', '2021-09-15', 22, 'VND', NULL, NULL),
+(140, 'IMT', 108, 104, NULL, '2019-05-04', '2021-05-03', '37464700.000', '112345800.000', '2019-05-02', '2021-05-03', 11, 'VND', NULL, NULL),
+(141, 'ENSIGN', 109, 105, NULL, '2020-06-15', '2021-06-14', '40955200.000', '120410400.000', '2018-05-08', '2018-05-08', 14, 'VND', NULL, NULL),
+(142, 'MOBIFONE', 110, 106, NULL, '2016-11-01', '2021-10-31', '108000000.000', NULL, '2021-06-14', NULL, NULL, 'VND', NULL, NULL),
+(144, 'Deffein Patrick', 114, 158, NULL, '2020-04-01', '2021-03-31', '12000000.000', '11415000.000', '2020-04-01', '2021-03-31', 1, NULL, NULL, NULL),
+(145, 'Schill Christoph', 115, 159, NULL, '2019-01-09', '2021-01-08', '17625000.000', '12000000.000', '2019-01-09', '2021-01-08', 1, NULL, NULL, NULL),
+(146, 'Proctor Travis', 116, 162, NULL, '2020-07-11', '2022-07-30', '18067000.000', '38511000.000', '2020-07-11', '2022-07-30', 1, NULL, NULL, NULL),
+(147, 'Gaffney Roger', 118, 164, NULL, '2020-10-01', '2021-03-31', '13000000.000', '13000000.000', '2020-10-01', '2021-03-31', 1, NULL, NULL, NULL),
+(148, 'Bouineau Armelle', 119, 166, NULL, '2019-09-01', '2020-09-01', '17000000.000', '19755250.000', '2019-09-01', '2020-09-01', 1, NULL, NULL, NULL);
 
+DROP TABLE IF EXISTS `revenue`;
 CREATE TABLE `revenue` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -147,9 +199,9 @@ CREATE TABLE `revenue` (
 
 TRUNCATE TABLE `revenue`;
 INSERT INTO `revenue` (`id`, `name`, `leaseagrm_id`, `Payment_date`, `Amount`, `Note`) VALUES
-(6, 'Rent \"AP1\" period 15 Jan 2019 - 31 Oct 2020', 69, '2020-10-31', '21.548', NULL),
-(7, 'Rent \"AP2\" period 19 Feb 2019 - 31 Oct 2020', 70, '2020-10-31', '20.357', NULL);
+(1, 'Rent \"RANGMI\" period 16 Dec 2012 - 31 Oct 2020', 125, '2020-10-31', '1976243644.956', NULL);
 
+DROP TABLE IF EXISTS `revenue_type`;
 CREATE TABLE `revenue_type` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -168,6 +220,7 @@ INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (8, 'Deposit', 0),
 (9, 'Other', 0);
 
+DROP TABLE IF EXISTS `tenant`;
 CREATE TABLE `tenant` (
   `id` int(11) NOT NULL,
   `Last_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
@@ -191,23 +244,34 @@ CREATE TABLE `tenant` (
 
 TRUNCATE TABLE `tenant`;
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `visa_expiry_date`, `building_id`, `police_registration_date`, `expected_departure_date`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`, `note`) VALUES
-(6, 'Deffein', 'Marie', ' Yvon Patrick', '1989-01-01', 'FRA', '19FF66040', NULL, 1, NULL, NULL, '0903102418', '0', 'deffeinp@yahoo.fr', 'deffeinp@yahoo.fr', '0', '0', NULL),
-(10, 'Proctor', 'James', 'Travis', '1976-05-12', 'USA', '567926124', NULL, 1, NULL, NULL, '0765552956', '0', '0', 'travisproctor9@gmail.com', '0', '0', NULL),
-(11, 'Proctor', 'Jill', 'Tifany', '1976-05-12', 'USA', '566338262', NULL, 1, NULL, NULL, '0898320261', '0', '0', 'tiffanyproctor80@gmail.com', '0', '0', NULL),
-(13, 'Gaffney', 'David', 'Roger', '1976-05-12', 'AUS', 'E4131610', NULL, 1, NULL, NULL, '0919794048', '0', '0', 'rogergaffney@gmail.com', '0', '0', NULL),
-(15, 'Bouineau', 'Armelle', ' Josette Clara ', '1976-06-24', 'FRA', '18FH33060', NULL, 1, NULL, NULL, '0', '0', 'test.lka@yopmail.com', 'test.lka@yopmail.com', '0', '0', NULL),
-(16, 'Thomine', ' Raoul', 'Leon Benjamin', '1976-05-12', 'FRA', '17AF32957', NULL, 1, NULL, NULL, 'khong co', '0', '0', 'benjamin.thomie@gmail.com', '0', '0', NULL),
-(18, 'Paget ', 'William', 'Christopher', '1976-05-12', 'AUS', 'E4097092', NULL, 1, NULL, NULL, '0903735799', '0', '0', 'christopherwpaget@yahoo.com ', '0', '0', NULL),
-(19, 'Muschamp', 'Richard', 'Timothy', '1976-05-12', '26580', 'PA9635513', NULL, 1, NULL, NULL, '0794065365', '0', '0', 'Timm@afg.vn', '0', '0', NULL),
-(21, 'Clark ', ' William', 'Michael', '1976-05-12', 'USA', '567118083', NULL, 1, NULL, NULL, '0896409764', '0', '0', '0', '0', '0', NULL),
-(23, 'Sadd', 'Azzahrae', 'Fatima', '1976-05-12', 'MAR', 'TZ5195461', NULL, 1, NULL, NULL, '0932648005', '0', '0', 'Fatimaczzahrae.sawd1@gmail.com', '0', '0', NULL),
-(161, 'Tenant Thi Nghe 1', NULL, NULL, '1995-06-29', 'VN', 'PPN1', NULL, 2, NULL, NULL, '0123456781', NULL, NULL, 'PPN1@YOPMAIL.COM', 'Test', NULL, NULL),
-(162, 'Tenant Thi Nghe 2', NULL, NULL, '1997-09-24', 'VN', 'PPN2', NULL, 2, NULL, NULL, '0123456782', NULL, NULL, 'PPN2@YOPMAIL.COM', 'Test', NULL, NULL),
-(163, 'Tenant Thi Nghe 3', NULL, NULL, '1995-02-03', 'VN', 'PPN3', NULL, 2, NULL, NULL, '0123456783', NULL, NULL, 'PPN3@YOPMAIL.COM', 'Test', NULL, NULL),
-(164, 'Tenant Thi Nghe 4', NULL, NULL, '1997-04-10', 'VN', 'PPN4', NULL, 2, NULL, NULL, '0123456784', NULL, NULL, 'PPN4@YOPMAIL.COM', 'Test', NULL, NULL),
-(165, 'Tenant Thi Nghe 5', NULL, NULL, '1992-03-16', 'VN', 'PPN5', NULL, 2, NULL, NULL, '0123456785', NULL, NULL, 'PPN5@YOPMAIL.COM', 'Test', NULL, NULL),
-(166, 'Tenant Thi Nghe 6', NULL, NULL, '1998-10-28', 'VN', 'PPN6', NULL, 2, NULL, NULL, '0123456786', NULL, NULL, 'PPN6@YOPMAIL.COM', 'Test', NULL, NULL);
+(91, NULL, 'Hong', 'Quyet', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0939404440', NULL, NULL, NULL, 'CUU LONG', '47-49-51 PKK, Distric 1, HCMC', 'CUULONG'),
+(92, NULL, 'Nhu', 'Muoi', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0975628625', '02839417638', NULL, NULL, 'RANG MI', '47-49-51 PKK, Distric 1, HCMC', 'RANGMI'),
+(93, NULL, 'Thao', 'Quyen', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '01695070575', NULL, NULL, NULL, 'FUJIKIN', ' H-2B, Thang Long industrial park,  Đong Anh Dist', 'FUJIKIN'),
+(94, NULL, 'Ngoc', 'Lan', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0903219191', '02838226290', NULL, NULL, 'NH QUANG', 'B23, Thanh Xuan Distric, HNC', 'NHQUANG'),
+(95, NULL, 'Hoang', 'Yen', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0907401958', '02839393924', NULL, NULL, 'ARCA', '47-49-51 PKK, Distric 1, HCMC', 'ARCA'),
+(96, NULL, 'Thi', 'Ngan', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0908686401', NULL, NULL, NULL, 'DP CHEMICALS', '47-49-51 PKK, Distric 1, HCMC', 'DP'),
+(97, NULL, 'Dieu', 'Huong', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0918128012', NULL, NULL, NULL, 'KOCKS ARDELT', '47-49-51 PKK, Distric 1, HCMC', 'KOCKS'),
+(98, NULL, 'Anh', 'Thu', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0963731499', NULL, NULL, NULL, 'FUBIC ENGINEERING', '47-49-51 PKK, Distric 1, HCMC', 'FUBIC'),
+(99, NULL, NULL, 'Yen', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0909973003', '02838277683', NULL, NULL, 'HOANG AN', '47-49-51 PKK, Distric 1, HCMC', 'HOANGAN'),
+(100, NULL, NULL, 'Dung', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0918282279', NULL, NULL, NULL, 'CIRCLE VIET NAM', '47-49-51 PKK, Distric 1, HCMC', 'CIRCLE'),
+(101, NULL, 'Mai', 'Thi', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0972440110', NULL, NULL, NULL, ' WINDMOELLER & HOELSCHER ', '47-49-51 PKK, Distric 1, HCMC', 'WIND'),
+(102, NULL, 'Que', 'Anh', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0903319239', NULL, NULL, NULL, 'VOYAGER DISTRIBUTING CO PTY LTD', '47-49-51 PKK, Distric 1, HCMC', 'VOYAGER '),
+(103, NULL, 'Yen ', 'Thi', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0908394890', NULL, NULL, NULL, 'KIEN TRUC TRANG', '47-49-51 PKK, Distric 1, HCMC', 'KIENTRUCTRANG'),
+(104, NULL, 'Nhat', 'Huy', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0908690099', NULL, NULL, NULL, 'VIEN CONG NGHE', '47-49-51 PKK, Distric 1, HCMC', 'IMT'),
+(105, NULL, 'Gia', 'Hoan', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0908962235', NULL, NULL, NULL, 'ENSIGN LOGISTICS', '47-49-51 PKK, Distric 1, HCMC', 'ENSIGN'),
+(106, 'Mobifone', 'Mobifone', 'Mobifone', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MOBIFONE'),
+(158, 'Deffein', 'Marie  Yvon', '  Patrick', '1961-08-04', 'FRA', '19FF66040', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0903102418', NULL, NULL, 'deffeinp@yahoo.fr', NULL, NULL, NULL),
+(159, 'Schill', NULL, 'Christoph', '1977-09-30', ' AUT', 'P6845625', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0936658805', NULL, NULL, 'christoph.schill@pracsis.com', NULL, NULL, NULL),
+(160, 'Nguyen', 'Cong', 'To Loan', '1988-03-05', 'VN', '1188005073', NULL, 6, NULL, NULL, '0833213588', NULL, NULL, 'ctloan88@yahoo.com', NULL, NULL, NULL),
+(161, 'Schill', 'Will', 'Cong', '2018-02-11', 'VN', NULL, NULL, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(162, 'Proctor', 'James', 'Travis', '1982-08-22', 'USA', '567926124', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0765552956', NULL, NULL, 'travisproctor9@gmail.com', NULL, NULL, NULL),
+(163, 'Proctor', 'Jill', 'Tifany', '1980-10-27', 'USA', '566338262', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0898320261', NULL, NULL, 'tiffanyproctor80@gmail.com', NULL, NULL, NULL),
+(164, 'Gaffney', 'David', 'Roger', '1963-09-29', 'AUS', 'E4131610', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0919794048', NULL, NULL, 'rogergaffney@gmail.com', NULL, NULL, NULL),
+(165, 'Nguyen', 'Thi', 'Quynh Nhung', '1982-10-30', 'VN', '1182000705', NULL, 6, NULL, NULL, '0989060207', NULL, NULL, 'nhung.infos@gmail.com', NULL, NULL, NULL),
+(166, 'Bouineau', 'Armelle', ' Josette Clara ', '1996-03-20', 'FRA', '18FH33060', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0977216933', NULL, NULL, 'clara.bouineau@gmail.com', NULL, NULL, NULL),
+(167, 'Thomine', ' Raoul', 'Leon Benjamin', '1991-11-23', 'FRA', '17AF32957', '0000-00-00', 6, '0000-00-00', '0000-00-00', NULL, NULL, NULL, 'benjamin.thomie@gmail.com', NULL, NULL, NULL);
 
+DROP TABLE IF EXISTS `unit`;
 CREATE TABLE `unit` (
   `id` int(11) NOT NULL,
   `name` char(10) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -222,25 +286,44 @@ CREATE TABLE `unit` (
 
 TRUNCATE TABLE `unit`;
 INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`, `note`) VALUES
-(1, 'MAY', 1, '0', 1, 1, 0, 0, ''),
-(2, 'G01', 1, '0', 1, 1, 0, 0, ''),
-(3, 'G02', 1, '0', 1, 1, 0, 0, ''),
-(4, '101', 1, '0', 1, 1, 0, 0, ''),
-(5, '102', 1, '0', 1, 1, 0, 0, ''),
-(6, '103', 1, '0', 1, 1, 0, 0, ''),
-(7, '201', 1, '0', 1, 1, 1, 0, ''),
-(8, '202', 1, '0', 1, 1, 0, 0, ''),
-(9, '203', 1, '0', 1, 1, 0, 0, ''),
-(10, '301', 1, '0', 1, 1, 0, 0, ''),
-(11, '302', 1, '0', 1, 1, 0, 0, ''),
-(12, '303', 1, '0', 1, 1, 0, 0, ''),
-(13, '304', 1, '0', 1, 1, 0, 0, ''),
-(14, '401', 1, '0', 1, 1, 0, 0, ''),
-(15, '402', 1, '0', 1, 1, 0, 0, ''),
-(16, '304TN', 2, '0', 1, 1, 0, 0, ''),
-(17, '401TN', 2, '0', 1, 1, 0, 0, ''),
-(18, '402', 2, '0', 1, 1, 0, 0, '');
+(92, 'PKKG01', 5, '20', 1, 1, 0, 0, NULL),
+(93, 'PKKG02', 5, '80', 1, 1, 0, 0, NULL),
+(94, 'PKK101', 5, '60', 1, 1, 0, 0, NULL),
+(95, 'PKK102', 5, '40', 1, 1, 0, 0, NULL),
+(96, 'PKK103', 5, '31', 1, 1, 0, 0, NULL),
+(97, 'PKK104', 5, '76', 1, 1, 0, 0, NULL),
+(98, 'PKK201', 5, '80', 1, 1, 0, 0, NULL),
+(99, 'PKK202', 5, '17', 1, 1, 0, 0, NULL),
+(100, 'PKK203', 5, '29', 1, 1, 0, 0, NULL),
+(101, 'PKK204', 5, '80', 1, 1, 0, 0, NULL),
+(102, 'PKK301', 5, '160', 1, 1, 0, 0, NULL),
+(103, 'PKK401', 5, '70', 1, 1, 0, 0, NULL),
+(104, 'PKK402', 5, '80', 1, 1, 0, 0, NULL),
+(105, 'PKK501', 5, '70', 1, 1, 0, 0, NULL),
+(106, 'PKK502', 5, '80', 1, 1, 0, 0, NULL),
+(107, 'PKK601', 5, '160', 1, 1, 0, 0, NULL),
+(108, 'PKK701', 5, '70', 1, 1, 0, 0, NULL),
+(109, 'PKK702', 5, '80', 1, 1, 0, 0, NULL),
+(110, 'PKKT01', 5, '10', 1, 1, 0, 0, NULL),
+(112, 'MAPG01', 6, '70', 2, 2, 0, 3, NULL),
+(113, 'MAPG02', 6, '57', 1, 1, 0, 2, NULL),
+(114, 'MAP101', 6, '60', 1, 1, 0, 1, NULL),
+(115, 'MAP102', 6, '70', 2, 2, 0, 2, NULL),
+(116, 'MAP103', 6, '103', 3, 3, 0, 2, NULL),
+(117, 'MAP201', 6, '60', 1, 1, 0, 1, NULL),
+(118, 'MAP202', 6, '70', 2, 2, 0, 2, NULL),
+(119, 'MAP203', 6, '103', 3, 3, 0, 2, NULL),
+(120, 'MAP301', 6, '60', 1, 1, 0, 1, NULL),
+(121, 'MAP302', 6, '70', 2, 2, 0, 2, NULL),
+(122, 'MAP303', 6, '103', 3, 3, 0, 3, NULL),
+(123, 'MAP401', 6, '48', 1, 1, 0, 1, NULL),
+(124, 'MAP402', 6, '75', 2, 2, 0, 2, NULL),
+(125, 'MAYMAP1', 6, '100', 1, 1, NULL, 1, 'Building A37, for utilities meter'),
+(126, 'MAYMAP2', 6, '1', 1, 1, NULL, 1, 'Building A38, for utilities meter'),
+(127, 'MAYMTN1', 2, '1', 1, 1, NULL, 1, 'May Thi Nghe, for utilities meter'),
+(128, 'MAYMTN2', 2, '1', 1, 1, NULL, 1, 'May Thi Nghe, for utilities meter');
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -256,6 +339,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `phone_number`, `email`, `vibe
 (1, 'blastor555', '123456', '0259784563', 'blastor555@gmail.com', '0123654789', 1),
 (3, 'QuocAnh', 'MayRentManagement', '+84903959969', 'lhqanh@gmail.com', '+4915901244095', 1);
 
+DROP TABLE IF EXISTS `utility_price`;
 CREATE TABLE `utility_price` (
   `id` bigint(20) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
@@ -266,8 +350,15 @@ CREATE TABLE `utility_price` (
 
 TRUNCATE TABLE `utility_price`;
 INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`) VALUES
-(1, 2, '11.000', '2020-10-01', '2020-11-18');
+(1, 2, '11.000', '2020-09-01', '2020-09-20'),
+(2, 3, '22.000', '2020-09-02', '2020-09-20'),
+(3, 2, '21.000', '2020-09-15', '2020-09-20'),
+(4, 3, '32.000', '2020-09-16', '2020-09-20'),
+(5, 2, '31.000', '2020-09-19', '2020-09-20'),
+(6, 3, '42.000', '2020-09-19', '2020-09-20'),
+(7, 2, '4587.000', '2020-09-20', '2020-11-17');
 
+DROP TABLE IF EXISTS `utility_reading`;
 CREATE TABLE `utility_reading` (
   `id` int(11) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
@@ -278,10 +369,80 @@ CREATE TABLE `utility_reading` (
 
 TRUNCATE TABLE `utility_reading`;
 INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `unit_id`, `date`, `number`) VALUES
-(1, 2, 3, '2020-11-01 17:18:00', '10.000'),
-(2, 2, 3, '2020-11-14 17:20:00', '15.000'),
-(3, 3, 3, '2020-11-10 17:34:00', '1.000'),
-(4, 3, 3, '2020-11-14 17:34:00', '10.000');
+(256, 2, 92, '2020-09-30 00:00:00', '29151.000'),
+(257, 2, 93, '2020-09-30 00:00:00', '75916.000'),
+(258, 2, 94, '2020-09-30 00:00:00', '49904.000'),
+(259, 2, 95, '2020-09-30 00:00:00', '9881.000'),
+(260, 2, 96, '2020-09-30 00:00:00', '25096.000'),
+(261, 2, 97, '2020-09-30 00:00:00', '46507.000'),
+(262, 2, 98, '2020-09-30 00:00:00', '34434.000'),
+(263, 2, 99, '2020-09-30 00:00:00', '1618.000'),
+(264, 2, 100, '2020-09-30 00:00:00', '40386.000'),
+(265, 2, 101, '2020-09-30 00:00:00', '7454.000'),
+(266, 2, 102, '2020-09-30 00:00:00', '40361.000'),
+(267, 2, 103, '2020-09-30 00:00:00', '44454.000'),
+(268, 2, 104, '2020-09-30 00:00:00', '66800.000'),
+(269, 2, 105, '2020-09-30 00:00:00', '30617.000'),
+(270, 2, 106, '2020-09-30 00:00:00', '29289.000'),
+(271, 2, 107, '2020-09-30 00:00:00', '56263.000'),
+(272, 2, 108, '2020-09-30 00:00:00', '31542.000'),
+(273, 2, 109, '2020-09-30 00:00:00', '98457.000'),
+(331, 3, 125, '2020-11-06 00:00:00', '5538.000'),
+(332, 3, 126, '2020-11-06 00:00:00', '4623.000'),
+(333, 3, 112, '2020-11-06 00:00:00', '3073.000'),
+(334, 3, 113, '2020-11-06 00:00:00', '1667.000'),
+(335, 3, 114, '2020-10-29 00:00:00', '1406.000'),
+(336, 3, 115, '2020-10-29 00:00:00', '1691.000'),
+(337, 3, 116, '2020-10-29 00:00:00', '2789.000'),
+(338, 3, 117, '2020-11-06 00:00:00', '848.000'),
+(339, 3, 118, '2020-10-29 00:00:00', '1276.000'),
+(340, 3, 119, '2020-10-29 00:00:00', '1799.000'),
+(341, 3, 120, '2020-11-06 00:00:00', '376.000'),
+(342, 3, 121, '2020-10-29 00:00:00', '1676.000'),
+(343, 3, 122, '2020-10-29 00:00:00', '1933.000'),
+(344, 3, 123, '2020-11-06 00:00:00', '553.000'),
+(345, 3, 124, '2020-10-15 00:00:00', '1535.000'),
+(346, 2, 112, '2020-11-06 00:00:00', '35878.000'),
+(347, 2, 113, '2020-11-06 00:00:00', '52216.000'),
+(348, 2, 114, '2020-10-29 00:00:00', '42715.000'),
+(349, 2, 115, '2020-10-29 00:00:00', '57920.000'),
+(350, 2, 116, '2020-10-29 00:00:00', '5348.000'),
+(351, 2, 117, '2020-11-06 00:00:00', '6674.000'),
+(352, 2, 118, '2020-10-29 00:00:00', '46837.000'),
+(353, 2, 119, '2020-10-29 00:00:00', '72587.000'),
+(354, 2, 120, '2020-11-06 00:00:00', '89059.000'),
+(355, 2, 121, '2020-10-29 00:00:00', '18326.000'),
+(356, 2, 122, '2020-10-29 00:00:00', '64437.000'),
+(357, 2, 123, '2020-11-06 00:00:00', '19750.000'),
+(358, 2, 124, '2020-10-15 00:00:00', '66128.000'),
+(359, 3, 125, '2020-11-06 00:00:00', '5538.000'),
+(360, 3, 126, '2020-11-06 00:00:00', '4623.000'),
+(361, 3, 112, '2020-11-06 00:00:00', '3073.000'),
+(362, 3, 113, '2020-11-06 00:00:00', '1667.000'),
+(363, 3, 114, '2020-09-28 00:00:00', '1390.000'),
+(364, 3, 115, '2020-09-28 00:00:00', '1679.000'),
+(365, 3, 116, '2020-09-28 00:00:00', '2772.000'),
+(366, 3, 117, '2020-11-06 00:00:00', '848.000'),
+(367, 3, 118, '2020-09-28 00:00:00', '1267.000'),
+(368, 3, 119, '2020-09-28 00:00:00', '1791.000'),
+(369, 3, 120, '2020-11-06 00:00:00', '376.000'),
+(370, 3, 121, '2020-09-28 00:00:00', '1673.000'),
+(371, 3, 122, '2020-09-28 00:00:00', '1923.000'),
+(372, 3, 123, '2020-11-06 00:00:00', '553.000'),
+(373, 3, 124, '2020-09-14 00:00:00', '1518.000'),
+(374, 2, 112, '2020-11-06 00:00:00', '35878.000'),
+(375, 2, 113, '2020-11-06 00:00:00', '52216.000'),
+(376, 2, 114, '2020-09-28 00:00:00', '42377.000'),
+(377, 2, 115, '2020-09-28 00:00:00', '57587.000'),
+(378, 2, 116, '2020-09-28 00:00:00', '4662.000'),
+(379, 2, 117, '2020-11-06 00:00:00', '6674.000'),
+(380, 2, 118, '2020-09-28 00:00:00', '46416.000'),
+(381, 2, 119, '2020-09-28 00:00:00', '72064.000'),
+(382, 2, 120, '2020-11-06 00:00:00', '89059.000'),
+(383, 2, 121, '2020-09-28 00:00:00', '18117.000'),
+(384, 2, 122, '2020-09-28 00:00:00', '63993.000'),
+(385, 2, 123, '2020-11-06 00:00:00', '19750.000'),
+(386, 2, 124, '2020-09-14 00:00:00', '65463.000');
 
 
 ALTER TABLE `buildings`
@@ -347,46 +508,46 @@ ALTER TABLE `utility_reading`
 
 
 ALTER TABLE `buildings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `expense`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `expense_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 ALTER TABLE `invoice_leaseagrm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 ALTER TABLE `invoice_utilities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `leaseagrm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 ALTER TABLE `revenue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 ALTER TABLE `revenue_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `tenant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 ALTER TABLE `unit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `utility_price`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 ALTER TABLE `utility_reading`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
 
 
 ALTER TABLE `expense`
@@ -424,7 +585,6 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
