@@ -7,7 +7,8 @@
 			"date_columns" => [], 
 			"get_id" => [], 
 			"comma" => [], 
-			"change" => []
+			"change" => [], 
+			"user_info" => false 
 		); 
 	
 		$data =  file_get_contents("params.json"); 
@@ -84,6 +85,12 @@
 		{
 			$AddData($key, $value); 
 		}   
+
+		if($params["user_info"])
+		{
+			$data["username"] = $_POST["username"]; 
+			$data["modified_time"] = $_POST["modified_time"]; 
+		}
 		return $data; 
 	}
 ?>

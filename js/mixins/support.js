@@ -129,6 +129,8 @@ var support_mixin =
         {
             var form_data = new FormData(); 
             form_data.append(key, (stringify)?JSON.stringify(data): data); 
+            form_data.append("username", sessionStorage.getItem("username")); 
+            form_data.append("modified_time", moment().format("YYYY-MM-DD HH:MM:ss")); 
             return this.AjaxRequest(url,form_data, "post");
         },
         TableActions(controller)

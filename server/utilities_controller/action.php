@@ -98,7 +98,9 @@ require_once("../helper/database.php");
         }, 
         "NewPrice"=>function()
         {
-            $data = json_decode($_POST["NewPrice"]); 
+            $data = json_decode($_POST["NewPrice"], true); 
+            $data["username"] = $_POST["username"]; 
+            $data["modified_time"] = $_POST["modified_time"]; 
             $sql = Query::Insert("utility_price", $data); 
             $result = Connect::GetData($sql); 
             echo $result; 

@@ -130,7 +130,8 @@
                 "find_by_building": true 
             }
         }, 
-        "comma": ["number"] 
+        "comma": ["number"], 
+        "user_info": true 
     }
 }  
 
