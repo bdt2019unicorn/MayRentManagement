@@ -1,3 +1,4 @@
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -8,7 +9,6 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-DROP TABLE IF EXISTS `buildings`;
 CREATE TABLE `buildings` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -25,13 +25,11 @@ CREATE TABLE `buildings` (
   `address` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `buildings`;
 INSERT INTO `buildings` (`id`, `name`, `account_name`, `account_number`, `bank`, `bank_link`, `bank_branch`, `company`, `authorize_signature`, `authorize_title`, `email`, `phone`, `address`) VALUES
 (2, 'May Thi Nghe', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Ly Dieu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
 (5, 'PKK', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Ly Dieu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
 (6, 'MAP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-DROP TABLE IF EXISTS `expense`;
 CREATE TABLE `expense` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -44,14 +42,11 @@ CREATE TABLE `expense` (
   `Note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `expense`;
-DROP TABLE IF EXISTS `expense_type`;
 CREATE TABLE `expense_type` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `expense_type`;
 INSERT INTO `expense_type` (`id`, `name`) VALUES
 (1, 'Salary'),
 (2, 'Supplies (Flower, fuel)'),
@@ -63,7 +58,6 @@ INSERT INTO `expense_type` (`id`, `name`) VALUES
 (8, 'Cash payback to tenants'),
 (9, 'Other');
 
-DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE `invoices` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -71,7 +65,6 @@ CREATE TABLE `invoices` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `invoices`;
 INSERT INTO `invoices` (`id`, `name`, `leaseagrm_id`, `note`) VALUES
 (4, '124 (CUULONG) - PKKG01 - Month end 30 Nov 2020', 124, NULL),
 (5, '126 (FUJIKIN) - PKK101 - Month end 30 Nov 2020', 126, NULL),
@@ -93,7 +86,6 @@ INSERT INTO `invoices` (`id`, `name`, `leaseagrm_id`, `note`) VALUES
 (21, '142 (MOBIFONE) - PKKT01 - Month end 30 Nov 2020', 142, NULL),
 (23, 'Resolve \"RANGMI\" period 16 Dec 2012 - 31 Oct 2020', 125, NULL);
 
-DROP TABLE IF EXISTS `invoice_leaseagrm`;
 CREATE TABLE `invoice_leaseagrm` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -106,7 +98,6 @@ CREATE TABLE `invoice_leaseagrm` (
   `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `invoice_leaseagrm`;
 INSERT INTO `invoice_leaseagrm` (`id`, `name`, `revenue_type_id`, `invoice_id`, `start_date`, `end_date`, `price`, `quantity`, `amount`) VALUES
 (3, 'Rent (01 Jan 2020 - 30 Nov 2020)', 1, 4, '2020-01-01', '2020-11-30', '51836350.000', '11.000', '570199850.000'),
 (4, 'Rent (01 Dec 2019 - 30 Nov 2020)', 1, 5, '2019-12-01', '2020-11-30', '30690000.000', '12.000', '368280000.000'),
@@ -128,7 +119,6 @@ INSERT INTO `invoice_leaseagrm` (`id`, `name`, `revenue_type_id`, `invoice_id`, 
 (20, 'Rent (01 Nov 2016 - 30 Nov 2020)', 1, 21, '2016-11-01', '2020-11-30', '108000000.000', '49.000', '5292000000.000'),
 (22, 'Rent \"RANGMI\" period 16 Dec 2012 - 31 Oct 2020', 1, 23, '2012-12-16', '2020-10-31', '20909091.000', '1.000', '1976243644.956');
 
-DROP TABLE IF EXISTS `invoice_utilities`;
 CREATE TABLE `invoice_utilities` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -140,8 +130,6 @@ CREATE TABLE `invoice_utilities` (
   `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `invoice_utilities`;
-DROP TABLE IF EXISTS `leaseagrm`;
 CREATE TABLE `leaseagrm` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
@@ -160,7 +148,6 @@ CREATE TABLE `leaseagrm` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `leaseagrm`;
 INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `Start_date`, `Finish`, `Rent_amount`, `Deposit_amount`, `Deposit_payment_date`, `Deposit_payback_date`, `Monthly_payment_date`, `Deposit_currency`, `Deposit_exchange_rate`, `note`) VALUES
 (124, 'CUULONG', 92, 91, NULL, '2020-01-01', '2022-12-31', '51836350.000', NULL, NULL, '2022-12-31', 15, NULL, NULL, NULL),
 (125, 'RANGMI', 93, 92, NULL, '2012-12-16', '2022-12-31', '20909091.000', '66000000.000', NULL, NULL, 30, 'VND', '0.000', NULL),
@@ -187,7 +174,6 @@ INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `
 (147, 'Gaffney Roger', 118, 164, NULL, '2020-10-01', '2021-03-31', '13000000.000', '13000000.000', '2020-10-01', '2021-03-31', 1, NULL, NULL, NULL),
 (148, 'Bouineau Armelle', 119, 166, NULL, '2019-09-01', '2020-09-01', '17000000.000', '19755250.000', '2019-09-01', '2020-09-01', 1, NULL, NULL, NULL);
 
-DROP TABLE IF EXISTS `revenue`;
 CREATE TABLE `revenue` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -197,18 +183,15 @@ CREATE TABLE `revenue` (
   `Note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `revenue`;
 INSERT INTO `revenue` (`id`, `name`, `leaseagrm_id`, `Payment_date`, `Amount`, `Note`) VALUES
 (1, 'Rent \"RANGMI\" period 16 Dec 2012 - 31 Oct 2020', 125, '2020-10-31', '1976243644.956', NULL);
 
-DROP TABLE IF EXISTS `revenue_type`;
 CREATE TABLE `revenue_type` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `is_utility` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `revenue_type`;
 INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (1, 'Rent', 0),
 (2, 'Electricity', 1),
@@ -220,7 +203,6 @@ INSERT INTO `revenue_type` (`id`, `name`, `is_utility`) VALUES
 (8, 'Deposit', 0),
 (9, 'Other', 0);
 
-DROP TABLE IF EXISTS `tenant`;
 CREATE TABLE `tenant` (
   `id` int(11) NOT NULL,
   `Last_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
@@ -242,7 +224,6 @@ CREATE TABLE `tenant` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `tenant`;
 INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_birth`, `Nationality`, `Passport_ID_number`, `visa_expiry_date`, `building_id`, `police_registration_date`, `expected_departure_date`, `Mobile_Phone`, `Work_Phone`, `Work_Email`, `Personal_Email`, `Company_Name`, `Company_address`, `note`) VALUES
 (91, NULL, 'Hong', 'Quyet', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0939404440', NULL, NULL, NULL, 'CUU LONG', '47-49-51 PKK, Distric 1, HCMC', 'CUULONG'),
 (92, NULL, 'Nhu', 'Muoi', NULL, 'VietNam', NULL, NULL, 5, NULL, NULL, '0975628625', '02839417638', NULL, NULL, 'RANG MI', '47-49-51 PKK, Distric 1, HCMC', 'RANGMI'),
@@ -271,7 +252,6 @@ INSERT INTO `tenant` (`id`, `Last_Name`, `Middle_Name`, `First_Name`, `Date_of_b
 (166, 'Bouineau', 'Armelle', ' Josette Clara ', '1996-03-20', 'FRA', '18FH33060', '0000-00-00', 6, '0000-00-00', '0000-00-00', '0977216933', NULL, NULL, 'clara.bouineau@gmail.com', NULL, NULL, NULL),
 (167, 'Thomine', ' Raoul', 'Leon Benjamin', '1991-11-23', 'FRA', '17AF32957', '0000-00-00', 6, '0000-00-00', '0000-00-00', NULL, NULL, NULL, 'benjamin.thomie@gmail.com', NULL, NULL, NULL);
 
-DROP TABLE IF EXISTS `unit`;
 CREATE TABLE `unit` (
   `id` int(11) NOT NULL,
   `name` char(10) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -284,7 +264,6 @@ CREATE TABLE `unit` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `unit`;
 INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `number_of_bathroom`, `balcony`, `number_of_windows`, `note`) VALUES
 (92, 'PKKG01', 5, '20', 1, 1, 0, 0, NULL),
 (93, 'PKKG02', 5, '80', 1, 1, 0, 0, NULL),
@@ -323,7 +302,6 @@ INSERT INTO `unit` (`id`, `name`, `building_id`, `area`, `number_of_bedrooms`, `
 (127, 'MAYMTN1', 2, '1', 1, 1, NULL, 1, 'May Thi Nghe, for utilities meter'),
 (128, 'MAYMTN2', 2, '1', 1, 1, NULL, 1, 'May Thi Nghe, for utilities meter');
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -334,115 +312,115 @@ CREATE TABLE `user` (
   `approved` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `user`;
 INSERT INTO `user` (`id`, `username`, `password`, `phone_number`, `email`, `viber_number`, `approved`) VALUES
 (1, 'blastor555', '123456', '0259784563', 'blastor555@gmail.com', '0123654789', 1),
 (3, 'QuocAnh', 'MayRentManagement', '+84903959969', 'lhqanh@gmail.com', '+4915901244095', 1);
 
-DROP TABLE IF EXISTS `utility_price`;
 CREATE TABLE `utility_price` (
   `id` bigint(20) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
   `value` decimal(13,3) NOT NULL,
   `date_valid` date NOT NULL,
-  `date_enter` date NOT NULL
+  `date_enter` date NOT NULL,
+  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `modified_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `utility_price`;
-INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`) VALUES
-(1, 2, '11.000', '2020-09-01', '2020-09-20'),
-(2, 3, '22.000', '2020-09-02', '2020-09-20'),
-(3, 2, '21.000', '2020-09-15', '2020-09-20'),
-(4, 3, '32.000', '2020-09-16', '2020-09-20'),
-(5, 2, '31.000', '2020-09-19', '2020-09-20'),
-(6, 3, '42.000', '2020-09-19', '2020-09-20'),
-(7, 2, '4587.000', '2020-09-20', '2020-11-17');
+INSERT INTO `utility_price` (`id`, `revenue_type_id`, `value`, `date_valid`, `date_enter`, `username`, `modified_time`) VALUES
+(1, 2, '11.000', '2020-09-01', '2020-09-20', NULL, NULL),
+(2, 3, '22.000', '2020-09-02', '2020-09-20', NULL, NULL),
+(3, 2, '21.000', '2020-09-15', '2020-09-20', NULL, NULL),
+(4, 3, '32.000', '2020-09-16', '2020-09-20', NULL, NULL),
+(5, 2, '31.000', '2020-09-19', '2020-09-20', NULL, NULL),
+(6, 3, '42.000', '2020-09-19', '2020-09-20', NULL, NULL),
+(7, 2, '4587.000', '2020-09-20', '2020-11-17', NULL, NULL),
+(8, 3, '12000.000', '2020-12-01', '2020-12-15', 'blastor555', '2020-12-15 09:12:10');
 
-DROP TABLE IF EXISTS `utility_reading`;
 CREATE TABLE `utility_reading` (
   `id` int(11) NOT NULL,
   `revenue_type_id` int(11) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `date` datetime NOT NULL,
-  `number` decimal(13,3) NOT NULL
+  `number` decimal(13,3) NOT NULL,
+  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `modified_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-TRUNCATE TABLE `utility_reading`;
-INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `unit_id`, `date`, `number`) VALUES
-(256, 2, 92, '2020-09-30 00:00:00', '29151.000'),
-(257, 2, 93, '2020-09-30 00:00:00', '75916.000'),
-(258, 2, 94, '2020-09-30 00:00:00', '49904.000'),
-(259, 2, 95, '2020-09-30 00:00:00', '9881.000'),
-(260, 2, 96, '2020-09-30 00:00:00', '25096.000'),
-(261, 2, 97, '2020-09-30 00:00:00', '46507.000'),
-(262, 2, 98, '2020-09-30 00:00:00', '34434.000'),
-(263, 2, 99, '2020-09-30 00:00:00', '1618.000'),
-(264, 2, 100, '2020-09-30 00:00:00', '40386.000'),
-(265, 2, 101, '2020-09-30 00:00:00', '7454.000'),
-(266, 2, 102, '2020-09-30 00:00:00', '40361.000'),
-(267, 2, 103, '2020-09-30 00:00:00', '44454.000'),
-(268, 2, 104, '2020-09-30 00:00:00', '66800.000'),
-(269, 2, 105, '2020-09-30 00:00:00', '30617.000'),
-(270, 2, 106, '2020-09-30 00:00:00', '29289.000'),
-(271, 2, 107, '2020-09-30 00:00:00', '56263.000'),
-(272, 2, 108, '2020-09-30 00:00:00', '31542.000'),
-(273, 2, 109, '2020-09-30 00:00:00', '98457.000'),
-(331, 3, 125, '2020-11-06 00:00:00', '5538.000'),
-(332, 3, 126, '2020-11-06 00:00:00', '4623.000'),
-(333, 3, 112, '2020-11-06 00:00:00', '3073.000'),
-(334, 3, 113, '2020-11-06 00:00:00', '1667.000'),
-(335, 3, 114, '2020-10-29 00:00:00', '1406.000'),
-(336, 3, 115, '2020-10-29 00:00:00', '1691.000'),
-(337, 3, 116, '2020-10-29 00:00:00', '2789.000'),
-(338, 3, 117, '2020-11-06 00:00:00', '848.000'),
-(339, 3, 118, '2020-10-29 00:00:00', '1276.000'),
-(340, 3, 119, '2020-10-29 00:00:00', '1799.000'),
-(341, 3, 120, '2020-11-06 00:00:00', '376.000'),
-(342, 3, 121, '2020-10-29 00:00:00', '1676.000'),
-(343, 3, 122, '2020-10-29 00:00:00', '1933.000'),
-(344, 3, 123, '2020-11-06 00:00:00', '553.000'),
-(345, 3, 124, '2020-10-15 00:00:00', '1535.000'),
-(346, 2, 112, '2020-11-06 00:00:00', '35878.000'),
-(347, 2, 113, '2020-11-06 00:00:00', '52216.000'),
-(348, 2, 114, '2020-10-29 00:00:00', '42715.000'),
-(349, 2, 115, '2020-10-29 00:00:00', '57920.000'),
-(350, 2, 116, '2020-10-29 00:00:00', '5348.000'),
-(351, 2, 117, '2020-11-06 00:00:00', '6674.000'),
-(352, 2, 118, '2020-10-29 00:00:00', '46837.000'),
-(353, 2, 119, '2020-10-29 00:00:00', '72587.000'),
-(354, 2, 120, '2020-11-06 00:00:00', '89059.000'),
-(355, 2, 121, '2020-10-29 00:00:00', '18326.000'),
-(356, 2, 122, '2020-10-29 00:00:00', '64437.000'),
-(357, 2, 123, '2020-11-06 00:00:00', '19750.000'),
-(358, 2, 124, '2020-10-15 00:00:00', '66128.000'),
-(359, 3, 125, '2020-11-06 00:00:00', '5538.000'),
-(360, 3, 126, '2020-11-06 00:00:00', '4623.000'),
-(361, 3, 112, '2020-11-06 00:00:00', '3073.000'),
-(362, 3, 113, '2020-11-06 00:00:00', '1667.000'),
-(363, 3, 114, '2020-09-28 00:00:00', '1390.000'),
-(364, 3, 115, '2020-09-28 00:00:00', '1679.000'),
-(365, 3, 116, '2020-09-28 00:00:00', '2772.000'),
-(366, 3, 117, '2020-11-06 00:00:00', '848.000'),
-(367, 3, 118, '2020-09-28 00:00:00', '1267.000'),
-(368, 3, 119, '2020-09-28 00:00:00', '1791.000'),
-(369, 3, 120, '2020-11-06 00:00:00', '376.000'),
-(370, 3, 121, '2020-09-28 00:00:00', '1673.000'),
-(371, 3, 122, '2020-09-28 00:00:00', '1923.000'),
-(372, 3, 123, '2020-11-06 00:00:00', '553.000'),
-(373, 3, 124, '2020-09-14 00:00:00', '1518.000'),
-(374, 2, 112, '2020-11-06 00:00:00', '35878.000'),
-(375, 2, 113, '2020-11-06 00:00:00', '52216.000'),
-(376, 2, 114, '2020-09-28 00:00:00', '42377.000'),
-(377, 2, 115, '2020-09-28 00:00:00', '57587.000'),
-(378, 2, 116, '2020-09-28 00:00:00', '4662.000'),
-(379, 2, 117, '2020-11-06 00:00:00', '6674.000'),
-(380, 2, 118, '2020-09-28 00:00:00', '46416.000'),
-(381, 2, 119, '2020-09-28 00:00:00', '72064.000'),
-(382, 2, 120, '2020-11-06 00:00:00', '89059.000'),
-(383, 2, 121, '2020-09-28 00:00:00', '18117.000'),
-(384, 2, 122, '2020-09-28 00:00:00', '63993.000'),
-(385, 2, 123, '2020-11-06 00:00:00', '19750.000'),
-(386, 2, 124, '2020-09-14 00:00:00', '65463.000');
+INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `unit_id`, `date`, `number`, `username`, `modified_time`) VALUES
+(256, 2, 92, '2020-09-30 00:00:00', '29151.000', NULL, NULL),
+(257, 2, 93, '2020-09-30 00:00:00', '75916.000', NULL, NULL),
+(258, 2, 94, '2020-09-30 00:00:00', '49904.000', NULL, NULL),
+(259, 2, 95, '2020-09-30 00:00:00', '9881.000', NULL, NULL),
+(260, 2, 96, '2020-09-30 00:00:00', '25096.000', NULL, NULL),
+(261, 2, 97, '2020-09-30 00:00:00', '46507.000', NULL, NULL),
+(262, 2, 98, '2020-09-30 00:00:00', '34434.000', NULL, NULL),
+(263, 2, 99, '2020-09-30 00:00:00', '1618.000', NULL, NULL),
+(264, 2, 100, '2020-09-30 00:00:00', '40386.000', NULL, NULL),
+(265, 2, 101, '2020-09-30 00:00:00', '7454.000', NULL, NULL),
+(266, 2, 102, '2020-09-30 00:00:00', '40361.000', NULL, NULL),
+(267, 2, 103, '2020-09-30 00:00:00', '44454.000', NULL, NULL),
+(268, 2, 104, '2020-09-30 00:00:00', '66800.000', NULL, NULL),
+(269, 2, 105, '2020-09-30 00:00:00', '30617.000', NULL, NULL),
+(270, 2, 106, '2020-09-30 00:00:00', '29289.000', NULL, NULL),
+(271, 2, 107, '2020-09-30 00:00:00', '56263.000', NULL, NULL),
+(272, 2, 108, '2020-09-30 00:00:00', '31542.000', NULL, NULL),
+(273, 2, 109, '2020-09-30 00:00:00', '98457.000', NULL, NULL),
+(331, 3, 125, '2020-11-06 00:00:00', '5538.000', NULL, NULL),
+(332, 3, 126, '2020-11-06 00:00:00', '4623.000', NULL, NULL),
+(333, 3, 112, '2020-11-06 00:00:00', '3073.000', NULL, NULL),
+(334, 3, 113, '2020-11-06 00:00:00', '1667.000', NULL, NULL),
+(335, 3, 114, '2020-10-29 00:00:00', '1406.000', NULL, NULL),
+(336, 3, 115, '2020-10-29 00:00:00', '1691.000', NULL, NULL),
+(337, 3, 116, '2020-10-29 00:00:00', '2789.000', NULL, NULL),
+(338, 3, 117, '2020-11-06 00:00:00', '848.000', NULL, NULL),
+(339, 3, 118, '2020-10-29 00:00:00', '1276.000', NULL, NULL),
+(340, 3, 119, '2020-10-29 00:00:00', '1799.000', NULL, NULL),
+(341, 3, 120, '2020-11-06 00:00:00', '376.000', NULL, NULL),
+(342, 3, 121, '2020-10-29 00:00:00', '1676.000', NULL, NULL),
+(343, 3, 122, '2020-10-29 00:00:00', '1933.000', NULL, NULL),
+(344, 3, 123, '2020-11-06 00:00:00', '553.000', NULL, NULL),
+(345, 3, 124, '2020-10-15 00:00:00', '1535.000', NULL, NULL),
+(346, 2, 112, '2020-11-06 00:00:00', '35878.000', NULL, NULL),
+(347, 2, 113, '2020-11-06 00:00:00', '52216.000', NULL, NULL),
+(348, 2, 114, '2020-10-29 00:00:00', '42715.000', NULL, NULL),
+(349, 2, 115, '2020-10-29 00:00:00', '57920.000', NULL, NULL),
+(350, 2, 116, '2020-10-29 00:00:00', '5348.000', NULL, NULL),
+(351, 2, 117, '2020-11-06 00:00:00', '6674.000', NULL, NULL),
+(352, 2, 118, '2020-10-29 00:00:00', '46837.000', NULL, NULL),
+(353, 2, 119, '2020-10-29 00:00:00', '72587.000', NULL, NULL),
+(354, 2, 120, '2020-11-06 00:00:00', '89059.000', NULL, NULL),
+(355, 2, 121, '2020-10-29 00:00:00', '18326.000', NULL, NULL),
+(356, 2, 122, '2020-10-29 00:00:00', '64437.000', NULL, NULL),
+(357, 2, 123, '2020-11-06 00:00:00', '19750.000', NULL, NULL),
+(358, 2, 124, '2020-10-15 00:00:00', '66128.000', NULL, NULL),
+(359, 3, 125, '2020-11-06 00:00:00', '5538.000', NULL, NULL),
+(360, 3, 126, '2020-11-06 00:00:00', '4623.000', NULL, NULL),
+(361, 3, 112, '2020-11-06 00:00:00', '3073.000', NULL, NULL),
+(362, 3, 113, '2020-11-06 00:00:00', '1667.000', NULL, NULL),
+(363, 3, 114, '2020-09-28 00:00:00', '1390.000', NULL, NULL),
+(364, 3, 115, '2020-09-28 00:00:00', '1679.000', NULL, NULL),
+(365, 3, 116, '2020-09-28 00:00:00', '2772.000', NULL, NULL),
+(366, 3, 117, '2020-11-06 00:00:00', '848.000', NULL, NULL),
+(367, 3, 118, '2020-09-28 00:00:00', '1267.000', NULL, NULL),
+(368, 3, 119, '2020-09-28 00:00:00', '1791.000', NULL, NULL),
+(369, 3, 120, '2020-11-06 00:00:00', '376.000', NULL, NULL),
+(370, 3, 121, '2020-09-28 00:00:00', '1673.000', NULL, NULL),
+(371, 3, 122, '2020-09-28 00:00:00', '1923.000', NULL, NULL),
+(372, 3, 123, '2020-11-06 00:00:00', '553.000', NULL, NULL),
+(373, 3, 124, '2020-09-14 00:00:00', '1518.000', NULL, NULL),
+(374, 2, 112, '2020-11-06 00:00:00', '35878.000', NULL, NULL),
+(375, 2, 113, '2020-11-06 00:00:00', '52216.000', NULL, NULL),
+(376, 2, 114, '2020-09-28 00:00:00', '42377.000', NULL, NULL),
+(377, 2, 115, '2020-09-28 00:00:00', '57587.000', NULL, NULL),
+(378, 2, 116, '2020-09-28 00:00:00', '4662.000', NULL, NULL),
+(379, 2, 117, '2020-11-06 00:00:00', '6674.000', NULL, NULL),
+(380, 2, 118, '2020-09-28 00:00:00', '46416.000', NULL, NULL),
+(381, 2, 119, '2020-09-28 00:00:00', '72064.000', NULL, NULL),
+(382, 2, 120, '2020-11-06 00:00:00', '89059.000', NULL, NULL),
+(383, 2, 121, '2020-09-28 00:00:00', '18117.000', NULL, NULL),
+(384, 2, 122, '2020-09-28 00:00:00', '63993.000', NULL, NULL),
+(385, 2, 123, '2020-11-06 00:00:00', '19750.000', NULL, NULL),
+(386, 2, 124, '2020-09-14 00:00:00', '65463.000', NULL, NULL);
 
 
 ALTER TABLE `buildings`
@@ -544,10 +522,10 @@ ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `utility_price`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 ALTER TABLE `utility_reading`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
 
 
 ALTER TABLE `expense`
@@ -585,6 +563,7 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
