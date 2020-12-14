@@ -52,6 +52,37 @@ var support_mixin =
             return result; 
         }, 
 
+        BlobRequest(url, data={})
+        {
+            var result = null; 
+            $.ajax 
+            (
+                {
+                    url: url, 
+                    type: "POST", 
+                    data: data,  
+                    async: false, 
+                    dataType: 'text',                              
+                    mimeType: 'text/plain; charset=x-user-defined',
+                    success: (data)=>
+                    {
+                        var bytes = new Uint8Array(data.length);
+                        for (var i = 0; i < data.length; i++) 
+                        {
+                            bytes[i] = data.charCodeAt(i);
+                        }
+                        result = new Blob([bytes], {type: "application/octetstream"}); 
+                    }, 
+                    error: function(error)
+                    {
+                        alert("There is something wrong with the server! Please try again"); 
+                        console.log(error); 
+                    }
+                }
+            ); 
+            return result; 
+        }, 
+
         BuildingsData()
         {
             let buildings_data = this.TableData("buildings").map 

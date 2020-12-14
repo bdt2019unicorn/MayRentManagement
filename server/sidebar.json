@@ -188,6 +188,28 @@
         ]
     },
     {
+        "icon": "file", 
+        "name": "documents", 
+        "text": "Documents", 
+        "menu": 
+        [
+            {
+                "action": "documents-overview", 
+                "text": "Overview", 
+                "title": "All Documents", 
+                "button": "warning", 
+                "icon": "folder-open"
+            }, 
+            {
+                "action": "documents-add", 
+                "text": "Add", 
+                "title": "Add", 
+                "button": "secondary", 
+                "icon": "plus"
+            } 
+        ]
+    }, 
+    {
         "icon": "cog",
         "name": "utilities", 
         "text": "Utilities",
