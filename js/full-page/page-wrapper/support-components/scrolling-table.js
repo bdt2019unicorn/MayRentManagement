@@ -24,13 +24,7 @@ Vue.component
             {
                 return (this.table_data.length==0)? undefined: 
                 {
-                    columns: Object.keys(this.table_data[0]).filter
-                    (
-                        column=>
-                        {
-                            return !this.SpecialColumns("hidden_columns").includes(column); 
-                        }
-                    ).map
+                    columns: Object.keys(this.table_data[0]).filter(column=>!this.SpecialColumns("hidden_columns").includes(column)).map
                     (
                         column=>
                         {
@@ -43,11 +37,7 @@ Vue.component
                                 return result==0? 0: (result/Math.abs(result)); 
                             }; 
 
-                            let sort = !Object.keys(sort_actions).includes(column)? {sortable: false}: 
-                            {
-                                sortable: true,
-                                sortFn: SortFunction 
-                            }
+                            let sort = !Object.keys(sort_actions).includes(column)? {sortable: false}: {sortable: true, sortFn: SortFunction}
 
                             return {
                                 field: column, 

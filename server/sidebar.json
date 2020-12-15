@@ -194,7 +194,7 @@
         "menu": 
         [
             {
-                "action": "documents-overview", 
+                "action": "overview", 
                 "text": "Overview", 
                 "title": "All Documents", 
                 "button": "warning", 

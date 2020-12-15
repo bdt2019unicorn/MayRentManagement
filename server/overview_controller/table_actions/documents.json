@@ -1,0 +1,31 @@
+{
+    "actions": 
+    {
+        "list": ["Name", "Type", "Unit", "Uploaded Time", "Uploader"], 
+        "search": ["Name", "Type", "Unit", "Uploaded Time", "Uploader"], 
+        "sort": 
+        {
+            "Name": "Name", 
+            "Unit": "Unit", 
+            "Uploaded Time": "Uploaded Time", 
+            "Uploader": "Uploader"
+        }
+    }, 
+    "hyperlink": 
+    {
+        "Unit Name":
+        {
+            "controller": "unit", 
+            "action": "edit", 
+            "object_id": "ID"
+        }, 
+        "Tenant Name":
+        {
+            "controller": "tenant", 
+            "action": "edit", 
+            "object_id": "tenantid"
+        }
+    }, 
+    "hyperlink_list": ["Rental Status"], 
+    "page_title": "Overview" 
+}
