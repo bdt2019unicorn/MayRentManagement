@@ -130,7 +130,7 @@
             }
         }, 
         "comma": ["number"], 
-        "user_info": true 
+        "user_info": true
     }
 }  
 
