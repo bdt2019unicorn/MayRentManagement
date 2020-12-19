@@ -12,6 +12,7 @@
                 <?php 
                     $url.="/{$issue_id}"; 
                 ?>
+            <h1>Issue</h1>
             <?php else: ?>
                 <?php
                     $issue_state = $_GET["state"]??"all"; 
