@@ -113,7 +113,6 @@
     "utilities": 
     {
         "table": "utility_reading", 
-        "date_columns": ["date"], 
         "get_id":  
         {
             "utility_type": 
