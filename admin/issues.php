@@ -11,8 +11,13 @@
             <?php if($issue_id): ?>
                 <?php 
                     $url.="/{$issue_id}"; 
-                ?>
-            <h1>Issue</h1>
+                ?>   
+            <h1>Issue: <?php echo $issue_id; ?></h1>
+            <form action="#">
+                <label for="updatecoment">Góp ý kiến: </label><br>
+                <textarea name="updatecoment" id="updatecoment" cols="30" rows="10" placeholder="Comment"></textarea><br>
+                <input type="submit" value="submit">
+            </form>
             <?php else: ?>
                 <?php
                     $issue_state = $_GET["state"]??"all"; 
@@ -49,10 +54,10 @@
                         let decode_url = `<?php echo base64_encode($url); ?>`; 
                         var data = GetIssues(decode_url); 
                         <?php if($issue_id): ?>
-                            console.log(data); 
+                            console.log(data);
                         <?php else: ?>
                             var issue_overview = IssueOverview(data); 
-                            $("#issues-overview").append(issue_overview); 
+                            $("#issues-overview").append(issue_overview);
                         <?php endif; ?>
                     }
                 ); 
