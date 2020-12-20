@@ -69,3 +69,9 @@ function IssueDiv({ number, title, body }) {
     div.append(content);
     return div;
 }
+
+function ShowIssue(data)
+{
+    document.getElementById("updatecoment").value=data.body;
+    document.getElementById("showtitle").value=data.title;
+}

@@ -14,6 +14,7 @@
                 ?>   
             <h1>Issue: <?php echo $issue_id; ?></h1>
             <form action="#">
+                Issue Lỗi: <input type="text" name="Tiêu đề" id="showtitle"><br>
                 <label for="updatecoment">Góp ý kiến: </label><br>
                 <textarea name="updatecoment" id="updatecoment" cols="30" rows="10" placeholder="Comment"></textarea><br>
                 <input type="submit" value="submit">
@@ -54,7 +55,7 @@
                         let decode_url = `<?php echo base64_encode($url); ?>`; 
                         var data = GetIssues(decode_url); 
                         <?php if($issue_id): ?>
-                            console.log(data);
+                            ShowIssue(data);
                         <?php else: ?>
                             var issue_overview = IssueOverview(data); 
                             $("#issues-overview").append(issue_overview);
