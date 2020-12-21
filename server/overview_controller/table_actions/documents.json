@@ -11,21 +11,5 @@
             "Uploader": "Uploader"
         }
     }, 
-    "hyperlink": 
-    {
-        "Unit Name":
-        {
-            "controller": "unit", 
-            "action": "edit", 
-            "object_id": "ID"
-        }, 
-        "Tenant Name":
-        {
-            "controller": "tenant", 
-            "action": "edit", 
-            "object_id": "tenantid"
-        }
-    }, 
-    "hyperlink_list": ["Rental Status"], 
     "page_title": "Overview" 
 }
