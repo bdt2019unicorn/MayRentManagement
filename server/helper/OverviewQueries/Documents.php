@@ -15,7 +15,7 @@
 
         public function Documents()
         {
-            $conditions = ($this->id)?"`id` = '{$this->id}'": "`unit` IN (SELECT `id` FROM `unit` WHERE `building_id` = '{$this->building_id}')"; 
+            $conditions = ($this->id)?"`id` = '{$this->id}'": "`unit_id` IN (SELECT `id` FROM `unit` WHERE `building_id` = '{$this->building_id}')"; 
             return 
             "
                 {$this->SelectQuery}
@@ -28,14 +28,14 @@
             return 
             "
                 {$this->SelectQuery}
-                `unit` = '{$unit_id}'; 
+                `unit_id` = '{$unit_id}'; 
             "; 
         }
 
         private $SelectQuery = 
         "
             SELECT 
-                `id`, 
+                `id` AS `ID`, 
                 `name` AS `Name`, 
                 `document_type_id`, 
                 (SELECT `document_type`.`name` FROM `document_type` WHERE `document_type`.`id` = `documents`.`document_type_id`) AS `Type`, 
@@ -48,9 +48,6 @@
             FROM `documents`
             WHERE 
         "; 
-
-
-        
     }
 
 ?>

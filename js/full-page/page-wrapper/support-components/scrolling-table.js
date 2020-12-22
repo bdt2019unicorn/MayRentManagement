@@ -13,6 +13,17 @@ Vue.component
 
 Vue.component
 (
+    "file-download", 
+    {
+        template: 
+        `
+            <p>file-download</p>
+        `
+    }
+); 
+
+Vue.component
+(
     "scrolling-table", 
     {
         props: ["table_actions", "table_data"], 
@@ -24,11 +35,11 @@ Vue.component
             {
                 return (this.table_data.length==0)? undefined: 
                 {
-                    columns: Object.keys(this.table_data[0]).filter(column=>!this.SpecialColumns("hidden_columns").includes(column)).map
+                    columns: Object.keys(this.table_data[0]).filter(column=>!this.TableActionsColumns("hidden_columns").includes(column)).map
                     (
                         column=>
                         {
-                            let sort_actions = this.SpecialColumns("sort"); 
+                            let sort_actions = this.TableActionsColumns("sort"); 
 
                             SortFunction = (row1_value, row2_value, col, row1_object, row2_object)=>
                             {
@@ -44,7 +55,7 @@ Vue.component
                                 label: column, 
                                 thClass: 'text-center', 
                                 tdClass: "text-right", 
-                                filterOptions: {enabled: this.SpecialColumns("search").includes(column)}, 
+                                filterOptions: {enabled: this.TableActionsColumns("search").includes(column)}, 
                                 ...sort 
                             }
                         }                    
@@ -54,17 +65,35 @@ Vue.component
                     searchOptions: {enabled: true}, 
                     maxHeight: "80vh", 
                     fixedHeader: true, 
-                    searchOptions: {enabled: this.SpecialColumns("search").length>0}, 
+                    searchOptions: {enabled: this.TableActionsColumns("search").length>0}, 
                     selectOptions: 
                     {
                         enabled: Boolean(this.table_actions.id), 
                         disableSelectInfo: true
                     }
                 }
-            }    
+            } 
         },
         methods: 
         {
+            ComponentBind(column, row)
+            {
+                let filter_out = ["hyperlink_list", "hyperlink", "list"]; 
+                let is = Object.keys(this.table_actions.special).filter(component=>!filter_out.includes(component)).find 
+                (
+                    component=>
+                    {
+                        return this.table_actions.special[component][column]; 
+                    }
+                ); 
+                let information = R.clone(this.table_actions.special[is]); 
+                try 
+                {
+                    Object.keys(information.information).forEach(key=>information[key] = row[information.information[key]]); 
+                }
+                catch {}
+                return {is, ...information}; 
+            }, 
             RouterLinkBind(column, row)
             {
                 let hyperlink_object = this.SpecialColumns("hyperlink"); 
@@ -92,28 +121,40 @@ Vue.component
             }, 
             SpecialColumns(action)
             {
-                return this.table_actions[action]||[]; 
+                try 
+                {
+                    return this.table_actions.special[action] || []; 
+                }
+                catch 
+                {
+                    return []; 
+                }
+            }, 
+            TableActionsColumns(action)
+            {
+                return this.table_actions[action] || []; 
             }
         },
         template: 
         `
             <vue-good-table v-if="DisplayTable" v-bind="DisplayTable" v-on="$listeners">
                 
-                <template slot="table-actions">
-                    <slot name="table-actions"></slot>
-                </template>
+                <template slot="table-actions"><slot name="table-actions"></slot></template>
 
                 <template slot="table-row" slot-scope="props">
-                    <hyperlink-list-compile v-if='SpecialColumns("hyperlink_list").includes(props.column.field)' :list="props.row[props.column.field]"></hyperlink-list-compile>
-
-                    <router-link
-                        v-else-if='Object.keys(SpecialColumns("hyperlink")).includes(props.column.field)'
-                        v-bind="RouterLinkBind(props.column.field, props.row)"
-                    >{{props.formattedRow[props.column.field]}}</router-link>
+                    <template v-if='SpecialColumns("list").includes(props.column.field)'>
+                        <hyperlink-list-compile v-if='SpecialColumns("hyperlink_list").includes(props.column.field)' :list="props.row[props.column.field]"></hyperlink-list-compile>
+                        <router-link
+                            v-else-if='Object.keys(SpecialColumns("hyperlink")).includes(props.column.field)'
+                            v-bind="RouterLinkBind(props.column.field, props.row)"
+                        >{{props.formattedRow[props.column.field]}}</router-link>
+                        <component v-else v-bind="ComponentBind(props.column.field, props.row)"></component>
+                    </template>
 
                     <template v-else>
                         {{props.formattedRow[props.column.field]}}
                     </template>
+
                 </template>
 
             </vue-good-table>
