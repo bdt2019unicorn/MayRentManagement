@@ -81,7 +81,6 @@ Vue.component
                         return this.table_actions.special[component][column]; 
                     }
                 ); 
-                console.log(is); 
                 return {is, column, row: props.row, props, special_column: this.SpecialColumns(is)}; 
             }, 
             SpecialColumns(action)

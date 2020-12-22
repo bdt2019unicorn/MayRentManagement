@@ -1,5 +1,6 @@
 {
     "hidden_columns": ["document_type_id", "file_extension", "unit_id"], 
+    "id": "ID", 
     "page_title": "Overview", 
     "search": ["Name", "Type", "Unit", "Uploaded Time", "Uploader"], 
     "sort": 
