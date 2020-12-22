@@ -1,8 +1,8 @@
 {
     "actions": 
     {
-        "list": ["id", "Name", "Type", "Unit", "Uploaded Time", "Uploader"], 
-        "hidden_columns": ["id"], 
+        "list": ["document_type_id", "file_extension", "id", "Name", "Type", "Unit", "unit_id", "Uploaded Time", "Uploader"], 
+        "hidden_columns": ["document_type_id", "file_extension", "id", "unit_id"], 
         "search": ["Name", "Type", "Unit", "Uploaded Time", "Uploader"], 
         "sort": 
         {
