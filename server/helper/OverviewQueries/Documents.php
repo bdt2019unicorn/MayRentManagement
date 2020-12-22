@@ -44,7 +44,7 @@
                 `file_extension`, 
                 `description` AS `Description`, 
                 `username` AS `Uploader`, 
-                `modified_date` AS `Uploaded Time`
+                DATE_FORMAT(`modified_date`, '%D %M %Y %H:%i:%S') AS `Uploaded Time`
             FROM `documents`
             WHERE 
         "; 

@@ -19,6 +19,7 @@
                 "url": "server/document_controller/download.php", 
                 "information": 
                 {
+                    "text": "Name", 
                     "object_id": "id"
                 }
             }

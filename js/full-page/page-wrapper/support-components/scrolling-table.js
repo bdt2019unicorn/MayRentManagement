@@ -1,29 +1,5 @@
 Vue.component
 (
-    "hyperlink-list-compile", 
-    {
-        props: ["list"], 
-        render(create_element) 
-        {
-            let template = `<p>${this.list}</p>`; 
-            return create_element("p", [create_element(Vue.compile(template))]); 
-        },
-    }
-); 
-
-Vue.component
-(
-    "file-download", 
-    {
-        template: 
-        `
-            <p>file-download</p>
-        `
-    }
-); 
-
-Vue.component
-(
     "scrolling-table", 
     {
         props: ["table_actions", "table_data"], 
@@ -76,9 +52,28 @@ Vue.component
         },
         methods: 
         {
-            ComponentBind(column, row)
+            // ComponentBind(column, row)
+            // {
+            //     let filter_out = ["hyperlink_list", "hyperlink", "list"]; 
+            //     let is = Object.keys(this.table_actions.special).filter(component=>!filter_out.includes(component)).find 
+            //     (
+            //         component=>
+            //         {
+            //             return this.table_actions.special[component][column]; 
+            //         }
+            //     ); 
+            //     let information = R.clone(this.table_actions.special[is]); 
+            //     try 
+            //     {
+            //         Object.keys(information.information).forEach(key=>information[key] = row[information.information[key]]); 
+            //     }
+            //     catch {}
+            //     return {is, ...information}; 
+            // }, 
+            ComponentBind(props)
             {
-                let filter_out = ["hyperlink_list", "hyperlink", "list"]; 
+                let column = props.column.field; 
+                let filter_out = ["list"]; 
                 let is = Object.keys(this.table_actions.special).filter(component=>!filter_out.includes(component)).find 
                 (
                     component=>
@@ -86,38 +81,8 @@ Vue.component
                         return this.table_actions.special[component][column]; 
                     }
                 ); 
-                let information = R.clone(this.table_actions.special[is]); 
-                try 
-                {
-                    Object.keys(information.information).forEach(key=>information[key] = row[information.information[key]]); 
-                }
-                catch {}
-                return {is, ...information}; 
-            }, 
-            RouterLinkBind(column, row)
-            {
-                let hyperlink_object = this.SpecialColumns("hyperlink"); 
-                try
-                {
-                    hyperlink_object = hyperlink_object[column]; 
-                    return {
-                        to: this.ToActions
-                        (
-                            {
-                                controller: hyperlink_object.controller, 
-                                action: hyperlink_object.action,
-                                query: 
-                                {
-                                    id: row[hyperlink_object["object_id"]]
-                                }
-                            }
-                        ) 
-                    }
-                }
-                catch 
-                {
-                    return {}; 
-                }
+                console.log(is); 
+                return {is, column, row: props.row, props, special_column: this.SpecialColumns(is)}; 
             }, 
             SpecialColumns(action)
             {
@@ -142,19 +107,8 @@ Vue.component
                 <template slot="table-actions"><slot name="table-actions"></slot></template>
 
                 <template slot="table-row" slot-scope="props">
-                    <template v-if='SpecialColumns("list").includes(props.column.field)'>
-                        <hyperlink-list-compile v-if='SpecialColumns("hyperlink_list").includes(props.column.field)' :list="props.row[props.column.field]"></hyperlink-list-compile>
-                        <router-link
-                            v-else-if='Object.keys(SpecialColumns("hyperlink")).includes(props.column.field)'
-                            v-bind="RouterLinkBind(props.column.field, props.row)"
-                        >{{props.formattedRow[props.column.field]}}</router-link>
-                        <component v-else v-bind="ComponentBind(props.column.field, props.row)"></component>
-                    </template>
-
-                    <template v-else>
-                        {{props.formattedRow[props.column.field]}}
-                    </template>
-
+                    <component v-if='SpecialColumns("list").includes(props.column.field)' v-bind="ComponentBind(props)"></component>
+                    <template v-else>{{props.formattedRow[props.column.field]}}</template>
                 </template>
 
             </vue-good-table>
