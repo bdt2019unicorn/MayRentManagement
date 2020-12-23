@@ -18,11 +18,9 @@
             "Name": 
             {
                 "url": "server/document_controller/download.php", 
-                "information": 
-                {
-                    "text": "Name", 
-                    "object_id": "id"
-                }
+                "object_id": "ID", 
+                "name": "Name", 
+                "file_extension": "file_extension"
             }
         } 
     }

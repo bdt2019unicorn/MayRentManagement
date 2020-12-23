@@ -1,19 +1,11 @@
 <?php
     require_once("../helper/database.php"); 
-    $sql = "SELECT * FROM `documents`"; 
+    require_once("../helper/overview_queries.php"); 
 
+    $sql = OverviewQueries\Documents::File($_POST["id"]); 
     $data = Connect::GetData($sql); 
-
-    // echo '<pre>'; print_r($data); echo '</pre>'; 
-
-    $file = $data[0]["file"]; 
-
-    // header("Content-Type: application/application/octetstream"); 
-    // header("Content-disposition: attachment; filename=test.xls"); 
-    // echo $file; 
-
-    // $string = base64_encode($file); 
-    // echo "<h1>"; echo $string; echo "</h1>"; 
-
-
+    if(count($data))
+    {
+        echo $data[0]["file"]; 
+    }
 ?>
