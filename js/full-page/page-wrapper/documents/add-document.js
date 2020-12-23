@@ -31,7 +31,8 @@ Vue.component
                 }
                 var form_data = new FormData(); 
                 all_keys.forEach(key=>form_data.append(key, this[key])); 
-                form_data.append("description", this.description); 
+                form_data.append("description", this.description||""); 
+                form_data.append("file_extension", this.file.name.split(".").pop()); 
                 this.SubmitUserInformation(form_data); 
                 return form_data; 
             }
@@ -72,6 +73,12 @@ Vue.component
             ServerUrl(params)
             {
                 return `server/document_controller/action.php?building_id=${this.$route.params.building_id}&${this.SearchQueryString(params)}`; 
+            }, 
+            Submit()
+            {
+                let url = this.ServerUrl({command: "AddDocument"}); 
+                var result = this.AjaxRequest(url, this.ValidData, "POST"); 
+                console.log(result); 
             }
         },
         template: 
@@ -92,7 +99,7 @@ Vue.component
                 <div class="row"><select-input v-bind="select_data_bind.document_type_id" v-model="document_type_id"></select-input></div>
                 <div class="row"><select-input v-bind="select_data_bind.unit_id" v-model="unit_id"></select-input></div>
                 <div class="row"><textarea-input title="Description" v-model="description"></textarea-input></div>
-                <div v-if="ValidData" class="row justify-content-end"><submit-button></submit-button></div>
+                <div v-if="ValidData" class="row justify-content-end"><submit-button @submit-button-clicked="Submit"></submit-button></div>
             </div>
         `
     }

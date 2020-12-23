@@ -78,7 +78,7 @@
 			{
 				$key = $params['change'][$key]; 
 			}
-			$data[$key] = str_replace("'","\'",$value); 
+			$data[$key] = addslashes($value); 
 		}; 
 
 		foreach ($row as $key => $value) 

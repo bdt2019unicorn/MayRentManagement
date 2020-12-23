@@ -24,6 +24,13 @@
                 ] 
             ]; 
             echo json_encode($select_data_bind); 
+        }, 
+        "AddDocument"=> function()
+        {
+            $file = file_get_contents($_FILES["file"]["tmp_name"]); 
+            $file = addslashes($file); 
+            $data = array_merge(["file"=>$file], $_POST); 
+
         }
     ]; 
     try 
