@@ -9,8 +9,10 @@ Vue.component
         {
             DefaultName()
             {
-                let start_position = this.name.length - this.file_extension.length; 
-                return (this.name.substr(start_position)==this.file_extension && this.name[start_position-1]==".")? this.name: `${this.name}.${this.file_extension}`; 
+                var file_extension = this.file_extension.trim(); 
+                var name = this.name.trim(); 
+                let start_position = name.length - file_extension.length; 
+                return (name.substr(start_position)==file_extension && name[start_position-1]==".")? name: `${name}.${file_extension}`; 
             }
         }, 
         methods: 
