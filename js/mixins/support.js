@@ -149,8 +149,12 @@ var support_mixin =
                 ...params
             }
 
-            let search = Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
+            let search = this.SearchQueryString(params); 
             return `server/overview_controller/overview_controller.php?${search}`; 
+        }, 
+        SearchQueryString(params)
+        {
+            return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
         }, 
         StateObject(state_property)
         {
