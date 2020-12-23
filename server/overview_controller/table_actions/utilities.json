@@ -2,6 +2,7 @@
     "hidden_columns": ["unit_id", "unit_table", "revenue_type_id"], 
     "special": 
     {
+        "list": ["Unit Name"], 
         "hyperlink": 
         {
             "Unit Name":

@@ -52,24 +52,6 @@ Vue.component
         },
         methods: 
         {
-            // ComponentBind(column, row)
-            // {
-            //     let filter_out = ["hyperlink_list", "hyperlink", "list"]; 
-            //     let is = Object.keys(this.table_actions.special).filter(component=>!filter_out.includes(component)).find 
-            //     (
-            //         component=>
-            //         {
-            //             return this.table_actions.special[component][column]; 
-            //         }
-            //     ); 
-            //     let information = R.clone(this.table_actions.special[is]); 
-            //     try 
-            //     {
-            //         Object.keys(information.information).forEach(key=>information[key] = row[information.information[key]]); 
-            //     }
-            //     catch {}
-            //     return {is, ...information}; 
-            // }, 
             ComponentBind(props)
             {
                 let column = props.column.field; 

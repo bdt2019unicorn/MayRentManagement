@@ -10,7 +10,7 @@
     }, 
     "special": 
     {
-        "list": [], 
+        "list": ["Rental Status", "Tenant Name", "Unit Name"], 
         "hyperlink": 
         {
             "Unit Name":
