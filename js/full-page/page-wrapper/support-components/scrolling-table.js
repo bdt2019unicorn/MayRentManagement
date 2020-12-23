@@ -45,6 +45,7 @@ Vue.component
                     selectOptions: 
                     {
                         enabled: Boolean(this.table_actions.id), 
+                        selectOnCheckboxOnly: true, 
                         disableSelectInfo: true
                     }
                 }

@@ -201,7 +201,7 @@
                 "icon": "folder-open"
             }, 
             {
-                "action": "documents-add", 
+                "action": "add-document", 
                 "text": "Add", 
                 "title": "Add", 
                 "button": "secondary", 
