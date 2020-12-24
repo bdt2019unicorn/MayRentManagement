@@ -33,6 +33,14 @@
             $sql = Query::Insert("documents", $data); 
             $result = Connect::GetData($sql); 
             echo $result; 
+        }, 
+        "DocumentEditInformation"=> function()
+        {
+            require_once("../helper/overview_queries.php"); 
+            $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
+            $data = Connect::GetData($document->Documents()); 
+            $result = $data[0]; 
+            echo json_encode($result); 
         }
     ]; 
     try 
