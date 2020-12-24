@@ -78,18 +78,35 @@ Vue.component
             {
                 let url = this.ServerUrl({command: "AddDocument"}); 
                 var result = this.AjaxRequest(url, this.ValidData, "POST"); 
-                console.log(result); 
+                if(Number(result))
+                {
+                    
+                    new Promise
+                    (
+                        (resolve, reject)=>
+                        {
+                            alert("File uploaded!"); 
+                            var select_data_bind = R.clone(this.select_data_bind); 
+                            Object.keys(this.$data).forEach(key=>this[key]=undefined); 
+                            resolve(select_data_bind); 
+                        }
+                    ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
+                }
+                else
+                {
+                    alert("There seems to be a server error, please try again"); 
+                }
             }
         },
         template: 
         `
-            <div class="container-fluid">
+            <div v-if="select_data_bind" class="container-fluid">
                 <h1>Add Documents</h1>
                 <div class="row">
                     <vs-upload 
                         limit="1" 
                         :show-upload-button="false" 
-                        text="Upload the restore File" 
+                        text="Add New Document Here" 
                         @change="FileChanged" 
                         @on-delete="FileDeleted" 
                     />

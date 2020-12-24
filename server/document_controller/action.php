@@ -30,7 +30,9 @@
             $file = file_get_contents($_FILES["file"]["tmp_name"]); 
             $file = addslashes($file); 
             $data = array_merge(["file"=>$file], $_POST); 
-
+            $sql = Query::Insert("documents", $data); 
+            $result = Connect::GetData($sql); 
+            echo $result; 
         }
     ]; 
     try 
