@@ -55,41 +55,37 @@ Vue.component
         data: ()=>({edit_data: undefined}),
         created() 
         {
-            var params = {command: "DocumentEditInformation", id: this.$route.query.id}; 
-            var url = this.ServerUrl(params); 
-            var result = this.AjaxRequest(url); 
-            var edit_data = JSON.parse(result); 
-            var url = "server/document_controller/download.php"; 
-            var file = this.BlobRequest(url, params); 
-            this.edit_data = {...edit_data, file: new File([file], edit_data.Name)}; 
+            this.edit_data = this.EditData(); 
         },
         methods: 
         {
+            EditData()
+            {
+                var params = {command: "DocumentEditInformation", id: this.$route.query.id}; 
+                var url = this.ServerUrl(params); 
+                var result = this.AjaxRequest(url); 
+                var edit_data = JSON.parse(result); 
+                var url = "server/document_controller/download.php"; 
+                var file = this.BlobRequest(url, params); 
+                return {...edit_data, file: new File([file], edit_data.Name)}; 
+            }, 
             Reset()
             {
                 new Promise
                 (
                     (resolve, reject)=>
                     {
-                        var select_data_bind = R.clone(this.select_data_bind); 
-                        this.select_data_bind = undefined; 
-                        resolve(select_data_bind); 
+                        var edit_data = this.EditData(); 
+                        this.edit_data = undefined; 
+                        resolve(edit_data); 
                     }
-                ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
+                ).then(edit_data=>this.edit_data = edit_data); 
             }, 
             Submit(form_data)
             {
-                let url = this.ServerUrl({command: "AddDocument"}); 
+                let url = this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}); 
                 var result = this.AjaxRequest(url, form_data, "POST"); 
-                if(Number(result))
-                {
-                    alert("Document is added!"); 
-                    this.Reset(); 
-                }
-                else
-                {
-                    alert("There seems to be a server error, please try again"); 
-                }
+                console.log(result); 
             }
         },
         template: 

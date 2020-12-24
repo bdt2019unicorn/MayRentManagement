@@ -1,5 +1,6 @@
 <?php 
     require_once("../helper/database.php"); 
+    require_once("../helper/overview_queries.php"); 
     $actions = 
     [
         "SelectDataBind"=> function()
@@ -36,11 +37,26 @@
         }, 
         "DocumentEditInformation"=> function()
         {
-            require_once("../helper/overview_queries.php"); 
             $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
             $data = Connect::GetData($document->Documents()); 
             $result = $data[0]; 
             echo json_encode($result); 
+        }, 
+        "DocumentEditSubmit"=> function()
+        {
+            $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
+            $new_file = file_get_contents($_FILES["file"]["tmp_name"]); 
+            $current_file = Connect::GetData($document->File($document->id))[0]["file"];
+            $new64 = base64_encode($new_file); 
+            $current64 = base64_encode($current_file); 
+            if($new64==$current64)
+            {
+                echo "good"; 
+            } 
+            else 
+            {
+                echo "bad"; 
+            }
         }
     ]; 
     try 
