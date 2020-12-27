@@ -47,15 +47,49 @@
             $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
             $new_file = file_get_contents($_FILES["file"]["tmp_name"]); 
             $current_file = Connect::GetData($document->File($document->id))[0]["file"];
-            $new64 = base64_encode($new_file); 
-            $current64 = base64_encode($current_file); 
-            if($new64==$current64)
+
+            $CompareFiles = function($new_file, $current_file)
             {
-                echo "good"; 
-            } 
+                $new64 = base64_encode($new_file); 
+                $current64 = base64_encode($current_file); 
+                return ($new64==$current64)? null: addslashes($new_file); 
+            }; 
+
+            $CurrentData = function() use ($document)
+            {
+                $data = Connect::GetData($document->Documents())[0]; 
+                $current_data = []; 
+                foreach ($data as $key => $value) 
+                {
+                    $current_data[strtolower($key)] = $value; 
+                }
+                return $current_data; 
+            }; 
+
+            $data = []; 
+            $file = $CompareFiles($new_file, $current_file); 
+            if($file)
+            {
+                $data["file"] = $file; 
+            }
+            
+            $current_data = $CurrentData(); 
+            foreach ($_POST as $key => $value) 
+            {
+                if($current_data[$key]!=$value)
+                {
+                    $data[$key] = $value; 
+                }
+            }
+            if(count($data))
+            {
+                $sql = Query::Insert("documents", $data); 
+                $result = Connect::GetData($sql); 
+                echo $result; 
+            }
             else 
             {
-                echo "bad"; 
+                echo true; 
             }
         }
     ]; 
