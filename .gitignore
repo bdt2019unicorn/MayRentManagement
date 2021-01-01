@@ -1,4 +1,3 @@
 .env
-server/document_controller/temp
 server/invoice_controller/temp
 admin/repo.json

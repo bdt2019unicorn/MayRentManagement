@@ -33,21 +33,18 @@ Vue.component
             }, 
             PopulateData()
             {
-                new Promise
+                this.ResetValue
                 (
-                    (resolve, reject)=>
                     {
-                        this.table_data = []; 
-                        resolve(); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.table_data = this.TableData(this.CurrentController); 
-                        this.table_actions = this.TableActions(this.CurrentController); 
-                        this.check_array = []; 
-                    }
+                        value_name: "table_data", 
+                        new_value: this.TableData(this.CurrentController), 
+                        undefined_value: [], 
+                        callback_resolve: ()=>
+                        {
+                            this.table_actions = this.TableActions(this.CurrentController); 
+                            this.check_array = []; 
+                        }
+                    }    
                 ); 
             }
         },
@@ -73,7 +70,6 @@ Vue.component
                         </vs-row>    
                     </vs-col>
                 </vs-row>
-                
                 
                 <br>
                 <vs-row v-if="table_data.length" vs-align="center" vs-justify="center" vs-type="flex">

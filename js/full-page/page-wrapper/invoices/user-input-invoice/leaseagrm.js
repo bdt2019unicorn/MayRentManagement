@@ -65,13 +65,7 @@ Vue.component
                         }
                         resolve(change_index); 
                     }
-                ).then 
-                (
-                    change_index=>
-                    {
-                        this.invoice_details[change_index].display = true; 
-                    }
-                ); 
+                ).then(change_index=>this.invoice_details[change_index].display = true); 
             }, 
 
             PopulateList(value)
@@ -102,7 +96,6 @@ Vue.component
                                         return R.clone(details); 
                                     }
                                 }
-
 
                                 return (revenue_type.id==this.user_input.rent_id) ? 
                                 this.PopulateRentInformation

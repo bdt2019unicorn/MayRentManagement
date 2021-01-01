@@ -1,4 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -29,6 +28,31 @@ INSERT INTO `buildings` (`id`, `name`, `account_name`, `account_number`, `bank`,
 (2, 'May Thi Nghe', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Ly Dieu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
 (5, 'PKK', 'HO QUOC HUNG', ' 0210107275570001', 'Ngan Hang TMCP Sai gon (https://scb.com.vn/)', 'https://scb.com.vn/', 'TAN DINH', 'May Corporation', 'Ly Dieu Minh', 'Building Supervisor', 'nguyenvubinh@outlook.com', '01694958317', 'MAY Apartments\r\n216/3/21 Nguyen Van Huong\r\nThao Dien Ward, Dist. 2. HCMC.'),
 (6, 'MAP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+CREATE TABLE `documents` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `document_type_id` int(11) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `file` longblob NOT NULL,
+  `file_extension` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_vietnamese_ci,
+  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `modified_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+CREATE TABLE `document_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+INSERT INTO `document_type` (`id`, `name`) VALUES
+(1, 'Lease agreement'),
+(2, 'Inventory list'),
+(3, 'Picture'),
+(4, 'ID/Passport/Visa'),
+(5, 'Client photo'),
+(6, 'Business license');
 
 CREATE TABLE `expense` (
   `id` int(11) NOT NULL,
@@ -426,6 +450,15 @@ INSERT INTO `utility_reading` (`id`, `revenue_type_id`, `unit_id`, `date`, `numb
 ALTER TABLE `buildings`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `documents`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`),
+  ADD KEY `apartment` (`unit_id`),
+  ADD KEY `document_type` (`document_type_id`);
+
+ALTER TABLE `document_type`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `expense`
   ADD PRIMARY KEY (`id`),
   ADD KEY `expense_type_id` (`expense_type_id`,`building_id`),
@@ -486,47 +519,57 @@ ALTER TABLE `utility_reading`
 
 
 ALTER TABLE `buildings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `documents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `document_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `expense`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `expense_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `invoice_leaseagrm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `invoice_utilities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `leaseagrm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `revenue`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `revenue_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tenant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `unit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `utility_price`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `utility_reading`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=390;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+
+ALTER TABLE `documents`
+  ADD CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`document_type_id`) REFERENCES `document_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `documents_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`);
 
 ALTER TABLE `expense`
   ADD CONSTRAINT `expense_ibfk_1` FOREIGN KEY (`expense_type_id`) REFERENCES `expense_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -563,7 +606,6 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
