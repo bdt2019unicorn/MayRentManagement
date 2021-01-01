@@ -8,15 +8,6 @@ Vue.component
             Reset()
             {
                 this.ResetValue({value_name: "select_data_bind", new_value: R.clone(this.select_data_bind)}); 
-                // new Promise
-                // (
-                //     (resolve, reject)=>
-                //     {
-                //         var select_data_bind = R.clone(this.select_data_bind); 
-                //         this.select_data_bind = undefined; 
-                //         resolve(select_data_bind); 
-                //     }
-                // ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
             }, 
             Submit(form_data)
             {
@@ -73,15 +64,6 @@ Vue.component
             Reset()
             {
                 this.ResetValue({value_name: "edit_data", new_value: this.EditData()}); 
-                // new Promise
-                // (
-                //     (resolve, reject)=>
-                //     {
-                //         var edit_data = this.EditData(); 
-                //         this.edit_data = undefined; 
-                //         resolve(edit_data); 
-                //     }
-                // ).then(edit_data=>this.edit_data = edit_data); 
             }, 
             Submit(form_data)
             {
@@ -89,6 +71,7 @@ Vue.component
                 var result = this.AjaxRequest(url, form_data, "POST"); 
                 if(Number(result))
                 {
+                    alert("Document edited success!"); 
                     this.ResetValue({value_name: "edit_data", new_value: this.EditData()}); 
                 }
                 else

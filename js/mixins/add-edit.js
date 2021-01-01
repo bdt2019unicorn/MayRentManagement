@@ -35,24 +35,6 @@ var add_edit_mixin =
         ReloadUserInput(callback_resolve=undefined)
         {
             this.ResetValue({value_name: "user_input", new_value: true, callback_resolve}); 
-            // new Promise 
-            // (
-            //     (resolve, reject)=>
-            //     {
-            //         this.user_input = false;
-            //         resolve(callback_resolve);  
-            //     }
-            // ).then 
-            // (
-            //     (callback_resolve)=>
-            //     {
-            //         if(callback_resolve)
-            //         {
-            //             callback_resolve(); 
-            //         }
-            //         this.user_input = true; 
-            //     }
-            // ); 
         }
     },
     watch: 

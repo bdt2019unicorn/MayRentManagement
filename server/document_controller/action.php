@@ -67,6 +67,7 @@
             }; 
 
             $data = []; 
+            $user_information_data = []; 
             $file = $CompareFiles($new_file, $current_file); 
             if($file)
             {
@@ -76,14 +77,21 @@
             $current_data = $CurrentData(); 
             foreach ($_POST as $key => $value) 
             {
-                if($current_data[$key]!=$value)
+                if(isset($current_data[$key]))
                 {
-                    $data[$key] = $value; 
+                    if($current_data[$key]!=$value)
+                    {
+                        $data[$key] = $value; 
+                    }
+                }
+                else 
+                {
+                    $user_information_data[$key] = $value; 
                 }
             }
             if(count($data))
             {
-                $sql = Query::Insert("documents", $data); 
+                $sql = Query::Update("documents", array_merge($data, $user_information_data), ["id"=>$document->id]); 
                 $result = Connect::GetData($sql); 
                 echo $result; 
             }

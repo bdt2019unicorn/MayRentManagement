@@ -33,18 +33,6 @@ Vue.component
             }, 
             PopulateData()
             {
-                // var reset_object = 
-                // {
-                //     value_name: "table_data", 
-                //     new_value: this.TableData(this.CurrentController), 
-                //     undefined_value: [], 
-                //     callback_resolve: ()=>
-                //     {
-                //         this.table_actions = this.TableActions(this.CurrentController); 
-                //         this.check_array = []; 
-                //     }
-                // }; 
-
                 this.ResetValue
                 (
                     {
@@ -58,23 +46,6 @@ Vue.component
                         }
                     }    
                 ); 
-
-                // new Promise
-                // (
-                //     (resolve, reject)=>
-                //     {
-                //         this.table_data = []; 
-                //         resolve(); 
-                //     }
-                // ).then 
-                // (
-                //     ()=>
-                //     {
-                //         this.table_data = this.TableData(this.CurrentController); 
-                //         this.table_actions = this.TableActions(this.CurrentController); 
-                //         this.check_array = []; 
-                //     }
-                // ); 
             }
         },
         watch: 

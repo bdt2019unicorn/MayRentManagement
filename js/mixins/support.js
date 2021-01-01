@@ -169,7 +169,7 @@ var support_mixin =
             (
                 new_value=>
                 {
-                    this.new_value = new_value; 
+                    this[value_name] = new_value; 
                     if(callback_resolve)
                     {
                         callback_resolve(); 
