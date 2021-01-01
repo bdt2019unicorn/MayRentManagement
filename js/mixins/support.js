@@ -152,6 +152,31 @@ var support_mixin =
             let search = this.SearchQueryString(params); 
             return `server/overview_controller/overview_controller.php?${search}`; 
         }, 
+        ResetValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
+        {
+            new Promise 
+            (
+                (resolve, reject)=>
+                {
+                    this[value_name] = undefined_value; 
+                    if(callback)
+                    {
+                        callback(); 
+                    }
+                    resolve(new_value); 
+                }
+            ).then
+            (
+                new_value=>
+                {
+                    this.new_value = new_value; 
+                    if(callback_resolve)
+                    {
+                        callback_resolve(); 
+                    }
+                }
+            ); 
+        }, 
         SearchQueryString(params)
         {
             return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 

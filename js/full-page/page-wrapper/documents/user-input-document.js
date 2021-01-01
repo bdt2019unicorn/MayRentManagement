@@ -99,7 +99,7 @@ Vue.component
                 if(Number(result))
                 {
                     
-                    new Promise
+                    
                     (
                         (resolve, reject)=>
                         {
