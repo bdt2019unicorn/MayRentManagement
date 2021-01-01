@@ -85,7 +85,22 @@ Vue.component
             {
                 let url = this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}); 
                 var result = this.AjaxRequest(url, form_data, "POST"); 
-                console.log(result); 
+                if(Number(result))
+                {
+                    new Promise
+                    (
+                        (resolve, reject)=>
+                        {
+                            var edit_data = this.EditData(); 
+                            this.edit_data = undefined; 
+                            resolve(edit_data); 
+                        }
+                    ).then(edit_data=>this.edit_data = edit_data)
+                }
+                else
+                {
+                    alert("There seems to be a server error, please try again"); 
+                }
             }
         },
         template: 
