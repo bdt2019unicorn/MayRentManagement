@@ -4,7 +4,7 @@
     (
         function($class)
         {
-            if(strpos($class, __NAMESPACE__)!==false) require_once("{$class}.php");
+            if(strpos($class, __NAMESPACE__)!==false) require_once("/{$class}.php");
         }
     ); 
 
