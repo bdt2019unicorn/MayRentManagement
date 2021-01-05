@@ -6,9 +6,6 @@
         {
             if(strpos($class, __NAMESPACE__)!==false) 
             {
-                // $path = realpath("{$class}.php"); 
-                // echo $path; 
-                // $path = "./{$class}.php"; 
                 require_once("{$class}.php");
             }
         }
