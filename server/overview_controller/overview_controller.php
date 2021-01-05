@@ -2,7 +2,7 @@
 
     echo "<pre>"; print_r($_GET); echo "</pre>"; 
     require_once("../helper/database.php"); 
-    // require_once("../helper/overview_queries.php"); 
+    require_once("../helper/overview_queries.php"); 
 
     // $actions = ["overview", "utilities"]; 
 
