@@ -93,7 +93,7 @@
                 return Query::GeneralData("user", $_GET["id"]); 
             }
         ); 
-        echo "<h1>".  $sql_queries[$overview_controller]() . "</h1>"; 
+        echo "<h1>".  $sql_queries[$overview_controller]() . "</h1>"; echo "<h2>test</h2>"; 
         // $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
     }
 
