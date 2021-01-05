@@ -1,6 +1,5 @@
 <?php 
 
-    echo "<pre>"; print_r($_GET); echo "</pre>"; 
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
 
@@ -15,8 +14,9 @@
     }
     else if (in_array($overview_controller, $generic_controllers))
     {
-        $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
-        echo "<pre>"; print_r($overview_data); echo "</pre>"; 
+        echo "<h1> I am generic, error may come from here"; 
+        // $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
+        // echo "<pre>"; print_r($overview_data); echo "</pre>"; 
     }
     else 
     {
