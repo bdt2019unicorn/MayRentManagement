@@ -4,7 +4,12 @@
     (
         function($class)
         {
-            if(strpos($class, __NAMESPACE__)!==false) require_once("/{$class}.php");
+            if(strpos($class, __NAMESPACE__)!==false) 
+            {
+                $path = realpath("{$class}.php"); 
+                echo $path; 
+                require_once($path);
+            }
         }
     ); 
 
