@@ -9,6 +9,8 @@ Vue.component
             SubmitForm(data)
             {
                 let result = this.SubmitData("excel", this.ImportUrl,[data]); 
+                console.log(result); 
+                return; 
                 if(Number(result))
                 {
                     alert(`${this.title} Success!`); 
