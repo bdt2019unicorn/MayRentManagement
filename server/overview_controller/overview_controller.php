@@ -16,6 +16,7 @@
     else if (in_array($overview_controller, $generic_controllers))
     {
         $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
+        echo "<pre>"; print_r($overview_data); echo "</pre>"; 
     }
     else 
     {
@@ -93,14 +94,12 @@
                 return Query::GeneralData("user", $_GET["id"]); 
             }
         ); 
-        echo "<h1>".  $sql_queries[$overview_controller]() . "</h1>"; echo "<h2>test</h2>"; 
-        // $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
+        $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
     }
 
-    echo "<h1>Test me</h1>"; 
 
-    // if(isset($overview_data))
-    // {
-    //     echo json_encode($overview_data); 
-    // }
+    if(isset($overview_data))
+    {
+        echo json_encode($overview_data); 
+    }
 ?>
