@@ -23,18 +23,16 @@
             {
                 $unit = new OverviewQueries\Unit($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
                 return Query::SelectData("unit", $unit->GetArray("Selects"), $unit->GetArray("Conditions")); 
-            },            
-            "expense"=> function()
+            },  
+            "tenant"=> function()
             {
-                return isset($_GET["edit"])? Query::GeneralData("expense", $_GET['id']??null): 
-                "
-                    SELECT `expense`.`id` AS `ID`, `expense`.`name` AS `Name`, `expense_type`.`name` AS `Type`, DATE_FORMAT(`expense`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`, `expense`.`Amount`
-                    FROM `expense`, `expense_type` 
-                    WHERE 
-                        `expense`.`expense_type_id` = `expense_type`.`id` AND
-                        `expense`.`building_id` = '{$_GET['building_id']}'
-                "; 
-            }, 
+                $tenant = new OverviewQueries\Tenant($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
+                return Query::SelectData("tenant", $tenant->GetArray("Selects"), $tenant->GetArray("Conditions")); 
+            },   
+            "leaseagrm"=> function()
+            {
+                return (isset($_GET["edit"]))? Query::GeneralData("leaseagrm", $_GET["id"]??null): OverviewQueries\LeaseAgrm::OverviewBuildingId($_GET['building_id']); 
+            },   
             "invoices"=>function()
             {
                 return (isset($_GET["edit"]))? Query::GeneralData("invoices", $_GET["id"]??null): 
@@ -59,11 +57,7 @@
                         `leaseagrm`.`unit_id` = `unit`.`id` AND
                         `unit`.`building_id` = '{$_GET['building_id']}'
                 "; 
-            }, 
-            "leaseagrm"=> function()
-            {
-                return (isset($_GET["edit"]))? Query::GeneralData("leaseagrm", $_GET["id"]??null): OverviewQueries\LeaseAgrm::OverviewBuildingId($_GET['building_id']); 
-            },             
+            },                   
             "revenue"=>function()
             {
                 return (isset($_GET["edit"]))? Query::GeneralData("revenue", $_GET["id"]??null): 
@@ -76,10 +70,21 @@
                         `unit`.`building_id` = '{$_GET['building_id']}'
                 "; 
             }, 
-            "tenant"=> function()
+            "expense"=> function()
             {
-                $tenant = new OverviewQueries\Tenant($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
-                return Query::SelectData("tenant", $tenant->GetArray("Selects"), $tenant->GetArray("Conditions")); 
+                return isset($_GET["edit"])? Query::GeneralData("expense", $_GET['id']??null): 
+                "
+                    SELECT `expense`.`id` AS `ID`, `expense`.`name` AS `Name`, `expense_type`.`name` AS `Type`, DATE_FORMAT(`expense`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`, `expense`.`Amount`
+                    FROM `expense`, `expense_type` 
+                    WHERE 
+                        `expense`.`expense_type_id` = `expense_type`.`id` AND
+                        `expense`.`building_id` = '{$_GET['building_id']}'
+                "; 
+            },
+            "documents"=> function()
+            {
+                $documents = new OverviewQueries\Documents($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
+                return isset($_GET["unit_id"])? $documents->DocumentsByUnit($_GET["unit_id"]): $documents->Documents(); 
             }, 
             "user" => function()
             {

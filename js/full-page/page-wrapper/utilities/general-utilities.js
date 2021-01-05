@@ -82,14 +82,7 @@ Vue.component
                             }
                         ); 
                     }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.function_calendar_model = undefined; 
-                    }
-                ); 
-                
+                ).then(()=>this.function_calendar_model = undefined); 
             },
             Search(event=undefined)
             {

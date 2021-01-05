@@ -12,21 +12,7 @@ Vue.component
                 if(Number(result))
                 {
                     alert("Add Invoice Success!"); 
-                    new Promise
-                    (
-                        (resolve, reject)=>
-                        {
-                            let user_input = R.clone(this.user_input); 
-                            this.user_input = undefined; 
-                            resolve(user_input); 
-                        }
-                    ).then
-                    (
-                        (user_input)=>
-                        {
-                            this.user_input = user_input; 
-                        }
-                    ); 
+                    this.ResetValue({value_name: "edit_data", new_value: this.EditData()}); 
                 }
                 else
                 {

@@ -84,26 +84,14 @@ Vue.component
                                 if(new_edit_data)
                                 {
                                     this.edit_data = undefined; 
-                                this.edit_data = undefined; 
-                                    this.edit_data = undefined; 
-                                    resolve(new_edit_data); 
-                                resolve(new_edit_data); 
                                     resolve(new_edit_data); 
                                 }
-                                reject(); 
-                            reject(); 
                                 reject(); 
                             }
                         ); 
 
                     }
-                ).then 
-                (
-                    new_edit_data=>
-                    {
-                        this.EditData(new_edit_data.invoice, new_edit_data.details); 
-                    }
-                ); 
+                ).then(new_edit_data=>this.EditData(new_edit_data.invoice, new_edit_data.details)); 
             }
         },
         template: 

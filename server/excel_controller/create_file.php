@@ -11,7 +11,7 @@
 
     ob_get_clean(); 
     $writer = new Xlsx($spreadsheet);
-    header( "Content-Type: application/vnd.ms-excel" );
+    header("Content-Type: application/vnd.ms-excel");
     header("Content-disposition: attachment; filename={$controller}-template.xlsx"); 
     $writer->save("php://output"); 
 ?>

@@ -2,5 +2,5 @@
     "edit_action": "edit-invoice", 
     "id": "ID", 
     "page_title": "Invoices", 
-    "search": ["Apartment"]
+    "search": ["Unit"]
 }

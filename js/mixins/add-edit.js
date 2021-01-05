@@ -32,26 +32,9 @@ var add_edit_mixin =
                 this.title =""; 
             }
         }, 
-        ReloadUserInput(callback=undefined)
+        ReloadUserInput(callback_resolve=undefined)
         {
-            new Promise 
-            (
-                (resolve, reject)=>
-                {
-                    this.user_input = false;
-                    resolve(callback);  
-                }
-            ).then 
-            (
-                (callback)=>
-                {
-                    if(callback)
-                    {
-                        callback(); 
-                    }
-                    this.user_input = true; 
-                }
-            ); 
+            this.ResetValue({value_name: "user_input", new_value: true, callback_resolve}); 
         }
     },
     watch: 
