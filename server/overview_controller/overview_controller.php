@@ -97,6 +97,8 @@
         // $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
     }
 
+    echo "<h1>Test me</h1>"; 
+
     // if(isset($overview_data))
     // {
     //     echo json_encode($overview_data); 
