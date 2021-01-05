@@ -3,10 +3,10 @@
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
 
-    $actions = ["overview", "utilities"]; 
+    // $actions = ["overview", "utilities"]; 
 
-    $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
-    $overview_controller = $_GET["overview_controller"]; 
+    // $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
+    // $overview_controller = $_GET["overview_controller"]; 
 
     $sql = "SELECT * FROM `buildings`;"; echo $sql; 
     
