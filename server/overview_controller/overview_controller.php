@@ -8,7 +8,7 @@
     // $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
     // $overview_controller = $_GET["overview_controller"]; 
 
-    $sql = "SELECT * FROM `buildings`;"; echo $sql; Connect::GetData($sql); 
+    $sql = "SELECT * FROM `buildings`;"; echo $sql; $overview = Connect::GetData($sql); echo "<pre>"; print_r($overview); echo "</pre>"; 
 
     // if(in_array($overview_controller, $actions))
     // {
