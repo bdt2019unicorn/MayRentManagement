@@ -159,7 +159,7 @@
                             array_push($array, $data_table); 
                         }
                     }
-                } while ($connection->next_result());
+                } while ($connection->more_results() && $connection->next_result());
             }
             catch(Throwable $t){}
             $connection->close(); 
