@@ -28,7 +28,13 @@
 		
 		static public function Delete($table, $id_column, $ids)
 		{
-            return array_map(fn($id)=>"DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'", $ids); 
+            // return array_map(fn($id)=>"DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'", $ids); 
+            $queries = []; 
+            foreach ($ids as $id) 
+            {
+                array_push($queries, "DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'"); 
+            }
+            return $queries; 
         }
 
         static public function SelectData($table, $selects, $conditions=null)
