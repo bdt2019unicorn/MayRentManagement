@@ -3,23 +3,23 @@
     require_once("../helper/database.php"); 
     // require_once("../helper/overview_queries.php"); 
 
-    // $actions = ["overview", "utilities"]; 
+    $actions = ["overview", "utilities"]; 
 
-    // $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
-    // $overview_controller = $_GET["overview_controller"]; 
+    $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
+    $overview_controller = $_GET["overview_controller"]; 
 
     $sql = "SELECT * FROM `buildings`;"; echo $sql; $overview = Connect::GetData($sql); echo "<pre>"; print_r($overview); echo "</pre>"; 
 
-    // if(in_array($overview_controller, $actions))
-    // {
-    //     require_once("./{$overview_controller}.php"); 
-    // }
-    // else if (in_array($overview_controller, $generic_controllers))
-    // {
-    //     echo "<h1> I am generic, error may come from here"; 
-    //     // $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
-    //     // echo "<pre>"; print_r($overview_data); echo "</pre>"; 
-    // }
+    if(in_array($overview_controller, $actions))
+    {
+        require_once("./{$overview_controller}.php"); 
+    }
+    else if (in_array($overview_controller, $generic_controllers))
+    {
+        echo "<h1> I am generic, error may come from here"; 
+        // $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
+        // echo "<pre>"; print_r($overview_data); echo "</pre>"; 
+    }
     // else 
     // {
     //     $sql_queries = array 
