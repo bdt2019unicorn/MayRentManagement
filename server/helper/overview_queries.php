@@ -6,6 +6,7 @@
         {
             if(strpos($class, __NAMESPACE__)!==false) 
             {
+                $class = str_replace("\\", "/", $class); 
                 require_once("{$class}.php");
             }
         }
