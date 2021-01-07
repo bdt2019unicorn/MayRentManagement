@@ -1,6 +1,6 @@
 var document_mixin = 
 {
-    data: ()=> ({select_data_bind: undefined}),
+    data: ()=> ({select_data_bind: undefined, in_process: false}),
     mixins: [support_mixin],  
     created() 
     {

@@ -11,8 +11,10 @@ Vue.component
             }, 
             Submit(form_data)
             {
+                this.in_process = true; 
                 let url = this.ServerUrl({command: "AddDocument"}); 
                 var result = this.AjaxRequest(url, form_data, "POST"); 
+                this.in_process = false; 
                 console.log(result); return; 
                 if(Number(result))
                 {
@@ -30,6 +32,7 @@ Vue.component
             <user-input-document 
                 v-if="select_data_bind" 
                 :select_data_bind="select_data_bind" 
+                :in_process="in_process"
                 text="Add New Document" 
                 @document-form-data-valid="Submit"
                 @user-input-document-reset="Reset"
@@ -68,8 +71,10 @@ Vue.component
             }, 
             Submit(form_data)
             {
+                this.in_process = true; 
                 let url = this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}); 
                 var result = this.AjaxRequest(url, form_data, "POST"); 
+                this.in_process = false; 
                 if(Number(result))
                 {
                     alert("Document edited success!"); 
@@ -87,6 +92,7 @@ Vue.component
                 v-if="edit_data" 
                 :edit_data="edit_data"
                 :select_data_bind="select_data_bind" 
+                :in_process="in_process"
                 text="Add Edited Document" 
                 @document-form-data-valid="Submit"
                 @user-input-document-reset="Reset"

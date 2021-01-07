@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input-document", 
     {
-        props: ["edit_data", "select_data_bind"], 
+        props: ["edit_data", "in_process", "select_data_bind"], 
         data: ()=> 
         (
             {
@@ -120,6 +120,11 @@ Vue.component
         `
             <div class="container-fluid">
                 <slot></slot>
+                <div v-if="in_process" class="popup-div">
+                    <div class="inner-div text-center border border-danger">
+                        <h1>Documents is being processed</h1>
+                    </div>
+                </div>
                 <div class="row">
                     <vs-upload 
                         limit="1" 
