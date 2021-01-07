@@ -81,7 +81,8 @@
                 @start_lease:= `Start_date`, 
                 @rent_amount:=`Rent_amount`, 
                 @total_amount:={$total_invoice_amount}, 
-                @paid_amount:={$total_paid_amount}
+                @paid_amount:={$total_paid_amount}, 
+                @leaseagrm_period_id:=`leaseagrm_period_id`
             FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
 
             SET @start_date = 
@@ -93,8 +94,8 @@
                     `invoices`.`leaseagrm_id` = @leaseagrm_id
             ); 
 
-            SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date); 
-            SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
+            SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date + INTERVAL 1 day); 
+            SET @end_date = LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
             SET @end_date = GREATEST(@start_date, CURRENT_DATE, @end_date); 
 
             SELECT 
@@ -103,7 +104,8 @@
                 @rent_amount AS `rent_amount`, 
                 @paid_amount AS `paid_amount`, 
                 @total_amount AS `total_amount`, 
-                (IFNULL(@total_amount, 0) - IFNULL(@paid_amount, 0)) AS `difference`; 
+                (IFNULL(@total_amount, 0) - IFNULL(@paid_amount, 0)) AS `difference`, 
+                IFNULL((SELECT `leaseagrm_period`.`name` FROM `leaseagrm_period` WHERE `leaseagrm_period`.`id` = @leaseagrm_period_id), 'months') AS `leaseagrm_period`; 
 
             CREATE TEMPORARY TABLE IF NOT EXISTS `all_utility_reading` AS
             (
@@ -169,13 +171,13 @@
             CREATE TEMPORARY TABLE IF NOT EXISTS `rent_start_not_in_end` AS
             (
                 SELECT `start_date` FROM `invoice_leaseagrm_rent_search`
-                WHERE `start_date` NOT IN (SELECT `end_date` FROM `invoice_leaseagrm_rent_search_temp`)
+                WHERE DATE(`start_date` - INTERVAL 1 DAY) NOT IN (SELECT DATE(`end_date`) FROM `invoice_leaseagrm_rent_search_temp`)
             ); 
                             
             CREATE TEMPORARY TABLE IF NOT EXISTS `rent_end_not_in_start` AS
             (
                 SELECT `end_date` FROM `invoice_leaseagrm_rent_search`
-                WHERE `end_date` NOT IN (SELECT `start_date` FROM `invoice_leaseagrm_rent_search_temp`)
+                WHERE DATE(`end_date` + INTERVAL 1 DAY) NOT IN (SELECT DATE(`start_date`) FROM `invoice_leaseagrm_rent_search_temp`)
             ); 
 
             SET @minimum_start_date = (SELECT MIN(`start_date`) FROM `rent_start_not_in_end`); 
@@ -188,10 +190,10 @@
             ); 
             INSERT INTO `rent_end_not_in_start` VALUES (@extra_end_date); 
             SELECT 
-                `end_date` AS `start_date`, 
+                IF(`end_date`>@start_lease, `end_date` + INTERVAL 1 DAY, @start_lease) AS `start_date`, 
                 (
-                    SELECT MIN(`start_date`) FROM `rent_start_not_in_end` 
-                    WHERE `start_date`>`rent_end_not_in_start`.`end_date`
+                    SELECT (MIN(`start_date`) - INTERVAL 1 DAY) FROM `rent_start_not_in_end` 
+                    WHERE (`start_date` - INTERVAL 1 DAY)>`rent_end_not_in_start`.`end_date`
                 ) AS `end_date`
             FROM `rent_end_not_in_start` WHERE `end_date` IS NOT NULL ORDER BY `end_date` DESC;
         "; 

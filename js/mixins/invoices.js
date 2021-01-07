@@ -31,7 +31,7 @@ var rent_invoice_mixin =
     mixins: [support_mixin], 
     methods: 
     {
-        RentQuantityCalculation(start_period, end_period)
+        RentQuantityCalculation(start_period, end_period, leaseagrm_period="months")
         {
             [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
             let [str_start, str_end] = [start_period, end_period].map(moment_object=>this.DateReformatDatabase(moment_object)); 
@@ -40,7 +40,7 @@ var rent_invoice_mixin =
                 return 0; 
             }
             start_period.subtract(1, "days"); 
-            return end_period.diff(start_period, "months", true).toFixed(3); 
+            return end_period.diff(start_period, leaseagrm_period, true).toFixed(3); 
         }, 
         
         PopulateRentInformation({revenue_type, price, rent_information, user_input, leaseagrm_id=undefined})
@@ -103,8 +103,14 @@ var user_input_invoice_component_mixin =
     },
     watch: 
     {
-        list: (new_value, old_value)=> this.PopulateList(new_value),
-        ValidInvoiceDetails: (new_value, old_value)=> this.$emit("input", new_value)
+        list: function(new_value, old_value)
+        {
+            this.PopulateList(new_value); 
+        }, 
+        ValidInvoiceDetails: function(new_value, old_value)
+        {
+            this.$emit("input", new_value); 
+        }
     }
 }
 
