@@ -148,14 +148,8 @@ Vue.component
                     ></select-input>
                 </div>
                 <br>
-                <div class="row">
-                    <text-input name="name" v-model="invoice.name" title="Invoice Name"></text-input>
-                </div>
-
-                <div class="row">
-                    <text-input name="note" v-model="invoice.note" title="Note"></text-input>
-                </div>
-
+                <div class="row"><text-input name="name" v-model="invoice.name" title="Invoice Name"></text-input></div>
+                <div class="row"><text-input name="note" v-model="invoice.note" title="Note"></text-input></div>
                 <slot name="invoice_information" :invoice="invoice" :invoice_information="invoice_information"></slot>
                 <hr>
                 <template v-if="edit_data||InvoiceDetails">

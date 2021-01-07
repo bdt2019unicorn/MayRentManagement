@@ -69,6 +69,7 @@
                         "name"=>"{$leaseagrm['id']} ({$leaseagrm['name']}) - {$invoice_information['unit_name']} - Month end {$last_date_of_month->format('d M Y')}", 
                         "leaseagrm_name"=> $leaseagrm['name'], 
                         "rent_amount"=>$leaseagrm["Rent_amount"], 
+                        "leaseagrm_period"=> $invoice_information["leaseagrm"]['leaseagrm_period'], 
                         "leaseagrm"=>$invoice_leaseagrm, 
                         "unit_name"=>$invoice_information['unit_name'], 
                         "utilities"=> $invoice_information["utilities"], 
