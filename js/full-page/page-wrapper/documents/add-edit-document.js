@@ -13,6 +13,7 @@ Vue.component
             {
                 let url = this.ServerUrl({command: "AddDocument"}); 
                 var result = this.AjaxRequest(url, form_data, "POST"); 
+                console.log(result); return; 
                 if(Number(result))
                 {
                     alert("Document is added!"); 
