@@ -16,8 +16,8 @@ Vue.component
 (
     "restore-data", 
     {
-        mixins: [support_mixin], 
         data: () =>({file: undefined}), 
+        mixins: [support_mixin], 
         components: {...vueFragment}, 
         methods: 
         {

@@ -14,6 +14,7 @@ Vue.component
             }
         ),
         mixins: [support_mixin], 
+        components: {...vueFragment}, 
         created() 
         {
             if(this.edit_data)
@@ -96,61 +97,42 @@ Vue.component
                 {
                     this.name = undefined; 
                 }
-            }, 
-            Submit()
-            {
-                this.$emit("document-form-data-valid", this.ValidData); 
-                // let url = this.ServerUrl({command: "AddDocument"}); 
-                // var result = this.AjaxRequest(url, this.ValidData, "POST"); 
-                // if(Number(result))
-                // {
-                    
-                    
-                //     (
-                //         (resolve, reject)=>
-                //         {
-                //             alert("File uploaded!"); 
-                //             var select_data_bind = R.clone(this.select_data_bind); 
-                //             Object.keys(this.$data).forEach(key=>this[key]=undefined); 
-                //             resolve(select_data_bind); 
-                //         }
-                //     ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
-                // }
-                // else
-                // {
-                //     alert("There seems to be a server error, please try again"); 
-                // }
             }
         },
         template: 
         `
-            <div class="container-fluid">
-                <slot></slot>
+            <fragment>
+
+                <div class="container-fluid">
+                    <slot></slot>
+                    <div class="row">
+                        <vs-upload 
+                            limit="1" 
+                            :show-upload-button="false" 
+                            :text="$attrs['text']||''" 
+                            @change="FileChanged" 
+                            @on-delete="FileDeleted" 
+                        />
+                    </div>
+                    <p v-if="FileLinkBind"><a v-bind="FileLinkBind">{{FileLinkBind.download}}</a></p>
+                    <br>
+                    <div class="row"><text-input title="Document Name" name="name" v-model="name" :edit_data="EditData"></text-input></div>
+                    <div class="row"><select-input v-bind="select_data_bind.document_type_id" name="document_type_id" v-model="document_type_id" :edit_data="EditData"></select-input></div>
+                    <div class="row"><select-input v-bind="select_data_bind.unit_id" name="unit_id" v-model="unit_id" :edit_data="EditData"></select-input></div>
+                    <div class="row"><textarea-input title="Description" name="description" v-model="description" :edit_data="EditData"></textarea-input></div>
+                    <div class="row d-flex bd-highlight">
+                        <submit-button class="mr-auto bd-highlight" icon="times" title="Reset" @submit-button-clicked="$emit('user-input-document-reset')"></submit-button>
+                        <submit-button v-if="ValidData" class="ml-auto bd-highlight" title="Submit" @submit-button-clicked="$emit('document-form-data-valid', ValidData)"></submit-button>
+                    </div>
+                </div>
+
                 <div v-if="in_process" class="popup-div">
                     <div class="inner-div text-center border border-danger">
                         <h1>Documents is being processed</h1>
                     </div>
                 </div>
-                <div class="row">
-                    <vs-upload 
-                        limit="1" 
-                        :show-upload-button="false" 
-                        :text="$attrs['text']||''" 
-                        @change="FileChanged" 
-                        @on-delete="FileDeleted" 
-                    />
-                </div>
-                <p v-if="FileLinkBind"><a v-bind="FileLinkBind">{{FileLinkBind.download}}</a></p>
-                <br>
-                <div class="row"><text-input title="Document Name" name="name" v-model="name" :edit_data="EditData"></text-input></div>
-                <div class="row"><select-input v-bind="select_data_bind.document_type_id" name="document_type_id" v-model="document_type_id" :edit_data="EditData"></select-input></div>
-                <div class="row"><select-input v-bind="select_data_bind.unit_id" name="unit_id" v-model="unit_id" :edit_data="EditData"></select-input></div>
-                <div class="row"><textarea-input title="Description" name="description" v-model="description" :edit_data="EditData"></textarea-input></div>
-                <div class="row d-flex bd-highlight">
-                    <submit-button class="mr-auto bd-highlight" icon="times" title="Reset" @submit-button-clicked="$emit('user-input-document-reset')"></submit-button>
-                    <submit-button v-if="ValidData" class="ml-auto bd-highlight" title="Submit" @submit-button-clicked="$emit('document-form-data-valid', ValidData)"></submit-button>
-                </div>
-            </div>
+                
+            </fragment>
         `
     }
 ); 

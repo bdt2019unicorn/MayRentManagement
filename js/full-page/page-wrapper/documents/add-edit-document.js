@@ -11,20 +11,29 @@ Vue.component
             }, 
             Submit(form_data)
             {
-                this.in_process = true; 
-                let url = this.ServerUrl({command: "AddDocument"}); 
-                var result = this.AjaxRequest(url, form_data, "POST"); 
-                this.in_process = false; 
-                console.log(result); return; 
-                if(Number(result))
-                {
-                    alert("Document is added!"); 
-                    this.Reset(); 
-                }
-                else
-                {
-                    alert("There seems to be a server error, please try again"); 
-                }
+                this.ResetValue
+                (
+                    {
+                        value_name: "in_process", 
+                        new_value: false,
+                        undefined_value: true,  
+                        callback: ()=>
+                        {
+                            let url = this.ServerUrl({command: "AddDocument"}); 
+                            var result = this.AjaxRequest(url, form_data, "POST"); 
+                            console.log(result); return; 
+                            if(Number(result))
+                            {
+                                alert("Document is added!"); 
+                                this.Reset(); 
+                            }
+                            else
+                            {
+                                alert("There seems to be a server error, please try again"); 
+                            }
+                        }
+                    }
+                ); 
             }
         },
         template: 
@@ -71,19 +80,28 @@ Vue.component
             }, 
             Submit(form_data)
             {
-                this.in_process = true; 
-                let url = this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}); 
-                var result = this.AjaxRequest(url, form_data, "POST"); 
-                this.in_process = false; 
-                if(Number(result))
-                {
-                    alert("Document edited success!"); 
-                    this.ResetValue({value_name: "edit_data", new_value: this.EditData()}); 
-                }
-                else
-                {
-                    alert("There seems to be a server error, please try again"); 
-                }
+                this.ResetValue
+                (
+                    {
+                        value_name: "in_process", 
+                        new_value: false,
+                        undefined_value: true,  
+                        callback: ()=>
+                        {
+                            let url = this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}); 
+                            var result = this.AjaxRequest(url, form_data, "POST"); 
+                            if(Number(result))
+                            {
+                                alert("Document edited success!"); 
+                                this.Reset(); 
+                            }
+                            else
+                            {
+                                alert("There seems to be a server error, please try again"); 
+                            }
+                        }
+                    }
+                ); 
             }
         },
         template: 
