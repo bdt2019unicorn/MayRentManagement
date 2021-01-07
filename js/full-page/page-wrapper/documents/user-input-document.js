@@ -94,26 +94,27 @@ Vue.component
             }, 
             Submit()
             {
-                let url = this.ServerUrl({command: "AddDocument"}); 
-                var result = this.AjaxRequest(url, this.ValidData, "POST"); 
-                if(Number(result))
-                {
+                this.$emit("document-form-data-valid", this.ValidData); 
+                // let url = this.ServerUrl({command: "AddDocument"}); 
+                // var result = this.AjaxRequest(url, this.ValidData, "POST"); 
+                // if(Number(result))
+                // {
                     
                     
-                    (
-                        (resolve, reject)=>
-                        {
-                            alert("File uploaded!"); 
-                            var select_data_bind = R.clone(this.select_data_bind); 
-                            Object.keys(this.$data).forEach(key=>this[key]=undefined); 
-                            resolve(select_data_bind); 
-                        }
-                    ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
-                }
-                else
-                {
-                    alert("There seems to be a server error, please try again"); 
-                }
+                //     (
+                //         (resolve, reject)=>
+                //         {
+                //             alert("File uploaded!"); 
+                //             var select_data_bind = R.clone(this.select_data_bind); 
+                //             Object.keys(this.$data).forEach(key=>this[key]=undefined); 
+                //             resolve(select_data_bind); 
+                //         }
+                //     ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
+                // }
+                // else
+                // {
+                //     alert("There seems to be a server error, please try again"); 
+                // }
             }
         },
         template: 
