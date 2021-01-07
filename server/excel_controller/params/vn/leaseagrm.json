@@ -37,6 +37,12 @@
             "Ví dụ": "12000000",
             "Yêu cầu": "Bắt buộc"
         },
+        "Đơn vị tính": 
+        {
+            "Kiểu dữ liệu": "Số",
+            "Ví dụ": "months",
+            "Yêu cầu": "Bắt buộc"
+        },
         "Tiền cọc": 
         {
             "Kiểu dữ liệu": "Số",
@@ -98,6 +104,11 @@
             ], 
             "building_id": true, 
             "details": true 
+        }, 
+        "Đơn vị tính": 
+        {
+            "table": "leaseagrm_period",
+            "selects": ["`name` AS `Đơn vị tính`"] 
         }
     }
 }

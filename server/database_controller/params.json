@@ -43,6 +43,12 @@
                 "change": "unit_id", 
                 "table": "unit", 
                 "find_by_building": true 
+            }, 
+            "lease_period": 
+            {
+                "search": "name", 
+                "change": "leaseagrm_period_id", 
+                "table": "leaseagrm_period"
             }
         },
         "comma": ["rent_amount","deposit_amount", "deposit_exchange_rate"], 

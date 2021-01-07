@@ -129,36 +129,6 @@
             <!-- how to see the github issues - may need to work on this  -->
             <!-- https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues?state=open -->
             <!-- https://docs.github.com/en/free-pro-team@latest/rest/reference/issues -->
-
-
-            <!--
-
-            CREATE TABLE `leaseagrm_period` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci
-
-
-INSERT INTO leaseagrm_period (name) values('years');
-INSERT INTO leaseagrm_period (name) values('months');
-INSERT INTO leaseagrm_period (name) values('weeks');
-INSERT INTO leaseagrm_period (name) values('days');
-INSERT INTO leaseagrm_period (name) values('hours');
-INSERT INTO leaseagrm_period (name) values('minutes');
-INSERT INTO leaseagrm_period (name) values('seconds');
-
-
-ALTER TABLE `leaseagrm` ADD `leaseagrm_period_id` INT NULL AFTER `Rent_amount`;
-ALTER TABLE `leaseagrm` ADD INDEX(`leaseagrm_period_id`);
-ALTER TABLE `leaseagrm` ADD FOREIGN KEY (`leaseagrm_period_id`) REFERENCES `leaseagrm_period`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-UPDATE `leaseagrm` SET `leaseagrm_period_id` = (SELECT `id` FROM `leaseagrm_period` WHERE `name` = 'months'); 
-
-
-
-            -->
-
-        
         </footer>
     </body>
 

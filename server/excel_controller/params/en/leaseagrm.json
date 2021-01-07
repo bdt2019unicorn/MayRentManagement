@@ -37,6 +37,12 @@
             "Example": "12000000",
             "Requirement": "Compulsory"
         },
+        "Lease Period": 
+        {
+            "Data type": "ID",
+            "Example": "months",
+            "Requirement": "Compulsory"
+        },
         "Deposit amount": 
         {
             "Data type": "Number",
@@ -98,6 +104,11 @@
             ], 
             "building_id": true, 
             "details": true 
+        }, 
+        "Lease Period": 
+        {
+            "table": "leaseagrm_period",
+            "selects": ["`name` AS `Lease Period`"] 
         }
     }
 }
