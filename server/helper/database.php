@@ -28,7 +28,7 @@
 		
 		static public function Delete($table, $id_column, $ids)
 		{
-            return array_map(fn($id)=>"DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'", $ids); 
+            return array_map(function($id) use ($table, $id_column){return "DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'";}, $ids); 
         }
 
         static public function SelectData($table, $selects, $conditions=null)
@@ -159,7 +159,7 @@
                             array_push($array, $data_table); 
                         }
                     }
-                } while ($connection->next_result());
+                } while ($connection->more_results() && $connection->next_result());
             }
             catch(Throwable $t){}
             $connection->close(); 

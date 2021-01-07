@@ -1,4 +1,5 @@
 <?php 
+
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
 
@@ -93,6 +94,7 @@
         ); 
         $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
     }
+
 
     if(isset($overview_data))
     {

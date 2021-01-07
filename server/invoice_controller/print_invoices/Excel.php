@@ -27,7 +27,7 @@ class Excel
                 ], 
                 array_map 
                 (
-                    fn($address)=>array_merge([""], $space, ["<i>{$address}</i>"]),  
+                    function($address)use($space){return array_merge([""], $space, ["<i>{$address}</i>"]);},  
                     explode("\n", $building_information["address"])
                 )
             ); 
@@ -159,10 +159,10 @@ class Excel
             $SheetSubTitle("B{$row_position}", "DESCRIPTION", "left", "B{$row_position}:H{$row_position}"); 
             $SheetSubTitle("I{$row_position}", "VND", "right"); 
 
-            $AlignmentStyle = fn($alignment)=>["alignment"=>["horizontal"=>$alignment]]; 
+            $AlignmentStyle = function($alignment){return ["alignment"=>["horizontal"=>$alignment]];};  
             $right_number_detail_styles = array_merge($range_styles, $AlignmentStyle("right")); 
 
-            $NumberFormat = fn($value)=>number_format(floatval($value), 0, ".", ","); 
+            $NumberFormat = function($value){return number_format(floatval($value), 0, ".", ",");};  
 
             $LeaseagrmRow = function($index, $leaseagrm) use ($sheet, &$row_position, $range_styles, $AlignmentStyle, $NumberFormat, $right_number_detail_styles)
             {
@@ -179,7 +179,7 @@ class Excel
 
             $UtilityRow =function($index, $utility) use ($sheet, &$row_position, $range_styles, $NumberFormat, $right_number_detail_styles)
             {
-                $DateFormat = fn($date)=>(new \DateTime($date))->format("h:iA jS M Y"); 
+                $DateFormat = function($date){return (new \DateTime($date))->format("h:iA jS M Y");};  
                 $details = 
                 [
                     ["{$index}. {$utility['name']}"], 
@@ -223,7 +223,7 @@ class Excel
         private function RichTextArrayConvert($array)
         {
             $html_helper = new \PhpOffice\PhpSpreadsheet\Helper\Html(); 
-            return array_map(fn($row)=>array_map(fn($cell)=> $cell? $html_helper->toRichTextObject($cell): null,$row), $array); 
+            return array_map(function($row) use ($html_helper){return array_map(function($cell) use ($html_helper){return $cell? $html_helper->toRichTextObject($cell): null;},$row);}, $array); 
         }
     }
 ?>
