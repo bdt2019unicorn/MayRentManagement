@@ -109,6 +109,16 @@
                 "title": "Monthly Payment Date *"
             },
             {
+                "component": "select-input",
+                "name": "leaseagrm_period_id",
+                "title": "Payment Period *",
+                "overview_controller": "leaseagrm_period",
+                "select_value": "id",
+                "text": "name"
+            }
+        ], 
+        [
+            {
                 "component": "text-input",
                 "name": "deposit_currency",
                 "title": "Deposit Currency"
@@ -139,6 +149,7 @@
                 "required": true, 
                 "number_input_min": 0 
             }, 
+            "leaseagrm_period_id": "required", 
             "deposit_amount":
             {
                 "required": true, 
