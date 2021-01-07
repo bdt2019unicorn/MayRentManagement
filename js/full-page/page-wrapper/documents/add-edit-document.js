@@ -11,27 +11,13 @@ Vue.component
             }, 
             Submit(form_data)
             {
-                this.ResetValue
+                this.SubmitDocumentData
                 (
                     {
-                        value_name: "in_process", 
-                        new_value: false,
-                        undefined_value: true,  
-                        callback: ()=>
-                        {
-                            let url = this.ServerUrl({command: "AddDocument"}); 
-                            var result = this.AjaxRequest(url, form_data, "POST"); 
-                            console.log(result); return; 
-                            if(Number(result))
-                            {
-                                alert("Document is added!"); 
-                                this.Reset(); 
-                            }
-                            else
-                            {
-                                alert("There seems to be a server error, please try again"); 
-                            }
-                        }
+                        url: this.ServerUrl({command: "AddDocument"}), 
+                        form_data, 
+                        success_alert: "Document is added!", 
+                        reset_function: this.Reset
                     }
                 ); 
             }
@@ -80,26 +66,13 @@ Vue.component
             }, 
             Submit(form_data)
             {
-                this.ResetValue
+                this.SubmitDocumentData
                 (
                     {
-                        value_name: "in_process", 
-                        new_value: false,
-                        undefined_value: true,  
-                        callback: ()=>
-                        {
-                            let url = this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}); 
-                            var result = this.AjaxRequest(url, form_data, "POST"); 
-                            if(Number(result))
-                            {
-                                alert("Document edited success!"); 
-                                this.Reset(); 
-                            }
-                            else
-                            {
-                                alert("There seems to be a server error, please try again"); 
-                            }
-                        }
+                        url: this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}), 
+                        form_data, 
+                        success_alert: "Document edited success!", 
+                        reset_function: this.Reset
                     }
                 ); 
             }
