@@ -57,7 +57,7 @@ Vue.component
                                 this.invoice_details[index][name] = new_value; 
                                 if(this.invoice_details[index].revenue_type_id==this.user_input.rent_id)
                                 {
-                                    this.invoice_details[index].quantity = this.RentQuantityCalculation(this.invoice_details[index].start_date, this.invoice_details[index].end_date); 
+                                    this.invoice_details[index].quantity = this.RentQuantityCalculation(this.invoice_details[index].start_date, this.invoice_details[index].end_date, this.invoice_information.leaseagrm["leaseagrm_period"]); 
                                 }
                                 this.invoice_details[index].amount = this.NumeralFormat(this.invoice_details[index].quantity * this.invoice_details[index].price); 
                                 break; 
@@ -104,7 +104,8 @@ Vue.component
                                         revenue_type: revenue_type, 
                                         price: this.invoice_information.leaseagrm["rent_amount"], 
                                         rent_information: this.invoice_information.leaseagrm.rent_information, 
-                                        user_input: this.user_input
+                                        user_input: this.user_input, 
+                                        leaseagrm_period: this.invoice_information.leaseagrm["leaseagrm_period"]
                                     }
                                 ): 
                                 [

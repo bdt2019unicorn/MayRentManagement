@@ -43,7 +43,7 @@ var rent_invoice_mixin =
             return end_period.diff(start_period, leaseagrm_period, true).toFixed(3); 
         }, 
         
-        PopulateRentInformation({revenue_type, price, rent_information, user_input, leaseagrm_id=undefined})
+        PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_period="months", user_input, leaseagrm_id=undefined})
         {
             let details = 
             {
@@ -70,7 +70,7 @@ var rent_invoice_mixin =
                         ...details, 
                         start_date: start_date, 
                         end_date: rent_end_date, 
-                        quantity: this.RentQuantityCalculation(start_date, rent_end_date), 
+                        quantity: this.RentQuantityCalculation(start_date, rent_end_date, leaseagrm_period), 
                         row: row 
                     }
                 }

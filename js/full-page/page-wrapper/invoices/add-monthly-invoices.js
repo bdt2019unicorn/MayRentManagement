@@ -114,6 +114,7 @@ Vue.component
                                     }, 
                                     price: this.monthly_invoices[leaseagrm_id].rent_amount, 
                                     rent_information: this.monthly_invoices[leaseagrm_id].leaseagrm, 
+                                    leaseagrm_period: this.monthly_invoices[leaseagrm_id].leaseagrm_period, 
                                     user_input: this.user_input, 
                                     leaseagrm_id: leaseagrm_id
                                 }
@@ -128,7 +129,6 @@ Vue.component
                                         revenue_type: this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
                                     }
                                 )
-
                             )
                         }
                     ); 
@@ -160,15 +160,11 @@ Vue.component
                         v-for="leaseagrm_id in Object.keys(monthly_invoices_display)"
                         v-if="monthly_invoices_display[leaseagrm_id].total"
                     >
+
                         <h5 slot="header" class="text-info">{{monthly_invoices[leaseagrm_id].name}}</h5>
+                        <div class="row"><h6 class="col text-right">{{monthly_invoices[leaseagrm_id].leaseagrm_name}}</h6></div>
+                        <div class="row"><text-input name="name" v-model="monthly_invoices[leaseagrm_id].name" title="Invoice Name"></text-input></div>
 
-                        <div class="row">
-                            <h6 class="col text-right">{{monthly_invoices[leaseagrm_id].leaseagrm_name}}</h6>
-                        </div>
-
-                        <div class="row">
-                            <text-input name="name" v-model="monthly_invoices[leaseagrm_id].name" title="Invoice Name"></text-input>
-                        </div>
                         <hr>
                         <div v-if="monthly_invoices_display[leaseagrm_id].leaseagrm.length>0" class="container-fluid">
                             <h6>Rent</h6>
