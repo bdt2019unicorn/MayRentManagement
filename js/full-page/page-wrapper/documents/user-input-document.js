@@ -62,6 +62,11 @@ Vue.component
         }, 
         methods: 
         {
+            CallbackReset()
+            {
+                alert("File uploaded!"); 
+                Object.keys(this.$data).forEach(key=>this[key]=undefined); 
+            }, 
             EditDataClone(object)
             {
                 Object.keys(this.edit_data).filter(key=>Object.keys(this.$data).includes(key.toLocaleLowerCase())).forEach(key=> object[key.toLocaleLowerCase()]=this.edit_data[key]); 
@@ -94,21 +99,19 @@ Vue.component
             }, 
             Submit()
             {
+                
                 let url = this.ServerUrl({command: "AddDocument"}); 
                 var result = this.AjaxRequest(url, this.ValidData, "POST"); 
                 if(Number(result))
                 {
-                    
-                    
+                    this.ResetValue
                     (
-                        (resolve, reject)=>
                         {
-                            alert("File uploaded!"); 
-                            var select_data_bind = R.clone(this.select_data_bind); 
-                            Object.keys(this.$data).forEach(key=>this[key]=undefined); 
-                            resolve(select_data_bind); 
+                            value_name: "select_data_bind", 
+                            new_value: R.clone(this.select_data_bind), 
+                            callback: this.CallbackReset
                         }
-                    ).then(select_data_bind=>this.select_data_bind= select_data_bind); 
+                    ); 
                 }
                 else
                 {
