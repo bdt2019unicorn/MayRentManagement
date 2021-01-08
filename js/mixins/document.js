@@ -16,7 +16,25 @@ var document_mixin =
         async SubmitDocumentData({url, form_data, success_alert, reset_function})
         {
             var file = form_data.get("file"); 
-            console.log(file); 
+            var chunk_size = 2048; 
+            if(file.size>chunk_size)
+            {
+                ToBase64 = (file)=> new Promise 
+                (
+                    (resolve, reject)=>
+                    {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = error => reject(error);
+                    }
+                ); 
+
+                var base64 = ToBase64(file); 
+                console.log(base64); 
+            }
+
+
             return; 
 
             $.ajax 
