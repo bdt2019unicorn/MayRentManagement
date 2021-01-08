@@ -41,6 +41,7 @@ var document_mixin =
                     ); 
                     if(next_slice<file.size)
                     {
+                        console.log(next_slice, file.size); 
                         UploadFile(part+1, next_slice); 
                     }
                     else 
