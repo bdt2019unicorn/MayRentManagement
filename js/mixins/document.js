@@ -64,9 +64,8 @@ var document_mixin =
                                     processData: false,
                                     enctype: 'multipart/form-data',
                                     beforeSend: ()=>this.in_progress = next_slice/file.size * percentage, 
-                                    success: function(file_path)
+                                    success: function()
                                     {
-                                        console.log(file_path); 
                                         if(end_of_file)
                                         {
                                             form_data.set("file", `temp/${folder}`); 
@@ -86,16 +85,15 @@ var document_mixin =
                 ()=>
                 {
                     var result = this.AjaxRequest(url, form_data, "POST"); 
-                    console.log(result); 
-                    // if(Number(result))
-                    // {
-                    //     alert(success_alert); 
-                    //     reset_function(); 
-                    // }
-                    // else
-                    // {
-                    //     alert("There seems to be a server error, please try again"); 
-                    // }
+                    if(Number(result))
+                    {
+                        alert(success_alert); 
+                        reset_function(); 
+                    }
+                    else
+                    {
+                        alert("There seems to be a server error, please try again"); 
+                    }
                     this.in_progress = false; 
                 }
             ); 

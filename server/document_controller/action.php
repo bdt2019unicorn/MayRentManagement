@@ -13,18 +13,14 @@
             $content = ""; 
             foreach ($files as $file) 
             {
-                $content.= file_get_contents($file); 
+                if(is_file($file))
+                {
+                    $content.= file_get_contents($file); 
+                    unlink($file); 
+                }
             }
-
-            $test_write = fopen("{$_POST['file']}/file.tmp", "ab"); 
-            fwrite($test_write, $content); 
-            fclose($test_write); 
-
+            rmdir($_POST['file']); 
             return $content; 
-            // $file = file_get_contents("{$_POST['file']}/file.tmp"); 
-            // array_walk(glob("{$_POST['file']}/*"), "unlink"); 
-            // rmdir($_POST['file']); 
-            // return $file; 
         }
     }
 
@@ -66,38 +62,13 @@
             }
             $file_destination = "{$folder}/{$_POST['part']}.tmp"; 
             move_uploaded_file($_FILES["blob"]["tmp_name"], $file_destination); 
-            echo $_POST["part"]; 
         }, 
         "AddDocument"=> function()
         {
             $data = $_POST; 
-            // $data['file'] = addslashes()
-            // $file = null; 
-            // if(isset($_FILES["file"]))
-            // {
-            //     $file = file_get_contents($_FILES["file"]["tmp_name"]); 
-            // }
-            // else 
-            // {
-            //     $file = file_get_contents("{$_POST['file']}/file.tmp"); 
-            //     array_walk(glob("{$_POST['file']}/*"), "unlink"); 
-            //     rmdir($_POST['file']); 
-            // }
-            // if($file)
-            // {
-            //     $data["file"] = addslashes($file); 
-            // }
-
             $file = GetUploadFileCombine(); 
             $data["file"] = addslashes($file); 
-
-            
-            // $file = file_get_contents($_FILES["file"]["tmp_name"]); 
-            // $file = addslashes($file); 
-            // $data = array_merge(["file"=>$file], $_POST); 
-            // echo "\n\n\n\n"; print_r($_FILES); print_r($_POST); echo "\n\n\n";
             $sql = Query::Insert("documents", $data); 
-            // echo $sql; echo "\n\n\n\n\n\n"; 
             $result = Connect::GetData($sql); 
             echo $result; 
         }, 

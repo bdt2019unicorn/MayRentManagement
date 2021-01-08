@@ -25,7 +25,7 @@ var support_mixin =
     },
     methods: 
     {
-        AjaxRequest(url, data=new FormData(), type="get", beforeSend = undefined, complete = undefined) 
+        AjaxRequest(url, data=new FormData(), type="get") 
         {
             var result = null; 
             $.ajax
@@ -38,7 +38,6 @@ var support_mixin =
                     contentType: false,
                     processData: false,
                     enctype: 'multipart/form-data',
-                    beforeSend, 
                     success: function(success)
                     {
                         result = success; 
@@ -47,8 +46,7 @@ var support_mixin =
                     {
                         console.log(error.responseText); 
                         console.log(error); 
-                    }, 
-                    complete
+                    }
                 }
             ); 
             return result; 
