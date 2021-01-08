@@ -18,17 +18,36 @@ var document_mixin =
             var file = form_data.get("file"); 
             var chunk_size = 2048; 
             this.in_progress = 1; 
-            console.log(file); 
             if(file.size>chunk_size)
             {
-                UploadFile = (start_slice)=>
+                var folder = `${file.name}-${Math.random().toFixed(4) * 1000}`; 
+                console.log(folder); 
+                UploadFile = (part, start_slice)=>
                 {
+                    const percentage = 98.0; 
                     let url = "server/document_controller/upload"; 
                     var next_slice = start_slice + chunk_size + 1; 
                     var blob = file.slice(start_slice, next_slice); 
-                    let start_progress = (start_slice + 1)/file.size * 50.0; 
-                    let end_progress = (next_slice+1)/file.size * 50.0; 
-                    // this.AjaxRequest()
+                    let data = new FormData(); 
+                    data.append("blob", blob); 
+                    data.append("folder", folder); 
+                    data.append("part", part); 
+
+                    this.AjaxRequest
+                    (
+                        url, 
+                        data, 
+                        "POST", 
+                        ()=> this.in_progress = next_slice/file.size * percentage
+                    ); 
+                    if(next_slice<file.size)
+                    {
+                        UploadFile(part+1, next_slice); 
+                    }
+                    else 
+                    {
+                        this.AjaxRequest(url, new FormData(), "POST"); 
+                    }
                 }; 
                 // ToBase64 = (file)=> new Promise 
                 // (
