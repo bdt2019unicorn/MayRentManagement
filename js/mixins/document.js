@@ -16,7 +16,7 @@ var document_mixin =
         async SubmitDocumentData({url, form_data, success_alert, reset_function})
         {
             var file = form_data.get("file"); 
-            var chunk_size = 2048; 
+            const chunk_size = 2 * Math.pow(10, 6); 
             this.in_progress = 1; 
             if(file.size>chunk_size)
             {
@@ -39,6 +39,7 @@ var document_mixin =
                         "POST", 
                         ()=> this.in_progress = next_slice/file.size * percentage
                     ); 
+                    console.log("******", this.in_progress); 
                     if(next_slice<file.size)
                     {
                         console.log(next_slice, file.size); 
