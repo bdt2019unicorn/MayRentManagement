@@ -17,7 +17,8 @@ var document_mixin =
         {
             var file = form_data.get("file"); 
             const chunk_size = 2 * Math.pow(10, 6); 
-            this.in_progress = 1; 
+            // this.in_progress = 1; 
+            this.in_progress = 37.39757610402932; 
             if(file.size>chunk_size)
             {
                 var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
@@ -50,8 +51,8 @@ var document_mixin =
                         return this.AjaxRequest(url, new FormData(), "POST"); 
                     }
                 }; 
-                var file_path = UploadFile(1, 0); 
-                console.log(file_path); 
+                // var file_path = UploadFile(1, 0); 
+                // console.log(file_path); 
                 // form_data.set("file", file_path); 
             }
 
