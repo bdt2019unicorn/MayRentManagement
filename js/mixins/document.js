@@ -48,7 +48,6 @@ var document_mixin =
                             {
                                 next_slice = file.size; 
                                 end_of_file = true; 
-                                data.append("end_of_file", end_of_file); 
                             }
                             data.append("blob", file.slice(start_slice, next_slice)); 
                             data.append("folder", folder); 
@@ -67,10 +66,9 @@ var document_mixin =
                                     beforeSend: ()=>this.in_progress = next_slice/file.size * percentage, 
                                     success: function(file_path)
                                     {
-                                        console.log(file_path); 
                                         if(end_of_file)
                                         {
-                                            form_data.set("file", file_path); 
+                                            form_data.set("file", `temp/${folder}`); 
                                             reject(); 
                                         }
                                         resolve(next_slice); 
