@@ -31,11 +31,8 @@ var document_mixin =
                 ); 
 
                 var base64 = await ToBase64(file); 
-                console.log(base64); 
+                form_data.set("file", base64); 
             }
-
-
-            return; 
 
             $.ajax 
             (
