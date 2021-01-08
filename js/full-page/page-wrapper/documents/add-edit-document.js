@@ -27,7 +27,7 @@ Vue.component
             <user-input-document 
                 v-if="select_data_bind" 
                 :select_data_bind="select_data_bind" 
-                :in_process="in_process"
+                :in_progress="in_progress"
                 text="Add New Document" 
                 @document-form-data-valid="Submit"
                 @user-input-document-reset="Reset"
@@ -83,7 +83,7 @@ Vue.component
                 v-if="edit_data" 
                 :edit_data="edit_data"
                 :select_data_bind="select_data_bind" 
-                :in_process="in_process"
+                :in_progress="in_progress"
                 text="Add Edited Document" 
                 @document-form-data-valid="Submit"
                 @user-input-document-reset="Reset"
