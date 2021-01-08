@@ -34,6 +34,12 @@ var document_mixin =
                 form_data.set("file", base64); 
             }
 
+            var test = form_data.getAll(file); 
+            console.log(test); 
+            form_data.getAll(file); 
+
+            return; 
+
             $.ajax 
             (
                 {
