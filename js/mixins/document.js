@@ -20,8 +20,7 @@ var document_mixin =
             this.in_progress = 1; 
             if(file.size>chunk_size)
             {
-                var folder = `${file.name}-${Math.random().toFixed(4) * 1000}`; 
-                console.log(folder); 
+                var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
                 UploadFile = (part, start_slice)=>
                 {
                     const percentage = 98.0; 
@@ -46,22 +45,12 @@ var document_mixin =
                     }
                     else 
                     {
-                        this.AjaxRequest(url, new FormData(), "POST"); 
+                        return this.AjaxRequest(url, new FormData(), "POST"); 
                     }
                 }; 
-                // ToBase64 = (file)=> new Promise 
-                // (
-                //     (resolve, reject)=>
-                //     {
-                //         const reader = new FileReader();
-                //         reader.readAsDataURL(file);
-                //         reader.onload = () => resolve(reader.result);
-                //         reader.onerror = error => reject(error);
-                //     }
-                // ); 
-
-                // var base64 = await ToBase64(file); 
-                // form_data.set("file", base64); 
+                var file_path = UploadFile(1, 0); 
+                console.log(file_path); 
+                // form_data.set("file", file_path); 
             }
 
             // var test = form_data.getAll("file"); 
