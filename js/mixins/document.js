@@ -17,11 +17,12 @@ var document_mixin =
         {
             var file = form_data.get("file"); 
             const chunk_size = 2 * Math.pow(10, 6); 
-            this.in_progress = 1; 
+            var part = 1; 
             new Promise
             (
                 (resolve, reject)=>
                 {
+                    this.in_progress = 1; 
                     if(file.size>chunk_size)
                     {
                         resolve(); 
@@ -33,43 +34,52 @@ var document_mixin =
             (
                 ()=>
                 {
-                    return new Promise
+                    var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
+                    let upload_url = "server/document_controller/upload.php"; 
+                    const percentage = 98.0; 
+                    var UploadFile =(start_slice)=> new Promise
                     (
                         (resolve, reject)=>
                         {
-                            var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
-                            UploadFile = (part, start_slice)=>
+                            var next_slice = start_slice + chunk_size + 1; 
+                            let data = new FormData(); 
+                            let end_of_file = false; 
+                            if(next_slice>file.size)
                             {
-                                const percentage = 98.0; 
-                                let url = "server/document_controller/upload.php"; 
-                                var next_slice = start_slice + chunk_size + 1; 
-                                let data = new FormData(); 
-                                let end_of_file = false; 
-                                if(next_slice>file.size)
+                                next_slice = file.size; 
+                                end_of_file = true; 
+                                data.append("end_of_file", end_of_file); 
+                            }
+                            data.append("blob", file.slice(start_slice, next_slice)); 
+                            data.append("folder", folder); 
+                            data.append("part", part); 
+                            part++; 
+
+                            $.ajax 
+                            (
                                 {
-                                    next_slice = file.size; 
-                                    end_of_file = true; 
-                                    data.append("end_of_file", end_of_file); 
-                                }
-                                data.append("blob", file.slice(start_slice, next_slice)); 
-                                data.append("folder", folder); 
-                                data.append("part", part); 
-            
-                                var file_path = this.AjaxRequest
-                                (
-                                    url, 
+                                    type: "POST", 
+                                    url: upload_url, 
                                     data, 
-                                    "POST", 
-                                    ()=> this.in_progress = next_slice/file.size * percentage
-                                ); 
-                                return end_of_file? file_path: UploadFile(part+1, next_slice); 
-                            }; 
-                            var file_path = UploadFile(1, 0); 
-                            console.log(file_path); 
-                            // form_data.set("file", file_path); 
-                            reject(); 
+                                    contentType: false,
+                                    processData: false,
+                                    enctype: 'multipart/form-data',
+                                    beforeSend: ()=>this.in_progress = next_slice/file.size * percentage, 
+                                    success: function(file_path)
+                                    {
+                                        if(end_of_file)
+                                        {
+                                            form_data.set("file", file_path); 
+                                            console.log(file_path); 
+                                            reject(); 
+                                        }
+                                        resolve(next_slice); 
+                                    } 
+                                }
+                            ); 
                         }
-                    ); 
+                    ).then(UploadFile); 
+                    return UploadFile(0); 
                 }
             )
             .catch
@@ -79,47 +89,6 @@ var document_mixin =
                     console.log("I am the rejected function, everything should be here"); 
                 }
             ); 
-
-        /*
-            
-            if(file.size>chunk_size)
-            {
-                var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
-                UploadFile = (part, start_slice)=>
-                {
-                    const percentage = 98.0; 
-                    let url = "server/document_controller/upload.php"; 
-                    var next_slice = start_slice + chunk_size + 1; 
-                    let data = new FormData(); 
-                    let end_of_file = false; 
-                    if(next_slice>file.size)
-                    {
-                        next_slice = file.size; 
-                        end_of_file = true; 
-                        data.append("end_of_file", end_of_file); 
-                    }
-                    data.append("blob", file.slice(start_slice, next_slice)); 
-                    data.append("folder", folder); 
-                    data.append("part", part); 
-
-                    var file_path = this.AjaxRequest
-                    (
-                        url, 
-                        data, 
-                        "POST", 
-                        ()=> this.in_progress = next_slice/file.size * percentage
-                    ); 
-                    return end_of_file? file_path: UploadFile(part+1, next_slice); 
-                }; 
-                // var file_path = UploadFile(1, 0); 
-                // console.log(file_path); 
-                // form_data.set("file", file_path); 
-            }
-
-        */
-
-            // var test = form_data.getAll("file"); 
-            // console.log(test); 
 
             // if(Number(result))
             // {
