@@ -28,13 +28,13 @@
         }, 
         "AddDocument"=> function()
         {
-            $file = file_get_contents($_FILES["file"]["tmp_name"]); 
-            $file = addslashes($file); 
-            $data = array_merge(["file"=>$file], $_POST); 
-            echo "\n\n\n\n"; echo "<pre>"; print_r($_FILES); echo "</pre>"; echo "\n\n\n"; return; 
-            $sql = Query::Insert("documents", $data); 
-            $result = Connect::GetData($sql); 
-            echo $result; 
+            // $file = file_get_contents($_FILES["file"]["tmp_name"]); 
+            // $file = addslashes($file); 
+            // $data = array_merge(["file"=>$file], $_POST); 
+            echo "\n\n\n\n"; print_r($_FILES); print_r($_POST); echo "\n\n\n"; return; 
+            // $sql = Query::Insert("documents", $data); 
+            // $result = Connect::GetData($sql); 
+            // echo $result; 
         }, 
         "DocumentEditInformation"=> function()
         {
