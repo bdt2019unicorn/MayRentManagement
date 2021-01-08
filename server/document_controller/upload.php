@@ -9,7 +9,7 @@
         mkdir($folder); 
     }
     $file_destination = "{$folder}/{$_POST['part']}"; 
-    $file_path = "{$folder}/file"; 
+    $file_path = "{$folder}/file.tmp"; 
     move_uploaded_file($_FILES["blob"]["tmp_name"], $file_destination); 
 
     $file = fopen($file_destination, "rb"); 
@@ -18,8 +18,9 @@
 
     $final = fopen($file_path, "ab"); 
     $write = fwrite($final, $buffer); 
-    fclose($final); 
-
-    print_r($_POST); print_r($_FILES); 
+    fclose($final);
+    
+    unlink($file_destination); 
+    echo isset($_POST["end_of_file"])?$folder: $_POST["part"]; 
 
 ?>

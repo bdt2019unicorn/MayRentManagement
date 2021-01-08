@@ -86,8 +86,8 @@ var document_mixin =
             (
                 ()=>
                 {
-                    console.log("I am ready now"); 
-                    // var result = this.AjaxRequest(url, form_data, "POST"); 
+                    var result = this.AjaxRequest(url, form_data, "POST"); 
+                    console.log(result); 
                     // if(Number(result))
                     // {
                     //     alert(success_alert); 
