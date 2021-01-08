@@ -20,6 +20,13 @@ var document_mixin =
             this.in_progress = 1; 
             if(file.size>chunk_size)
             {
+                var test = file.slice(0, chunk_size); 
+                console.log(test); 
+                UploadFile = (start_slice)=>
+                {
+                    var next_slice = start_slice + chunk_size + 1; 
+                    var blob = file.slice(start_slice, next_slice); 
+                }; 
                 // ToBase64 = (file)=> new Promise 
                 // (
                 //     (resolve, reject)=>
