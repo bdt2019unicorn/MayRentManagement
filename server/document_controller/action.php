@@ -1,6 +1,33 @@
 <?php 
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
+    function GetUploadFileCombine()
+    {
+        if(isset($_FILES["file"]))
+        {
+            return file_get_contents($_FILES["file"]["tmp_name"]); 
+        }
+        else 
+        {
+            $files = glob("{$_POST['file']}/*"); 
+            $content = ""; 
+            foreach ($files as $file) 
+            {
+                $content.= file_get_contents($file); 
+            }
+
+            $test_write = fopen("{$_POST['file']}/file.tmp", "ab"); 
+            fwrite($test_write, $content); 
+            fclose($test_write); 
+
+            return $content; 
+            // $file = file_get_contents("{$_POST['file']}/file.tmp"); 
+            // array_walk(glob("{$_POST['file']}/*"), "unlink"); 
+            // rmdir($_POST['file']); 
+            // return $file; 
+        }
+    }
+
     $actions = 
     [
         "SelectDataBind"=> function()
@@ -26,34 +53,53 @@
             ]; 
             echo json_encode($select_data_bind); 
         }, 
+        "UploadFiles"=>function()
+        {
+            if(!file_exists("temp"))
+            {
+                mkdir("temp"); 
+            }
+            $folder = "temp/{$_POST['folder']}"; 
+            if(!file_exists($folder))
+            {
+                mkdir($folder); 
+            }
+            $file_destination = "{$folder}/{$_POST['part']}.tmp"; 
+            move_uploaded_file($_FILES["blob"]["tmp_name"], $file_destination); 
+            echo $_POST["part"]; 
+        }, 
         "AddDocument"=> function()
         {
             $data = $_POST; 
-            $file = null; 
-            if(isset($_FILES["file"]))
-            {
-                $file = file_get_contents($_FILES["file"]["tmp_name"]); 
-            }
-            else 
-            {
-                $file = file_get_contents("{$_POST['file']}/file.tmp"); 
-                array_walk(glob("{$_POST['file']}/*"), "unlink"); 
-                rmdir($_POST['file']); 
-            }
-            if($file)
-            {
-                $data["file"] = addslashes($file); 
-            }
+            // $data['file'] = addslashes()
+            // $file = null; 
+            // if(isset($_FILES["file"]))
+            // {
+            //     $file = file_get_contents($_FILES["file"]["tmp_name"]); 
+            // }
+            // else 
+            // {
+            //     $file = file_get_contents("{$_POST['file']}/file.tmp"); 
+            //     array_walk(glob("{$_POST['file']}/*"), "unlink"); 
+            //     rmdir($_POST['file']); 
+            // }
+            // if($file)
+            // {
+            //     $data["file"] = addslashes($file); 
+            // }
+
+            $file = GetUploadFileCombine(); 
+            $data["file"] = addslashes($file); 
 
             
             // $file = file_get_contents($_FILES["file"]["tmp_name"]); 
             // $file = addslashes($file); 
             // $data = array_merge(["file"=>$file], $_POST); 
-            echo "\n\n\n\n"; print_r($_FILES); print_r($_POST); echo "\n\n\n";
+            // echo "\n\n\n\n"; print_r($_FILES); print_r($_POST); echo "\n\n\n";
             $sql = Query::Insert("documents", $data); 
-            echo $sql; echo "\n\n\n\n\n\n"; 
-            // $result = Connect::GetData($sql); 
-            // echo $result; 
+            // echo $sql; echo "\n\n\n\n\n\n"; 
+            $result = Connect::GetData($sql); 
+            echo $result; 
         }, 
         "DocumentEditInformation"=> function()
         {

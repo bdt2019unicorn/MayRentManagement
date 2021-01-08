@@ -35,7 +35,7 @@ var document_mixin =
                 ()=>
                 {
                     var folder = `${file.name}-${Math.ceil(Math.random().toFixed(4) * 10000)}`; 
-                    let upload_url = "server/document_controller/upload.php"; 
+                    let upload_url = this.ServerUrl({command: "UploadFiles"}); 
                     const percentage = 98.0; 
                     var UploadFile =(start_slice)=> new Promise
                     (
