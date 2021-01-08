@@ -66,6 +66,7 @@ var document_mixin =
                                     beforeSend: ()=>this.in_progress = next_slice/file.size * percentage, 
                                     success: function(file_path)
                                     {
+                                        console.log(file_path); 
                                         if(end_of_file)
                                         {
                                             form_data.set("file", `temp/${folder}`); 
