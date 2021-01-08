@@ -67,10 +67,10 @@ var document_mixin =
                                     beforeSend: ()=>this.in_progress = next_slice/file.size * percentage, 
                                     success: function(file_path)
                                     {
+                                        console.log(file_path); 
                                         if(end_of_file)
                                         {
                                             form_data.set("file", file_path); 
-                                            console.log(file_path); 
                                             reject(); 
                                         }
                                         resolve(next_slice); 
@@ -86,19 +86,22 @@ var document_mixin =
             (
                 ()=>
                 {
-                    console.log("I am the rejected function, everything should be here"); 
+                    console.log("I am ready now"); 
+                    // var result = this.AjaxRequest(url, form_data, "POST"); 
+                    // if(Number(result))
+                    // {
+                    //     alert(success_alert); 
+                    //     reset_function(); 
+                    // }
+                    // else
+                    // {
+                    //     alert("There seems to be a server error, please try again"); 
+                    // }
+                    this.in_progress = false; 
                 }
             ); 
 
-            // if(Number(result))
-            // {
-            //     alert(success_alert); 
-            //     reset_function(); 
-            // }
-            // else
-            // {
-            //     alert("There seems to be a server error, please try again"); 
-            // }
+
         }
     } 
 }
