@@ -2,7 +2,7 @@ Vue.component
 (
     "user-input-document", 
     {
-        props: ["edit_data", "in_process", "select_data_bind"], 
+        props: ["edit_data", "in_progress", "select_data_bind"], 
         data: ()=> 
         (
             {
@@ -126,11 +126,11 @@ Vue.component
                     </div>
                 </div>
 
-                <div v-if="in_process" class="popup-div">
+                <div v-if="in_progress" class="popup-div">
                     <div class="inner-div text-center border border-danger">
                         <h1>Documents is being processed</h1>
                         <div class="container-fluid">
-                            <vs-process :height="12" :percent="in_process" color="success">success</vs-process>
+                            <vs-progress :height="12" :percent="in_progress" color="success">success</vs-progress>
                         </div>
                     </div>
                 </div>
