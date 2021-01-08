@@ -28,11 +28,30 @@
         }, 
         "AddDocument"=> function()
         {
+            $data = $_POST; 
+            $file = null; 
+            if(isset($_FILES["file"]))
+            {
+                $file = file_get_contents($_FILES["file"]["tmp_name"]); 
+            }
+            else 
+            {
+                $file = file_get_contents("{$_POST['file']}/file.tmp"); 
+                array_walk(glob("{$_POST['file']}/*"), "unlink"); 
+                rmdir($_POST['file']); 
+            }
+            if($file)
+            {
+                $data["file"] = addslashes($file); 
+            }
+
+            
             // $file = file_get_contents($_FILES["file"]["tmp_name"]); 
             // $file = addslashes($file); 
             // $data = array_merge(["file"=>$file], $_POST); 
-            echo "\n\n\n\n"; print_r($_FILES); print_r($_POST); echo "\n\n\n"; return; 
-            // $sql = Query::Insert("documents", $data); 
+            echo "\n\n\n\n"; print_r($_FILES); print_r($_POST); echo "\n\n\n";
+            $sql = Query::Insert("documents", $data); 
+            echo $sql; echo "\n\n\n\n\n\n"; 
             // $result = Connect::GetData($sql); 
             // echo $result; 
         }, 
