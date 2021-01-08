@@ -17,16 +17,16 @@ var document_mixin =
         {
             var file = form_data.get("file"); 
             const chunk_size = 2 * Math.pow(10, 6); 
+            this.in_progress = 1; 
             new Promise
             (
                 (resolve, reject)=>
                 {
-                    this.in_progress = 1; 
                     if(file.size>chunk_size)
                     {
                         resolve(); 
                     }
-                    reject("file size is not big enough for this"); 
+                    reject(); 
                 }
             )
             .then
