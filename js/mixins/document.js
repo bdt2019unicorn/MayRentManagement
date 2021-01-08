@@ -13,8 +13,12 @@ var document_mixin =
         {
             return `server/document_controller/action.php?building_id=${this.$route.params.building_id}&${this.SearchQueryString(params)}`; 
         }, 
-        SubmitDocumentData({url, form_data, success_alert, reset_function})
+        async SubmitDocumentData({url, form_data, success_alert, reset_function})
         {
+            var file = form_data.get("file"); 
+            console.log(file); 
+            return; 
+
             $.ajax 
             (
                 {
