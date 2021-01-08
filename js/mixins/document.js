@@ -20,23 +20,33 @@ var document_mixin =
             this.in_progress = 1; 
             if(file.size>chunk_size)
             {
-                ToBase64 = (file)=> new Promise 
-                (
-                    (resolve, reject)=>
-                    {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result);
-                        reader.onerror = error => reject(error);
-                    }
-                ); 
+                // ToBase64 = (file)=> new Promise 
+                // (
+                //     (resolve, reject)=>
+                //     {
+                //         const reader = new FileReader();
+                //         reader.readAsDataURL(file);
+                //         reader.onload = () => resolve(reader.result);
+                //         reader.onerror = error => reject(error);
+                //     }
+                // ); 
 
-                var base64 = await ToBase64(file); 
-                form_data.set("file", base64); 
+                // var base64 = await ToBase64(file); 
+                // form_data.set("file", base64); 
             }
 
-            var test = form_data.getAll("file"); 
-            console.log(test); 
+            // var test = form_data.getAll("file"); 
+            // console.log(test); 
+
+            // if(Number(result))
+            // {
+            //     alert(success_alert); 
+            //     reset_function(); 
+            // }
+            // else
+            // {
+            //     alert("There seems to be a server error, please try again"); 
+            // }
         }
     } 
 }
