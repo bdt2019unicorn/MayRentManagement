@@ -19,12 +19,12 @@ var document_mixin =
             const chunk_size = 2 * Math.pow(10, 6); 
             new Promise
             (
-                (resolove, reject)=>
+                (resolve, reject)=>
                 {
                     this.in_progress = 1; 
                     if(file.size>chunk_size)
                     {
-                        resolove(); 
+                        resolve(); 
                     }
                     reject("file size is not big enough for this"); 
                 }
@@ -33,8 +33,14 @@ var document_mixin =
             (
                 ()=>
                 {
-                    var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
-                    reject(folder); 
+                    return new Promise
+                    (
+                        (resolve, reject)=>
+                        {
+                            var folder = `${file.name}-${Math.random().toFixed(4) * 10000}`; 
+                            reject(folder); 
+                        }
+                    ); 
                 }
             )
             .catch
