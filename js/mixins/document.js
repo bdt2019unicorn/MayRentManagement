@@ -17,7 +17,7 @@ var document_mixin =
         {
             var file = form_data.get("file"); 
             var chunk_size = 2048; 
-            this.in_progress = 100; 
+            this.in_progress = 1; 
             if(file.size>chunk_size)
             {
                 ToBase64 = (file)=> new Promise 

@@ -129,9 +129,8 @@ Vue.component
                 <div v-if="in_progress" class="popup-div">
                     <div class="inner-div text-center border border-danger">
                         <h1>Documents is being processed</h1>
-                        <div class="container-fluid">
-                            <vs-progress :height="12" :percent="in_progress" color="success">success</vs-progress>
-                        </div>
+                        <div>{{in_progress}}%</div>
+                        <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
                     </div>
                 </div>
                 
