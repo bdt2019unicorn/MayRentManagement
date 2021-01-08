@@ -24,7 +24,7 @@ var document_mixin =
                 UploadFile = (part, start_slice)=>
                 {
                     const percentage = 98.0; 
-                    let url = "server/document_controller/upload"; 
+                    let url = "server/document_controller/upload.php"; 
                     var next_slice = start_slice + chunk_size + 1; 
                     var blob = file.slice(start_slice, next_slice); 
                     let data = new FormData(); 
