@@ -30,7 +30,7 @@ var document_mixin =
                     }
                 ); 
 
-                var base64 = ToBase64(file); 
+                var base64 = await ToBase64(file); 
                 console.log(base64); 
             }
 
