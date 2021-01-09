@@ -180,8 +180,8 @@
 
                 foreach ($sql as $query) 
                 {
-                    $result = $connection->query($query); 
-                    if(!$result)
+                    $exec = $connection->query($query); 
+                    if(!$exec)
                     {
                         throw new Exception("\n". var_dump($connection)."\n"); 
                     }

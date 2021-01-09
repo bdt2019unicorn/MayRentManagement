@@ -1,37 +1,36 @@
 <?php 
-    require_once("./helper/database.php"); 
+    require_once("./helper/database-sqlite.php"); 
 
-    $sql = 
-    "
-        SHOW CREATE TABLE buildings;
-        SHOW CREATE TABLE document_type;
-        SHOW CREATE TABLE documents;
-        SHOW CREATE TABLE expense;
-        SHOW CREATE TABLE expense_type;
-        SHOW CREATE TABLE invoice_leaseagrm;
-        SHOW CREATE TABLE invoice_utilities;
-        SHOW CREATE TABLE invoices;
-        SHOW CREATE TABLE leaseagrm;
-        SHOW CREATE TABLE leaseagrm_period;
-        SHOW CREATE TABLE revenue;
-        SHOW CREATE TABLE revenue_type;
-        SHOW CREATE TABLE tenant;
-        SHOW CREATE TABLE unit;
-        SHOW CREATE TABLE user;
-        SHOW CREATE TABLE utility_price;
-        SHOW CREATE TABLE utility_reading;
-    "; 
+    // $queries = 
+    // [
+    //     "INSERT INTO `expense_type`(`name`) values ('test21')", 
+    //     "INSERT INTO `expense_type`(`name`) values ('test22')", 
+    //     "INSERT INTO `expense_type`(`name`) values ('test23')"
+    // ]; 
 
-    $data = Connect::MultiQuery($sql); 
+    // $result = ConnectSqlite::ExecTransaction($queries); 
+    // echo $result; 
+    // if($result===false)
+    // {
+    //     echo "<h1>creap</h1>"; 
+    // }
 
-    echo '<pre>'; print_r($data); echo '</pre>'; 
+    // $sql = "INSERT INTO `expense_type`(`name`) values ('test21')"; 
 
-    $content = ""; 
-    foreach ($data as $value) 
+
+    // $id = ConnectSqlite::Exec($sql, true); 
+
+    // echo $id; 
+
+
+    $sql = "SELECT * FROM `tenant`1;"; 
+    $data = ConnectSqlite::Query($sql); 
+
+    echo "<pre>"; print_r($data); echo "</pre>"; 
+    if($data===false)
     {
-        $content.= $value["Create Table"] . "; \n\n"; 
+        echo "<h1>cry</h1>"; 
     }
 
-    echo "<h1 style='color:red;'>$content</h1>"; 
 
 ?>
