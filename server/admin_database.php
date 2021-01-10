@@ -35,6 +35,11 @@
             $result = Connect::ExecTransaction($sql); 
             echo $result; 
         }
+
+        public function CheckEnvironment()
+        {
+            echo CurrentEnvironment::DotEnvPath()? true: false;
+        }
     }
 
     $admin_database = new AdminDatabase(); 

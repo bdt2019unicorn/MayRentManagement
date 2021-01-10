@@ -1,74 +1,7 @@
 <?php 
-    class Query
-    {
-    	static public function Insert($table, $data, $variable_data=[])
-    	{
-            $columns = []; 
-            $values = []; 
-
-    		foreach ($data as $column => $value) 
-    		{
-                array_push($columns, "`{$column}`"); 
-                array_push($values, $value=="" ? "NULL": "'{$value}'"); 
-            }
-
-            foreach ($variable_data as $column => $value) 
-            {
-                array_push($columns, "`{$column}`"); 
-                array_push($values, $value); 
-            }
-            
-            return "INSERT INTO `{$table}`(" . implode(",",$columns) . ") VALUES (" . implode(",", $values) . ");"; 
-    	}
-
-        static public function Update($table, $data, $conditions)
-        {
-            return "UPDATE `{$table}`" . Query::Cause("SET", $data, ",") . Query::Cause("WHERE", $conditions, "AND") . ";"; 
-		}
-		
-		static public function Delete($table, $id_column, $ids)
-		{
-            return array_map(function($id) use ($table, $id_column){return "DELETE FROM {$table} WHERE `{$id_column}` = '{$id}'";}, $ids); 
-        }
-
-        static public function SelectData($table, $selects, $conditions=null)
-        {
-            $sql = "SELECT ". implode(",", $selects). " FROM `{$table}` "; 
-            if(isset($conditions))
-            {
-                $sql .= Query::Cause("WHERE", $conditions, "AND"); 
-            }
-            return $sql.";"; 
-        }
-        
-        static public function GeneralData($table, $id= null, $id_field='id')
-        {
-            $sql = "SELECT * FROM `{$table}`"; 
-            
-            if($id)
-            {
-                $sql.= " WHERE `{$id_field}`='{$id}'"; 
-            }
-
-            return $sql.";"; 
-        }
-
-        static private function Cause($cause, $data, $separator)
-        {
-            $sql = []; 
-            foreach ($data as $column => $value) 
-            {
-                array_push($sql, "`{$column}` = '{$value}'"); 
-            }
-
-            return "\n" .$cause . " " . implode($separator ." ", $sql); 
-        }
-    }
-
-    require_once(realpath(__DIR__."/../../vendor/autoload.php")); 
-    use Dotenv\Dotenv; 
-    $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__))); 
-    $dotenv->load(); 
+    require_once("query.php"); 
+    require_once("current_environment.php"); 
+    $dotenv = new CurrentEnvironment(); 
 
     class Connect
     {
@@ -219,6 +152,87 @@
         {
             $sql = Query::SelectData($table, $selects, $conditions); 
             return Connect::GetData($sql); 
+        }
+    }
+    
+    class ConnectSqlite
+    {
+        private static function Connection()
+        {
+            $path = realpath("../database.db"); 
+            return new PDO("sqlite:{$path}"); 
+        }
+
+        public static function Query($sql)
+        {
+            $connection = ConnectSqlite::Connection(); 
+            try 
+            {
+                $statement = $connection->query($sql); 
+                $rows = $statement->fetchAll(PDO::FETCH_ASSOC); 
+                return $rows; 
+            }
+            catch(Throwable $throwable)
+            {
+                return false; 
+            }
+        }
+
+        public static function Exec($sql, $get_id = false)
+        {
+            $connection = ConnectSqlite::Connection(); 
+            $result = $connection->exec($sql); 
+            return $get_id?$connection->lastInsertId(): $result; 
+        }
+
+        public static function ExecTransaction($sql)
+        {
+            $connection = ConnectSqlite::Connection(); 
+            $result = false; 
+            try 
+            {
+                $connection->beginTransaction();
+
+                foreach ($sql as $query) 
+                {
+                    $exec = $connection->query($query); 
+                    if(!$exec)
+                    {
+                        throw new Exception("\n". var_dump($connection)."\n"); 
+                    }
+                }
+                
+                $connection->commit(); 
+                $result = true; 
+            }
+            catch (Throwable $throwable)
+            {
+                echo $throwable->getMessage(); 
+                $connection->rollBack(); 
+            }   
+            return $result; 
+        }
+
+        public static function GetId($table, $conditions, $id_field='id')
+        {
+            $data = ConnectSqlite::SelectData($table, ["*"], $conditions); 
+            if(is_bool($data))
+            {
+                return null; 
+            }
+            return (count($data)>0)? $data[0][$id_field]: null; 
+        }
+
+        public static function GeneralData($table, $id= null, $id_field='id')
+        {
+            $sql = Query::GeneralData($table, $id, $id_field); 
+            return ConnectSqlite::Query($sql); 
+        }
+
+        public static function SelectData($table, $selects, $conditions=null)
+        {
+            $sql = Query::SelectData($table, $selects, $conditions); 
+            return ConnectSqlite::Query($sql); 
         }
     }
 ?>

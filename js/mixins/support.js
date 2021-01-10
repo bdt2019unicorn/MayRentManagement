@@ -194,8 +194,12 @@ var support_mixin =
         },
         SubmitUserInformation(form_data)
         {
-            form_data.append("username", sessionStorage.getItem("username")); 
-            form_data.append("modified_time", moment().format("YYYY-MM-DD HH:MM:ss")); 
+            try 
+            {
+                form_data.append("username", sessionStorage.getItem("username")); 
+                form_data.append("modified_time", moment().format("YYYY-MM-DD HH:MM:ss")); 
+            }
+            catch {}
         }, 
         TableActions(controller)
         {
