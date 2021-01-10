@@ -1,6 +1,7 @@
 <?php 
     require_once(realpath(__DIR__."/../../vendor/autoload.php")); 
-    use Dotenv\Dotenv; 
+    use Dotenv\Dotenv;
+    
     class CurrentEnvironment
     {
         function __construct()
