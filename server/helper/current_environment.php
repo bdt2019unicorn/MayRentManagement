@@ -9,10 +9,31 @@
             $dotenv->load(); 
         }
 
+        public static function Setup()
+        {
+            $dotenv = CurrentEnvironment::DotEnvPath(); 
+            $test_sqlite = CurrentEnvironment::TestSqliteDatabasePath(); 
+            $dir = CurrentEnvironment::DotEnvDir(); 
+            if(!$dotenv)
+            {
+                copy("{$dir}/.env.example", "{$dir}/.env"); 
+            } 
+            if(!$test_sqlite)
+            {
+                copy("{$dir}/database.db.example", "{$dir}/database.db"); 
+            }
+        }
+
         public static function DotEnvPath()
         {
             $dir = CurrentEnvironment::DotEnvDir(); 
             return realpath("{$dir}/.env"); 
+        }
+
+        public static function TestSqliteDatabasePath()
+        {
+            $dir = CurrentEnvironment::DotEnvDir(); 
+            return realpath("{$dir}/database.db"); 
         }
 
         public static function TestMode()
