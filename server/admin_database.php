@@ -40,6 +40,39 @@
         {
             echo CurrentEnvironment::DotEnvPath()? true: false;
         }
+
+        public function ProductionEnvironmentSetUp()
+        {
+            try 
+            {
+                CurrentEnvironment::WriteEnv($_POST); 
+                $result = true; 
+            }
+            catch(Throwable $throwable)
+            {
+                $result = false; 
+            }
+            $this->BackToDatabaseSetup($result, "Production Database Set Up completed!"); 
+        }
+
+        public function CreateAdmin()
+        {
+            $sql = Query::Insert("user", $_POST); 
+            $test_mode = CurrentEnvironment::TestMode(); 
+            $result = $test_mode?ConnectSqlite::Exec($sql): Connect::GetData($sql); 
+            $this->BackToDatabaseSetup($result, 'Admin Created!'); 
+        }
+
+        private function BackToDatabaseSetup($result, $success_message) 
+        {
+            $script = "<script>"; 
+            if($result)
+            {
+                $script.= "\nalert('{$success_message}'); \n"; 
+            }
+            $script.= "window.location.href = '../admin/setup.php'; \n </script>";
+            echo $script; 
+        }
     }
 
     $admin_database = new AdminDatabase(); 

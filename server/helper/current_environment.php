@@ -46,5 +46,28 @@
         {
             return dirname(dirname(__DIR__)); 
         }
+
+        public function SettingEnvironment($value)
+        {
+            $test_mode = $this->TestMode(); 
+            if($test_mode!=$value)
+            {
+                $env = $_ENV; 
+                $env["TESTMODE"] = (int)$value; 
+                $this->WriteEnv($env); 
+            }
+        }
+
+        public static function WriteEnv($env)
+        {
+            $content = ""; 
+            foreach ($env as $key => $value) 
+            {
+                $content.= "{$key} = {$value}\n"; 
+            }
+            $file = fopen(CurrentEnvironment::DotEnvPath(), "w"); 
+            fwrite($file, $content); 
+            fclose($file); 
+        }
     }
 ?>
