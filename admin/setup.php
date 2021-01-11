@@ -52,6 +52,7 @@
             require_once("../server/helper/database.php"); 
             $result = Database::GetData("SELECT * FROM `user` WHERE approved = '1';");  
         ?>
+        <script src="js/setup.js"></script>
 
         <?php if(!count($result)): ?>
             <h1 class="text-center">Admin Set Up</h1>
