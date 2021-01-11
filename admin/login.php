@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Admin Database Login</title>
-        <?php include("layout/1.head.php") ?>
+        <?php include("layout/1.head.php"); ?>
         <link rel="stylesheet" type="text/css" href="login.css">
     </head>
     <body>

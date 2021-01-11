@@ -7,39 +7,69 @@
             <br>
             <?php if($current_table): ?>
                 <?php 
-                    $sql = 
-                    "
-                        SHOW COLUMNS FROM {$current_table};
-                        SELECT * FROM `{$current_table}`; 
-                    "; 
-                    $data = Connect::MultiQuery($sql, true); 
-
-                    $thead = []; 
-                    foreach ($data[0] as $column_properties) 
+                    class TableObject
                     {
-                        array_push($thead, $column_properties["Field"]); 
-                    }
-                    $tbody = $data[1]; 
-
-                    function PopulateTableColumnNames($section)
-                    {
-                        global $thead; 
-                        echo "<{$section}>"; 
-                        echo "<tr>"; 
-                        echo "<td></td>";
-                        foreach($thead as $column)
+                        public $thead, $tbody, $current_table; 
+                        function __construct($current_table, $test_mode)
                         {
-                            echo "<th>{$column}</th>"; 
+                            $this->current_table = $current_table; 
+                            if($test_mode)
+                            {
+                                $this->PopulateTheadTbodyTest(); 
+                            }
+                            else 
+                            {
+                                $this->PopulateTheadTbodyProduction(); 
+                            }
                         }
-                        echo "</tr>"; 
 
-                        echo "</{$section}>"; 
-                    } 
+                        public function PopulateTableColumnNames($section)
+                        {
+                            echo "<{$section}>"; 
+                            echo "<tr>"; 
+                            echo "<td></td>";
+                            array_walk($this->thead, function($column){echo "<th>{$column}</th>"; }); 
+                            echo "</tr>"; 
+                            echo "</{$section}>"; 
+                        } 
+
+                        private function PopulateTheadTbodyProduction()
+                        {
+                            $sql = 
+                            "
+                                SHOW COLUMNS FROM {$this->current_table};
+                                SELECT * FROM `{$this->current_table}`; 
+                            "; 
+                            $data = Connect::MultiQuery($sql, true); 
+        
+                            $thead = []; 
+                            foreach ($data[0] as $column_properties) 
+                            {
+                                array_push($thead, $column_properties["Field"]); 
+                            }
+                            $this->thead = array_map($this->TheadMapFunction("Field"), $data[0]); 
+                            $this->tbody = $data[1]; 
+                        }
+
+                        private function PopulateTheadTbodyTest()
+                        {
+                            $columns = ConnectSqlite::Query("PRAGMA table_info('{$this->current_table}')"); 
+                            $this->thead = array_map($this->TheadMapFunction("name"), $columns); 
+                            $this->tbody = ConnectSqlite::Query("SELECT * FROM `{$this->current_table}`"); 
+                        }
+
+                        private function TheadMapFunction($column_name)
+                        {
+                            return function($column) use ($column_name) {return $column[$column_name];}; 
+                        }
+
+                    }
+                    $table_object = new TableObject($current_table, $test_mode); 
                 ?>
                 <table id="table-overview" class="display nowrap w-100">
-                    <?php PopulateTableColumnNames("thead"); ?>
+                    <?php $table_object->PopulateTableColumnNames("thead"); ?>
                     <tbody>
-                        <?php foreach ($tbody as $tr): ?>
+                        <?php foreach ($table_object->tbody as $tr): ?>
                             <tr>
                                 <td></td>
                                 <?php foreach($tr as $value): ?>
@@ -48,7 +78,7 @@
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
-                    <?php PopulateTableColumnNames("tfoot"); ?>
+                    <?php $table_object->PopulateTableColumnNames("tfoot"); ?>
                 </table>
             <?php endif; ?>
         </div>
