@@ -50,8 +50,7 @@
         <?php 
             include("layout/3.footer.php");
             require_once("../server/helper/database.php"); 
-            $sql = "SELECT * FROM `user` WHERE approved = '1';"; 
-            $result = $test_mode?ConnectSqlite::Query($sql): Connect::GetData($sql); 
+            $result = Database::GetData("SELECT * FROM `user` WHERE approved = '1';");  
         ?>
 
         <?php if(!count($result)): ?>

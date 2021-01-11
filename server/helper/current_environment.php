@@ -6,7 +6,7 @@
     {
         function __construct()
         {
-            $dotenv = Dotenv::createImmutable(CurrentEnvironment::DotEnvDir()); 
+            $dotenv = Dotenv::createImmutable(CurrentEnvironment::MainDir()); 
             $dotenv->load(); 
         }
 
@@ -14,7 +14,7 @@
         {
             $dotenv = CurrentEnvironment::DotEnvPath(); 
             $test_sqlite = CurrentEnvironment::TestSqliteDatabasePath(); 
-            $dir = CurrentEnvironment::DotEnvDir(); 
+            $dir = CurrentEnvironment::MainDir(); 
             if(!$dotenv)
             {
                 copy("{$dir}/.env.example", "{$dir}/.env"); 
@@ -27,13 +27,13 @@
 
         public static function DotEnvPath()
         {
-            $dir = CurrentEnvironment::DotEnvDir(); 
+            $dir = CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/.env"); 
         }
 
         public static function TestSqliteDatabasePath()
         {
-            $dir = CurrentEnvironment::DotEnvDir(); 
+            $dir = CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/database.db"); 
         }
 
@@ -42,7 +42,7 @@
             return $_ENV["TESTMODE"]??false; 
         }
 
-        private static function DotEnvDir()
+        private static function MainDir()
         {
             return dirname(dirname(__DIR__)); 
         }

@@ -6,7 +6,7 @@
 	{
 		$data = json_decode($_POST["excel"])[0]; 
 
-		$user_information = Connect::SelectData("user", ["*"], ["approved"=>1, "username"=>$data->username, "password"=>$data->password]); 
+		$user_information = Database::SelectData("user", ["*"], ["approved"=>1, "username"=>$data->username, "password"=>$data->password]); 
 		if(isset($user_information[0]["id"]))
 		{
 			echo $user_information[0]["id"]; 
@@ -18,7 +18,7 @@
 		$params = Params($import_controller); 
 		$excel = json_decode($_POST['excel']); 
 		$queries = array_map(function($row)use ($params){return Query::Insert($params['table'], RowData($row, $params));}, $excel); 
-	    $result = Connect::ExecTransaction($queries); 
+		$result = Database::ExecTransaction($queries); 
 		echo $result; 
 	}
 ?>

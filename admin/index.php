@@ -80,12 +80,32 @@
                     </tbody>
                     <?php $table_object->PopulateTableColumnNames("tfoot"); ?>
                 </table>
+            <?php else: ?>
+                
+                <?php $users = Database::SelectData("user", ["*"], ["approved"=>"0"]); ?>
+                <?php if(count($users)): ?>
+                    <h1 class="text-center m-3">Users need attention</h1>
+                    <?php foreach ($users as $user): ?>
+                        <div class="row m-2 border border-info">
+                            <div class="col">
+                                <h4><?php echo $user["username"]; ?></h4>
+                                <p><b>Phone Number: </b><?php echo $user["phone_number"]; ?></p>
+                                <p><b>Email Address: </b><?php echo $user["email"]; ?></p>
+                                <p><b>Viber Number: </b><?php echo $user["viber_number"]; ?></p>
+                            </div>
+                            <div class="col-1 text-right">
+                                <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserPermissions('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 
         <footer>
             <?php include("layout/3.footer.php"); ?>
             <?php include("layout/4.admin.php"); ?>
+            <script src="js/index.js"></script>
             <?php if($current_table): ?>
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
@@ -94,7 +114,6 @@
                 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
                 <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
                 <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
-                <script src="js/index.js"></script>
                 <script>
                     $(document).ready
                     ( 

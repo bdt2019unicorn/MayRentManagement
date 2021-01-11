@@ -68,6 +68,7 @@ function AddEditAll()
     
     var ActionResult = (result, action)=>
     {
+        console.log(result); 
         if(Number(result))
         {
             alert(`${action} all ${url_params.get("table")} Success!`); 

@@ -137,7 +137,7 @@
     {
         private static function Connection()
         {
-            $path = realpath("../database.db"); 
+            $path = CurrentEnvironment::TestSqliteDatabasePath(); 
             return new PDO("sqlite:{$path}"); 
         }
 
