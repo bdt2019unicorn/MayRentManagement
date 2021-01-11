@@ -6,13 +6,13 @@
         public function CheckUser()
         {
             $conditions = json_decode($_POST["check_user"], true); 
-            $data = Connect::SelectData("user", ["*"], $conditions); 
+            $data = Database::SelectData("user", ["*"], $conditions); 
             echo count($data); 
         }
 
         public function Login()
         {
-            $data = Connect::SelectData("user", ["*"], $_POST); 
+            $data = Database::SelectData("user", ["*"], $_POST); 
             if(count($data)==1)
             {
                 echo json_encode($data[0]); 

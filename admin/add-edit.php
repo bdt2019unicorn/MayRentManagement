@@ -44,7 +44,7 @@
                     $ids = json_decode($ids); 
                     $id_conditions = join(", ", $ids); 
                     $sql = "SELECT * FROM `{$this->current_table}` WHERE `id` IN ({$id_conditions});";
-                    return $this->test_mode? ConnectSqlite::Query($sql): Connect::GetData($sql); 
+                    return Database::GetData($sql); 
                 }
 
                 private function ColumnsInformation()
@@ -60,7 +60,7 @@
                             $select_columns[$contraint["from"]] = 
                             [
                                 "value_column" => $contraint["to"], 
-                                "options" => Connect::GeneralData($contraint["table"]) 
+                                "options" => Database::GeneralData($contraint["table"]) 
                             ]; 
                         }
                         $this->select_columns = $select_columns; 
@@ -93,7 +93,7 @@
                             $select_columns[$contraint["COLUMN_NAME"]] = 
                             [
                                 "value_column" => $contraint["REFERENCED_COLUMN_NAME"], 
-                                "options" => Connect::GeneralData($contraint["REFERENCED_TABLE_NAME"]) 
+                                "options" => Database::GeneralData($contraint["REFERENCED_TABLE_NAME"]) 
                             ]; 
                         }
                         $this->select_columns = $select_columns; 
