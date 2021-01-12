@@ -72,12 +72,31 @@
             )
         "; 
 
-        private static function CompareTotals($main_total_query, $compared_total_query, $as)
+        private static function CompareTotals($main_total_query, $compared_total_query, $as, $test_mode=false)
         {
+            $if = $test_mode? "IIF": "IF"; 
+            $format = $test_mode? "ROUND" : "FORMAT";  
+            $char = $test_mode? "TEXT" : "CHAR"; 
+            $if_true_calculation =
+            "
+                CAST
+                (
+                    (
+                        {$format}({$main_total_query} - {$compared_total_query}, 0)
+                    ) AS {$char} 
+                )             
+            "; 
+
+            //need work here
+
+            $if_true = $test_mode? 
+            "":
+            "
+            ";  
             return 
             "
                 (
-                    IF
+                    {$if}
                     (
                         (
                             {$main_total_query} - {$compared_total_query} > 0 
@@ -104,9 +123,11 @@
         private static function GeneralQuery($test_mode=false)
         {
             $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit"); 
-            $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance"); 
+            $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance", $test_mode); 
 
-            
+            $tenant_name = $test_mode? "(IFNULL(`tenant`.`Last_Name`,'') || ', ' || IFNULL(`tenant`.`First_Name`, ''))" : "CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, ''))"; 
+            $start_date = $test_mode?"STRFTIME('%d/%m/%Y', `Start_date`)" : "DATE_FORMAT(`Start_date`,'%d/%m/%Y')"; 
+            $end_date = $test_mode? "STRFTIME('%d/%m/%Y', `Finish`)" : "DATE_FORMAT(`Finish`,'%d/%m/%Y')"; 
 
             return 
             "
@@ -114,9 +135,9 @@
                     `leaseagrm`.`id` as `ID`, 
                     `leaseagrm`.`name` AS `Name`, 
                     `unit`.`name` as `Unit`, 
-                    CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, '')) AS `Tenant Name`, 
-                    DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
-                    DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
+                    {$tenant_name} AS `Tenant Name`, 
+                    {$start_date} AS `Start Date`, 
+                    {$end_date} AS `End Date`, 
                     {$outstanding_balance},
                     {$deposit} 
                 FROM `leaseagrm`
