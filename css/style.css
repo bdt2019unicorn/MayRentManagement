@@ -63,3 +63,32 @@
   margin-top: 1vmin;
   margin-bottom: 1vmin;
 }
+
+.issue__des{
+  margin-bottom: 10px;
+}
+
+.issue__des input[type=text]{
+  width: 100%;
+  color:black;
+  font-weight: 600;
+}
+
+.issue__title{
+  margin-bottom: 10px;
+}
+
+.issue__update textarea{
+  width: 100%;
+  resize: none;
+}
+
+.issue__update input[type=submit]{
+    font-size: 14px;
+    color: #fff;
+    background: #ff0e83;
+    padding: 12px 27px;
+    border-radius: 5px;
+    display: inline-block;
+    border: 2px solid #fff;
+}

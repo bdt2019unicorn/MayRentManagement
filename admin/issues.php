@@ -12,12 +12,42 @@
                 <?php 
                     $url.="/{$issue_id}"; 
                 ?>   
-            <h1>Issue: <?php echo $issue_id; ?></h1>
+            <h1>Issue ID: <?php echo $issue_id; ?></h1>
             <form action="#">
-                Issue Lỗi: <input type="text" name="Tiêu đề" id="showtitle"><br>
-                <label for="updatecoment">Góp ý kiến: </label><br>
-                <textarea name="updatecoment" id="updatecoment" cols="30" rows="10" placeholder="Comment"></textarea><br>
-                <input type="submit" value="submit">
+                <div class="issue__des container">
+                    <div class="issue__title row">
+                        <div class="col-md-1">
+                            <span>Tên Issue</span> 
+                        </div>
+                        <div class="col-md-11">
+                            <input type="text" name="Tiêu đề" id="showtitle" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <span>Mô tả lỗi</span> 
+                        </div>
+                        <div class="col-md-11">
+                            <input type="text" name="" id="updatecoment" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="issue__update container">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label for="updatecomment">Ý kiến</label>
+                        </div>
+                        <div class="col-md-11">
+                            <textarea name="updatecomment" id="updatecomment" cols="30" rows="10" placeholder="Ý kiến góp thêm"></textarea>
+                        </div>         
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-1"></div>
+                        <div class="btn col-md-10">
+                            <input type="submit" value="submit">
+                        </div>
+                    </div>
+                </div> 
             </form>
             <?php else: ?>
                 <?php
@@ -57,7 +87,7 @@
                         <?php if($issue_id): ?>
                             ShowIssue(data);
                         <?php else: ?>
-                            var issue_overview = IssueOverview(data); 
+                            var issue_overview = IssueOverview(data);
                             $("#issues-overview").append(issue_overview);
                         <?php endif; ?>
                     }
