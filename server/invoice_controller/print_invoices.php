@@ -33,17 +33,8 @@
             $path = $print_excel->ZipAllExcel(); 
             if($path)
             {
-                header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
-                header('Content-Disposition: attachment; filename='.basename($path));
-                header('Content-Transfer-Encoding: binary');
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                header('Pragma: public');
-                header('Content-Length: ' . filesize($path));
-                ob_clean();
-                flush();
-                readfile($path); 
+                require_once("../helper/support.php"); 
+                DownloadFile($path); 
                 @unlink($path);
                 $print_excel->ResolveFolder(); 
             }
