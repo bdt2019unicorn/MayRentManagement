@@ -2,9 +2,9 @@
     namespace OverviewQueries; 
     class LeaseAgrm
     {
-        public static function OverviewDashboard()
+        public static function OverviewDashboard($test_mode = false)
         {
-            return LeaseAgrm::GeneralQuery(). 
+            return LeaseAgrm::GeneralQuery($test_mode). 
             "
                 WHERE 
                     `leaseagrm`.`unit_id` IS NULL OR 
@@ -47,7 +47,7 @@
         "
             IF
             (
-                ISNULL(`Deposit_payment_date`), 
+                `Deposit_payment_date` IS NULL, 
                 0, 
                 IF
                 (
@@ -85,12 +85,11 @@
                         CONCAT
                         (
                             '(', 
-                            CONVERT
+                            CAST
                             (
                                 (
                                     FORMAT({$main_total_query} - {$compared_total_query}, 0)
-                                ), 
-                                CHAR 
+                                ) AS CHAR 
                             ),
                             ')' 
                         ), 
@@ -102,10 +101,12 @@
             "; 
         }
 
-        private static function GeneralQuery()
+        private static function GeneralQuery($test_mode=false)
         {
             $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit"); 
             $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance"); 
+
+            
 
             return 
             "

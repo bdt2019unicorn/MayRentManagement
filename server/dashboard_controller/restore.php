@@ -8,7 +8,7 @@
     $test_mode = CurrentEnvironment::TestMode(); 
     if($test_mode)
     {
-        move_uploaded_file($_FILES["file"]["tmp_name"], CurrentEnvironment::TestSqliteDatabasePath()); 
+        copy($_FILES["file"]["tmp_name"], CurrentEnvironment::TestSqliteDatabasePath()); 
     }
     else
     {

@@ -22,7 +22,7 @@
                 else 
                 {
                     $general_overview = new OverviewQueries\GeneralOverview(1, null, null, $overview_controller); 
-                    $select_data = Connect::SelectData($overview_controller, $general_overview->GetArray("Selects"), null); 
+                    $select_data = Database::SelectData($overview_controller, $general_overview->GetArray("Selects"), null); 
 
                     $user_input["form"][$row_number][$component_number]["select_data"] = $select_data; 
                     $select_data_building_separate[$overview_controller] = $select_data; 
