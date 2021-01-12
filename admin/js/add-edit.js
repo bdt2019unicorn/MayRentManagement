@@ -87,13 +87,7 @@ function AddEditAll()
     }
     else 
     {
-        data = data.map
-        (
-            ({id, ...rest})=>({[id]: rest})
-        ).reduce
-        (
-            (accumulator, current_value)=>({...accumulator, ...current_value}), {}
-        );
+        data = data.map(({id, ...rest})=>({[id]: rest})).reduce((accumulator, current_value)=>({...accumulator, ...current_value}), {});
         let url = `../server/admin_database.php?command=EditAll&table=${url_params.get("table")}`; 
         let result = support_mixin.methods.SubmitData("edit_all", url, data); 
         ActionResult(result, "Edit"); 

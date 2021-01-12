@@ -2,21 +2,13 @@
     <?php include("layout/1.head.php"); ?>
     <?php  
         require_once("../server/helper/current_environment.php"); 
-        if($_SERVER["REQUEST_METHOD"]==="POST")
-        {
-            $value = isset($_POST["test_mode"]); 
-            $current_environment = new CurrentEnvironment(); 
-            $current_environment->SettingEnvironment($value); 
-            header('Location: '.$_SERVER['REQUEST_URI']);
-        }
-        
         CurrentEnvironment::Setup(); 
         $current_environment = new CurrentEnvironment(); 
         $test_mode = $current_environment->TestMode(); 
     ?>
 
     <div class="container-fluid">
-        <form class="row m-3 border border-secondary" method="POST" action="./setup.php">
+        <form class="row m-3 border border-secondary" method="POST" action="../server/admin_database.php?command=CurrentEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
             <h3 class="text-danger text-center w-100"><?php echo $test_mode?"Testing": "Production" ?> Environment</h3>
             <div class="col-10">
                 <div class="form-check">
@@ -34,7 +26,7 @@
 
     <?php if(!$test_mode): ?>
         <h1 class="text-center">Production Environment Set Up</h1>
-        <form class="container" method="POST" action="../server/admin_database.php?command=ProductionEnvironmentSetUp">
+        <form class="container" method="POST" action="../server/admin_database.php?command=ProductionEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
             <?php foreach($_ENV as $key=>$value): ?>
                 <div class="form-group <?php echo $key=='TESTMODE'?'d-none':''; ?>">
                     <label><?php echo $key;?></label>
@@ -56,7 +48,7 @@
 
         <?php if(!count($result)): ?>
             <h1 class="text-center">Admin Set Up</h1>
-            <form class="container-fluid" method="POST" action="../server/admin_database.php?command=CreateAdmin">
+            <form class="container-fluid" method="POST" action="../server/database_controller/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
                 <div class="form-group">
                     <label>Username</label>
                     <input name="username" type="text" class="form-control">

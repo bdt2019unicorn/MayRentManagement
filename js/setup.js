@@ -148,13 +148,6 @@ jQuery
         }
 
         CheckEnvironment(); 
-
-        new Promise 
-        (
-            (resolve, reject)=>
-            {
-                resolve({router: Router(), store_track: StoreTrack()}); 
-            }
-        ).then(PageElements); 
+        new Promise ((resolve, reject)=>resolve({router: Router(), store_track: StoreTrack()})).then(PageElements); 
     }
 ); 
