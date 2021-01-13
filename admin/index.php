@@ -53,7 +53,7 @@
 
                         private function PopulateTheadTbodyTest()
                         {
-                            $columns = ConnectSqlite::Query("PRAGMA table_info('{$this->current_table}')"); 
+                            $columns = ConnectSqlite::Query("PRAGMA TABLE_INFO('{$this->current_table}')"); 
                             $this->thead = array_map($this->TheadMapFunction("name"), $columns); 
                             $this->tbody = ConnectSqlite::Query("SELECT * FROM `{$this->current_table}`"); 
                         }

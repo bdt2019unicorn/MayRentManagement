@@ -51,9 +51,9 @@
                 {
                     if($this->test_mode)
                     {
-                        $columns = ConnectSqlite::Query("PRAGMA table_info('{$this->current_table}');"); 
+                        $columns = ConnectSqlite::Query("PRAGMA TABLE_INFO('{$this->current_table}');"); 
                         $this->columns = array_map(function($column){return ["Field"=>$column["name"]];}, $columns);
-                        $references = ConnectSqlite::Query("PRAGMA foreign_key_list('{$this->current_table}');"); 
+                        $references = ConnectSqlite::Query("PRAGMA FOREIGN_KEY_LIST('{$this->current_table}');"); 
                         $select_columns = []; 
                         foreach ($references as $contraint) 
                         {
