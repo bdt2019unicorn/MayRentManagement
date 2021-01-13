@@ -11,7 +11,10 @@
 
     $sql = "INSERT INTO `documents` (`name`, `document_type_id`, `unit_id`, `file`, `file_extension`, `description`, `username`, `modified_time`) VALUES (:name, :document_type_id, :unit_id, :file, :file_extension, :description, :username, :modified_time) "; 
 
-    $fh = fopen("Text_items.xls", "rb"); 
+    copy("Text_items.xls", "Text_items-copy.xls"); 
+    $fname = "Text_items-copy.xls"; 
+
+    $fh = fopen($fname, "rb"); 
 
     $params = 
     [
@@ -41,6 +44,7 @@
     echo $pdo->lastInsertId(); 
 
     // echo $sql; 
+    unlink($fname); 
 
     // $result = ConnectSqlite::Query($sql); 
     // echo $result; 

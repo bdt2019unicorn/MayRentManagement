@@ -24,6 +24,14 @@
         }
     }
 
+    function TempFolder()
+    {
+        if(!file_exists("temp"))
+        {
+            mkdir("temp"); 
+        }
+    }
+
     $actions = 
     [
         "SelectDataBind"=> function()
@@ -51,10 +59,7 @@
         }, 
         "UploadFiles"=>function()
         {
-            if(!file_exists("temp"))
-            {
-                mkdir("temp"); 
-            }
+            TempFolder(); 
             $folder = "temp/{$_POST['folder']}"; 
             if(!file_exists($folder))
             {
