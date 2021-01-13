@@ -81,8 +81,7 @@
             $values.= ":{$file_key}); "; 
             $sql.= $columns.$values; 
 
-            $connection = ConnectSqlite::FileDatabaseExecute($sql, $params, $file_path, $file_key); 
-            return $connection->lastInsertId(); 
+            return ConnectSqlite::FileDatabaseExecute($sql, $params, $file_path, $file_key); 
         }
 
         public static function EditFile($table, $data, $conditions, $file_path, $file_key = "file")
@@ -108,8 +107,7 @@
             }
 
             $sql.="`{$file_key}` = :{$file_key} WHERE ". implode(" AND ", $where);
-            $connection = ConnectSqlite::FileDatabaseExecute($sql, $params, $file_path, $file_key); 
-            return $connection; 
+            return ConnectSqlite::FileDatabaseExecute($sql, $params, $file_path, $file_key); 
         }
 
         private static function FileDatabaseExecute($sql, $params, $file_path, $file_key = "file")
@@ -125,10 +123,10 @@
             }
         
             $statement->bindValue(":{$file_key}", $file, PDO::PARAM_LOB);
-            $statement->execute();
+            $result = $statement->execute();
         
             fclose($file); 
-            return $connection; 
+            return $result; 
         }
     }
 ?>

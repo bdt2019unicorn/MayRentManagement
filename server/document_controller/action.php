@@ -176,14 +176,14 @@
                 if($test_mode && $file)
                 {
                     TempFolder(); 
-                    $file_name = json_encode($user_information_data) . random_int(PHP_INT_MIN, PHP_INT_MAX) . ".tmp"; 
+                    $file_name = md5(json_encode($user_information_data)) . random_int(PHP_INT_MIN, PHP_INT_MAX) . ".tmp"; 
                     $file_path = "temp/{$file_name}"; 
                     $file = fopen($file_path, "ab"); 
                     fwrite($file, $new_file); 
                     fclose($file); 
                     $result = ConnectSqlite::EditFile("documents", $data, $conditions, $file_path); 
                     unlink($file_path); 
-                    print_r($result); 
+                    echo $result; 
                     return; 
                 }
                 $sql = Query::Update("documents", $data, $conditions); 
