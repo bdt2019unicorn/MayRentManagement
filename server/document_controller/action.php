@@ -112,7 +112,7 @@
         "DocumentEditInformation"=> function()
         {
             $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
-            $data = Connect::GetData($document->Documents()); 
+            $data = Connect::GetData($document->Documents(CurrentEnvironment::TestMode())); 
             $result = $data[0]; 
             echo json_encode($result); 
         }, 
