@@ -36,8 +36,18 @@
     [
         "SelectDataBind"=> function()
         {
-            $sql = Query::GeneralData("document_type") . Query::SelectData("unit", ["*"], ["building_id"=>$_GET["building_id"]]); 
-            $data = Connect::MultiQuery($sql, true); 
+            $document_types_sql = Query::GeneralData("document_type"); 
+            $unit_sql = Query::SelectData("unit", ["*"], ["building_id"=>$_GET["building_id"]]); 
+            if(CurrentEnvironment::TestMode())
+            {
+                $data = [ConnectSqlite::Query($document_types_sql), ConnectSqlite::Query($unit_sql)]; 
+            }
+            else 
+            {
+                $sql = $document_types_sql . $unit_sql; 
+                $data = Connect::MultiQuery($sql, true); 
+            }
+
             $select_data_bind = 
             [
                 "document_type_id"=>
@@ -117,7 +127,7 @@
         "DocumentEditInformation"=> function()
         {
             $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
-            $data = Connect::GetData($document->Documents(CurrentEnvironment::TestMode())); 
+            $data = Database::GetData($document->Documents(CurrentEnvironment::TestMode())); 
             $result = $data[0]; 
             echo json_encode($result); 
         }, 
