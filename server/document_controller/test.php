@@ -29,17 +29,17 @@
     ]; 
 
     $pdo = new PDO("sqlite:". CurrentEnvironment::TestSqliteDatabasePath()); 
+    
     $stmt = $pdo->prepare($sql);
-
     foreach ($params as $key => $value) 
     {
-        $stmt->bindParam($key, $value); 
+        $stmt->bindValue($key, $value); 
     }
 
-    $stmt->bindParam(':file', $fh, PDO::PARAM_LOB);
+    $stmt->bindValue(':file', $fh, PDO::PARAM_LOB);
     $stmt->execute();
 
-    // fclose($fh); 
+    fclose($fh); 
 
     echo $pdo->lastInsertId(); 
 

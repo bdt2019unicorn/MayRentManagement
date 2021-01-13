@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <input type="file" onchange="GetFile(this)">
+        <button onclick="Upload()">Click me </button>
+        <script>
+            var file; 
+            function GetFile(files)
+            {
+                file = files.files[0]; 
+            }
+            function Upload()
+            {
+                let url = "test-post-file.php"; 
+                var data = new FormData(); 
+                data.append("file", file); 
+
+                let string = 
+                `
+                    ":name"=> 'test', 
+                    ":document_type_id" => '6', 
+                    ":unit_id" => '94',
+                    ":file_extension" => 'xls', 
+                    ":description" => 'test file', 
+                    ":username" => 'blastor555', 
+                    ":modified_time" => '2021-01-13 17:27:37'
+                `; 
+
+                var array = string.split(",").map(str=>str.trim()).map(str=>str.split("=>")); 
+
+                array.forEach
+                (
+                    list=>
+                    {
+                        var key = list[0].replaceAll('"', "").replaceAll(":", "").trim(); 
+                        var value = list[1].replaceAll("'", "").trim(); 
+                        data.append(key, value); 
+                    }
+                ); 
+
+                var result = null; 
+                $.ajax
+                (
+                    {
+                        type: "post", 
+                        url: url, 
+                        data: data, 
+                        async: false, 
+                        contentType: false,
+                        processData: false,
+                        enctype: 'multipart/form-data',
+                        success: function(success)
+                        {
+                            result = success; 
+                        }, 
+                        error: function(error)
+                        {
+                            console.log(error.responseText); 
+                            console.log(error); 
+                        }
+                    }
+                ); 
+
+                console.log(result); 
+            }
+        </script>
+    </body>
+</html>
