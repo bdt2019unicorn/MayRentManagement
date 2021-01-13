@@ -81,6 +81,39 @@
             $values.= ":{$file_key}); "; 
             $sql.= $columns.$values; 
 
+            $connection = ConnectSqlite::FileDatabaseExecute($sql, $params, $file_path, $file_key); 
+            return $connection->lastInsertId(); 
+        }
+
+        public static function EditFile($table, $data, $conditions, $file_path, $file_key = "file")
+        {
+            $sql = "UPDATE `{$table}` SET "; 
+            $params = []; 
+            foreach ($data as $column => $value) 
+            {
+                if($column!=$file_key)
+                {
+                    $param = ":{$column}"; 
+                    $params[$param] = $value; 
+                    $sql.= "`{$column}` = {$param}, "; 
+                }
+            }
+            
+            $where = []; 
+            foreach ($conditions as $column => $value) 
+            {
+                $param = ":{$column}"; 
+                $params[$param] = $value; 
+                array_push($where, "`{$column}`={$param}"); 
+            }
+
+            $sql.="`{$file_key}` = :{$file_key} WHERE ". implode(" AND ", $where);
+            $connection = ConnectSqlite::FileDatabaseExecute($sql, $params, $file_path, $file_key); 
+            return $connection; 
+        }
+
+        private static function FileDatabaseExecute($sql, $params, $file_path, $file_key = "file")
+        {
             $file = fopen($file_path, "rb"); 
     
             $connection = ConnectSqlite::Connection();  
@@ -95,8 +128,7 @@
             $statement->execute();
         
             fclose($file); 
-        
-            return $connection->lastInsertId(); 
+            return $connection; 
         }
     }
 ?>

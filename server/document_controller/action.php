@@ -24,6 +24,14 @@
         }
     }
 
+    function TempFolder()
+    {
+        if(!file_exists("temp"))
+        {
+            mkdir("temp"); 
+        }
+    }
+
     $actions = 
     [
         "SelectDataBind"=> function()
@@ -51,10 +59,7 @@
         }, 
         "UploadFiles"=>function()
         {
-            if(!file_exists("temp"))
-            {
-                mkdir("temp"); 
-            }
+            TempFolder(); 
             $folder = "temp/{$_POST['folder']}"; 
             if(!file_exists($folder))
             {
@@ -118,9 +123,10 @@
         }, 
         "DocumentEditSubmit"=> function()
         {
+            $test_mode = CurrentEnvironment::TestMode(); 
             $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
-            $new_file = file_get_contents($_FILES["file"]["tmp_name"]); 
-            $current_file = Connect::GetData($document->File($document->id))[0]["file"];
+            $new_file = GetUploadFileCombine(); 
+            $current_file = Database::GetData($document->File($document->id))[0]["file"];
 
             $CompareFiles = function($new_file, $current_file)
             {
@@ -129,9 +135,9 @@
                 return ($new64==$current64)? null: addslashes($new_file); 
             }; 
 
-            $CurrentData = function() use ($document)
+            $CurrentData = function() use ($document, $test_mode)
             {
-                $data = Connect::GetData($document->Documents())[0]; 
+                $data = Database::GetData($document->Documents($test_mode))[0]; 
                 $current_data = []; 
                 foreach ($data as $key => $value) 
                 {
@@ -165,8 +171,23 @@
             }
             if(count($data))
             {
-                $sql = Query::Update("documents", array_merge($data, $user_information_data), ["id"=>$document->id]); 
-                $result = Connect::GetData($sql); 
+                $data = array_merge($data, $user_information_data); 
+                $conditions = ["id"=>$document->id]; 
+                if($test_mode && $file)
+                {
+                    TempFolder(); 
+                    $file_name = json_encode($user_information_data) . random_int(PHP_INT_MIN, PHP_INT_MAX) . ".tmp"; 
+                    $file_path = "temp/{$file_name}"; 
+                    $file = fopen($file_path, "ab"); 
+                    fwrite($file, $new_file); 
+                    fclose($file); 
+                    $result = ConnectSqlite::EditFile("documents", $data, $conditions, $file_path); 
+                    unlink($file_path); 
+                    print_r($result); 
+                    return; 
+                }
+                $sql = Query::Update("documents", $data, $conditions); 
+                $result = Database::GetData($sql); 
                 echo $result; 
             }
             else 
