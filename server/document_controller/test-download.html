@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <button onclick="Download()">Click me </button>
+        <script>
+            function Download()
+            {
+                let url = "sqlite-test-download.php"; 
+                var result; 
+                $.ajax 
+                (
+                    {
+                        url: url, 
+                        type: "POST", 
+                        data: {},  
+                        async: false, 
+                        dataType: 'text',                              
+                        mimeType: 'text/plain; charset=x-user-defined',
+                        success: (data)=>
+                        {
+                            var bytes = new Uint8Array(data.length);
+                            for (var i = 0; i < data.length; i++) 
+                            {
+                                bytes[i] = data.charCodeAt(i);
+                            }
+                            result = new Blob([bytes], {type: "application/octetstream"}); 
+                        }, 
+                        error: function(error)
+                        {
+                            alert("There is something wrong with the server! Please try again"); 
+                            console.log(error); 
+                        }
+                    }
+                ); 
+
+                var a = document.createElement("a"); 
+                a.href = URL.createObjectURL(result); 
+                a.download = "test.xls"; 
+                a.click(); 
+            }
+        </script>
+    </body>
+</html>
