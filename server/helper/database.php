@@ -2,7 +2,8 @@
     require_once("query.php"); 
     require_once("current_environment.php"); 
     $dotenv = new CurrentEnvironment(); 
-    spl_autoload_register(function($class){require_once("Database/{$class}.php");}); 
+    require_once("Database/Connect.php"); 
+    require_once("Database/ConnectSqlite.php"); 
     class Database
     {
         public static function GetData($sql)
