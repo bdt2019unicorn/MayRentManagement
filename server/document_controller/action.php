@@ -24,14 +24,6 @@
         }
     }
 
-    function TempFolder()
-    {
-        if(!file_exists("temp"))
-        {
-            mkdir("temp"); 
-        }
-    }
-
     $actions = 
     [
         "SelectDataBind"=> function()
@@ -59,7 +51,10 @@
         }, 
         "UploadFiles"=>function()
         {
-            TempFolder(); 
+            if(!file_exists("temp"))
+            {
+                mkdir("temp"); 
+            }
             $folder = "temp/{$_POST['folder']}"; 
             if(!file_exists($folder))
             {
@@ -70,12 +65,49 @@
         }, 
         "AddDocument"=> function()
         {
-            $data = $_POST; 
-            $file = GetUploadFileCombine(); 
-            $data["file"] = addslashes($file); 
-            $sql = Query::Insert("documents", $data); 
-            $result = Connect::GetData($sql); 
-            echo $result; 
+            if(CurrentEnvironment::TestMode())
+            {
+                if(isset($_FILES["file"]))
+                {
+                    $file_path = $_FILES["file"]["tmp_name"]; 
+                }
+                else 
+                {
+                    $files = glob("{$_POST['file']}/*"); 
+                    $file_path = "{$_POST['file']}/file.tmp"; 
+                    
+                    foreach ($files as $file_destination) 
+                    {
+                        if(is_file($file_destination))
+                        {
+                            $file = fopen($file_destination, "rb"); 
+                            $buffer = fread($file, filesize($file_destination)); 
+                            fclose($file); 
+                            $final = fopen($file_path, "ab"); 
+                            fwrite($final, $buffer); 
+                            fclose($final); 
+                            unlink($file_destination); 
+                        }
+                    }
+                }
+                $result = ConnectSqlite::InsertFile("document", $_POST, $file_path, "file"); 
+                if(isset($_POST["file"]))
+                {
+                    unlink($file_path); 
+                    rmdir($_POST['file']); 
+                }
+                echo $result; 
+            }
+            else 
+            {
+                $data = $_POST; 
+                $file = GetUploadFileCombine(); 
+                $data["file"] = addslashes($file); 
+                $sql = Query::Insert("documents", $data); 
+                $result = Connect::GetData($sql); 
+                echo $result; 
+            }
+
         }, 
         "DocumentEditInformation"=> function()
         {
