@@ -5,18 +5,15 @@
     $test_mode = CurrentEnvironment::TestMode(); 
     if($test_mode)
     {
-        $sql = OverviewQueries\LeaseAgrm::OverviewDashboard(); 
-        echo $sql; 
-
-        /*
-        CHANGE
-            CONCAT -> ||
-            FORMAT -> ROUND
-            IF -> IIF 
-            CHAR -> TEXT 
-            DATE_FORMAT -> STRFTIME
-
-        */
+        $result = 
+        [
+            "leaseagrm"=> ConnectSqlite::Query(OverviewQueries\LeaseAgrm::OverviewDashboard($test_mode)), 
+            "revenue_expense"=>
+            [
+                "revenue"=> ConnectSqlite::Query(Query::GeneralData("revenue_type")), 
+                "expense"=> ConnectSqlite::Query(Query::GeneralData("expense_type"))
+            ]
+        ]; 
     }
     else 
     {

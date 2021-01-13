@@ -9,7 +9,7 @@
                     STRFTIME('%d/%m/%Y', `Finish`) AS `End Date`, 
                     
                 (
-                    IF
+                    IIF
                     (
                         (
                             
@@ -118,7 +118,7 @@
             ,
                     
                 (
-                    IF
+                    IIF
                     (
                         (
                             
@@ -140,11 +140,11 @@
             )
          - (
  
-            IF
+            IIF
             (
                 `Deposit_payment_date` IS NULL, 
                 0, 
-                IF
+                IIF
                 (
                     `Deposit_payment_date` < CURRENT_DATE, 
                     IFNULL(`Deposit_amount`, 0), 
@@ -191,11 +191,11 @@
                                         )
                                         - (
                                 
-                                            IF
+                                            IIF
                                             (
                                                 `Deposit_payment_date` IS NULL, 
                                                 0, 
-                                                IF
+                                                IIF
                                                 (
                                                     `Deposit_payment_date` < CURRENT_DATE, 
                                                     IFNULL(`Deposit_amount`, 0), 
@@ -223,11 +223,11 @@
                         (
                             ROUND((
  
-            IF
+            IIF
             (
                 `Deposit_payment_date` IS NULL, 
                 0, 
-                IF
+                IIF
                 (
                     `Deposit_payment_date` < CURRENT_DATE, 
                     IFNULL(`Deposit_amount`, 0), 

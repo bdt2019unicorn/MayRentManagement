@@ -13,12 +13,12 @@
             "; 
         }
 
-        public static function OverviewBuildingId($building_id)
+        public static function OverviewBuildingId($building_id, $test_mode=false)
         {
-            return LeaseAgrm::GeneralQuery(). "\n WHERE `unit`.`building_id` = '{$building_id}'; "; 
+            return LeaseAgrm::GeneralQuery($test_mode). "\n WHERE `unit`.`building_id` = '{$building_id}'; "; 
         }
 
-        public static function TotalPaidAmountQuery()
+        public static function TotalPaidAmountQuery($test_mode=false)
         {
             return "(\n " . LeaseAgrm::$DepositQuery . "\n + " . LeaseAgrm::$TotalPaidRevenueQuery . "\n)"; 
         }
@@ -45,17 +45,13 @@
 
         private static $DepositQuery = 
         "
-            IF
             (
-                `Deposit_payment_date` IS NULL, 
-                0, 
-                IF
-                (
-                    `Deposit_payment_date` < CURRENT_DATE, 
-                    IFNULL(`Deposit_amount`, 0), 
-                    0
-                )
-            ) 
+                CASE 
+                    WHEN `Deposit_payment_date` IS NULL THEN 0 
+                    WHEN `Deposit_payment_date` < CURRENT_DATE THEN IFNULL(`Deposit_amount`, 0)
+                    ELSE 0 
+                END	
+            )
         "; 
 
         private static $TotalPaidRevenueQuery = 
@@ -74,7 +70,6 @@
 
         private static function CompareTotals($main_total_query, $compared_total_query, $as, $test_mode=false)
         {
-            $if = $test_mode? "IIF": "IF"; 
             $format = $test_mode? "ROUND" : "FORMAT";  
             $char = $test_mode? "TEXT" : "CHAR"; 
             $if_true_calculation =
@@ -87,45 +82,60 @@
                 )             
             "; 
 
-            //need work here
-
             $if_true = $test_mode? 
-            "":
             "
+                (
+                    '(' || 
+                    {$if_true_calculation} || 
+                    ')'
+                )
+            ":
+            "
+                CONCAT
+                (
+                    '(', 
+                    CAST
+                    (
+                        (
+                            FORMAT({$main_total_query} - {$compared_total_query}, 0)
+                        ) AS CHAR 
+                    ),
+                    ')' 
+                ) 
             ";  
             return 
             "
-                (
-                    {$if}
+            (
+                CASE 
+                    WHEN 
                     (
-                        (
-                            {$main_total_query} - {$compared_total_query} > 0 
-                        ), 
-                        CONCAT
-                        (
-                            '(', 
-                            CAST
-                            (
-                                (
-                                    FORMAT({$main_total_query} - {$compared_total_query}, 0)
-                                ) AS CHAR 
-                            ),
-                            ')' 
-                        ), 
-                        (
-                            FORMAT({$compared_total_query} - {$main_total_query}, 0)
-                        )
+                        {$main_total_query} - {$compared_total_query}
+                    ) > 0 THEN 
+                    {$if_true}
+                    ELSE 
+                    (
+                        {$format}({$compared_total_query} - {$main_total_query}, 0)
                     )
-                ) AS `{$as}` 
+                END 
+            ) AS `{$as}` 
             "; 
         }
 
         private static function GeneralQuery($test_mode=false)
         {
-            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit"); 
+            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery($test_mode), "Deposit", $test_mode); 
             $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance", $test_mode); 
 
             $tenant_name = $test_mode? "(IFNULL(`tenant`.`Last_Name`,'') || ', ' || IFNULL(`tenant`.`First_Name`, ''))" : "CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, ''))"; 
+            $tenant_name = 
+            "
+                (
+                    CASE
+                        WHEN `leaseagrm`.`Tenant_ID` IS NULL THEN NULL
+                        ELSE {$tenant_name}
+                    END 
+                )
+            "; 
             $start_date = $test_mode?"STRFTIME('%d/%m/%Y', `Start_date`)" : "DATE_FORMAT(`Start_date`,'%d/%m/%Y')"; 
             $end_date = $test_mode? "STRFTIME('%d/%m/%Y', `Finish`)" : "DATE_FORMAT(`Finish`,'%d/%m/%Y')"; 
 

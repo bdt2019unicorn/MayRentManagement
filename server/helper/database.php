@@ -138,7 +138,9 @@
         private static function Connection()
         {
             $path = CurrentEnvironment::TestSqliteDatabasePath(); 
-            return new PDO("sqlite:{$path}"); 
+            $connection = new PDO("sqlite:{$path}"); 
+            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $connection; 
         }
 
         public static function Query($sql)
@@ -152,6 +154,7 @@
             }
             catch(Throwable $throwable)
             {
+                echo $throwable->getMessage(); 
                 return false; 
             }
         }
