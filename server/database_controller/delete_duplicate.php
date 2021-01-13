@@ -1,4 +1,5 @@
 <?php 
+    //big work here 
     require_once("../helper/database.php"); 
     $controller = $_GET["controller"]; 
 
@@ -39,7 +40,7 @@
         array_push($selects, "(SELECT `{$column_name}` FROM `{$table_name}` WHERE `{$column_name}` = `{$controller}`.`id` LIMIT 1) AS `{$special_column}`"); 
     }
 
-    $all_data = Connect::SelectData($controller, $selects); 
+    $all_data = Database::SelectData($controller, $selects); 
 
     $strings = []; 
     $duplicate = []; 

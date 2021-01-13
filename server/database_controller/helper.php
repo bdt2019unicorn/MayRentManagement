@@ -48,7 +48,7 @@
 					$conditions["building_id"] = $_GET["building_id"]; 
 				}
 
-				$reference_id = Connect::GetId($key_params['table'], $conditions); 
+				$reference_id = Database::GetId($key_params['table'], $conditions); 
 				if($reference_id)
 				{
 					$key = $params['get_id'][$key]['change']; 
