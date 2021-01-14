@@ -29,7 +29,7 @@
 
                 $RentalStatusSelect = function() use ($LeaseagrmSelect, $tenant_from_lease, $test_mode)
                 {
-                    $leaseagrm_id = $LeaseagrmSelect(Query::CastAsChar("`leaseagrm`.`id`")); 
+                    $leaseagrm_id = $LeaseagrmSelect(Query::CastAsChar("`leaseagrm`.`id`", $test_mode)); 
                     $start_date_check = $LeaseagrmSelect("`Start_date` < CURRENT_DATE"); 
                     $start_date_lease = $LeaseagrmSelect("`Start_date`"); 
                     $end_date_lease = $LeaseagrmSelect("`Finish`"); 
@@ -105,20 +105,20 @@
                 $tenant_full_name = Query::Concat(["`tenant`.`Last_Name`", "' '", "`tenant`.`First_Name`"], $test_mode); 
                 return 
                 [
-                    "id AS `ID`", 
-                    "name AS `Name`", 
+                    "`id` AS `ID`", 
+                    "`name` AS `Name`", 
                     $RentalStatusSelect(), 
-                    $PaidUntilSelect(), 
-                    "{$tenant_from_lease} AS `tenantid`", 
-                    "
-                        (
-                            SELECT {$tenant_full_name}
-                            FROM `leaseagrm` LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
-                            WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
-                            ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
-                        ) AS `Tenant Name`
-                    ", 
-                    "area AS `Area`"
+                    // $PaidUntilSelect(), 
+                    // "{$tenant_from_lease} AS `tenantid`", 
+                    // "
+                    //     (
+                    //         SELECT {$tenant_full_name}
+                    //         FROM `leaseagrm` LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
+                    //         WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
+                    //         ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
+                    //     ) AS `Tenant Name`
+                    // ", 
+                    "`area` AS `Area`"
                 ]; 
             }
         }

@@ -27,7 +27,7 @@
         (
             "unit"=>function() use ($edit, $building_id, $id, $test_mode)
             {
-                $unit = new OverviewQueries\Unit($edit, $building_id, $id, $test_mode); 
+                $unit = new OverviewQueries\Unit($edit, $building_id, $id, $test_mode);
                 return Query::SelectData("unit", $unit->GetArray("Selects"), $unit->GetArray("Conditions")); 
             },  
             "tenant"=> function() use ($edit, $building_id, $id)
@@ -97,6 +97,7 @@
                 return Query::GeneralData("user", $id); 
             }
         ); 
+        $sql = $sql_queries[$overview_controller](); echo $sql; return; 
         $overview_data = Database::GetData($sql_queries[$overview_controller]()); 
     }
 

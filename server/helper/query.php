@@ -83,7 +83,7 @@
 
         static public function DateFormatStandard($clause, $test_mode=false)
         {
-            return $test_mode? "STRFTIME('%d/%m/%Y', `{$clause}`)" : "DATE_FORMAT(`{$clause}`,'%d/%m/%Y')"; 
+            return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT(`{$clause}`,'%d/%m/%Y')"; 
         }
 
         static private function Cause($cause, $data, $separator)
