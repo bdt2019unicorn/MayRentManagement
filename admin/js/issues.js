@@ -72,6 +72,14 @@ function IssueDiv({ number, title, body }) {
 
 function ShowIssue(data)
 {
-    document.getElementById("updatecoment").value=data.body;
-    document.getElementById("showtitle").value=data.title;
+    document.getElementById("showtitle").innerText=data.title;
+    if(data.body=="")
+    {
+        document.getElementById("updatecoment").innerText="No descrption here";
+    }
+    else
+    {
+        document.getElementById("updatecoment").innerText=data.body;
+    }
+
 }

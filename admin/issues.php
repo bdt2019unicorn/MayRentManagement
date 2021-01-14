@@ -11,44 +11,23 @@
             <?php if($issue_id): ?>
                 <?php 
                     $url.="/{$issue_id}"; 
-                ?>   
-            <h1>Issue ID: <?php echo $issue_id; ?></h1>
-            <form action="#">
-                <div class="issue__des container">
-                    <div class="issue__title row">
-                        <div class="col-md-1">
-                            <span>Tên Issue</span> 
-                        </div>
-                        <div class="col-md-11">
-                            <input type="text" name="Tiêu đề" id="showtitle" disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1">
-                            <span>Mô tả lỗi</span> 
-                        </div>
-                        <div class="col-md-11">
-                            <input type="text" name="" id="updatecoment" disabled>
-                        </div>
-                    </div>
+                ?>
+            <section id="issue">
+                <h1>Ticket ID: <?php echo $issue_id; ?></h1>
+                <h2 id="showtitle"></h2>
+                <div class="issue__des container-fluid text-center">
+                    <h3>Mô tả lỗi</h3>
+                    <hr>
+                    <p id="updatecoment"></p>
                 </div>
-                <div class="issue__update container">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <label for="updatecomment">Ý kiến</label>
-                        </div>
-                        <div class="col-md-11">
-                            <textarea name="updatecomment" id="updatecomment" cols="30" rows="10" placeholder="Ý kiến góp thêm"></textarea>
-                        </div>         
+                <form action="#" class="text-center">
+                    <div class="issue__des container-fluid">
+                        <label for="comment">Ý kiến thêm</label>
+                        <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
                     </div>
-                    <div class="row text-center">
-                        <div class="col-md-1"></div>
-                        <div class="btn col-md-10">
-                            <input type="submit" value="submit">
-                        </div>
-                    </div>
-                </div> 
-            </form>
+                    <button type="submit" class="btn text-center">Submit</button>
+                </form>
+            </section>       
             <?php else: ?>
                 <?php
                     $issue_state = $_GET["state"]??"all"; 
