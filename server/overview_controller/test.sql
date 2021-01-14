@@ -1,22 +1,4 @@
-<?php 
-	require_once("../helper/database.php"); 
-	require_once("../helper/overview_queries.php"); 
-
-	//need work here 
-	
-	$rent_id = OverviewQueries\Invoices::RentId(); 
-	$test_mode = CurrentEnvironment::TestMode(); 
-	$building_id = $_GET['building_id']; 
-
-	if($test_mode)
-	{
-		
-	}
-	else 
-	{
-		$sql = 
-		"
-			SET @rent_id = '{$rent_id}'; 
+			SET @rent_id = '1'; 
 			CREATE TEMPORARY TABLE IF NOT EXISTS `leaseagrm_overview` AS 
 			(
 				SELECT 
@@ -101,12 +83,5 @@
 				`leaseagrm_overview`.`leaseid`, 
 				`leaseagrm_overview`.`tenantid`	
 			FROM `unit` LEFT JOIN `leaseagrm_overview` ON `unit`.`id` = `leaseagrm_overview`.`unit_id`
-			WHERE `unit`.`building_id` = '{$building_id}'
+			WHERE `unit`.`building_id` = '5'
 			ORDER BY `unit`.`id`; 
-		"; 
-	
-		$raw_table = Connect::MultiQuery($sql); 
-	}
-
-	echo json_encode($raw_table); 
-?>
