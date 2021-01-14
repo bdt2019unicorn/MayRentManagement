@@ -36,20 +36,20 @@
 
 
 
-                    $RouterLinkOpen = function() use ($test_mode)
+                    $RouterLink = function() use ($leaseagrm_id, $test_mode)
                     {
-                        $building_id = Query::CastAsChar("`building_id`", $test_mode); 
-
-                        $router_link_open = "'<router-link :to=\"{name: \'actions\', params: {controller: \'leaseagrm\', action: \'edit\', building_id: ', {$building_id} ,'}, query: {id: '"; 
+                        
+                        $router_link_open = "'<router-link :to=\"{name: \'actions\', params: {controller: \'leaseagrm\', action: \'edit\', building_id: '"; 
                         if($test_mode)
                         {
                             $router_link_open = str_replace("\'", "''", $router_link_open); 
                         }
-                        return $router_link_open; 
+
+                        $building_id = Query::CastAsChar("`building_id`", $test_mode); 
+
+                        return Query::Concat([$router_link_open, $building_id, "'}, query: {id: '", $leaseagrm_id, "'}, }\">'"], $test_mode); 
                     }; 
 
-                    $router_link_open_end = "'}, }\">'"; 
-                    
                     $UnitOccupied = function() use ($start_date_check, $end_date_lease, $start_date_lease, $test_mode)
                     {
                         $true = Query::Concat(["'Until '", Query::DateFormatStandard($end_date_lease, $test_mode)], $test_mode); 
@@ -59,7 +59,7 @@
 
                     $condition = "{$tenant_from_lease} IS NULL"; 
                     $true = "'Vacant'"; 
-                    $false = Query::Concat([$RouterLinkOpen(), $leaseagrm_id, $router_link_open_end, $UnitOccupied(), "\n'</router-link>'\n" ], $test_mode); 
+                    $false = Query::Concat([$RouterLink(), $UnitOccupied(), "\n'</router-link>'\n" ], $test_mode); 
 
                     return "\n(" . Query::CaseWhen($condition, $true, $false) . "\n) AS `Rental Status`"; 
                 }; 
