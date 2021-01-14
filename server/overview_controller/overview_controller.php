@@ -30,9 +30,9 @@
                 $unit = new OverviewQueries\Unit($edit, $building_id, $id, $test_mode);
                 return Query::SelectData("unit", $unit->GetArray("Selects"), $unit->GetArray("Conditions")); 
             },  
-            "tenant"=> function() use ($edit, $building_id, $id)
+            "tenant"=> function() use ($edit, $building_id, $id, $test_mode)
             {
-                $tenant = new OverviewQueries\Tenant($edit, $building_id, $id); 
+                $tenant = new OverviewQueries\Tenant($edit, $building_id, $id, $test_mode); 
                 return Query::SelectData("tenant", $tenant->GetArray("Selects"), $tenant->GetArray("Conditions")); 
             },   
             "leaseagrm"=> function() use ($edit, $building_id, $id, $test_mode)

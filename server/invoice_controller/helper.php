@@ -36,34 +36,30 @@
             }
 
             $previous = ["number", "date"]; 
-            foreach ($previous as $column) 
-            {
-                $select = 
-                "
-                    (
-                        SELECT `{$column}` FROM `utility_reading`
-                        WHERE 
-                            `revenue_type_id` = {$utility_reading['revenue_type_id']} AND 
-                            `unit_id` = {$utility_reading['unit_id']} AND 
-                            `date` < {$utility_reading['date']} 
-                        ORDER BY `date` DESC LIMIT 1 
-                    ) AS `previous_{$column}`
-                "; 
-                array_push($selects, $select); 
-            }
-            return $selects; 
+            return array_map
+            (
+                function($column) use ($utility_reading)
+                {
+                    return 
+                    "
+                        (
+                            SELECT `{$column}` FROM `utility_reading`
+                            WHERE 
+                                `revenue_type_id` = {$utility_reading['revenue_type_id']} AND 
+                                `unit_id` = {$utility_reading['unit_id']} AND 
+                                `date` < {$utility_reading['date']} 
+                            ORDER BY `date` DESC LIMIT 1 
+                        ) AS `previous_{$column}`
+                    "; 
+                }, $previous
+            ); 
         }; 
         $selects = 
         [
             "leaseagrm" => ["*", "`id` AS `edit_id`", "(SELECT `name` FROM `revenue_type` WHERE `revenue_type`.`id` = `revenue_type_id`) AS `title`"], 
             "utilities"=>$SelectUtilities()
         ]; 
-        $sql = ""; 
-        foreach ($tables as $table) 
-        {
-            $sql.= Query::SelectData("invoice_$table", $selects[$table], $conditions) ."\n"; 
-        }
-        return $sql; 
+        return array_reduce($tables, function($current, $table) use ($selects, $conditions){return $current. Query::SelectData("invoice_$table", $selects[$table], $conditions) . "\n";}, ""); 
     }
 
     function InvoiceInformation($leaseagrm_id)
