@@ -20,10 +20,10 @@
         return $params; 
 	}
 
-	function RowData($row, $params)
+	function RowData($row, $params, $test_mode = false)
 	{
 		$data = []; 
-		$AddData = function($key, $value) use (&$data, &$AddData, $params)
+		$AddData = function($key, $value) use (&$data, &$AddData, $params, $test_mode)
 		{
 
 			$ModifyKey = function($key)
@@ -78,7 +78,7 @@
 			{
 				$key = $params['change'][$key]; 
 			}
-			$data[$key] = addslashes($value); 
+			$data[$key] = $test_mode? str_replace("'", "''", $value) : addslashes($value); 
 		}; 
 
 		foreach ($row as $key => $value) 

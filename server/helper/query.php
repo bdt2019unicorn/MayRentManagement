@@ -64,6 +64,43 @@
             "; 
         }
 
+        static public function CaseWhens($conditions, $false)
+        {
+            $main = ""; 
+            foreach ($conditions as $condition => $true) 
+            {
+                if(count($conditions)==1)
+                {
+                    return Query::CaseWhen($condition, $true, $false); 
+                }
+                $main.= "\nWHEN {$condition} THEN {$true}\n"; 
+            }
+            return 
+            "
+                CASE 
+                    $main
+                    ELSE {$false}
+                END
+            "; 
+        }
+
+        
+        static public function IfNull($expression, $false)
+        {
+            return 
+            "
+                IFNULL
+                (
+                    (
+                        {$expression}
+                    ), 
+                    (
+                        {$false}
+                    )
+                ) 
+            "; 
+        }
+
         static public function CastAsChar($clause, $test_mode=false)
         {
             $char = $test_mode? "TEXT": "CHAR"; 
@@ -80,22 +117,6 @@
         static public function DateFormatStandard($clause, $test_mode=false)
         {
             return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT({$clause},'%d/%m/%Y')"; 
-        }
-
-        static public function IfNull($expression, $false)
-        {
-            return 
-            "
-                IFNULL
-                (
-                    (
-                        {$expression}
-                    ), 
-                    (
-                        {$false}
-                    )
-                ) 
-            "; 
         }
 
         static private function Cause($cause, $data, $separator)

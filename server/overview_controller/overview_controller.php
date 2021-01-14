@@ -7,7 +7,6 @@
     $building_id = $_GET["building_id"]??null; 
     $id = $_GET["id"]??null; 
     $test_mode = CurrentEnvironment::TestMode(); 
-    $test_mode = false; 
     $unit_id = $_GET["unit_id"]??null; 
 
     $overview_controller = $_GET["overview_controller"]; 
@@ -98,10 +97,8 @@
                 return Query::GeneralData("user", $id); 
             }
         ); 
-        $sql = $sql_queries[$overview_controller](); echo $sql; return; 
         $overview_data = Database::GetData($sql_queries[$overview_controller]()); 
     }
-
 
     if(isset($overview_data))
     {

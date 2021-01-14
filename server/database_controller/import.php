@@ -17,7 +17,8 @@
 		require_once("./helper.php"); 
 		$params = Params($import_controller); 
 		$excel = json_decode($_POST['excel']); 
-		$queries = array_map(function($row)use ($params){return Query::Insert($params['table'], RowData($row, $params));}, $excel); 
+		$test_mode = CurrentEnvironment::TestMode(); 
+		$queries = array_map(function($row)use ($params, $test_mode){return Query::Insert($params['table'], RowData($row, $params, $test_mode));}, $excel); 
 		$result = Database::ExecTransaction($queries); 
 		echo $result; 
 	}
