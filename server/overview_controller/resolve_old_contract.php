@@ -22,7 +22,7 @@
                     CURRENT_DATE BETWEEN `Start_date` AND `Finish`
             "; 
 
-            $data = Connect::GetData($sql); 
+            $data = Database::GetData($sql); 
             echo json_encode($data); 
         }
 
@@ -91,7 +91,7 @@
                 $sql = array_merge($sql, $queries, [Query::Insert("revenue", $revenue_data)]); 
             }
 
-            if(Connect::ExecTransaction($sql))
+            if(Database::ExecTransaction($sql))
             {
                 $this->LoadOldLeases(); 
             }
