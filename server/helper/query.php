@@ -53,6 +53,39 @@
             return $sql.";"; 
         }
 
+        static public function CaseWhen($condition, $true, $false)
+        {
+            return 
+            "
+                CASE 
+                    WHEN {$condition} THEN {$true}
+                    ELSE {$false}
+                END
+            "; 
+        }
+
+        static public function CastAsChar($clause, $test_mode=false)
+        {
+            $char = $test_mode? "TEXT": "CHAR"; 
+            return "CAST({$clause} AS {$char})"; 
+        }
+        
+        static public function Concat($pieces, $test_mode=false)
+        {
+            $glue = $test_mode? "||\n": ",\n"; 
+            $concat = "(\n" . implode($glue, $pieces) . "\n)"; 
+            if(!$test_mode)
+            {
+                $concat = "CONCAT\n{$concat}"; 
+            }
+            return $test_mode? $concat: "CONCAT\n{$concat}"; 
+        }
+
+        static public function DateFormatStandard($clause, $test_mode=false)
+        {
+            return $test_mode? "STRFTIME('%d/%m/%Y', `{$clause}`)" : "DATE_FORMAT(`{$clause}`,'%d/%m/%Y')"; 
+        }
+
         static private function Cause($cause, $data, $separator)
         {
             $sql = []; 

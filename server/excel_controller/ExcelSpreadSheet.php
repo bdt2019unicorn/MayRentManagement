@@ -116,7 +116,7 @@
             }
 
             DropdownWorkSection: 
-            $dropdown_list = Connect::SelectData($dropdown["table"], $dropdown["selects"], $conditions); 
+            $dropdown_list = Database::SelectData($dropdown["table"], $dropdown["selects"], $conditions); 
             if(!count($dropdown_list))
             {
                 return; 

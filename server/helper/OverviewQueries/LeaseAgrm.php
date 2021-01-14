@@ -18,7 +18,7 @@
             return LeaseAgrm::GeneralQuery($test_mode). "\n WHERE `unit`.`building_id` = '{$building_id}'; "; 
         }
 
-        public static function TotalPaidAmountQuery($test_mode=false)
+        public static function TotalPaidAmountQuery()
         {
             return "(\n " . LeaseAgrm::$DepositQuery . "\n + " . LeaseAgrm::$TotalPaidRevenueQuery . "\n)"; 
         }
@@ -123,7 +123,7 @@
 
         private static function GeneralQuery($test_mode=false)
         {
-            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery($test_mode), "Deposit", $test_mode); 
+            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit", $test_mode); 
             $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance", $test_mode); 
 
             $tenant_name = $test_mode? "(IFNULL(`tenant`.`Last_Name`,'') || ', ' || IFNULL(`tenant`.`First_Name`, ''))" : "CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, ''))"; 

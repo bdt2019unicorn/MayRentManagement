@@ -1,5 +1,6 @@
 <?php
     namespace OverviewQueries; 
+    require_once("query.php");
     spl_autoload_register
     (
         function($class)

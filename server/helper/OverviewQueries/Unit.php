@@ -1,10 +1,11 @@
 <?php 
-    namespace OverviewQueries; 
+    namespace OverviewQueries;
     require_once("OverviewTrait.php"); 
+    use Query; 
     class Unit 
     {
         use OverviewTrait; 
-        public static function Selects($edit, $building_id, $id)
+        public static function Selects($edit, $building_id, $id, $test_mode = false)
         {
             if($edit)
             {
@@ -26,53 +27,41 @@
 
                 $tenant_from_lease = $LeaseagrmSelect("`Tenant_ID`"); 
 
-                $RentalStatusSelect = function() use ($LeaseagrmSelect, $tenant_from_lease)
+                $RentalStatusSelect = function() use ($LeaseagrmSelect, $tenant_from_lease, $test_mode)
                 {
-                    $leaseagrm_id = $LeaseagrmSelect("CAST(`leaseagrm`.`id` AS CHAR)"); 
+                    $leaseagrm_id = $LeaseagrmSelect(Query::CastAsChar("`leaseagrm`.`id`")); 
                     $start_date_check = $LeaseagrmSelect("`Start_date` < CURRENT_DATE"); 
                     $start_date_lease = $LeaseagrmSelect("`Start_date`"); 
                     $end_date_lease = $LeaseagrmSelect("`Finish`"); 
-                    return 
-                    "
-                        IF
-                        (
-                            ISNULL
-                            (
-                                {$tenant_from_lease}
-                            ), 
-                            'Vacant', 
-                            CONCAT
-                            (
-                                '<router-link :to=\"{name: \'actions\', params: {controller: \'leaseagrm\', action: \'edit\', building_id: ', CAST(`building_id` AS CHAR) ,'}, query: {id: ', 
-                                {$leaseagrm_id}, '}, }\">',
-                                (
-                                    IF
-                                    (
-                                        {$start_date_check}, 
-                                        CONCAT
-                                        (
-                                            'Until ', 
-                                            DATE_FORMAT
-                                            (
-                                                {$end_date_lease}, '%d %M %Y'
-                                            )
-                                        ), 
-                                        CONCAT
-                                        (
-                                            'Move in', 
-                                            DATE_FORMAT
-                                            (
-                                                {$start_date_lease}, '%d %M %Y'
-                                            )  
-                                        )
-                                        
-                                    ) 
-                                ), 
-                                '</router-link>'
-                            )
-                
-                        ) AS `Rental Status` 
-                    "; 
+
+
+
+                    $RouterLinkOpen = function() use ($test_mode)
+                    {
+                        $building_id = Query::CastAsChar("`building_id`", $test_mode); 
+
+                        $router_link_open = "'<router-link :to=\"{name: \'actions\', params: {controller: \'leaseagrm\', action: \'edit\', building_id: ', {$building_id} ,'}, query: {id: '"; 
+                        if($test_mode)
+                        {
+                            $router_link_open = str_replace("\'", "''", $router_link_open); 
+                        }
+                        return $router_link_open; 
+                    }; 
+
+                    $router_link_open_end = "'}, }\">'"; 
+                    
+                    $UnitOccupied = function() use ($start_date_check, $end_date_lease, $start_date_lease, $test_mode)
+                    {
+                        $true = Query::Concat(["'Until '", Query::DateFormatStandard($end_date_lease, $test_mode)], $test_mode); 
+                        $false = Query::Concat(["'Move in '", Query::DateFormatStandard($start_date_lease, $test_mode)], $test_mode); 
+                        return "\n(" . Query::CaseWhen($start_date_check, $true, $false) ."\n)\n"; 
+                    }; 
+
+                    $condition = "{$tenant_from_lease} IS NULL"; 
+                    $true = "'Vacant'"; 
+                    $false = Query::Concat([$RouterLinkOpen(), $leaseagrm_id, $router_link_open_end, $UnitOccupied(), "\n'</router-link>'\n" ], $test_mode); 
+
+                    return "\n(" . Query::CaseWhen($condition, $true, $false) . "\n) AS `Rental Status`"; 
                 }; 
                 $PaidUntilSelect = function() use ($tenant_from_lease)
                 {
@@ -81,8 +70,8 @@
                         return 
                         "
                             WHERE 
-                            `{$table}`.`unit_id` = `unit`.`id` AND 
-                            `{$table}`.`Tenant_ID` = {$tenant_from_lease}
+                                `{$table}`.`unit_id` = `unit`.`id` AND 
+                                `{$table}`.`Tenant_ID` = {$tenant_from_lease}
                         "; 
                     }; 
                     return 
@@ -113,6 +102,7 @@
                         ) AS `Paid Until` 
                     "; 
                 }; 
+                $tenant_full_name = Query::Concat(["`tenant`.`Last_Name`", "' '", "`tenant`.`First_Name`"], $test_mode); 
                 return 
                 [
                     "id AS `ID`", 
@@ -122,7 +112,7 @@
                     "{$tenant_from_lease} AS `tenantid`", 
                     "
                         (
-                            SELECT CONCAT(`tenant`.`Last_Name`, ' ', `tenant`.`First_Name`)
+                            SELECT {$tenant_full_name}
                             FROM `leaseagrm` LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
                             WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
                             ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
