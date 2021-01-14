@@ -7,6 +7,7 @@
     $building_id = $_GET["building_id"]??null; 
     $id = $_GET["id"]??null; 
     $test_mode = CurrentEnvironment::TestMode(); 
+    $test_mode = false; 
     $unit_id = $_GET["unit_id"]??null; 
 
     $overview_controller = $_GET["overview_controller"]; 

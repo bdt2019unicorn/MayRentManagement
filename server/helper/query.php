@@ -74,16 +74,28 @@
         {
             $glue = $test_mode? "||\n": ",\n"; 
             $concat = "(\n" . implode($glue, $pieces) . "\n)"; 
-            if(!$test_mode)
-            {
-                $concat = "CONCAT\n{$concat}"; 
-            }
             return $test_mode? $concat: "CONCAT\n{$concat}"; 
         }
 
         static public function DateFormatStandard($clause, $test_mode=false)
         {
-            return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT(`{$clause}`,'%d/%m/%Y')"; 
+            return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT({$clause},'%d/%m/%Y')"; 
+        }
+
+        static public function IfNull($expression, $false)
+        {
+            return 
+            "
+                IFNULL
+                (
+                    (
+                        {$expression}
+                    ), 
+                    (
+                        {$false}
+                    )
+                ) 
+            "; 
         }
 
         static private function Cause($cause, $data, $separator)

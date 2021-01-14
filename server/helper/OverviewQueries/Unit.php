@@ -38,7 +38,6 @@
 
                     $RouterLink = function() use ($leaseagrm_id, $test_mode)
                     {
-                        
                         $router_link_open = "'<router-link :to=\"{name: \'actions\', params: {controller: \'leaseagrm\', action: \'edit\', building_id: '"; 
                         if($test_mode)
                         {
@@ -47,7 +46,7 @@
 
                         $building_id = Query::CastAsChar("`building_id`", $test_mode); 
 
-                        return Query::Concat([$router_link_open, $building_id, "'}, query: {id: '", $leaseagrm_id, "'}, }\">'"], $test_mode); 
+                        return Query::Concat([$router_link_open, $building_id, "'}, query: {id: '", $leaseagrm_id, "'} }\">'"], $test_mode); 
                     }; 
 
                     $UnitOccupied = function() use ($start_date_check, $end_date_lease, $start_date_lease, $test_mode)
@@ -74,33 +73,31 @@
                                 `{$table}`.`Tenant_ID` = {$tenant_from_lease}
                         "; 
                     }; 
-                    return 
+
+                    $rent_id = Invoices::RentId(); 
+                    $expression = 
                     "
-                        IFNULL
-                        (
+                        SELECT MAX(`invoice_leaseagrm`.`end_date`) FROM `invoice_leaseagrm`
+                        WHERE 
+                            `invoice_leaseagrm`.`invoice_id` IN
                             (
-                                SELECT MAX(`invoice_leaseagrm`.`end_date`) FROM `invoice_leaseagrm`
-                                WHERE 
-                                    `invoice_leaseagrm`.`invoice_id` IN
-                                    (
-                                        SELECT `invoices`.`id`
-                                        FROM `invoices` LEFT JOIN `leaseagrm` ON `invoices`.`leaseagrm_id` = `leaseagrm`.`id` 
-                                        {$WhereLeaseagrm('leaseagrm')}
-                                    ) AND 
-                                    `invoice_leaseagrm`.`revenue_type_id` = '1' 
-                            ), 
-                            IF
-                            (
-                                ISNULL
-                                (
-                                    (
-                                        SELECT `la`.`Deposit_payment_date` FROM `leaseagrm` AS `la`
-                                        {$WhereLeaseagrm('la')}
-                                    )
-                                ),'', 'Deposit Paid' 
-                            )
-                        ) AS `Paid Until` 
+                                SELECT `invoices`.`id`
+                                FROM `invoices` LEFT JOIN `leaseagrm` ON `invoices`.`leaseagrm_id` = `leaseagrm`.`id` 
+                                {$WhereLeaseagrm('leaseagrm')}
+                            ) AND 
+                            `invoice_leaseagrm`.`revenue_type_id` = '{$rent_id}' 
                     "; 
+
+                    $false = Query::CaseWhen
+                    (
+                        "
+                            (
+                                SELECT `la`.`Deposit_payment_date` FROM `leaseagrm` AS `la`
+                                {$WhereLeaseagrm('la')}
+                            ) IS NULL
+                        ", "''", "'Deposit Paid'"
+                    ); 
+                    return Query::IfNull($expression, $false) . " AS `Paid Until` "; 
                 }; 
                 $tenant_full_name = Query::Concat(["`tenant`.`Last_Name`", "' '", "`tenant`.`First_Name`"], $test_mode); 
                 return 
@@ -108,16 +105,16 @@
                     "`id` AS `ID`", 
                     "`name` AS `Name`", 
                     $RentalStatusSelect(), 
-                    // $PaidUntilSelect(), 
-                    // "{$tenant_from_lease} AS `tenantid`", 
-                    // "
-                    //     (
-                    //         SELECT {$tenant_full_name}
-                    //         FROM `leaseagrm` LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
-                    //         WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
-                    //         ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
-                    //     ) AS `Tenant Name`
-                    // ", 
+                    $PaidUntilSelect(), 
+                    "{$tenant_from_lease} AS `tenantid`", 
+                    "
+                        (
+                            SELECT {$tenant_full_name}
+                            FROM `leaseagrm` LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
+                            WHERE `leaseagrm`.`Finish` > CURRENT_DATE AND `leaseagrm`.`unit_id` = `unit`.`id` 
+                            ORDER BY `leaseagrm`.`Start_date` ASC LIMIT 1
+                        ) AS `Tenant Name`
+                    ", 
                     "`area` AS `Area`"
                 ]; 
             }
