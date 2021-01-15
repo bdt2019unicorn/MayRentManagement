@@ -28,8 +28,16 @@
         public static function Exec($sql, $get_id = false)
         {
             $connection = ConnectSqlite::Connection(); 
-            $result = $connection->exec($sql); 
-            return $get_id?$connection->lastInsertId(): $result; 
+            try 
+            {
+                $result = $connection->exec($sql); 
+                return $get_id?$connection->lastInsertId(): $result; 
+            }
+            catch(Throwable $throwable)
+            {
+                echo $throwable->getMessage(); 
+                return false; 
+            }
         }
 
         public static function ExecTransaction($sql)
