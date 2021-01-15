@@ -75,7 +75,7 @@ function ShowIssue(data)
     document.getElementById("showtitle").innerText=data.title;
     if(data.body=="")
     {
-        document.getElementById("updatecoment").innerText="No descrption here";
+        document.getElementById("updatecoment").innerText="There is no description here.";
     }
     else
     {

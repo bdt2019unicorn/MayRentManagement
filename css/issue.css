@@ -1,4 +1,4 @@
-#issue{
+body{
     background-color: rgb(226, 238, 224);
 }
 
@@ -7,18 +7,20 @@
 }
 
 #issue h2{
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     text-align: center;
     margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
 
 #issue .issue__des{
-    border: 1px solid black;
     width: 50%;
     border-radius: 20px;
     border-top: 10px solid green;
+    border-bottom: 10px solid green;
     border-left: 10px solid blue;
+    border-right: 10px solid blue;
     margin-bottom: 30px;
     padding-bottom: 10px;
 }
@@ -31,6 +33,8 @@
 #issue .issue__des p{
     font-size: 1.5rem;
     font-weight: 500;
+    word-break: break-all;
+    letter-spacing: 1px;
 }
 
 #issue .issue__des label{

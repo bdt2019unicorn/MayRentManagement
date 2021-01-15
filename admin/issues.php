@@ -20,7 +20,7 @@
                     <hr>
                     <p id="updatecoment"></p>
                 </div>
-                <form action="#" class="text-center">
+                <form action="#" class="text-center" method="POST">
                     <div class="issue__des container-fluid">
                         <label for="comment">Ý kiến thêm</label>
                         <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
@@ -71,6 +71,9 @@
                         <?php endif; ?>
                     }
                 ); 
+            </script>
+            <script type="module">
+                import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
             </script>
         </footer>
     </body>
