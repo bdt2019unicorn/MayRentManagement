@@ -7,7 +7,6 @@
         {
             $date_format = "Y-m-d"; 
             $last_date_of_month = (new DateTime())->modify("last day of"); 
-            $last_date_of_month = new DateTime($last_date_of_month->format($date_format)); 
 
             $leaseagrms = 
             "

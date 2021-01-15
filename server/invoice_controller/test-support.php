@@ -28,8 +28,13 @@
                 ); 
     
                 SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date + INTERVAL 1 day); 
-                SET @end_date = LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
-                SET @end_date = GREATEST(@start_date, CURRENT_DATE, @end_date); 
+                SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
+                SET @end_date = IF
+                (
+                    @start_date > @end_date, 
+                    IF(@start_date <= CURRENT_DATE(), CURRENT_DATE(), @start_date), 
+                    @end_date
+                ); 
     
                 SELECT 
                     @start_date AS `start_date`, 
