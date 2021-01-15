@@ -1,5 +1,6 @@
 <html>
     <?php include_once("layout/1.head.php"); ?>
+    <link rel="stylesheet" type="text/css" href="css/issue.css">
     <body>
         <div class="container-fluid">
             <?php 
