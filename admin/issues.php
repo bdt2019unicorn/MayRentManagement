@@ -13,8 +13,7 @@
                     $url.="/{$issue_id}"; 
                 ?>
             <section id="issue">
-                <h1>Ticket ID: <?php echo $issue_id; ?></h1>
-                <h2 id="showtitle"></h2>
+                <h1 id="showtitle"></h1>
                 <div class="issue__des container-fluid text-center">
                     <h3>Mô tả lỗi</h3>
                     <hr>
