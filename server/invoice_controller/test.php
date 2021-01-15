@@ -1,13 +1,29 @@
 <?php 
-    require_once("./helper.php"); 
-    $sql = "SELECT * FROM `documents` WHERE `id`=12"; 
+    require_once("test-support.php"); 
+    // echo $sql; 
+    $data = Connect::MultiQuery($sql, true); 
+    echo "<pre>"; print_r($data); echo "</pre>"; 
 
-    $data = Database::GetData($sql); 
+
+    // $sql = 
+
     
-    $insert = $data[0]; 
-    unset($insert["id"]); 
-    // echo "<pre>"; print_r($insert); echo "</pre>"; 
-    // $sql = Query::Insert("documents", $insert); 
-    // $result = ConnectSqlite::Exec($sql); 
-    // echo $result; 
+
+
+    /*
+
+
+    Need to look 
+
+    rent_amount 
+    paid_amount 
+    total_amount 
+    // different = paid - total_amount 
+    leaseagrm_period 
+
+
+
+
+
+    */
 ?>

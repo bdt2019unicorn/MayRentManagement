@@ -19,7 +19,7 @@
 
             function RevenueTypes()
             {
-                $data = Connect::SelectData("revenue_type", ["*"]); 
+                $data = Database::SelectData("revenue_type", ["*"]); 
                 $revenue_types = []; 
                 foreach ($data as $utility) 
                 {
@@ -30,7 +30,7 @@
 
             $revenue_types = RevenueTypes(); 
 
-            $leaseagrms = Connect::GetData($leaseagrms); 
+            $leaseagrms = Database::GetData($leaseagrms); 
             $monthly_invoices = []; 
             foreach ($leaseagrms as $leaseagrm) 
             {
