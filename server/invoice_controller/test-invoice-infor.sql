@@ -1,6 +1,6 @@
 
 
-                SET @leaseagrm_id = '124'; 
+                SET @leaseagrm_id = '148'; 
                 SET @rent_id = '1'; 
     
                 SELECT 
@@ -61,8 +61,13 @@
                 ); 
     
                 SET @start_date = IF(@start_date IS NULL, @start_lease, @start_date + INTERVAL 1 day); 
-                SET @end_date = LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
-                SET @end_date = GREATEST(@start_date, CURRENT_DATE, @end_date); 
+                SET @end_date= LAST_DAY(CURRENT_DATE()-INTERVAL 1 MONTH); 
+                SET @end_date = IF
+                (
+                    @start_date > @end_date, 
+                    IF(@start_date <= CURRENT_DATE(), CURRENT_DATE(), @start_date), 
+                    @end_date
+                ); 
     
                 SELECT 
                     @start_date AS `start_date`, 
@@ -115,7 +120,7 @@
                 SELECT *, (`number` - `previous_number`) AS `quantity`, ((`number` - `previous_number`) * `price`) AS `amount` 
                 FROM `all_utility_reading_with_numbers`
                 WHERE 
-                    CONVERT(`previous_date`, date) >= @start_lease AND 
+                    CAST(`previous_date` AS DATE) >= @start_lease AND 
                     `id` NOT IN 
                     (
                         SELECT `utility_reading_id` FROM `invoice_utilities` 

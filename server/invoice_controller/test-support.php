@@ -1,6 +1,6 @@
 <?php 
     require_once("./helper.php"); 
-    $leaseagrm_id = 124; 
+    $leaseagrm_id = 148; 
             $rent_id = OverviewQueries\Invoices::RentId(); 
             $total_paid_amount = OverviewQueries\LeaseAgrm::TotalPaidAmountQuery(); 
             $total_invoice_amount = OverviewQueries\LeaseAgrm::$TotalInvoiceAmountQuery; 
@@ -87,7 +87,7 @@
                 SELECT *, (`number` - `previous_number`) AS `quantity`, ((`number` - `previous_number`) * `price`) AS `amount` 
                 FROM `all_utility_reading_with_numbers`
                 WHERE 
-                    CONVERT(`previous_date`, date) >= @start_lease AND 
+                    CAST(`previous_date` AS DATE) >= @start_lease AND 
                     `id` NOT IN 
                     (
                         SELECT `utility_reading_id` FROM `invoice_utilities` 

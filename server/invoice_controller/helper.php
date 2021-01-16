@@ -150,7 +150,7 @@
             SELECT *, (`number` - `previous_number`) AS `quantity`, ((`number` - `previous_number`) * `price`) AS `amount` 
             FROM `all_utility_reading_with_numbers`
             WHERE 
-                CONVERT(`previous_date`, date) >= @start_lease AND 
+                CAST(`previous_date` AS DATE) >= @start_lease AND 
                 `id` NOT IN 
                 (
                     SELECT `utility_reading_id` FROM `invoice_utilities` 
