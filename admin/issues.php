@@ -72,9 +72,6 @@
                     }
                 ); 
             </script>
-            <script type="module">
-                import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
-            </script>
         </footer>
     </body>
 </html>
