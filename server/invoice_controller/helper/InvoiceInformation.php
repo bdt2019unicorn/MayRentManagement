@@ -1,8 +1,4 @@
 <?php 
-
-
-    
-
     require_once("LeaseAgrm.php"); 
     require_once("Utilities.php"); 
 

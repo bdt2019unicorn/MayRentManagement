@@ -1,7 +1,4 @@
 <?php 
-    // require_once("../../helper/database.php"); 
-    // require_once("../../helper/overview_queries.php"); 
-
     Trait LeaseAgrm
     {
         private $leaseagrm_id, $rent_id, $total_paid_amount, $total_invoice_amount, $start_lease; 
@@ -11,7 +8,6 @@
             $helper_path = __DIR__ . "../../../helper/"; 
             require_once(realpath("{$helper_path}database.php")); 
             require_once(realpath("{$helper_path}overview_queries.php")); 
-
 
             $this->leaseagrm_id = $leaseagrm_id; 
             $this->rent_id = OverviewQueries\Invoices::RentId(); 
