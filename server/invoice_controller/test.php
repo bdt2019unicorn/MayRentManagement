@@ -4,15 +4,17 @@
     $data = Connect::MultiQuery($sql, true); 
     echo "<pre>"; print_r($data); echo "</pre>"; 
     
-    $StartLease = function($leaseagrm_id) 
+    $StartLease = function() use ($leaseagrm_id) 
     {
         $sql = Query::SelectData("leaseagrm", ["`Start_date` AS `start_lease`"], ["id"=>$leaseagrm_id]); 
         $data = ConnectSqlite::Query($sql); 
         return $data[0]["start_lease"]; 
     }; 
 
+    $start_lease = $StartLease(); 
 
-    $LeaseAgrm = function() use ($leaseagrm_id, $rent_id, $total_paid_amount, $total_invoice_amount, $StartLease)
+
+    $LeaseAgrm = function() use ($leaseagrm_id, $rent_id, $total_paid_amount, $total_invoice_amount, $start_lease)
     {
         $selects = 
         [
@@ -27,7 +29,7 @@
         $leaseagrm = $leaseagrm[0]; 
         $date_format = "Y-m-d"; 
 
-        $StartDate = function() use ($leaseagrm_id, $rent_id, $date_format, $StartLease)
+        $StartDate = function() use ($leaseagrm_id, $rent_id, $date_format, $start_lease)
         {
             $sql = 
             "
@@ -44,7 +46,7 @@
             }
             else 
             {
-                return $StartLease($leaseagrm_id); 
+                return $start_lease; 
             }
         }; 
         $EndDate = function($start_date) use ($date_format)
@@ -61,10 +63,49 @@
                 return ($start_date<=$now)? $now->format($date_format): $start_date->format($date_format); 
             }
         }; 
+        $RentInformation = function() use ($leaseagrm_id, $rent_id, $start_lease, $date_format)
+        {
+            $sql = 
+            "                    
+                SELECT * FROM `invoice_leaseagrm` 
+                WHERE 
+                    `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `leaseagrm_id` = '{$leaseagrm_id}') 
+                    AND `revenue_type_id` = '{$rent_id}' 
+                ORDER BY `start_date` ASC 
+            "; 
+            $data = ConnectSqlite::Query($sql); 
+            if(!count($data))
+            {
+                return [["start_date"=>(new DateTime($start_lease))->format($date_format), "end_date"=> null]]; 
+            }
+            $result = []; 
+            for ($i=0; $i < count($data) ; $i++) 
+            { 
+                $start_date = $data[$i]["start_date"]; 
+                $end_date = $data[$i]["end_date"];
+                if(!isset($data[$i-1]))
+                {
+                    if(new DateTime($start_date)>new DateTime($start_lease))
+                    {
+                        array_push($result, ["start_date"=>$start_lease, "end_date"=>$start_date]); 
+                    }
+                }
+                if(isset($data[$i+1]))
+                {
+                    $next_end_date = (new DateTime($end_date))->modify("+1 day"); 
+                    $new_start_date = new DateTime()
+                }
+                else 
+                {
+                    array_push($result, ["start_date"=>$end_date, "end_date"=>null]); 
+                }
+            }
+        }; 
         $leaseagrm["difference"] = floatval($leaseagrm["total_amount"]) - floatval($leaseagrm["paid_amount"]); 
         $start_date = $StartDate(); 
         $leaseagrm["start_date"] = $start_date; 
         $leaseagrm["end_date"] = $EndDate($start_date); 
+        $RentInformation(); 
         return $leaseagrm; 
     }; 
 
@@ -75,10 +116,9 @@
         return $data[0]["unit_id"]; 
     }; 
 
-    $Utilities = function($unit_id) use ($StartLease, $leaseagrm_id)
+    $Utilities = function($unit_id) use ($start_lease, $leaseagrm_id)
     {
         $utilities = Database::SelectData("revenue_type", ["*"], ["is_utility"=>1]); 
-        $start_lease = $StartLease($leaseagrm_id); 
         $utilities = array_map
         (
             function($revenue_type) use ($unit_id, $start_lease, $leaseagrm_id)
@@ -145,5 +185,7 @@
 
     $unit_id = $UnitId(); 
     $utilities = $Utilities($unit_id); 
+
+
     
 ?>
