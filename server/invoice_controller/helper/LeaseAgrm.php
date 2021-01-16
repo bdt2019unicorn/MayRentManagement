@@ -1,6 +1,6 @@
 <?php 
-    require_once("../../helper/database.php"); 
-    require_once("../../helper/overview_queries.php"); 
+    // require_once("../../helper/database.php"); 
+    // require_once("../../helper/overview_queries.php"); 
 
     Trait LeaseAgrm
     {
@@ -8,6 +8,11 @@
         private $date_format = "Y-m-d"; 
         function __construct($leaseagrm_id)
         {
+            $helper_path = __DIR__ . "../../../helper/"; 
+            require_once(realpath("{$helper_path}database.php")); 
+            require_once(realpath("{$helper_path}overview_queries.php")); 
+
+
             $this->leaseagrm_id = $leaseagrm_id; 
             $this->rent_id = OverviewQueries\Invoices::RentId(); 
             $this->total_paid_amount = OverviewQueries\LeaseAgrm::TotalPaidAmountQuery(); 

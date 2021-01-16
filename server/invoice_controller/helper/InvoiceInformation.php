@@ -1,6 +1,8 @@
 <?php 
-    require_once("../../helper/database.php"); 
-    require_once("../../helper/overview_queries.php"); 
+
+
+    
+
     require_once("LeaseAgrm.php"); 
     require_once("Utilities.php"); 
 

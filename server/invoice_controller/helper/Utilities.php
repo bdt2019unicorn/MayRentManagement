@@ -1,5 +1,5 @@
 <?php 
-    require_once("../../helper/database.php"); 
+    // require_once("../../helper/database.php"); 
     Trait Utilities 
     {
         private function Utilities($unit_id)
