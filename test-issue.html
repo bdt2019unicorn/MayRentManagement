@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="comments">
+
+        </div>
+        <input id="comment-text" value="">
+        <button type="button" onclick="PostComment()">Post comment</button>
+        <footer>
+            <script>
+                $(document).ready
+                (
+                    function()
+                    {
+                        let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/46/comments"; 
+                        var result; 
+                        $.ajax
+                        (
+                            {
+                                type: "GET", 
+                                url: url, 
+                                data: new FormData(), 
+                                async: false, 
+                                contentType: false,
+                                processData: false,
+                                enctype: 'multipart/form-data',
+                                success: function(success)
+                                {
+                                    result = success; 
+                                }, 
+                                error: function(error)
+                                {
+                                    console.log(error.responseText); 
+                                    console.log(error); 
+                                }
+                            }
+                        ); 
+                        console.log(result); 
+                        var html = ""; 
+                        result.forEach
+                        (
+                            element => 
+                            {
+                                html+="<p>" + element.body + "</p>"; 
+                            }
+                        );
+                        document.getElementById("comments").innerHTML = html; 
+                    }
+                ); 
+            </script>
+
+            <script>
+                function PostComment()
+                {
+                        let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/46/comments"; 
+                        var result; 
+                        // var data = new FormData(); 
+                        // data.append("body", document.getElementById("comment-text").value); 
+                        var data = {body: document.getElementById("comment-text").value}; 
+                        $.ajax
+                        (
+                            {
+                                headers: {Authorization : "Token dcec04b1e0928ba5ede0f995dec2b6b61bb483a4"}, 
+                                type: "POST", 
+                                url: url, 
+                                data: JSON.stringify(data), 
+                                async: false, 
+                                // contentType: false,
+                                // processData: false,
+                                // enctype: 'multipart/form-data',
+                                success: function(success)
+                                {
+                                    result = success; 
+                                }, 
+                                error: function(error)
+                                {
+                                    console.log(error.responseText); 
+                                    console.log(error); 
+                                }
+                            }
+                        ); 
+                        console.log(result); 
+                }
+            </script>
+        </footer>
+    </body>
+</html>
