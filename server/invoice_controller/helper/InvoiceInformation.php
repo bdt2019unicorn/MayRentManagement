@@ -1,31 +1,50 @@
 <?php 
     require_once("../../helper/database.php"); 
     require_once("../../helper/overview_queries.php"); 
-
     require_once("LeaseAgrm.php"); 
     require_once("Utilities.php"); 
 
     class InvoiceInformation
     {
+        use LeaseAgrm, Utilities; 
         public function GetInformation()
         {
             $test_mode = CurrentEnvironment::TestMode(); 
             return $test_mode? $this->TestEnvironment(): $this->ProductionEnvironment(); 
         }
 
-
-            
-        $StartLease = function() use ($leaseagrm_id) 
-        {
-            $sql = Query::SelectData("leaseagrm", ["`Start_date` AS `start_lease`"], ["id"=>$leaseagrm_id]); 
-            $data = ConnectSqlite::Query($sql); 
-            return $data[0]["start_lease"]; 
-        }; 
-
         private function TestEnvironment()
         {
-
+            $this->start_lease = $this->StartLease(); 
+            $unit_id = $this->UnitId(); 
+            return 
+            [
+                "leaseagrm"=>$this->LeaseAgrm(), 
+                "utilities"=>$this->Utilities($unit_id), 
+                "unit_name"=>$this->UnitName($unit_id)
+            ]; 
         }
+                            
+        private function StartLease() 
+        {
+            $sql = Query::SelectData("leaseagrm", ["`Start_date` AS `start_lease`"], ["id"=>$this->leaseagrm_id]); 
+            $data = ConnectSqlite::Query($sql); 
+            return $data[0]["start_lease"]; 
+        } 
+
+        private function UnitId() 
+        {
+            $sql = Query::SelectData("leaseagrm", ["`unit_id`"], ["id"=>$this->leaseagrm_id]); 
+            $data = ConnectSqlite::Query($sql); 
+            return $data[0]["unit_id"]; 
+        } 
+
+        private function UnitName($unit_id)
+        {
+            $sql = Query::SelectData("unit", ["name"], ["id"=>$unit_id]); 
+            $data = ConnectSqlite::Query($sql); 
+            return $data[0]["name"]; 
+        } 
 
         private function ProductionEnvironment()
         {
@@ -172,5 +191,4 @@
             return $invoice_information; 
         }
     }
-
 ?>
