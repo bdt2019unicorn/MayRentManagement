@@ -25,7 +25,7 @@
                         <label for="comment">Ý kiến thêm</label>
                         <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
                     </div>
-                    <button type="submit" class="btn text-center">Submit</button>
+                    <button type="submit" class="btn text-center" onclick="PostComment()">Submit</button>
                 </form>
             </section>       
             <?php else: ?>
@@ -71,6 +71,42 @@
                         <?php endif; ?>
                     }
                 ); 
+            </script>
+            <script>
+                function PostComment()
+                {
+                        let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
+                        var result; 
+                        // var data = new FormData(); 
+                        // data.append("body", document.getElementById("comment-text").value); 
+                        var data = {body: document.getElementById("comment").value}; 
+                        $.ajax
+                        (
+                            {
+                                headers: {Authorization : 
+                                    "<?php 
+                                        echo ($token="Token $repo->token");
+                                    ?>"}, 
+                                type: "POST", 
+                                url: url, 
+                                data: JSON.stringify(data), 
+                                async: false, 
+                                // contentType: false,
+                                // processData: false,
+                                // enctype: 'multipart/form-data',
+                                success: function(success)
+                                {
+                                    result = success; 
+                                }, 
+                                error: function(error)
+                                {
+                                    console.log(error.responseText); 
+                                    console.log(error); 
+                                }
+                            }
+                        ); 
+                        console.log(result); 
+                }
             </script>
         </footer>
     </body>
