@@ -2,7 +2,17 @@
     require_once("test-support.php"); 
     // echo $sql; 
     $data = Connect::MultiQuery($sql, true); 
-    echo "<pre>"; print_r($data); echo "</pre>"; 
+    // echo "<pre>"; print_r($data); echo "</pre>"; 
+
+    $invoice_information = array
+    (
+        "leaseagrm"=>$data[1][0], 
+        "utilities"=>$data[2], 
+        "unit_name"=>$data[3][0]["name"]
+    ); 
+    $invoice_information["leaseagrm"]["rent_information"] = $data[4]; 
+
+    echo "<pre style='color: red;'>"; print_r($invoice_information); echo "</pre>"; 
     
     $StartLease = function() use ($leaseagrm_id) 
     {
@@ -92,20 +102,29 @@
                 }
                 if(isset($data[$i+1]))
                 {
-                    $next_end_date = (new DateTime($end_date))->modify("+1 day"); 
-                    $new_start_date = new DateTime()
+                    $next_start_date = (new DateTime($end_date))->modify("+1 day"); 
+                    $new_start_date = new DateTime($data[$i+1]["start_date"]); 
+                    if($next_start_date<$new_start_date)
+                    {
+                        $new_start_date = $new_start_date->modify("-1 day"); 
+                        if($new_start_date>$next_start_date)
+                        {
+                            array_push($result, ["start_date"=>$next_start_date, "end_date"=>$new_start_date]); 
+                        }
+                    }
                 }
                 else 
                 {
                     array_push($result, ["start_date"=>$end_date, "end_date"=>null]); 
                 }
             }
+            return $result; 
         }; 
         $leaseagrm["difference"] = floatval($leaseagrm["total_amount"]) - floatval($leaseagrm["paid_amount"]); 
         $start_date = $StartDate(); 
         $leaseagrm["start_date"] = $start_date; 
         $leaseagrm["end_date"] = $EndDate($start_date); 
-        $RentInformation(); 
+        $leaseagrm["rent_information"] = $RentInformation(); 
         return $leaseagrm; 
     }; 
 
@@ -184,8 +203,15 @@
     }; 
 
     $unit_id = $UnitId(); 
-    $utilities = $Utilities($unit_id); 
 
+    $test_mode_data = 
+    [
+        "leaseagrm"=>$LeaseAgrm(), 
+        "utilities"=>$Utilities($unit_id), 
+        "unit_name"=>$UnitName($unit_id)
+    ]; 
+
+    echo "<pre>"; print_r($test_mode_data); echo "</pre>"; 
 
     
 ?>
