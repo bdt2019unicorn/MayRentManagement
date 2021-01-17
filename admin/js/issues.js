@@ -1,6 +1,6 @@
-function GetIssues(decode_url) {
-    let url = atob(decode_url);
-    let data = support_mixin.methods.AjaxRequest(url);
+function GetIssues(url) 
+{
+    let data = SendRequestToGithub(url, {}, "GET");
     try {
         return data.filter(issue => !issue.pull_request);
     }
@@ -10,21 +10,39 @@ function GetIssues(decode_url) {
     }
 }
 
-function IssueOverview(data) {
+function IssueComments(url)
+{
+    url = `${url}/comments`; 
+    let data = SendRequestToGithub(url, {}, "GET");
+    data.forEach(element=>$("#list__comment").append(IssueCommentDiv(element))); 
+}
+
+function IssueCommentDiv(data)
+{
+    var div = document.createElement("div"); 
+    div.className = "issue__des container-fluid text-center"; 
+    div.innerHTML = '<h3>Mô tả thêm</h3><p>'+data.body+'</p>'; 
+    return div; 
+}
+
+function IssueOverview(data) 
+{
     var div = document.createElement("div");
     data.forEach(issue => div.append(IssueDiv(issue)));
-    return div;
+    $("#issues-overview").append(div);
 }
 
 
-function IssueDiv({ number, title, body }) {
+function IssueDiv({ number, title, body }) 
+{
     var div = document.createElement("div");
     div.className = "container-fluid row";
     let content = document.createElement("div");
     content.className = "col-12 d-none";
     content.innerHTML = `<p>${body}</p>`;
 
-    function Header() {
+    function Header() 
+    {
         var header = document.createElement("div");
         header.className = "col-12 row";
 
@@ -73,13 +91,5 @@ function IssueDiv({ number, title, body }) {
 function ShowIssue(data)
 {
     document.getElementById("showtitle").innerText=data.title;
-    if(data.body=="")
-    {
-        document.getElementById("updatecoment").innerText="There is no description here.";
-    }
-    else
-    {
-        document.getElementById("updatecoment").innerText=data.body;
-    }
-
+    document.getElementById("updatecoment").innerText=data.body|| "There is no description here."; 
 }

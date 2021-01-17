@@ -9,6 +9,7 @@
                 $repo = json_decode($repo); 
                 $url = "https://api.github.com/repos/{$repo->user}/{$repo->repo}/issues"; 
             ?>
+
             <?php if($issue_id): ?>
                 <?php 
                     $url.="/{$issue_id}"; 
@@ -26,7 +27,7 @@
                         <label for="comment" class="issue__label">Ý kiến thêm</label>
                         <textarea name="comment" id="comment" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
                     </div>
-                    <button type="submit" class="btn__submit btn text-center" onclick="PostComment()">Submit</button>
+                    <button type="button" class="btn__submit btn text-center" onclick="PostComment()">Submit</button>
                 </form>
             </section>
             <?php elseif(isset($_GET["action"])):?>
@@ -40,7 +41,7 @@
                         <label for="issue__comments" class="issue__label">Mô tả lỗi</label>
                         <textarea name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
                     </div>
-                    <button type="submit" class="btn__submit btn text-center" onclick="PostIssue()">Submit</button>
+                    <button type="button" class="btn__submit btn text-center" onclick="PostIssue()">Submit</button>
                 </form>
             <?php else: ?>
                 <?php
@@ -76,83 +77,72 @@
                 (
                     function()
                     {
-                        let decode_url = `<?php echo base64_encode($url); ?>`; 
-                        var data = GetIssues(decode_url); 
+                        let url = `<?php echo $url; ?>`; 
+                        var data = GetIssues(url); 
                         <?php if($issue_id): ?>
                             ShowIssue(data);
+                            IssueComments(url); 
                         <?php else: ?>
-                            var issue_overview = IssueOverview(data);
-                            $("#issues-overview").append(issue_overview);
+                            IssueOverview(data);
                         <?php endif; ?>
-                    }
-                ); 
-            </script>
-            <script>
-                $(document).ready
-                (
-                    function()
-                    {
-                        let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
-                        var result; 
-                        $.ajax
-                        (
-                            {
-                                type: "GET", 
-                                url: url, 
-                                data: new FormData(), 
-                                async: false, 
-                                contentType: false,
-                                processData: false,
-                                enctype: 'multipart/form-data',
-                                success: function(success)
-                                {
-                                    result = success; 
-                                }, 
-                                error: function(error)
-                                {
-                                    console.log(error.responseText); 
-                                    console.log(error); 
-                                }
-                            }
-                        ); 
-                        console.log(result); 
-                        var html = ""; 
-                        result.forEach
-                        (
-                            element => 
-                            {
-                                html+='<div class="issue__des container-fluid text-center"><h3>Mô tả thêm</h3><p>'+element.body+'</p></div>';
-                            }
-                        );
-                        document.getElementById("list__comment").innerHTML = html; 
                     }
                 ); 
 
                 function PostComment()
                 {
-                    let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
-                    var data = {body: document.getElementById("comment").value}; 
-                    SendRequestToGithub(url, data); 
+                    var comment = $("#comment").val().trim();  
+                    if(comment)
+                    {
+                        let url = "<?php echo $url; ?>"; 
+                        var data = {body: comment}; 
+                        let result = SendRequestToGithub(`${url}/comments`, data); 
+                        if(result.id)
+                        {
+                            $("#list__comment").append(IssueCommentDiv(result)); 
+                            $("#comment").val(""); 
+                        }
+                        else 
+                        {
+                            alert("There seems like an issue with the server, please try again"); 
+                        }
+                    }
+                    else 
+                    {
+                        alert("Please enter your comment"); 
+                    }
                 }
 
                 function PostIssue()
                 {   
-                    let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues";
-                    var data = {title: document.getElementById("issue__title").value, body: document.getElementById("issue__comments").value}; 
-                    SendRequestToGithub(url, data); 
+                    let url = "<?php echo $url; ?>";
+                    var data = {title: document.getElementById("issue__title").value.trim(), body: document.getElementById("issue__comments").value.trim()}; 
+                    if(data.title)
+                    {
+                        let result = SendRequestToGithub(url, data); 
+                        if(result.number)
+                        {
+                            alert("Issue added"); 
+                            window.location.href = `./issues.php?id=${result.number}`; 
+                        }   
+                        else 
+                        {
+                            alert("There seems like to be an issue with the server, please try again."); 
+                        }
+                    }
+                    else 
+                    {
+                        alert("Please enter the issue tittle"); 
+                    }
                 }
 
-                function SendRequestToGithub(url, data)
+                function SendRequestToGithub(url, data, type="POST")
                 {
                     var result; 
                     $.ajax
                     (
                         {
-                            headers: {Authorization : 
-                                "<?php 
-                                    echo ($token="Token $repo->token");
-                                ?>"}, 
-                            type: "POST", 
+                            headers: {Authorization : "<?php echo ($token="Token $repo->token");?>"}, 
+                            type: type, 
                             url: url, 
                             data: JSON.stringify(data), 
                             async: false,
