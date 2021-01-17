@@ -20,6 +20,7 @@
                     <hr>
                     <p id="updatecoment"></p>
                 </div>
+                <div id="list__comment"></div>
                 <form action="#" class="text-center" method="POST">
                     <div class="issue__des container-fluid">
                         <label for="comment" class="issue__label">Ý kiến thêm</label>
@@ -87,6 +88,46 @@
                 ); 
             </script>
             <script>
+                $(document).ready
+                (
+                    function()
+                    {
+                        let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
+                        var result; 
+                        $.ajax
+                        (
+                            {
+                                type: "GET", 
+                                url: url, 
+                                data: new FormData(), 
+                                async: false, 
+                                contentType: false,
+                                processData: false,
+                                enctype: 'multipart/form-data',
+                                success: function(success)
+                                {
+                                    result = success; 
+                                }, 
+                                error: function(error)
+                                {
+                                    console.log(error.responseText); 
+                                    console.log(error); 
+                                }
+                            }
+                        ); 
+                        console.log(result); 
+                        var html = ""; 
+                        result.forEach
+                        (
+                            element => 
+                            {
+                                html+='<div class="issue__des container-fluid text-center"><h3>Mô tả thêm</h3><p>'+element.body+'</p></div>';
+                            }
+                        );
+                        document.getElementById("list__comment").innerHTML = html; 
+                    }
+                ); 
+
                 function PostComment()
                 {
                     let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
