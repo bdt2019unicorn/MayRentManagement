@@ -82,42 +82,71 @@
         "InvoiceConfigs"=> function()
         {
             $building_id = $_GET['building_id']?? null; 
-            $sql = Query::SelectData("leaseagrm", ["*"]);
+            $leaseagrm_select_data = Query::SelectData("leaseagrm", ["*"]);
+            
             if($building_id)
             {
-                $sql = str_replace(";", "", $sql); 
+                $leaseagrm_select_data = str_replace(";", "", $leaseagrm_select_data); 
                 $unit_conditions = Query::SelectData("unit", ["id"], ["building_id"=>$building_id]); 
                 $unit_conditions = str_replace(";", "", $unit_conditions); 
-                $sql.= "WHERE `unit_id` IN ({$unit_conditions});"; 
+                $leaseagrm_select_data.= "WHERE `unit_id` IN ({$unit_conditions});"; 
             } 
-            $sql.= "\n" . Query::SelectData("revenue_type", ["*"], ["is_utility"=>"0"]) . "\n" . Query::SelectData("revenue_type", ["*"], ["is_utility"=>"1"]); 
-            $user_input = OverviewQueries\GeneralOverview::UserInput("invoice"); 
+            $leaseagrm_revenue_type = Query::SelectData("revenue_type", ["*"], ["is_utility"=>"0"]); 
+            $utility_revenue_type = Query::SelectData("revenue_type", ["*"], ["is_utility"=>"1"]);
 
-            $data = Connect::MultiQuery($sql, true); 
-            $configs = 
-            [
-                "leaseagrm_select_data" => $data[0], 
-                "revenue_type" => 
+            $configs = ["user_input" => OverviewQueries\GeneralOverview::UserInput("invoice")]; 
+            if(CurrentEnvironment::TestMode())
+            {
+                $extra_information = 
                 [
-                    "leaseagrm" => $data[1], 
-                    "utilities" => $data[2]
-                ], 
-                "user_input" => $user_input
-            ]; 
+                    "leaseagrm_select_data" => ConnectSqlite::Query($leaseagrm_select_data), 
+                    "revenue_type" => 
+                    [
+                        "leaseagrm" => ConnectSqlite::Query($leaseagrm_revenue_type), 
+                        "utilities" => ConnectSqlite::Query($utility_revenue_type)
+                    ]                     
+                ]; 
+            }
+            else 
+            {
+                $sql = implode("\n", [$leaseagrm_select_data, $leaseagrm_revenue_type, $utility_revenue_type]); 
+                $data = Connect::MultiQuery($sql, true); 
+                $extra_information = 
+                [
+                    "leaseagrm_select_data" => $data[0], 
+                    "revenue_type" => 
+                    [
+                        "leaseagrm" => $data[1], 
+                        "utilities" => $data[2]
+                    ] 
+                ]; 
+            }
 
+            $configs = array_merge($extra_information, $configs); 
             echo json_encode($configs); 
         }, 
         "InvoiceDetails"=>function()
         {
-            $tables = ["leaseagrm", "utilities"]; 
             $sql = InvoiceDetails($_GET["invoice_id"]); 
-            $data = Connect::MultiQuery($sql, true); 
-
+            $tables = ["leaseagrm", "utilities"]; 
             $result = []; 
-            foreach ($tables as $key => $table) 
+            if(CurrentEnvironment::TestMode())
             {
-                $result[$table] = $data[$key]; 
+                $queries = explode(";", $sql); 
+                foreach ($tables as $key => $table) 
+                {
+                    $result[$table] = ConnectSqlite::Query($queries[$key]); 
+                }
             }
+            else 
+            {
+                $data = Connect::MultiQuery($sql, true); 
+                foreach ($tables as $key => $table) 
+                {
+                    $result[$table] = $data[$key]; 
+                }
+            }
+
             echo json_encode($result); 
         }, 
         "InvoiceInformation"=>function()
