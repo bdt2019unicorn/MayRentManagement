@@ -14,7 +14,7 @@ body{
 }
 
 
-#issue .issue__des{
+.issue__des{
     width: 50%;
     border-radius: 20px;
     border-top: 10px solid green;
@@ -37,22 +37,37 @@ body{
     letter-spacing: 1px;
 }
 
-#issue .issue__des label{
+.issue__label{
     display: block;
     font-size: 2rem;
     font-weight: 500px;
 }
 
-#issue .issue__des textarea{
+.issue__textarea{
     resize: none;
     border-radius: 5px;
 }
 
 
-#issue button{
+.btn__submit{
     font-size: 14px;
     color: #fff;
     background: #ff0e83;
     font-size: 20px;
     padding: 10px 50px;
+}
+
+.issue__create h1{
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.issue__create .issue__des #issue__title{
+    border-radius: 5px;
+    border: 1px solid #000;
+    outline: none;
+    height: 40px;
+    width: 100%;
 }

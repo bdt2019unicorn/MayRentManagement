@@ -22,12 +22,25 @@
                 </div>
                 <form action="#" class="text-center" method="POST">
                     <div class="issue__des container-fluid">
-                        <label for="comment">Ý kiến thêm</label>
-                        <textarea name="comment" id="comment" cols="30" rows="10" class="form-control"></textarea>
+                        <label for="comment" class="issue__label">Ý kiến thêm</label>
+                        <textarea name="comment" id="comment" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
                     </div>
-                    <button type="submit" class="btn text-center" onclick="PostComment()">Submit</button>
+                    <button type="submit" class="btn__submit btn text-center" onclick="PostComment()">Submit</button>
                 </form>
-            </section>       
+            </section>
+            <?php elseif(isset($_GET["action"])):?>
+                <form action="#" class="issue__create text-center" method="POST">
+                    <h1>Issue Ticket</h1>
+                    <div class="issue__des container-fluid">                      
+                        <label for="issue__title" class="issue__label">Tiêu đề</label>
+                        <input type="text" name="issue__title" id="issue__title" required>
+                    </div>
+                    <div class="issue__des container-fluid">
+                        <label for="issue__comments" class="issue__label">Mô tả lỗi</label>
+                        <textarea name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn__submit btn text-center" onclick="PostIssue()">Submit</button>
+                </form>
             <?php else: ?>
                 <?php
                     $issue_state = $_GET["state"]??"all"; 
@@ -44,6 +57,7 @@
                             <a class="dropdown-item" href="./issues.php?state=all">all</a>
                             <a class="dropdown-item" href="./issues.php?state=open">open</a>
                             <a class="dropdown-item" href="./issues.php?state=closed">closed</a>
+                            <a class="dropdown-item" href="./issues.php?action=inserted">Create New Issue</a>
                         </div>
                     </div>
                 </div>
@@ -75,37 +89,43 @@
             <script>
                 function PostComment()
                 {
-                        let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
-                        var result; 
-                        // var data = new FormData(); 
-                        // data.append("body", document.getElementById("comment-text").value); 
-                        var data = {body: document.getElementById("comment").value}; 
-                        $.ajax
-                        (
+                    let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues/<?php echo "$issue_id"; ?>/comments"; 
+                    var data = {body: document.getElementById("comment").value}; 
+                    SendRequestToGithub(url, data); 
+                }
+
+                function PostIssue()
+                {   
+                    let url = "https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues";
+                    var data = {title: document.getElementById("issue__title").value, body: document.getElementById("issue__comments").value}; 
+                    SendRequestToGithub(url, data); 
+                }
+
+                function SendRequestToGithub(url, data)
+                {
+                    var result; 
+                    $.ajax
+                    (
+                        {
+                            headers: {Authorization : 
+                                "<?php 
+                                    echo ($token="Token $repo->token");
+                                ?>"}, 
+                            type: "POST", 
+                            url: url, 
+                            data: JSON.stringify(data), 
+                            async: false,
+                            success: function(success)
                             {
-                                headers: {Authorization : 
-                                    "<?php 
-                                        echo ($token="Token $repo->token");
-                                    ?>"}, 
-                                type: "POST", 
-                                url: url, 
-                                data: JSON.stringify(data), 
-                                async: false, 
-                                // contentType: false,
-                                // processData: false,
-                                // enctype: 'multipart/form-data',
-                                success: function(success)
-                                {
-                                    result = success; 
-                                }, 
-                                error: function(error)
-                                {
-                                    console.log(error.responseText); 
-                                    console.log(error); 
-                                }
+                                result = success; 
+                            }, 
+                            error: function(error)
+                            {
+                                result = error; 
                             }
-                        ); 
-                        console.log(result); 
+                        }
+                    ); 
+                    return result; 
                 }
             </script>
         </footer>
