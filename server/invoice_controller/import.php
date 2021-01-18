@@ -1,33 +1,8 @@
 <?php 
     require_once("./helper.php"); 
     $invoices = json_decode($_POST["invoices"], true); 
-    if(CurrentEnvironment::TestMode())
-    {
-        $data = 
-        [
-            "table" => "invoices", 
-            "main" => $invoices["invoice"], 
-            "details"=>
-            [
-                "invoice_leaseagrm" => 
-                [
-                    "reference_key"=> "invoice_id", 
-                    "data" => $invoices["details"]["leaseagrm"]
-                ], 
-                "invoice_utilities" => 
-                [
-                    "reference_key"=> "invoice_id", 
-                    "data" => $invoices["details"]["utilities"]
-                ]
-            ] 
-        ]; 
-        $result = ConnectSqlite::InsertWithDetails($data); 
-    }
-    else 
-    {
-        $queries = ImportInvoice($invoices); 
-        $result = Connect::ExecTransaction($queries); 
-    }
-
+    $test_mode = CurrentEnvironment::TestMode(); 
+    $data = ImportInvoice($invoices, $test_mode); 
+    $result = $test_mode? ConnectSqlite::InsertWithDetails($data): Connect::ExecTransaction($data); 
     echo $result; 
 ?>

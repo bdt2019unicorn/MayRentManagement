@@ -2,19 +2,43 @@
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
 
-    function ImportInvoice($invoices)
+    function ImportInvoice($invoices, $test_mode = false)
     {
-        $queries = []; 
-        array_push($queries, Query::Insert("invoices", $invoices["invoice"]), "SET @invoice_id=LAST_INSERT_ID();"); 
-    
-        foreach ($invoices["details"] as $table => $values) 
+        if($test_mode)
         {
-            foreach ($values as $data) 
-            {
-                array_push($queries, Query::Insert("invoice_$table", $data, ["invoice_id"=>"@invoice_id"])); 
-            }
+            return 
+            [
+                "table" => "invoices", 
+                "main" => $invoices["invoice"], 
+                "details"=>
+                [
+                    "invoice_leaseagrm" => 
+                    [
+                        "reference_key"=> "invoice_id", 
+                        "data" => $invoices["details"]["leaseagrm"]
+                    ], 
+                    "invoice_utilities" => 
+                    [
+                        "reference_key"=> "invoice_id", 
+                        "data" => $invoices["details"]["utilities"]
+                    ]
+                ] 
+            ]; 
         }
-        return $queries; 
+        else 
+        {
+            $queries = []; 
+            array_push($queries, Query::Insert("invoices", $invoices["invoice"]), "SET @invoice_id=LAST_INSERT_ID();"); 
+        
+            foreach ($invoices["details"] as $table => $values) 
+            {
+                foreach ($values as $data) 
+                {
+                    array_push($queries, Query::Insert("invoice_{$table}", $data, ["invoice_id"=>"@invoice_id"])); 
+                }
+            }
+            return $queries; 
+        }
     }
     
     function InvoiceDetails($invoice_id)

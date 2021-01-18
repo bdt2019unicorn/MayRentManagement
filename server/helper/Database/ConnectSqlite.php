@@ -76,33 +76,29 @@
             try 
             {
                 $connection->beginTransaction();
+                ConnectSqlite::InsertData($connection, $data); 
+                $connection->commit(); 
+                $result = true; 
+            }
+            catch (Throwable $throwable)
+            {
+                echo $throwable->getMessage(); 
+                $connection->rollBack(); 
+            }   
+            return $result; 
+        }
 
-                $sql = Query::Insert($data["table"], $data["main"]); 
-                $result = $connection->exec($sql); 
-                if($result)
+        public static function InsertWithDetailsGroup($group)
+        {
+            $connection = ConnectSqlite::Connection(); 
+            $result = false; 
+            try 
+            {
+                $connection->beginTransaction();
+                foreach ($group as $data) 
                 {
-                    $reference_id = $connection->lastInsertId(); 
-                    $tables = array_keys($data["details"]); 
-                    foreach ($tables as $table) 
-                    {
-                        $reference_key = $data["details"][$table]["reference_key"]; 
-                        $extra_value = [$reference_key=>$reference_id]; 
-                        foreach ($data["details"][$table]["data"] as $value) 
-                        {
-                            $sql = Query::Insert($table, array_merge($value, $extra_value)); 
-                            $result = $connection->exec($sql); 
-                            if(!$result)
-                            {
-                                ConnectSqlite::ThrowException($connection); 
-                            }
-                        }
-                    }
+                    ConnectSqlite::InsertData($connection, $data); 
                 }
-                else 
-                {
-                    ConnectSqlite::ThrowException($connection); 
-                }
-                
                 $connection->commit(); 
                 $result = true; 
             }
@@ -181,6 +177,35 @@
         
             fclose($file); 
             return $result; 
+        }
+
+        private static function InsertData($connection, $data)
+        {
+            $sql = Query::Insert($data["table"], $data["main"]); 
+            $result = $connection->exec($sql); 
+            if($result)
+            {
+                $reference_id = $connection->lastInsertId(); 
+                $tables = array_keys($data["details"]); 
+                foreach ($tables as $table) 
+                {
+                    $reference_key = $data["details"][$table]["reference_key"]; 
+                    $extra_value = [$reference_key=>$reference_id]; 
+                    foreach ($data["details"][$table]["data"] as $value) 
+                    {
+                        $sql = Query::Insert($table, array_merge($value, $extra_value)); 
+                        $result = $connection->exec($sql); 
+                        if(!$result)
+                        {
+                            ConnectSqlite::ThrowException($connection); 
+                        }
+                    }
+                }
+            }
+            else 
+            {
+                ConnectSqlite::ThrowException($connection); 
+            }
         }
 
         private static function ThrowException($connection)

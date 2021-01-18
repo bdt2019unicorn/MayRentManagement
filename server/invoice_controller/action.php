@@ -3,6 +3,7 @@
 
     $actions = array 
     (
+        // this function need to be looked at - something is wrong here . 
         "AddMonthlyInvoices"=>function()
         {
             $date_format = "Y-m-d"; 
