@@ -59,6 +59,10 @@ var user_input_components_v_model_support_mixin =
     },
     mounted() 
     {
+        if(this.content!=this.value)
+        {
+            this.content = this.value; 
+        }
         this.BringEditData(); 
     },
     watch: 

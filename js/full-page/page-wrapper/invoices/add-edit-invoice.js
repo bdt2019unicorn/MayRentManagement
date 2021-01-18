@@ -9,7 +9,6 @@ Vue.component
             {
                 let url = "server/invoice_controller/import.php"; 
                 let result = this.SubmitData("invoices", url, invoices); 
-                console.log(result); return; 
                 if(Number(result))
                 {
                     alert("Add Invoice Success!"); 
