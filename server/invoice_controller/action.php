@@ -102,7 +102,6 @@
             $leaseagrm_revenue_type = Query::SelectData("revenue_type", ["*"], ["is_utility"=>"0"]); 
             $utility_revenue_type = Query::SelectData("revenue_type", ["*"], ["is_utility"=>"1"]);
 
-            $configs = ["user_input" => OverviewQueries\GeneralOverview::UserInput("invoice")]; 
             if(CurrentEnvironment::TestMode())
             {
                 $extra_information = 
@@ -130,13 +129,12 @@
                 ]; 
             }
 
-            $configs = array_merge($extra_information, $configs); 
+            $configs = array_merge($extra_information, ["user_input" => OverviewQueries\GeneralOverview::UserInput("invoice")]); 
             echo json_encode($configs); 
         }, 
         "InvoiceDetails"=>function()
         {
             $sql = InvoiceDetails($_GET["invoice_id"]); 
-            print_r($sql); 
             $tables = ["leaseagrm", "utilities"]; 
             $result = []; 
             if(CurrentEnvironment::TestMode())

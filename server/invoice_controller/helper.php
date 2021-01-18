@@ -60,7 +60,7 @@
             }
 
             $previous = ["number", "date"]; 
-            return array_map
+            $previous = array_map
             (
                 function($column) use ($utility_reading)
                 {
@@ -77,6 +77,7 @@
                     "; 
                 }, $previous
             ); 
+            return array_merge($selects, $previous); 
         }; 
         $selects = 
         [

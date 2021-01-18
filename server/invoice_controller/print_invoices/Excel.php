@@ -4,9 +4,9 @@
     use PhpOffice\PhpSpreadsheet\Spreadsheet; 
     use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use ZipArchive;
+    use ZipArchive; 
 
-class Excel 
+    class Excel 
     {
         public static function FooterArray($building_information)
         {
