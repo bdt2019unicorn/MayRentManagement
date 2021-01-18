@@ -6,6 +6,7 @@
             $path = CurrentEnvironment::TestSqliteDatabasePath(); 
             $connection = new PDO("sqlite:{$path}"); 
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $connection->exec("PRAGMA foreign_keys = ON;"); 
             return $connection; 
         }
 

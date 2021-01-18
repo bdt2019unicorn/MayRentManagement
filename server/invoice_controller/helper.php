@@ -47,7 +47,7 @@
         $conditions = ["invoice_id"=>$invoice_id]; 
         $SelectUtilities = function()
         {
-            $selects = ["`id` AS `edit_id`","`name`", "`invoice_id`", "`price`", "`quantity`", "`amount`", "`utility_reading_id` AS `id`", "`utility_reading_id`", "(SELECT `name` FROM `revenue_type` WHERE `id` = `invoice_utilities`.`revenue_type_id`) AS `revenue_type`"]; 
+            $selects = ["`id` AS `edit_id`","`name`", "`invoice_id`", "`price`", "`quantity`", "`amount`", "`utility_reading_id` AS `id`", "`utility_reading_id`", "(SELECT `revenue_type`.`name` FROM `revenue_type` WHERE `revenue_type`.`id` = `invoice_utilities`.`revenue_type_id`) AS `revenue_type`"]; 
 
             $utility_reading_select = ["unit_id", "date", "number", "revenue_type_id"]; 
 
@@ -80,7 +80,7 @@
         }; 
         $selects = 
         [
-            "leaseagrm" => ["*", "`id` AS `edit_id`", "(SELECT `name` FROM `revenue_type` WHERE `revenue_type`.`id` = `revenue_type_id`) AS `title`"], 
+            "leaseagrm" => ["*", "`id` AS `edit_id`", "(SELECT `revenue_type`.`name` FROM `revenue_type` WHERE `revenue_type`.`id` = `revenue_type_id`) AS `title`"], 
             "utilities"=>$SelectUtilities()
         ]; 
         return array_reduce($tables, function($current, $table) use ($selects, $conditions){return $current. Query::SelectData("invoice_$table", $selects[$table], $conditions) . "\n";}, ""); 

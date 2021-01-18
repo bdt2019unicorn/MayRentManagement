@@ -145,7 +145,41 @@ Vue.component
         `
             <div class="container-fluid">
                 <h1>{{title}}</h1>
-                <div class="container-fluid" v-if="Object.keys(monthly_invoices_display).length==0">
+                <template v-if="Object.keys(monthly_invoices_display).length">
+
+                    <vs-collapse accordion>
+                        <vs-collapse-item 
+                            v-for="leaseagrm_id in Object.keys(monthly_invoices_display)"
+                            v-if="monthly_invoices_display[leaseagrm_id].total"
+                        >
+
+                            <h5 slot="header" class="text-info">{{monthly_invoices[leaseagrm_id].name}}</h5>
+                            <div class="row"><h6 class="col text-right">{{monthly_invoices[leaseagrm_id].leaseagrm_name}}</h6></div>
+                            <div class="row"><text-input name="name" v-model="monthly_invoices[leaseagrm_id].name" title="Invoice Name"></text-input></div>
+
+                            <hr>
+                            <div v-if="monthly_invoices_display[leaseagrm_id].leaseagrm.length>0" class="container-fluid">
+                                <h6>Rent</h6>
+                                <leaseagrm-row 
+                                    v-for="rent in monthly_invoices_display[leaseagrm_id].leaseagrm" 
+                                    :revenue_type="rent"
+                                    :user_input="user_input"
+                                    @new-value-change-valid="NewValueChangeValid" 
+                                ></leaseagrm-row>
+                            </div>
+
+                            <div v-if="monthly_invoices_display[leaseagrm_id].utilities.length>0" class="container-fluid">
+                                <h6>Utilities</h6>
+                                <utilities-row v-for="utility in monthly_invoices_display[leaseagrm_id].utilities" v-bind="utility"></utilities-row>
+                            </div>
+                        </vs-collapse-item>
+                    </vs-collapse>
+                    <section v-if="MonthlyInvoicesSubmit" class="row">
+                        <div class="col text-right"><submit-button :title="title" @submit-button-clicked="Submit"></submit-button></div>
+                    </section>
+                </template>
+
+                <div class="container-fluid" v-else>
                     <br>
                     <div class="row">
                         <div class="col"></div>
@@ -155,36 +189,7 @@ Vue.component
                         <div class="col"></div>
                     </div>
                 </div>
-                <vs-collapse accordion>
-                    <vs-collapse-item 
-                        v-for="leaseagrm_id in Object.keys(monthly_invoices_display)"
-                        v-if="monthly_invoices_display[leaseagrm_id].total"
-                    >
-
-                        <h5 slot="header" class="text-info">{{monthly_invoices[leaseagrm_id].name}}</h5>
-                        <div class="row"><h6 class="col text-right">{{monthly_invoices[leaseagrm_id].leaseagrm_name}}</h6></div>
-                        <div class="row"><text-input name="name" v-model="monthly_invoices[leaseagrm_id].name" title="Invoice Name"></text-input></div>
-
-                        <hr>
-                        <div v-if="monthly_invoices_display[leaseagrm_id].leaseagrm.length>0" class="container-fluid">
-                            <h6>Rent</h6>
-                            <leaseagrm-row 
-                                v-for="rent in monthly_invoices_display[leaseagrm_id].leaseagrm" 
-                                :revenue_type="rent"
-                                :user_input="user_input"
-                                @new-value-change-valid="NewValueChangeValid" 
-                            ></leaseagrm-row>
-                        </div>
-
-                        <div v-if="monthly_invoices_display[leaseagrm_id].utilities.length>0" class="container-fluid">
-                            <h6>Utilities</h6>
-                            <utilities-row v-for="utility in monthly_invoices_display[leaseagrm_id].utilities" v-bind="utility"></utilities-row>
-                        </div>
-                    </vs-collapse-item>
-                </vs-collapse>
-                <section v-if="MonthlyInvoicesSubmit" class="row">
-                    <div class="col text-right"><submit-button :title="title" @submit-button-clicked="Submit"></submit-button></div>
-                </section>
+                
             </div>
         `
     }

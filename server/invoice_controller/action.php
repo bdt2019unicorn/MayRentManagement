@@ -3,7 +3,6 @@
 
     $actions = array 
     (
-        // this function need to be looked at - something is wrong here . 
         "AddMonthlyInvoices"=>function()
         {
             $date_format = "Y-m-d"; 
@@ -28,6 +27,14 @@
                 return $revenue_types; 
             }
 
+            function CompareDate($start_date, $end_date)
+            {
+                $date_format = "Y-m-d"; 
+                $start_date = new DateTime($start_date->format($date_format)); 
+                $end_date = new DateTime($end_date->format($date_format)); 
+                return $start_date<$end_date; 
+            }
+
             $revenue_types = RevenueTypes(); 
 
             $leaseagrms = Database::GetData($leaseagrms); 
@@ -49,7 +56,7 @@
                         if($start_date<$lease_end)
                         {
                             $end_date = min($last_date_of_month, $lease_end); 
-                            if($start_date<$end_date)
+                            if(CompareDate($start_date, $end_date))
                             {
                                 $new_information = 
                                 [
@@ -129,6 +136,7 @@
         "InvoiceDetails"=>function()
         {
             $sql = InvoiceDetails($_GET["invoice_id"]); 
+            print_r($sql); 
             $tables = ["leaseagrm", "utilities"]; 
             $result = []; 
             if(CurrentEnvironment::TestMode())
