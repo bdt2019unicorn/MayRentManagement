@@ -53,8 +53,54 @@
                     $exec = $connection->query($query); 
                     if(!$exec)
                     {
-                        throw new Exception("\n". var_dump($connection)."\n"); 
+                        ConnectSqlite::ThrowException($connection); 
                     }
+                }
+                
+                $connection->commit(); 
+                $result = true; 
+            }
+            catch (Throwable $throwable)
+            {
+                echo $throwable->getMessage(); 
+                $connection->rollBack(); 
+            }   
+            return $result; 
+        }
+
+        public static function InsertWithDetails($data)
+        {
+            $connection = ConnectSqlite::Connection(); 
+            $result = false; 
+
+            try 
+            {
+                $connection->beginTransaction();
+
+                $sql = Query::Insert($data["table"], $data["main"]); 
+                $result = $connection->exec($sql); 
+                if($result)
+                {
+                    $reference_id = $connection->lastInsertId(); 
+                    $tables = array_keys($data["details"]); 
+                    foreach ($tables as $table) 
+                    {
+                        $reference_key = $data["details"][$table]["reference_key"]; 
+                        $extra_value = [$reference_key=>$reference_id]; 
+                        foreach ($data["details"][$table]["data"] as $value) 
+                        {
+                            $sql = Query::Insert($table, array_merge($value, $extra_value)); 
+                            $result = $connection->exec($sql); 
+                            if(!$result)
+                            {
+                                ConnectSqlite::ThrowException($connection); 
+                            }
+                        }
+                    }
+                }
+                else 
+                {
+                    ConnectSqlite::ThrowException($connection); 
                 }
                 
                 $connection->commit(); 
@@ -135,6 +181,11 @@
         
             fclose($file); 
             return $result; 
+        }
+
+        private static function ThrowException($connection)
+        {
+            throw new Exception("\n" . var_dump($connection) . "\n"); 
         }
     }
 ?>
