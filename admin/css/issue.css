@@ -1,12 +1,15 @@
-body{
+body
+{
     background-color: rgb(226, 238, 224);
 }
 
-#issue{
+#issue
+{
     padding-top: 30px;
 }
 
-#issue h1{
+#issue h1
+{
     font-size: 1.75rem;
     text-align: center;
     margin-bottom: 20px;
@@ -14,8 +17,8 @@ body{
 }
 
 
-.issue__des{
-    width: 50%;
+.issue__des
+{
     border-radius: 20px;
     border-top: 10px solid green;
     border-bottom: 10px solid green;
@@ -25,46 +28,41 @@ body{
     padding-bottom: 10px;
 }
 
-#issue .issue__des h3{
+#issue .issue__des h3
+{
     font-size: 2rem;
     font-weight: 600;
 }
 
-#issue .issue__des p{
+#issue .issue__des p
+{
     font-size: 1.5rem;
-    font-weight: 500;
     word-break: break-all;
-    letter-spacing: 1px;
 }
 
-.issue__label{
-    display: block;
-    font-size: 2rem;
-    font-weight: 500px;
-}
-
-.issue__textarea{
+.issue__textarea
+{
     resize: none;
     border-radius: 5px;
 }
 
 
-.btn__submit{
-    font-size: 14px;
+.btn__submit
+{
     color: #fff;
     background: #ff0e83;
-    font-size: 20px;
-    padding: 10px 50px;
 }
 
-.issue__create h1{
+.issue__create h1
+{
     margin-bottom: 20px;
     font-size: 2.2rem;
     font-weight: 600;
     text-transform: uppercase;
 }
 
-.issue__create .issue__des #issue__title{
+.issue__create .issue__des #issue__title
+{
     border-radius: 5px;
     border: 1px solid #000;
     outline: none;

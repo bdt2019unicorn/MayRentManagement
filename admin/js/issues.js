@@ -14,14 +14,14 @@ function IssueComments(url)
 {
     url = `${url}/comments`; 
     let data = SendRequestToGithub(url, {}, "GET");
-    data.forEach(element=>$("#list__comment").append(IssueCommentDiv(element))); 
+    data.forEach((element, index)=>$("#list__comment").append(IssueCommentDiv(element, index))); 
 }
 
-function IssueCommentDiv(data)
+function IssueCommentDiv(data, index)
 {
     var div = document.createElement("div"); 
-    div.className = "issue__des container-fluid text-center"; 
-    div.innerHTML = '<h3>Mô tả thêm</h3><p>'+data.body+'</p>'; 
+    div.className = `issue__des container-fluid text-${(Number(index)%2==0)? "left": "right"}`; 
+    div.innerHTML = '<p>'+data.body+'</p>'; 
     return div; 
 }
 
