@@ -15,12 +15,12 @@
                     "invoice_leaseagrm" => 
                     [
                         "reference_key"=> "invoice_id", 
-                        "data" => $invoices["details"]["leaseagrm"]
+                        "data" => $invoices["details"]["leaseagrm"]??null 
                     ], 
                     "invoice_utilities" => 
                     [
                         "reference_key"=> "invoice_id", 
-                        "data" => $invoices["details"]["utilities"]
+                        "data" => $invoices["details"]["utilities"]??null 
                     ]
                 ] 
             ]; 

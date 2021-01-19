@@ -29,6 +29,11 @@
             $invoices = json_decode($_POST["invoices"], true); 
             $footer_array = json_decode($_POST["footer_array"], true); 
 
+            if(!file_exists("temp"))
+            {
+                mkdir("temp"); 
+            }
+
             $print_excel = new Excel($invoices, $image, $footer_array, realpath("temp/")); 
             $path = $print_excel->ZipAllExcel(); 
             if($path)

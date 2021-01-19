@@ -190,9 +190,15 @@
                 $tables = array_keys($data["details"]); 
                 foreach ($tables as $table) 
                 {
-                    $reference_key = $data["details"][$table]["reference_key"]; 
-                    $extra_value = [$reference_key=>$reference_id]; 
-                    foreach ($data["details"][$table]["data"] as $value) 
+                    $values = $data["details"][$table]["data"]; 
+                    if(!is_array($values))
+                    {
+                        continue; 
+                    }
+                    $reference_key = $data["details"][$table]["reference_key"]?? null; 
+                    $extra_value = $reference_key? [$reference_key=>$reference_id]: []; 
+                    
+                    foreach ($values as $value) 
                     {
                         $sql = Query::Insert($table, array_merge($value, $extra_value)); 
                         $result = $connection->exec($sql); 
