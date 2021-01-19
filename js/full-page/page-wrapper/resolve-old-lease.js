@@ -12,9 +12,9 @@ Vue.component
                 let old_leases_submit = this.old_leases.filter(leaseagrm=>!this.DateChargedUntilInvalid(leaseagrm)); 
                 return (old_leases_submit.length==this.old_leases.length)?old_leases_submit.map
                 (
-                    ({Start_date, date_charged_until, Rent_amount, ...rest})=>
+                    ({Start_date, date_charged_until, leaseagrm_period, Rent_amount, ...rest})=>
                     {
-                        let quantity = this.RentQuantityCalculation(Start_date, date_charged_until)
+                        let quantity = this.RentQuantityCalculation(Start_date, date_charged_until, leaseagrm_period); 
                         return {
                             ...rest, 
                             start_date: Start_date, 
@@ -104,14 +104,14 @@ Vue.component
                     ], 
                     items: [leaseagrm].map 
                     (
-                        ({id, name, Rent_amount, Start_date, Finish, date_charged_until, show_details, ...rest})=>
+                        ({id, name, Rent_amount, Start_date, Finish, leaseagrm_period, date_charged_until, show_details, ...rest})=>
                         (
                             {
                                 Start_date: this.DateReformatDisplay(Start_date), 
                                 date_charged_until: this.DateReformatDisplay(date_charged_until), 
                                 Finish: this.DateReformatDisplay(Finish), 
                                 Rent_amount: Rent_amount, 
-                                total_amount: Rent_amount * this.RentQuantityCalculation(Start_date, date_charged_until)
+                                total_amount: Rent_amount * this.RentQuantityCalculation(Start_date, date_charged_until, leaseagrm_period)
                             }
                         )
                     )

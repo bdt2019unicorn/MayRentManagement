@@ -29,7 +29,7 @@ require_once("../helper/database.php");
                 $sql.= "\n WHERE " . implode("AND", $conditions); 
             }
             $sql.=  "\nORDER BY `date` DESC LIMIT {$limit};"; 
-            $dates = Connect::GetData($sql); 
+            $dates = Database::GetData($sql); 
             $start_date = new DateTime("first day of this month"); 
             
             while($limit>=0)
@@ -51,7 +51,7 @@ require_once("../helper/database.php");
         "SelectData"=>function()
         {
             $sql = "SELECT * FROM `revenue_type` WHERE `is_utility`='1';"; 
-            $select_data = Connect::GetData($sql); 
+            $select_data = Database::GetData($sql); 
             echo(json_encode($select_data)); 
         }, 
         "CurrentPrice"=>function()
@@ -67,7 +67,7 @@ require_once("../helper/database.php");
                 ) 
                 AND revenue_type_id = {$_GET['revenue_type_id']}
             "; 
-            $current_price = Connect::GetData($sql); 
+            $current_price = Database::GetData($sql); 
             echo(json_encode($current_price)); 
         }, 
         "CurrentReadings"=>function()
@@ -92,7 +92,7 @@ require_once("../helper/database.php");
                         GROUP BY `revenue_type_id`
                     ) AS `revenue_by_max_date`
             "; 
-            $current_readings = Connect::GetData($sql); 
+            $current_readings = Database::GetData($sql); 
             echo(json_encode($current_readings)); 
 
         }, 
@@ -102,7 +102,7 @@ require_once("../helper/database.php");
             $data["username"] = $_POST["username"]; 
             $data["modified_time"] = $_POST["modified_time"]; 
             $sql = Query::Insert("utility_price", $data); 
-            $result = Connect::GetData($sql); 
+            $result = Database::GetData($sql); 
             echo $result; 
         }
     ); 

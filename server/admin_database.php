@@ -6,13 +6,13 @@
         public function CheckUser()
         {
             $conditions = json_decode($_POST["check_user"], true); 
-            $data = Connect::SelectData("user", ["*"], $conditions); 
+            $data = Database::SelectData("user", ["*"], $conditions); 
             echo count($data); 
         }
 
         public function Login()
         {
-            $data = Connect::SelectData("user", ["*"], $_POST); 
+            $data = Database::SelectData("user", ["*"], $_POST); 
             if(count($data)==1)
             {
                 echo json_encode($data[0]); 
@@ -33,6 +33,35 @@
             }
 
             $result = Connect::ExecTransaction($sql); 
+            echo $result; 
+        }
+
+        public function CheckEnvironment()
+        {
+            echo CurrentEnvironment::DotEnvPath()? true: false;
+        }
+
+        public function CurrentEnvironmentSetUp()
+        {
+            $values = json_decode($_POST["excel"], true); 
+            $test_mode = isset($values[0]["test_mode"]); 
+            $current_environment = new CurrentEnvironment(); 
+            $current_environment->SettingEnvironment($test_mode); 
+            echo true; 
+        }
+
+        public function ProductionEnvironmentSetUp()
+        {
+            try 
+            {
+                $env = json_decode($_POST["excel"], true); 
+                CurrentEnvironment::WriteEnv($env[0]); 
+                $result = true; 
+            }
+            catch(Throwable $throwable)
+            {
+                $result = false; 
+            }
             echo $result; 
         }
     }

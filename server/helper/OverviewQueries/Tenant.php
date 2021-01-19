@@ -1,12 +1,13 @@
 <?php 
     namespace OverviewQueries; 
     require_once("OverviewTrait.php"); 
+    use Query; 
     class Tenant 
     {
         use OverviewTrait; 
-        public static function Selects($edit, $building_id, $id)
+        public static function Selects($edit, $building_id, $id, $test_mode=false)
         {
-            $full_name = "CONCAT(IFNULL(`Last_Name`,''), ' ', IFNULL(`First_Name`,'')) AS `Full Name`"; 
+            $full_name = Query::Concat(["IFNULL(`Last_Name`,'')", "' '", "IFNULL(`First_Name`,'')"], $test_mode) . " AS `Full Name`"; 
             return $edit? 
             [
                 "*", 
@@ -25,7 +26,7 @@
                 "`Mobile_Phone` AS `Mobile Phone`", 
                 "`Personal_Email` AS `Personal Email`", 
                 "`Passport_ID_number` AS `Passport/ID number`", 
-                "DATE_FORMAT(`Date_of_birth`, '%d %M %Y') AS `Date of birth`" 
+                ($test_mode? "STRFTIME('%d/%m/%Y', `Date_of_birth`)": "DATE_FORMAT(`Date_of_birth`, '%d %M %Y')") . " AS `Date of birth`" 
             ]; 
         }
     }

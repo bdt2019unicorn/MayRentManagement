@@ -6,15 +6,30 @@
     {
         public function LoadOldLeases()
         {
+            $date_charged_until = CurrentEnvironment::TestMode()? 
+            "
+                MAX
+                (
+                    `Start_date`, 
+                    DATE('now','start of month', '-1 day')
+                )
+            ": 
+            "
+                GREATEST
+                (
+                    `Start_date`, 
+                    LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH)
+                )
+            "; 
             $sql = 
             "
                 SELECT 
                     *, 
-                    GREATEST
                     (
-                        `Start_date`, 
-                        LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH)
-                    ) AS `date_charged_until`
+                        SELECT `leaseagrm_period`.`name` FROM `leaseagrm_period` 
+                        WHERE `leaseagrm_period`.`id` = `leaseagrm`.`leaseagrm_period_id`
+                    ) AS `leaseagrm_period`, 
+                    {$date_charged_until} AS `date_charged_until`
                 FROM `leaseagrm` 
                 WHERE 
                     `id` NOT IN (SELECT DISTINCT `leaseagrm_id` FROM `invoices`) AND 
@@ -22,7 +37,7 @@
                     CURRENT_DATE BETWEEN `Start_date` AND `Finish`
             "; 
 
-            $data = Connect::GetData($sql); 
+            $data = Database::GetData($sql); 
             echo json_encode($data); 
         }
 
@@ -47,6 +62,7 @@
 
             $old_leases = json_decode($_POST["old_leases"], true); 
             $rent_id = OverviewQueries\Invoices::RentId(); 
+            $test_mode = CurrentEnvironment::TestMode(); 
 
             $sql = []; 
 
@@ -87,11 +103,20 @@
                     "Amount" => $leaseagrm["amount"]
                 ]; 
 
-                $queries = ImportInvoice($invoices); 
-                $sql = array_merge($sql, $queries, [Query::Insert("revenue", $revenue_data)]); 
+                $queries = ImportInvoice($invoices, $test_mode); 
+                if($test_mode)
+                {
+                    $queries["details"]["revenue"] = ["data"=>[$revenue_data]]; 
+                    array_push($sql, $queries);
+                }
+                else 
+                {
+                    $sql = array_merge($sql, $queries, [Query::Insert("revenue", $revenue_data)]); 
+                }
             }
 
-            if(Connect::ExecTransaction($sql))
+            $result = $test_mode? ConnectSqlite::InsertWithDetailsGroup($sql):Connect::ExecTransaction($sql); 
+            if($result)
             {
                 $this->LoadOldLeases(); 
             }

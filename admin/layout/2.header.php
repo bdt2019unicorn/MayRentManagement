@@ -1,16 +1,33 @@
 <header>
     <?php 
         require_once("../server/helper/database.php"); 
-        $tables = Connect::GetData("SHOW TABLES"); 
 
-        $all_tables = []; 
-        foreach ($tables as $property) 
+        $current_environment = new CurrentEnvironment(); 
+        $test_mode = $current_environment->TestMode(); 
+
+        function AllTablesProduction()
         {
-            foreach ($property as $table) 
+            $tables = Connect::GetData("SHOW TABLES"); 
+
+            $all_tables = []; 
+            foreach ($tables as $property) 
             {
-                array_push($all_tables, $table); 
+                foreach ($property as $table) 
+                {
+                    array_push($all_tables, $table); 
+                }
             }
+            return $all_tables; 
         }
+
+        function AllTablesTest()
+        {
+            $sql = "SELECT * FROM `sqlite_master` WHERE `type`='table' AND `name`<>'sqlite_sequence'"; 
+            $tables = ConnectSqlite::Query($sql); 
+            return array_map(function($table){return $table["name"];}, $tables); 
+        }
+
+        $all_tables = $test_mode?AllTablesTest(): AllTablesProduction(); 
         $current_table = $_GET["table"]??null; 
     ?>
 

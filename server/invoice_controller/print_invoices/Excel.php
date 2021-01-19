@@ -4,9 +4,8 @@
     use PhpOffice\PhpSpreadsheet\Spreadsheet; 
     use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use ZipArchive;
 
-class Excel 
+    class Excel 
     {
         public static function FooterArray($building_information)
         {
@@ -57,7 +56,7 @@ class Excel
                 $this->CreateExcelFile($invoice); 
             }
             $zip = new \ZipArchive(); 
-            $zip->open("{$this->temp_path}/AllInvoices.zip", ZipArchive::CREATE | ZipArchive::OVERWRITE); 
+            $zip->open("{$this->temp_path}/AllInvoices.zip", \ZipArchive::CREATE | \ZipArchive::OVERWRITE); 
             foreach (scandir($this->folder) as $file) 
             {
                 if(!is_dir("{$this->folder}/{$file}")) $zip->addFile("{$this->folder}/{$file}", "invoices/{$file}"); 

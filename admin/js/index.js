@@ -131,3 +131,18 @@ function OverviewTable()
         }
     ); 
 }
+
+function UserPermissions(id)
+{
+    var url = `../server/database_controller/edit.php?table=user&id=${id}`; 
+    var result = support_mixin.methods.SubmitData("edit", url, {approved: 1}); 
+    if(Number(result))
+    {
+        alert("User is approved!"); 
+        window.location.reload(); 
+    }
+    else 
+    {
+        alert("User is not approved! There seems like a server error."); 
+    }
+}

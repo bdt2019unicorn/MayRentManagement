@@ -172,11 +172,15 @@ var valid_invoice_details_mixin =
             return (valid_details.length<invoice_details.length)? false: 
             invoice_details.map 
             (
-                ({revenue_type, date, previous_date, number, previous_number, id, unit_id, ...rest})=>
+                ({id, name, amount, price, quantity, revenue_type_id, ...rest})=>
                 (
                     {
                         utility_reading_id: id, 
-                        ...rest
+                        name, 
+                        amount, 
+                        price, 
+                        quantity, 
+                        revenue_type_id
                     }
                 )
             ); 

@@ -85,23 +85,41 @@
         }
     }
     
-    $result = Connect::ExecTransaction($queries); 
+    $result = Database::ExecTransaction($queries); 
     if($result)
     {
-        $sql = Query::GeneralData("invoices", $invoice_id); 
-        $sql.="\n" . InvoiceDetails($invoice_id); 
+        $invoice_information = Query::GeneralData("invoices", $invoice_id); 
+        $invoice_details = InvoiceDetails($invoice_id); 
 
-        $edit_data = Connect::MultiQuery($sql, true); 
-
-        $result = 
-        [
-            "invoice"=>$edit_data[0][0], 
-            "details"=>
+        if(CurrentEnvironment::TestMode())
+        {
+            $sql = explode(";", $invoice_details); 
+            $result = 
             [
-                "leaseagrm"=>$edit_data[1], 
-                "utilities"=>$edit_data[2]
-            ]
-        ]; 
+                "invoice" => ConnectSqlite::Query($invoice_information)[0], 
+                "details" => 
+                [
+                    "leaseagrm"=>ConnectSqlite::Query($sql[0]), 
+                    "utilities"=>ConnectSqlite::Query($sql[1])
+                ]
+            ]; 
+        }
+        else 
+        {
+            $sql = implode("\n", [$invoice_information, $invoice_details]); 
+            $edit_data = Connect::MultiQuery($sql, true); 
+    
+            $result = 
+            [
+                "invoice"=>$edit_data[0][0], 
+                "details"=>
+                [
+                    "leaseagrm"=>$edit_data[1], 
+                    "utilities"=>$edit_data[2]
+                ]
+            ]; 
+        }
+
         echo json_encode($result); 
     }
     else 
