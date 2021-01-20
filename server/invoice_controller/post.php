@@ -4,7 +4,6 @@
     (
         "AddMonthlyInvoices" => function()
         {
-            echo "here"; return; 
             $monthly_invoices = json_decode($_POST["monthly_invoices"], true); 
             $test_mode = CurrentEnvironment::TestMode(); 
             $sql = array_map(function($invoices) use ($test_mode) {return ImportInvoice($invoices, $test_mode);}, $monthly_invoices); 
@@ -16,7 +15,6 @@
             else 
             {
                 $sql = array_reduce($sql, function($current, $queries){return array_merge($current, $queries); }, []); 
-                print_r($sql); return; 
                 $result = Connect::ExecTransaction($sql); 
             }
             echo $result; 
