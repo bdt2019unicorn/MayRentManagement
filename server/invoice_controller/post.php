@@ -15,6 +15,7 @@
             else 
             {
                 $sql = array_reduce($sql, function($current, $queries){return array_merge($current, $queries); }, []); 
+                print_r($sql); return; 
                 $result = Connect::ExecTransaction($sql); 
             }
             echo $result; 
