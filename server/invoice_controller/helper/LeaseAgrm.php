@@ -5,7 +5,7 @@
         private $date_format = "Y-m-d"; 
         function __construct($leaseagrm_id)
         {
-            $helper_path = __DIR__ . "../../../helper/"; 
+            $helper_path = __DIR__ . "../../helper/"; 
             echo "<p>$helper_path</p>"; echo "<b>"; echo realpath($helper_path); echo "</b>";  
             require_once(realpath("{$helper_path}database.php")); 
             require_once(realpath("{$helper_path}overview_queries.php")); 
