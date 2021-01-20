@@ -176,7 +176,7 @@ var valid_invoice_details_mixin =
             }
             var valid_details = invoice_details.filter
             (
-                ({amount, ...rest})=> numeral(amount).value()>0
+                ({amount, ...rest})=> numeral(amount).value()>=0
             ); 
             return (valid_details.length<invoice_details.length)? false: 
             invoice_details.map 
