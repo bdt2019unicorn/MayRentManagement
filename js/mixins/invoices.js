@@ -44,7 +44,10 @@ var rent_invoice_mixin =
             let actual_result = end_period.diff(start_period, leaseagrm_period, true); 
             if(bad_result==actual_result)
             {
-                let url = "server/"
+                let url = "server/invoice_controller/post.php?command=LeasearmPeriodScript"; 
+                let script = this.SubmitData("leaseagrm_period", url, leaseagrm_period, false); 
+                script = `actual_result = ${script}`; 
+                eval(script); 
             }
             return actual_result.toFixed(3); 
         }, 
