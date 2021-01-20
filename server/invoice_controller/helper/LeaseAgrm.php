@@ -7,8 +7,8 @@
         {
             $helper_path = __DIR__ . "/../../helper"; 
             echo "<p>$helper_path</p>"; echo "<b>"; echo realpath($helper_path); echo "</b>";  
-            require_once(realpath("{$helper_path}database.php")); 
-            require_once(realpath("{$helper_path}overview_queries.php")); 
+            require_once(realpath("{$helper_path}/database.php")); 
+            require_once(realpath("{$helper_path}/overview_queries.php")); 
 
             $this->leaseagrm_id = $leaseagrm_id; 
             $this->rent_id = OverviewQueries\Invoices::RentId(); 
