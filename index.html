@@ -126,16 +126,6 @@
             <script src="js/full-page.js"></script>
 
             <script async src="js/setup.js"></script>
-
-            <!--
-
-
-            ALTER TABLE `leaseagrm_period`  ADD `is_basic` BOOLEAN NOT NULL DEFAULT TRUE  AFTER `name`,  ADD `calculation_method` TEXT NULL  AFTER `is_basic`;
-            INSERT INTO `leaseagrm_period` (`id`, `name`, `is_basic`, `calculation_method`) VALUES (NULL, '2 months', '0', 'end_period.diff(start_period, \"months\", true)/2; '), (NULL, '3 months', '0', 'end_period.diff(start_period, \"months\", true)/3; ');
-
-
-            -->
-
         </footer>
     </body>
 

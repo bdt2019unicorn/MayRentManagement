@@ -7,7 +7,7 @@ Vue.component
         {
             Submit(invoices)
             {
-                let url = "server/invoice_controller/import.php"; 
+                let url = "server/invoice_controller/post.php?action=Import"; 
                 let result = this.SubmitData("invoices", url, invoices); 
                 if(Number(result))
                 {
@@ -105,7 +105,7 @@ Vue.component
                             edit_data: this.edit_data, 
                             new_data: invoice 
                         }
-                        let url = "server/invoice_controller/update.php";
+                        let url = "server/invoice_controller/post.php?action=Update";
                         let result = this.SubmitData("invoices", url, data); 
                         var new_edit_data = undefined; 
                         try 
