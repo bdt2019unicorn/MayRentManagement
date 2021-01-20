@@ -40,7 +40,13 @@ var rent_invoice_mixin =
                 return 0; 
             }
             start_period.subtract(1, "days"); 
-            return end_period.diff(start_period, leaseagrm_period, true).toFixed(3); 
+            let bad_result = end_period.diff(start_period); 
+            let actual_result = end_period.diff(start_period, leaseagrm_period, true); 
+            if(bad_result==actual_result)
+            {
+                let url = "server/"
+            }
+            return actual_result.toFixed(3); 
         }, 
         
         PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_period="months", user_input, leaseagrm_id=undefined})
