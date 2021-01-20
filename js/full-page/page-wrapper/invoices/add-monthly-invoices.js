@@ -80,7 +80,7 @@ Vue.component
             }, 
             Submit()
             {
-                let url = "server/invoice_controller/add_monthly_invoices.php"; 
+                let url = "server/invoice_controller/post.php?command=AddMonthlyInvoices.php"; 
                 let result = this.SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
                 if(Number(result))
                 {

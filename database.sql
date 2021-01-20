@@ -1,4 +1,3 @@
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -213,17 +212,21 @@ INSERT INTO `leaseagrm` (`id`, `name`, `unit_id`, `Tenant_ID`, `ocupants_ids`, `
 
 CREATE TABLE `leaseagrm_period` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
+  `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `is_basic` tinyint(1) NOT NULL DEFAULT '1',
+  `calculation_method` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
-INSERT INTO `leaseagrm_period` (`id`, `name`) VALUES
-(1, 'years'),
-(2, 'months'),
-(3, 'weeks'),
-(4, 'days'),
-(5, 'hours'),
-(6, 'minutes'),
-(7, 'seconds');
+INSERT INTO `leaseagrm_period` (`id`, `name`, `is_basic`, `calculation_method`) VALUES
+(1, 'years', 1, NULL),
+(2, 'months', 1, NULL),
+(3, 'weeks', 1, NULL),
+(4, 'days', 1, NULL),
+(5, 'hours', 1, NULL),
+(6, 'minutes', 1, NULL),
+(7, 'seconds', 1, NULL),
+(8, '2 months', 0, 'end_period.diff(start_period, \"months\", true)/2; '),
+(9, '3 months', 0, 'end_period.diff(start_period, \"months\", true)/3; ');
 
 CREATE TABLE `revenue` (
   `id` int(11) NOT NULL,
@@ -575,7 +578,7 @@ ALTER TABLE `buildings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 ALTER TABLE `documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `document_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
@@ -596,10 +599,10 @@ ALTER TABLE `invoice_utilities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 ALTER TABLE `leaseagrm`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 ALTER TABLE `leaseagrm_period`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `revenue`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
@@ -664,7 +667,6 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
