@@ -2,7 +2,7 @@ name: management.mayapartment.com
 
 on:
   push:
-    branches: [ management.mayapartment.com ]
+    branches: [ master ]
 
   workflow_dispatch:
 
@@ -14,7 +14,7 @@ jobs:
       - name: Deploy to the server 
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ftpupload.net	
-          username: b17_27686411
+          host: ftpupload.net	
+          user: b17_27686411
           password: hoangthanhbinh1994
-          server-dir: /home/vol13_1/byethost17.com/b17_27686411/maymanagementtest.22web.org/
+          remoteDir: /home/vol13_1/byethost17.com/b17_27686411/maymanagementtest.22web.org
