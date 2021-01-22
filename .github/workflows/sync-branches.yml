@@ -19,3 +19,8 @@ jobs:
           git checkout management.mayapartment.com
           git reset --hard master 
           git push --force origin management.mayapartment.com
+      - name: pkk.mayapartment.com
+        run: |
+          git checkout pkk.mayapartment.com
+          git reset --hard master 
+          git push --force origin pkk.mayapartment.com
