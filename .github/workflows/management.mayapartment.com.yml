@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy to the server 
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: sebastianpopp/ftp-action@releases/v2
         with:
           host: ftpupload.net	
           user: b17_27686411
