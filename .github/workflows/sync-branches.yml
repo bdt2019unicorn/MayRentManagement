@@ -24,6 +24,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - run: git fetch 
-      - run: git checkout test
-      - run: git reset --hard master 
-      - run: git push --force origin test
+      - run: |
+          git checkout test
+          git reset --hard master 
+          git push --force origin test
