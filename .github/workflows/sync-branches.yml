@@ -30,7 +30,7 @@ jobs:
           git reset --hard master 
           git push --force origin test
       - name: management.mayapartment.com
-        run: |
+      - run: |
           git checkout management.mayapartment.com
           git reset --hard master 
           git push --force origin management.mayapartment.com
