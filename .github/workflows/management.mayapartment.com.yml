@@ -12,9 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy to the server 
-        uses: sebastianpopp/ftp-action@releases/v2
+        uses: airvzxf/ftp-deployment-action@latest
         with:
-          host: ftpupload.net	
+          server: ftpupload.net	
           user: b17_27686411
           password: hoangthanhbinh1994
-          remoteDir: maymanagementtest.22web.org/htdocs
+          remote_dir: maymanagementtest.22web.org/htdocs
+          delete: true 
