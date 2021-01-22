@@ -30,9 +30,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Auto Merge from master to test
-        uses: everlytic/branch-merge@1.1.0
-        with: 
-          github_token: ${{secrets.GITHUBTOKEN}}
-          source_ref: "master"
-          target_branch: 'test'
-          commit_message_template: '[Automated] Merged {source_ref} into target {target_branch}'
+        run: git branch
