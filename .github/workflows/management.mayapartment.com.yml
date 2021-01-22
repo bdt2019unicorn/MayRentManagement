@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy to the server 
-        uses: sebastianpopp/ftp-action@releases/v2
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          host: ftpupload.net	
-          user: b17_27686411
+          server: ftpupload.net	
+          username: b17_27686411
           password: hoangthanhbinh1994
-          remoteDir: maymanagementtest.22web.org
+          server-dir: maymanagementtest.22web.org/
