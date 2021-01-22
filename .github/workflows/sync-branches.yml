@@ -29,10 +29,10 @@ jobs:
   SyncBranches: 
     runs-on: ubuntu-latest
     steps:
-      - name: Sync Test
-        uses: tretuna/sync-branches@1.2.0
+      - name: Auto Merge from master to test
+        uses: everlytic/branch-merge@1.1.0
         with: 
-          GITHUB_TOKEN: ${{secrets.GITHUBTOKEN}}
-          FROM_BRANCH: "master"
-          TO_BRANCH: "test"
-      
+          github_token: ${{secrets.GITHUBTOKEN}}
+          source_ref: "master"
+          target_branch: 'test'
+          commit_message_template: '[Automated] Merged {source_ref} into target {target_branch}'
