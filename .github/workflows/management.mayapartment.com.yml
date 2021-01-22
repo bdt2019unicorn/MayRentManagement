@@ -17,4 +17,4 @@ jobs:
           host: ftpupload.net	
           user: b17_27686411
           password: hoangthanhbinh1994
-          remoteDir: /vol13_1/byethost17.com/b17_27686411/maymanagementtest.22web.org
+          remoteDir: maymanagementtest.22web.org
