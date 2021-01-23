@@ -14,7 +14,7 @@ jobs:
       - name: Deploy to the server 
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ftpupload.net	
-          username: b17_27686411
-          password: hoangthanhbinh1994
-          server-dir: htdocs/management-test/
+          server: ftp.mayapartment.com
+          username: mayapart	
+          password: BH++i++050994
+          server-dir: test-may.mayapartment.com/
