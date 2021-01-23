@@ -1,6 +1,7 @@
 <html>
     <?php include("layout/1.head.php"); ?>
     <?php  
+        echo "I am able to reach this position"; 
         require_once("../server/helper/current_environment.php"); 
         CurrentEnvironment::Setup(); 
         $current_environment = new CurrentEnvironment(); 
