@@ -11,12 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: composer install 
       - name: Deploy to the server 
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: airvzxf/ftp-deployment-action@latest
         with:
           server: ftp.mayapartment.com
-          username: mayapart	
+          user: mayapart	
           password: BH++i++050994
-          server-dir: test-may.mayapartment.com/
+          remote_dir: test-may.mayapartment.com
