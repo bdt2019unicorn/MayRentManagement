@@ -19,6 +19,3 @@ jobs:
       #     user: mayapart	
       #     password: BH++i++050994
       #     remote_dir: test-may.mayapartment.com
-      # - name: git ftp test 
-      #   run: sudo apt-get install git-ftp
-      # - run: git ftp -v

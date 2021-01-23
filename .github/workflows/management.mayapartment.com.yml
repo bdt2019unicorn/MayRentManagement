@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ha ha 
-      # - uses: actions/checkout@v2
-      # - name: Deploy to the server 
-      #   uses: airvzxf/ftp-deployment-action@latest
-      #   with:
-      #     server: ftpupload.net	
-      #     user: b17_27686411
-      #     password: hoangthanhbinh1994
-      #     remote_dir: maymanagementtest.22web.org/htdocs 
+      - uses: actions/checkout@v2
+      - name: Deploy to the server 
+        uses: sebastianpopp/ftp-action@releases/v2
+        with:
+          host: ftpupload.net	
+          user: b17_27686411
+          password: hoangthanhbinh1994
+          remoteDir: maymanagementtest.22web.org/htdocs 
