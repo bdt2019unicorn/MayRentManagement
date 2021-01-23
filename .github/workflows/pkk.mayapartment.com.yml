@@ -1,4 +1,4 @@
-name: management.mayapartment.com - test git ftp 
+name: pkk.mayapartment.com 
 
 on:
   push:
@@ -14,6 +14,6 @@ jobs:
       - name: Deploy to the server 
         uses: sebastianpopp/git-ftp-action@releases/v3
         with:
-          url: ftp://ftpupload.net:21/maymanagementtest.22web.org/htdocs/
-          user: b17_27686411
-          password: hoangthanhbinh1994
+          url: ${{ secrets.PKK_FTP_URL }}
+          user: ${{ secrets.PKK_FTP_USER }}
+          password: ${{ secrets.PKK_FTP_PASSWORD }}
