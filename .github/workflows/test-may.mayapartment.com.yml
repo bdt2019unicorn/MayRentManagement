@@ -10,7 +10,8 @@ jobs:
   DeployChangesToServer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - run: echo ha ha 
+      # - uses: actions/checkout@v2
       # - name: Deploy to the server 
       #   uses: airvzxf/ftp-deployment-action@latest
       #   with:
@@ -18,6 +19,6 @@ jobs:
       #     user: mayapart	
       #     password: BH++i++050994
       #     remote_dir: test-may.mayapartment.com
-      - name: git ftp test 
-        run: sudo apt-get install git-ftp
-      - run: git ftp -v
+      # - name: git ftp test 
+      #   run: sudo apt-get install git-ftp
+      # - run: git ftp -v

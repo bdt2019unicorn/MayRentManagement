@@ -10,7 +10,8 @@ jobs:
   DeployChangesToServer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - run: echo ha ha 
+      # - uses: actions/checkout@v2
       # - name: Deploy to the server 
       #   uses: airvzxf/ftp-deployment-action@latest
       #   with:
