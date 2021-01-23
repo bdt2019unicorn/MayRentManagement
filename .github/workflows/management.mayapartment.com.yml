@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy to the server 
-        uses: airvzxf/ftp-deployment-action@latest
-        with:
-          server: ftpupload.net	
-          user: b17_27686411
-          password: hoangthanhbinh1994
-          remote_dir: maymanagementtest.22web.org/htdocs 
+      # - name: Deploy to the server 
+      #   uses: airvzxf/ftp-deployment-action@latest
+      #   with:
+      #     server: ftpupload.net	
+      #     user: b17_27686411
+      #     password: hoangthanhbinh1994
+      #     remote_dir: maymanagementtest.22web.org/htdocs 

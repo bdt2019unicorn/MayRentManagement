@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy to the server 
-        uses: airvzxf/ftp-deployment-action@latest
-        with:
-          server: ftp.mayapartment.com
-          user: mayapart	
-          password: BH++i++050994
-          remote_dir: test-may.mayapartment.com
+      # - name: Deploy to the server 
+      #   uses: airvzxf/ftp-deployment-action@latest
+      #   with:
+      #     server: ftp.mayapartment.com
+      #     user: mayapart	
+      #     password: BH++i++050994
+      #     remote_dir: test-may.mayapartment.com
