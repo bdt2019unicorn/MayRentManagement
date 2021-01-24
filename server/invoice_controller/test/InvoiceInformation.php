@@ -13,20 +13,28 @@
 
         public function ProductionInformation()
         {
+            // $sql = 
+            // "
+            //     SET @leaseagrm_id = '{$this->leaseagrm_id}'; 
+            //     SET @rent_id = '{$this->rent_id}'; 
+
+            //     SELECT 
+            //         @unit_id:= `unit_id` AS `unit_id`, 
+            //         @start_lease:= `Start_date` AS `start_lease`, 
+            //         @rent_amount:=`Rent_amount` AS `rent_amount`, 
+            //         @total_amount:={$this->total_invoice_amount} AS `total_amount`, 
+            //         @paid_amount:={$this->total_paid_amount} AS `paid_amount`, 
+            //         @leaseagrm_period_id:=`leaseagrm_period_id`
+            //     FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
+            // "; 
+
             $sql = 
             "
-                SET @leaseagrm_id = '{$this->leaseagrm_id}'; 
-                SET @rent_id = '{$this->rent_id}'; 
-
-                SELECT 
-                    @unit_id:= `unit_id` AS `unit_id`, 
-                    @start_lease:= `Start_date` AS `start_lease`, 
-                    @rent_amount:=`Rent_amount` AS `rent_amount`, 
-                    @total_amount:={$this->total_invoice_amount} AS `total_amount`, 
-                    @paid_amount:={$this->total_paid_amount} AS `paid_amount`, 
-                    @leaseagrm_period_id:=`leaseagrm_period_id`
-                FROM `leaseagrm` WHERE `id` = @leaseagrm_id; 
+                {$this->LeaseAgrmSql(['`unit_id`', '`Start_date` AS `start_lease`', '(SELECT `unit`.`name` FROM `unit` WHERE `unit`.`id` = `leaseagrm`.`unit_id`) AS `unit_name`'])}
+                {$this->StartDateSql()}
+                {$this->RentInformationSql()}
             "; 
+            echo "<pre>"; echo $sql; echo "</pre>"; 
         }
 
         private function TestEnvironment()
