@@ -69,5 +69,10 @@
             fwrite($file, $content); 
             fclose($file); 
         }
+
+        public function Repo()
+        {
+            return (object) ["user" => $_ENV["USER"], "repo" => $_ENV["REPO"], "token" => $_ENV["TOKEN"]]; 
+        }
     }
 ?>
