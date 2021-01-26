@@ -36,7 +36,10 @@ Vue.component
                 let price_information = this.AjaxRequest(`${this.main_url}CurrentPrice&revenue_type_id=${revenue_type_id}`); 
                 return JSON.parse(price_information)[0]; 
             }, 
-            DateFormat: (string)=>moment(string).format("DD/MM/YYYY"), 
+            DateFormat(string)
+            {
+                return moment(string).format("DD/MM/YYYY"); 
+            }, 
             NewPrice(data)
             {
                 let current_price = this.CurrentPriceInformation(data.revenue_type_id); 

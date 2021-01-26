@@ -7,7 +7,8 @@
 			"date_columns" => [], 
 			"get_id" => [], 
 			"comma" => [], 
-			"change" => []
+			"change" => [], 
+			"user_info" => false 
 		); 
 	
 		$data =  file_get_contents("params.json"); 
@@ -19,10 +20,10 @@
         return $params; 
 	}
 
-	function RowData($row, $params)
+	function RowData($row, $params, $test_mode = false)
 	{
 		$data = []; 
-		$AddData = function($key, $value) use (&$data, &$AddData, $params)
+		$AddData = function($key, $value) use (&$data, &$AddData, $params, $test_mode)
 		{
 
 			$ModifyKey = function($key)
@@ -47,7 +48,7 @@
 					$conditions["building_id"] = $_GET["building_id"]; 
 				}
 
-				$reference_id = Connect::GetId($key_params['table'], $conditions); 
+				$reference_id = Database::GetId($key_params['table'], $conditions); 
 				if($reference_id)
 				{
 					$key = $params['get_id'][$key]['change']; 
@@ -77,13 +78,19 @@
 			{
 				$key = $params['change'][$key]; 
 			}
-			$data[$key] = str_replace("'","\'",$value); 
+			$data[$key] = $test_mode? str_replace("'", "''", $value) : addslashes($value); 
 		}; 
 
 		foreach ($row as $key => $value) 
 		{
 			$AddData($key, $value); 
 		}   
+
+		if($params["user_info"])
+		{
+			$data["username"] = $_POST["username"]; 
+			$data["modified_time"] = $_POST["modified_time"]; 
+		}
 		return $data; 
 	}
 ?>

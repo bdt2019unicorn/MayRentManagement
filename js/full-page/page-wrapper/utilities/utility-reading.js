@@ -68,56 +68,53 @@ Vue.component
         {
             UnitIdValueChanged(new_value)
             {
-                new Promise 
+                this.ResetValue
                 (
-                    (resolve, reject)=>
                     {
-                        this.unit_id = ""; 
-                        resolve(); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.unit_id = new_value;
-                        try 
+                        value_name: "unit_id", 
+                        new_value, 
+                        undefined_value: "", 
+                        callback_resolve: ()=>
                         {
-                            var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&unit_id=${this.unit_id}`); 
-                            current_readings = JSON.parse(current_readings); 
-        
-                            CurrentReading = function(revenue_type_id, look_up)
+                            try 
                             {
-                                try 
+                                var current_readings = this.AjaxRequest(`${this.main_url}CurrentReadings&unit_id=${this.unit_id}`); 
+                                current_readings = JSON.parse(current_readings); 
+            
+                                CurrentReading = function(revenue_type_id, look_up)
                                 {
-                                    return current_readings.find(reading=>reading.revenue_type_id==revenue_type_id)[look_up]; 
-                                }
-                                catch
-                                {
-                                    return 0; 
-                                }
-                            }
-        
-                            this.utilities_readings = this.select_data.utilities.map
-                            (
-                                revenue_type=>
-                                (
+                                    try 
                                     {
-                                        revenue_type_id: revenue_type.id, 
-                                        unit_id: this.unit_id, 
-                                        service: revenue_type.name, 
-                                        unit_name: this.select_data.units.find(unit=>unit.id==this.unit_id).name, 
-                                        date: this.DateReformatDisplay(), 
-                                        time: moment().format("HH:mm"), 
-                                        number: "", 
-                                        current_reading: CurrentReading(revenue_type.id, "number"), 
-                                        current_date: CurrentReading(revenue_type.id, "date")
+                                        return current_readings.find(reading=>reading.revenue_type_id==revenue_type_id)[look_up]; 
                                     }
-                                )
-                            ); 
-                        } 
-                        catch
-                        {
-                            this.utilities_readings = []; 
+                                    catch
+                                    {
+                                        return 0; 
+                                    }
+                                }
+            
+                                this.utilities_readings = this.select_data.utilities.map
+                                (
+                                    revenue_type=>
+                                    (
+                                        {
+                                            revenue_type_id: revenue_type.id, 
+                                            unit_id: this.unit_id, 
+                                            service: revenue_type.name, 
+                                            unit_name: this.select_data.units.find(unit=>unit.id==this.unit_id).name, 
+                                            date: this.DateReformatDisplay(), 
+                                            time: moment().format("HH:mm"), 
+                                            number: "", 
+                                            current_reading: CurrentReading(revenue_type.id, "number"), 
+                                            current_date: CurrentReading(revenue_type.id, "date")
+                                        }
+                                    )
+                                ); 
+                            } 
+                            catch
+                            {
+                                this.utilities_readings = []; 
+                            }
                         }
                     }
                 ); 

@@ -1,0 +1,71 @@
+body
+{
+    background-color: rgb(226, 238, 224);
+}
+
+#issue
+{
+    padding-top: 30px;
+}
+
+#issue h1
+{
+    font-size: 1.75rem;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+
+.issue__des
+{
+    border-radius: 20px;
+    border-top: 10px solid green;
+    border-bottom: 10px solid green;
+    border-left: 10px solid blue;
+    border-right: 10px solid blue;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+#issue .issue__des h3
+{
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#issue .issue__des p
+{
+    font-size: 1.5rem;
+    word-break: break-all;
+}
+
+.issue__textarea
+{
+    resize: none;
+    border-radius: 5px;
+}
+
+
+.btn__submit
+{
+    color: #fff;
+    background: #ff0e83;
+}
+
+.issue__create h1
+{
+    margin-bottom: 20px;
+    font-size: 2.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.issue__create .issue__des #issue__title
+{
+    border-radius: 5px;
+    border: 1px solid #000;
+    outline: none;
+    height: 40px;
+    width: 100%;
+}

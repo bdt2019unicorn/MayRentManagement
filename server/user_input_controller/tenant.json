@@ -21,7 +21,7 @@
             {
                 "component": "date-input",
                 "name": "date_of_birth",
-                "title": "Date of Birth",
+                "title": "Date of Birth *",
                 "required": true
             }
         ],

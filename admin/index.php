@@ -7,39 +7,69 @@
             <br>
             <?php if($current_table): ?>
                 <?php 
-                    $sql = 
-                    "
-                        SHOW COLUMNS FROM {$current_table};
-                        SELECT * FROM `{$current_table}`; 
-                    "; 
-                    $data = Connect::MultiQuery($sql, true); 
-
-                    $thead = []; 
-                    foreach ($data[0] as $column_properties) 
+                    class TableObject
                     {
-                        array_push($thead, $column_properties["Field"]); 
-                    }
-                    $tbody = $data[1]; 
-
-                    function PopulateTableColumnNames($section)
-                    {
-                        global $thead; 
-                        echo "<{$section}>"; 
-                        echo "<tr>"; 
-                        echo "<td></td>";
-                        foreach($thead as $column)
+                        public $thead, $tbody, $current_table; 
+                        function __construct($current_table, $test_mode)
                         {
-                            echo "<th>{$column}</th>"; 
+                            $this->current_table = $current_table; 
+                            if($test_mode)
+                            {
+                                $this->PopulateTheadTbodyTest(); 
+                            }
+                            else 
+                            {
+                                $this->PopulateTheadTbodyProduction(); 
+                            }
                         }
-                        echo "</tr>"; 
 
-                        echo "</{$section}>"; 
-                    } 
+                        public function PopulateTableColumnNames($section)
+                        {
+                            echo "<{$section}>"; 
+                            echo "<tr>"; 
+                            echo "<td></td>";
+                            array_walk($this->thead, function($column){echo "<th>{$column}</th>"; }); 
+                            echo "</tr>"; 
+                            echo "</{$section}>"; 
+                        } 
+
+                        private function PopulateTheadTbodyProduction()
+                        {
+                            $sql = 
+                            "
+                                SHOW COLUMNS FROM {$this->current_table};
+                                SELECT * FROM `{$this->current_table}`; 
+                            "; 
+                            $data = Connect::MultiQuery($sql, true); 
+        
+                            $thead = []; 
+                            foreach ($data[0] as $column_properties) 
+                            {
+                                array_push($thead, $column_properties["Field"]); 
+                            }
+                            $this->thead = array_map($this->TheadMapFunction("Field"), $data[0]); 
+                            $this->tbody = $data[1]; 
+                        }
+
+                        private function PopulateTheadTbodyTest()
+                        {
+                            $columns = ConnectSqlite::Query("PRAGMA TABLE_INFO('{$this->current_table}')"); 
+                            $this->thead = array_map($this->TheadMapFunction("name"), $columns); 
+                            $this->tbody = ConnectSqlite::Query("SELECT * FROM `{$this->current_table}`"); 
+                        }
+
+                        private function TheadMapFunction($column_name)
+                        {
+                            return function($column) use ($column_name) {return $column[$column_name];}; 
+                        }
+
+                    }
+                    $table_object = new TableObject($current_table, $test_mode); 
                 ?>
                 <table id="table-overview" class="display nowrap w-100">
-                    <?php PopulateTableColumnNames("thead"); ?>
+                    <?php $table_object->PopulateTableColumnNames("thead"); ?>
                     <tbody>
-                        <?php foreach ($tbody as $tr): ?>
+                        <?php foreach ($table_object->tbody as $tr): ?>
                             <tr>
                                 <td></td>
                                 <?php foreach($tr as $value): ?>
@@ -48,14 +78,34 @@
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
-                    <?php PopulateTableColumnNames("tfoot"); ?>
+                    <?php $table_object->PopulateTableColumnNames("tfoot"); ?>
                 </table>
+            <?php else: ?>
+                
+                <?php $users = Database::SelectData("user", ["*"], ["approved"=>"0"]); ?>
+                <?php if(count($users)): ?>
+                    <h1 class="text-center m-3">Users need attention</h1>
+                    <?php foreach ($users as $user): ?>
+                        <div class="row m-2 border border-info">
+                            <div class="col">
+                                <h4><?php echo $user["username"]; ?></h4>
+                                <p><b>Phone Number: </b><?php echo $user["phone_number"]; ?></p>
+                                <p><b>Email Address: </b><?php echo $user["email"]; ?></p>
+                                <p><b>Viber Number: </b><?php echo $user["viber_number"]; ?></p>
+                            </div>
+                            <div class="col-1 text-right">
+                                <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserPermissions('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 
         <footer>
             <?php include("layout/3.footer.php"); ?>
             <?php include("layout/4.admin.php"); ?>
+            <script src="js/index.js"></script>
             <?php if($current_table): ?>
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
                 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.dataTables.min.css">
@@ -64,7 +114,6 @@
                 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
                 <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
                 <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
-                <script src="js/index.js"></script>
                 <script>
                     $(document).ready
                     ( 

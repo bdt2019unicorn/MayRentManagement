@@ -26,17 +26,17 @@
             {
                 "component": "number-input",
                 "name": "number_of_bedrooms",
-                "title": "Number of Bedrooms"
+                "title": "Number of Bedrooms *"
             },
             {
                 "component": "number-input",
                 "name": "number_of_bathroom",
-                "title": "Number of Bathrooms"
+                "title": "Number of Bathrooms *"
             },
             {
                 "component": "number-input",
                 "name": "number_of_windows",
-                "title": "Number of Windows"
+                "title": "Number of Windows *"
             }
         ], 
         [
@@ -67,16 +67,19 @@
             }, 
             "number_of_bedrooms": 
             {
+                "required": true, 
                 "number_input_min": 0, 
                 "number_input_integer": true 
             }, 
             "number_of_bathroom": 
             {
+                "required": true, 
                 "number_input_min": 0, 
                 "number_input_integer": true 
             }, 
             "number_of_windows": 
             {
+                "required": true, 
                 "number_input_min": 0, 
                 "number_input_integer": true 
             }

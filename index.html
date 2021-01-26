@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
@@ -9,14 +9,15 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-good-table@2.21.1/dist/vue-good-table.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/index.css">
     </head>
     <body>
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col text-left">
-                    <a href="admin">Admin</a>
+                    <!-- <a href="admin">Admin</a> -->
+                    <a href="issues.php">Issues</a>
                 </div>
                 <div class="col text-right">
                     <a lang="vi" href="vn" title="Tiếng Việt"><img src="img/VN_flag.png"></a>
@@ -45,7 +46,6 @@
             <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" integrity="sha512-Qlv6VSKh1gDKGoJbnyA5RMXYcvnpIqhO++MhIM2fStMcGT9i2T//tSwYFlcyoRRDcDZ+TYHpH8azBBCyhpSeqw==" crossorigin="anonymous"></script>
-            <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js" integrity="sha512-y3o0Z5TJF1UsKjs/jS2CDkeHN538bWsftxO9nctODL5W40nyXIbs0Pgyu7//icrQY9m6475gLaVr39i/uh/nLA==" crossorigin="anonymous"></script>
             
             <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
@@ -63,6 +63,7 @@
 
             <script src="npm/vue-fragment@latest.js"></script>
             <script src="npm/vue-good-table@latest.JS"></script>
+            <script src="npm/html2pdf.bundle.js"></script>
             
             <script src="js/mixins/support.js"></script>
             <script src="js/mixins/user-input-components.js"></script>
@@ -71,6 +72,7 @@
             <script src="js/mixins/invoices.js"></script>
             <script src="js/mixins/print-invoices.js"></script>
             <script src="js/mixins/table-actions.js"></script>
+            <script src="js/mixins/document.js"></script>
 
             <script src="js/full-page/page-wrapper/support-components/table-actions.js"></script>
 
@@ -84,6 +86,9 @@
             <script async src="js/full-page/dashboard/backup-restore-data.js"></script>
             <script async src="js/full-page/dashboard.js"></script>
 
+
+            <script async src="js/full-page/page-wrapper/support-components/scrolling-table/file-download.js"></script>
+            <script async src="js/full-page/page-wrapper/support-components/scrolling-table/hyperlinks.js"></script>
             <script async src="js/full-page/page-wrapper/support-components/scrolling-table.js"></script>
             
             <script async src="js/full-page/page-wrapper/support-components/user-input/select-checkbox-input.js"></script>
@@ -100,11 +105,13 @@
             <script async src="js/full-page/page-wrapper/add-edit.js"></script>
             <script async src="js/full-page/page-wrapper/resolve-old-lease.js"></script>
 
+            <script async src="js/full-page/page-wrapper/documents/user-input-document.js"></script>
+            <script async src="js/full-page/page-wrapper/documents/add-edit-document.js"></script>
+
             <script async src="js/full-page/page-wrapper/invoices/user-input-invoice/leaseagrm.js"></script>
             <script async src="js/full-page/page-wrapper/invoices/user-input-invoice/utilities.js"></script>
             <script async src="js/full-page/page-wrapper/invoices/user-input-invoice.js"></script>
-            <script async src="js/full-page/page-wrapper/invoices/add-invoice.js"></script>
-            <script async src="js/full-page/page-wrapper/invoices/edit-invoice.js"></script>
+            <script async src="js/full-page/page-wrapper/invoices/add-edit-invoice.js"></script>
             <script async src="js/full-page/page-wrapper/invoices/add-monthly-invoices.js"></script>
 
             <script async src="js/full-page/page-wrapper/invoices/print-invoices/print-pdf.js"></script>
@@ -117,15 +124,8 @@
             <script async src="js/full-page/page-wrapper/utilities/utility-reading.js"></script>
 
             <script src="js/full-page.js"></script>
-
             <script async src="js/setup.js"></script>
-
-            <!-- how to see the github issues - may need to work on this  -->
-            <!-- https://api.github.com/repos/bdt2019unicorn/MayRentManagement/issues?state=open -->
-            <!-- https://docs.github.com/en/free-pro-team@latest/rest/reference/issues -->
-
         </footer>
     </body>
-
 </html>
 

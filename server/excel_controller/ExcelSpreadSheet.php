@@ -55,7 +55,14 @@
         private function InstructionTitles()
         {
             $this->sheet->getColumnDimension("A")->setAutoSize(true); 
-            array_walk($this->instruction_titles, fn($row, $title)=>$this->sheet->setCellValue("A{$row}", $title)); 
+            array_walk
+            (
+                $this->instruction_titles, 
+                function($row, $title)
+                {
+                    $this->sheet->setCellValue("A{$row}", $title);
+                }
+            ); 
             $this->sheet->duplicateStyle($this->instruction_styles, "A1:A{$this->config['total_row']}"); 
         }
         
@@ -109,7 +116,7 @@
             }
 
             DropdownWorkSection: 
-            $dropdown_list = Connect::SelectData($dropdown["table"], $dropdown["selects"], $conditions); 
+            $dropdown_list = Database::SelectData($dropdown["table"], $dropdown["selects"], $conditions); 
             if(!count($dropdown_list))
             {
                 return; 

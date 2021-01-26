@@ -1,42 +1,43 @@
 <?php 
-    namespace PrintInvoices; 
-    require_once("Excel.php"); 
+    namespace PrintInvoices;
+
+use ConnectSqlite;
+
+require_once("Excel.php"); 
     class General 
     {
-        private $logo_image; 
-        private $building_information; 
-        private $invoices; 
+        private $logo_image, $building_information, $invoices, $test_mode; 
         function __construct($building_id)
         {
             $this->logo_image = $this->Base64Logo(); 
+            $this->test_mode = \CurrentEnvironment::TestMode(); 
             $this->PopulateInvoiceData($building_id); 
         }
 
         private function PopulateInvoiceData($building_id)
         {
-            $sql = \Query::GeneralData("buildings", $building_id) . 
-            "
-                SELECT 
-                    *, 
+            $Tenant = function()
+            {
+                $select = \Query::Concat(["IFNULL(`tenant`.`Last_Name`,'')" , "' '", "IFNULL(`tenant`.`First_Name`,'')"], $this->test_mode); 
+                return 
+                "
                     (
-                        SELECT `unit`.`name` FROM `unit` 
-                        WHERE `unit`.`id` = 
-                        (
-                            SELECT `leaseagrm`.`unit_id` FROM `leaseagrm` 
-                            WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
-                        )
-                    ) AS `unit`, 
-                    (
-                        SELECT CONCAT(IFNULL(`tenant`.`Last_Name`,''), ' ', IFNULL(`tenant`.`First_Name`,'')) 
+                        SELECT {$select} 
                         FROM `tenant` 
                         WHERE `tenant`.`id` = 
                         (
                             SELECT `leaseagrm`.`Tenant_ID` FROM `leaseagrm` 
                             WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
                         )
-                    ) AS `tenant`, 
-                    (SELECT `leaseagrm`.`name` FROM `leaseagrm` WHERE `leaseagrm`.`id` = `invoices`.`leaseagrm_id`) AS `leaseagrm`, 
-                    FORMAT
+                    ) AS `tenant` 
+                "; 
+            }; 
+            $GrandTotal = function()
+            {
+                $format = $this->test_mode? "ROUND": "FORMAT"; 
+                return 
+                "
+                    {$format}
                     (
                         (
                             IFNULL
@@ -51,6 +52,24 @@
                             )
                         ), 0  
                     ) AS `grand_total`
+                "; 
+            }; 
+            $building_information = \Query::GeneralData("buildings", $building_id); 
+            $invoices = 
+            "
+                SELECT 
+                    *, 
+                    (
+                        SELECT `unit`.`name` FROM `unit` 
+                        WHERE `unit`.`id` = 
+                        (
+                            SELECT `leaseagrm`.`unit_id` FROM `leaseagrm` 
+                            WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
+                        )
+                    ) AS `unit`, 
+                    {$Tenant()}, 
+                    (SELECT `leaseagrm`.`name` FROM `leaseagrm` WHERE `leaseagrm`.`id` = `invoices`.`leaseagrm_id`) AS `leaseagrm`, 
+                    {$GrandTotal()}
                 FROM `invoices` 
                 WHERE `leaseagrm_id` IN 
                 (
@@ -61,7 +80,16 @@
                     )
                 ); 
             "; 
-            $data = \Connect::MultiQuery($sql, true); 
+
+            if($this->test_mode)
+            {
+                $data = [\ConnectSqlite::Query($building_information), \ConnectSqlite::Query($invoices)]; 
+            }
+            else 
+            {
+                $sql = "{$building_information}\n {$invoices}"; 
+                $data = \Connect::MultiQuery($sql, true); 
+            }
             $this->building_information = $data[0][0];
             $this->invoices = $data[1]; 
         }
@@ -82,7 +110,15 @@
                 {
                     $invoice_id = $invoice["id"]; 
                     $query = InvoiceDetails($invoice_id); 
-                    $invoice_details = \Connect::MultiQuery($query, true); 
+                    if($this->test_mode)
+                    {
+                        $invoice_details = array_filter(explode(";", $query), function($string){return trim($string); });
+                        $invoice_details = array_map(function($sql){return ConnectSqlite::Query($sql); }, $invoice_details); 
+                    }
+                    else 
+                    {
+                        $invoice_details = \Connect::MultiQuery($query, true); 
+                    }
                     
                     return
                     [

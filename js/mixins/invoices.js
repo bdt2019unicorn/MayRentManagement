@@ -31,7 +31,7 @@ var rent_invoice_mixin =
     mixins: [support_mixin], 
     methods: 
     {
-        RentQuantityCalculation(start_period, end_period)
+        RentQuantityCalculation(start_period, end_period, leaseagrm_period="months")
         {
             [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
             let [str_start, str_end] = [start_period, end_period].map(moment_object=>this.DateReformatDatabase(moment_object)); 
@@ -40,10 +40,19 @@ var rent_invoice_mixin =
                 return 0; 
             }
             start_period.subtract(1, "days"); 
-            return end_period.diff(start_period, "months", true).toFixed(3); 
+            let bad_result = end_period.diff(start_period); 
+            let actual_result = end_period.diff(start_period, leaseagrm_period, true); 
+            if(bad_result==actual_result)
+            {
+                let url = "server/invoice_controller/post.php?command=LeasearmPeriodScript"; 
+                let script = this.SubmitData("leaseagrm_period", url, leaseagrm_period, false); 
+                script = `actual_result = ${script}`; 
+                eval(script); 
+            }
+            return actual_result.toFixed(3); 
         }, 
         
-        PopulateRentInformation({revenue_type, price, rent_information, user_input, leaseagrm_id=undefined})
+        PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_period="months", user_input, leaseagrm_id=undefined})
         {
             let details = 
             {
@@ -70,7 +79,7 @@ var rent_invoice_mixin =
                         ...details, 
                         start_date: start_date, 
                         end_date: rent_end_date, 
-                        quantity: this.RentQuantityCalculation(start_date, rent_end_date), 
+                        quantity: this.RentQuantityCalculation(start_date, rent_end_date, leaseagrm_period), 
                         row: row 
                     }
                 }
@@ -103,8 +112,14 @@ var user_input_invoice_component_mixin =
     },
     watch: 
     {
-        list: (new_value, old_value)=> this.PopulateList(new_value),
-        ValidInvoiceDetails: (new_value, old_value)=> this.$emit("input", new_value)
+        list: function(new_value, old_value)
+        {
+            this.PopulateList(new_value); 
+        }, 
+        ValidInvoiceDetails: function(new_value, old_value)
+        {
+            this.$emit("input", new_value); 
+        }
     }
 }
 
@@ -161,16 +176,20 @@ var valid_invoice_details_mixin =
             }
             var valid_details = invoice_details.filter
             (
-                ({amount, ...rest})=> numeral(amount).value()>0
+                ({amount, ...rest})=> numeral(amount).value()>=0
             ); 
             return (valid_details.length<invoice_details.length)? false: 
             invoice_details.map 
             (
-                ({revenue_type, date, previous_date, number, previous_number, id, unit_id, ...rest})=>
+                ({id, name, amount, price, quantity, revenue_type_id, ...rest})=>
                 (
                     {
                         utility_reading_id: id, 
-                        ...rest
+                        name, 
+                        amount, 
+                        price, 
+                        quantity, 
+                        revenue_type_id
                     }
                 )
             ); 

@@ -3,7 +3,6 @@ Vue.component
     "problem-leaseagrms", 
     {
         props: ["leaseagrm"], 
-        mixins: [table_actions_mixin], 
         data: ()=>
         (
             {
@@ -11,6 +10,7 @@ Vue.component
                 leaseagrm_table: "No tenants and unit", 
             }
         ),
+        mixins: [table_actions_mixin], 
         components: {...vueGoodTable, ...vueFragment}, 
         computed: 
         {
