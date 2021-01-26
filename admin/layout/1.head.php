@@ -4,3 +4,4 @@
     <a href=".." class="mx-3">Main Page</a>
     <!-- <a href="./setup.php" class="mx-3">Admin Database Setting</a> -->
     <a href="issues.php" class="mx-3">Issues</a>
+</head>

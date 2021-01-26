@@ -1,9 +1,12 @@
 <html>
-    <?php include_once("layout/1.head.php"); ?>
-    <link rel="stylesheet" type="text/css" href="css/issue.css">
+    <?php include_once("admin/layout/1.head.php"); ?>
     <body>
+        <link rel="stylesheet" type="text/css" href="css/issue.css">
         <div class="container-fluid">
             <?php 
+                require_once("../server/helper/database.php"); 
+                $current_environment = new CurrentEnvironment(); 
+
                 $issue_id = $_GET["id"]??null; 
                 $repo = file_get_contents("repo.json"); 
                 $repo = json_decode($repo); 
@@ -66,7 +69,7 @@
             <?php endif; ?>
         </div>
         <footer>
-            <?php include_once("layout/3.footer.php"); ?>
+            <?php include_once("admin/layout/3.footer.php"); ?>
             <script src="js/issues.js"></script>
             <script>
                 jQuery
