@@ -57,7 +57,7 @@
             $this->total_invoice_amount = OverviewQueries\LeaseAgrm::$TotalInvoiceAmountQuery; 
         }
 
-        private function LeaseAgrm($leaseagrm=null)
+        private function LeaseAgrm($leaseagrm=null, $start_date_data=null, $rent_information=null)
         {
             // $selects = 
             // [
@@ -72,10 +72,10 @@
             $leaseagrm = $leaseagrm?? ConnectSqlite::Query($this->LeaseAgrmSql())[0]; 
             // $leaseagrm = $leaseagrm[0]; 
             $leaseagrm["difference"] = floatval($leaseagrm["total_amount"]) - floatval($leaseagrm["paid_amount"]); 
-            $start_date = $this->StartDate(); 
+            $start_date = $this->StartDate($start_date_data); 
             $leaseagrm["start_date"] = $start_date; 
             $leaseagrm["end_date"] = $this->EndDate($start_date); 
-            $leaseagrm["rent_information"] = $this->RentInformation(); 
+            $leaseagrm["rent_information"] = $this->RentInformation($rent_information); 
             return $leaseagrm; 
         }
 

@@ -30,11 +30,33 @@
 
             $sql = 
             "
-                {$this->LeaseAgrmSql(['`unit_id`', '`Start_date` AS `start_lease`', '(SELECT `unit`.`name` FROM `unit` WHERE `unit`.`id` = `leaseagrm`.`unit_id`) AS `unit_name`'])}
+                {$this->LeaseAgrmSql(['@unit_id:= `unit_id` AS `unit_id`', '`Start_date` AS `start_lease`', '(SELECT `unit`.`name` FROM `unit` WHERE `unit`.`id` = `leaseagrm`.`unit_id`) AS `unit_name`'])}
                 {$this->StartDateSql()}
                 {$this->RentInformationSql()}
+                {$this->AllUtilitiesReadingByUnitIdSql('@unit_id')}
+                {$this->ExistingUtilityReadingIdsSql()}
+                {$this->PossiblePricesSql()}
+                {$this->UtilitiesListSql()}
             "; 
             echo "<pre>"; echo $sql; echo "</pre>"; 
+
+            $data = Connect::MultiQuery($sql, true); 
+            echo "<pre>"; print_r($data); echo "</pre>"; 
+
+            $leaseagrm = $data[0][0]; 
+            $this->start_lease = $leaseagrm["start_lease"]; 
+            $start_date_data = $data[1]; 
+            $rent_information = $data[2]; 
+
+
+            $invoice_information = 
+            [
+                "leaseagrm" => $this->LeaseAgrm($leaseagrm, $start_date_data, $rent_information), 
+                "utilities" => "", 
+                "unit_name" => $leaseagrm["unit_name"]
+            ]; 
+
+            echo "<pre style='color:red;'>"; print_r($invoice_information); echo "</pre>"; 
         }
 
         private function TestEnvironment()
