@@ -2,6 +2,15 @@ jQuery
 (
     function()
     {
+        function CheckEnvironment()
+        {
+            let url = "server/admin_database.php?command=CheckEnvironment"; 
+            let result = support_mixin.methods.AjaxRequest(url); 
+            if(!Number(result))
+            {
+                window.location.href = "admin/setup.php"; 
+            }
+        }
 
         function Router()
         {
@@ -138,12 +147,7 @@ jQuery
             ); 
         }
 
-        new Promise 
-        (
-            (resolve, reject)=>
-            {
-                resolve({router: Router(), store_track: StoreTrack()}); 
-            }
-        ).then(PageElements); 
+        CheckEnvironment(); 
+        new Promise ((resolve, reject)=>resolve({router: Router(), store_track: StoreTrack()})).then(PageElements); 
     }
 ); 

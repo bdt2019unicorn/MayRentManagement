@@ -49,21 +49,8 @@ var general_edit = Vue.component
         {
             $route: function(to, from)
             {
-                new Promise
-                (
-                    (resolve, reject)=>
-                    {
-                        this.edit = false; 
-                        resolve(); 
-                    }
-                ).then 
-                (
-                    ()=>
-                    {
-                        this.edit = true; 
-                    }
-                ); 
-            }    
+                this.ResetValue({value_name: "edit", new_value: true}); 
+            }
         },
         template: `<edit v-if="EditControllerBind" v-bind="EditControllerBind" @edit-building-success="BuildingsData"></edit>`
     } 

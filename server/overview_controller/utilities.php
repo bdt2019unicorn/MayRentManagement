@@ -19,7 +19,7 @@
         if($_POST["unit_id"])
         {
             $conditions_sql.="AND `unit`.`id`='{$_POST['unit_id']}'"; 
-            $units = Connect::GeneralData("unit", $_POST["unit_id"]); 
+            $units = Database::GeneralData("unit", $_POST["unit_id"]); 
         }
     }
     $conditions_sql.="\nORDER BY `utility_reading`.`date`, `unit`.`id`\n"; 
@@ -63,11 +63,11 @@
         {$conditions_sql}
     "; 
 
-    $full_data = Connect::GetData($full_data_sql); 
+    $full_data = Database::GetData($full_data_sql); 
 
-    $dates = Connect::GetData("SELECT DISTINCT `utility_reading`.`date` {$conditions_sql}"); 
-    $units = ($units)?$units: Connect::GetData("SELECT * FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}'"); 
-    $revenue_type_ids = Connect::GetData("SELECT DISTINCT `utility_reading`.`revenue_type_id` {$conditions_sql}"); 
+    $dates = Database::GetData("SELECT DISTINCT `utility_reading`.`date` {$conditions_sql}"); 
+    $units = ($units)?$units: Database::GetData("SELECT * FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}'"); 
+    $revenue_type_ids = Database::GetData("SELECT DISTINCT `utility_reading`.`revenue_type_id` {$conditions_sql}"); 
 
     for ($i=0; $i <count($dates) ; $i++) 
     { 

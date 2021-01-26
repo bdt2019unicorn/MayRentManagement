@@ -1,12 +1,17 @@
 {
+    "edit_action": "edit-document", 
     "hidden_columns": ["unit_id", "unit_table", "revenue_type_id"], 
-    "hyperlink": 
+    "special": 
     {
-        "Unit Name":
+        "list": ["Unit Name"], 
+        "hyperlink": 
         {
-            "controller": "utilities", 
-            "action": "unit-utilities", 
-            "object_id": "unit_id" 
+            "Unit Name":
+            {
+                "controller": "utilities", 
+                "action": "unit-utilities", 
+                "object_id": "unit_id" 
+            }
         }
     }
 }

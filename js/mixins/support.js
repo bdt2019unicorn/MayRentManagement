@@ -52,6 +52,37 @@ var support_mixin =
             return result; 
         }, 
 
+        BlobRequest(url, data={})
+        {
+            var result = null; 
+            $.ajax 
+            (
+                {
+                    url: url, 
+                    type: "POST", 
+                    data: data,  
+                    async: false, 
+                    dataType: 'text',                              
+                    mimeType: 'text/plain; charset=x-user-defined',
+                    success: (data)=>
+                    {
+                        var bytes = new Uint8Array(data.length);
+                        for (var i = 0; i < data.length; i++) 
+                        {
+                            bytes[i] = data.charCodeAt(i);
+                        }
+                        result = new Blob([bytes], {type: "application/octetstream"}); 
+                    }, 
+                    error: function(error)
+                    {
+                        alert("There is something wrong with the server! Please try again"); 
+                        console.log(error); 
+                    }
+                }
+            ); 
+            return result; 
+        }, 
+
         BuildingsData()
         {
             let buildings_data = this.TableData("buildings").map 
@@ -118,8 +149,37 @@ var support_mixin =
                 ...params
             }
 
-            let search = Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
+            let search = this.SearchQueryString(params); 
             return `server/overview_controller/overview_controller.php?${search}`; 
+        }, 
+        ResetValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
+        {
+            new Promise 
+            (
+                (resolve, reject)=>
+                {
+                    this[value_name] = undefined_value; 
+                    if(callback)
+                    {
+                        callback(); 
+                    }
+                    resolve(new_value); 
+                }
+            ).then
+            (
+                new_value=>
+                {
+                    this[value_name] = new_value; 
+                    if(callback_resolve)
+                    {
+                        callback_resolve(); 
+                    }
+                }
+            ); 
+        }, 
+        SearchQueryString(params)
+        {
+            return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
         }, 
         StateObject(state_property)
         {
@@ -129,8 +189,18 @@ var support_mixin =
         {
             var form_data = new FormData(); 
             form_data.append(key, (stringify)?JSON.stringify(data): data); 
+            this.SubmitUserInformation(form_data); 
             return this.AjaxRequest(url,form_data, "post");
         },
+        SubmitUserInformation(form_data)
+        {
+            try 
+            {
+                form_data.append("username", sessionStorage.getItem("username")); 
+                form_data.append("modified_time", moment().format("YYYY-MM-DD HH:MM:ss")); 
+            }
+            catch {}
+        }, 
         TableActions(controller)
         {
             var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);

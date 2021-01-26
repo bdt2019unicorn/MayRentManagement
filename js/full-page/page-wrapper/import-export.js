@@ -2,8 +2,8 @@ Vue.component
 (
     "import-export", 
     {
-        mixins: [support_mixin], 
         data: ()=>({excel_data: []}), 
+        mixins: [support_mixin], 
         components: {...vueGoodTable, ...vueFragment, FileUpload: VueUploadComponent}, 
         computed: 
         {

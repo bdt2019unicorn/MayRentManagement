@@ -8,6 +8,6 @@
     $data = RowData($row, $params); 
 
     $sql = Query::Update($_GET["table"], $data, ["id"=>$_GET["id"]]);
-    $result = Connect::GetData($sql); 
+    $result = CurrentEnvironment::TestMode()? ConnectSqlite::Exec($sql): Connect::GetData($sql); 
     echo $result; 
 ?>

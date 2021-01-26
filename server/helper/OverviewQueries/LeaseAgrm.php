@@ -1,10 +1,11 @@
 <?php 
     namespace OverviewQueries; 
+    use Query; 
     class LeaseAgrm
     {
-        public static function OverviewDashboard()
+        public static function OverviewDashboard($test_mode = false)
         {
-            return LeaseAgrm::GeneralQuery(). 
+            return LeaseAgrm::GeneralQuery($test_mode). 
             "
                 WHERE 
                     `leaseagrm`.`unit_id` IS NULL OR 
@@ -13,9 +14,9 @@
             "; 
         }
 
-        public static function OverviewBuildingId($building_id)
+        public static function OverviewBuildingId($building_id, $test_mode=false)
         {
-            return LeaseAgrm::GeneralQuery(). "\n WHERE `unit`.`building_id` = '{$building_id}'; "; 
+            return LeaseAgrm::GeneralQuery($test_mode). "\n WHERE `unit`.`building_id` = '{$building_id}'; "; 
         }
 
         public static function TotalPaidAmountQuery()
@@ -45,17 +46,13 @@
 
         private static $DepositQuery = 
         "
-            IF
             (
-                ISNULL(`Deposit_payment_date`), 
-                0, 
-                IF
-                (
-                    `Deposit_payment_date` < CURRENT_DATE, 
-                    IFNULL(`Deposit_amount`, 0), 
-                    0
-                )
-            ) 
+                CASE 
+                    WHEN `Deposit_payment_date` IS NULL THEN 0 
+                    WHEN `Deposit_payment_date` < CURRENT_DATE THEN IFNULL(`Deposit_amount`, 0)
+                    ELSE 0 
+                END	
+            )
         "; 
 
         private static $TotalPaidRevenueQuery = 
@@ -72,40 +69,50 @@
             )
         "; 
 
-        private static function CompareTotals($main_total_query, $compared_total_query, $as)
+        private static function CompareTotals($main_total_query, $compared_total_query, $as, $test_mode=false)
         {
-            return 
+            $format = $test_mode? "ROUND" : "FORMAT";  
+
+            $condition = 
             "
                 (
-                    IF
-                    (
-                        (
-                            {$main_total_query} - {$compared_total_query} > 0 
-                        ), 
-                        CONCAT
-                        (
-                            '(', 
-                            CONVERT
-                            (
-                                (
-                                    FORMAT({$main_total_query} - {$compared_total_query}, 0)
-                                ), 
-                                CHAR 
-                            ),
-                            ')' 
-                        ), 
-                        (
-                            FORMAT({$compared_total_query} - {$main_total_query}, 0)
-                        )
-                    )
-                ) AS `{$as}` 
+                    {$main_total_query} - {$compared_total_query}
+                ) > 0
             "; 
+
+            $true = Query::Concat
+            (
+                [
+                    "'('", 
+                    Query::CastAsChar("(\n{$format}({$main_total_query} - {$compared_total_query}, 0)\n)", $test_mode), 
+                    "')'"
+                ], $test_mode
+            ); 
+
+            $false = 
+            "
+                (
+                    {$format}({$compared_total_query} - {$main_total_query}, 0)
+                )
+            "; 
+
+            return "(\n" . Query::CaseWhen($condition, $true, $false) . "\n) AS `{$as}`"; 
         }
 
-        private static function GeneralQuery()
+        private static function GeneralQuery($test_mode=false)
         {
-            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit"); 
-            $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance"); 
+            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit", $test_mode); 
+            $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance", $test_mode); 
+
+            $tenant_name = "(\n" . Query::CaseWhen
+            (
+                "`leaseagrm`.`Tenant_ID` IS NULL", 
+                "NULL", 
+                Query::Concat(["IFNULL(`tenant`.`Last_Name`,'')", "', '" ,"IFNULL(`tenant`.`First_Name`, '')"], $test_mode)
+            ) ."\n)"; 
+
+            $start_date = Query::DateFormatStandard("`Start_date`", $test_mode); 
+            $end_date = Query::DateFormatStandard("`Finish`", $test_mode); 
 
             return 
             "
@@ -113,9 +120,9 @@
                     `leaseagrm`.`id` as `ID`, 
                     `leaseagrm`.`name` AS `Name`, 
                     `unit`.`name` as `Unit`, 
-                    CONCAT(IFNULL(`tenant`.`Last_Name`,''),', ',IFNULL(`tenant`.`First_Name`, '')) AS `Tenant Name`, 
-                    DATE_FORMAT(`Start_date`,'%d/%m/%Y') AS `Start Date`, 
-                    DATE_FORMAT(`Finish`,'%d/%m/%Y') AS `End Date`, 
+                    {$tenant_name} AS `Tenant Name`, 
+                    {$start_date} AS `Start Date`, 
+                    {$end_date} AS `End Date`, 
                     {$outstanding_balance},
                     {$deposit} 
                 FROM `leaseagrm`

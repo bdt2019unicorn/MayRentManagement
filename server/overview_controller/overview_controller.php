@@ -1,11 +1,17 @@
 <?php 
+
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
+    
+    $edit = $_GET["edit"]??null; 
+    $building_id = $_GET["building_id"]??null; 
+    $id = $_GET["id"]??null; 
+    $test_mode = CurrentEnvironment::TestMode(); 
+    $unit_id = $_GET["unit_id"]??null; 
 
-    $actions = ["overview", "utilities"]; 
-
-    $generic_controllers = ["buildings", "expense_type", "revenue_type"]; 
     $overview_controller = $_GET["overview_controller"]; 
+    $actions = ["overview", "utilities"]; 
+    $generic_controllers = ["buildings", "expense_type", "leaseagrm_period", "revenue_type"]; 
 
     if(in_array($overview_controller, $actions))
     {
@@ -13,31 +19,29 @@
     }
     else if (in_array($overview_controller, $generic_controllers))
     {
-        $overview_data = Connect::GeneralData($overview_controller, $_GET["id"]??null); 
+        $overview_data = Database::GeneralData($overview_controller, $id); 
     }
     else 
     {
         $sql_queries = array 
         (
-            "unit"=>function()
+            "unit"=>function() use ($edit, $building_id, $id, $test_mode)
             {
-                $unit = new OverviewQueries\Unit($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
+                $unit = new OverviewQueries\Unit($edit, $building_id, $id, $test_mode);
                 return Query::SelectData("unit", $unit->GetArray("Selects"), $unit->GetArray("Conditions")); 
-            },            
-            "expense"=> function()
+            },  
+            "tenant"=> function() use ($edit, $building_id, $id, $test_mode)
             {
-                return isset($_GET["edit"])? Query::GeneralData("expense", $_GET['id']??null): 
-                "
-                    SELECT `expense`.`id` AS `ID`, `expense`.`name` AS `Name`, `expense_type`.`name` AS `Type`, DATE_FORMAT(`expense`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`, `expense`.`Amount`
-                    FROM `expense`, `expense_type` 
-                    WHERE 
-                        `expense`.`expense_type_id` = `expense_type`.`id` AND
-                        `expense`.`building_id` = '{$_GET['building_id']}'
-                "; 
-            }, 
-            "invoices"=>function()
+                $tenant = new OverviewQueries\Tenant($edit, $building_id, $id, $test_mode); 
+                return Query::SelectData("tenant", $tenant->GetArray("Selects"), $tenant->GetArray("Conditions")); 
+            },   
+            "leaseagrm"=> function() use ($edit, $building_id, $id, $test_mode)
             {
-                return (isset($_GET["edit"]))? Query::GeneralData("invoices", $_GET["id"]??null): 
+                return $edit? Query::GeneralData("leaseagrm", $id): OverviewQueries\LeaseAgrm::OverviewBuildingId($building_id, $test_mode); 
+            },   
+            "invoices"=>function() use ($edit, $building_id, $id)
+            {
+                return $edit? Query::GeneralData("invoices", $id): 
                 "
                     SELECT 
                         `invoices`.`id` AS `ID`, 
@@ -57,36 +61,43 @@
                     WHERE 
                     	`invoices`.`leaseagrm_id` = `leaseagrm`.`id` AND 
                         `leaseagrm`.`unit_id` = `unit`.`id` AND
-                        `unit`.`building_id` = '{$_GET['building_id']}'
+                        `unit`.`building_id` = '{$building_id}'
                 "; 
-            }, 
-            "leaseagrm"=> function()
+            },                   
+            "revenue"=>function() use ($edit, $building_id, $id)
             {
-                return (isset($_GET["edit"]))? Query::GeneralData("leaseagrm", $_GET["id"]??null): OverviewQueries\LeaseAgrm::OverviewBuildingId($_GET['building_id']); 
-            },             
-            "revenue"=>function()
-            {
-                return (isset($_GET["edit"]))? Query::GeneralData("revenue", $_GET["id"]??null): 
+                return $edit? Query::GeneralData("revenue", $id): 
                 "
                     SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`, `unit`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
                     FROM `revenue`,`leaseagrm`, `unit`
                     WHERE 
                         `revenue`.`leaseagrm_id` = `leaseagrm`.`id` AND
                         `leaseagrm`.`unit_id` = `unit`.`id` AND
-                        `unit`.`building_id` = '{$_GET['building_id']}'
+                        `unit`.`building_id` = '{$building_id}'
                 "; 
             }, 
-            "tenant"=> function()
+            "expense"=> function() use ($edit, $building_id, $id)
             {
-                $tenant = new OverviewQueries\Tenant($_GET["edit"]??null, $_GET["building_id"]??null, $_GET["id"]??null); 
-                return Query::SelectData("tenant", $tenant->GetArray("Selects"), $tenant->GetArray("Conditions")); 
+                return isset($_GET["edit"])? Query::GeneralData("expense", $id): 
+                "
+                    SELECT `expense`.`id` AS `ID`, `expense`.`name` AS `Name`, `expense_type`.`name` AS `Type`, DATE_FORMAT(`expense`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`, `expense`.`Amount`
+                    FROM `expense`, `expense_type` 
+                    WHERE 
+                        `expense`.`expense_type_id` = `expense_type`.`id` AND
+                        `expense`.`building_id` = '{$building_id}'
+                "; 
+            },
+            "documents"=> function() use ($edit, $building_id, $id, $unit_id, $test_mode)
+            {
+                $documents = new OverviewQueries\Documents($edit, $building_id, $id); 
+                return $unit_id? $documents->DocumentsByUnit($unit_id, $test_mode): $documents->Documents($test_mode); 
             }, 
-            "user" => function()
+            "user" => function() use ($edit, $building_id, $id)
             {
-                return Query::GeneralData("user", $_GET["id"]); 
+                return Query::GeneralData("user", $id); 
             }
         ); 
-        $overview_data = Connect::GetData($sql_queries[$overview_controller]()); 
+        $overview_data = Database::GetData($sql_queries[$overview_controller]()); 
     }
 
     if(isset($overview_data))

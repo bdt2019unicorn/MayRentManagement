@@ -5,7 +5,7 @@
     $ids = json_decode($_POST[$post_key]); 
 
     $queries = Query::Delete($_GET["table"], "id", $ids); 
-    $result = Connect::ExecTransaction($queries); 
+    $result = Database::ExecTransaction($queries); 
     echo $result; 
 
 ?>
