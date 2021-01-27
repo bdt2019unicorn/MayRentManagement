@@ -48,6 +48,11 @@
             $start_date_data = $data[1]; 
             $rent_information = $data[2]; 
 
+            $all_utility_reading = $data[3]; 
+            $existing_utility_reading = $data[4]; 
+            $possible_prices = $data[5]; 
+            $utility_list = $data[6]; 
+
 
             $invoice_information = 
             [

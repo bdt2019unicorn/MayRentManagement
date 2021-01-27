@@ -44,7 +44,7 @@
     {
         use LeaseAgrmSql; 
         private $leaseagrm_id, $rent_id, $total_paid_amount, $total_invoice_amount, $start_lease; 
-        private $date_format = "Y-m-d"; 
+        private $date_format = "Y-m-d", $test_mode; 
         function __construct($leaseagrm_id)
         {
             $helper_path = __DIR__ . "/../../helper"; 
@@ -55,6 +55,8 @@
             $this->rent_id = OverviewQueries\Invoices::RentId(); 
             $this->total_paid_amount = OverviewQueries\LeaseAgrm::TotalPaidAmountQuery(); 
             $this->total_invoice_amount = OverviewQueries\LeaseAgrm::$TotalInvoiceAmountQuery; 
+
+            $this->test_mode = CurrentEnvironment::TestMode(); 
         }
 
         private function LeaseAgrm($leaseagrm=null, $start_date_data=null, $rent_information=null)

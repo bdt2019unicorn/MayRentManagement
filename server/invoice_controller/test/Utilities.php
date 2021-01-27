@@ -42,6 +42,7 @@
             return array_map(function($utility_reading){return $utility_reading["utility_reading_id"]; }, $data); 
         }
 
+        private $possible_prices; 
         private function ProcessUtilityReadingByUnitData($data, $revenue_type=null)
         {
             if(count($data)<=1)
@@ -55,11 +56,18 @@
                 
                 $UtilityPrice =function($previous_date) use ($revenue_type)
                 {
-                    $sql = "SELECT * FROM `utility_price` WHERE `revenue_type_id` = '{$revenue_type['id']}' AND `date_valid` <='{$previous_date}' ORDER BY `date_valid` DESC LIMIT 1;"; 
-                    $data = ConnectSqlite::Query($sql); 
-                    return count($data)? $data[0]["value"] : 0; 
+                    if($this->test_mode)
+                    {
+                        $sql = "SELECT * FROM `utility_price` WHERE `revenue_type_id` = '{$revenue_type['id']}' AND `date_valid` <='{$previous_date}' ORDER BY `date_valid` DESC LIMIT 1;"; 
+                        $data = ConnectSqlite::Query($sql); 
+                        return count($data)? $data[0]["value"] : 0; 
+                    }
+                    else 
+                    {
+
+                    }
                 }; 
-                $price = $data[$i]["price"]?? $UtilityPrice($previous_date); 
+                $price = $UtilityPrice($previous_date); 
                 $data[$i]["previous_date"] = $previous_date; 
                 $data[$i]["previous_number"] = $previous_number; 
                 $data[$i]["price"] = $price; 
@@ -148,9 +156,21 @@
             return array_reduce($utilities, function($current, $utility){return array_merge($current, $utility); }, []); 
         }
 
-        private function UtilitiesProduction()
+        private function UtilitiesProduction($all_utility_reading, $existing_utility_reading, $possible_prices, $utility_list)
         {
-            
+            $utility_list = array_map
+            (
+                function($revenue_type) use ($all_utility_reading, $existing_utility_reading, $possible_prices) 
+                { 
+                    $Filterfunction = function($utility_reading) use ($revenue_type) { return $utility_reading["revenue_type_id"] == $revenue_type["id"]; }; 
+                    return 
+                    [
+                        "data" => array_filter($all_utility_reading, $Filterfunction), 
+                        "existing_utility_reading" => array_filter($existing_utility_reading, $Filterfunction), 
+                        "price" => array_filter($possible_prices, $Filterfunction)
+                    ]; 
+                }, $utility_list
+            ); 
         }
     }
 ?>
