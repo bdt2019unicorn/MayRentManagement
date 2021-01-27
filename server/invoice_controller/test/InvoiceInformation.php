@@ -57,7 +57,7 @@
             $invoice_information = 
             [
                 "leaseagrm" => $this->LeaseAgrm($leaseagrm, $start_date_data, $rent_information), 
-                "utilities" => "", 
+                "utilities" => $this->UtilitiesProduction($all_utility_reading, $existing_utility_reading, $possible_prices, $utility_list), 
                 "unit_name" => $leaseagrm["unit_name"]
             ]; 
 

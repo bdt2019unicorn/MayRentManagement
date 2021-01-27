@@ -26,7 +26,7 @@
             return 
             "
                 SELECT * FROM `utility_price` 
-                WHERE `date_valid` <= (SELECT MIN(`date`) FROM `utility_reading` WHERE `unit_id` = @unit_id) 
+                WHERE `date_valid` <= (SELECT MAX(`date`) FROM `utility_reading` WHERE `unit_id` = @unit_id) 
                 ORDER BY `revenue_type_id`, `date_valid` DESC;
             "; 
         }
@@ -42,8 +42,7 @@
             return array_map(function($utility_reading){return $utility_reading["utility_reading_id"]; }, $data); 
         }
 
-        private $possible_prices; 
-        private function ProcessUtilityReadingByUnitData($data, $revenue_type=null)
+        private function ProcessUtilityReadingByUnitData($data, $revenue_type)
         {
             if(count($data)<=1)
             {
@@ -64,7 +63,18 @@
                     }
                     else 
                     {
-
+                        $previous_date = new DateTime($previous_date); 
+                        $previous_prices = $revenue_type; 
+                        $index = 0; 
+                        while($index<count($previous_prices))
+                        {
+                            $date_valid = new DateTime($previous_prices[$index]["date_valid"]);  
+                            if($date_valid<=$previous_date)
+                            {
+                                return $previous_prices[$index]["value"]; 
+                            }
+                        }
+                        return 0; 
                     }
                 }; 
                 $price = $UtilityPrice($previous_date); 
@@ -92,6 +102,11 @@
                     return false; 
                 }
             ); 
+        }
+
+        private function MergeAllUtilityValues($utilities)
+        {
+            return array_reduce($utilities, function($current, $utility){return array_merge($current, $utility); }, []); 
         }
     }
 
@@ -153,7 +168,7 @@
                     return $this->UtilitiesDataFilter($data, $existing_utility_reading_ids); 
                 }, $utilities
             ); 
-            return array_reduce($utilities, function($current, $utility){return array_merge($current, $utility); }, []); 
+            return $this->MergeAllUtilityValues($utilities); 
         }
 
         private function UtilitiesProduction($all_utility_reading, $existing_utility_reading, $possible_prices, $utility_list)
@@ -163,14 +178,25 @@
                 function($revenue_type) use ($all_utility_reading, $existing_utility_reading, $possible_prices) 
                 { 
                     $Filterfunction = function($utility_reading) use ($revenue_type) { return $utility_reading["revenue_type_id"] == $revenue_type["id"]; }; 
-                    return 
-                    [
-                        "data" => array_filter($all_utility_reading, $Filterfunction), 
-                        "existing_utility_reading" => array_filter($existing_utility_reading, $Filterfunction), 
-                        "price" => array_filter($possible_prices, $Filterfunction)
-                    ]; 
+                    $data = array_values(array_filter($all_utility_reading, $Filterfunction)); 
+                    $existing_utility_reading_data = array_filter($existing_utility_reading, $Filterfunction); 
+                    // $prices = usort
+                    // (
+                    //     array_filter($possible_prices, $Filterfunction), 
+                    //     function($first_value, $second_value)
+                    //     {
+                    //         $first_date_valid = new DateTime($first_value["date_valid"]); 
+                    //         $second_date_valid = new DateTime($second_value["date_valid"]); 
+                    //         return $first_date_valid>$second_date_valid? -1: 1; 
+                    //     }
+                    // ); 
+                    $prices = array_values(array_filter($possible_prices, $Filterfunction)); 
+                    $data = $this->ProcessUtilityReadingByUnitData($data, $prices); 
+                    $existing_utility_reading_data = $this->ExistingUtilityReadingIds($existing_utility_reading_data); 
+                    return $this->UtilitiesDataFilter($data, $existing_utility_reading_data); 
                 }, $utility_list
             ); 
+            return $this->MergeAllUtilityValues($utility_list); 
         }
     }
 ?>
