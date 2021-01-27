@@ -148,16 +148,7 @@ var valid_invoice_details_mixin =
                     }
                     return this.ValidObject(validation); 
                 }
-            ).map 
-            (
-                ({amount, display, valid, title, row, leaseagrm_id, ...rest})=>
-                {
-                    return {
-                        amount: amount.toString().replaceAll(",",""), 
-                        ...rest
-                    }; 
-                }
-            ); 
+            ).map(({name, revenue_type_id, start_date, end_date, price, quantity, amount, ...rest})=>({name, revenue_type_id, start_date, end_date, price, quantity, amount: amount.toString().replaceAll(",","")})); 
 
             return (leaseagrm.length<invoice_details.length)?false: leaseagrm; 
         }, 
@@ -179,20 +170,7 @@ var valid_invoice_details_mixin =
                 ({amount, ...rest})=> numeral(amount).value()>=0
             ); 
             return (valid_details.length<invoice_details.length)? false: 
-            invoice_details.map 
-            (
-                ({id, name, amount, price, quantity, revenue_type_id, ...rest})=>
-                (
-                    {
-                        utility_reading_id: id, 
-                        name, 
-                        amount, 
-                        price, 
-                        quantity, 
-                        revenue_type_id
-                    }
-                )
-            ); 
+            invoice_details.map(({id, name, amount, price, quantity, revenue_type_id, ...rest})=>({utility_reading_id: id, name, amount, price, quantity, revenue_type_id})); 
         }    
     } 
 }
