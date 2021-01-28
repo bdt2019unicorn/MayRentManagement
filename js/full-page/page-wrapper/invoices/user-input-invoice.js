@@ -117,7 +117,7 @@ Vue.component
 
             MultiSelectInput(property)
             {
-                if(this.list[property].length==0)
+                if(!this.list[property].length)
                 {
                     this.invoice_details[property] = []; 
                 }
