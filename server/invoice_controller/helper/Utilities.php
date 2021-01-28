@@ -16,7 +16,7 @@
         {
             return 
             "
-                SELECT `utility_reading_id` FROM `invoice_utilities` 
+                SELECT `utility_reading_id`, `revenue_type_id` FROM `invoice_utilities` 
                 WHERE `invoice_id` IN (SELECT `id` FROM `invoices` WHERE `leaseagrm_id` = '{$this->leaseagrm_id}');
             "; 
         }

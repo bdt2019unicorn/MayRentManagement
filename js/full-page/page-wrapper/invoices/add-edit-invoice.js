@@ -7,7 +7,7 @@ Vue.component
         {
             Submit(invoices)
             {
-                let url = "server/invoice_controller/post.php?action=Import"; 
+                let url = "server/invoice_controller/post.php?command=Import"; 
                 let result = this.SubmitData("invoices", url, invoices); 
                 if(Number(result))
                 {
