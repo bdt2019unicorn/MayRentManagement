@@ -182,15 +182,16 @@
                 $details = 
                 [
                     ["{$index}. {$utility['name']}"], 
-                    ["Begining", $DateFormat($utility['previous_date']), "", "", "", $NumberFormat($utility['previous_number']), "Kws"], 
-                    ["Finishing", $DateFormat($utility['date']), "", "", "", $NumberFormat($utility['number']), "Kws"], 
-                    ["Total", $NumberFormat($utility['price']), "Vnd/Kws", "", "", $NumberFormat($utility['quantity']), "Kws", $NumberFormat($utility['amount'])]  
+                    ["Begining", $DateFormat($utility['previous_date']), "", "", "", $NumberFormat($utility['previous_number'])], 
+                    ["Finishing", $DateFormat($utility['date']), "", "", "", $NumberFormat($utility['number'])], 
+                    ["Total", $NumberFormat($utility['price']), "", "", "", $NumberFormat($utility['quantity']), "", $NumberFormat($utility['amount'])]  
                 ]; 
 
                 $end_row = $row_position + count($details) - 1; 
 
                 $sheet->fromArray($details, null, "B{$row_position}"); 
                 $sheet->getStyle("B{$row_position}:H{$end_row}")->applyFromArray($range_styles); 
+                $sheet->getStyle("G{$row_position}:G{$end_row}")->getAlignment()->setHorizontal("right"); 
                 $sheet->getStyle("I{$row_position}:I{$end_row}")->applyFromArray($right_number_detail_styles); 
                 $sheet->mergeCells("B{$row_position}:H{$row_position}"); 
                 $row_position = $end_row + 1; 
