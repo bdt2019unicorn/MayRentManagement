@@ -73,6 +73,7 @@
                             {
                                 return $previous_prices[$index]["value"]; 
                             }
+                            $index++; 
                         }
                         return 0; 
                     }
