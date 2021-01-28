@@ -7,8 +7,7 @@
         use LeaseAgrm, Utilities; 
         public function GetInformation()
         {
-            $test_mode = CurrentEnvironment::TestMode(); 
-            return $test_mode? $this->TestEnvironment(): $this->ProductionEnvironment(); 
+            return $this->test_mode? $this->TestEnvironment(): $this->ProductionEnvironment(); 
         }
 
         public function ProductionEnvironment()
@@ -34,7 +33,6 @@
             $existing_utility_reading = $data[4]; 
             $possible_prices = $data[5]; 
             $utility_list = $data[6]; 
-
 
             $invoice_information = 
             [
