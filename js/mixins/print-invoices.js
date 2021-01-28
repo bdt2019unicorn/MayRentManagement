@@ -24,6 +24,8 @@ var print_invoices_mixin =
         }, 
         InvoiceHtml(invoice, {footer, image})
         {
+            UtilityDateFormat = (date)=> moment(date).format("hh:mmA, Do MMM YYYY"); 
+            UtilitySpan = (number)=> `<span class="float-right mx-3">${this.NumeralFormat(Number(number))}</span>`; 
             return `
                 <table style="width: 100%; margin: 3px;"
                     <tr><td colspan="5" style="text-align: center;"><img src="${image}"></td></tr>
@@ -60,47 +62,47 @@ var print_invoices_mixin =
                 </style>
                 <table class="description">
                     <tr>
-                        <th style="text-align: left;">DESCRIPTION</th>
-                        <th style="text-align: right;">VND</th>
+                        <th class="text-left">DESCRIPTION</th>
+                        <th class="text-right">VND</th>
                     </tr>
                     ${
                         invoice.details.leaseagrm.map
                         (
-                            ({amount, name, ...rest})=>`<tr><td style="text-align: left;">${name}</td><td style="text-align: right;">${this.NumeralFormat(amount)}</td></tr>`
+                            ({amount, name, ...rest})=>`<tr><td class="text-left px-3">${name}</td><td class="text-right px-3">${this.NumeralFormat(amount)}</td></tr>`
                         ).join("\n") 
                     }
                     ${
                         invoice.details.utilities.map 
                         (
-                            ({name, previous_date, date, previous_number, number, amount, ...rest})=>
+                            ({name, previous_date, date, previous_number, number, quantity, price, amount, ...rest})=>
                             `
                                 <tr>
                                     <td>
                                         <table class="utilities">
-                                            <tr><td colspan="2">${name}</td></tr>
+                                            <tr><td colspan="2" class="px-3">${name}</td></tr>
                                             <tr>
-                                                <td>
+                                                <td class="px-3">
                                                     Begining<br>
                                                     Finishing<br>
                                                     Total 
                                                 </td>
                                                 <td>
-                                                    ${previous_date} <br>
-                                                    ${date} <br>
-                                                    ${this.NumeralFormat((Number(number) - Number(previous_number)))} VND/m3
+                                                    ${UtilityDateFormat(previous_date)} ${UtilitySpan(previous_number)} <br>
+                                                    ${UtilityDateFormat(date)} ${UtilitySpan(number)} <br>
+                                                    ${this.NumeralFormat(Number(price))} ${UtilitySpan(quantity)}
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td style="text-align: right;"><br><br><br>${this.NumeralFormat(amount)}</td>
+                                    <td class="text-right px-3"><br><br><br>${this.NumeralFormat(amount)}</td>
                                 </tr>
                             `
                         ).join("\n") 
                     }
 
                     <tr>
-                        <th style="text-align: left;">Grand Total</th>
-                        <th style="text-align: right;">${this.NumeralFormat(invoice.invoice["grand_total"])}</th>
+                        <th class="text-left">Grand Total</th>
+                        <th class="text-right">${this.NumeralFormat(invoice.invoice["grand_total"])}</th>
                     </tr>
                 </table>
                 <br>
