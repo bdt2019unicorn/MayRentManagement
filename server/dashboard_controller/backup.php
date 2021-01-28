@@ -43,6 +43,19 @@
         }
     
         array_push($result, "SET FOREIGN_KEY_CHECKS=1;", "COMMIT;"); 
+
+        $temp_folder = CurrentEnvironment::TempFolderPath(); 
+        if(!$temp_folder)
+        {
+            $temp_folder = CurrentEnvironment::CreateFolder("/server/temp"); 
+        }
+        $backup_folder = "{$temp_folder}/backup"; 
+        if(!file_exists($backup_folder))
+        {
+            mkdir($backup_folder); 
+        }
+        
+        file_put_contents("$backup_folder/may_backup_database.sql", implode("\n", $result)); 
     
         header('Content-Type: application/sql');
         header('Content-Disposition: attachment; filename=may_backup_database.sql');

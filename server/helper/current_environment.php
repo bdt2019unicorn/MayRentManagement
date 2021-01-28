@@ -12,28 +12,40 @@
 
         public static function Setup()
         {
-            $dotenv = CurrentEnvironment::DotEnvPath(); 
-            $test_sqlite = CurrentEnvironment::TestSqliteDatabasePath(); 
             $dir = CurrentEnvironment::MainDir(); 
-            if(!$dotenv)
+            if(!CurrentEnvironment::TestSqliteDatabasePath($dir))
             {
                 copy("{$dir}/.env.example", "{$dir}/.env"); 
             } 
-            if(!$test_sqlite)
+            if(!CurrentEnvironment::TestSqliteDatabasePath($dir))
             {
                 copy("{$dir}/database.db.example", "{$dir}/database.db"); 
             }
+            if(!CurrentEnvironment::TempFolderPath($dir))
+            {
+                CurrentEnvironment::CreateFolder("/server/temp", $dir); 
+            }
         }
 
-        public static function DotEnvPath()
+        public static function CreateFolder($path, $dir = CurrentEnvironment::MainDir())
         {
-            $dir = CurrentEnvironment::MainDir(); 
+            $folder_path = "{$dir}{$path}"; 
+            mkdir($folder_path);
+            return $folder_path; 
+        }
+
+        public static function TempFolderPath($dir = CurrentEnvironment::MainDir())
+        {
+            return realpath("{$dir}/server/temp"); 
+        }
+
+        public static function DotEnvPath($dir = CurrentEnvironment::MainDir())
+        {
             return realpath("{$dir}/.env"); 
         }
 
-        public static function TestSqliteDatabasePath()
+        public static function TestSqliteDatabasePath($dir = CurrentEnvironment::MainDir())
         {
-            $dir = CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/database.db"); 
         }
 
