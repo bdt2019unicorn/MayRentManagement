@@ -10,6 +10,32 @@
     }
     else 
     {
+        $temp_folder = CurrentEnvironment::TempFolderPath(); 
+        if(!$temp_folder)
+        {
+            $temp_folder = CurrentEnvironment::CreateFolder("/server/temp"); 
+        }
+        $SetupFolder = function(...$paths)
+        {
+            foreach ($paths as $path) 
+            {
+                if(!file_exists($path))
+                {
+                    mkdir($path); 
+                }
+            }
+        }; 
+        $backup_folder = "{$temp_folder}/backup"; 
+        if(!file_exists($backup_folder))
+        {
+            mkdir($backup_folder); 
+        }
+        $documents_folder = "{$backup_folder}/documents"; 
+        if(!file_exists($documents_folder))
+        {
+            mkdir($documents_folder); 
+        }
+
         $sql = 
         "
             SET @db=DATABASE(); 
@@ -43,17 +69,6 @@
         }
     
         array_push($result, "SET FOREIGN_KEY_CHECKS=1;", "COMMIT;"); 
-
-        $temp_folder = CurrentEnvironment::TempFolderPath(); 
-        if(!$temp_folder)
-        {
-            $temp_folder = CurrentEnvironment::CreateFolder("/server/temp"); 
-        }
-        $backup_folder = "{$temp_folder}/backup"; 
-        if(!file_exists($backup_folder))
-        {
-            mkdir($backup_folder); 
-        }
         
         file_put_contents("$backup_folder/may_backup_database.sql", implode("\n", $result)); 
     
