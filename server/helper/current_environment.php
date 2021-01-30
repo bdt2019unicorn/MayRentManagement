@@ -27,25 +27,40 @@
             }
         }
 
-        public static function CreateFolder($path, $dir = CurrentEnvironment::MainDir())
+        public static function SetupFolder(...$paths)
         {
+            foreach ($paths as $path) 
+            {
+                if(!file_exists($path))
+                {
+                    mkdir($path); 
+                }
+            }
+        }
+
+        public static function CreateFolder($path, $dir=null)
+        {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
             $folder_path = "{$dir}{$path}"; 
             mkdir($folder_path);
             return $folder_path; 
         }
 
-        public static function TempFolderPath($dir = CurrentEnvironment::MainDir())
+        public static function TempFolderPath($dir=null)
         {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/server/temp"); 
         }
 
-        public static function DotEnvPath($dir = CurrentEnvironment::MainDir())
+        public static function DotEnvPath($dir=null)
         {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/.env"); 
         }
 
-        public static function TestSqliteDatabasePath($dir = CurrentEnvironment::MainDir())
+        public static function TestSqliteDatabasePath($dir=null)
         {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/database.db"); 
         }
 

@@ -15,26 +15,9 @@
         {
             $temp_folder = CurrentEnvironment::CreateFolder("/server/temp"); 
         }
-        $SetupFolder = function(...$paths)
-        {
-            foreach ($paths as $path) 
-            {
-                if(!file_exists($path))
-                {
-                    mkdir($path); 
-                }
-            }
-        }; 
         $backup_folder = "{$temp_folder}/backup"; 
-        if(!file_exists($backup_folder))
-        {
-            mkdir($backup_folder); 
-        }
-        $documents_folder = "{$backup_folder}/documents"; 
-        if(!file_exists($documents_folder))
-        {
-            mkdir($documents_folder); 
-        }
+        $documents_folder = "{$backup_folder}/documents";
+        CurrentEnvironment::SetupFolder($backup_folder, $documents_folder); 
 
         $sql = 
         "
@@ -63,6 +46,10 @@
             $table_data = $data[$index]; 
             foreach ($table_data as $value) 
             {
+                if($table=="documents")
+                {
+                    continue; 
+                }
                 array_push($result, Query::Insert($table, $value)); 
             }
             array_push($result, $comment); 
