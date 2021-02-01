@@ -37,13 +37,20 @@
             $table_data = $data[$index]; 
             foreach ($table_data as $value) 
             {
+                if($table=="documents")
+                {
+                    $insert_data = $value; 
+                    $file = "0x" . bin2hex($insert_data["file"]); 
+                    unset($insert_data["file"]); 
+                    array_push($result, Query::Insert($table, $insert_data, ["file"=>$file])); 
+                    continue; 
+                }
                 array_push($result, Query::Insert($table, $value)); 
             }
             array_push($result, $comment); 
         }
     
         array_push($result, "SET FOREIGN_KEY_CHECKS=1;", "COMMIT;"); 
-    
         header('Content-Type: application/sql');
         header('Content-Disposition: attachment; filename=may_backup_database.sql');
         echo implode("\n", $result); 

@@ -12,28 +12,55 @@
 
         public static function Setup()
         {
-            $dotenv = CurrentEnvironment::DotEnvPath(); 
-            $test_sqlite = CurrentEnvironment::TestSqliteDatabasePath(); 
             $dir = CurrentEnvironment::MainDir(); 
-            if(!$dotenv)
+            if(!CurrentEnvironment::TestSqliteDatabasePath($dir))
             {
                 copy("{$dir}/.env.example", "{$dir}/.env"); 
             } 
-            if(!$test_sqlite)
+            if(!CurrentEnvironment::TestSqliteDatabasePath($dir))
             {
                 copy("{$dir}/database.db.example", "{$dir}/database.db"); 
             }
+            if(!CurrentEnvironment::TempFolderPath($dir))
+            {
+                CurrentEnvironment::CreateFolder("/server/temp", $dir); 
+            }
         }
 
-        public static function DotEnvPath()
+        public static function SetupFolder(...$paths)
         {
-            $dir = CurrentEnvironment::MainDir(); 
+            foreach ($paths as $path) 
+            {
+                if(!file_exists($path))
+                {
+                    mkdir($path); 
+                }
+            }
+        }
+
+        public static function CreateFolder($path, $dir=null)
+        {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
+            $folder_path = "{$dir}{$path}"; 
+            mkdir($folder_path);
+            return $folder_path; 
+        }
+
+        public static function TempFolderPath($dir=null)
+        {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
+            return realpath("{$dir}/server/temp"); 
+        }
+
+        public static function DotEnvPath($dir=null)
+        {
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/.env"); 
         }
 
-        public static function TestSqliteDatabasePath()
+        public static function TestSqliteDatabasePath($dir=null)
         {
-            $dir = CurrentEnvironment::MainDir(); 
+            $dir = $dir?? CurrentEnvironment::MainDir(); 
             return realpath("{$dir}/database.db"); 
         }
 
