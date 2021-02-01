@@ -10,15 +10,6 @@
     }
     else 
     {
-        // $temp_folder = CurrentEnvironment::TempFolderPath(); 
-        // if(!$temp_folder)
-        // {
-        //     $temp_folder = CurrentEnvironment::CreateFolder("/server/temp"); 
-        // }
-        // $backup_folder = "{$temp_folder}/backup"; 
-        // $documents_folder = "{$backup_folder}/documents";
-        // CurrentEnvironment::SetupFolder($backup_folder, $documents_folder); 
-
         $sql = 
         "
             SET @db=DATABASE(); 
@@ -48,18 +39,9 @@
             {
                 if($table=="documents")
                 {
-                    // if(!file_exists("temp"))
-                    // {
-                    //     mkdir("temp"); 
-                    // }
-                    // file_put_contents("temp/file.tmp", $insert_data["file"]);
-                    // $insert_data["file"] = addslashes(file_get_contents("temp/file.tmp")); 
-                    // $hex = bin2hex($insert_data["file"]); 
-                    // array_push($result, "\n", "\n", "\n", $hex, "\n", "\n", "\n"); 
                     $insert_data = $value; 
                     $file = "0x" . bin2hex($insert_data["file"]); 
                     unset($insert_data["file"]); 
-                    // $insert_data["file"] = "0x" . bin2hex($insert_data["file"]); 
                     array_push($result, Query::Insert($table, $insert_data, ["file"=>$file])); 
                     continue; 
                 }
@@ -69,9 +51,6 @@
         }
     
         array_push($result, "SET FOREIGN_KEY_CHECKS=1;", "COMMIT;"); 
-        
-        // file_put_contents("$backup_folder/may_backup_database.sql", implode("\n", $result)); 
-    
         header('Content-Type: application/sql');
         header('Content-Disposition: attachment; filename=may_backup_database.sql');
         echo implode("\n", $result); 
