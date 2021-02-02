@@ -64,7 +64,7 @@ Vue.component
                         raw:false
                     }
                 );
-                this.excel_data = json_data.filter(row=>row["__EMPTY"]==undefined); 
+                this.excel_data = json_data.filter(row=>row["__EMPTY"]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes("__EMPTY")).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {})); 
             }, 
 
             SendData()

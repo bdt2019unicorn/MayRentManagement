@@ -126,11 +126,13 @@
 
             $titles = []; 
             $values = []; 
+            $vlookup_col = 2; 
             foreach ($dropdown_list[0] as $key => $value) 
             {
                 if(!$title)
                 {
                     $title = $key; 
+                    $name_range_title = str_replace(" ", "", $title); 
                 }
                 array_push($titles, $key); 
                 array_push($values, $value); 
@@ -138,7 +140,31 @@
                 {
                     break; 
                 }
-
+                $name_range_vlookup = $name_range_vlookup??"{$name_range_title}_vlookup"; 
+                if($key!=$title)
+                {
+                    $this->column_asc++; 
+                    $detail_char = chr($this->column_asc); 
+                    $this->sheet->getStyle("{$detail_char}1:{$detail_char}{$this->config['total_row']}")->applyFromArray
+                    (
+                        [
+                            "borders"=>
+                            [
+                                "allBorders"=>["borderStyle"=>"thin"]
+                            ], 
+                            "fill"=>
+                            [
+                                "fillType"=>"solid", 
+                                "startColor"=>["argb"=>"FFFFFF00"]
+                            ]
+                        ]
+                    );
+                    for ($row=$data_row_start; $row <=$this->config['total_row'] ; $row++) 
+                    { 
+                        $this->sheet->setCellValue("{$detail_char}{$row}", "=IFERROR(VLOOKUP({$char}{$row},{$name_range_vlookup}, {$vlookup_col}), \"\")"); 
+                    }
+                    $vlookup_col++; 
+                }
             }
 
             $values = [$values]; 
@@ -152,7 +178,7 @@
                 else 
                 {
                     $dropdown_values = []; 
-                    foreach ($dropdown_list[$index] as $key => $value) 
+                    foreach ($dropdown_list[$index] as $value) 
                     {
                         array_push($dropdown_values, $value); 
                     }
@@ -164,8 +190,12 @@
             $end_range = count($cell_values); 
             $dropdown_sheet = new Worksheet($this->spreadsheet, $title); 
             $dropdown_sheet->fromArray($cell_values); 
-            $name_range_title = str_replace(" ", "", $title); 
             $this->spreadsheet->addNamedRange(new NamedRange($name_range_title, $dropdown_sheet, "\$A\$2:\$A\${$end_range}")); 
+            if($name_range_vlookup)
+            {
+                $end_char = chr(count($titles) - 1 + ord("A")); 
+                $this->spreadsheet->addNamedRange(new NamedRange($name_range_vlookup, $dropdown_sheet, "\$A\$2:\${$end_char}\${$end_range}")); 
+            }
             $this->spreadsheet->addSheet($dropdown_sheet); 
             $column_asc = ord("A"); 
 
