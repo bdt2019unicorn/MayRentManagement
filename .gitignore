@@ -1,5 +1,3 @@
 .env
 database.db
-server/invoice_controller/temp
-server/document_controller/temp
 server/temp

@@ -52,7 +52,8 @@ Vue.component
         {
             EditData()
             {
-                var url = this.ServerUrl({command: "DocumentEditInformation", id: this.$route.query.id}); 
+                let params = {command: "DocumentEditInformation", id: this.$route.query.id}; 
+                var url = this.ServerUrl(params); 
                 var result = this.AjaxRequest(url); 
                 var edit_data = JSON.parse(result); 
                 var url = "server/document_controller/download.php"; 
