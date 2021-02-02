@@ -9,9 +9,9 @@ var document_mixin =
     },
     methods: 
     {
-        ServerUrl(params)
+        ServerUrl(params, action="action")
         {
-            return `server/document_controller/action.php?building_id=${this.$route.params.building_id}&${this.SearchQueryString(params)}`; 
+            return `server/document_controller/${action}.php?building_id=${this.$route.params.building_id}&${this.SearchQueryString(params)}`; 
         }, 
         SubmitDocumentData({url, form_data, success_alert, reset_function})
         {
@@ -35,7 +35,7 @@ var document_mixin =
                 ()=>
                 {
                     var folder = `${file.name}-${Math.ceil(Math.random().toFixed(4) * 10000)}`; 
-                    let upload_url = this.ServerUrl({command: "UploadFiles"}); 
+                    let upload_url = this.ServerUrl({command: "UploadFiles"}, "post"); 
                     const percentage = 98.0; 
                     var UploadFile =(start_slice)=> new Promise
                     (
@@ -64,11 +64,11 @@ var document_mixin =
                                     processData: false,
                                     enctype: 'multipart/form-data',
                                     beforeSend: ()=>this.in_progress = next_slice/file.size * percentage, 
-                                    success: function()
+                                    success: function(temp_folder)
                                     {
                                         if(end_of_file)
                                         {
-                                            form_data.set("file", `temp/${folder}`); 
+                                            form_data.set("file", temp_folder); 
                                             reject(); 
                                         }
                                         resolve(next_slice); 

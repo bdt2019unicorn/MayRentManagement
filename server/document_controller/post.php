@@ -2,7 +2,6 @@
     require_once("../helper/database.php"); 
     require_once("../helper/overview_queries.php"); 
 
-/*
     function GetUploadFileCombine()
     {
         if(isset($_FILES["file"]))
@@ -28,66 +27,21 @@
 
     function TempFolder()
     {
-        if(!file_exists("temp"))
-        {
-            mkdir("temp"); 
-        }
+        $file_path = CurrentEnvironment::TempFolderPath() . "/document_controller"; 
+        CurrentEnvironment::SetupFolder($file_path); 
+        return $file_path; 
     }
-
-*/
 
     $actions = 
     [
-        "SelectDataBind"=> function()
-        {
-            $document_types_sql = Query::GeneralData("document_type"); 
-            $unit_sql = Query::SelectData("unit", ["*"], ["building_id"=>$_GET["building_id"]]); 
-            if(CurrentEnvironment::TestMode())
-            {
-                $data = [ConnectSqlite::Query($document_types_sql), ConnectSqlite::Query($unit_sql)]; 
-            }
-            else 
-            {
-                $sql = $document_types_sql . $unit_sql; 
-                $data = Connect::MultiQuery($sql, true); 
-            }
-
-            $select_data_bind = 
-            [
-                "document_type_id"=>
-                [
-                    "title"=> "Document Type", 
-                    "select_data"=>$data[0], 
-                    "select_value"=>"id", 
-                    "text"=>"name"
-                ], 
-                "unit_id"=>
-                [
-                    "title"=> "Unit", 
-                    "select_data"=>$data[1], 
-                    "select_value"=>"id", 
-                    "text"=>"name"
-                ] 
-            ]; 
-            echo json_encode($select_data_bind); 
-        }, 
-
-    /*
         "UploadFiles"=>function()
         {
-            TempFolder(); 
-            $folder = "temp/{$_POST['folder']}"; 
-            if(!file_exists($folder))
-            {
-                mkdir($folder); 
-            }
+            $folder = TempFolder() . "/{$_POST['folder']}"; 
+            CurrentEnvironment::SetupFolder($folder); 
             $file_destination = "{$folder}/{$_POST['part']}.tmp"; 
             move_uploaded_file($_FILES["blob"]["tmp_name"], $file_destination); 
+            echo $folder; 
         }, 
-
-    */
-
-    /*
         "AddDocument"=> function()
         {
             if(CurrentEnvironment::TestMode())
@@ -134,16 +88,6 @@
             }
 
         }, 
-
-    */
-        "DocumentEditInformation"=> function()
-        {
-            $document = new OverviewQueries\Documents(1, null, $_GET["id"]); 
-            $data = Database::GetData($document->Documents(CurrentEnvironment::TestMode())); 
-            $result = $data[0]; 
-            echo json_encode($result); 
-        }, 
-    /*
         "DocumentEditSubmit"=> function()
         {
             $test_mode = CurrentEnvironment::TestMode(); 
@@ -198,9 +142,9 @@
                 $conditions = ["id"=>$document->id]; 
                 if($test_mode && $file)
                 {
-                    TempFolder(); 
+                    $file_path = TempFolder(); 
                     $file_name = md5(json_encode($user_information_data)) . random_int(PHP_INT_MIN, PHP_INT_MAX) . ".tmp"; 
-                    $file_path = "temp/{$file_name}"; 
+                    $file_path = "{$file_path}/{$file_name}"; 
                     $file = fopen($file_path, "ab"); 
                     fwrite($file, $new_file); 
                     fclose($file); 
@@ -218,8 +162,8 @@
                 echo true; 
             }
         }
-    */
     ]; 
+
     try 
     {
         $actions[$_GET["command"]](); 
