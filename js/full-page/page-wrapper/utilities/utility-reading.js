@@ -209,6 +209,7 @@ Vue.component
                             <tr v-for="(reading, index) in UtilitiesReadingDisplay">
                                 <td v-for="property in Object.keys(reading)">
                                     <p 
+                                        :class="contenteditable.includes(property)?'border border-danger text-success text-center':undefined"
                                         :contenteditable="contenteditable.includes(property)" 
                                         :data-index="index"
                                         :data-property="property"
