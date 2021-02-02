@@ -21,10 +21,7 @@
             {
                 copy("{$dir}/database.db.example", "{$dir}/database.db"); 
             }
-            if(!CurrentEnvironment::TempFolderPath($dir))
-            {
-                CurrentEnvironment::CreateFolder("/server/temp", $dir); 
-            }
+            CurrentEnvironment::TempFolderPath($dir); 
         }
 
         public static function SetupFolder(...$paths)
@@ -38,18 +35,15 @@
             }
         }
 
-        public static function CreateFolder($path, $dir=null)
-        {
-            $dir = $dir?? CurrentEnvironment::MainDir(); 
-            $folder_path = "{$dir}{$path}"; 
-            mkdir($folder_path);
-            return $folder_path; 
-        }
-
         public static function TempFolderPath($dir=null)
         {
             $dir = $dir?? CurrentEnvironment::MainDir(); 
-            return realpath("{$dir}/server/temp"); 
+            $path = "{$dir}/server/temp"; 
+            if(!realpath($path))
+            {
+                CurrentEnvironment::SetupFolder($path); 
+            }
+            return $path; 
         }
 
         public static function DotEnvPath($dir=null)

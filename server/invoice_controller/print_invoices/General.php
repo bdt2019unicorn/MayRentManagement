@@ -1,9 +1,6 @@
 <?php 
     namespace PrintInvoices;
-
-use ConnectSqlite;
-
-require_once("Excel.php"); 
+    require_once("Excel.php"); 
     class General 
     {
         private $logo_image, $building_information, $invoices, $test_mode; 
@@ -113,7 +110,7 @@ require_once("Excel.php");
                     if($this->test_mode)
                     {
                         $invoice_details = array_filter(explode(";", $query), function($string){return trim($string); });
-                        $invoice_details = array_map(function($sql){return ConnectSqlite::Query($sql); }, $invoice_details); 
+                        $invoice_details = array_map(function($sql){return \ConnectSqlite::Query($sql); }, $invoice_details); 
                     }
                     else 
                     {

@@ -14,7 +14,7 @@ Vue.component
                 this.SubmitDocumentData
                 (
                     {
-                        url: this.ServerUrl({command: "AddDocument"}), 
+                        url: this.ServerUrl({command: "AddDocument"}, "post"), 
                         form_data, 
                         success_alert: "Document is added!", 
                         reset_function: this.Reset
@@ -52,7 +52,7 @@ Vue.component
         {
             EditData()
             {
-                var params = {command: "DocumentEditInformation", id: this.$route.query.id}; 
+                let params = {command: "DocumentEditInformation", id: this.$route.query.id}; 
                 var url = this.ServerUrl(params); 
                 var result = this.AjaxRequest(url); 
                 var edit_data = JSON.parse(result); 
@@ -69,7 +69,7 @@ Vue.component
                 this.SubmitDocumentData
                 (
                     {
-                        url: this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}), 
+                        url: this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}, "post"), 
                         form_data, 
                         success_alert: "Document edited success!", 
                         reset_function: this.Reset

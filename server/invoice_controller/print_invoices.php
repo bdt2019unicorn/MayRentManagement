@@ -1,6 +1,9 @@
 <?php 
-    namespace PrintInvoices; 
-    require_once("print_invoices/General.php"); 
+    namespace PrintInvoices;
+
+use CurrentEnvironment;
+
+require_once("print_invoices/General.php"); 
 
     class Actions
     {
@@ -29,12 +32,11 @@
             $invoices = json_decode($_POST["invoices"], true); 
             $footer_array = json_decode($_POST["footer_array"], true); 
 
-            if(!file_exists("temp"))
-            {
-                mkdir("temp"); 
-            }
+            $temp_path = CurrentEnvironment::TempFolderPath(); 
+            $temp_path = "{$temp_path}/invoice_controller"; 
+            CurrentEnvironment::SetupFolder($temp_path); 
 
-            $print_excel = new Excel($invoices, $image, $footer_array, realpath("temp/")); 
+            $print_excel = new Excel($invoices, $image, $footer_array, $temp_path); 
             $path = $print_excel->ZipAllExcel(); 
             if($path)
             {
