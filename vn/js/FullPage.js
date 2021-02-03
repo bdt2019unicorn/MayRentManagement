@@ -4,12 +4,11 @@ class FullPage extends React.Component
     {
         super(props); 
         var url = "../server/overview_controller/overview_controller.php?overview_controller=buildings"; 
-        let buildings = support_mixin.methods.AjaxRequest(url); 
+        let buildings = AjaxRequest(url); 
         this.state = 
         {
-            value: "try me in state", 
-            buildings: JSON.parse(buildings), 
-        }
+            buildings: JSON.parse(buildings) 
+        }; 
     }
 
     render()
