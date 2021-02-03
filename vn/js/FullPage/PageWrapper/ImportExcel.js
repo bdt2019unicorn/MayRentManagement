@@ -14,6 +14,7 @@ class ImportExcel extends React.Component
     {
         ReadExcelFile: async(event)=>
         {
+            let empty = "__EMPTY"; 
             var file = event.currentTarget.files[0]; 
     
             var buffer = await file.arrayBuffer();
@@ -31,7 +32,7 @@ class ImportExcel extends React.Component
                 {
                     raw:false
                 }
-            );
+            ).filter(row=>row[empty]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes(empty)).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {}));
     
             this.setState({table: json_data}); 
         }
