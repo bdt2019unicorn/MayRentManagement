@@ -30,6 +30,25 @@ class About extends React.Component
     }
 }
 
+class AboutId extends React.Component
+{
+    constructor(props)
+    {
+        super(props); 
+    }
+    render()
+    {
+        return (
+            <div>
+                <h3>{JSON.stringify(this.props)}</h3>
+                <h3 style={{color: "red"}}>{this.props.match.params.id}</h3>
+                <button type="button" onClick={()=>this.props.history.push("/about")}>About</button>
+                <button type="button" onClick={()=>this.props.history.push("/")}>Home</button>
+            </div>
+        )
+    }
+}
+
 class FullPage extends React.Component 
 {
     constructor(props)
@@ -46,11 +65,23 @@ class FullPage extends React.Component
     render()
     {
         let buildings = this.state.buildings.map(building=><p key={building.id}>{JSON.stringify(building)}</p>); 
+        let Switch = ReactRouterDOM.Switch; 
+        let Link = ReactRouterDOM.Link; 
+        let Route = ReactRouterDOM.Route; 
         return (
-            <window.ReactRouterDOM.BrowserRouter>
-                <ImportExcel />
-                {buildings}
-            </window.ReactRouterDOM.BrowserRouter>
+            <ReactRouterDOM.HashRouter>
+                {/* <ImportExcel /> */}
+                <div>
+                    <Link to="/">Home</Link>
+                    <Link to="/about">About</Link>
+                </div>
+                {/* {buildings} */}
+                <Switch>
+                    <Route component={Home} exact path="/" />
+                    <Route component={About} exact path="/about" />
+                    <Route component={AboutId} path="/about/:id" />
+                </Switch>
+            </ReactRouterDOM.HashRouter>
         ); 
     }
 }
