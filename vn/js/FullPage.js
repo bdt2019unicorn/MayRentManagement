@@ -78,7 +78,7 @@ class FullPage extends React.Component
                 {/* {buildings} */}
                 <Switch>
                     <Route component={Home} exact path="/" />
-                    <Route component={PageAdministration} exact path="/login" />
+                    <Route component={PageAdministration} path="/page-administration/:controller" />
                     <Route component={About} exact path="/about" />
                     <Route component={AboutId} path="/about/:id" />
                 </Switch>
