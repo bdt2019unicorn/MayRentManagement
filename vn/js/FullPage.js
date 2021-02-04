@@ -58,13 +58,13 @@ class FullPage extends React.Component
         let buildings = AjaxRequest(url); 
         this.state = 
         {
-            buildings: JSON.parse(buildings) 
+            // buildings: JSON.parse(buildings) 
         }; 
     }
 
     render()
     {
-        let buildings = this.state.buildings.map(building=><p key={building.id}>{JSON.stringify(building)}</p>); 
+        // let buildings = this.state.buildings.map(building=><p key={building.id}>{JSON.stringify(building)}</p>); 
         let Switch = ReactRouterDOM.Switch; 
         let Link = ReactRouterDOM.Link; 
         let Route = ReactRouterDOM.Route; 
@@ -78,6 +78,7 @@ class FullPage extends React.Component
                 {/* {buildings} */}
                 <Switch>
                     <Route component={Home} exact path="/" />
+                    <Route component={PageAdministration} exact path="/login" />
                     <Route component={About} exact path="/about" />
                     <Route component={AboutId} path="/about/:id" />
                 </Switch>
