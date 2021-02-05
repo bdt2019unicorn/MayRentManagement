@@ -1,6 +1,6 @@
 function BindFucntions(component)
 {
-    Object.keys(component.Methods).forEach(func=>component[func] = component.Methods[func].bind(component)); 
+    Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
 }
 
 function AjaxRequest(url, data = new FormData(), type = "get")
