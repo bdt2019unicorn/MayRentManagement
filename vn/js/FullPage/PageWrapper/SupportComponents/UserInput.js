@@ -18,6 +18,8 @@ class UserInput extends BaseComponent
     }
     render() 
     {
+        var Formsy = FormsyReact.default; 
+        var withFormsy = FormsyReact.withFormsy; 
         let form = this.props.form.form.map
         (
             components=> 
@@ -27,7 +29,7 @@ class UserInput extends BaseComponent
                     component =>  
                     {
                         let type = component.component.split("-").map(string => string.charAt(0).toUpperCase() + string.slice(1)).join(""); 
-                        var ComponentClass = window[type]; 
+                        var ComponentClass = withFormsy(window[type]); 
                         return (
                             <MaterialUI.Grid
                                 item
@@ -50,7 +52,9 @@ class UserInput extends BaseComponent
             <MaterialUI.Grid container alignItems="center" justify="center">
                 <MaterialUI.Container maxWidth="sm" fixed className="border border-blue-light p-4 m-4">
                     <h1 className="text-center">{this.props.form.title}</h1>
-                    {form}
+                    <Formsy>
+                        {form}
+                    </Formsy>
                     <SubmitButton />
                 </MaterialUI.Container>
             </MaterialUI.Grid>
