@@ -1,4 +1,4 @@
-function BindFucntions(component)
+function BindFunctions(component)
 {
     Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
 }
@@ -12,3 +12,5 @@ function AjaxRequest(url, data = new FormData(), type = "get")
     request.send(data); 
     return result; 
 }
+
+const Emitter = new EventEmitter();

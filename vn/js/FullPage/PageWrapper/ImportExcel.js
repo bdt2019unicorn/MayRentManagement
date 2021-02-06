@@ -3,7 +3,7 @@ class ImportExcel extends React.Component
     constructor(props)
     {
         super(props); 
-        BindFucntions(this); 
+        BindFunctions(this); 
         this.state = 
         {
             table: []

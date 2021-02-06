@@ -1,15 +1,17 @@
-class TextInput extends React.Component 
+class TextInput extends React.Component
 {
     constructor(props)
     {
         super(props); 
-        BindFucntions(this); 
+        BindFunctions(this); 
     }
     Methods =  
     {
         Test(event)
         {
             console.log(event.target.value); 
+            let value = event.target.value; 
+            Emitter.emit("test-event", value); 
         }
     }
     render() 

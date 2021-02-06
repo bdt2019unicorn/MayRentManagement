@@ -1,9 +1,13 @@
-class UserInput extends React.Component  
+class UserInput extends BaseComponent
 {
     constructor(props)
     {
         super(props); 
-        BindFucntions(this); 
+        BindFunctions(this); 
+    }
+    CustomEvents = 
+    {
+        "test-event": (payload)=> console.log("i am the test event", payload)
     }
     Methods =  
     {
@@ -43,10 +47,13 @@ class UserInput extends React.Component
             }
         ); 
         return (
-            <MaterialUI.Container maxWidth="md" className="border border-indigo-600 border-opacity-75 p-4">
-                <h1 className="text-center text-3xl">{this.props.form.title}</h1>
-                {form}
-            </MaterialUI.Container>
+            <MaterialUI.Grid container alignItems="center" justify="center">
+                <MaterialUI.Container maxWidth="sm" fixed className="border border-blue-light p-4 m-4">
+                    <h1 className="text-center">{this.props.form.title}</h1>
+                    {form}
+                    <SubmitButton />
+                </MaterialUI.Container>
+            </MaterialUI.Grid>
         );
     }
 }

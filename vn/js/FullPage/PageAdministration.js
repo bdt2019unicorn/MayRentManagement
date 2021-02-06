@@ -3,7 +3,7 @@ class PageAdministration extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFucntions(this); 
+        BindFunctions(this); 
         let form = this.LoadForm(); 
         this.state = 
         {
@@ -41,7 +41,7 @@ class PageAdministration extends BaseComponent
             let form = AjaxRequest(`../server/user_input_controller/${controller}.json`); 
             return JSON.parse(form); 
         }
-    } 
+    }
     render()
     {
         return (
