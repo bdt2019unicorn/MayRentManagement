@@ -5,14 +5,14 @@ class UserInput extends BaseComponent
         super(props); 
         BindFunctions(this); 
     }
-    CustomEvents = 
-    {
-    }
     Methods =  
     {
-        Test(event)
+        FormSubmit(event)
         {
-            console.log(event.target.value); 
+            event.preventDefault(); 
+            var form_data = new FormData(event.target); 
+            var data = Object.fromEntries(form_data); 
+            console.log(data); 
         }
     }
     render() 
@@ -27,6 +27,7 @@ class UserInput extends BaseComponent
                     {
                         let type = component.component.split("-").map(string => string.charAt(0).toUpperCase() + string.slice(1)).join(""); 
                         var ComponentClass = window[type]; 
+                        let name = component.name; 
                         return (
                             <MaterialUI.Grid
                                 item
@@ -36,8 +37,8 @@ class UserInput extends BaseComponent
                             >
                                 <ComponentClass 
                                     {...component} 
-                                    key={component.name} 
-                                    validations={this.props.form.validate.rules[component.name]} 
+                                    key={name} 
+                                    validations={this.props.form.validate.rules[name]} 
                                 />
                             </MaterialUI.Grid>); 
                     }
@@ -53,7 +54,7 @@ class UserInput extends BaseComponent
             <MaterialUI.Grid container alignItems="center" justify="center">
                 <MaterialUI.Container maxWidth="sm" fixed className="border border-blue-light p-4 m-4">
                     <h1 className="text-center">{this.props.form.title}</h1>
-                    <form>
+                    <form onSubmit={this.FormSubmit}>
                         {form}
                         <SubmitButton />
                     </form>

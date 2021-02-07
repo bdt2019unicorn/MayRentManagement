@@ -5,12 +5,7 @@ class PageAdministration extends BaseComponent
         super(props); 
         this.Methods = {...this.Methods, ...BaseComponent.Methods}; 
         BindFunctions(this); 
-        let form = this.LoadForm(); 
-        this.state = 
-        {
-            form, 
-            data: this.DataObject(form.form)
-        }; 
+        this.state = {form: this.LoadForm()}; 
     }
     componentDidUpdate(previous_props, previous_state)
     {
@@ -21,20 +16,9 @@ class PageAdministration extends BaseComponent
     }
     Methods = 
     {
-        DataObject(form)
-        {
-            return form.flatMap(row=>row).map(component=>component.name).reduce((accumulator, current_value)=>({...accumulator, [current_value]: undefined}), {}); 
-        }, 
         InnitializeState()
         {
-            let form = this.LoadForm(); 
-            this.setState
-            (
-                {
-                    form, 
-                    data: this.DataObject(form.form)
-                }
-            ); 
+            this.setState({form: this.LoadForm()}); 
         }, 
         LoadForm()
         {

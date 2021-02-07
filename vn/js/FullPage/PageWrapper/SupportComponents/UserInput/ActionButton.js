@@ -5,13 +5,6 @@ class SubmitButton extends React.Component
         super(props); 
         BindFunctions(this); 
     }
-    Methods =  
-    {
-        Test(event)
-        {
-            console.log(event.target.value); 
-        }
-    }
     render() 
     {
         return (
