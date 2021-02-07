@@ -27,25 +27,6 @@ class UserInput extends BaseComponent
                     {
                         let type = component.component.split("-").map(string => string.charAt(0).toUpperCase() + string.slice(1)).join(""); 
                         var ComponentClass = window[type]; 
-                        let validations = this.props.form.validate[component.name]; 
-                        if(validations)
-                        {
-                            if(validations instanceof String)
-                            {
-                                switch (validations) 
-                                {
-                                    case "required":
-                                        validations = register({required: "This field is required"}); 
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            else 
-                            {
-
-                            }
-                        }
                         return (
                             <MaterialUI.Grid
                                 item
@@ -53,7 +34,11 @@ class UserInput extends BaseComponent
                                 md={12/(components.length)}
                                 key={btoa(JSON.stringify(component)) + Math.random()}
                             >
-                                <ComponentClass {...component} key={component.name} validations={validations} />
+                                <ComponentClass 
+                                    {...component} 
+                                    key={component.name} 
+                                    validations={this.props.form.validate.rules[component.name]} 
+                                />
                             </MaterialUI.Grid>); 
                     }
                 ); 

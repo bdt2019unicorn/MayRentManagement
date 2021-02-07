@@ -23,4 +23,8 @@ class BaseComponent extends React.Component
             Object.keys(this.CustomEvents).forEach(event=>Emitter.off(event)); 
         }
     }
+    static Methods =
+    {
+
+    }
 }

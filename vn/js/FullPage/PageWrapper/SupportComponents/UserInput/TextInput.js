@@ -10,21 +10,20 @@ class TextInput extends React.Component
     }
     render() 
     {
-        const errorMessage = this.props.errorMessage;
+        let required = this.props.validations? true: false; 
+        console.log(required); 
         return (
-            <React.Fragment>
-                <MaterialUI.TextField 
-                    size="medium"
-                    fullWidth
-                    name={this.props.name}
-                    label={this.props.title} 
-                    value={this.props.value} 
-                    type={this.props.type} 
-                    margin="normal"
-                    variant="outlined"
-                />
-                <span>{errorMessage}</span>
-            </React.Fragment>
+            <MaterialUI.TextField 
+                size="medium"
+                fullWidth
+                name={this.props.name}
+                label={this.props.title} 
+                value={this.props.value} 
+                type={this.props.type} 
+                margin="normal"
+                variant="outlined"
+                required={required}
+            />
         );
     }
 }
