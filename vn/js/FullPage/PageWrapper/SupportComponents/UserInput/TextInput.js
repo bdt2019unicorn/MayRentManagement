@@ -22,7 +22,6 @@ class TextInput extends React.Component
                     type={this.props.type} 
                     margin="normal"
                     variant="outlined"
-                    onChange={(event)=>this.props.setValue(event.currentTarget.value)}
                 />
                 <span>{errorMessage}</span>
             </React.Fragment>
