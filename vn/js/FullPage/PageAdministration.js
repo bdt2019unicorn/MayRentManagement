@@ -11,15 +11,11 @@ class PageAdministration extends BaseComponent
     {
         if(previous_props.match.params.controller!=this.props.match.params.controller)
         {
-            this.InnitializeState(); 
+            this.setState({form: this.LoadForm()}); 
         }
     }
     Methods = 
     {
-        InnitializeState()
-        {
-            this.setState({form: this.LoadForm()}); 
-        }, 
         LoadForm()
         {
             let controller = this.props.match.params.controller; 
