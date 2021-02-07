@@ -7,26 +7,25 @@ class TextInput extends React.Component
     }
     Methods =  
     {
-        Test(event)
-        {
-            console.log(event.target.value); 
-            let value = event.target.value; 
-            Emitter.emit("test-event", value); 
-        }
     }
     render() 
     {
+        const errorMessage = this.props.errorMessage;
         return (
-            <MaterialUI.TextField 
-                size="medium"
-                fullWidth
-                name={this.props.name}
-                label={this.props.title} 
-                value={this.props.value} 
-                type={this.props.type} 
-                margin="normal"
-                variant="outlined"
-                onChange={this.Test} />
+            <React.Fragment>
+                <MaterialUI.TextField 
+                    size="medium"
+                    fullWidth
+                    name={this.props.name}
+                    label={this.props.title} 
+                    value={this.props.value} 
+                    type={this.props.type} 
+                    margin="normal"
+                    variant="outlined"
+                    onChange={(event)=>this.props.setValue(event.currentTarget.value)}
+                />
+                <span>{errorMessage}</span>
+            </React.Fragment>
         );
     }
 }

@@ -1,5 +1,9 @@
 function BindFunctions(component)
 {
+    if(!component.Methods)
+    {
+        return; 
+    }
     Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
 }
 

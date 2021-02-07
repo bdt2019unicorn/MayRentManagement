@@ -7,7 +7,6 @@ class UserInput extends BaseComponent
     }
     CustomEvents = 
     {
-        "test-event": (payload)=> console.log("i am the test event", payload)
     }
     Methods =  
     {
@@ -30,6 +29,25 @@ class UserInput extends BaseComponent
                     {
                         let type = component.component.split("-").map(string => string.charAt(0).toUpperCase() + string.slice(1)).join(""); 
                         var ComponentClass = withFormsy(window[type]); 
+                        let validations = this.props.form.validate[component.name]; 
+                        if(validations)
+                        {
+                            if(validations instanceof String)
+                            {
+                                switch (validations) 
+                                {
+                                    case "required":
+                                        validations = {required: true, validationError: "test error required"}; 
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            else 
+                            {
+
+                            }
+                        }
                         return (
                             <MaterialUI.Grid
                                 item
@@ -37,7 +55,7 @@ class UserInput extends BaseComponent
                                 md={12/(components.length)}
                                 key={btoa(JSON.stringify(component)) + Math.random()}
                             >
-                                <ComponentClass {...component} key={component.name} />
+                                <ComponentClass {...component} key={component.name} name={component.name} {...validations} />
                             </MaterialUI.Grid>); 
                     }
                 ); 
@@ -52,10 +70,11 @@ class UserInput extends BaseComponent
             <MaterialUI.Grid container alignItems="center" justify="center">
                 <MaterialUI.Container maxWidth="sm" fixed className="border border-blue-light p-4 m-4">
                     <h1 className="text-center">{this.props.form.title}</h1>
-                    <Formsy>
+                    {/* <Formsy onValid={()=>valid_p="currently_valid"} onInvalid={()=>valid_p="not valid"}> */}
+                    <Formsy onValid={()=>console.log("valid formsy")} onInvalid={()=>console.log("not valid formsy")}>
                         {form}
+                        <SubmitButton />
                     </Formsy>
-                    <SubmitButton />
                 </MaterialUI.Container>
             </MaterialUI.Grid>
         );
