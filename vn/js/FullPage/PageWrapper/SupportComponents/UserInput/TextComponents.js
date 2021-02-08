@@ -2,6 +2,13 @@ class TextInput extends SimpleInputComponent
 {
     render() 
     {
+        var Change = event =>
+        {
+            let value = event.target.value; 
+            let state = {value}; 
+            this.setState(state); 
+            Emitter.emit("valueChange", state); 
+        }; 
         return (
             <MaterialUI.TextField 
                 size="medium"
@@ -12,14 +19,14 @@ class TextInput extends SimpleInputComponent
                 type={this.props.type} 
                 margin="normal"
                 variant="outlined"
-                onChange={(event)=>this.setState({value: event.target.value})}
+                onChange={Change}
                 {...this.ValidationObject()}
             />
         );
     }
 }
 
-/*
+
 
 class TextGroupConfirmation extends BaseComponent
 {
@@ -28,6 +35,10 @@ class TextGroupConfirmation extends BaseComponent
         super(props); 
         BindFunctions(this); 
         this.state = {value: undefined, confirm_value: undefined}; 
+    }
+    CustomEvents = 
+    {
+        "valueChange": (state)=> this.setState(state) 
     }
     Methods = 
     {
@@ -80,7 +91,6 @@ class TextGroupConfirmation extends BaseComponent
     }
 }
 
-*/
 
 
 class Child extends BaseComponent
