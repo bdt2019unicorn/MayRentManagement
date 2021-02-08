@@ -15,9 +15,9 @@
 
     class GeneralOverview
     {
-        public static function UserInput($controller)
+        public static function UserInput($controller, $lang)
         {
-            $path = __DIR__ . "/../user_input_controller/{$controller}.json"; 
+            $path = __DIR__ . "/../user_input_controller/{$lang}/{$controller}.json"; 
             $path = realpath($path); 
             if(!$path)
             {
@@ -52,7 +52,7 @@
     {
         public static function RentId()
         {
-            $invoice_user_input = GeneralOverview::UserInput("invoice"); 
+            $invoice_user_input = GeneralOverview::UserInput("invoice", "en"); 
             return $invoice_user_input? $invoice_user_input["rent_id"]: null; 
         }
     }

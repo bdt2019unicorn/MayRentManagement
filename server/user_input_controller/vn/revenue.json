@@ -1,0 +1,54 @@
+{
+    "title": "Revenue",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "name",
+                "title": "Name *"
+            },
+            {
+                "component": "select-input",
+                "name": "leaseagrm_id",
+                "title": "Lease Agreement *",
+                "overview_controller": "leaseagrm",
+                "select_value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "amount",
+                "title": "Amount *"
+            }, 
+            {
+                "component": "date-input",
+                "name": "payment_date",
+                "title": "Payment date *",
+                "required": true
+            }
+        ],
+        [
+            {
+                "component": "textarea-input",
+                "name": "note",
+                "title": "Note"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name": "required",
+            "leaseagrm_id": "required",
+            "amount":
+            {
+                "required": true, 
+                "number_input_min": 0 
+            } 
+        }
+    }
+}

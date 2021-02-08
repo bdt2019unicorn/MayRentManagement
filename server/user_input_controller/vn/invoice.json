@@ -1,0 +1,74 @@
+{
+    "invoice_details": 
+    {
+        "leaseagrm": 
+        {
+            "rent_lock": ["price", "quantity"], 
+            "hide": ["revenue_type_id"], 
+            "form": 
+            [
+                {
+                    "component": "date-group",
+                    "name": "period", 
+                    "date_data":
+                    {
+                        "small_date":
+                        {
+                            "name": "start_date",
+                            "title": "Start Period",
+                            "required": true,
+                            "lock": true, 
+                            "message": "The start period should be before the end period"
+                        },
+                        "big_date":
+                        {
+                            "name": "end_date",
+                            "title": "End Period",
+                            "required": true,
+                            "message": "The end period should be after the start period"
+                        }
+                    }
+                }, 
+                {
+                    "component": "component-group", 
+                    "name": "price_quantity", 
+                    "component_data": 
+                    [
+                        {
+                            "component": "number-input",
+                            "name": "price",
+                            "title": "Price"
+                        },
+                        {
+                            "component": "number-input",
+                            "name": "quantity",
+                            "title": "Quantity"
+                        }
+                    ]
+                }
+            ]
+        }
+    }, 
+    "leaseagrm_id": 
+    {
+        "name": "leaseagrm_id",
+        "title": "Lease Agreement", 
+        "select_value": "id",
+        "text": "name"
+    }, 
+    "select_atributes": 
+    {
+        "clear-on-select": false, 
+        "close-on-select": false, 
+        "hideSelected": true, 
+        "label": "name", 
+        "multiple": true, 
+        "openDirection": "bottom", 
+        "placeholder": "", 
+        "selectLabel": "", 
+        "tagPlaceholder": "", 
+        "track-by": "id"
+    }, 
+    "rent_id": 1,
+    "main_url": "server/invoice_controller/action.php?command="
+}

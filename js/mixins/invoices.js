@@ -16,7 +16,7 @@ var invoices_mixin =
     ),
     created() 
     {
-        let config = this.AjaxRequest(`${this.main_url}InvoiceConfigs&building_id=${this.$route.params.building_id}`); 
+        let config = this.AjaxRequest(`${this.main_url}InvoiceConfigs&lang=en&building_id=${this.$route.params.building_id}`); 
         try 
         {
             config = JSON.parse(config); 

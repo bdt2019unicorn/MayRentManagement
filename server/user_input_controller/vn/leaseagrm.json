@@ -1,0 +1,171 @@
+{
+    "title": "Contract",
+    "form":
+    [
+        [
+            {
+                "component": "text-input",
+                "name": "name",
+                "title": "Agreement Number *"
+            },
+            {
+                "component": "select-input",
+                "name": "tenant_id",
+                "title": "Tenant *",
+                "overview_controller": "tenant",
+                "select_value": "id",
+                "text": "Full Name"
+            },
+            {
+                "component": "select-input",
+                "name": "unit_id",
+                "title": "Unit *",
+                "overview_controller": "unit",
+                "select_value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "multi-select-input",
+                "name": "ocupants_ids",
+                "title": "Ocupants",
+                "overview_controller": "tenant",
+                "select_atributes": 
+                {
+                    "clear-on-select": false, 
+                    "close-on-select": false, 
+                    "hideSelected": true, 
+                    "label": "Full Name", 
+                    "multiple": true, 
+                    "openDirection": "bottom", 
+                    "placeholder": "", 
+                    "selectLabel": "", 
+                    "tagPlaceholder": "", 
+                    "track-by": "id"
+                }
+            }
+        ], 
+        [
+            {
+                "component": "date-group",
+                "name": "rent_date_group", 
+                "date_data":
+                {
+                    "small_date":
+                    {
+                        "name": "start_date",
+                        "title": "Start Date",
+                        "required": true,
+                        "message": "The start date should be before the end date"
+                    },
+                    "big_date":
+                    {
+                        "name": "finish",
+                        "title": "End Date",
+                        "required": true,
+                        "message": "The end date should be after the start date"
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "rent_amount",
+                "title": "Rent Amount *"
+            },
+            {
+                "component": "number-input",
+                "name": "deposit_amount",
+                "title": "Deposit Amount *"
+            }
+        ],
+        [
+            {
+                "component": "date-group",
+                "name": "deposit_date_group", 
+                "date_data":
+                {
+                    "small_date":
+                    {
+                        "name": "deposit_payment_date",
+                        "title": "Deposit Payment Date",
+                        "message": "The deposite payment date should be before the deposite payback date"
+                    },
+                    "big_date":
+                    {
+                        "name": "deposit_payback_date",
+                        "title": "Deposit Payback Date",
+                        "message": "The deposite payback date should be after the deposite payment date"
+                    }
+                }
+            }
+        ],
+        [
+            {
+                "component": "number-input",
+                "name": "monthly_payment_date",
+                "title": "Monthly Payment Date *"
+            },
+            {
+                "component": "select-input",
+                "name": "leaseagrm_period_id",
+                "title": "Payment Period *",
+                "overview_controller": "leaseagrm_period",
+                "select_value": "id",
+                "text": "name"
+            }
+        ], 
+        [
+            {
+                "component": "text-input",
+                "name": "deposit_currency",
+                "title": "Deposit Currency"
+            },
+            {
+                "component": "number-input",
+                "name": "deposit_exchange_rate",
+                "title": "Deposit Exchange Rate"
+            }
+        ],
+        [
+            {
+                "component": "textarea-input",
+                "name": "note",
+                "title": "Note"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name": "required",
+            "tenant_id": "required",
+            "unit_id": "required",
+            "rent_amount": 
+            {
+                "required": true, 
+                "number_input_min": 0 
+            }, 
+            "leaseagrm_period_id": "required", 
+            "deposit_amount":
+            {
+                "required": true, 
+                "number_input_min": 0 
+            },  
+            "monthly_payment_date":
+            {
+                "required": true,
+                "step": 1,
+                "min": 1,
+                "max": 28
+            }, 
+            "deposit_exchange_rate": 
+            {
+                "number_input_min": 0 
+            }
+        }
+    }
+}

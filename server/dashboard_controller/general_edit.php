@@ -3,7 +3,7 @@
     require_once("../helper/overview_queries.php"); 
     $controller = $_GET["controller"]; 
 
-    $user_input = OverviewQueries\GeneralOverview::UserInput($controller); 
+    $user_input = OverviewQueries\GeneralOverview::UserInput($controller, $_GET["lang"]??"en"); 
 
     $form = $user_input["form"]; 
 
