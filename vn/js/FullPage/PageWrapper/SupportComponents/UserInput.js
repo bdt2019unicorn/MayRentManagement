@@ -13,10 +13,42 @@ class UserInput extends BaseComponent
             var form_data = new FormData(event.target); 
             var data = Object.fromEntries(form_data); 
             console.log(data); 
+        }, 
+        ValidationRules()
+        {
+            var rules = _.cloneDeep(this.props.form.validate.rules); 
+            return Object.keys(rules).reduce
+            (
+                (accumulator, current_value)=>
+                {
+                    let value = rules[current_value]; 
+                    if(typeof(value) === "string")
+                    {
+                        switch (value) 
+                        {
+                            case "required":
+                                return {
+                                    ...accumulator, 
+                                    [current_value]: {presence: true}
+                                }; 
+                            default:
+                                console.log(value); 
+                                return accumulator
+                        }
+                    }
+                    else 
+                    {
+                        console.log(value);
+                        console.log(typeof(value)); 
+                        return accumulator; 
+                    }
+                }, {}
+            ); 
         }
     }
     render() 
     {
+        let validation_rules = this.ValidationRules(); 
         let form = this.props.form.form.map
         (
             components=> 
@@ -38,7 +70,7 @@ class UserInput extends BaseComponent
                                 <ComponentClass 
                                     {...component} 
                                     key={name} 
-                                    validations={this.props.form.validate.rules[name]} 
+                                    validations={validation_rules[name]} 
                                 />
                             </MaterialUI.Grid>); 
                     }

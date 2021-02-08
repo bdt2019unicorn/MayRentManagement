@@ -105,6 +105,9 @@
     ],
     "validate": 
 	{
-		"name": "required"
+        "rules": 
+        {
+            "name": "required"
+        }
 	}
 }
