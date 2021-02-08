@@ -4,6 +4,7 @@ class UserInput extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
+        this.state = {validation_rules: this.ValidationRules()}; 
     }
     Methods =  
     {
@@ -13,6 +14,8 @@ class UserInput extends BaseComponent
             var form_data = new FormData(event.target); 
             var data = Object.fromEntries(form_data); 
             console.log(data); 
+            let validation = validate(data, this.state.validation_rules); 
+            console.log(validation); 
         }, 
         ValidationRules()
         {
@@ -32,15 +35,35 @@ class UserInput extends BaseComponent
                                     [current_value]: {presence: true}
                                 }; 
                             default:
-                                console.log(value); 
                                 return accumulator
                         }
                     }
                     else 
                     {
-                        console.log(value);
-                        console.log(typeof(value)); 
-                        return accumulator; 
+                        var validation = Object.keys(value).reduce
+                        (
+                            (accumulator, current_value)=>
+                            {
+                                var new_rule; 
+                                switch (current_value) 
+                                {
+                                    case "required":
+                                        new_rule = {presence: value[current_value]}; 
+                                        break;
+                                    case "equalTo": 
+                                        new_rule = {equality: value[current_value].replaceAll("#", "").trim()}
+                                        break; 
+                                    default:
+                                        new_rule = {[current_value]: value[current_value]}; 
+                                        break;
+                                }
+                                return {
+                                    ...accumulator, 
+                                    ...new_rule
+                                }; 
+                            }, {}
+                        ); 
+                        return {...accumulator, [current_value]:validation}; 
                     }
                 }, {}
             ); 
@@ -48,7 +71,6 @@ class UserInput extends BaseComponent
     }
     render() 
     {
-        let validation_rules = this.ValidationRules(); 
         let form = this.props.form.form.map
         (
             components=> 
@@ -70,7 +92,7 @@ class UserInput extends BaseComponent
                                 <ComponentClass 
                                     {...component} 
                                     key={name} 
-                                    validations={validation_rules[name]} 
+                                    validations={this.state.validation_rules[name]} 
                                 />
                             </MaterialUI.Grid>); 
                     }

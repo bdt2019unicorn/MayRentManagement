@@ -14,7 +14,7 @@ class TextInput extends SimpleInputComponent
                 size="medium"
                 fullWidth
                 name={this.props.name}
-                label={this.props.title} 
+                label={this.props.title.replaceAll("*","").trim()} 
                 value={this.InnitialValue()} 
                 type={this.props.type} 
                 margin="normal"
@@ -44,18 +44,17 @@ class TextGroupConfirmation extends BaseComponent
     {
         ValidationObject()
         {
-            if(!this.props.validations)
-            {
-                return undefined; 
-            }
             let validations = validate
             (
                 {
-                    [this.props.name]:this.state.value, 
-                    [this.props.confirm_name]: this.state.confirm_value 
+                    [this.props.name]: (this.state.value||"").trim(), 
+                    [this.props.confirm_name]: (this.state.confirm_value||"").trim()
                 }, 
                 {
-                    [this.props.name]: this.props.validations
+                    [this.props.confirm_name]: 
+                    {
+                        equality: this.props.name
+                    }
                 }
             ); 
             var validation_object = 
@@ -65,7 +64,7 @@ class TextGroupConfirmation extends BaseComponent
             return validation_object.error? 
             {
                 ...validation_object, 
-                helperText: validations[this.props.name][0]
+                helperText: validations[this.props.confirm_name][0]
             }: validation_object
         }
     }
