@@ -82,6 +82,7 @@ class FullPage extends React.Component
                     <Route component={About} exact path="/about" />
                     <Route component={AboutId} path="/about/:id" />
                 </Switch>
+                <Parent />
             </ReactRouterDOM.HashRouter>
         ); 
     }

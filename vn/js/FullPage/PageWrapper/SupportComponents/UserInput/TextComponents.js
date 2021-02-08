@@ -91,10 +91,52 @@ class Child extends BaseComponent
         BindFunctions(this); 
         this.state = {value: undefined}; 
     }
-    
+    render()
+    {
+        var Change = (event)=>
+        {   
+            let value = event.target.value; 
+            this.setState({value: value}); 
+            Emitter.emit("test", {value}); 
+        }; 
+        return (
+            <div>
+                <label>child</label>
+                <input type="text" onChange={Change} />
+            </div>
+        ); 
+    }
 }
 
 class Parent extends BaseComponent  
 {
-
+    constructor(props)
+    {
+        super(props); 
+        BindFunctions(this); 
+        this.state = {value: undefined, confirm: undefined}; 
+    }
+    CustomEvents = 
+    {
+        "test": data =>
+        {
+            console.log(data); 
+            this.setState(data); 
+        }
+    }
+    render() 
+    {
+        var Change = event=>
+        {
+            this.setState({confirm: event.target.value}); 
+        }
+        return (
+            <div>
+                <Child />
+                <label>parent</label>
+                <input type="text" onChange={Change} />
+                {(this.state.value==this.state.confirm) && <p>{this.state.value}-------{this.state.confirm}</p>}
+            </div>         
+        );
+    }
 }
