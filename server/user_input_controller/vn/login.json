@@ -1,19 +1,19 @@
 {
-    "title": "Login",
+    "title": "Đăng nhập",
     "form":
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "username",
-                "title": "Username"
+                "title": "Tài khoản"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "password",
-                "title": "Password",
+                "title": "Mật khẩu",
                 "type": "password"
             }
         ]
@@ -22,8 +22,14 @@
     {
         "rules":
         {
-            "username": "required",
-            "password": "required"
+            "username":             
+            {
+                "presence": true
+            },
+            "password":             
+            {
+                "presence": true
+            }
         }
     }
 }

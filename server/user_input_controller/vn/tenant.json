@@ -4,47 +4,47 @@
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "first_name",
                 "title": "First Name"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "middle_name",
                 "title": "Middle Name"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "last_name",
                 "title": "Last Name *"
             },
             {
-                "component": "date-input",
+                "component": "DateInput",
                 "name": "date_of_birth",
                 "title": "Date of Birth *",
-                "required": true
+                "presence": true
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "passport_id_number",
                 "title": "Passport/ID Number *"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "Nationality",
                 "title": "Nationality *"
             }, 
             {
-                "component": "date-input",
+                "component": "DateInput",
                 "name": "visa_expiry_date",
                 "title": "Visa expiry date" 
             }
         ],
         [
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "building_id",
                 "title": "Building *",
                 "overview_controller": "buildings",
@@ -52,55 +52,55 @@
                 "text": "name"
             }, 
             {
-                "component": "date-input",
+                "component": "DateInput",
                 "name": "police_registration_date",
                 "title": "Residential registration date (police)" 
             },             
             {
-                "component": "date-input",
+                "component": "DateInput",
                 "name": "expected_departure_date",
                 "title": "Expected departure date (police)" 
             }
         ], 
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "mobile_phone",
                 "title": "Mobile Phone *"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "work_phone",
                 "title": "Work Phone"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "personal_email",
                 "title": "Personal Email *"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "work_email",
                 "title": "Work Email *"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "company_name",
                 "title": "Company Name *"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "company_address",
                 "title": "Company Address"
             }
         ],
         [
             {
-                "component": "textarea-input",
+                "component": "TextareaInput",
                 "name": "note",
                 "title": "Note"
             }
@@ -110,18 +110,36 @@
     {
         "rules":
         {
-            "last_name": "required",
-            "passport_id_number": "required",
-            "Nationality": "required", 
-            "building_id": "required", 
-            "mobile_phone": "required",
+            "last_name":             
+            {
+                "presence": true
+            },
+            "passport_id_number":             
+            {
+                "presence": true
+            },
+            "Nationality":             
+            {
+                "presence": true
+            }, 
+            "building_id":             
+            {
+                "presence": true
+            }, 
+            "mobile_phone":             
+            {
+                "presence": true
+            },
             "personal_email": 
             {
-                "required": true, 
+                "presence": true, 
                 "email": true 
             }, 
             "work_email": "email", 
-            "company_name": "required"
+            "company_name":             
+            {
+                "presence": true
+            }
         }
     }
 }

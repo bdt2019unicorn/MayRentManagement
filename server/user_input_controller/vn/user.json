@@ -1,42 +1,42 @@
 {
-    "title": "Register",
+    "title": "Đăng kí",
     "form":
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "username",
-                "title": "Username *"
+                "title": "Tài khoản"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "password",
-                "title": "Password *",
+                "title": "Mật khẩu",
                 "type": "password"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "phone_number",
-                "title": "Phone number *"
+                "title": "Số điện thoại"
             },
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "viber_number",
-                "title": "Viber Number"
+                "title": "Số điện thoại Viber"
             }
         ],
         [
             {
-                "component": "text-group-confirmation",
+                "component": "TextGroupConfirmation",
                 "name": "email",
-                "title": "Email Address *",
+                "title": "Địa chỉ Email",
                 "id": "email",
                 "confirm_name": "email_confirm",
-                "confirm_title": "Confirm Email Address"
+                "confirm_title": "Xác nhận Địa chỉ Email"
             }
         ]
     ],
@@ -44,17 +44,26 @@
     {
         "rules":
         {
-            "username": "required",
-            "password": "required",
-            "phone_number": "required",
+            "username":             
+            {
+                "presence": true
+            },
+            "password":             
+            {
+                "presence": true
+            },
+            "phone_number":             
+            {
+                "presence": true
+            },
             "email":
             {
-                "required": true,
+                "presence": true,
                 "email": true
             },
             "email_confirm":
             {
-                "equalTo": "#email"
+                "equality": "email"
             }
         }
     }

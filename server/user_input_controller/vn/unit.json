@@ -4,12 +4,12 @@
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "name",
                 "title": "Name *"
             },
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "building_id",
                 "title": "Building *",
                 "overview_controller": "buildings",
@@ -19,22 +19,22 @@
         ],
         [
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "area",
                 "title": "Area *"
             },
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "number_of_bedrooms",
                 "title": "Number of Bedrooms *"
             },
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "number_of_bathroom",
                 "title": "Number of Bathrooms *"
             },
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "number_of_windows",
                 "title": "Number of Windows *"
             }
@@ -48,7 +48,7 @@
         ],
         [
             {
-                "component": "textarea-input",
+                "component": "TextareaInput",
                 "name": "note",
                 "title": "Note"
             }
@@ -58,28 +58,34 @@
     {
         "rules":
         {
-            "name": "required",
-            "building_id": "required", 
+            "name":             
+            {
+                "presence": true
+            },
+            "building_id":             
+            {
+                "presence": true
+            }, 
             "area": 
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0
             }, 
             "number_of_bedrooms": 
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0, 
                 "number_input_integer": true 
             }, 
             "number_of_bathroom": 
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0, 
                 "number_input_integer": true 
             }, 
             "number_of_windows": 
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0, 
                 "number_input_integer": true 
             }

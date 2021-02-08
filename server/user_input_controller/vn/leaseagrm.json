@@ -4,12 +4,12 @@
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "name",
                 "title": "Agreement Number *"
             },
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "tenant_id",
                 "title": "Tenant *",
                 "overview_controller": "tenant",
@@ -17,7 +17,7 @@
                 "text": "Full Name"
             },
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "unit_id",
                 "title": "Unit *",
                 "overview_controller": "unit",
@@ -27,7 +27,7 @@
         ],
         [
             {
-                "component": "multi-select-input",
+                "component": "MultiSelectInput",
                 "name": "ocupants_ids",
                 "title": "Ocupants",
                 "overview_controller": "tenant",
@@ -48,7 +48,7 @@
         ], 
         [
             {
-                "component": "date-group",
+                "component": "DateGroup",
                 "name": "rent_date_group", 
                 "date_data":
                 {
@@ -56,14 +56,14 @@
                     {
                         "name": "start_date",
                         "title": "Start Date",
-                        "required": true,
+                        "presence": true,
                         "message": "The start date should be before the end date"
                     },
                     "big_date":
                     {
                         "name": "finish",
                         "title": "End Date",
-                        "required": true,
+                        "presence": true,
                         "message": "The end date should be after the start date"
                     }
                 }
@@ -71,19 +71,19 @@
         ],
         [
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "rent_amount",
                 "title": "Rent Amount *"
             },
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "deposit_amount",
                 "title": "Deposit Amount *"
             }
         ],
         [
             {
-                "component": "date-group",
+                "component": "DateGroup",
                 "name": "deposit_date_group", 
                 "date_data":
                 {
@@ -104,12 +104,12 @@
         ],
         [
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "monthly_payment_date",
                 "title": "Monthly Payment Date *"
             },
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "leaseagrm_period_id",
                 "title": "Payment Period *",
                 "overview_controller": "leaseagrm_period",
@@ -119,19 +119,19 @@
         ], 
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "deposit_currency",
                 "title": "Deposit Currency"
             },
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "deposit_exchange_rate",
                 "title": "Deposit Exchange Rate"
             }
         ],
         [
             {
-                "component": "textarea-input",
+                "component": "TextareaInput",
                 "name": "note",
                 "title": "Note"
             }
@@ -141,23 +141,35 @@
     {
         "rules":
         {
-            "name": "required",
-            "tenant_id": "required",
-            "unit_id": "required",
+            "name":             
+            {
+                "presence": true
+            },
+            "tenant_id":             
+            {
+                "presence": true
+            },
+            "unit_id":             
+            {
+                "presence": true
+            },
             "rent_amount": 
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0 
             }, 
-            "leaseagrm_period_id": "required", 
+            "leaseagrm_period_id":             
+            {
+                "presence": true
+            }, 
             "deposit_amount":
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0 
             },  
             "monthly_payment_date":
             {
-                "required": true,
+                "presence": true,
                 "step": 1,
                 "min": 1,
                 "max": 28

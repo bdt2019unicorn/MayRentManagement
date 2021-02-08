@@ -19,7 +19,7 @@ class PageAdministration extends BaseComponent
         LoadForm()
         {
             let controller = this.CurrentController(); 
-            let form = AjaxRequest(`../server/user_input_controller/${controller}.json`); 
+            let form = AjaxRequest(`../server/user_input_controller/vn/${controller}.json`); 
             return JSON.parse(form); 
         }
     }
@@ -27,7 +27,7 @@ class PageAdministration extends BaseComponent
     {
         return (
             <div>
-                <UserInput form={this.state.form} />
+                {/* <UserInput form={this.state.form} /> */}
                 <button type="button" onClick={()=>this.props.history.push("/page-administration/login")}>login</button>
                 <button type="button" onClick={()=>this.props.history.push("/page-administration/user")}>register</button>
             </div>

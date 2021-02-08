@@ -4,12 +4,12 @@
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "name",
                 "title": "Name *"
             },
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "expense_type_id",
                 "title": "Type *",
                 "overview_controller": "expense_type",
@@ -17,7 +17,7 @@
                 "text": "name"
             }, 
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "building_id",
                 "title": "Building *",
                 "overview_controller": "buildings",
@@ -27,7 +27,7 @@
         ],
         [
             {
-                "component": "date-group",
+                "component": "DateGroup",
                 "name": "period", 
                 "date_data":
                 {
@@ -35,14 +35,14 @@
                     {
                         "name": "start_period",
                         "title": "Start Period",
-                        "required": true,
+                        "presence": true,
                         "message": "The start period should be before the end period"
                     },
                     "big_date":
                     {
                         "name": "end_period",
                         "title": "End Period",
-                        "required": true,
+                        "presence": true,
                         "message": "The end period should be after the start period"
                     }
                 }
@@ -50,19 +50,19 @@
         ],
         [
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "amount",
                 "title": "Amount *"
             },
             {
-                "component": "date-input",
+                "component": "DateInput",
                 "name": "payment_date",
                 "title": "Payment Date"
             }
         ],
         [
             {
-                "component": "textarea-input",
+                "component": "TextareaInput",
                 "name": "note",
                 "title": "Note"
             }
@@ -72,12 +72,21 @@
     {
         "rules":
         {
-            "name": "required",
-            "expense_type_id": "required",
-            "building_id": "required",
+            "name":             
+            {
+                "presence": true
+            },
+            "expense_type_id":             
+            {
+                "presence": true
+            },
+            "building_id":             
+            {
+                "presence": true
+            },
             "amount":
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0 
             } 
         }

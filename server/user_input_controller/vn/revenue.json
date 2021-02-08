@@ -4,12 +4,12 @@
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "name",
                 "title": "Name *"
             },
             {
-                "component": "select-input",
+                "component": "SelectInput",
                 "name": "leaseagrm_id",
                 "title": "Lease Agreement *",
                 "overview_controller": "leaseagrm",
@@ -19,20 +19,20 @@
         ],
         [
             {
-                "component": "number-input",
+                "component": "NumberInput",
                 "name": "amount",
                 "title": "Amount *"
             }, 
             {
-                "component": "date-input",
+                "component": "DateInput",
                 "name": "payment_date",
                 "title": "Payment date *",
-                "required": true
+                "presence": true
             }
         ],
         [
             {
-                "component": "textarea-input",
+                "component": "TextareaInput",
                 "name": "note",
                 "title": "Note"
             }
@@ -42,11 +42,17 @@
     {
         "rules":
         {
-            "name": "required",
-            "leaseagrm_id": "required",
+            "name":             
+            {
+                "presence": true
+            },
+            "leaseagrm_id":             
+            {
+                "presence": true
+            },
             "amount":
             {
-                "required": true, 
+                "presence": true, 
                 "number_input_min": 0 
             } 
         }

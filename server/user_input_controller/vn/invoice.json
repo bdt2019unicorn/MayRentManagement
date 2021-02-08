@@ -8,7 +8,7 @@
             "form": 
             [
                 {
-                    "component": "date-group",
+                    "component": "DateGroup",
                     "name": "period", 
                     "date_data":
                     {
@@ -16,7 +16,7 @@
                         {
                             "name": "start_date",
                             "title": "Start Period",
-                            "required": true,
+                            "presence": true,
                             "lock": true, 
                             "message": "The start period should be before the end period"
                         },
@@ -24,23 +24,23 @@
                         {
                             "name": "end_date",
                             "title": "End Period",
-                            "required": true,
+                            "presence": true,
                             "message": "The end period should be after the start period"
                         }
                     }
                 }, 
                 {
-                    "component": "component-group", 
+                    "component": "ComponentGroup", 
                     "name": "price_quantity", 
                     "component_data": 
                     [
                         {
-                            "component": "number-input",
+                            "component": "NumberInput",
                             "name": "price",
                             "title": "Price"
                         },
                         {
-                            "component": "number-input",
+                            "component": "NumberInput",
                             "name": "quantity",
                             "title": "Quantity"
                         }
