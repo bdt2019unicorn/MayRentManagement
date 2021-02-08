@@ -25,6 +25,9 @@ class BaseComponent extends React.Component
     }
     static Methods =
     {
-
+        CurrentController()
+        {
+            return this.props.match.params.controller; 
+        }
     }
 }

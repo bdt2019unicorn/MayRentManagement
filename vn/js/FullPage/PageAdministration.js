@@ -9,7 +9,7 @@ class PageAdministration extends BaseComponent
     }
     componentDidUpdate(previous_props, previous_state)
     {
-        if(previous_props.match.params.controller!=this.props.match.params.controller)
+        if(previous_props.match.params.controller!=this.CurrentController())
         {
             this.setState({form: this.LoadForm()}); 
         }
@@ -18,7 +18,7 @@ class PageAdministration extends BaseComponent
     {
         LoadForm()
         {
-            let controller = this.props.match.params.controller; 
+            let controller = this.CurrentController(); 
             let form = AjaxRequest(`../server/user_input_controller/${controller}.json`); 
             return JSON.parse(form); 
         }
