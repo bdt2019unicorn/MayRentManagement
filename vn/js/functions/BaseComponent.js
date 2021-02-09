@@ -34,6 +34,12 @@ class BaseComponent extends React.Component
             }
             catch(error) {}
             return this.props.controller || controller; 
+        },  
+        LoadForm(controller = undefined)
+        {
+            controller = controller || this.CurrentController(); 
+            let form = AjaxRequest(`../server/user_input_controller/vn/${controller}.json`); 
+            return JSON.parse(form); 
         }, 
         ValidationHelperText(validations, props_name)
         {

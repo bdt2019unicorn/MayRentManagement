@@ -1,3 +1,5 @@
+/*
+
 class TestReduxStore extends React.Component
 {
     render() 
@@ -60,11 +62,11 @@ ReactDOM.render
     </ReactRedux.Provider>,
     document.getElementById('test_div')
 ); 
+*/
 
 
 
-
-class FullPage extends React.Component 
+class FullPage extends BaseComponent 
 {
     constructor(props)
     {

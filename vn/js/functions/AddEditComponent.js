@@ -18,12 +18,6 @@ class AddEditComponent extends BaseComponent
         InnitialState()
         {
             this.state = {form: this.LoadForm()}; 
-        }, 
-        LoadForm(controller = undefined)
-        {
-            controller = controller || this.CurrentController(); 
-            let form = AjaxRequest(`../server/user_input_controller/vn/${controller}.json`); 
-            return JSON.parse(form); 
         }
     }
     render()
