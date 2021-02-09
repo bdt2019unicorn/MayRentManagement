@@ -15,18 +15,13 @@ class FullPage extends React.Component
     {
         // let buildings = this.state.buildings.map(building=><p key={building.id}>{JSON.stringify(building)}</p>); 
         let Switch = ReactRouterDOM.Switch; 
-        let Link = ReactRouterDOM.Link; 
         let Route = ReactRouterDOM.Route; 
         return (
             <ReactRouterDOM.HashRouter>
                 {/* <ImportExcel /> */}
                 {/* {buildings} */}
                 <Switch>
-                    <Route component={PageAdministration} 
-                        exact 
-                        path="/page-administration/" 
-                        render={props=>(<ReactRouterDOM.Redirect to="/page-administration/login" />)} 
-                    />
+                    <Route component={PageAdministration} exact path="/page-administration/" />
                     <Route component={PageAdministration} path="/page-administration/:controller" />
                 </Switch>
             </ReactRouterDOM.HashRouter>

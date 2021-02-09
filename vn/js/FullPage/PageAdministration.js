@@ -26,6 +26,10 @@ class PageAdministration extends BaseComponent
     }
     render()
     {
+        if(!this.state.controller)
+        {
+            return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
+        }
         let container_width = "sm"; 
         let Link = ReactRouterDOM.Link; 
         return (
