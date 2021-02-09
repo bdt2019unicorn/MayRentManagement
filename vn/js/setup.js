@@ -23,12 +23,15 @@ class Setup
     }; 
     Methods = 
     {
-
+        ChangeState(state, {state_name, value})
+        {
+            return {...state, [state_name]: value}; 
+        }
     }
     FullPage()
     {
         var Provider = ReactRedux.Provider; 
-        var store = Redux.createStore(this.reducer); 
+        var store = Redux.createStore(this.reducer, this.innitial_state); 
         var Page = ReactRedux.connect()(FullPage); 
         return <Provider store={store}><Page /></Provider>; 
     }
