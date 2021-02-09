@@ -27,7 +27,7 @@ class BaseComponent extends React.Component
     {
         CurrentController()
         {
-            return this.props.match.params.controller; 
+            return this.props.controller || this.props.match.params.controller; 
         }, 
         ValidationHelperText(validations, props_name)
         {

@@ -1,54 +1,3 @@
-class Home extends React.Component 
-{
-    constructor(props)
-    {
-        super(props); 
-    }
-    render()
-    {
-        return (
-            <div>
-                <h1>Home</h1>
-            </div>
-        ); 
-    }
-}
-
-class About extends React.Component 
-{
-    constructor(props)
-    {
-        super(props); 
-    }
-    render()
-    {
-        return (
-            <div>
-                <h1>About</h1>
-            </div>
-        ); 
-    }
-}
-
-class AboutId extends React.Component
-{
-    constructor(props)
-    {
-        super(props); 
-    }
-    render()
-    {
-        return (
-            <div>
-                <h3>{JSON.stringify(this.props)}</h3>
-                <h3 style={{color: "red"}}>{this.props.match.params.id}</h3>
-                <button type="button" onClick={()=>this.props.history.push("/about")}>About</button>
-                <button type="button" onClick={()=>this.props.history.push("/")}>Home</button>
-            </div>
-        )
-    }
-}
-
 class FullPage extends React.Component 
 {
     constructor(props)
@@ -71,16 +20,14 @@ class FullPage extends React.Component
         return (
             <ReactRouterDOM.HashRouter>
                 {/* <ImportExcel /> */}
-                <div>
-                    <Link to="/">Home</Link>
-                    <Link to="/about">About</Link>
-                </div>
                 {/* {buildings} */}
                 <Switch>
-                    <Route component={Home} exact path="/" />
+                    <Route component={PageAdministration} 
+                        exact 
+                        path="/page-administration/" 
+                        render={props=>(<ReactRouterDOM.Redirect to="/page-administration/login" />)} 
+                    />
                     <Route component={PageAdministration} path="/page-administration/:controller" />
-                    <Route component={About} exact path="/about" />
-                    <Route component={AboutId} path="/about/:id" />
                 </Switch>
             </ReactRouterDOM.HashRouter>
         ); 
