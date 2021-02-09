@@ -4,7 +4,6 @@ class UserInput extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
-        this.state = {validation_rules: this.ValidationRules()}; 
     }
     Methods =  
     {
@@ -14,60 +13,9 @@ class UserInput extends BaseComponent
             var form_data = new FormData(event.target); 
             var data = Object.fromEntries(form_data); 
             console.log(data); 
-            let validation = validate(data, this.state.validation_rules); 
+            let validation = validate(data, this.props.form.validate); 
             console.log(validation); 
         }, 
-        ValidationRules()
-        {
-            var rules = _.cloneDeep(this.props.form.validate.rules); 
-            return Object.keys(rules).reduce
-            (
-                (accumulator, current_value)=>
-                {
-                    let value = rules[current_value]; 
-                    if(typeof(value) === "string")
-                    {
-                        switch (value) 
-                        {
-                            case "required":
-                                return {
-                                    ...accumulator, 
-                                    [current_value]: {presence: true}
-                                }; 
-                            default:
-                                return accumulator
-                        }
-                    }
-                    else 
-                    {
-                        var validation = Object.keys(value).reduce
-                        (
-                            (accumulator, current_value)=>
-                            {
-                                var new_rule; 
-                                switch (current_value) 
-                                {
-                                    case "required":
-                                        new_rule = {presence: value[current_value]}; 
-                                        break;
-                                    case "equalTo": 
-                                        new_rule = {equality: value[current_value].replaceAll("#", "").trim()}
-                                        break; 
-                                    default:
-                                        new_rule = {[current_value]: value[current_value]}; 
-                                        break;
-                                }
-                                return {
-                                    ...accumulator, 
-                                    ...new_rule
-                                }; 
-                            }, {}
-                        ); 
-                        return {...accumulator, [current_value]:validation}; 
-                    }
-                }, {}
-            ); 
-        }
     }
     render() 
     {
@@ -79,26 +27,25 @@ class UserInput extends BaseComponent
                 (
                     component =>  
                     {
-                        let type = component.component.split("-").map(string => string.charAt(0).toUpperCase() + string.slice(1)).join(""); 
-                        var ComponentClass = window[type]; 
+                        var ComponentClass = window[component.component]; 
                         let name = component.name; 
                         return (
                             <MaterialUI.Grid
                                 item
                                 xs={12}
                                 md={12/(components.length)}
-                                key={btoa(JSON.stringify(component)) + Math.random()}
+                                key={encodeURIComponent(JSON.stringify(component)) + Math.random()}
                             >
                                 <ComponentClass 
                                     {...component} 
                                     key={name} 
-                                    validations={this.state.validation_rules[name]} 
+                                    validations = {this.props.form.validate}
                                 />
                             </MaterialUI.Grid>); 
                     }
                 ); 
                 return (
-                    <MaterialUI.Grid key={btoa(JSON.stringify(components)) + Math.random()} container spacing={1}>
+                    <MaterialUI.Grid key={encodeURIComponent(JSON.stringify(components)) + Math.random()} container spacing={1}>
                         {columns}
                     </MaterialUI.Grid>
                 ); 

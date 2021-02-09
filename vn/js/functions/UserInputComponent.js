@@ -1,5 +1,10 @@
 class UserInputComponent extends BaseComponent
 {
+    constructor(props)
+    {
+        super(props); 
+        UserInputComponent.Methods = {...UserInputComponent.Methods, ...BaseComponent.Methods}; 
+    }
     static Methods = 
     {
         InnitialValue()
@@ -8,12 +13,21 @@ class UserInputComponent extends BaseComponent
         }, 
         ValidationObject()
         {
-            if(!this.props.validations)
+            var this_validations = _.cloneDeep(this.props.validations); 
+            if(!this_validations)
             {
                 return undefined; 
             }
-            let required = this.props.validations.presence||false; 
-            let validations = validate({[this.props.name]:this.state.value}, {[this.props.name]: this.props.validations}); 
+            else if(!this_validations[this.props.name])
+            {
+                return; 
+            }
+            else 
+            {
+                this_validations = _.cloneDeep(this_validations[this.props.name]); 
+            }
+            let required = this_validations.presence? true: false; 
+            let validations = validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
             var validation_object = 
             {
                 required, 
@@ -22,7 +36,7 @@ class UserInputComponent extends BaseComponent
             return validation_object.error? 
             {
                 ...validation_object, 
-                helperText: validations[this.props.name][0]
+                helperText: this.ValidationHelperText(validations, "name") 
             }: validation_object
         }   
     }

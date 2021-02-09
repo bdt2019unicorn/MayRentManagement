@@ -42,28 +42,44 @@
     ],
     "validate":
     {
-        "rules":
+        "username":             
         {
-            "username":             
+            "presence": 
             {
-                "presence": true
+                "message": "Tài khoản để trống"
+            }
+        },
+        "password":             
+        {
+            "presence": 
+            {
+                "message": "Mật khẩu để trống"
+            }
+        },
+        "phone_number":             
+        {
+            "presence": 
+            {
+                "message": "Số điện thoại để trống"
+            }
+        },
+        "email":
+        {
+            "presence": 
+            {
+                "message": "Địa chỉ email để trống"
             },
-            "password":             
+            "email": 
             {
-                "presence": true
-            },
-            "phone_number":             
+                "message":"Định dạng không phải email"
+            }
+        },
+        "email_confirm":
+        {
+            "equality": 
             {
-                "presence": true
-            },
-            "email":
-            {
-                "presence": true,
-                "email": true
-            },
-            "email_confirm":
-            {
-                "equality": "email"
+                "attribute": "email", 
+                "message": "Xác nhận email không giống địa chỉ email"
             }
         }
     }

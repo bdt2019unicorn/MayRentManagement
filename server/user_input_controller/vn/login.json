@@ -20,15 +20,18 @@
     ],
     "validate":
     {
-        "rules":
+        "username":             
         {
-            "username":             
+            "presence": 
             {
-                "presence": true
-            },
-            "password":             
+                "message": "Tên tài khoản để trống"
+            }
+        },
+        "password":             
+        {
+            "presence": 
             {
-                "presence": true
+                "message": "Mật khẩu để trống"
             }
         }
     }

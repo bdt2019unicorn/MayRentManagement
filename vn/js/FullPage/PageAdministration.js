@@ -27,7 +27,7 @@ class PageAdministration extends BaseComponent
     {
         return (
             <div>
-                {/* <UserInput form={this.state.form} /> */}
+                <UserInput form={this.state.form} />
                 <button type="button" onClick={()=>this.props.history.push("/page-administration/login")}>login</button>
                 <button type="button" onClick={()=>this.props.history.push("/page-administration/user")}>register</button>
             </div>
