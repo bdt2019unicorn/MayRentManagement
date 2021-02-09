@@ -5,23 +5,23 @@ class AddEditComponent extends BaseComponent
         super(props); 
         AddEditComponent.Methods = {...AddEditComponent.Methods, ...BaseComponent.Methods}; 
     }
-    // componentDidUpdate(previous_props, previous_state)
-    // {
-    //     let controller = this.CurrentController(); 
-    //     if(previous_state.controller!=controller)
-    //     {
-    //         this.setState({controller}); 
-    //     }
-    // }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        let controller = this.CurrentController(); 
+        if(previous_props.controller!=controller)
+        {
+            this.setState({form: this.LoadForm(controller)}); 
+        }
+    }
     static Methods = 
     {
         InnitialState()
         {
             this.state = {form: this.LoadForm()}; 
         }, 
-        LoadForm()
+        LoadForm(controller = undefined)
         {
-            let controller = this.CurrentController(); 
+            controller = controller || this.CurrentController(); 
             let form = AjaxRequest(`../server/user_input_controller/vn/${controller}.json`); 
             return JSON.parse(form); 
         }
