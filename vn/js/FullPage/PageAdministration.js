@@ -25,12 +25,29 @@ class PageAdministration extends BaseComponent
     }
     render()
     {
+        let container_width = "sm"; 
+        let controller = this.CurrentController(); 
+        let Link = ReactRouterDOM.Link; 
         return (
-            <div>
-                <UserInput form={this.state.form} />
-                <button type="button" onClick={()=>this.props.history.push("/page-administration/login")}>login</button>
-                <button type="button" onClick={()=>this.props.history.push("/page-administration/user")}>register</button>
-            </div>
+            <MaterialUI.Grid container alignItems="center" justify="center">
+                <MaterialUI.Container maxWidth={container_width} fixed>
+                    <MaterialUI.Grid container alignItems="center" justify="center" spacing={2}>
+                        <MaterialUI.Grid container alignItems="center" justify="center">
+                            <img src="../img/logo.png" alt="logo" />
+                        </MaterialUI.Grid>
+                        
+                        <MaterialUI.Grid item xs={6}>
+                            <Link className={ItemsClasses("login", controller, "btn btn-block", "btn-primary", "btn-outline")} to="/page-administration/login">Đăng nhập</Link>
+                        </MaterialUI.Grid>
+                        <MaterialUI.Grid item xs={6}>
+                            <Link className={ItemsClasses("user", controller, "btn btn-block", "btn-primary", "btn-outline")} to="/page-administration/user">Đăng kí</Link>
+                        </MaterialUI.Grid>
+
+                    </MaterialUI.Grid>
+
+                </MaterialUI.Container>
+                <UserInput form={this.state.form} container_width={container_width} />
+            </MaterialUI.Grid>
         ); 
     }
 }

@@ -53,7 +53,7 @@ class UserInput extends BaseComponent
         ); 
         return (
             <MaterialUI.Grid container alignItems="center" justify="center">
-                <MaterialUI.Container maxWidth="sm" fixed className="border border-blue-light p-4 m-4">
+                <MaterialUI.Container maxWidth={this.props.container_width||undefined} fixed className="border border-blue-light p-4 m-4">
                     <h1 className="text-center">{this.props.form.title}</h1>
                     <form onSubmit={this.FormSubmit}>
                         {form}
