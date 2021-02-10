@@ -1,5 +1,5 @@
 {
-    "title": "Building",
+    "title": "Tòa nhà",
     "display": 
     {
         "id": "ID",
@@ -105,12 +105,9 @@
     ],
     "validate": 
 	{
-        "rules": 
+        "name": 
         {
-            "name": 
-            {
-                "presence": true
-            }
+            "presence": true
         }
 	}
 }

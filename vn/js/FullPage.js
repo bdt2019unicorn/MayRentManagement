@@ -107,7 +107,42 @@ ReactDOM.render
 
 */
 
+/*
+class Home extends React.Component 
+{
+    render()
+    {
+        return (
+            <div>
+                <h1 className="text-purple">I am the home thing</h1>
+                <ReactRouterDOM.Link to="/about">About</ReactRouterDOM.Link>
+            </div>
+        ); 
+    }
+}
 
+class About extends React.Component 
+{
+    render()
+    {
+        let random = Math.random() * 100; 
+        console.log(random); 
+        if(random<50)
+        {
+            return <ReactRouterDOM.Redirect to="/home" />; 
+        }
+        return (
+            <div>
+                <h1 className="text-red">I am the about thing</h1>
+                <ReactRouterDOM.Link to="/home">Home</ReactRouterDOM.Link>
+                <h2>Redirect to home down here</h2>
+                <button onClick={()=>this.props.history.push("/home")}>Redirect to home</button>
+            </div>
+        ); 
+    }
+}
+
+*/
 
 
 class FullPage extends BaseComponent 
@@ -115,12 +150,13 @@ class FullPage extends BaseComponent
     constructor(props)
     {
         super(props); 
-        var url = "../server/overview_controller/overview_controller.php?overview_controller=buildings"; 
-        let buildings = AjaxRequest(url); 
-        this.state = 
-        {
-            // buildings: JSON.parse(buildings) 
-        }; 
+        this.props.Authorize
+        (
+            {
+                username: sessionStorage.getItem("username") ||"", 
+                user_id: sessionStorage.getItem("user_id") ||""
+            }
+        ); 
     }
 
     render()
