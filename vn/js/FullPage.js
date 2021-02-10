@@ -1,5 +1,5 @@
-/*
 
+/*
 class TestReduxStore extends React.Component
 {
     render() 
@@ -9,6 +9,18 @@ class TestReduxStore extends React.Component
             var value = encodeURIComponent(Math.random().toString()); 
             this.props.ChangeTestVar(value); 
         }; 
+        // var test = ReactRedux.useSelector
+        // (
+        //     (state)=>
+        //     {
+        //         console.log(state); 
+        //         // return state.test; 
+        //         return undefined; 
+        //     }
+        // ); 
+        // console.log(test); 
+        var test = ReactRedux.useStore(); 
+        console.log(test); 
         return (
             <div>
                 <h1>{this.props.test || "currently waiting for new value"}</h1>
@@ -16,6 +28,33 @@ class TestReduxStore extends React.Component
             </div>
         ); 
     }
+}
+
+
+
+function TestReduxStore(props)
+{
+    var ChangeTestVar = ()=>
+    {
+        var value = encodeURIComponent(Math.random().toString()); 
+        props.ChangeTestVar(value); 
+    }; 
+    // var test = ReactRedux.useStore(); 
+    // console.log(test); 
+    var test = ReactRedux.useSelector
+    (
+        (state)=>
+        {
+            return state.test; 
+        }
+    ); 
+    console.log(test); 
+    return (
+        <div>
+            <h1>{test || "currently waiting for new value"}</h1>
+            <button type="button" onClick={ChangeTestVar}>Change the value </button>
+        </div>
+    ); 
 }
 
 
@@ -36,7 +75,8 @@ const MapDispatchToProps =
     )
 }; 
 
-var TestReduxStoreConnect = ReactRedux.connect(MapStateToProps, MapDispatchToProps)(TestReduxStore); 
+// var TestReduxStoreConnect = ReactRedux.connect(MapStateToProps, MapDispatchToProps)(TestReduxStore); 
+var TestReduxStoreConnect = ReactRedux.connect(undefined, MapDispatchToProps)(TestReduxStore); 
 
 const innitial_state = {test: "I am the first test var", not_related: "totally not related"}; 
 
@@ -62,7 +102,11 @@ ReactDOM.render
     </ReactRedux.Provider>,
     document.getElementById('test_div')
 ); 
+
+
+
 */
+
 
 
 
