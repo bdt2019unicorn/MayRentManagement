@@ -17,6 +17,10 @@ class PageAdministration extends BaseComponent
     }
     render()
     {
+        if(this.props.username && this.props.user_id)
+        {
+            return <ReactRouterDOM.Redirect to="/" />; 
+        }
         if(!this.state.controller)
         {
             return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
@@ -46,3 +50,5 @@ class PageAdministration extends BaseComponent
         ); 
     }
 }
+
+PageAdministration = ConnectComponentToStore(PageAdministration); 

@@ -24,4 +24,4 @@ class Dashboard extends BaseComponent
     }
 }
 
-Dashboard = ReactRedux.connect(PageSetup.MapStateToProps)(Dashboard); 
+Dashboard = ConnectComponentToStore(Dashboard); 

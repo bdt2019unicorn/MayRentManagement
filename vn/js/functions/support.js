@@ -17,7 +17,10 @@ function BindFunctions(component)
     Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
 }
 
-const Emitter = new EventEmitter();
+function ConnectComponentToStore(component_class)
+{
+    return ReactRedux.connect(PageSetup.MapStateToProps)(component_class); 
+}
 
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")
 {

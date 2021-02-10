@@ -1,3 +1,4 @@
+const Emitter = new EventEmitter();
 new Promise 
 (
     (resolve, reject)=>
