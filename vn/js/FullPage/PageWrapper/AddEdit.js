@@ -11,10 +11,16 @@ class Add extends AddEditComponent
     {
         "formSubmitValid": (data)=> 
         {
-            console.log(data); 
-            let url = ""; 
-            console.log(this.state); 
-            console.log(this.props); 
+            let result = SubmitData("excel", this.ImportUrl(), [data]); 
+            if(Number(result))
+            {
+                alert(`${this.state.form.title} thành công!`); 
+                Emitter.emit("authorizeSuccess", this.props.controller, data, Number(result)); 
+            }
+            else 
+            {
+                alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
+            }
         }
     }
 }

@@ -36,20 +36,16 @@ class PageSetup
         }
     }
     static MapStateToProps = state => state; 
-    ConnectPage()
+    static MapDispatchToProps = 
     {
-        const MapDispatchToProps = 
-        {
-            ChangeState: ({state_name, value})=>({type: "ChangeState", payload:{state_name, value}}), 
-            Authorize: ({username, user_id})=>({type: "Authorize", payload: {username, user_id}})
-        }; 
-        return ReactRedux.connect(PageSetup.MapStateToProps, MapDispatchToProps)(FullPage); 
-    }
+        ChangeState: ({state_name, value})=>({type: "ChangeState", payload:{state_name, value}}), 
+        Authorize: ({username, user_id})=>({type: "Authorize", payload: {username, user_id}})
+    } 
     FullPage()
     {
         var Provider = ReactRedux.Provider; 
         var store = Redux.createStore(this.reducer, this.innitial_state); 
-        var Page = this.ConnectPage(); 
+        var Page = ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(FullPage); 
         return <Provider store={store}><Page /></Provider>; 
     }
 }

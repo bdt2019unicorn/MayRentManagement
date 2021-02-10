@@ -16,12 +16,15 @@ class FullPage extends BaseComponent
     {
         let Switch = ReactRouterDOM.Switch; 
         let Route = ReactRouterDOM.Route; 
+        let Redirect = ReactRouterDOM.Redirect; 
         return (
             <ReactRouterDOM.HashRouter>
                 <Switch>
-                    <Route component={Dashboard} exact path="/" />
-                    <Route component={PageAdministration} exact path="/page-administration/" />
+                    <Redirect from="/page-administration" exact to="/page-administration/login" />
                     <Route component={PageAdministration} path="/page-administration/:controller" />
+                    
+                    <Redirect from="/" exact to="/admin" />
+                    <Route component={PageWrapper} path="/admin" />
                 </Switch>
             </ReactRouterDOM.HashRouter>
         ); 

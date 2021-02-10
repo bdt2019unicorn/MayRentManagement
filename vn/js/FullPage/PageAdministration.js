@@ -7,6 +7,28 @@ class PageAdministration extends BaseComponent
         BindFunctions(this); 
         this.state = {controller: this.CurrentController()}; 
     }
+    CustomEvents = 
+    {
+        "authorizeSuccess": (controller, data, result)=> 
+        {
+            switch (controller) 
+            {
+                case "login":
+                    this.props.Authorize
+                    (
+                        {
+                            username: data.username, 
+                            user_id: result
+                        }
+                    ); 
+                    break;
+            
+                default:
+                    this.setState({controller: undefined}); 
+                    break;
+            }
+        }
+    }
     componentDidUpdate(previous_props, previous_state)
     {
         let controller = this.CurrentController(); 
@@ -19,7 +41,7 @@ class PageAdministration extends BaseComponent
     {
         if(this.props.username && this.props.user_id)
         {
-            return <ReactRouterDOM.Redirect to="/" />; 
+            return <ReactRouterDOM.Redirect to="/admin" />; 
         }
         if(!this.state.controller)
         {

@@ -43,7 +43,7 @@ class BaseComponent extends React.Component
                 building_id = this.props.match.params.building_id; 
             } 
             catch (error) {}
-            return `server/database_controller/import.php?import_controller=${this.CurrentController}&building_id=${building_id}`; 
+            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${building_id}`; 
         }, 
         LoadForm(controller = undefined)
         {
