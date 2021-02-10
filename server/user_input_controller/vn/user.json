@@ -42,45 +42,49 @@
     ],
     "validate":
     {
-        "username":             
+        "rules": 
         {
-            "presence": 
+            "username":             
             {
-                "message": "Tài khoản để trống"
-            }
-        },
-        "password":             
-        {
-            "presence": 
-            {
-                "message": "Mật khẩu để trống"
-            }
-        },
-        "phone_number":             
-        {
-            "presence": 
-            {
-                "message": "Số điện thoại để trống"
-            }
-        },
-        "email":
-        {
-            "presence": 
-            {
-                "message": "Địa chỉ email để trống"
+                "presence": 
+                {
+                    "message": "Tài khoản để trống"
+                }
             },
-            "email": 
+            "password":             
             {
-                "message":"Định dạng không phải email"
-            }
-        },
-        "email_confirm":
-        {
-            "equality": 
+                "presence": 
+                {
+                    "message": "Mật khẩu để trống"
+                }
+            },
+            "phone_number":             
             {
-                "attribute": "email", 
-                "message": "Xác nhận email không giống địa chỉ email"
+                "presence": 
+                {
+                    "message": "Số điện thoại để trống"
+                }
+            },
+            "email":
+            {
+                "presence": 
+                {
+                    "message": "Địa chỉ email để trống"
+                },
+                "email": 
+                {
+                    "message":"Định dạng không phải email"
+                }
+            },
+            "email_confirm":
+            {
+                "equality": 
+                {
+                    "attribute": "email", 
+                    "message": "Xác nhận email không giống địa chỉ email"
+                }
             }
-        }
+        }, 
+        "eliminate": ["email_confirm"]
     }
 }

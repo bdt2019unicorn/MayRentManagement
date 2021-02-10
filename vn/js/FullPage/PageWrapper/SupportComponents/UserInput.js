@@ -12,9 +12,13 @@ class UserInput extends BaseComponent
             event.preventDefault(); 
             var form_data = new FormData(event.target); 
             var data = Object.fromEntries(form_data); 
-            let validation = validate(data, this.props.form.validate); 
+            let validation = validate(data, this.props.form.validate.rules); 
             if(!validation)
             {
+                if(this.props.form.validate.eliminate)
+                {
+                    Object.values(this.props.form.validate.eliminate).forEach(key=>delete data[key]); 
+                }
                 Emitter.emit("formSubmitValid", data); 
             }
         }, 
@@ -41,7 +45,7 @@ class UserInput extends BaseComponent
                                 <ComponentClass 
                                     {...component} 
                                     key={name} 
-                                    validations = {this.props.form.validate}
+                                    validations = {this.props.form.validate.rules}
                                 />
                             </MaterialUI.Grid>); 
                     }

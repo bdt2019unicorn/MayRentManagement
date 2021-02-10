@@ -105,9 +105,12 @@
     ],
     "validate": 
 	{
-        "name": 
+        "rules": 
         {
-            "presence": true
+            "name": 
+            {
+                "presence": true
+            }
         }
 	}
 }
