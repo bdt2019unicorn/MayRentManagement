@@ -15,15 +15,6 @@ class PageAdministration extends BaseComponent
             this.setState({controller}); 
         }
     }
-    Methods = 
-    {
-        LoadForm()
-        {
-            let controller = this.CurrentController(); 
-            let form = AjaxRequest(`../server/user_input_controller/vn/${controller}.json`); 
-            return JSON.parse(form); 
-        }
-    }
     render()
     {
         if(!this.state.controller)
