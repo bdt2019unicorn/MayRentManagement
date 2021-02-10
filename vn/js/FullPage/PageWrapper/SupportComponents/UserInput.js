@@ -12,9 +12,11 @@ class UserInput extends BaseComponent
             event.preventDefault(); 
             var form_data = new FormData(event.target); 
             var data = Object.fromEntries(form_data); 
-            console.log(data); 
             let validation = validate(data, this.props.form.validate); 
-            console.log(validation); 
+            if(!validation)
+            {
+                Emitter.emit("formSubmitValid", data); 
+            }
         }, 
     }
     render() 

@@ -35,6 +35,16 @@ class BaseComponent extends React.Component
             catch(error) {}
             return this.props.controller || controller; 
         },  
+        ImportUrl()
+        {
+            var building_id; 
+            try 
+            {
+                building_id = this.props.match.params.building_id; 
+            } 
+            catch (error) {}
+            return `server/database_controller/import.php?import_controller=${this.CurrentController}&building_id=${building_id}`; 
+        }, 
         LoadForm(controller = undefined)
         {
             controller = controller || this.CurrentController(); 

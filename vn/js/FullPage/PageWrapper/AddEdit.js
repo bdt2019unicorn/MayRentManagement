@@ -7,4 +7,14 @@ class Add extends AddEditComponent
         BindFunctions(this); 
         this.InnitialState(); 
     }
+    CustomEvents = 
+    {
+        "formSubmitValid": (data)=> 
+        {
+            console.log(data); 
+            let url = ""; 
+            console.log(this.state); 
+            console.log(this.props); 
+        }
+    }
 }
