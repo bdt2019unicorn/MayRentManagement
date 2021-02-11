@@ -1,0 +1,94 @@
+{
+    "title": "Unit",
+    "form":
+    [
+        [
+            {
+                "component": "TextInput",
+                "name": "name",
+                "title": "Name *"
+            },
+            {
+                "component": "SelectInput",
+                "name": "building_id",
+                "title": "Building *",
+                "overview_controller": "buildings",
+                "select_value": "id",
+                "text": "name"
+            }
+        ],
+        [
+            {
+                "component": "NumberInput",
+                "name": "area",
+                "title": "Area *"
+            },
+            {
+                "component": "NumberInput",
+                "name": "number_of_bedrooms",
+                "title": "Number of Bedrooms *"
+            },
+            {
+                "component": "NumberInput",
+                "name": "number_of_bathroom",
+                "title": "Number of Bathrooms *"
+            },
+            {
+                "component": "NumberInput",
+                "name": "number_of_windows",
+                "title": "Number of Windows *"
+            }
+        ], 
+        [
+            {
+                "component": "checkbox-input",
+                "name": "balcony",
+                "title": "Balcony"
+            }
+        ],
+        [
+            {
+                "component": "TextareaInput",
+                "name": "note",
+                "title": "Note"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "name":             
+            {
+                "presence": true
+            },
+            "building_id":             
+            {
+                "presence": true
+            }, 
+            "area": 
+            {
+                "presence": true, 
+                "number_input_min": 0
+            }, 
+            "number_of_bedrooms": 
+            {
+                "presence": true, 
+                "number_input_min": 0, 
+                "number_input_integer": true 
+            }, 
+            "number_of_bathroom": 
+            {
+                "presence": true, 
+                "number_input_min": 0, 
+                "number_input_integer": true 
+            }, 
+            "number_of_windows": 
+            {
+                "presence": true, 
+                "number_input_min": 0, 
+                "number_input_integer": true 
+            }
+        }
+    }
+}

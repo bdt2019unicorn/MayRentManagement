@@ -2,66 +2,81 @@
 <html>
     <head>
         <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
+        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"> -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://npmcdn.com/react-bootstrap-table/dist/react-bootstrap-table-all.min.css"></link>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" integrity="sha512-UJfAaOlIRtdR+0P6C3KUoTDAxVTuy3lnSXLyLKlHYJlcSU8Juge/mjeaxDNMlw9LgeIotgz5FP8eUQPhX1q10A==" crossorigin="anonymous" /> -->
+        <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
+        <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
     </head>
     <body>
-
         <div>
-            <a href=".." title="English"><img src="../img/UK_flag.png"></a>
-            <p>Đây là thử nghiệm, hi vọng cái này hoạt động</p>
+            <a class="ml-3 mr-3" href="../issues.php">Báo cáo vấn đề</a>
+            <a class="float-right mr-3" href=".." title="English"><img src="../img/UK_flag.png"></a>
         </div>
 
         <div id="full_page"></div>
+        <!-- <h1>separate the test div</h1>
+        <div id="test_div"></div> -->
 
         <footer>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+            <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+            <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha512-m2PhLxj2N91eYrIGU2cmIu2d0SkaE4A14bCjVb9zykvp6WtsdriFCiXQ/8Hdj0kssUB/Nz0dMBcoLsJkSCto0Q==" crossorigin="anonymous"></script>
 
             <script type="text/javascript" lang="javascript"src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.1/xlsx.full.min.js"></script>
             <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.serializeObject/2.0.3/jquery.serializeObject.min.js"></script> -->
             <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script> -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
-
-
-            <!-- <script src="../js/mixins/support.js"></script> -->
-            <script src="js/functions/support.js"></script>
-
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/eventemitter3/4.0.7/index.min.js" integrity="sha512-Nn+fuByx+JZOUDYVLmCWg4lySybBp9KMI8NpUzkD/69HcondNJ6MZE9jxv8qDPCTyIK+kEzy7QDSZcYOy6KmfA==" crossorigin="anonymous"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
 
             <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-
 
             <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
 
             <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js" integrity="sha512-P36ourTueX/PrXrD4Auc1kVLoTE7bkWrIrkaM0IG2X3Fd90LFgTRogpZzNBssay0XOXhrIgudf4wFeftdsPDiQ==" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.2/react-redux.min.js" integrity="sha512-XTD4hwwD/OaJj0jZP9+rdrrirXfDkFaBoZB16n9hP4wuXifvlI4YNtSucUZ4cF4uX6eH30LPFXTyqAGqyfhI6Q==" crossorigin="anonymous"></script>
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js" integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw==" crossorigin="anonymous"></script>
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/5.2.0/react-router.min.js" integrity="sha512-sWGrnSIvNDdGRsqnFIm5q1uHjPt5912wNVBK9vChpbHPReP96giWBGeztcd/rva+n82nQLTJ1SFbZqLHbCqMiw==" crossorigin="anonymous"></script> -->
 
+            <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
             <script src="https://npmcdn.com/react-bootstrap-table/dist/react-bootstrap-table.min.js"></script>
+            <script src="../npm/immunity-helper.js"></script>
 
+            <script src="js/functions/support.js"></script>
+            <script type="text/babel" src="js/functions/BaseComponent.js"></script>
+            <script type="text/babel" src="js/functions/PageSetup.js"></script>
+            <script type="text/babel" src="js/functions/UserInputComponent.js"></script>
+            <script type="text/babel" src="js/functions/AddEditComponent.js"></script>
+            
 
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/TextComponents.js"></script>
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/ActionButton.js"></script>
+
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable.js"></script>
+            <script type="text/babel" src="js/FullPage/PageWrapper/AddEdit.js"></script>
 
+            <script type="text/babel" src="js/FullPage/PageWrapper/Dashboard.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/ImportExcel.js"></script>
+
+
+            <script type="text/babel" src="js/FullPage/PageAdministration.js"></script>
+            <script type="text/babel" src="js/FullPage/PageWrapper.js"></script>
 
             <script type="text/babel" src="js/FullPage.js"></script>
 
-            <script defer type="text/babel">
-                ReactDOM.render
-                (   
-                    <FullPage />, 
-                    document.getElementById("full_page") 
-                ); 
-            </script>
+            <script defer type="text/babel" src="js/setup.js"></script>
         </footer>
     </body>
 </html>

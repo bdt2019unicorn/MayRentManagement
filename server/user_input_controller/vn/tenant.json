@@ -1,0 +1,145 @@
+{
+    "title": "Tenant",
+    "form":
+    [
+        [
+            {
+                "component": "TextInput",
+                "name": "first_name",
+                "title": "First Name"
+            },
+            {
+                "component": "TextInput",
+                "name": "middle_name",
+                "title": "Middle Name"
+            },
+            {
+                "component": "TextInput",
+                "name": "last_name",
+                "title": "Last Name *"
+            },
+            {
+                "component": "DateInput",
+                "name": "date_of_birth",
+                "title": "Date of Birth *",
+                "presence": true
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "passport_id_number",
+                "title": "Passport/ID Number *"
+            },
+            {
+                "component": "TextInput",
+                "name": "Nationality",
+                "title": "Nationality *"
+            }, 
+            {
+                "component": "DateInput",
+                "name": "visa_expiry_date",
+                "title": "Visa expiry date" 
+            }
+        ],
+        [
+            {
+                "component": "SelectInput",
+                "name": "building_id",
+                "title": "Building *",
+                "overview_controller": "buildings",
+                "select_value": "id",
+                "text": "name"
+            }, 
+            {
+                "component": "DateInput",
+                "name": "police_registration_date",
+                "title": "Residential registration date (police)" 
+            },             
+            {
+                "component": "DateInput",
+                "name": "expected_departure_date",
+                "title": "Expected departure date (police)" 
+            }
+        ], 
+        [
+            {
+                "component": "TextInput",
+                "name": "mobile_phone",
+                "title": "Mobile Phone *"
+            },
+            {
+                "component": "TextInput",
+                "name": "work_phone",
+                "title": "Work Phone"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "personal_email",
+                "title": "Personal Email *"
+            },
+            {
+                "component": "TextInput",
+                "name": "work_email",
+                "title": "Work Email *"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "company_name",
+                "title": "Company Name *"
+            },
+            {
+                "component": "TextInput",
+                "name": "company_address",
+                "title": "Company Address"
+            }
+        ],
+        [
+            {
+                "component": "TextareaInput",
+                "name": "note",
+                "title": "Note"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "last_name":             
+            {
+                "presence": true
+            },
+            "passport_id_number":             
+            {
+                "presence": true
+            },
+            "Nationality":             
+            {
+                "presence": true
+            }, 
+            "building_id":             
+            {
+                "presence": true
+            }, 
+            "mobile_phone":             
+            {
+                "presence": true
+            },
+            "personal_email": 
+            {
+                "presence": true, 
+                "email": true 
+            }, 
+            "work_email": "email", 
+            "company_name":             
+            {
+                "presence": true
+            }
+        }
+    }
+}

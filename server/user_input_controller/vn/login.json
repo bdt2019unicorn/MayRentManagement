@@ -1,0 +1,41 @@
+{
+    "title": "Đăng nhập",
+    "form":
+    [
+        [
+            {
+                "component": "TextInput",
+                "name": "username",
+                "title": "Tài khoản"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "password",
+                "title": "Mật khẩu",
+                "type": "password"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules": 
+        {
+            "username":             
+            {
+                "presence": 
+                {
+                    "message": "Tên tài khoản để trống"
+                }
+            },
+            "password":             
+            {
+                "presence": 
+                {
+                    "message": "Mật khẩu để trống"
+                }
+            }
+        }
+    }
+}
