@@ -1,0 +1,90 @@
+{
+    "title": "Đăng kí",
+    "form":
+    [
+        [
+            {
+                "component": "TextInput",
+                "name": "username",
+                "title": "Tài khoản"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "password",
+                "title": "Mật khẩu",
+                "type": "password"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "phone_number",
+                "title": "Số điện thoại"
+            },
+            {
+                "component": "TextInput",
+                "name": "viber_number",
+                "title": "Số điện thoại Viber"
+            }
+        ],
+        [
+            {
+                "component": "TextGroupConfirmation",
+                "name": "email",
+                "title": "Địa chỉ Email",
+                "id": "email",
+                "confirm_name": "email_confirm",
+                "confirm_title": "Xác nhận Địa chỉ Email"
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules": 
+        {
+            "username":             
+            {
+                "presence": 
+                {
+                    "message": "Tài khoản để trống"
+                }
+            },
+            "password":             
+            {
+                "presence": 
+                {
+                    "message": "Mật khẩu để trống"
+                }
+            },
+            "phone_number":             
+            {
+                "presence": 
+                {
+                    "message": "Số điện thoại để trống"
+                }
+            },
+            "email":
+            {
+                "presence": 
+                {
+                    "message": "Địa chỉ email để trống"
+                },
+                "email": 
+                {
+                    "message":"Định dạng không phải email"
+                }
+            },
+            "email_confirm":
+            {
+                "equality": 
+                {
+                    "attribute": "email", 
+                    "message": "Xác nhận email không giống địa chỉ email"
+                }
+            }
+        }, 
+        "eliminate": ["email_confirm"]
+    }
+}

@@ -129,7 +129,7 @@
                 ]; 
             }
 
-            $configs = array_merge($extra_information, ["user_input" => OverviewQueries\GeneralOverview::UserInput("invoice")]); 
+            $configs = array_merge($extra_information, ["user_input" => OverviewQueries\GeneralOverview::UserInput("invoice", $_GET["lang"]??"en")]); 
             echo json_encode($configs); 
         }, 
         "InvoiceDetails"=>function()

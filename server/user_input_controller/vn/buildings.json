@@ -1,5 +1,5 @@
 {
-    "title": "Building",
+    "title": "Tòa nhà",
     "display": 
     {
         "id": "ID",
@@ -20,88 +20,97 @@
     [
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "name",
                 "title": "Name"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "account_name",
                 "title": "Account Name"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "account_number",
                 "title": "Account Number"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "bank",
                 "title": "Bank"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "bank_link",
                 "title": "Bank Link"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "bank_branch",
                 "title": "Bank Branch"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "company",
                 "title": "Company"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "authorize_signature",
                 "title": "Authorize Signature"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "authorize_title",
                 "title": "Authorize Title"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "email",
                 "title": "Email"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "phone",
                 "title": "Phone"
             }
         ],
         [
             {
-                "component": "text-input",
+                "component": "TextInput",
                 "name": "address",
                 "title": "Address"
             }
         ]
     ],
-    "validate": {}
+    "validate": 
+	{
+        "rules": 
+        {
+            "name": 
+            {
+                "presence": true
+            }
+        }
+	}
 }
