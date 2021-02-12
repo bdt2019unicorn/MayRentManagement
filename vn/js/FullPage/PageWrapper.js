@@ -31,7 +31,7 @@ class Sidebar extends BaseComponent
                             <h4 className="ml-2">{controller.text}</h4>
                         </MaterialUI.AccordionSummary>
                         <MaterialUI.AccordionDetails>
-                            <MaterialUI.List component="nav">
+                            <MaterialUI.List component="nav" className="width-full">
                                 {
                                     controller.menu.filter(item=>window[item.action]).map
                                     (
@@ -81,7 +81,6 @@ class PageWrapper extends BaseComponent
                     <Sidebar {...this.state} />
                 </Grid>
                 <Grid item xs={9}>
-                    <div>page wrapper - test</div>
                     <ReactRouterDOM.Switch>
                         {
                             this.state.sidebar.flatMap
