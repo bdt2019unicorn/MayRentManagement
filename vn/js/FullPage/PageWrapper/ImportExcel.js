@@ -41,6 +41,10 @@ class ImportExcel extends React.Component
     render()
     {
         var Grid = MaterialUI.Grid; 
+        var display_table = this.state.table.length?
+        (
+            <ScrollingTable table={this.state.table} />
+        ): null; 
         return (
             <React.Fragment>
                 <Grid container spacing={1}>
@@ -61,7 +65,8 @@ class ImportExcel extends React.Component
                         </label>
                     </Grid>
                 </Grid>
-                {this.state.table.count && <ScrollingTable table={this.state.table} />}
+                {/* {display_table} */}
+                <ScrollingTable />
             </React.Fragment>
         ); 
     }
