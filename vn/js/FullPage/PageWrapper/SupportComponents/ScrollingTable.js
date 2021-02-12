@@ -134,7 +134,7 @@ class ScrollingTable extends React.Component
         return (
             <div className="scrolling-table-div">
                 {/* <DataGrid.DataGrid rows={this.props.table} columns={columns} pageSize={5} checkboxSelection /> */}
-                <DataGrid.DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+                <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
             </div>
         ); 
     }

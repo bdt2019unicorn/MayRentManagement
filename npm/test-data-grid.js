@@ -185,7 +185,10 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
-window.DataGrid = require("@material-ui/data-grid"); 
+var material_datagrid = require("@material-ui/data-grid"); 
+
+var DataGrid = material_datagrid.DataGrid; 
+window.DataGrid = DataGrid; 
 
 },{"@material-ui/data-grid":176}],3:[function(require,module,exports){
 function _arrayLikeToArray(arr, len) {
