@@ -65,8 +65,7 @@ class ImportExcel extends React.Component
                         </label>
                     </Grid>
                 </Grid>
-                {/* {display_table} */}
-                <ScrollingTable />
+                {display_table}
             </React.Fragment>
         ); 
     }
