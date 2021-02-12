@@ -1,7 +1,6 @@
-.side-bar-menu-item
+.icon-same-line-word
 {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    width: 100%;
 }

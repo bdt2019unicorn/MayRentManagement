@@ -40,9 +40,28 @@ class ImportExcel extends React.Component
 
     render()
     {
+        var Grid = MaterialUI.Grid; 
         return (
             <React.Fragment>
-                <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"  />
+                <Grid container spacing={1}>
+                    <Grid item xs={6} justify="center" alignItems="center" container>
+                        <MaterialUI.Link 
+                            className="icon-same-line-word btn btn-outline" 
+                            href={`../server/excel_controller/create_file.php?building_id=${this.props.match.params.building_id}&controller=${this.props.match.params.controller}&lang=vn`}
+                        >
+                            <MaterialUI.Icon>grid_on</MaterialUI.Icon>
+                            <b className="ml-2">Tải mẫu Excel</b>
+                        </MaterialUI.Link>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"  />
+                        <DropZone.DropzoneArea 
+                            acceptedFiles={['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel']}
+                            dropzoneText="Chọn tập tin Excel"
+                            // onChange={(files) => console.log('Files:', files)} 
+                        />
+                    </Grid>
+                </Grid>
                 <ScrollingTable table={this.state.table} />
             </React.Fragment>
         ); 

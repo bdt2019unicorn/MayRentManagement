@@ -37,7 +37,7 @@ class Sidebar extends BaseComponent
                                     (
                                         item=> (
                                             <MaterialUI.ListItem key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} className="m-1 p-0">
-                                                <Link className={`side-bar-menu-item btn btn-${item.button}`} to={`/admin/${building_id}/${controller.name}/${item.action}`}>
+                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/admin/${building_id}/${controller.name}/${item.action}`}>
                                                     <MaterialUI.Icon>{item.icon}</MaterialUI.Icon>
                                                     <b className="ml-2">{item.text}</b>
                                                 </Link>

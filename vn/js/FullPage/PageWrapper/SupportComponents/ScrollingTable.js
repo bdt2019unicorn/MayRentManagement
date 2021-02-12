@@ -1,3 +1,5 @@
+/*
+
 class ScrollingTable extends React.Component
 {
     constructor(props)
@@ -63,6 +65,30 @@ class ScrollingTable extends React.Component
                     }
                 </BootstrapTable>  
             </div>    
+        ); 
+    }
+}
+
+*/
+
+
+class ScrollingTable extends React.Component
+{
+    constructor(props)
+    {
+        super(props); 
+        console.log(props); 
+    }
+    render()
+    {
+        const table_height = `${(80/100 * document.documentElement.clientHeight)}px`; 
+        const column_width = "150"; 
+
+
+        return (
+            <div>
+
+            </div>
         ); 
     }
 }
