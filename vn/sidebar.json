@@ -16,14 +16,14 @@
                 "action": "Add", 
                 "text": "Thêm", 
                 "title": "Thêm đơn vị mới", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "ImportExcel", 
-                "text": "Nhập số lượng lớn", 
+                "text": "Nhập với Excel", 
                 "title": "Nhập dữ liệu qua Excel", 
-                "button": "success", 
+                "button": "primary", 
                 "icon": "table"
             }
         ]
@@ -45,14 +45,14 @@
                 "action": "Add", 
                 "text": "Thêm", 
                 "title": "Thêm New Apartment", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "ImportExcel", 
-                "text": "Nhập số lượng lớn", 
+                "text": "Nhập với Excel", 
                 "title": "Nhập dữ liệu qua Excel", 
-                "button": "success", 
+                "button": "primary", 
                 "icon": "table"
             }
         ]
@@ -74,8 +74,8 @@
                 "action": "Add", 
                 "text": "Thêm", 
                 "title": "Thêm New Contract", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "resolve-old-lease", 
@@ -86,9 +86,9 @@
             }, 
             {
                 "action": "ImportExcel", 
-                "text": "Nhập số lượng lớn", 
+                "text": "Nhập với Excel", 
                 "title": "Nhập dữ liệu qua Excel", 
-                "button": "success", 
+                "button": "primary", 
                 "icon": "table"
             }
         ]
@@ -117,8 +117,8 @@
                 "action": "Add-invoice", 
                 "text": "Thêm", 
                 "title": "Thêm New Invoice", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "print-invoices", 
@@ -146,14 +146,14 @@
                 "action": "Add", 
                 "text": "Thêm", 
                 "title": "Thêm New Income", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "ImportExcel", 
-                "text": "Nhập số lượng lớn", 
+                "text": "Nhập với Excel", 
                 "title": "Nhập dữ liệu qua Excel", 
-                "button": "success", 
+                "button": "primary", 
                 "icon": "table"
             }
         ]
@@ -175,14 +175,14 @@
                 "action": "Add", 
                 "text": "Thêm", 
                 "title": "Thêm New Expense", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "ImportExcel", 
-                "text": "Nhập số lượng lớn", 
+                "text": "Nhập với Excel", 
                 "title": "Nhập dữ liệu qua Excel", 
-                "button": "success", 
+                "button": "primary", 
                 "icon": "table"
             }
         ]
@@ -204,8 +204,8 @@
                 "action": "Add-document", 
                 "text": "Thêm", 
                 "title": "Thêm", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             } 
         ]
     }, 
@@ -226,14 +226,14 @@
                 "action": "utility-reading", 
                 "text": "Thêm New Readings", 
                 "title": "Thêm New Readings", 
-                "button": "secondary", 
-                "icon": "plus"
+                "button": "outline", 
+                "icon": "add"
             }, 
             {
                 "action": "ImportExcel", 
-                "text": "Nhập số lượng lớn", 
+                "text": "Nhập với Excel", 
                 "title": "Nhập dữ liệu qua Excel", 
-                "button": "success", 
+                "button": "primary", 
                 "icon": "table"
             }
         ]

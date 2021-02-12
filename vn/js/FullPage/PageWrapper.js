@@ -3,13 +3,13 @@ class Sidebar extends BaseComponent
     constructor(props)
     {
         super(props); 
-        let sidebar = AjaxRequest("sidebar.json"); 
-        this.state = {sidebar: JSON.parse(sidebar), expanded: undefined}; 
+        this.state = {expanded: undefined}; 
     }
     render() 
     {
+        let building_id = 1; // this is temporary - need to get rid of this soon 
         var Link = ReactRouterDOM.Link; 
-        var sidebar = this.state.sidebar.map 
+        var sidebar = this.props.sidebar.map 
         (
             controller => 
             {
@@ -28,11 +28,24 @@ class Sidebar extends BaseComponent
                     <MaterialUI.Accordion key={controller.name} onChange={AccordionChange} expanded={controller.name===this.state.expanded}>
                         <MaterialUI.AccordionSummary expandIcon={<MaterialUI.Icon>expand_more</MaterialUI.Icon>}>
                             <MaterialUI.Icon>{controller.icon}</MaterialUI.Icon>
-                            <b className="ml-2">{controller.text}</b>
+                            <h4 className="ml-2">{controller.text}</h4>
                         </MaterialUI.AccordionSummary>
                         <MaterialUI.AccordionDetails>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget.
+                            <MaterialUI.List component="nav">
+                                {
+                                    controller.menu.filter(item=>window[item.action]).map
+                                    (
+                                        item=> (
+                                            <MaterialUI.ListItem key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} className="m-1 p-0">
+                                                <Link className={`side-bar-menu-item btn btn-${item.button}`} to={`/admin/${building_id}/${controller.name}/${item.action}`}>
+                                                    <MaterialUI.Icon>{item.icon}</MaterialUI.Icon>
+                                                    <b className="ml-2">{item.text}</b>
+                                                </Link>
+                                            </MaterialUI.ListItem>
+                                        )
+                                    )
+                                }
+                            </MaterialUI.List>
                         </MaterialUI.AccordionDetails>
                     </MaterialUI.Accordion>
                 ); 
@@ -48,6 +61,12 @@ class Sidebar extends BaseComponent
 
 class PageWrapper extends BaseComponent
 {
+    constructor(props)
+    {
+        super(props); 
+        let sidebar = AjaxRequest("sidebar.json"); 
+        this.state = {sidebar: JSON.parse(sidebar)}; 
+    }
     render()
     {
         if(!(this.props.username && this.props.user_id))
@@ -55,13 +74,27 @@ class PageWrapper extends BaseComponent
             return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
         }
         var Grid = MaterialUI.Grid; 
+        var Route = ReactRouterDOM.Route; 
         return (
             <Grid container spacing={2}>
                 <Grid item xs={3}>
-                    <Sidebar />
+                    <Sidebar {...this.state} />
                 </Grid>
                 <Grid item xs={9}>
                     <div>page wrapper - test</div>
+                    <ReactRouterDOM.Switch>
+                        {
+                            this.state.sidebar.flatMap
+                            (
+                                controller => controller.menu.filter(item=>window[item.action]).map 
+                                (
+                                    item => (
+                                        <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/admin/:building_id/:controller/${item.action}`} />
+                                    )
+                                )
+                            )
+                        }
+                    </ReactRouterDOM.Switch>
                 </Grid>
             </Grid>
         ); 
