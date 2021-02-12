@@ -41,6 +41,7 @@ class ImportExcel extends React.Component
     render()
     {
         var Grid = MaterialUI.Grid; 
+        var Dropzone = ReactDropzone.default; 
         return (
             <React.Fragment>
                 <Grid container spacing={1}>
@@ -55,14 +56,10 @@ class ImportExcel extends React.Component
                     </Grid>
                     <Grid item xs={6}>
                         <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"  />
-                        <DropZone.DropzoneArea 
-                            acceptedFiles={['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel']}
-                            dropzoneText="Chọn tập tin Excel"
-                            // onChange={(files) => console.log('Files:', files)} 
-                        />
+                        
                     </Grid>
                 </Grid>
-                <ScrollingTable table={this.state.table} />
+                {this.state.table.count && <ScrollingTable table={this.state.table} />}
             </React.Fragment>
         ); 
     }
