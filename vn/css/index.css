@@ -4,3 +4,15 @@
     align-items: center;
     flex-wrap: wrap;
 }
+
+.file-upload-input
+{
+    z-index: -1;
+    opacity: 0;
+    position: absolute;
+}
+
+.file-upload-label
+{
+    cursor: pointer;
+}

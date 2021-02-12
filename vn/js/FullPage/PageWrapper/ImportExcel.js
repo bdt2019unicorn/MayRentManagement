@@ -41,7 +41,6 @@ class ImportExcel extends React.Component
     render()
     {
         var Grid = MaterialUI.Grid; 
-        var Dropzone = ReactDropzone.default; 
         return (
             <React.Fragment>
                 <Grid container spacing={1}>
@@ -54,9 +53,12 @@ class ImportExcel extends React.Component
                             <b className="ml-2">Tải mẫu Excel</b>
                         </MaterialUI.Link>
                     </Grid>
-                    <Grid item xs={6}>
-                        <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"  />
-                        
+                    <Grid item xs={6} justify="center" alignItems="center" container>
+                        <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="file-upload-input" id="file-upload" />
+                        <label htmlFor="file-upload" className="file-upload-label btn btn-primary icon-same-line-word">
+                            <MaterialUI.Icon>cloud_download</MaterialUI.Icon>
+                            <b className="ml-2">Đưa tập tin Excel</b>
+                        </label>
                     </Grid>
                 </Grid>
                 {this.state.table.count && <ScrollingTable table={this.state.table} />}
