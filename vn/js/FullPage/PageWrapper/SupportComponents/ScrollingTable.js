@@ -77,7 +77,7 @@ class TestTable extends React.Component
 {
     render()
     {
-        const data = [
+        var data = [
             { name: "John", email: "john@gmail.com", age: 12, gender: "Male" },
             { name: "Bren", email: "bren@gmail.com", age: 24, gender: "Male" },
             { name: "Marry", email: "marry@gmail.com", age: 18, gender: "Female" },
@@ -85,25 +85,63 @@ class TestTable extends React.Component
             { name: "Aseka", email: "aseka@gmail.com", age: 19, gender: "Female" },
             { name: "Meuko", email: "meuko@gmail.com", age: 12, gender: "Female" },
           ];
+          data = this.props.table? this.props.table: data; 
 
-          const columns = [
-            {
-              title: "Name",
-              field: "name",
-            },
-            {
-              title: "Email",
-              field: "email",
-            },
-            {
-              title: "Age",
-              field: "age",
-            },
-            {
-              title: "Gender",
-              field: "gender",
-            },
-          ];
+
+          ////////
+    {
+
+          var table_length; 
+          try 
+          {
+              table_length = data.length; 
+          } 
+          catch (error) 
+          {
+              return null;     
+          }
+
+          var columns = table_length?data.reduce
+          (
+              (previous_value, current_value)=>
+              {
+                  let keys = Object.keys(current_value).filter(column=>!previous_value.includes(column)); 
+                  return [...previous_value, ...keys]; 
+              }, []
+          ): undefined; 
+          if(!columns)
+          {
+              return null; 
+          }
+
+
+    }
+
+
+          ///////
+
+
+          console.log(columns); 
+
+
+        //   const columns = [
+        //     {
+        //       title: "Name",
+        //       field: "name",
+        //     },
+        //     {
+        //       title: "Email",
+        //       field: "email",
+        //     },
+        //     {
+        //       title: "Age",
+        //       field: "age",
+        //     },
+        //     {
+        //       title: "Gender",
+        //       field: "gender",
+        //     },
+        //   ];
 
         //   return <BootstrapTable 
         //     data={data} 
@@ -120,6 +158,43 @@ class TestTable extends React.Component
         //           )
         //       }
         //   </BootstrapTable>
+
+        var Grid = MaterialUI.Grid; 
+
+        var Td = MaterialUI.TableCell; 
+        var Tr = MaterialUI.TableRow; 
+
+        return (
+            <Grid className="mt-3" container justify="center">
+                <Grid item xs={12}>
+                    <MaterialUI.TableContainer component={MaterialUI.Paper}>
+                        <MaterialUI.Table>
+                            <MaterialUI.TableHead>
+                                <Tr>
+                                    {
+                                        columns.map(column=><Td key={column}>{column}</Td>)
+                                    }
+                                </Tr>
+                            </MaterialUI.TableHead>
+                            <MaterialUI.TableBody>
+                                {
+                                    data.map 
+                                    (
+                                        row => (
+                                            <Tr key={encodeURIComponent(JSON.stringify(row) + Math.random().toString())}>
+                                                {
+                                                    columns.map(column=> <Td key={encodeURIComponent(row[column] + Math.random().toString())}>{row[column]}</Td>)
+                                                }
+                                            </Tr>
+                                        )
+                                    )
+                                }
+                            </MaterialUI.TableBody>
+                        </MaterialUI.Table>
+                    </MaterialUI.TableContainer>
+                </Grid>
+            </Grid>
+        ); 
     }
 }
 

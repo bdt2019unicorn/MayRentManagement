@@ -41,13 +41,19 @@ class ImportExcel extends React.Component
     render()
     {
         var Grid = MaterialUI.Grid; 
+        // var display_table = this.state.table.length?
+        // (
+        //     <ScrollingTable table={this.state.table} />
+        // ): null; 
+
         var display_table = this.state.table.length?
         (
-            <ScrollingTable table={this.state.table} />
-        ): null; 
+            // <ScrollingTable table={this.state.table} />
+            <TestTable table={this.state.table} />
+        ): <TestTable />; 
         return (
             <React.Fragment>
-                <Grid container spacing={1}>
+                <Grid container spacing={3}>
                     <Grid item xs={6} justify="center" alignItems="center" container>
                         <MaterialUI.Link 
                             className="icon-same-line-word btn btn-outline" 
@@ -65,7 +71,7 @@ class ImportExcel extends React.Component
                         </label>
                     </Grid>
                 </Grid>
-                <TestTable />
+                
                 {display_table}
             </React.Fragment>
         ); 

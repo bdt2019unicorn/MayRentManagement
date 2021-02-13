@@ -76,11 +76,11 @@ class PageWrapper extends BaseComponent
         var Grid = MaterialUI.Grid; 
         var Route = ReactRouterDOM.Route; 
         return (
-            <Grid container spacing={2}>
-                <Grid item xs={3}>
+            <Grid container>
+                <Grid className="p-1" item xs={3}>
                     <Sidebar {...this.state} />
                 </Grid>
-                <Grid item xs={9}>
+                <Grid className="p-3" item xs={9}>
                     <ReactRouterDOM.Switch>
                         {
                             this.state.sidebar.flatMap
