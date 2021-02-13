@@ -105,7 +105,21 @@ class TestTable extends React.Component
             },
           ];
 
-          return <Table data={data} />
+        //   return <BootstrapTable 
+        //     data={data} 
+        //     keyField="name"
+        //     >
+        //       {
+        //           columns.map 
+        //           (
+        //               column => 
+        //               <TableHeaderColumn 
+        //                 key={column.field}
+        //                 dataField={column.field}
+        //             >{column.title}</TableHeaderColumn>
+        //           )
+        //       }
+        //   </BootstrapTable>
     }
 }
 
