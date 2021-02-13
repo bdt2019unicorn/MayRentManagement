@@ -47,12 +47,6 @@ class ImportExcel extends React.Component
                 <ScrollingTable table={this.state.table} />
             </React.Fragment>
         ): null; 
-
-        // var display_table = this.state.table.length?
-        // (
-        //     // <ScrollingTable table={this.state.table} />
-        //     <TestTable table={this.state.table} />
-        // ): <TestTable />; 
         return (
             <React.Fragment>
                 <Grid container spacing={3}>
