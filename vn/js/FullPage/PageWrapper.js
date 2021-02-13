@@ -51,11 +51,7 @@ class Sidebar extends BaseComponent
                 ); 
             }
         ); 
-        return (
-            <React.Fragment>
-                {sidebar}
-            </React.Fragment>           
-        );
+        return (<React.Fragment>{sidebar}</React.Fragment>); 
     }
 }
 
@@ -64,8 +60,7 @@ class PageWrapper extends BaseComponent
     constructor(props)
     {
         super(props); 
-        let sidebar = AjaxRequest("sidebar.json"); 
-        this.state = {sidebar: JSON.parse(sidebar)}; 
+        this.state = {sidebar: ServerJson("sidebar.json")}; 
     }
     render()
     {
@@ -87,9 +82,7 @@ class PageWrapper extends BaseComponent
                             (
                                 controller => controller.menu.filter(item=>window[item.action]).map 
                                 (
-                                    item => (
-                                        <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/admin/:building_id/:controller/${item.action}`} />
-                                    )
+                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/admin/:building_id/:controller/${item.action}`} />
                                 )
                             )
                         }

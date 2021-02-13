@@ -48,8 +48,7 @@ class BaseComponent extends React.Component
         LoadForm(controller = undefined)
         {
             controller = controller || this.CurrentController(); 
-            let form = AjaxRequest(`../server/user_input_controller/vn/${controller}.json`); 
-            return JSON.parse(form); 
+            return ServerJson(`../server/user_input_controller/vn/${controller}.json`)
         }, 
         ValidationHelperText(validations, props_name)
         {

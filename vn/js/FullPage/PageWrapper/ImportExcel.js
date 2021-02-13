@@ -1,15 +1,37 @@
-class ImportExcel extends React.Component
+class ImportExcel extends BaseComponent
 {
     constructor(props)
     {
         super(props); 
+        this.Methods = {...this.Methods, ...BaseComponent.Methods}; 
         BindFunctions(this); 
         this.state = 
         {
-            table: []
+            table: [], 
+            translation: ServerJson(`../server/translation/ImportExcel/${this.CurrentController()}.json`)
+        }; 
+    }
+    CustomEvents = 
+    {
+        "submitButtonClick": ()=>
+        {
+            let translation_keys = Object.keys(this.state.translation); 
+            let data = this.state.table.map
+            (
+                row => translation_keys.reduce
+                (
+                    (accumulator, current_value) => 
+                    (
+                        {
+                            ...accumulator, 
+                            [this.state.translation[current_value]]: row[current_value]
+                        }
+                    ), {}
+                )
+            ); 
+            console.log(data); 
         }
     }
-
     Methods = 
     {
         ReadExcelFile: async(event)=>
@@ -37,7 +59,6 @@ class ImportExcel extends React.Component
             this.setState({table: json_data}); 
         }
     }; 
-
     render()
     {
         var Grid = MaterialUI.Grid; 
@@ -45,6 +66,7 @@ class ImportExcel extends React.Component
         (
             <React.Fragment>
                 <ScrollingTable table={this.state.table} />
+                <SubmitButton type="button" />
             </React.Fragment>
         ): null; 
         return (
@@ -67,7 +89,6 @@ class ImportExcel extends React.Component
                         </label>
                     </Grid>
                 </Grid>
-                
                 {display_table}
             </React.Fragment>
         ); 

@@ -27,6 +27,12 @@ function ItemsClasses(item_value, compared_value, based_classes, good_class, bad
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 
 } 
 
+function ServerJson(url)
+{
+    let json = AjaxRequest(url); 
+    return JSON.parse(json); 
+}
+
 function SubmitData(key, url, data, stringify=true) 
 {
     var form_data = new FormData(); 

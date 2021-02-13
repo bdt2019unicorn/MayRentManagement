@@ -2,12 +2,11 @@ class PageSetup
 {
     constructor()
     {
-        let buildings = AjaxRequest("../server/overview_controller/overview_controller.php?overview_controller=buildings"); 
         this.innitial_state = 
         {
             username: "", 
             user_id: 0, 
-            buildings_data: JSON.parse(buildings), 
+            buildings_data: ServerJson("../server/overview_controller/overview_controller.php?overview_controller=buildings"), 
             building_user_input: BaseComponent.Methods.LoadForm("buildings")
         }; 
         this.reducer = (state = this.innitial_state, action)=>
