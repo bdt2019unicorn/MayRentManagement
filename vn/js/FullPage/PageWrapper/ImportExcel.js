@@ -65,6 +65,7 @@ class ImportExcel extends React.Component
                         </label>
                     </Grid>
                 </Grid>
+                <TestTable />
                 {display_table}
             </React.Fragment>
         ); 
