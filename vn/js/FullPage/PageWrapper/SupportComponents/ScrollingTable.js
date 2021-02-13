@@ -105,7 +105,7 @@ class TestTable extends React.Component
             },
           ];
 
-        return <MaterialTable title="Employee Details" data={data} columns={columns} />; 
+          return <Table data={data} />
     }
 }
 
