@@ -87,9 +87,12 @@ class TestTable extends React.Component
           ];
           data = this.props.table? this.props.table: data; 
 
+          const table_height = `${(80/100 * document.documentElement.clientHeight)}px`; 
+
 
           ////////
     {
+        
 
           var table_length; 
           try 
@@ -167,8 +170,8 @@ class TestTable extends React.Component
         return (
             <Grid className="mt-3" container justify="center">
                 <Grid item xs={12}>
-                    <MaterialUI.TableContainer component={MaterialUI.Paper}>
-                        <MaterialUI.Table>
+                    <MaterialUI.TableContainer className="scrolling-table-div" component={MaterialUI.Paper}>
+                        <MaterialUI.Table stickyHeader>
                             <MaterialUI.TableHead>
                                 <Tr>
                                     {
