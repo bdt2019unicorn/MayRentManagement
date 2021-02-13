@@ -19,5 +19,5 @@
 
 .scrolling-table-div
 {
-    height: 80vh;
+    max-height: 75vh;
 }

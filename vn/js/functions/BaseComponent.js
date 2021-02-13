@@ -50,6 +50,31 @@ class BaseComponent extends React.Component
             controller = controller || this.CurrentController(); 
             return ServerJson(`../server/user_input_controller/vn/${controller}.json`)
         }, 
+        ResetStateValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
+        {
+            new Promise 
+            (
+                (resolve, reject)=>
+                {
+                    this.setState({[value_name]: undefined_value}); 
+                    if(callback)
+                    {
+                        callback(); 
+                    }
+                    resolve(new_value); 
+                }
+            ).then
+            (
+                new_value=>
+                {
+                    this.setState({[value_name]: new_value}); 
+                    if(callback_resolve)
+                    {
+                        callback_resolve(); 
+                    }
+                }
+            ); 
+        }, 
         ValidationHelperText(validations, props_name)
         {
             let name = this.props[props_name]; 

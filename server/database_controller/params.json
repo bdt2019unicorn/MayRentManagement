@@ -76,7 +76,7 @@
     "tenant": 
     {
         "table": "tenant",  
-        "date_columns": ["date_of_birth"], 
+        "date_columns": ["date_of_birth", "expected_departure_date", "police_registration_date", "visa_expiry_date"], 
         "change": 
         {
             "expected_departure_date_(police)": "expected_departure_date", 

@@ -37,7 +37,7 @@ class ScrollingTable extends React.Component
                             <MaterialUI.TableHead>
                                 <Tr>
                                     {
-                                        columns.map(column=><Td key={column}>{column}</Td>)
+                                        columns.map(column=><Td className="text-white bg-gray-dark border" key={column}>{column}</Td>)
                                     }
                                 </Tr>
                             </MaterialUI.TableHead>
@@ -48,7 +48,7 @@ class ScrollingTable extends React.Component
                                         row => (
                                             <Tr key={encodeURIComponent(JSON.stringify(row) + Math.random().toString())}>
                                                 {
-                                                    columns.map(column=> <Td key={encodeURIComponent(row[column] + Math.random().toString())}>{row[column]}</Td>)
+                                                    columns.map(column=> <Td className="border" key={encodeURIComponent(row[column] + Math.random().toString())}>{row[column]}</Td>)
                                                 }
                                             </Tr>
                                         )

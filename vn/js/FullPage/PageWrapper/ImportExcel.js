@@ -7,6 +7,7 @@ class ImportExcel extends BaseComponent
         BindFunctions(this); 
         this.state = 
         {
+            file_input: true, 
             table: [], 
             translation: ServerJson(`../server/translation/ImportExcel/${this.CurrentController()}.json`)
         }; 
@@ -29,7 +30,17 @@ class ImportExcel extends BaseComponent
                     ), {}
                 )
             ); 
-            console.log(data); 
+            let url = this.ImportUrl(); 
+            let result = SubmitData("excel", url, data); 
+            if(Number(result))
+            {
+                alert(`Nhập danh sách bằng Excel thành công`); 
+                this.SetStateTable([]); 
+            }
+            else 
+            {
+                alert("Nhập danh sách Excel thất bại, vui lòng thử lại"); 
+            }
         }
     }
     Methods = 
@@ -56,7 +67,12 @@ class ImportExcel extends BaseComponent
                 }
             ).filter(row=>row[empty]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes(empty)).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {}));
     
-            this.setState({table: json_data}); 
+            this.SetStateTable(json_data); 
+        }, 
+        SetStateTable(table)
+        {
+            this.setState({table}); 
+            this.ResetStateValue({value_name: "file_input", new_value: true}); 
         }
     }; 
     render()
@@ -82,11 +98,17 @@ class ImportExcel extends BaseComponent
                         </MaterialUI.Link>
                     </Grid>
                     <Grid item xs={6} justify="center" alignItems="center" container>
-                        <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="file-upload-input" id="file-upload" />
-                        <label htmlFor="file-upload" className="file-upload-label btn btn-primary icon-same-line-word">
-                            <MaterialUI.Icon>cloud_download</MaterialUI.Icon>
-                            <b className="ml-2">Đưa tập tin Excel</b>
-                        </label>
+                        {
+                            this.state.file_input && 
+                            <React.Fragment>
+                                <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="file-upload-input" id="file-upload" />
+                                <label htmlFor="file-upload" className="file-upload-label btn btn-primary icon-same-line-word">
+                                    <MaterialUI.Icon>cloud_download</MaterialUI.Icon>
+                                    <b className="ml-2">Đưa tập tin Excel</b>
+                                </label>
+                            </React.Fragment>
+                        }
+
                     </Grid>
                 </Grid>
                 {display_table}
