@@ -55,6 +55,8 @@
             try 
             {
                 $env = json_decode($_POST["excel"], true); 
+                print_r($_ENV); 
+                return;
                 CurrentEnvironment::WriteEnv($env[0]); 
                 $result = true; 
             }

@@ -26,16 +26,29 @@
 
     <?php if(!$test_mode): ?>
         <h1 class="text-center">Production Environment Set Up</h1>
+        <?php $key_list = ["SERVERNAME", "USERNAME", "PASSWORD", "DBNAME"]; ?>
         <form class="container" method="POST" action="../server/admin_database.php?command=ProductionEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
-            <?php foreach($_ENV as $key=>$value): ?>
-                <div class="form-group <?php echo $key=='TESTMODE'?'d-none':''; ?>">
+            <?php foreach($key_list as $key): ?>
+                <div class="form-group">
                     <label><?php echo $key;?></label>
-                    <input name="<?php echo $key;?>" type="text" class="form-control" value="<?php echo $value; ?>">
+                    <input name="<?php echo $key;?>" type="text" class="form-control" value="<?php echo $_ENV[$key]; ?>">
                 </div>
             <?php endforeach; ?>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     <?php endif; ?>
+
+    <h1 class="text-center">Repository Information Set Up</h1>
+    <?php $key_list = ["USER", "REPO", "TOKEN"]; ?>
+    <form class="container" method="POST" action="../server/admin_database.php?command=ProductionEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
+            <?php foreach($key_list as $key): ?>
+                <div class="form-group">
+                    <label><?php echo $key;?></label>
+                    <input name="<?php echo $key;?>" type="text" class="form-control" value="<?php echo $_ENV[$key]; ?>">
+                </div>
+            <?php endforeach; ?>
+            <button type="submit" class="btn btn-primary">Save</button>
+    </form>       
 
 
     <footer>
