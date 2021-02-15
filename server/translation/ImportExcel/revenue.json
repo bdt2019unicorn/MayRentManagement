@@ -1,0 +1,7 @@
+{
+    "Tên": "name",
+    "Mã hợp đồng": "lease_agreement",
+    "Số tiền": "amount",
+    "Ngày trả tiền": "payment_date",
+    "Ghi chú": "note"
+}

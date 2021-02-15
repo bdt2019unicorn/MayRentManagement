@@ -9,12 +9,11 @@
         "date_columns": ["start_period", "end_period", "payment_date"], 
         "get_id": 
         {
-            "unit":  
+            "building":  
             {
                 "search": "name", 
-                "change": "unit_id", 
-                "table": "unit", 
-                "find_by_building": true 
+                "change": "building_id", 
+                "table": "buildings"
             }, 
             "expense_type":  
             {
@@ -119,6 +118,7 @@
     "utilities": 
     {
         "table": "utility_reading", 
+        "date_columns": ["date"], 
         "get_id":  
         {
             "utility_type": 

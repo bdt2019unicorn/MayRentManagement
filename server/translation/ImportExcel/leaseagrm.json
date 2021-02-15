@@ -1,0 +1,16 @@
+{
+    "Agreement Number": "name",
+    "Mã người thuê": "tenant_id",
+    "Đơn vị": "unit",
+    "Ngày bắt đầu": "start_date",
+    "Ngày kết thúc": "finish",
+    "Giá thuê": "rent_amount",
+    "Đơn vị tính": "lease_period",
+    "Tiền cọc": "deposit_amount",
+    "Ngày trả tiền cọc": "deposit_payment_date",
+    "Ngày hoàn tiền cọc": "deposit_payback_date",
+    "Ngày trả trong tháng": "monthly_payment_date",
+    "Ngoại tệ": "deposit_currency",
+    "Tỉ giá": "deposit_exchange_rate",
+    "Ghi chú": "note"
+}

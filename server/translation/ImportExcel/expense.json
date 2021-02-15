@@ -1,0 +1,10 @@
+{
+    "Tên": "name",
+    "Loại chi phí": "expense_type",
+    "Số tiền": "amount",
+    "Ngày bắt đầu": "start_period",
+    "Ngày kết thúc": "end_period",
+    "Tòa nhà": "building",
+    "Ngày trả tiền": "payment_date",
+    "Ghi chú": "note"
+}

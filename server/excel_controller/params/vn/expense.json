@@ -31,15 +31,15 @@
             "Ví dụ": "15/12/2020",
             "Yêu cầu": "Bắt buộc"
         },
-        "Đơn vị": 
+        "Tòa nhà": 
         {
             "Kiểu dữ liệu": "Mã số",
-            "Ví dụ": "G01",
+            "Ví dụ": "PKK",
             "Yêu cầu": "Bắt buộc"
         },
         "Ngày trả tiền": 
         {
-            "Kiểu dữ liệu": "Chữ",
+            "Kiểu dữ liệu": "Ngày",
             "Ví dụ": "16/12/2020",
             "Yêu cầu": "Bắt buộc"
         },
@@ -52,11 +52,10 @@
     }, 
     "dropdown_list": 
     {
-        "Đơn vị": 
+        "Tòa nhà": 
         {
-            "table": "unit",
-            "selects": ["`name` AS `Đơn vị`"], 
-            "building_id": true 
+            "table": "buildings",
+            "selects": ["`name` AS `Tòa nhà`"] 
         }, 
         "Loại chi phí": 
         {

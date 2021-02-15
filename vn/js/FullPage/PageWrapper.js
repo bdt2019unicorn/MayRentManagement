@@ -7,7 +7,7 @@ class Sidebar extends BaseComponent
     }
     render() 
     {
-        let building_id = 1; // this is temporary - need to get rid of this soon 
+        let building_id = 5; // this is temporary - need to get rid of this soon 
         var Link = ReactRouterDOM.Link; 
         var sidebar = this.props.sidebar.map 
         (
