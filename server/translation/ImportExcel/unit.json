@@ -1,0 +1,10 @@
+{
+    "Tên": "name",
+    "Tòa nhà": "building",
+    "Diện tích": "area",
+    "Số phòng ngủ": "number_of_bedrooms",
+    "Số phòng tắm": "number_of_bathroom",
+    "Số lượng của sổ": "number_of_windows",
+    "Ban công": "balcony",
+    "Ghi chú": "note"
+}

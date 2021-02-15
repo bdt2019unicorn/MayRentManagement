@@ -31,15 +31,15 @@
             "Example": "15/12/2020",
             "Requirement": "Compulsory"
         },
-        "Unit": 
+        "Building": 
         {
             "Data type": "ID",
-            "Example": "G01",
+            "Example": "PKK",
             "Requirement": "Compulsory"
         },
         "Payment date": 
         {
-            "Data type": "Text",
+            "Data type": "Date",
             "Example": "16/12/2020",
             "Requirement": "Compulsory"
         },
@@ -52,11 +52,10 @@
     }, 
     "dropdown_list": 
     {
-        "Unit": 
+        "Building": 
         {
-            "table": "unit",
-            "selects": ["`name` AS `Units`"], 
-            "building_id": true 
+            "table": "buildings",
+            "selects": ["`name` AS `Buildings`"]
         }, 
         "Expense type": 
         {

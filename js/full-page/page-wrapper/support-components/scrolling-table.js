@@ -57,13 +57,7 @@ Vue.component
             {
                 let column = props.column.field; 
                 let filter_out = ["list"]; 
-                let is = Object.keys(this.table_actions.special).filter(component=>!filter_out.includes(component)).find 
-                (
-                    component=>
-                    {
-                        return this.table_actions.special[component][column]; 
-                    }
-                ); 
+                let is = Object.keys(this.table_actions.special).filter(component=>!filter_out.includes(component)).find(component=> this.table_actions.special[component][column]); 
                 return {is, column, row: props.row, props, special_column: this.SpecialColumns(is)}; 
             }, 
             SpecialColumns(action)

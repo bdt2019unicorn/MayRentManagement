@@ -39,7 +39,7 @@
         },
         "Đơn vị tính": 
         {
-            "Kiểu dữ liệu": "Số",
+            "Kiểu dữ liệu": "Mã số",
             "Ví dụ": "months",
             "Yêu cầu": "Bắt buộc"
         },

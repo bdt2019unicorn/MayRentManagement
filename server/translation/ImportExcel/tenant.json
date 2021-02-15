@@ -1,0 +1,19 @@
+{
+    "Họ": "last_name",
+    "Tên đệm": "middle_name",
+    "Tên": "first_name",
+    "Ngày sinh": "date_of_birth",
+    "Tòa nhà": "building",
+    "Quốc tịch": "nationality",
+    "Số hộ chiếu": "passport_id_number",
+    "Số điện thoại": "mobile_phone",
+    "Số điện thoại công ti": "work_phone",
+    "Địa chỉ email": "personal_email",
+    "Địa chỉ email công ti": "work_email",
+    "Tên công ti": "company_name",
+    "Địa chỉ công ti": "company_address",
+    "Ngày khai tạm trú qua mạng": "police_registration_date",
+    "Ngày đi dự kiến đăng ký với CA": "expected_departure_date",
+    "Ngày hết hạn của visa": "visa_expiry_date",
+    "Ghi chú": "note"
+}

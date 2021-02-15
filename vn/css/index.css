@@ -1,0 +1,23 @@
+.icon-same-line-word
+{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.file-upload-input
+{
+    z-index: -1;
+    opacity: 0;
+    position: absolute;
+}
+
+.file-upload-label
+{
+    cursor: pointer;
+}
+
+.scrolling-table-div
+{
+    max-height: 75vh;
+}

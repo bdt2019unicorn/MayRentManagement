@@ -53,13 +53,18 @@
 				{
 					$key = $params['get_id'][$key]['change']; 
 					$value = $reference_id; 
+					goto InputData; 
 				}
 				else 
 				{
 					return; 
 				}
 			}
-			else if(in_array($key, $params['date_columns']))
+			else if(isset($params['change'][$key]))
+			{
+				$key = $params['change'][$key]; 
+			}
+			if(in_array($key, $params['date_columns']))
 			{
 				$value = trim($value); 
 				$date = date_create_from_format("d/m/Y", $value);
@@ -74,10 +79,7 @@
 				$value = trim($value); 
 				$value = str_replace(",", '', $value); 
 			}
-			if(isset($params['change'][$key]))
-			{
-				$key = $params['change'][$key]; 
-			}
+			InputData: 
 			$data[$key] = $test_mode? str_replace("'", "''", $value) : addslashes($value); 
 		}; 
 

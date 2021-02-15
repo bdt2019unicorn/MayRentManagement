@@ -1,0 +1,241 @@
+[
+    {
+        "icon": "home",
+        "name": "unit", 
+        "text": "Đơn vị",
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "Toàn bộ đơn vị trong tòa nhà", 
+                "button": "warning", 
+                "icon": "home"
+            }, 
+            {
+                "action": "Add", 
+                "text": "Thêm", 
+                "title": "Thêm đơn vị mới", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "ImportExcel", 
+                "text": "Nhập với Excel", 
+                "title": "Nhập dữ liệu qua Excel", 
+                "button": "primary", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "people",
+        "name": "tenant", 
+        "text": "Người thuê",
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "All Tenants in this building", 
+                "button": "warning", 
+                "icon": "people_outline"
+            }, 
+            {
+                "action": "Add", 
+                "text": "Thêm", 
+                "title": "Thêm New Apartment", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "ImportExcel", 
+                "text": "Nhập với Excel", 
+                "title": "Nhập dữ liệu qua Excel", 
+                "button": "primary", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "assignment_ind",
+        "name": "leaseagrm", 
+        "text": "Hợp đồng",
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "All Contracts", 
+                "button": "warning", 
+                "icon": "folder_open"
+            }, 
+            {
+                "action": "Add", 
+                "text": "Thêm", 
+                "title": "Thêm New Contract", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "resolve-old-lease", 
+                "text": "Resolve Old Contracts", 
+                "title": "Put the date contract paid to keep old contract up to date", 
+                "button": "info", 
+                "icon": "file-contract"
+            }, 
+            {
+                "action": "ImportExcel", 
+                "text": "Nhập với Excel", 
+                "title": "Nhập dữ liệu qua Excel", 
+                "button": "primary", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "receipt",
+        "name": "invoices", 
+        "text": "Hóa đơn",
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "All Invoices", 
+                "button": "warning", 
+                "icon": "receipt"
+            }, 
+            {
+                "action": "Add-monthly-invoices", 
+                "text": "Thêm Monthly Invoices",  
+                "title": "Thêm Monthly Invoices", 
+                "button": "light", 
+                "icon": "calendar-alt"
+            }, 
+            {
+                "action": "Add-invoice", 
+                "text": "Thêm", 
+                "title": "Thêm New Invoice", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "print-invoices", 
+                "text": "Print Invoices", 
+                "title": "Print Invoices", 
+                "button": "info", 
+                "icon": "print"
+            }
+        ]
+    },
+    {
+        "icon": "attach_money",
+        "name": "revenue", 
+        "text": "Thu nhập",
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "All Incomes", 
+                "button": "warning", 
+                "icon": "attach_money"
+            }, 
+            {
+                "action": "Add", 
+                "text": "Thêm", 
+                "title": "Thêm New Income", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "ImportExcel", 
+                "text": "Nhập với Excel", 
+                "title": "Nhập dữ liệu qua Excel", 
+                "button": "primary", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "money_off",
+        "name": "expense", 
+        "text": "Chi Phí",
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "All Expenses", 
+                "button": "warning", 
+                "icon": "money_off"
+            }, 
+            {
+                "action": "Add", 
+                "text": "Thêm", 
+                "title": "Thêm New Expense", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "ImportExcel", 
+                "text": "Nhập với Excel", 
+                "title": "Nhập dữ liệu qua Excel", 
+                "button": "primary", 
+                "icon": "table"
+            }
+        ]
+    },
+    {
+        "icon": "description", 
+        "name": "documents", 
+        "text": "Tài liệu", 
+        "menu": 
+        [
+            {
+                "action": "Overview", 
+                "text": "Tổng quan", 
+                "title": "All Documents", 
+                "button": "warning", 
+                "icon": "folder-open"
+            }, 
+            {
+                "action": "Add-document", 
+                "text": "Thêm", 
+                "title": "Thêm", 
+                "button": "outline", 
+                "icon": "add"
+            } 
+        ]
+    }, 
+    {
+        "icon": "build",
+        "name": "utilities", 
+        "text": "Tiện ích",
+        "menu": 
+        [
+            {
+                "action": "utilities-Overview", 
+                "text": "Tổng quan", 
+                "title": "All Apartments", 
+                "button": "warning", 
+                "icon": "home"
+            }, 
+            {
+                "action": "utility-reading", 
+                "text": "Thêm New Readings", 
+                "title": "Thêm New Readings", 
+                "button": "outline", 
+                "icon": "add"
+            }, 
+            {
+                "action": "ImportExcel", 
+                "text": "Nhập với Excel", 
+                "title": "Nhập dữ liệu qua Excel", 
+                "button": "primary", 
+                "icon": "table"
+            }
+        ]
+    }
+]
