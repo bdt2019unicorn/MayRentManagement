@@ -1,15 +1,35 @@
-function FormSubmit(form, event)
+function FormSubmit(form, event, redirect = true)
 {
     event.preventDefault();
-    let form_data = new FormData(form); 
-    var data = {}; 
-    form_data.forEach((value, key)=>data[key]=value); 
+    data = Object.fromEntries(new FormData(form)); 
+    if(form.getAttribute('data-whitespace'))
+    {
+        let form_data = {}; 
+        for(key in data)
+        {
+            let value = data[key].trim(); 
+            if(value.includes(" "))
+            {
+                alert("Please make sure the values does not contain white space"); 
+                return; 
+            }
+            form_data[key] = value; 
+        }
+        data = form_data; 
+    }
     let result = support_mixin.methods.SubmitData("excel", form.action, [data]); 
     if(Number(result))
     {
         alert("Set Up action success"); 
-        sessionStorage.clear(); 
-        window.location.href = "login.php"; 
+        if(redirect)
+        {
+            sessionStorage.clear(); 
+            window.location.href = "login.php"; 
+        }
+        else 
+        {
+            window.location.reload(); 
+        }
     }
     else
     {

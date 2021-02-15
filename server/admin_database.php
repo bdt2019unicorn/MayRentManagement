@@ -50,7 +50,7 @@
             echo true; 
         }
 
-        public function ProductionEnvironmentSetUp()
+        public function EnvironmentVariableSetUp()
         {
             try 
             {

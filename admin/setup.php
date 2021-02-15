@@ -7,36 +7,51 @@
         $test_mode = $current_environment->TestMode(); 
     ?>
 
-    <div class="container-fluid">
-        <form class="row m-3 border border-secondary" method="POST" action="../server/admin_database.php?command=CurrentEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
-            <h3 class="text-danger text-center w-100"><?php echo $test_mode?"Testing": "Production" ?> Environment</h3>
-            <div class="col-10">
-                <div class="form-check">
-                    <input type="checkbox" name="test_mode" class="form-check-input" <?php echo $test_mode?"checked": "" ?>>
-                    <label class="form-check-label">Test Mode</label>
+    <div class="container p-3">
+        <form class="row justify-content-center" method="POST" action="../server/admin_database.php?command=CurrentEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
+            <div class="col-8 row border border-secondary p-3 m-3">
+                <h3 class="text-danger text-center col-12"><?php echo $test_mode?"Testing": "Production" ?> Environment</h3>
+                <div class="col-10">
+                    <div class="form-check">
+                        <input type="checkbox" name="test_mode" class="form-check-input" <?php echo $test_mode?"checked": "" ?>>
+                        <label class="form-check-label">Test Mode</label>
+                    </div>
+                </div>
+
+                <div class="col-2 text-right">
+                    <button type="submit" class="btn btn-primary mb-2">Save</button>
                 </div>
             </div>
-
-            <div class="col-2 text-right">
-                <button type="submit" class="btn btn-primary mb-2">Save</button>
-            </div>
-            
         </form>
+        <br>
     </div>
 
     <?php if(!$test_mode): ?>
-        <h1 class="text-center">Production Environment Set Up</h1>
-        <form class="container" method="POST" action="../server/admin_database.php?command=ProductionEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
-            <?php foreach($_ENV as $key=>$value): ?>
-                <div class="form-group <?php echo $key=='TESTMODE'?'d-none':''; ?>">
+        <form class="container border border-primary p-3" data-whitespace="no-writespace" method="POST" action="../server/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event)">
+            <h1 class="text-center">Production Environment Set Up</h1>
+            <?php $key_list = ["SERVERNAME", "USERNAME", "PASSWORD", "DBNAME"]; ?>
+            <?php foreach($key_list as $key): ?>
+                <div class="form-group">
                     <label><?php echo $key;?></label>
-                    <input name="<?php echo $key;?>" type="text" class="form-control" value="<?php echo $value; ?>">
+                    <input name="<?php echo $key;?>" type="text" class="form-control" value="<?php echo $_ENV[$key]; ?>">
                 </div>
             <?php endforeach; ?>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
+        <br>
     <?php endif; ?>
-
+    
+    <form class="container border border-warning p-3" data-whitespace="no-writespace" method="POST" action="../server/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event, false)">
+        <?php $key_list = ["USER", "REPO", "TOKEN"]; ?>
+        <h1 class="text-center">Repository Information Set Up</h1>
+        <?php foreach($key_list as $key): ?>
+            <div class="form-group">
+                <label><?php echo $key;?></label>
+                <input name="<?php echo $key;?>" type="text" class="form-control" value="<?php echo $_ENV[$key]; ?>">
+            </div>
+        <?php endforeach; ?>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>       
 
     <footer>
         <?php 
@@ -47,8 +62,8 @@
         <script src="js/setup.js"></script>
 
         <?php if(!count($result)): ?>
-            <h1 class="text-center">Admin Set Up</h1>
-            <form class="container-fluid" method="POST" action="../server/database_controller/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
+            <form class="container border border-info p-3" method="POST" action="../server/database_controller/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
+                <h1 class="text-center">Admin Set Up</h1>
                 <div class="form-group">
                     <label>Username</label>
                     <input name="username" type="text" class="form-control">

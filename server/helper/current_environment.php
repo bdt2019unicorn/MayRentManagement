@@ -82,9 +82,16 @@
         public static function WriteEnv($env)
         {
             $content = ""; 
-            foreach ($env as $key => $value) 
+            foreach ($_ENV as $key => $value) 
             {
-                $content.= "{$key} = {$value}\n"; 
+                if(isset($env[$key]))
+                {
+                    $content.= "{$key} = {$env[$key]}\n"; 
+                }
+                else 
+                {
+                    $content.= "{$key} = {$value}\n"; 
+                }
             }
             $file = fopen(CurrentEnvironment::DotEnvPath(), "w"); 
             fwrite($file, $content); 
