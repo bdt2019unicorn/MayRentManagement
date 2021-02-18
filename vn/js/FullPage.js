@@ -27,12 +27,11 @@ class FullPage extends BaseComponent
                         
                         <Redirect from="/" exact to="/dashboard" />
                         <Route exact to="dashboard" />
-                        
-                        <Route component={PageWrapper} path="/:building_id/:controller/:action" />
+
+                        <Route component={PageWrapper} exact path="/:building_id/:controller/:action" />
                     </Switch>
                 </ReactRouterDOM.HashRouter>
             </React.Fragment>
-
         ); 
     }
 }
