@@ -39,7 +39,18 @@ class DropdownMenu extends BaseComponent
                                             ({to, text, callback})=> 
                                             {
                                                 let key = Math.random() + encodeURIComponent(text); 
-                                                return callback? <MenuItem key={key}><button className="btn width-full" onClick={callback}>{text}</button></MenuItem> : <MenuItem key={key}><a href={to}>{text}</a></MenuItem>; 
+                                                return callback? 
+                                                (
+                                                    <MenuItem key={key}>
+                                                        <button className="btn width-full" onClick={callback}>{text}</button>
+                                                    </MenuItem>
+                                                ) : 
+                                                (
+                                                    <MenuItem key={key}>
+                                                        <Link to={to}>{text}</Link>
+                                                    </MenuItem>
+                                                ); 
+                                                    
                                             }
                                         )
                                     }
@@ -62,7 +73,7 @@ class MainNavItems extends BaseComponent
         BindFunctions(this); 
         this.state = 
         {
-            building_menu: null 
+            building_menu: this.props.buildings_data.map(({id, name})=> ({to: id, text: name})) 
         }; 
         this.building_menu_ref = React.createRef(); 
         this.user_information_ref = React.createRef(); 
@@ -71,16 +82,6 @@ class MainNavItems extends BaseComponent
     {
         var Grid = MaterialUI.Grid; 
         var Link = ReactRouterDOM.Link; 
-        var test_building = 
-        [
-            {to: "#", text: "Buidling Test"}, 
-            {to: "#", text: "Buidling Test"}, 
-            {to: "#", text: "Buidling Test"}, 
-            {to: "#", text: "Buidling Test"}, 
-            {to: "#", text: "Buidling Test"}, 
-            {to: "#", text: "Buidling Test"}
-        ]; 
-
         var user_information = 
         [
             {to: "#", text: "Manage Information"}, 
@@ -89,13 +90,13 @@ class MainNavItems extends BaseComponent
         return (
             <Grid container>
                 <Grid className="p-3" item xs={3}>
-                    {/* <Link to="/dashboard"> */}
+                    <Link to="/dashboard">
                         <img src="../img/logo.png" alt="logo" />
-                    {/* </Link> */}
+                    </Link>
                 </Grid>
                 <Grid className="p-1" item container xs={6} justify="center">
                     <Grid item xs={8} ref={this.building_menu_ref}>
-                        <DropdownMenu text="Buildings" reference={this.building_menu_ref} menu_list={test_building} />
+                        <DropdownMenu text="Buildings" reference={this.building_menu_ref} menu_list={this.state.building_menu} />
                     </Grid>
                 </Grid>
                 <Grid className="pt-1 pr-3" item container xs={3} justify="flex-end">
@@ -107,6 +108,4 @@ class MainNavItems extends BaseComponent
         ); 
     }
 }
-
-
 MainNavItems = ConnectComponentToStore(MainNavItems); 

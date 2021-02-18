@@ -37,7 +37,7 @@ class Sidebar extends BaseComponent
                                     (
                                         item=> (
                                             <MaterialUI.ListItem key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} className="m-1 p-0">
-                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/admin/${building_id}/${controller.name}/${item.action}`}>
+                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/${building_id}/${controller.name}/${item.action}`}>
                                                     <MaterialUI.Icon>{item.icon}</MaterialUI.Icon>
                                                     <b className="ml-2">{item.text}</b>
                                                 </Link>
@@ -60,13 +60,15 @@ class PageWrapper extends BaseComponent
     constructor(props)
     {
         super(props); 
+        ExtendFromBaseComponent(this); 
         this.state = {sidebar: ServerJson("sidebar.json")}; 
     }
     render()
     {
-        if(!(this.props.username && this.props.user_id))
+        let redirect_component = this.CheckLogin(); 
+        if(redirect_component)
         {
-            return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
+            return redirect_component; 
         }
         var Grid = MaterialUI.Grid; 
         var Route = ReactRouterDOM.Route; 

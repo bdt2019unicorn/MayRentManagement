@@ -22,6 +22,12 @@ function ConnectComponentToStore(component_class)
     return ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(component_class); 
 }
 
+function ExtendFromBaseComponent(component)
+{
+    component.Methods = {...component.Methods, ...BaseComponent.Methods}; 
+    BindFunctions(component); 
+}
+
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 

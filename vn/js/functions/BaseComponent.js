@@ -25,6 +25,10 @@ class BaseComponent extends React.Component
     }
     static Methods =
     {
+        CheckLogin(redirect_component = <ReactRouterDOM.Redirect to="/page-administration/login" />, otherwise = null)
+        {
+            return !(this.props.username && this.props.user_id)? redirect_component: otherwise; 
+        }, 
         CurrentController()
         {
             var controller; 
