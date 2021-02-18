@@ -71,24 +71,27 @@ class PageWrapper extends BaseComponent
         var Grid = MaterialUI.Grid; 
         var Route = ReactRouterDOM.Route; 
         return (
-            <Grid container>
-                <Grid className="p-1" item xs={3}>
-                    <Sidebar {...this.state} />
-                </Grid>
-                <Grid className="p-3" item xs={9}>
-                    <ReactRouterDOM.Switch>
-                        {
-                            this.state.sidebar.flatMap
-                            (
-                                controller => controller.menu.filter(item=>window[item.action]).map 
+            <React.Fragment>
+                <MainNavItems />
+                <Grid container>
+                    <Grid className="p-1" item xs={3}>
+                        <Sidebar {...this.state} />
+                    </Grid>
+                    <Grid className="p-3" item xs={9}>
+                        <ReactRouterDOM.Switch>
+                            {
+                                this.state.sidebar.flatMap
                                 (
-                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/admin/:building_id/:controller/${item.action}`} />
+                                    controller => controller.menu.filter(item=>window[item.action]).map 
+                                    (
+                                        item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/:building_id/:controller/${item.action}`} />
+                                    )
                                 )
-                            )
-                        }
-                    </ReactRouterDOM.Switch>
+                            }
+                        </ReactRouterDOM.Switch>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </React.Fragment>
         ); 
     }
 }

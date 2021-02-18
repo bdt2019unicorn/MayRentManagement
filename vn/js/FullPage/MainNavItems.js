@@ -107,3 +107,6 @@ class MainNavItems extends BaseComponent
         ); 
     }
 }
+
+
+MainNavItems = ConnectComponentToStore(MainNavItems); 
