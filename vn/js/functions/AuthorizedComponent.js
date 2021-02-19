@@ -1,4 +1,3 @@
-
 class AuthorizedComponent extends BaseComponent
 {
     constructor(props)
