@@ -1,10 +1,7 @@
-.icon-same-line-word
+.dropdown-ul li a
 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    font-size: 2vmin;
 }
-
 .file-upload-input
 {
     z-index: -1;
@@ -15,6 +12,13 @@
 .file-upload-label
 {
     cursor: pointer;
+}
+
+.icon-same-line-word
+{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .scrolling-table-div

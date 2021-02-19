@@ -31,23 +31,11 @@ class BaseComponent extends React.Component
         }, 
         CurrentController()
         {
-            var controller; 
-            try 
-            {
-                controller = this.props.match.params.controller; 
-            }
-            catch(error) {}
-            return this.props.controller || controller; 
+            return this.props.controller || _.get(this.props, "match.params.controller"); 
         },  
         ImportUrl()
         {
-            var building_id; 
-            try 
-            {
-                building_id = this.props.match.params.building_id; 
-            } 
-            catch (error) {}
-            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${building_id}`; 
+            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${_.get(this.props, "match.params.building_id")}`; 
         }, 
         LoadForm(controller = undefined)
         {

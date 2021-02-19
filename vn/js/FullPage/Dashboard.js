@@ -1,10 +1,5 @@
-class Dashboard extends BaseComponent 
+class Dashboard extends AuthorizedComponent 
 {
-    constructor(props)
-    {
-        super(props); 
-        ExtendFromBaseComponent(this); 
-    }
     render()
     {
         let redirect_component = this.CheckLogin();

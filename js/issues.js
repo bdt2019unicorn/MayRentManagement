@@ -1,7 +1,8 @@
 function GetIssues(url) 
 {
     let data = SendRequestToGithub(url, {}, "GET");
-    try {
+    try 
+    {
         return data.filter(issue => !issue.pull_request);
     }
     catch
@@ -61,13 +62,16 @@ function IssueDiv({ number, title, body })
         button.setAttribute("data-show", "0");
         let icon = document.createElement("i");
         icon.className = "fas fa-plus";
-        button.onclick = function () {
+        button.onclick = function () 
+        {
             let show = button.getAttribute("data-show");
             show = !Boolean(Number(show));
-            if (show) {
+            if (show) 
+            {
                 content.classList.remove("d-none");
             }
-            else {
+            else 
+            {
                 content.classList.add("d-none");
             }
             icon.className = `fas fa-${show ? "minus" : "plus"}`;

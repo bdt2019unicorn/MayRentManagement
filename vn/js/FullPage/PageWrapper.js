@@ -54,12 +54,11 @@ class Sidebar extends BaseComponent
     }
 }
 
-class PageWrapper extends BaseComponent
+class PageWrapper extends AuthorizedComponent
 {
     constructor(props)
     {
         super(props); 
-        ExtendFromBaseComponent(this); 
         this.state = {sidebar: ServerJson("sidebar.json")}; 
     }
     render()
