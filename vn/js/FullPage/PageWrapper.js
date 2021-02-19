@@ -7,7 +7,6 @@ class Sidebar extends BaseComponent
     }
     render() 
     {
-        let building_id = 5; // this is temporary - need to get rid of this soon 
         var Link = ReactRouterDOM.Link; 
         var sidebar = this.props.sidebar.map 
         (
@@ -37,7 +36,7 @@ class Sidebar extends BaseComponent
                                     (
                                         item=> (
                                             <MaterialUI.ListItem key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} className="m-1 p-0">
-                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/admin/${building_id}/${controller.name}/${item.action}`}>
+                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/${this.props.building_id}/${controller.name}/${item.action}`}>
                                                     <MaterialUI.Icon>{item.icon}</MaterialUI.Icon>
                                                     <b className="ml-2">{item.text}</b>
                                                 </Link>
@@ -55,7 +54,7 @@ class Sidebar extends BaseComponent
     }
 }
 
-class PageWrapper extends BaseComponent
+class PageWrapper extends AuthorizedComponent
 {
     constructor(props)
     {
@@ -64,16 +63,17 @@ class PageWrapper extends BaseComponent
     }
     render()
     {
-        if(!(this.props.username && this.props.user_id))
+        let redirect_component = this.CheckLogin(); 
+        if(redirect_component)
         {
-            return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
+            return redirect_component; 
         }
         var Grid = MaterialUI.Grid; 
         var Route = ReactRouterDOM.Route; 
         return (
             <Grid container>
                 <Grid className="p-1" item xs={3}>
-                    <Sidebar {...this.state} />
+                    <Sidebar {...this.state} building_id={this.props.match.params.building_id} />
                 </Grid>
                 <Grid className="p-3" item xs={9}>
                     <ReactRouterDOM.Switch>
@@ -82,7 +82,7 @@ class PageWrapper extends BaseComponent
                             (
                                 controller => controller.menu.filter(item=>window[item.action]).map 
                                 (
-                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/admin/:building_id/:controller/${item.action}`} />
+                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/:building_id/:controller/${item.action}`} />
                                 )
                             )
                         }

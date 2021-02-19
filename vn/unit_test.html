@@ -42,29 +42,34 @@
 
             <script src="js/functions/support.js"></script>
             <script type="text/babel" src="js/functions/BaseComponent.js"></script>
-            <script type="text/babel" src="js/functions/PageSetup.js"></script>
-            <script type="text/babel" src="js/functions/UserInputComponent.js"></script>
-            <script type="text/babel" src="js/functions/AddEditComponent.js"></script>
-            <script type="text/babel" src="js/functions/AuthorizedComponent.js"></script>
-            
 
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/TextComponents.js"></script>
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/ActionButton.js"></script>
 
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput.js"></script>
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable.js"></script>
-            <script type="text/babel" src="js/FullPage/PageWrapper/AddEdit.js"></script>
-
-            <script type="text/babel" src="js/FullPage/PageWrapper/ImportExcel.js"></script>
-
-            <script type="text/babel" src="js/FullPage/PageAdministration.js"></script>
             <script type="text/babel" src="js/FullPage/MainNavItems.js"></script>
-            <script type="text/babel" src="js/FullPage/PageWrapper.js"></script>
-            <script type="text/babel" src="js/FullPage/Dashboard.js"></script>
 
-            <script type="text/babel" src="js/FullPage.js"></script>
+            <script type="text/babel">
 
-            <script defer type="text/babel" src="js/setup.js"></script>
+                class Test extends BaseComponent
+                {
+                    render()
+                    {
+                        var Grid = MaterialUI.Grid; 
+                        return (
+                            <React.Fragment>
+                                <MainNavItems />
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <p>I am testing</p>
+                                    </Grid>
+                                </Grid>
+                            </React.Fragment>
+                        ); 
+                    }
+                }
+
+                ReactDOM.render(<Test />, document.getElementById("full_page"));
+            </script>
+
+
         </footer>
     </body>
 </html>

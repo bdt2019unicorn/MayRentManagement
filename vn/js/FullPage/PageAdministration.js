@@ -41,7 +41,7 @@ class PageAdministration extends BaseComponent
     {
         if(this.props.username && this.props.user_id)
         {
-            return <ReactRouterDOM.Redirect to="/admin" />; 
+            return <ReactRouterDOM.Redirect to="/dashboard" />; 
         }
         if(!this.state.controller)
         {
