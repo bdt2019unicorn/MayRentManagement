@@ -17,6 +17,16 @@ function BindFunctions(component)
     Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
 }
 
+function ConnectComponentToAll(component_class)
+{
+    return ConnectComponentToRouter(ConnectComponentToStore(component_class)); 
+}
+
+function ConnectComponentToRouter(component_class)
+{
+    return ReactRouterDOM.withRouter(component_class); 
+}
+
 function ConnectComponentToStore(component_class)
 {
     return ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(component_class); 

@@ -7,7 +7,6 @@ class Sidebar extends BaseComponent
     }
     render() 
     {
-        let building_id = 5; // this is temporary - need to get rid of this soon 
         var Link = ReactRouterDOM.Link; 
         var sidebar = this.props.sidebar.map 
         (
@@ -37,7 +36,7 @@ class Sidebar extends BaseComponent
                                     (
                                         item=> (
                                             <MaterialUI.ListItem key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} className="m-1 p-0">
-                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/${building_id}/${controller.name}/${item.action}`}>
+                                                <Link className={`icon-same-line-word width-full btn btn-${item.button}`} to={`/${this.props.building_id}/${controller.name}/${item.action}`}>
                                                     <MaterialUI.Icon>{item.icon}</MaterialUI.Icon>
                                                     <b className="ml-2">{item.text}</b>
                                                 </Link>
@@ -75,7 +74,7 @@ class PageWrapper extends BaseComponent
         return (
             <Grid container>
                 <Grid className="p-1" item xs={3}>
-                    <Sidebar {...this.state} />
+                    <Sidebar {...this.state} building_id={this.props.match.params.building_id} />
                 </Grid>
                 <Grid className="p-3" item xs={9}>
                     <ReactRouterDOM.Switch>

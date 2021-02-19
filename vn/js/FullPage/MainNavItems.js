@@ -18,6 +18,11 @@ class DropdownMenu extends BaseComponent
             }; 
         }
     }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        console.log("update dropdown"); 
+        console.log(previous_props, previous_state); 
+    }
     render()
     {
         var ClickAwayListener = MaterialUI.ClickAwayListener; 
@@ -47,10 +52,9 @@ class DropdownMenu extends BaseComponent
                                                 ) : 
                                                 (
                                                     <MenuItem key={key}>
-                                                        <Link to={to}>{text}</Link>
+                                                        <Link className="width-full text-center" to={to}>{text}</Link>
                                                     </MenuItem>
                                                 ); 
-                                                    
                                             }
                                         )
                                     }
@@ -63,6 +67,7 @@ class DropdownMenu extends BaseComponent
         ); 
     }
 }
+DropdownMenu = ConnectComponentToRouter(DropdownMenu); 
 
 class MainNavItems extends BaseComponent 
 {
@@ -77,6 +82,11 @@ class MainNavItems extends BaseComponent
         }; 
         this.building_menu_ref = React.createRef(); 
         this.user_information_ref = React.createRef(); 
+    }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        console.log("update"); 
+        console.log(previous_props, previous_state); 
     }
     render()
     {
@@ -108,4 +118,4 @@ class MainNavItems extends BaseComponent
         ); 
     }
 }
-MainNavItems = ConnectComponentToStore(MainNavItems); 
+MainNavItems = ConnectComponentToAll(MainNavItems); 
