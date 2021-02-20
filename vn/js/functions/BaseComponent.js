@@ -41,7 +41,14 @@ class BaseComponent extends React.Component
         LoadForm(controller = undefined)
         {
             controller = controller || this.CurrentController(); 
-            return ServerJson(`../server/user_input_controller/vn/${controller}.json`)
+            try 
+            {
+                return ServerJson(`../server/user_input_controller/vn/${controller}.json`); 
+            }
+            catch (exception)
+            {
+                return undefined; 
+            }
         }, 
         ResetStateValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
         {

@@ -23,7 +23,7 @@ class AddEditComponent extends BaseComponent
     render()
     {
         return (
-            <UserInput form={this.state.form} container_width={this.props.container_width} edit_data={this.state.edit_data} />
+            this.state.form?<UserInput form={this.state.form} container_width={this.props.container_width} edit_data={this.state.edit_data} />: null
         ); 
     }
 }

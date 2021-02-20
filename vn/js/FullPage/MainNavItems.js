@@ -102,8 +102,8 @@ class MainNavItems extends BaseComponent
             ), 
             user_information: 
             [
-                {to: "#", text: "Thông tin tài khoản"}, 
-                {to: "#", text: "Đăng xuất", callback: ()=>this.props.Authorize({username: "", user_id: ""})}
+                {to: "/general-edit/user", text: "Thông tin tài khoản"}, 
+                {text: "Đăng xuất", callback: ()=>this.props.Authorize({username: "", user_id: ""})}
             ]
         }; 
         this.building_menu_ref = React.createRef(); 
