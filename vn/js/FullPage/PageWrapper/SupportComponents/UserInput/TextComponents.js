@@ -15,7 +15,7 @@ class TextInput extends SimpleInputComponent
                 fullWidth
                 name={this.props.name}
                 label={this.props.title.replaceAll("*","").trim()} 
-                value={this.InnitialValue()} 
+                value={this.state.value} 
                 type={this.props.type} 
                 margin="normal"
                 variant="outlined"

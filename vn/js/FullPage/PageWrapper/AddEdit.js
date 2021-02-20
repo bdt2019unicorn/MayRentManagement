@@ -34,8 +34,6 @@ class Edit extends AddEditComponent
         BindFunctions(this); 
         this.InnitialState(); 
         this.state = {...this.state, edit_data: this.PopulateDataIntoFields()}; 
-        console.log(props); 
-        console.log(this.state); 
         this.ModifyForm(); 
     }
     Methods = 
@@ -58,19 +56,20 @@ class Edit extends AddEditComponent
                     }
                 }
             }
+            form.title = this.props.form_title || form.title; 
             this.state.form = form; 
         }, 
         PopulateDataIntoFields()
         {
             let data = this.TableData(this.CurrentController(), {id: this.props.object_id, edit: 1}); 
-            console.log(data); 
-            return null; 
+            return data[0]; 
         }
     }
     CustomEvents = 
     {
         "formSubmitValid": (data)=> 
         {
+            console.log(data); 
             // let result = SubmitData("excel", this.ImportUrl(), [data]); 
             // if(Number(result))
             // {
