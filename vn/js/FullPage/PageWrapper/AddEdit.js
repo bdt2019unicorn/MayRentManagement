@@ -33,7 +33,7 @@ class Edit extends AddEditComponent
         this.Methods = {...this.Methods, ...AddEditComponent.Methods}; 
         BindFunctions(this); 
         this.InnitialState(); 
-        this.state = {...this.state, edit_data: null}; 
+        this.state = {...this.state, edit_data: this.PopulateDataIntoFields()}; 
         console.log(props); 
         console.log(this.state); 
         this.ModifyForm(); 
@@ -59,6 +59,12 @@ class Edit extends AddEditComponent
                 }
             }
             this.state.form = form; 
+        }, 
+        PopulateDataIntoFields()
+        {
+            let data = this.TableData(this.CurrentController(), {id: this.props.object_id, edit: 1}); 
+            console.log(data); 
+            return null; 
         }
     }
     CustomEvents = 

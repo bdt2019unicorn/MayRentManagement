@@ -31,7 +31,8 @@ class GeneralEdit extends BaseComponent
                 controller, 
                 form_title: surfix + title, 
                 object_id, 
-                user_input_json
+                user_input_json,
+                container_width: "md"
             }; 
         }
     }

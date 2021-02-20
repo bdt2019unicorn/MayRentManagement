@@ -26,6 +26,10 @@ class BaseComponent extends React.Component
     }
     static Methods =
     {
+        BuildingId()
+        {
+            return _.get(this.props, "match.params.building_id"); 
+        }, 
         CheckLogin(redirect_component = <ReactRouterDOM.Redirect to="/page-administration/login" />, otherwise = null)
         {
             return !(this.props.username && this.props.user_id)? redirect_component: otherwise; 
@@ -36,7 +40,7 @@ class BaseComponent extends React.Component
         },  
         ImportUrl()
         {
-            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${_.get(this.props, "match.params.building_id")}`; 
+            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`; 
         }, 
         LoadForm(controller = undefined)
         {
@@ -49,6 +53,16 @@ class BaseComponent extends React.Component
             {
                 return undefined; 
             }
+        }, 
+        OverviewDataUrl(overview_controller, params=undefined)
+        {
+            params = 
+            {
+                building_id: this.BuildingId(), 
+                overview_controller, 
+                ...params
+            }
+            return `../server/overview_controller/overview_controller.php?${SearchQueryString(params)}`; 
         }, 
         ResetStateValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
         {
@@ -74,6 +88,18 @@ class BaseComponent extends React.Component
                     }
                 }
             ); 
+        }, 
+        TableData(overview_controller, params=undefined)
+        {
+            var data = AjaxRequest(this.OverviewDataUrl(overview_controller, params));
+            try 
+            {
+               return JSON.parse(data); 
+            }
+            catch (exception)
+            {
+                return []; 
+            }          
         }, 
         ValidationHelperText(validations, props_name)
         {
