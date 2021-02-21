@@ -15,7 +15,7 @@ class TextInput extends SimpleInputComponent
                 fullWidth
                 name={this.props.name}
                 label={this.props.title.replaceAll("*","").trim()} 
-                value={this.state.value} 
+                value={this.state.value || ""} 
                 type={this.props.type} 
                 margin="normal"
                 variant="outlined"
@@ -76,7 +76,6 @@ class TextGroupConfirmation extends BaseComponent
                     fullWidth
                     name={this.props.confirm_name}
                     label={this.props.confirm_title} 
-                    // value={this.InnitialValue()} 
                     type={this.props.type} 
                     margin="normal"
                     variant="outlined"

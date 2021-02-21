@@ -18,6 +18,10 @@ class AddEditComponent extends BaseComponent
         InnitialState()
         {
             this.state = {form: this.LoadForm()}; 
+        }, 
+        ReloadUserInput(callback_resolve=undefined)
+        {
+            this.ResetStateValue({value_name: "form", new_value: _.cloneDeep(this.state.form), callback_resolve}); 
         }
     }
     render()

@@ -38,6 +38,11 @@ class GeneralEdit extends BaseComponent
     }
     render()
     {
+        let redirect_component = this.CheckLogin();
+        if(redirect_component)
+        {
+            return redirect_component; 
+        }
         return (this.state.edit?<Edit {...this.EditDataBind()} />: null); 
     }
 }

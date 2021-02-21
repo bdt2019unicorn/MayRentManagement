@@ -61,7 +61,7 @@ class Edit extends AddEditComponent
         }, 
         PopulateDataIntoFields()
         {
-            let data = this.TableData(this.CurrentController(), {id: this.props.object_id, edit: 1}); 
+            let data = this.TableData(this.CurrentController(), {id: this.ObjectId(), edit: 1}); 
             return data[0]; 
         }
     }
@@ -69,17 +69,23 @@ class Edit extends AddEditComponent
     {
         "formSubmitValid": (data)=> 
         {
-            console.log(data); 
-            // let result = SubmitData("excel", this.ImportUrl(), [data]); 
-            // if(Number(result))
-            // {
-            //     alert(`${this.state.form.title} thành công!`); 
-            //     Emitter.emit("authorizeSuccess", this.props.controller, data, Number(result)); 
-            // }
-            // else 
-            // {
-            //     alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
-            // }
+            let controller = this.CurrentController(); 
+            var url = `../server/database_controller/edit.php?table=${controller}&id=${this.ObjectId()}`; 
+            var result = SubmitData("edit",url,data); 
+            
+            if(Number(result))
+            {
+                alert("Edit Information success"); 
+                if(controller=="buildings")
+                {
+                    Emitter.emit("editBuildingSuccess"); 
+                }
+                this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()})); 
+            }
+            else
+            {
+                alert("Edit Information fails"); 
+            }
         }
     }
 }
