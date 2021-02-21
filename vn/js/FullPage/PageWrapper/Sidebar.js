@@ -10,7 +10,6 @@ class Sidebar extends BaseComponent
     {
         var Link = ReactRouterDOM.Link; 
         var current_controller = this.CurrentController(); 
-        console.log(current_controller); 
         var sidebar = this.props.sidebar.map 
         (
             controller => 

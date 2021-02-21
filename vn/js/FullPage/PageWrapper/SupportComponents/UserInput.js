@@ -46,6 +46,7 @@ class UserInput extends BaseComponent
                                     {...component} 
                                     key={name} 
                                     validations = {this.props.form.validate.rules}
+                                    edit_data = {this.props.edit_data}
                                 />
                             </MaterialUI.Grid>); 
                     }

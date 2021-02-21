@@ -7,7 +7,6 @@ function AjaxRequest(url, data = new FormData(), type = "get")
     request.send(data); 
     return result; 
 }
-
 function BindFunctions(component)
 {
     if(!component.Methods)
@@ -16,39 +15,36 @@ function BindFunctions(component)
     }
     Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
 }
-
 function ConnectComponentToAll(component_class)
 {
     return ConnectComponentToRouter(ConnectComponentToStore(component_class)); 
 }
-
 function ConnectComponentToRouter(component_class)
 {
     return ReactRouterDOM.withRouter(component_class); 
 }
-
 function ConnectComponentToStore(component_class)
 {
     return ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(component_class); 
 }
-
 function ExtendFromBaseComponent(component)
 {
     component.Methods = {...component.Methods, ...BaseComponent.Methods}; 
     BindFunctions(component); 
 }
-
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 
 } 
-
+function SearchQueryString(params)
+{
+    return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
+}
 function ServerJson(url)
 {
     let json = AjaxRequest(url); 
     return JSON.parse(json); 
 }
-
 function SubmitData(key, url, data, stringify=true) 
 {
     var form_data = new FormData(); 
@@ -56,7 +52,6 @@ function SubmitData(key, url, data, stringify=true)
     SubmitUserInformation(form_data); 
     return AjaxRequest(url, form_data, "post"); 
 }
-
 function SubmitUserInformation(form_data)
 {
     try 

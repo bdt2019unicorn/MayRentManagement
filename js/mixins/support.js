@@ -51,7 +51,6 @@ var support_mixin =
             ); 
             return result; 
         }, 
-
         BlobRequest(url, data={})
         {
             var result = null; 
@@ -82,7 +81,6 @@ var support_mixin =
             ); 
             return result; 
         }, 
-
         BuildingsData()
         {
             let buildings_data = this.TableData("buildings").map 
@@ -108,38 +106,31 @@ var support_mixin =
                 return buildings_data; 
             }
         }, 
-
         DateConvertFormatDisplayDatabase(string)
         {
             return moment(string, "DD MMM YYYY").format("YYYY-MM-DD"); 
         }, 
-
         DateReformat(string=undefined)
         {
             return string?moment(string):moment(); 
         }, 
-
         DateReformatDatabase(string=undefined)
         {
             return this.DateReformat(string).format("YYYY-MM-DD"); 
         }, 
-
         DateReformatDisplay(string=undefined)
         {
             return this.DateReformat(string).format("DD MMM YYYY"); 
         }, 
-
         ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class=undefined)
         {
             based_classes.push((item_value==compared_value)?good_class: bad_class); 
             return based_classes; 
         }, 
-
         NumeralFormat(number)
         {
             return numeral(number).format("0,000"); 
         }, 
-        
         OverviewDataUrl(overview_controller, params=undefined)
         {
             params = 
