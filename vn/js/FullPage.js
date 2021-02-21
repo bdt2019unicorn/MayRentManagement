@@ -3,7 +3,6 @@ class FullPage extends BaseComponent
     constructor(props)
     {
         super(props); 
-        ExtendFromBaseComponent(this); 
         this.props.Authorize
         (
             {

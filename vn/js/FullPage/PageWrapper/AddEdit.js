@@ -1,12 +1,5 @@
 class Add extends AddEditComponent
 {
-    constructor(props)
-    {
-        super(props); 
-        this.Methods = {...this.Methods, ...AddEditComponent.Methods}; 
-        BindFunctions(this); 
-        this.InnitialState(); 
-    }
     CustomEvents = 
     {
         "formSubmitValid": (data)=> 
@@ -30,9 +23,7 @@ class Edit extends AddEditComponent
     constructor(props)
     {
         super(props); 
-        this.Methods = {...this.Methods, ...AddEditComponent.Methods}; 
         BindFunctions(this); 
-        this.InnitialState(); 
         this.state = {...this.state, edit_data: this.PopulateDataIntoFields()}; 
         this.ModifyForm(); 
     }

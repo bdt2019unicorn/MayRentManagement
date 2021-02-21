@@ -3,6 +3,7 @@ class BaseComponent extends React.Component
     constructor(props)
     {
         super(props); 
+        BindFunctions(this); 
         this.state = {}; 
     }
     static getDerivedStateFromProps(next_props, previous_state)
@@ -24,7 +25,7 @@ class BaseComponent extends React.Component
             Object.keys(this.CustomEvents).forEach(event=>Emitter.off(event)); 
         }
     }
-    static Methods =
+    Methods =
     {
         BuildingId()
         {
@@ -45,14 +46,7 @@ class BaseComponent extends React.Component
         LoadForm(controller = undefined)
         {
             controller = controller || this.CurrentController(); 
-            try 
-            {
-                return ServerJson(`../server/user_input_controller/vn/${controller}.json`); 
-            }
-            catch (exception)
-            {
-                return undefined; 
-            }
+            return UserInputForm(controller); 
         }, 
         ObjectId()
         {

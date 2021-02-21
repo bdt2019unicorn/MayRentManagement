@@ -3,11 +3,8 @@ class GeneralEdit extends AuthorizedComponent
     constructor(props)
     {
         super(props); 
-        ExtendFromBaseComponent(this); 
+        BindFunctions(this); 
         this.state = {edit: true}; 
-        let super_methods = super.props; 
-        console.log(super_methods); 
-
     }
     Methods = 
     {

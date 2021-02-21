@@ -3,9 +3,9 @@ class UserInputComponent extends BaseComponent
     constructor(props)
     {
         super(props); 
-        UserInputComponent.Methods = {...UserInputComponent.Methods, ...BaseComponent.Methods}; 
+        BindFunctions(this); 
     }
-    static Methods = 
+    Methods = 
     {
         InnitialValue()
         {
@@ -47,8 +47,6 @@ class SimpleInputComponent extends UserInputComponent
     constructor(props)
     {
         super(props); 
-        this.Methods = {...this.Methods, ...UserInputComponent.Methods}; 
-        BindFunctions(this); 
         this.state = {value: this.InnitialValue()}; 
     }
 }

@@ -4,7 +4,6 @@ class Sidebar extends BaseComponent
     {
         super(props); 
         this.state = {expanded: undefined}; 
-        ExtendFromBaseComponent(this); 
     }
     render() 
     {

@@ -7,7 +7,7 @@ class PageSetup
             username: "", 
             user_id: 0, 
             buildings_data: ServerJson("../server/overview_controller/overview_controller.php?overview_controller=buildings"), 
-            building_user_input: BaseComponent.Methods.LoadForm("buildings")
+            building_user_input: UserInputForm("buildings") 
         }; 
         this.reducer = (state = this.innitial_state, action)=>
         {

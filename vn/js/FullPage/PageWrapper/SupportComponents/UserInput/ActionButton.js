@@ -1,10 +1,5 @@
 class SubmitButton extends React.Component 
 {
-    constructor(props)
-    {
-        super(props); 
-        BindFunctions(this); 
-    }
     render() 
     {
         return (

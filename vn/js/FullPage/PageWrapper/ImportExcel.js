@@ -3,7 +3,7 @@ class ImportExcel extends BaseComponent
     constructor(props)
     {
         super(props); 
-        ExtendFromBaseComponent(this); 
+        BindFunctions(this); 
         this.state = 
         {
             file_input: true, 

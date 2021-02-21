@@ -3,7 +3,8 @@ class AddEditComponent extends BaseComponent
     constructor(props)
     {
         super(props); 
-        AddEditComponent.Methods = {...AddEditComponent.Methods, ...BaseComponent.Methods}; 
+        BindFunctions(this); 
+        this.InnitialState(); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
@@ -13,7 +14,7 @@ class AddEditComponent extends BaseComponent
             this.setState({form: this.LoadForm(controller)}); 
         }
     }
-    static Methods = 
+    Methods = 
     {
         InnitialState()
         {

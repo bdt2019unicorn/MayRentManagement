@@ -3,7 +3,6 @@ class DropdownMenu extends BaseComponent
     constructor(props)
     {
         super(props); 
-        this.Methods = {...this.Methods, ...BaseComponent.Methods}; 
         BindFunctions(this); 
         this.state = {element: null}; 
     }
@@ -85,8 +84,6 @@ class MainNavItems extends BaseComponent
     constructor(props)
     {
         super(props); 
-        this.Methods = {...this.Methods, ...BaseComponent.Methods}; 
-        BindFunctions(this); 
         this.state = 
         {
             building_menu: this.props.buildings_data.map

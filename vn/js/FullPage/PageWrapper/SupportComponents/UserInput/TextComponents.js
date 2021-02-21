@@ -33,7 +33,6 @@ class TextGroupConfirmation extends BaseComponent
     constructor(props)
     {
         super(props); 
-        this.Methods = {...this.Methods, ...BaseComponent.Methods}; 
         BindFunctions(this); 
         this.state = {value: undefined, confirm_value: undefined}; 
     }

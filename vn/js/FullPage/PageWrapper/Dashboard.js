@@ -1,22 +1,23 @@
-class Dashboard extends BaseComponent
+class Dashboard extends AuthorizedComponent
 {
     constructor(props)
     {
         super(props); 
-        this.Methods = {...this.Methods, ...BaseComponent.Methods}; 
         BindFunctions(this); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
+        super.componentDidUpdate(previous_props, previous_state); 
     }
     Methods = 
     {
     }
     render()
     {
-        if(!(this.props.username && this.props.user_id))
+        let redirect_component = this.CheckLogin(); 
+        if(redirect_component)
         {
-            return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
+            return redirect_component; 
         }
         return (
             <div>dashboard</div>
