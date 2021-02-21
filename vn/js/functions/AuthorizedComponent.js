@@ -3,6 +3,10 @@ class AuthorizedComponent extends BaseComponent
     constructor(props)
     {
         super(props); 
+        console.log(this); 
+        let methods = _.cloneDeep(this.Methods); 
+        console.log(methods); 
+        console.log(this.Methods); 
         ExtendFromBaseComponent(this); 
         this.PageWrapperUpdate(); 
     }
