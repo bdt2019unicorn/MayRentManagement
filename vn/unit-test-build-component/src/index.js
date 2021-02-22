@@ -1,3 +1,14 @@
-import NumberInput from ""; 
+import NumberInput from "react-number-input"; 
 
-ReactDOM.render(null, document.getElementById("full_page")); 
+class Test extends React.Component
+{
+    render()
+    {
+        return (
+            <NumberInput
+            />
+        ); 
+    }
+}
+
+ReactDOM.render(<Test />, document.getElementById("full_page")); 
