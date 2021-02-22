@@ -1,14 +1,2 @@
-import NumberInput from "react-number-input"; 
-
-class Test extends React.Component
-{
-    render()
-    {
-        return (
-            <NumberInput
-            />
-        ); 
-    }
-}
-
-ReactDOM.render(<Test />, document.getElementById("full_page")); 
+import NumberFormat from 'react-number-format';
+window.NumberFormat = NumberFormat; 
