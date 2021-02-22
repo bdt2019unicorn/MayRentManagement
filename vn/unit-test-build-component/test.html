@@ -35,6 +35,32 @@
 
             <script src="dist/bundle.js"></script>
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
+
+            
+            <script type="text/babel">
+                
+                
+                
+                
+                class Test extends React.Component 
+                {
+                    render()
+                    {
+                        let OnValueChange = (value)=>
+                        {
+                            console.log(value); 
+                        }
+                        return <div><NumberFormat name="test" thousandSeparator={true} onValueChange={OnValueChange} /></div>
+                    }
+                }
+
+
+
+
+
+
+                ReactDOM.render(<Test />, document.getElementById("full_page")); 
+            </script>
         </footer>
     </body>
 </html>

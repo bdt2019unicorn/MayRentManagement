@@ -9,11 +9,6 @@
         <link rel="stylesheet" href="css/index.css" />
     </head>
     <body>
-        <div>
-            <a class="ml-3 mr-3" href="../issues.php">Báo cáo vấn đề</a>
-            <a class="float-right mr-3" href=".." title="English"><img src="../img/UK_flag.png"></a>
-        </div>
-
         <div id="full_page"></div>
 
         <footer>
@@ -40,9 +35,18 @@
             <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
             <script src="../npm/immunity-helper.js"></script>
 
-            <!-- <script src="unit-test-build-component/dist/bundle.js"></script> -->
             <script src="../npm/react-number-format.js"></script>
 
+            
+            <script src="js/functions/support.js"></script>
+            <script type="text/babel" src="js/functions/BaseComponent.js"></script>
+            <script type="text/babel" src="js/functions/PageSetup.js"></script>
+            <script type="text/babel" src="js/functions/UserInputComponent.js"></script>
+            <script type="text/babel" src="js/functions/AddEditComponent.js"></script>
+            <script type="text/babel" src="js/functions/AuthorizedComponent.js"></script>
+
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/NumberInput.js"></script>
+            
             <script type="text/babel">
                 
                 
@@ -56,7 +60,10 @@
                         {
                             console.log(value); 
                         }
-                        return <div><NumberFormat name="test" thousandSeparator={true} onValueChange={OnValueChange} /></div>
+                        return <div>
+                            <NumberFormat name="test" thousandSeparator={true} onValueChange={OnValueChange} />
+                            <NumberInput />
+                        </div>
                     }
                 }
 
