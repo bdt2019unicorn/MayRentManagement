@@ -3,21 +3,27 @@ class PageWrapper extends AuthorizedComponent
     constructor(props)
     {
         super(props); 
-        this.state = {sidebar: ServerJson("sidebar.json"), controller: undefined}; 
+        this.state = {sidebar: ServerJson("sidebar.json")}; 
     }
     CustomEvents = 
     {
-        "pageControllerUpdate": (controller)=>
+        "pageControllerUpdate": (controller, component)=>
         {
-            if(!controller)
-            {
-                console.log(this.state.controller); 
-                return; 
-            }
-            if(this.state.controller!=controller)
-            {
-                this.setState({controller}); 
-            }
+            // if(!controller)
+            // {
+            //     console.log(this.state.controller); 
+            //     return; 
+            // }
+            // if(this.state.controller!=controller)
+            // {
+            //     this.setState({controller}); 
+            // }
+            // if(this.props.current_controller!=controller)
+            // {
+            //     this.props.ChangeState({state_name: "current_controller", value: controller}); 
+            // }
+            console.log(controller); 
+            console.log(component); 
         }
     }
     render()
@@ -32,7 +38,7 @@ class PageWrapper extends AuthorizedComponent
         return (
             <Grid container>
                 <Grid className="p-1" item xs={3}>
-                    <Sidebar {...this.state} {...this.props.match.params} />
+                    <Sidebar sidebar={this.state.sidebar} controller={this.props.current_controller} {...this.props.match.params} />
                 </Grid>
                 <Grid className="p-3" item xs={9}>
                     <ReactRouterDOM.Switch>

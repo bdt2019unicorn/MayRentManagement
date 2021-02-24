@@ -16,7 +16,7 @@ class BaseComponent extends React.Component
         {
             Object.keys(this.CustomEvents).forEach(event=>Emitter.on(event, this.CustomEvents[event])); 
         }
-        Emitter.emit("pageControllerUpdate", _.get(this.props, "match.params.controller")); 
+        Emitter.emit("pageControllerUpdate", _.get(this.props, "match.params.controller", this)); 
     }
     componentWillUnmount() 
     {
