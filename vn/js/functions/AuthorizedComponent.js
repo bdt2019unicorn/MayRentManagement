@@ -14,7 +14,10 @@ class AuthorizedComponent extends BaseComponent
     {
         PageWrapperUpdate()
         {
-            Emitter.emit("pageWrapperUpdate", _.get(this.props, "match.params.building_id")); 
+            if(this.props.ChangeState)
+            {
+                this.props.ChangeState({state_name: "current_building", value: _.get(this.props, "match.params.building_id")}); 
+            }
         }
     }
 }

@@ -62,7 +62,6 @@ class UserInput extends BaseComponent
                 ); 
             }
         ); 
-        return null; 
         return (
             <MaterialUI.Grid container alignItems="center" justify="center">
                 <MaterialUI.Container maxWidth={this.props.container_width||undefined} fixed className="border border-blue-light p-4 m-4">

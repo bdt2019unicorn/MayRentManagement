@@ -7,6 +7,7 @@ class PageSetup
             username: "", 
             user_id: 0, 
             current_controller: undefined, 
+            current_building: undefined, 
             buildings_data: ServerJson("../server/overview_controller/overview_controller.php?overview_controller=buildings"), 
             building_user_input: UserInputForm("buildings") 
         }; 

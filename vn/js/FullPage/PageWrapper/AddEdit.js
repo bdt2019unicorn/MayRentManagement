@@ -8,7 +8,10 @@ class Add extends AddEditComponent
             if(Number(result))
             {
                 alert(`${this.state.form.title} thành công!`); 
-                Emitter.emit("authorizeSuccess", this.props.controller, data, Number(result)); 
+                if(this.props.AuthorizeSuccess)
+                {
+                    this.props.AuthorizeSuccess(data, Number(result)); 
+                }
             }
             else 
             {

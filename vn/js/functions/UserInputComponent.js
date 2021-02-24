@@ -5,10 +5,6 @@ class UserInputComponent extends BaseComponent
         super(props); 
         BindFunctions(this); 
     }
-    componentDidMount() 
-    {
-        console.log("test"); 
-    }
     Methods = 
     {
         InnitialValue()
