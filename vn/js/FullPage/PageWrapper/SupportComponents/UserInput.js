@@ -33,6 +33,7 @@ class UserInput extends BaseComponent
                 (
                     component =>  
                     {
+                        try {
                         var ComponentClass = window[component.component]; 
                         let name = component.name; 
                         return (
@@ -49,7 +50,10 @@ class UserInput extends BaseComponent
                                     edit_data = {this.props.edit_data}
                                 />
                             </MaterialUI.Grid>); 
+                        }
+                        catch(exception){console.log(exception); return <div key={Math.random().toExponential(10).toString()}>test</div>;}
                     }
+                    
                 ); 
                 return (
                     <MaterialUI.Grid key={encodeURIComponent(JSON.stringify(components)) + Math.random()} container spacing={1}>
@@ -58,6 +62,7 @@ class UserInput extends BaseComponent
                 ); 
             }
         ); 
+        return null; 
         return (
             <MaterialUI.Grid container alignItems="center" justify="center">
                 <MaterialUI.Container maxWidth={this.props.container_width||undefined} fixed className="border border-blue-light p-4 m-4">

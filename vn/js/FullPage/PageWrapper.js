@@ -9,6 +9,11 @@ class PageWrapper extends AuthorizedComponent
     {
         "pageControllerUpdate": (controller)=>
         {
+            if(!controller)
+            {
+                console.log(this.state.controller); 
+                return; 
+            }
             if(this.state.controller!=controller)
             {
                 this.setState({controller}); 

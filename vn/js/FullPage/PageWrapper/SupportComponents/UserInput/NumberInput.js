@@ -2,15 +2,13 @@ class NumberInput extends SimpleInputComponent
 {
     render() 
     {
-        // var Change = event =>
-        // {
-        //     let value = event.target.value; 
-        //     let state = {value}; 
-        //     this.setState(state); 
-        //     Emitter.emit("valueChange", state); 
-        // }; 
+        var ValueChange = value =>
+        {
+            console.log(value); 
+            // Emitter.emit("valueChange", state); 
+        }; 
         return (
-            <NumberFormat thousandSeparator={true} />
+            <NumberFormat thousandSeparator={true} onValueChange={ValueChange} />
         );
     }
 }

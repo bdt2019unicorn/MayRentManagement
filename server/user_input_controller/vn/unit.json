@@ -41,7 +41,7 @@
         ], 
         [
             {
-                "component": "checkbox-input",
+                "component": "CheckboxInput",
                 "name": "balcony",
                 "title": "Balcony"
             }
