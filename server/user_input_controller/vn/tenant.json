@@ -135,7 +135,10 @@
                 "presence": true, 
                 "email": true 
             }, 
-            "work_email": "email", 
+            "work_email": 
+            {
+                "email": true
+            }, 
             "company_name":             
             {
                 "presence": true
