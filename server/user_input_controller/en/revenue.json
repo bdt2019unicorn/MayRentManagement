@@ -6,7 +6,8 @@
             {
                 "component": "text-input",
                 "name": "name",
-                "title": "Name *"
+                "title": "Revenue name*",
+                "placeholder": "Example: February 2021 revenue for unit 101"
             },
             {
                 "component": "select-input",

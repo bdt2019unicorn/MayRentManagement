@@ -2,13 +2,21 @@ Vue.component
 (
     "text-input", 
     {
-        props: ["id", "type"], 
+        props: ["id", "placeholder", "type"], 
         mixins: [user_input_components_v_model_support_mixin], 
         template: 
         `
             <div class="form-group col">
                 <label :for="name" v-if="title"><b>{{title}}</b></label>
-                <input class="form-control" :style="LockStyle" :type="type||'text'" :name="name" :id="id" v-model="content">
+                <input 
+                    class="form-control" 
+                    :style="LockStyle" 
+                    :type="type||'text'" 
+                    :name="name" 
+                    :id="id" 
+                    :placeholder="placeholder"
+                    v-model="content"
+                >
             </div>
         `
     }
