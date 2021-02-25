@@ -7,7 +7,10 @@ class TextInput extends SimpleInputComponent
             let value = event.target.value; 
             let state = {value}; 
             this.setState(state); 
-            Emitter.emit("valueChange", state); 
+            if(this.props.ValueChange)
+            {
+                this.props.ValueChange(state); 
+            }
         }; 
         return (
             <MaterialUI.TextField 
@@ -35,10 +38,6 @@ class TextGroupConfirmation extends BaseComponent
         super(props); 
         BindFunctions(this); 
         this.state = {value: undefined, confirm_value: undefined}; 
-    }
-    CustomEvents = 
-    {
-        "valueChange": (state)=> this.setState(state) 
     }
     Methods = 
     {
@@ -69,7 +68,7 @@ class TextGroupConfirmation extends BaseComponent
     {
         return (
             <React.Fragment>
-                <TextInput {...this.props}/>
+                <TextInput {...this.props} ValueChange={(state)=>this.setState(state)} />
                 <MaterialUI.TextField 
                     size="medium"
                     fullWidth

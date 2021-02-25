@@ -10,13 +10,6 @@ class BaseComponent extends React.Component
     {
         return null; 
     }
-    componentWillUnmount() 
-    {
-        if(this.CustomEvents)
-        {
-            Object.keys(this.CustomEvents).forEach(event=>Emitter.off(event)); 
-        }
-    }
     Methods =
     {
         BuildingId()

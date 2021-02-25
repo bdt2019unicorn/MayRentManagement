@@ -48,7 +48,7 @@ class Edit extends AddEditComponent
                 alert("Edit Information success"); 
                 if(controller=="buildings")
                 {
-                    Emitter.emit("editBuildingSuccess"); 
+                    console.log("This will be taken care later "); 
                 }
                 this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()})); 
             }
