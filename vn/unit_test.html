@@ -50,8 +50,68 @@
             <script type="text/babel">
                 
                 
-                
-                
+                class BaseComponent extends React.Component
+                {
+                    constructor(props)
+                    {
+                        super(props); 
+                    }
+                    render()
+                    {
+                        return (
+                            <div>
+                                <button type="button" onClick={this.props.ExtensionTest}>ExtensionTest</button>
+                            </div>
+                        ); 
+                    }
+                }
+
+
+
+
+
+                class Base extends React.Component
+                {
+                    constructor(props)
+                    {
+                        super(props); 
+                        BindFunctions(this); 
+                    }
+                    Methods =  
+                    {
+                        BaseTest()
+                        {
+                            console.log("I am the base method"); 
+                        }
+                    }
+                    render()
+                    {
+                        return (
+                            <div>
+                                <button onClick={this.BaseTest}>BaseMethod</button>
+                                <BaseComponent ExtensionTest={this.ExtensionTest} />
+                            </div>
+                        ); 
+                    }
+                }
+
+                class Extension extends Base 
+                {
+                    constructor(props)
+                    {
+                        super(props); 
+                        BindFunctions(this); 
+                    }
+                    Methods = 
+                    {
+                        ExtensionTest()
+                        {
+                            console.log("I am the extension method"); 
+                        }
+                    }
+                }
+
+                                
                 class Test extends React.Component 
                 {
                     render()
@@ -64,25 +124,9 @@
                         //     <NumberFormat name="test" thousandSeparator={true} onValueChange={OnValueChange} />
                         //     <NumberInput />
                         // </div>
-
-                    }
-                }
-
-
-
-
-                class Base extends React.Component
-                {
-                    constructor(props)
-                    {
-
-                    }
-                    Methods =  
-                    {
-                        BaseTest()
-                        {
-                            console.log("I am the base method"); 
-                        }
+                        return (
+                            <Extension />
+                        ); 
 
                     }
                 }

@@ -19,7 +19,7 @@ class UserInput extends BaseComponent
                 {
                     Object.values(this.props.form.validate.eliminate).forEach(key=>delete data[key]); 
                 }
-                Emitter.emit("formSubmitValid", data); 
+                this.props.FormSubmitValid(data); 
             }
         }, 
     }
