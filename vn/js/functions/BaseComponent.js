@@ -10,14 +10,6 @@ class BaseComponent extends React.Component
     {
         return null; 
     }
-    componentDidMount() 
-    {
-        if(this.CustomEvents)
-        {
-            Object.keys(this.CustomEvents).forEach(event=>Emitter.on(event, this.CustomEvents[event])); 
-        }
-        Emitter.emit("pageControllerUpdate", _.get(this.props, "match.params.controller", this)); 
-    }
     componentWillUnmount() 
     {
         if(this.CustomEvents)

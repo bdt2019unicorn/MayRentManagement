@@ -1,4 +1,4 @@
-class ImportExcel extends BaseComponent
+class ImportExcel extends PageWrapperChildrenComponent
 {
     constructor(props)
     {

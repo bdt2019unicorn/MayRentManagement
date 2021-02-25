@@ -1,4 +1,4 @@
-class AddEditComponent extends BaseComponent
+class AddEditComponent extends PageWrapperChildrenComponent
 {
     constructor(props)
     {

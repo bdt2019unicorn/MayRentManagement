@@ -5,27 +5,6 @@ class PageWrapper extends AuthorizedComponent
         super(props); 
         this.state = {sidebar: ServerJson("sidebar.json")}; 
     }
-    CustomEvents = 
-    {
-        "pageControllerUpdate": (controller, component)=>
-        {
-            // if(!controller)
-            // {
-            //     console.log(this.state.controller); 
-            //     return; 
-            // }
-            // if(this.state.controller!=controller)
-            // {
-            //     this.setState({controller}); 
-            // }
-            // if(this.props.current_controller!=controller)
-            // {
-            //     this.props.ChangeState({state_name: "current_controller", value: controller}); 
-            // }
-            console.log(controller); 
-            console.log(component); 
-        }
-    }
     render()
     {
         let redirect_component = this.CheckLogin(); 
@@ -47,7 +26,7 @@ class PageWrapper extends AuthorizedComponent
                             (
                                 controller => controller.menu.filter(item=>window[item.action]).map 
                                 (
-                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/:building_id/:controller/${item.action}`} />
+                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={ConnectComponentToStore(window[item.action])} exact path={`/:building_id/:controller/${item.action}`} />
                                 )
                             )
                         }

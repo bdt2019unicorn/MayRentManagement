@@ -4,15 +4,15 @@ class AuthorizedComponent extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
-        this.PageWrapperUpdate(); 
+        this.UpdateCurrentBuilding(); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
-        this.PageWrapperUpdate(); 
+        this.UpdateCurrentBuilding(); 
     }
     Methods = 
     {
-        PageWrapperUpdate()
+        UpdateCurrentBuilding()
         {
             if(this.props.ChangeState)
             {

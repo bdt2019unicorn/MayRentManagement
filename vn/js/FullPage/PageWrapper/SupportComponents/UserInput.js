@@ -35,6 +35,12 @@ class UserInput extends BaseComponent
                     {
                         try {
                         var ComponentClass = window[component.component]; 
+                        if(!ComponentClass)
+                        {
+                            return (
+                                <div key={Math.random().toExponential(12).toString()}>{component.component}</div>
+                            ); 
+                        }
                         let name = component.name; 
                         return (
                             <MaterialUI.Grid
@@ -51,7 +57,7 @@ class UserInput extends BaseComponent
                                 />
                             </MaterialUI.Grid>); 
                         }
-                        catch(exception){console.log(exception); return <div key={Math.random().toExponential(10).toString()}>test</div>;}
+                        catch(exception){console.log(exception); console.log("not exist"); return <div key={Math.random().toExponential(10).toString()}>test</div>;}
                     }
                     
                 ); 
