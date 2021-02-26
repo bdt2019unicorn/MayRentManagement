@@ -2,12 +2,35 @@ class NumberInput extends SimpleInputComponent
 {
     render() 
     {
-        var ValueChange = value =>
-        {
-            console.log(value); 
-        }; 
+        var NumberFormatComponent = 
+        <NumberFormat 
+            thousandSeparator={true} 
+            name={this.props.name}
+            onValueChange=
+            {
+                value => 
+                {
+                    console.log(value); 
+                }
+            } 
+        />; 
         return (
-            <NumberFormat thousandSeparator={true} onValueChange={ValueChange} />
+            <MaterialUI.FormControl>
+                <label>{this.props.title}</label>
+                <NumberFormat 
+                    thousandSeparator={true} 
+                    id={this.props.name}
+                    name={this.props.name}
+                    onValueChange=
+                    {
+                        value => 
+                        {
+                            console.log(value); 
+                        }
+                    } 
+                />
+            </MaterialUI.FormControl>
+            
         );
     }
 }

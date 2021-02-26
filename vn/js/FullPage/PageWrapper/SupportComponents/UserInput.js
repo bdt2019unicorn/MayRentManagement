@@ -44,6 +44,7 @@ class UserInput extends BaseComponent
                         let name = component.name; 
                         return (
                             <MaterialUI.Grid
+                                className="p-2"
                                 item
                                 xs={12}
                                 md={12/(components.length)}
