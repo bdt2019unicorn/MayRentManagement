@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="css/issue.css">
     </head>
     <body>
-        <a href="." class="mx-3">Main Page</a>
+        <a href="./" class="mx-3">Main Page</a>
         <a href="issues.php" class="mx-3">Issues</a>
         <div class="container-fluid">
             <?php 
