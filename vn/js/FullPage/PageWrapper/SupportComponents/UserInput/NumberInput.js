@@ -1,4 +1,4 @@
-class NumberInput extends SimpleInputComponent
+class NumberInput extends UserInputComponent
 {
     render() 
     {
@@ -6,15 +6,11 @@ class NumberInput extends SimpleInputComponent
             <MaterialUI.FormControl fullWidth>
                 <label>{this.props.title}</label>
                 <NumberFormat 
+                    className="form-control"
                     thousandSeparator={true} 
                     name={this.props.name}
-                    onValueChange=
-                    {
-                        value => 
-                        {
-                            console.log(value); 
-                        }
-                    } 
+                    value={this.state.value}
+                    onValueChange={({value}) => this.setState({value})}
                 />
             </MaterialUI.FormControl>
             

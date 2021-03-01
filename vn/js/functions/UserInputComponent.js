@@ -4,12 +4,22 @@ class UserInputComponent extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
+        this.state = {value: this.InnitialValue()}; 
     }
     Methods = 
     {
         InnitialValue()
         {
             return this.props.edit_data? this.props.edit_data[this.props.name]: undefined; 
+        }, 
+        SimpleInputOnChange(event)
+        {
+            let state = {value: event.target.value}; 
+            this.setState(state); 
+            if(this.props.ValueChange)
+            {
+                this.props.ValueChange(state); 
+            }
         }, 
         ValidationObject()
         {
@@ -39,28 +49,5 @@ class UserInputComponent extends BaseComponent
                 helperText: this.ValidationHelperText(validations, "name") 
             }: validation_object
         }   
-    }
-}
-
-class SimpleInputComponent extends UserInputComponent 
-{
-    constructor(props)
-    {
-        super(props); 
-        BindFunctions(this); 
-        this.state = {value: this.InnitialValue()}; 
-    }
-    Methods = 
-    {
-        SimpleInputOnChange(event)
-        {
-            let value = event.target.value; 
-            let state = {value}; 
-            this.setState(state); 
-            if(this.props.ValueChange)
-            {
-                this.props.ValueChange(state); 
-            }
-        }
     }
 }

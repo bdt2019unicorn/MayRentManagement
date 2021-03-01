@@ -1,4 +1,4 @@
-class TextInput extends SimpleInputComponent
+class TextInput extends UserInputComponent
 {
     render() 
     {
@@ -19,7 +19,7 @@ class TextInput extends SimpleInputComponent
     }
 }
 
-class TextareaInput extends SimpleInputComponent
+class TextareaInput extends UserInputComponent
 {
     render() 
     {
@@ -27,6 +27,7 @@ class TextareaInput extends SimpleInputComponent
             <MaterialUI.FormControl fullWidth>
                 <label>{this.props.title}</label>
                 <MaterialUI.TextareaAutosize 
+                    className="form-control"
                     name={this.props.name} 
                     rowsMin={5} 
                     onChange={this.SimpleInputOnChange}
