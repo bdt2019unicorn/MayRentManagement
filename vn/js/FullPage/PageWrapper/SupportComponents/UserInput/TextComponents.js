@@ -2,16 +2,6 @@ class TextInput extends SimpleInputComponent
 {
     render() 
     {
-        var Change = event =>
-        {
-            let value = event.target.value; 
-            let state = {value}; 
-            this.setState(state); 
-            if(this.props.ValueChange)
-            {
-                this.props.ValueChange(state); 
-            }
-        }; 
         return (
             <MaterialUI.TextField 
                 size="medium"
@@ -22,14 +12,29 @@ class TextInput extends SimpleInputComponent
                 type={this.props.type} 
                 margin="normal"
                 variant="outlined"
-                onChange={Change}
+                onChange={this.SimpleInputOnChange}
                 {...this.ValidationObject()}
             />
         );
     }
 }
 
-
+class TextareaInput extends SimpleInputComponent
+{
+    render() 
+    {
+        return (
+            <MaterialUI.FormControl fullWidth>
+                <label>{this.props.title}</label>
+                <MaterialUI.TextareaAutosize 
+                    name={this.props.name} 
+                    rowsMin={5} 
+                    onChange={this.SimpleInputOnChange}
+                />
+            </MaterialUI.FormControl>
+        );
+    }
+}
 
 class TextGroupConfirmation extends BaseComponent
 {

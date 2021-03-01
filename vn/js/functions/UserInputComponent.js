@@ -47,6 +47,20 @@ class SimpleInputComponent extends UserInputComponent
     constructor(props)
     {
         super(props); 
+        BindFunctions(this); 
         this.state = {value: this.InnitialValue()}; 
+    }
+    Methods = 
+    {
+        SimpleInputOnChange(event)
+        {
+            let value = event.target.value; 
+            let state = {value}; 
+            this.setState(state); 
+            if(this.props.ValueChange)
+            {
+                this.props.ValueChange(state); 
+            }
+        }
     }
 }
