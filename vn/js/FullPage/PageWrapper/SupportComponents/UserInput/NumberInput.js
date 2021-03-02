@@ -2,15 +2,61 @@ class NumberInput extends UserInputComponent
 {
     render() 
     {
-        var validation_object; 
-        try {
-        validation_object = this.ValidationObject(); 
-        console.log(validation_object); 
-        }catch (exception){console.log(exception); }
-        var error = _.get(validation_object, "error"); 
+        ValidationWork: 
+        {
+            let this_validations = this.ThisValidations(); 
+            var error, required, helper_text; 
+            if(!this_validations)
+            {
+                break ValidationWork; 
+            }
+            required = this.ThisValidationsRequired(this_validations); 
+            let validations, numericality, numericality_keys; 
+
+            if(this_validations.numericality)
+            {
+                numericality_keys = Object.keys(this_validations.numericality); 
+                if(!numericality_keys.includes("message"))
+                {
+                    numericality = _.cloneDeep(this_validations.numericality); 
+                    delete this_validations.numericality; 
+                }
+            }
+
+            validations = this.ValidationObject(this_validations); 
+            error = _.get(validations, "error"); 
+            if(error)
+            {
+                helper_text = _.get(validations, "helperText"); 
+            }
+            else if(numericality)
+            {
+                for (let key of numericality_keys) 
+                {
+                    let rules = numericality[key]; 
+                    let rules_string = typeof(rules)=="string"; 
+                    let result = this.ValidationAction
+                    ( 
+                        {
+                            numericality: 
+                            {
+                                [key]: rules_string? true : _.get(rules, "attribute")
+                            }
+                        }
+                    ); 
+                    if(Boolean(result))
+                    {
+                        error = true; 
+                        helper_text = rules_string? rules: _.get(rules, "message"); 
+                        break ValidationWork; 
+                    }
+                }
+            }
+        }
+
         return (
             <MaterialUI.FormControl fullWidth error={error}>
-                <label className={error?"text-red": undefined}>{this.props.title+(_.get(validation_object, "required")?" *": "")}</label>
+                <label className={error?"text-red": undefined}>{this.props.title+(required?" *": "")}</label>
                 <NumberFormat 
                     className={`form-control mt-1 ${error?"border-red": ""}`}
                     thousandSeparator={true} 
@@ -19,8 +65,7 @@ class NumberInput extends UserInputComponent
                     onValueChange={({value}) => this.setState({value})}
                 />
                 {
-                    error && 
-                    <MaterialUI.FormHelperText>{_.get(validation_object, "helperText")}</MaterialUI.FormHelperText>
+                    error && <MaterialUI.FormHelperText>{helper_text}</MaterialUI.FormHelperText>
                 }
             </MaterialUI.FormControl>
             

@@ -12,7 +12,7 @@ class UserInput extends BaseComponent
             event.preventDefault(); 
             var form_data = new FormData(event.target); 
             var data = Object.fromEntries(form_data); 
-            let validation = validate(data, this.props.form.validate.rules); 
+            let validation = validate(data, this.ValidationRules()); 
             if(!validation)
             {
                 if(this.props.form.validate.eliminate)
@@ -22,6 +22,33 @@ class UserInput extends BaseComponent
                 this.props.FormSubmitValid(data); 
             }
         }, 
+        ValidationRules()
+        {
+            var rules = _.cloneDeep(this.props.form.validate.rules); 
+            for (let item in rules) 
+            {
+                if(rules[item].numericality)
+                {
+                    let numericality_keys = Object.keys(rules[item].numericality); 
+                    if(!numericality_keys.includes("message"))
+                    {
+                        let numericality = _.cloneDeep(rules[item].numericality); 
+                        rules[item].numericality = numericality_keys.reduce
+                        (
+                            (accumulator, current_value)=> 
+                            {
+                                let current_rule = numericality[current_value]; 
+                                return {
+                                    ...accumulator, 
+                                    [current_value]: (typeof(current_rule)=="string")? true: _.get(current_rule, "attribute")
+                                }
+                            }, {}
+                        ); 
+                    }
+                }
+            }
+            return rules; 
+        }
     }
     render() 
     {

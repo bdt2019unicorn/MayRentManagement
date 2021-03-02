@@ -64,6 +64,7 @@ function UserInputForm(controller)
     }
     catch (exception)
     {
+        console.log(exception); 
         return undefined; 
     }
 }

@@ -96,9 +96,12 @@
                 },  
                 "numericality": 
                 {
-                    "greaterThan": 0, 
-                    "onlyInteger": "Số phòng ngủ phải là số nguyên", 
-                    "message": "Số phòng ngủ phải lớn hơn 0" 
+                    "greaterThanOrEqualTo": 
+                    {
+                        "attribute": 0, 
+                        "message": "Số phòng ngủ phải lớn hơn 0"
+                    }, 
+                    "onlyInteger": "Số phòng tắm phải là số nguyên" 
                 }
             }, 
             "number_of_bathroom": 
@@ -110,9 +113,12 @@
                 },  
                 "numericality": 
                 {
-                    "greaterThan": 0, 
-                    "onlyInteger": "Số phòng tắm phải là số nguyên", 
-                    "message": "Số phòng tắm phải lớn hơn 0" 
+                    "greaterThanOrEqualTo": 
+                    {
+                        "attribute": 0, 
+                        "message": "Số phòng tắm phải lớn hơn 0"
+                    }, 
+                    "onlyInteger": "Số phòng tắm phải là số nguyên"
                 }
             }, 
             "number_of_windows": 
@@ -124,9 +130,12 @@
                 },  
                 "numericality": 
                 {
-                    "greaterThan": 0, 
-                    "onlyInteger": "Số cửa sổ phải là số nguyên", 
-                    "message": "Số cửa sổ phải lớn hơn 0" 
+                    "greaterThanOrEqualTo": 
+                    {
+                        "attribute": 0, 
+                        "message": "Số cửa sổ phải lớn hơn 0"
+                    }, 
+                    "onlyInteger": "Số cửa sổ phải là số nguyên" 
                 }
             }
         }

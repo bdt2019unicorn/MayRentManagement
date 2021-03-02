@@ -21,8 +21,8 @@ class UserInputComponent extends BaseComponent
                 this.props.ValueChange(state); 
             }
         }, 
-        ValidationObject()
-        {
+        ThisValidations()
+        {   
             var this_validations = _.cloneDeep(this.props.validations); 
             if(!this_validations)
             {
@@ -36,8 +36,25 @@ class UserInputComponent extends BaseComponent
             {
                 this_validations = _.cloneDeep(this_validations[this.props.name]); 
             }
-            let required = this_validations.presence? true: false; 
-            let validations = validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
+            return this_validations; 
+        }, 
+        ThisValidationsRequired(this_validations)
+        {
+            return Boolean(_.get(this_validations, "presence")); 
+        }, 
+        ValidationAction(this_validations)
+        {
+            return validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
+        }, 
+        ValidationObject(this_validations)
+        {
+            this_validations = this_validations || this.ThisValidations(); 
+            if(!this_validations)
+            {
+                return undefined; 
+            }
+            let required = this.ThisValidationsRequired(this_validations); 
+            let validations = this.ValidationAction(this_validations); 
             var validation_object = 
             {
                 required, 
