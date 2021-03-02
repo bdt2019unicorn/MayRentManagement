@@ -37,8 +37,6 @@ class UserInputComponent extends BaseComponent
                 this_validations = _.cloneDeep(this_validations[this.props.name]); 
             }
             let required = this_validations.presence? true: false; 
-            console.log(this.props.name); 
-            let test = [{[this.props.name]:this.state.value}, {[this.props.name]: this_validations}]; console.log(test); 
             let validations = validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
             var validation_object = 
             {
