@@ -2,8 +2,12 @@ class NumberInput extends UserInputComponent
 {
     render() 
     {
+        try {
+        var validation_object = this.ValidationObject(); 
+        console.log(validation_object); 
+        }catch (exception){console.log(exception); }
         return (
-            <MaterialUI.FormControl fullWidth>
+            <MaterialUI.FormControl fullWidth error>
                 <label>{this.props.title}</label>
                 <NumberFormat 
                     className="form-control"

@@ -1,17 +1,17 @@
 {
-    "title": "Unit",
+    "title": "Đơn vị",
     "form":
     [
         [
             {
                 "component": "TextInput",
                 "name": "name",
-                "title": "Name *"
+                "title": "Mã số đơn vị"
             },
             {
                 "component": "SelectInput",
                 "name": "building_id",
-                "title": "Building *",
+                "title": "Tòa nhà",
                 "overview_controller": "buildings",
                 "select_value": "id",
                 "text": "name"
@@ -21,36 +21,36 @@
             {
                 "component": "NumberInput",
                 "name": "area",
-                "title": "Area *"
+                "title": "Diện tích"
             },
             {
                 "component": "NumberInput",
                 "name": "number_of_bedrooms",
-                "title": "Number of Bedrooms *"
+                "title": "Số phòng ngủ"
             },
             {
                 "component": "NumberInput",
                 "name": "number_of_bathroom",
-                "title": "Number of Bathrooms *"
+                "title": "Số phòng tắm"
             },
             {
                 "component": "NumberInput",
                 "name": "number_of_windows",
-                "title": "Number of Windows *"
+                "title": "Số cửa sổ"
             }
         ], 
         [
             {
                 "component": "CheckboxInput",
                 "name": "balcony",
-                "title": "Balcony"
+                "title": "Ban công"
             }
         ],
         [
             {
                 "component": "TextareaInput",
                 "name": "note",
-                "title": "Note"
+                "title": "Ghi chú"
             }
         ]
     ],
@@ -60,16 +60,35 @@
         {
             "name":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             },
             "building_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Tên tòa nhà để trống"
+                }
             }, 
             "area": 
             {
-                "presence": true, 
-                "number_input_min": 0
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }, 
+                "numericality": 
+                {
+                    "greaterThan": 
+                    {
+                        "attribute": 0,
+                        "message":"Diện tích phải lớn hơn 0" 
+                    }
+                }
             }, 
             "number_of_bedrooms": 
             {

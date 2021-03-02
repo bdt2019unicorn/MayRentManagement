@@ -24,12 +24,13 @@ class SelectInput extends UserInputComponent
         }
     }
     render() {
+        var validation_object = this.ValidationObject(); 
         return (
-            <MaterialUI.FormControl fullWidth className="m-3">
-                <MaterialUI.InputLabel htmlFor={this.props.name}>{this.props.title}</MaterialUI.InputLabel>
+            <MaterialUI.FormControl fullWidth className="m-3" error={_.get(validation_object, "error")}>
+                <MaterialUI.InputLabel>{this.props.title}</MaterialUI.InputLabel>
                 <MaterialUI.NativeSelect 
                     value={this.state.value}
-                    inputProps={{name: this.props.name, id: this.props.name}}
+                    inputProps={{name: this.props.name}}
                     onChange={this.SimpleInputOnChange}
                 >
                     <option value="" />
@@ -37,6 +38,10 @@ class SelectInput extends UserInputComponent
                         this.state.options.map(({value, text})=><option key={value} value={value}>{text}</option>)
                     }
                 </MaterialUI.NativeSelect>
+                {
+                    _.get(validation_object, "error") && 
+                    <MaterialUI.FormHelperText>{_.get(validation_object, "helperText")}</MaterialUI.FormHelperText>
+                } 
             </MaterialUI.FormControl>
         );
     }
