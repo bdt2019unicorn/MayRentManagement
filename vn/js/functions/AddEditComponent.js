@@ -9,7 +9,8 @@ class AddEditComponent extends PageWrapperChildrenComponent
     componentDidUpdate(previous_props, previous_state)
     {
         let controller = this.CurrentController(); 
-        if(previous_props.controller!=controller)
+        let route_controller = _.get(previous_props, "match.params.controller"); 
+        if ( (previous_props.controller!=controller) && (controller!=route_controller) )
         {
             this.setState({form: this.LoadForm(controller)}); 
         }
@@ -27,8 +28,8 @@ class AddEditComponent extends PageWrapperChildrenComponent
     }
     render()
     {
-        return (
-            this.state.form?<UserInput FormSubmitValid={this.FormSubmitValid} form={this.state.form} container_width={this.props.container_width} edit_data={this.state.edit_data} />: null
-        ); 
+        return this.state.form? (
+            <UserInput FormSubmitValid={this.FormSubmitValid} form={this.state.form} container_width={this.props.container_width} edit_data={this.state.edit_data} />
+        ): null; 
     }
 }

@@ -17,6 +17,10 @@ class Add extends AddEditComponent
                 {
                     this.props.AuthorizeSuccess(data, Number(result)); 
                 }
+                else
+                {
+                    this.ReloadUserInput(); 
+                }
             }
             else 
             {
