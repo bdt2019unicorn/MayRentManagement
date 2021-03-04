@@ -54,7 +54,7 @@
                             <form> 
                                 <ReactDatetime
                                     className="full-width"
-                                    value={selectedDate}
+                                    value={undefined}
                                     onChange={handleDateChange}
                                     closeOnSelect={true}
                                     dateFormat="DD/MM/yyyy"
@@ -62,6 +62,7 @@
                                     inputProps=
                                     {
                                         {
+                                            // type: "hidden", 
                                             name: "test", 
                                             className: "form-control"
                                         }
