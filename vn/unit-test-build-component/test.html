@@ -52,9 +52,20 @@
                         try {
                         return (
                             <form> 
-                                <DatePicker 
+                                <ReactDatetime
+                                    className="full-width"
                                     value={selectedDate}
                                     onChange={handleDateChange}
+                                    closeOnSelect={true}
+                                    dateFormat="DD/MM/yyyy"
+                                    timeFormat={false}
+                                    inputProps=
+                                    {
+                                        {
+                                            name: "test", 
+                                            className: "form-control"
+                                        }
+                                    }
                                 />
                             </form>
                         ); 
@@ -70,15 +81,6 @@
 
                 ReactDOM.render(<Test />, document.getElementById("full_page")); 
             </script>
-            <!-- https://cdnjs.com/libraries/react-dates -->
-            <!-- https://cdnjs.com/libraries/react-day-picker -->.
-            <!-- https://projects.wojtekmaj.pl/react-date-picker/ -->
-            <!-- https://github.com/wojtekmaj/react-date-picker#readme
-            https://reactdatepicker.com/
-            https://www.npmjs.com/package/react-datetime -->
-
-
-
 
             <!-- https://www.npmjs.com/package/react-datetime -->
         </footer>
