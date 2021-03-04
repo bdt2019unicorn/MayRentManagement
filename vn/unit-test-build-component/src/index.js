@@ -1,2 +1,2 @@
-import NumberFormat from 'react-number-format';
-window.NumberFormat = NumberFormat; 
+import { DatePicker } from "@material-ui/pickers";
+window.MaterialUIDatePicker = DatePicker; 

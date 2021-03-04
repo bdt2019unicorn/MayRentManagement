@@ -45,11 +45,22 @@
                 {
                     render()
                     {
-                        let OnValueChange = (value)=>
+                        var selectedDate = new Date(); 
+                        var handleDateChange = (event)=>
                         {
-                            console.log(value); 
+                            console.log(event); 
                         }
-                        return <div><NumberFormat name="test" thousandSeparator={true} onValueChange={OnValueChange} /></div>
+                        try {
+                        return (
+                            <MaterialUIDatePicker
+                                variant="inline"
+                                label="Basic example"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                            />
+                        ); 
+                        } catch (exception){console.log(exception);}
+                        return null; 
                     }
                 }
 
