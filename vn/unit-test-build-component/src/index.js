@@ -1,2 +1,2 @@
-import { DatePicker } from "@material-ui/pickers";
-window.MaterialUIDatePicker = DatePicker; 
+import DatePicker from "react-date-picker"; 
+window.DatePicker = DatePicker; 
