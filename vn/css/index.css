@@ -8,19 +8,16 @@
     opacity: 0;
     position: absolute;
 }
-
 .file-upload-label
 {
     cursor: pointer;
 }
-
 .icon-same-line-word
 {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
-
 .scrolling-table-div
 {
     max-height: 75vh;
