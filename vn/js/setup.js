@@ -21,7 +21,6 @@ new Promise
         }
     }
 ); 
-
 function ValidationSetup()
 {
     validate.validators.notRequiredEmail = function(value, options, key, attributes) 
@@ -42,4 +41,31 @@ function ValidationSetup()
         ); 
         return Boolean(result)? _.get(options, "message"): "Không phải địa chỉ email"; 
     };
+    validate.validators.numeric = function(value, options, key, attributes)
+    {
+        var keys = Object.keys(options); 
+        for (let key_name of keys) 
+        {
+            let rules = options[key_name]; 
+            let rules_string = typeof(rules)=="string"; 
+            let result = validate 
+            ( 
+                attributes, 
+                {
+                    [key]: 
+                    {
+                        numericality: 
+                        {
+                            [key_name]: rules_string? true : _.get(rules, "attribute")
+                        }
+                    }
+                }
+            ); 
+            if(Boolean(result))
+            {
+                return rules_string? rules: _.get(rules, "message"); 
+            }
+        }
+        return undefined; 
+    }; 
 }

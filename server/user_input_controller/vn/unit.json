@@ -94,7 +94,7 @@
                     "allowEmpty": false, 
                     "message": "Số phòng ngủ để trống"
                 },  
-                "numericality": 
+                "numeric": 
                 {
                     "greaterThanOrEqualTo": 
                     {
@@ -111,7 +111,7 @@
                     "allowEmpty": false, 
                     "message": "Số phòng tắm để trống"
                 },  
-                "numericality": 
+                "numeric": 
                 {
                     "greaterThanOrEqualTo": 
                     {
@@ -128,7 +128,7 @@
                     "allowEmpty": false, 
                     "message": "Số cửa sổ để trống"
                 },  
-                "numericality": 
+                "numeric": 
                 {
                     "greaterThanOrEqualTo": 
                     {
