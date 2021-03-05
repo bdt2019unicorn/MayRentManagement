@@ -78,7 +78,7 @@ class UserInputFormControl extends React.Component
                 <label className={this.props.error?"text-red": undefined}>{this.props.title+(this.props.required?" *": "")}</label>
                 {this.props.children}
                 {
-                    this.props.error && <MaterialUI.FormHelperText>{this.props.helper_text}</MaterialUI.FormHelperText>
+                    this.props.error && <MaterialUI.FormHelperText>{this.props.helperText}</MaterialUI.FormHelperText>
                 }
             </MaterialUI.FormControl>         
         );

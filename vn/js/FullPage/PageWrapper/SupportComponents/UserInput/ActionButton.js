@@ -4,7 +4,7 @@ class SubmitButton extends React.Component
     {
         return (
             <MaterialUI.IconButton 
-                className="float-right" 
+                className={this.props.class || "float-right"}
                 title={this.props.title} 
                 type={this.props.type || "submit"} 
                 onClick={this.props.SubmitButtonClick?()=>this.props.SubmitButtonClick(): null}

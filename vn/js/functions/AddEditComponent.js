@@ -29,7 +29,13 @@ class AddEditComponent extends PageWrapperChildrenComponent
     render()
     {
         return this.state.form? (
-            <UserInput FormSubmitValid={this.FormSubmitValid} form={this.state.form} container_width={this.props.container_width} edit_data={this.state.edit_data} />
+            <UserInput 
+                container_width={this.props.container_width} 
+                edit_data={this.state.edit_data} 
+                FormSubmitValid={this.FormSubmitValid} 
+                form={this.state.form} 
+                ClearButton={this.Reset}
+            />
         ): null; 
     }
 }

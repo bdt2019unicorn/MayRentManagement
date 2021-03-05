@@ -52,6 +52,10 @@ class UserInput extends BaseComponent
     }
     render() 
     {
+        if(!this.props.form)
+        {
+            return null; 
+        }
         let form = this.props.form.form.map
         (
             components=> 
@@ -103,6 +107,13 @@ class UserInput extends BaseComponent
                     <form onSubmit={this.FormSubmit}>
                         {form}
                         <SubmitButton />
+                        <SubmitButton 
+                            class="float-left" 
+                            icon="clear" 
+                            SubmitButtonClick={this.props.ClearButton}
+                            title="Xóa"
+                            type="reset" 
+                        />
                     </form>
                 </MaterialUI.Container>
             </MaterialUI.Grid>

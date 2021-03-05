@@ -19,13 +19,17 @@ class Add extends AddEditComponent
                 }
                 else
                 {
-                    this.ReloadUserInput(); 
+                    this.Reset(); 
                 }
             }
             else 
             {
                 alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
             }
+        }, 
+        Reset()
+        {
+            this.ReloadUserInput(); 
         }
     }
 }
@@ -54,7 +58,7 @@ class Edit extends AddEditComponent
                 {
                     console.log("This will be taken care later "); 
                 }
-                this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()})); 
+                this.Reset(); 
             }
             else
             {
@@ -86,6 +90,10 @@ class Edit extends AddEditComponent
         {
             let data = this.TableData(this.CurrentController(), {id: this.ObjectId(), edit: 1}); 
             return data[0]; 
+        }, 
+        Reset()
+        {
+            this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()})); 
         }
     }
 }

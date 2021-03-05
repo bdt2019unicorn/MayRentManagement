@@ -57,7 +57,7 @@ class NumberInput extends UserInputComponent
             <UserInputFormControl 
                 error={error} 
                 required={required} 
-                helper_text={helper_text} 
+                helperText={helper_text} 
                 title={this.props.title}
             >
                 <NumberFormat 
