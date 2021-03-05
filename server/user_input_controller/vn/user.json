@@ -77,7 +77,7 @@
                 },
                 "email": 
                 {
-                    "message":"Định dạng không phải email"
+                    "message": "Định dạng không phải email"
                 }
             },
             "email_confirm":

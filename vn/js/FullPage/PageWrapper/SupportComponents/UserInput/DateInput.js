@@ -2,21 +2,26 @@ class DateInput extends UserInputComponent
 {
     render() 
     {
-        return <div>DateInput</div>; 
+        var value = this.state.value? moment(this.state.value): undefined; 
         return (
-            <React.Fragment>
-                <MaterialUI.FormControlLabel 
-                    label={this.props.title}
-                    control=
+            <UserInputFormControl title={this.props.title}>
+                <ReactDatetime
+                    className="width-full"
+                    value={value}
+                    onChange={value=>this.setState({value})}
+                    closeOnSelect={true}
+                    dateFormat="DD/MM/yyyy"
+                    timeFormat={false}
+                    inputProps=
                     {
-                        <MaterialUI.Checkbox 
-                            checked={Boolean(this.state.value)}
-                            onChange={event=>this.setState({value: event.target.checked})}
-                        />
+                        {
+                            name: this.props.name, 
+                            className: "form-control width-full"
+                        }
                     }
                 />
-                <input type="hidden" name={this.props.name} value={Number(Boolean(this.state.value))} />
-            </React.Fragment>
-        );
+            </UserInputFormControl>
+
+        ); 
     }
 }

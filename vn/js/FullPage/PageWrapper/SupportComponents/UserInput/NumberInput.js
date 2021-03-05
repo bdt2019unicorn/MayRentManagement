@@ -53,10 +53,13 @@ class NumberInput extends UserInputComponent
                 }
             }
         }
-
         return (
-            <MaterialUI.FormControl fullWidth error={error}>
-                <label className={error?"text-red": undefined}>{this.props.title+(required?" *": "")}</label>
+            <UserInputFormControl 
+                error={error} 
+                required={required} 
+                helper_text={helper_text} 
+                title={this.props.title}
+            >
                 <NumberFormat 
                     className={`form-control mt-1 ${error?"border-red": ""}`}
                     thousandSeparator={true} 
@@ -64,11 +67,7 @@ class NumberInput extends UserInputComponent
                     value={this.state.value}
                     onValueChange={({value}) => this.setState({value})}
                 />
-                {
-                    error && <MaterialUI.FormHelperText>{helper_text}</MaterialUI.FormHelperText>
-                }
-            </MaterialUI.FormControl>
-            
-        );
+            </UserInputFormControl>
+        ); 
     }
 }

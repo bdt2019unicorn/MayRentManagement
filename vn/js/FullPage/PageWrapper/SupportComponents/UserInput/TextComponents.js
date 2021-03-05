@@ -24,16 +24,15 @@ class TextareaInput extends UserInputComponent
     render() 
     {
         return (
-            <MaterialUI.FormControl fullWidth>
-                <label>{this.props.title}</label>
+            <UserInputFormControl title={this.props.title}>
                 <MaterialUI.TextareaAutosize 
                     className="form-control"
                     name={this.props.name} 
                     rowsMin={5} 
                     onChange={this.SimpleInputOnChange}
                 />
-            </MaterialUI.FormControl>
-        );
+            </UserInputFormControl>
+        ); 
     }
 }
 

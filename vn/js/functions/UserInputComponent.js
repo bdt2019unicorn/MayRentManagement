@@ -68,3 +68,19 @@ class UserInputComponent extends BaseComponent
         }   
     }
 }
+
+class UserInputFormControl extends React.Component
+{
+    render() 
+    {
+        return (
+            <MaterialUI.FormControl className="m-3" fullWidth error={this.props.error}>
+                <label className={this.props.error?"text-red": undefined}>{this.props.title+(this.props.required?" *": "")}</label>
+                {this.props.children}
+                {
+                    this.props.error && <MaterialUI.FormHelperText>{this.props.helper_text}</MaterialUI.FormHelperText>
+                }
+            </MaterialUI.FormControl>         
+        );
+    }
+}

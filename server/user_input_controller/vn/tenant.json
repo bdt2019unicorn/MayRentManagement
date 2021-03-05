@@ -21,8 +21,7 @@
             {
                 "component": "DateInput",
                 "name": "date_of_birth",
-                "title": "Date of Birth *",
-                "presence": true
+                "title": "Date of Birth *"
             }
         ],
         [
@@ -112,27 +111,59 @@
         {
             "last_name":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             },
+            "date_of_birth": 
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
+            }, 
             "passport_id_number":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             },
             "Nationality":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             }, 
             "building_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             }, 
             "mobile_phone":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             },
             "personal_email": 
             {
-                "presence": true, 
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }, 
                 "email": true 
             }, 
             "work_email": 
@@ -141,7 +172,11 @@
             }, 
             "company_name":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã số đơn vị để trống"
+                }
             }
         }
     }
