@@ -1,51 +1,51 @@
 {
-    "title": "Tenant",
+    "title": "Người thuê nhà",
     "form":
     [
         [
             {
                 "component": "TextInput",
                 "name": "first_name",
-                "title": "First Name"
+                "title": "Tên"
             },
             {
                 "component": "TextInput",
                 "name": "middle_name",
-                "title": "Middle Name"
+                "title": "Tên đệm"
             },
             {
                 "component": "TextInput",
                 "name": "last_name",
-                "title": "Last Name *"
+                "title": "Họ"
             },
             {
                 "component": "DateInput",
                 "name": "date_of_birth",
-                "title": "Date of Birth *"
+                "title": "Ngày sinh"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "passport_id_number",
-                "title": "Passport/ID Number *"
+                "title": "Số hộ chiếu/CMND"
             },
             {
                 "component": "TextInput",
                 "name": "Nationality",
-                "title": "Nationality *"
+                "title": "Quốc tịch"
             }, 
             {
                 "component": "DateInput",
                 "name": "visa_expiry_date",
-                "title": "Visa expiry date" 
+                "title": "Ngày hết hạn thị thực" 
             }
         ],
         [
             {
                 "component": "SelectInput",
                 "name": "building_id",
-                "title": "Building *",
+                "title": "Tòa nhà",
                 "overview_controller": "buildings",
                 "select_value": "id",
                 "text": "name"
@@ -53,55 +53,55 @@
             {
                 "component": "DateInput",
                 "name": "police_registration_date",
-                "title": "Residential registration date (police)" 
+                "title": "Ngày khai tạm trú qua mạng" 
             },             
             {
                 "component": "DateInput",
                 "name": "expected_departure_date",
-                "title": "Expected departure date (police)" 
+                "title": "Ngày đi dự kiến đăng ký với CA" 
             }
         ], 
         [
             {
                 "component": "TextInput",
                 "name": "mobile_phone",
-                "title": "Mobile Phone *"
+                "title": "Số điện thoại"
             },
             {
                 "component": "TextInput",
                 "name": "work_phone",
-                "title": "Work Phone"
+                "title": "Số điện thoại công ti"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "personal_email",
-                "title": "Personal Email *"
+                "title": "Địa chỉ email"
             },
             {
                 "component": "TextInput",
                 "name": "work_email",
-                "title": "Work Email *"
+                "title": "Địa chỉ email công ti"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "company_name",
-                "title": "Company Name *"
+                "title": "Tên công ti"
             },
             {
                 "component": "TextInput",
                 "name": "company_address",
-                "title": "Company Address"
+                "title": "Địa chỉ công ti"
             }
         ],
         [
             {
                 "component": "TextareaInput",
                 "name": "note",
-                "title": "Note"
+                "title": "Ghi chú"
             }
         ]
     ],
@@ -114,7 +114,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Họ người thuê để trống"
                 }
             },
             "date_of_birth": 
@@ -122,7 +122,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Ngày sinh để trống"
                 }
             }, 
             "passport_id_number":             
@@ -130,7 +130,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Số hộ chiếu/CMND để trống"
                 }
             },
             "Nationality":             
@@ -138,7 +138,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Quốc tịch để trống"
                 }
             }, 
             "building_id":             
@@ -146,7 +146,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Người thuê nhà không thuộc nhà nào"
                 }
             }, 
             "mobile_phone":             
@@ -154,7 +154,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Số điện thoại để trống"
                 }
             },
             "personal_email": 
@@ -162,20 +162,23 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Địa chỉ email để trống"
                 }, 
                 "email": true 
             }, 
             "work_email": 
             {
-                "email": true
+                "notRequiredEmail": 
+                {
+                    "message": "Định dạng không phải email"
+                } 
             }, 
             "company_name":             
             {
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Mã số đơn vị để trống"
+                    "message": "Tên công ti để trống"
                 }
             }
         }

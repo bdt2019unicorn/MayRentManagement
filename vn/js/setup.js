@@ -11,6 +11,7 @@ new Promise
     {
         if(Number(result))
         {
+            ValidationSetup(); 
             var setup = new PageSetup(); 
             ReactDOM.render(setup.FullPage(), document.getElementById("full_page"));
         }
@@ -20,3 +21,25 @@ new Promise
         }
     }
 ); 
+
+function ValidationSetup()
+{
+    validate.validators.notRequiredEmail = function(value, options, key, attributes) 
+    {
+        if(!Boolean(value))
+        {
+            return undefined; 
+        }
+        var result = validate
+        (
+            attributes, 
+            {
+                [key]: 
+                {
+                    email: true 
+                }
+            }
+        ); 
+        return Boolean(result)? _.get(options, "message"): "Không phải địa chỉ email"; 
+    };
+}
