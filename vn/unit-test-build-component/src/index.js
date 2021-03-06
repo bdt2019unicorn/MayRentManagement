@@ -1,3 +1,8 @@
-import "react-datetime/css/react-datetime.css";
-import Datetime from "react-datetime"; 
-window.ReactDatetime = Datetime; 
+import React, { Component } from 'react'
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+window.ReactSelect = {Select, makeAnimated}; 
+window.TestSelect = (props)=>
+(
+    <Select {...props} />
+); 
