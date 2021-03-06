@@ -37,7 +37,36 @@
 
             
             <script type="text/babel">
-                
+
+                function CreateOptions()
+                {
+                    var options = 
+                        [
+                            {
+                                "id": "5507c0528152e61f3c348d56",
+                                "name": "elit laborum et",
+                                "size": "Large"
+                            },
+                            {
+                                "id": "5507c0526305bceb0c0e2c7a",
+                                "name": "dolor nulla velit",
+                                "size": "Medium"
+                            }
+                        ]; 
+                        for (let index = 0; index < 20; index++) 
+                        {
+                            var option = 
+                            {
+                                id: index + encodeURIComponent(Math.random()) + Math.random(), 
+                                name: index + encodeURIComponent(Math.random()), 
+                                size: index 
+                            }
+                            options.push(option); 
+                        }
+                        return options; 
+                }
+
+                const select_options = CreateOptions();                 
                 
                 
                 
@@ -48,15 +77,14 @@
                         // var Select = ReactSelect.Select; 
                         // var makeAnimated = ReactSelect.makeAnimated; 
                         // const animatedComponents = makeAnimated();
-                        const options = 
-                        [
-                            { value: 'chocolate', label: 'Chocolate' },
-                            { value: 'strawberry', label: 'Strawberry' },
-                            { value: 'vanilla', label: 'Vanilla' }
-                        ]; 
+
+                        var Change = (option)=>
+                        {
+                            console.log(option); 
+                        }; 
                         try {
                         return (
-                            <ReactSelect />
+                            <ReactSuperSelect onChange={Change} dataSource={select_options} />
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 
