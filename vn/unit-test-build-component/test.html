@@ -44,33 +44,6 @@
                 {
                     render()
                     {
-                        var selectedDate = new Date(); 
-                        var handleDateChange = (event)=>
-                        {
-                            console.log(event); 
-                        }
-                        try {
-                        return (
-                            <form> 
-                                <ReactDatetime
-                                    className="full-width"
-                                    value={undefined}
-                                    onChange={handleDateChange}
-                                    closeOnSelect={true}
-                                    dateFormat="DD/MM/yyyy"
-                                    timeFormat={false}
-                                    inputProps=
-                                    {
-                                        {
-                                            // type: "hidden", 
-                                            name: "test", 
-                                            className: "form-control"
-                                        }
-                                    }
-                                />
-                            </form>
-                        ); 
-                        } catch (exception){console.log(exception);}
                         return null; 
                     }
                 }
@@ -82,8 +55,6 @@
 
                 ReactDOM.render(<Test />, document.getElementById("full_page")); 
             </script>
-
-            <!-- https://www.npmjs.com/package/react-datetime -->
         </footer>
     </body>
 </html>

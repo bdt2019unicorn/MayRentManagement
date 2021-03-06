@@ -40,95 +40,17 @@
 
             
             <script src="js/functions/support.js"></script>
-            <script type="text/babel" src="js/functions/BaseComponent.js"></script>
-            <script type="text/babel" src="js/functions/PageSetup.js"></script>
-            <script type="text/babel" src="js/functions/UserInputComponent.js"></script>
-            <script type="text/babel" src="js/functions/AddEditComponent.js"></script>
-            <script type="text/babel" src="js/functions/AuthorizedComponent.js"></script>
 
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/NumberInput.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-select/4.2.1/react-select.cjs.js" integrity="sha512-tXjEPfcs3+8ODA7pVDfd6mZCGXybtuecI8CQkIJOYid0GGEyW8MbK0o8UclNbNLTowh78PRCMh1kPw+7bKXQUQ==" crossorigin="anonymous"></script>
             
             <script type="text/babel">
-                
-                
-                class BaseComponent extends React.Component
-                {
-                    constructor(props)
-                    {
-                        super(props); 
-                    }
-                    render()
-                    {
-                        return (
-                            <div>
-                                <button type="button" onClick={this.props.ExtensionTest}>ExtensionTest</button>
-                            </div>
-                        ); 
-                    }
-                }
-
-
-
-
-
-                class Base extends React.Component
-                {
-                    constructor(props)
-                    {
-                        super(props); 
-                        BindFunctions(this); 
-                    }
-                    Methods =  
-                    {
-                        BaseTest()
-                        {
-                            console.log("I am the base method"); 
-                        }
-                    }
-                    render()
-                    {
-                        return (
-                            <div>
-                                <button onClick={this.BaseTest}>BaseMethod</button>
-                                <BaseComponent ExtensionTest={this.ExtensionTest} />
-                            </div>
-                        ); 
-                    }
-                }
-
-                class Extension extends Base 
-                {
-                    constructor(props)
-                    {
-                        super(props); 
-                        BindFunctions(this); 
-                    }
-                    Methods = 
-                    {
-                        ExtensionTest()
-                        {
-                            console.log("I am the extension method"); 
-                        }
-                    }
-                }
 
                                 
                 class Test extends React.Component 
                 {
                     render()
                     {
-                        let OnValueChange = (value)=>
-                        {
-                            console.log(value); 
-                        }
-                        // return <div>
-                        //     <NumberFormat name="test" thousandSeparator={true} onValueChange={OnValueChange} />
-                        //     <NumberInput />
-                        // </div>
-                        return (
-                            <Extension />
-                        ); 
-
+                        return null; 
                     }
                 }
 
