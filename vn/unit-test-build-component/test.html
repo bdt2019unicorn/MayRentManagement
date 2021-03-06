@@ -74,17 +74,15 @@
                 {
                     render()
                     {
-                        // var Select = ReactSelect.Select; 
-                        // var makeAnimated = ReactSelect.makeAnimated; 
-                        // const animatedComponents = makeAnimated();
 
+                        try {
+                        var Multiselect = ReactWidgets.Multiselect; 
                         var Change = (option)=>
                         {
                             console.log(option); 
                         }; 
-                        try {
                         return (
-                            <ReactSuperSelect onChange={Change} dataSource={select_options} />
+                            <Multiselect onChange={Change} data={select_options}  valueField='id' textField='name' />
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 

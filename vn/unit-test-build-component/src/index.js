@@ -1,2 +1,3 @@
-import "react-super-select/lib/react-super-select.css"; 
-window.ReactSuperSelect = require('react-super-select');
+import 'react-widgets/dist/css/react-widgets.css';
+import { Multiselect, DropdownList } from "react-widgets"; 
+window.ReactWidgets = { Multiselect, DropdownList }; 
