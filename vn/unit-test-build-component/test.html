@@ -53,9 +53,12 @@
                             { value: 'strawberry', label: 'Strawberry' },
                             { value: 'vanilla', label: 'Vanilla' }
                         ]; 
+                        try {
                         return (
-                            <ReactSelect options={options} />
+                            <ReactSelect />
                         ); 
+                        }catch(exception){console.log(exception); }
+                        return null; 
                     }
                 }
 
