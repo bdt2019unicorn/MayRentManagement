@@ -1,11 +1,15 @@
 class DateGroup extends UserInputComponent
 {
-    render() 
+    constructor(props)
     {
-        var Grid = MaterialUI.Grid; 
-        var DateInputProps= (group)=>
-        (
-            {
+        super(props); 
+        BindFunctions(this); 
+    }
+    Methods = 
+    {
+        DateInputProps(group)
+        {
+            return {
                 ...this.props.date_data[group], 
                 edit_data: this.props.edit_data, 
                 validations: this.props.validations,  
@@ -16,16 +20,19 @@ class DateGroup extends UserInputComponent
                         value: (this.state.value || 1) + 1 
                     }
                 )
-            }
-        ); 
-
+            }; 
+        }
+    }
+    render() 
+    {
+        var Grid = MaterialUI.Grid; 
         return (
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <DateInput {...DateInputProps("small_date")} />
+                    <DateInput {...this.DateInputProps("small_date")} />
                 </Grid>
                 <Grid item xs={6}>
-                    <DateInput {...DateInputProps("big_date")} />
+                    <DateInput {...this.DateInputProps("big_date")} />
                 </Grid>
             </Grid>
         );
