@@ -86,14 +86,12 @@
                     "small_date":
                     {
                         "name": "deposit_payment_date",
-                        "title": "Deposit Payment Date",
-                        "message": "The deposite payment date should be before the deposite payback date"
+                        "title": "Deposit Payment Date"
                     },
                     "big_date":
                     {
                         "name": "deposit_payback_date",
-                        "title": "Deposit Payback Date",
-                        "message": "The deposite payback date should be after the deposite payment date"
+                        "title": "Deposit Payback Date"
                     }
                 }
             }
@@ -163,20 +161,30 @@
             },
             "start_date": 
             {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Ngày bắt đầu hợp đồng để trống"
+                }, 
                 "smallDate": 
                 {
                     "attribute": "finish", 
                     "message": "Ngày bắt đầu hợp đồng phải nhỏ hơn ngày kết thúc hợp đồng", 
-                    "presence": "Ngày bắt đầu hợp đồng để trống"
+                    "presence": true 
                 }
             }, 
             "finish": 
             {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Ngày kết thúc hợp đồng để trống"
+                }, 
                 "bigDate": 
                 {
                     "attribute": "start_date", 
                     "message": "Ngày kết thúc hợp đồng phải lớn hơn ngày bắt đầu hợp đồng", 
-                    "presence": "Ngày kết thúc hợp đồng để trống"
+                    "presence": true 
                 }
             }, 
             "rent_amount": 
@@ -213,6 +221,22 @@
                     "message": "Diện tích phải lớn hơn 0" 
                 }
             },  
+            "deposit_payment_date":
+            {
+                "smallDate": 
+                {
+                    "attribute": "deposit_payback_date", 
+                    "message": "Ngày trả tiền cọc phải nhỏ hơn ngày hoàn tiền cọc" 
+                }
+            },
+            "deposit_payback_date":
+            {
+                "bigDate": 
+                {
+                    "attribute": "deposit_payment_date", 
+                    "message": "Ngày hoàn tiền cọc phải lớn hơn ngày trả tiền cọc"
+                }
+            }, 
             "monthly_payment_date":
             {
                 "presence": 

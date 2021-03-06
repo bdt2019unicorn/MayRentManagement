@@ -87,28 +87,7 @@ function ValidationSetup()
     var DateGroupValidation = function(value, options, key, attributes, callback)
     {
         var presence = _.get(options, "presence"); 
-        if(presence)
-        {
-            let result = validate
-            (
-                attributes, 
-                {
-                    [key]: 
-                    {
-                        presence: 
-                        {
-                            allowEmpty: false, 
-                            message: presence
-                        }
-                    }
-                }
-            ); 
-            if(result)
-            {
-                return presence; 
-            }
-        }
-        else if(!value)
+        if(!presence && !value)
         {
             return undefined; 
         }
@@ -134,7 +113,7 @@ function ValidationSetup()
     {
         var callback = (current_date, compare_date)=>
         {
-            var result = current_date.isSameOrBefore(compare_date); 
+            var result = current_date? current_date.isSameOrBefore(compare_date): undefined; 
             return result ? undefined : (_.get(options, "message") || `${key} phải nhỏ hơn ${_.get(options, "attributes")}`);  
         }; 
         return DateGroupValidation(value, options, key, attributes, callback); 
@@ -143,7 +122,7 @@ function ValidationSetup()
     {
         var callback = (current_date, compare_date)=>
         {
-            var result = current_date.isSameOrAfter(compare_date); 
+            var result = current_date? current_date.isSameOrAfter(compare_date): undefined; 
             return result ? undefined : (_.get(options, "message") || `${key} phải lớn hơn ${_.get(options, "attributes")}`);  
         }; 
         return DateGroupValidation(value, options, key, attributes, callback); 
