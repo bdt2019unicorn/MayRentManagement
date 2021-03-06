@@ -119,6 +119,7 @@ function ValidationSetup()
         {
             var date = document.getElementById(_.get(options, "attribute")); 
             var value = _.get(date, "value"); 
+            console.log(value); 
             return value? moment(value, date_format) : undefined; 
         }; 
 
