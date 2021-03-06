@@ -112,11 +112,10 @@ function ValidationSetup()
         {
             return undefined; 
         }
-
         
-        var date_format = "DD/MM/YYYY"; 
         var DateCompare = function(options)
         {
+            var date_format = "DD/MM/YYYY"; 
             var date = document.getElementById(_.get(options, "attribute")); 
             var value = _.get(date, "value"); 
             return value? moment(value, date_format) : undefined; 
@@ -128,8 +127,7 @@ function ValidationSetup()
         {
             return undefined; 
         }
-        var current_date = moment(value, date_format); 
-        return callback(current_date, compare_date); 
+        return callback(value, compare_date); 
     }; 
 
     validate.validators.smallDate = function(value, options, key, attributes)

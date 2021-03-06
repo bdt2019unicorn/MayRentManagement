@@ -4,39 +4,35 @@ class DateInput extends UserInputComponent
     {
         super(props); 
         BindFunctions(this); 
+        this.state.validation_object = this.ValidationObject(); 
     }
     Methods =
     {
         ValueStateChange(value = undefined)
         {
+            this.setState({value}); 
             if(this.props.ValueStateChange)
             {
-                this.props.ValueStateChange(value); 
-            }
-            else
-            {
-                this.setState({value}); 
+                this.props.ValueStateChange(); 
             }
         }
     }
     componentDidUpdate(previous_props, previous_state)
     {
-        if(this.props.compare!=previous_props.compare)
+        if
+        ( 
+            (previous_state.value==this.state.value) && 
+            (previous_props.compare == this.props.compare) 
+        )
         {
-            this.ResetStateValue
-            (
-                {
-                    value_name: "value", 
-                    new_value: this.state.value? moment(this.state.value): undefined  
-                }
-            ); 
+            return; 
         }
+        this.setState({validation_object: this.ValidationObject()}); 
     }
     render() 
     {
         var value = this.state.value? moment(this.state.value): undefined; 
-        var validation_object = this.ValidationObject(); 
-        let error = _.get(validation_object, "error"); 
+        let error = _.get(this.state.validation_object, "error"); 
         var input_props = 
         {
             id: this.props.name, 
@@ -56,7 +52,7 @@ class DateInput extends UserInputComponent
             top: error? "35%": "50%"
         }; 
         return (
-            <UserInputFormControl title={this.props.title} {...validation_object}>
+            <UserInputFormControl title={this.props.title} {...this.state.validation_object}>
                 <ReactDatetime
                     className="width-full mt-1"
                     value={value}
