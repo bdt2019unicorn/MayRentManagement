@@ -27,7 +27,7 @@ class SelectInput extends UserInputComponent
         var validation_object = this.ValidationObject(); 
         return (
             <MaterialUI.FormControl fullWidth className="m-3" error={_.get(validation_object, "error")}>
-                <MaterialUI.InputLabel>{this.props.title}</MaterialUI.InputLabel>
+                <MaterialUI.InputLabel>{this.props.title + ((_.get(validation_object, "required")?" *": ""))}</MaterialUI.InputLabel>
                 <MaterialUI.NativeSelect 
                     value={this.state.value}
                     inputProps={{name: this.props.name}}

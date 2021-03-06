@@ -68,4 +68,86 @@ function ValidationSetup()
         }
         return undefined; 
     }; 
+    validate.validators.step = function(value, options, key, attributes)
+    {
+        let step = Number(_.get(options, "attribute")); 
+        if(isNaN(step))
+        {
+            return undefined; 
+        }
+        value = Number(value); 
+        var message = _.get(options, "message") || `Giá trị chia hết cho ${step}`; 
+        if(isNaN(value))
+        {
+            return message; 
+        }
+        return (value%step) ? message: undefined; 
+    }; 
+
+    var DateGroupValidation = function(value, options, key, attributes, callback)
+    {
+        var presence = _.get(options, "presence"); 
+        if(presence)
+        {
+            let result = validate
+            (
+                attributes, 
+                {
+                    [key]: 
+                    {
+                        presence: 
+                        {
+                            allowEmpty: false, 
+                            message: presence
+                        }
+                    }
+                }
+            ); 
+            if(result)
+            {
+                return presence; 
+            }
+        }
+        else if(!value)
+        {
+            return undefined; 
+        }
+
+        
+        var date_format = "DD/MM/YYYY"; 
+        var DateCompare = function(options)
+        {
+            var date = document.getElementById(_.get(options, "attribute")); 
+            var value = _.get(date, "value"); 
+            return value? moment(value, date_format) : undefined; 
+        }; 
+
+
+        var compare_date = DateCompare(options); 
+        if(!compare_date)
+        {
+            return undefined; 
+        }
+        var current_date = moment(value, date_format); 
+        return callback(current_date, compare_date); 
+    }; 
+
+    validate.validators.smallDate = function(value, options, key, attributes)
+    {
+        var callback = (current_date, compare_date)=>
+        {
+            var result = current_date.isSameOrBefore(compare_date); 
+            return result ? undefined : (_.get(options, "message") || `${key} phải nhỏ hơn ${_.get(options, "attributes")}`);  
+        }; 
+        return DateGroupValidation(value, options, key, attributes, callback); 
+    }; 
+    validate.validators.bigDate = function(value, options, key, attributes)
+    {
+        var callback = (current_date, compare_date)=>
+        {
+            var result = current_date.isSameOrAfter(compare_date); 
+            return result ? undefined : (_.get(options, "message") || `${key} phải lớn hơn ${_.get(options, "attributes")}`);  
+        }; 
+        return DateGroupValidation(value, options, key, attributes, callback); 
+    }; 
 }

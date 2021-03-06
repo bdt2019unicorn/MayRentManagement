@@ -1,5 +1,25 @@
 class DateInput extends UserInputComponent
 {
+    constructor(props)
+    {
+        super(props); 
+        BindFunctions(this); 
+    }
+    Methods =
+    {
+        ValueStateChange(value = undefined)
+        {
+            if(this.props.ValueStateChange)
+            {
+                this.props.ValueStateChange(); 
+            }
+            this.setState({value}); 
+            // else
+            // {
+            //     this.setState({value}); 
+            // }
+        }
+    }
     render() 
     {
         var value = this.state.value? moment(this.state.value): undefined; 
@@ -7,6 +27,7 @@ class DateInput extends UserInputComponent
         let error = _.get(validation_object, "error"); 
         var input_props = 
         {
+            id: this.props.name, 
             name: this.props.name, 
             className: "form-control width-full "+ (error? "border border-red": ""), 
             readOnly: true 
@@ -27,7 +48,7 @@ class DateInput extends UserInputComponent
                 <ReactDatetime
                     className="width-full mt-1"
                     value={value}
-                    onChange={value=>this.setState({value})}
+                    onChange={this.ValueStateChange}
                     closeOnSelect={true}
                     dateFormat="DD/MM/yyyy"
                     timeFormat={false}
@@ -37,7 +58,7 @@ class DateInput extends UserInputComponent
                     size="small" 
                     className="mr-3"
                     style={clear_button_style}
-                    onClick={()=>this.setState({value: undefined})}
+                    onClick={()=>this.ValueStateChange()}
                 >
                     <MaterialUI.Icon fontSize="small">clear</MaterialUI.Icon>
                 </MaterialUI.IconButton>

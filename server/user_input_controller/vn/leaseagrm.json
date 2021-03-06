@@ -55,16 +55,12 @@
                     "small_date":
                     {
                         "name": "start_date",
-                        "title": "Start Date",
-                        "presence": true,
-                        "message": "The start date should be before the end date"
+                        "title": "Start Date"
                     },
                     "big_date":
                     {
                         "name": "finish",
-                        "title": "End Date",
-                        "presence": true,
-                        "message": "The end date should be after the start date"
+                        "title": "End Date"
                     }
                 }
             }
@@ -143,40 +139,113 @@
         {
             "name":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }
             },
             "tenant_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }
             },
             "unit_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }
             },
+            "start_date": 
+            {
+                "smallDate": 
+                {
+                    "attribute": "finish", 
+                    "message": "Ngày bắt đầu hợp đồng phải nhỏ hơn ngày kết thúc hợp đồng", 
+                    "presence": "Ngày bắt đầu hợp đồng để trống"
+                }
+            }, 
+            "finish": 
+            {
+                "bigDate": 
+                {
+                    "attribute": "start_date", 
+                    "message": "Ngày kết thúc hợp đồng phải lớn hơn ngày bắt đầu hợp đồng", 
+                    "presence": "Ngày kết thúc hợp đồng để trống"
+                }
+            }, 
             "rent_amount": 
             {
-                "presence": true, 
-                "number_input_min": 0 
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }, 
+                "numericality": 
+                {
+                    "greaterThan": 0, 
+                    "message": "Diện tích phải lớn hơn 0" 
+                }
             }, 
             "leaseagrm_period_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }
             }, 
             "deposit_amount":
             {
-                "presence": true, 
-                "number_input_min": 0 
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }, 
+                "numericality": 
+                {
+                    "greaterThan": 0, 
+                    "message": "Diện tích phải lớn hơn 0" 
+                }
             },  
             "monthly_payment_date":
             {
-                "presence": true,
-                "step": 1,
-                "min": 1,
-                "max": 28
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Diện tích để trống"
+                }, 
+                "step":
+                {
+                    "attribute": 1, 
+                    "message": "Ngày trả tiền mỗi tháng phải chia hết cho 1"
+                }, 
+                "numeric": 
+                { 
+                    "greaterThanOrEqualTo": 
+                    {
+                        "attribute": 1, 
+                        "message": "Ngày trả tiền mỗi tháng phải nhỏ hơn hoặc bằng 1"
+                    }, 
+                    "lessThanOrEqualTo": 
+                    {
+                        "attribute": 28, 
+                        "message": "Ngày trả tiền mỗi tháng phải lớn hơn hoặc bằng 28"
+                    }
+                }
             }, 
             "deposit_exchange_rate": 
             {
-                "number_input_min": 0 
+                "numericality": 
+                {
+                    "greaterThan": 0, 
+                    "message": "Diện tích phải lớn hơn 0" 
+                }
             }
         }
     }

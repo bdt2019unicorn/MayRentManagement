@@ -74,7 +74,7 @@ class UserInputFormControl extends React.Component
     render() 
     {
         return (
-            <MaterialUI.FormControl className="m-3" fullWidth error={this.props.error}>
+            <MaterialUI.FormControl className="m-2" fullWidth error={this.props.error}>
                 <label className={this.props.error?"text-red": undefined}>{this.props.title+(this.props.required?" *": "")}</label>
                 {this.props.children}
                 {
