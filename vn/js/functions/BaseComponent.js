@@ -88,7 +88,7 @@ class BaseComponent extends React.Component
         {
             let name = this.props[props_name]; 
             let replace_name = ( name.charAt(0).toUpperCase() + name.slice(1) ).replaceAll("_", " "); 
-            return validations[name][0].replace(replace_name, "").trim()
+            return validations[name][0].replaceAll(replace_name, "").trim()
         }
     }
 }

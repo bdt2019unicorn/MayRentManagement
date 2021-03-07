@@ -44,13 +44,6 @@ class DateInput extends UserInputComponent
         {
             input_props["value"] = ""; 
         }
-        var clear_button_style = 
-        {
-            width: "5%",
-            position: "absolute",
-            right: 0,
-            top: error? "35%": "50%"
-        }; 
         return (
             <UserInputFormControl title={this.props.title} {...this.state.validation_object}>
                 <ReactDatetime
@@ -62,14 +55,10 @@ class DateInput extends UserInputComponent
                     timeFormat={false}
                     inputProps={input_props}
                 />
-                <MaterialUI.IconButton 
-                    size="small" 
-                    className="mr-3"
-                    style={clear_button_style}
-                    onClick={()=>this.ValueStateChange()}
-                >
-                    <MaterialUI.Icon fontSize="small">clear</MaterialUI.Icon>
-                </MaterialUI.IconButton>
+                <ClearButton 
+                    error={error}  
+                    ClearButtonClick={()=>this.ValueStateChange()}
+                />
             </UserInputFormControl>
 
         ); 

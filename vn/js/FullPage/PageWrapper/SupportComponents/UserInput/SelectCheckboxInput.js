@@ -1,33 +1,9 @@
-class SelectInput extends UserInputComponent
+class SelectInput extends SelectComponent
 {
-    constructor(props)
-    {
-        super(props); 
-        BindFunctions(this); 
-        this.state = {...this.state, options: this.PopulateSelectData()}; 
-    }
-    Methods =
-    {
-        PopulateSelectData()
-        {
-            var select_data = this.props.select_data || this.TableData(this.props.overview_controller, {edit: 1});
-            return select_data.map
-            (
-                option=>
-                (
-                    {
-                        value: option[this.props.select_value], 
-                        text: option[this.props.text]
-                    }
-                )
-            ); 
-        }
-    }
     render() {
         var validation_object = this.ValidationObject(); 
         return (
-            <MaterialUI.FormControl fullWidth className="m-3" error={_.get(validation_object, "error")}>
-                <MaterialUI.InputLabel>{this.props.title + ((_.get(validation_object, "required")?" *": ""))}</MaterialUI.InputLabel>
+            <SelectInputFormControl validation_object={validation_object} title={this.props.title}>
                 <MaterialUI.NativeSelect 
                     value={this.state.value}
                     inputProps={{name: this.props.name}}
@@ -38,16 +14,43 @@ class SelectInput extends UserInputComponent
                         this.state.options.map(({value, text})=><option key={value} value={value}>{text}</option>)
                     }
                 </MaterialUI.NativeSelect>
-                {
-                    _.get(validation_object, "error") && 
-                    <MaterialUI.FormHelperText>{_.get(validation_object, "helperText")}</MaterialUI.FormHelperText>
-                } 
-            </MaterialUI.FormControl>
+            </SelectInputFormControl>
         );
     }
 }
 
-
+class MultiSelectValue extends SelectComponent
+{
+    render() 
+    {
+        return (
+            <UserInputFormControl title={this.props.title}>
+                <ReactWidgets.Multiselect 
+                    {...this.props.select_atributes} 
+                    data={this.state.options} 
+                    value={JSON.parse(this.state.value||"[]").map(value=>value.toString())}
+                    onChange=
+                    {
+                        (options)=>this.setState
+                        (
+                            {
+                                value: JSON.stringify
+                                ( 
+                                    options.map
+                                    ( 
+                                        ({value}) => Number(value) 
+                                    ) 
+                                )
+                            }
+                        )
+                    }
+                />
+                <ClearButton ClearButtonClick={()=>this.setState({value: "[]"})} />
+                <input type="hidden" name={this.props.name} value={this.state.value || ""} />
+            </UserInputFormControl>
+        ); 
+    }
+}
 
 class CheckboxInput extends UserInputComponent
 {

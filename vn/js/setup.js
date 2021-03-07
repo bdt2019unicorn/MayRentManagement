@@ -23,24 +23,16 @@ new Promise
 ); 
 function ValidationSetup()
 {
-    validate.validators.notRequiredEmail = function(value, options, key, attributes) 
+    validate.validators.notRequiredButOtherwise = function(value, options, key, attributes)
     {
         if(!Boolean(value))
         {
             return undefined; 
         }
-        var result = validate
-        (
-            attributes, 
-            {
-                [key]: 
-                {
-                    email: true 
-                }
-            }
-        ); 
-        return Boolean(result)? _.get(options, "message"): "Không phải địa chỉ email"; 
-    };
+        var result = validate(attributes, {[key]: options}); 
+        return Boolean(result)? ( _.get(result, `${key}.0`) || "Dữ liệu không đúng định dạng" ) : undefined; 
+    }; 
+
     validate.validators.numeric = function(value, options, key, attributes)
     {
         var keys = Object.keys(options); 
@@ -91,10 +83,10 @@ function ValidationSetup()
         {
             return undefined; 
         }
-        
+
+        var date_format = "DD/MM/YYYY"; 
         var DateCompare = function(options)
         {
-            var date_format = "DD/MM/YYYY"; 
             var date = document.getElementById(_.get(options, "attribute")); 
             var value = _.get(date, "value"); 
             return value? moment(value, date_format) : undefined; 
@@ -106,6 +98,7 @@ function ValidationSetup()
         {
             return undefined; 
         }
+        value = moment.isMoment(value) ? value: moment(value, date_format); 
         return callback(value, compare_date); 
     }; 
 

@@ -84,3 +84,47 @@ class UserInputFormControl extends React.Component
         );
     }
 }
+
+class SelectInputFormControl extends React.Component
+{
+    render() 
+    {
+        var error = _.get(this.props.validation_object, "error"); 
+        return (
+            <MaterialUI.FormControl fullWidth className="m-3" error={error}>
+                <MaterialUI.InputLabel>{this.props.title + ((_.get(this.props.validation_object, "required")?" *": ""))}</MaterialUI.InputLabel>
+                {this.props.children}
+                {
+                    error && <MaterialUI.FormHelperText>{_.get(this.props.validation_object, "helperText")}</MaterialUI.FormHelperText>
+                } 
+            </MaterialUI.FormControl>
+        );
+    }
+}
+
+class SelectComponent extends UserInputComponent
+{
+    constructor(props)
+    {
+        super(props); 
+        BindFunctions(this); 
+        this.state = {...this.state, options: this.PopulateSelectData()}; 
+    }
+    Methods =
+    {
+        PopulateSelectData()
+        {
+            var select_data = this.props.select_data || this.TableData(this.props.overview_controller, {edit: 1});
+            return select_data.map
+            (
+                option=>
+                (
+                    {
+                        value: option[this.props.select_value], 
+                        text: option[this.props.text]
+                    }
+                )
+            ); 
+        }
+    }
+}

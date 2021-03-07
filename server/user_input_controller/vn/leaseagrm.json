@@ -1,17 +1,17 @@
 {
-    "title": "Contract",
+    "title": "Hợp đồng",
     "form":
     [
         [
             {
                 "component": "TextInput",
                 "name": "name",
-                "title": "Agreement Number *"
+                "title": "Mã hợp đồng"
             },
             {
                 "component": "SelectInput",
                 "name": "tenant_id",
-                "title": "Tenant *",
+                "title": "Người thuê",
                 "overview_controller": "tenant",
                 "select_value": "id",
                 "text": "Full Name"
@@ -19,7 +19,7 @@
             {
                 "component": "SelectInput",
                 "name": "unit_id",
-                "title": "Unit *",
+                "title": "Đơn vị",
                 "overview_controller": "unit",
                 "select_value": "id",
                 "text": "name"
@@ -27,22 +27,21 @@
         ],
         [
             {
-                "component": "MultiSelectInput",
+                "component": "MultiSelectValue",
                 "name": "ocupants_ids",
-                "title": "Ocupants",
+                "title": "Người ở chung",
                 "overview_controller": "tenant",
+                "select_value": "id",
+                "text": "Full Name", 
                 "select_atributes": 
                 {
-                    "clear-on-select": false, 
-                    "close-on-select": false, 
-                    "hideSelected": true, 
-                    "label": "Full Name", 
-                    "multiple": true, 
-                    "openDirection": "bottom", 
-                    "placeholder": "", 
-                    "selectLabel": "", 
-                    "tagPlaceholder": "", 
-                    "track-by": "id"
+                    "valueField" : "value", 
+                    "textField": "text", 
+                    "containerClassName": "p-1 mt-1", 
+                    "messages": 
+                    {
+                        "emptyList": "Hiện tại không có người thuê nào trong danh sách này"
+                    }
                 }
             }
         ], 
@@ -55,12 +54,12 @@
                     "small_date":
                     {
                         "name": "start_date",
-                        "title": "Start Date"
+                        "title": "Ngày bắt đầu"
                     },
                     "big_date":
                     {
                         "name": "finish",
-                        "title": "End Date"
+                        "title": "Ngày kết thúc"
                     }
                 }
             }
@@ -69,12 +68,12 @@
             {
                 "component": "NumberInput",
                 "name": "rent_amount",
-                "title": "Rent Amount *"
+                "title": "Giá thuê"
             },
             {
                 "component": "NumberInput",
                 "name": "deposit_amount",
-                "title": "Deposit Amount *"
+                "title": "Tiền cọc"
             }
         ],
         [
@@ -86,12 +85,12 @@
                     "small_date":
                     {
                         "name": "deposit_payment_date",
-                        "title": "Deposit Payment Date"
+                        "title": "Ngày trả tiền cọc"
                     },
                     "big_date":
                     {
                         "name": "deposit_payback_date",
-                        "title": "Deposit Payback Date"
+                        "title": "Ngày hoàn tiền cọc"
                     }
                 }
             }
@@ -100,12 +99,12 @@
             {
                 "component": "NumberInput",
                 "name": "monthly_payment_date",
-                "title": "Monthly Payment Date *"
+                "title": "Ngày trả trong tháng"
             },
             {
                 "component": "SelectInput",
                 "name": "leaseagrm_period_id",
-                "title": "Payment Period *",
+                "title": "Đơn vị tính",
                 "overview_controller": "leaseagrm_period",
                 "select_value": "id",
                 "text": "name"
@@ -115,19 +114,19 @@
             {
                 "component": "TextInput",
                 "name": "deposit_currency",
-                "title": "Deposit Currency"
+                "title": "Ngoại tệ"
             },
             {
                 "component": "NumberInput",
                 "name": "deposit_exchange_rate",
-                "title": "Deposit Exchange Rate"
+                "title": "Tỉ giá"
             }
         ],
         [
             {
                 "component": "TextareaInput",
                 "name": "note",
-                "title": "Note"
+                "title": "Ghi chú"
             }
         ]
     ],
@@ -140,7 +139,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Mã hợp đồng để trống"
                 }
             },
             "tenant_id":             
@@ -148,7 +147,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Tên người thuê để trống"
                 }
             },
             "unit_id":             
@@ -156,7 +155,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Đơn vị thuê để trống"
                 }
             },
             "start_date": 
@@ -192,12 +191,12 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Giá thuê để trống"
                 }, 
                 "numericality": 
                 {
                     "greaterThan": 0, 
-                    "message": "Diện tích phải lớn hơn 0" 
+                    "message": "Giá thuê phải lớn hơn 0" 
                 }
             }, 
             "leaseagrm_period_id":             
@@ -205,7 +204,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Đơn vị tính để trống"
                 }
             }, 
             "deposit_amount":
@@ -213,12 +212,12 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Tiền cọc để trống"
                 }, 
                 "numericality": 
                 {
                     "greaterThan": 0, 
-                    "message": "Diện tích phải lớn hơn 0" 
+                    "message": "Tiền cọc phải lớn hơn 0" 
                 }
             },  
             "deposit_payment_date":
@@ -242,7 +241,7 @@
                 "presence": 
                 {
                     "allowEmpty": false, 
-                    "message": "Diện tích để trống"
+                    "message": "Ngày trả tiền mỗi tháng để trống"
                 }, 
                 "step":
                 {
@@ -265,10 +264,13 @@
             }, 
             "deposit_exchange_rate": 
             {
-                "numericality": 
+                "notRequiredButOtherwise": 
                 {
-                    "greaterThan": 0, 
-                    "message": "Diện tích phải lớn hơn 0" 
+                    "numericality": 
+                    {
+                        "greaterThan": 0, 
+                        "message": "Tỉ giá phải lớn hơn 0" 
+                    }
                 }
             }
         }

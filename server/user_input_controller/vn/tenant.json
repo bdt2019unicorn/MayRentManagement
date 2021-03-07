@@ -164,14 +164,20 @@
                     "allowEmpty": false, 
                     "message": "Địa chỉ email để trống"
                 }, 
-                "email": true 
-            }, 
-            "work_email": 
-            {
-                "notRequiredEmail": 
+                "email": 
                 {
                     "message": "Định dạng không phải email"
                 } 
+            }, 
+            "work_email": 
+            {
+                "notRequiredButOtherwise": 
+                {
+                    "email": 
+                    {
+                        "message": "Định dạng không phải email"
+                    }
+                }
             }, 
             "company_name":             
             {

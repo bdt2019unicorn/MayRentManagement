@@ -1,5 +1,5 @@
 {
-    "Agreement Number": "name",
+    "Mã hợp đồng": "name",
     "Mã người thuê": "tenant_id",
     "Đơn vị": "unit",
     "Ngày bắt đầu": "start_date",

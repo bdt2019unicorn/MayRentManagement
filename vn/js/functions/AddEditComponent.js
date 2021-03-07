@@ -35,6 +35,7 @@ class AddEditComponent extends PageWrapperChildrenComponent
                 FormSubmitValid={this.FormSubmitValid} 
                 form={this.state.form} 
                 ClearButton={this.Reset}
+                match={this.props.match}
             />
         ): null; 
     }
