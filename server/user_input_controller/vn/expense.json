@@ -1,17 +1,17 @@
 {
-    "title": "Expense",
+    "title": "Chi phí",
     "form":
     [
         [
             {
                 "component": "TextInput",
                 "name": "name",
-                "title": "Name *"
+                "title": "Mã chi phí"
             },
             {
                 "component": "SelectInput",
                 "name": "expense_type_id",
-                "title": "Type *",
+                "title": "Loại chi phí",
                 "overview_controller": "expense_type",
                 "select_value": "id",
                 "text": "name"
@@ -19,7 +19,7 @@
             {
                 "component": "SelectInput",
                 "name": "building_id",
-                "title": "Building *",
+                "title": "Tòa nhà",
                 "overview_controller": "buildings",
                 "select_value": "id",
                 "text": "name"
@@ -34,16 +34,12 @@
                     "small_date":
                     {
                         "name": "start_period",
-                        "title": "Start Period",
-                        "presence": true,
-                        "message": "The start period should be before the end period"
+                        "title": "Ngày bắt đầu giai đoạn"
                     },
                     "big_date":
                     {
                         "name": "end_period",
-                        "title": "End Period",
-                        "presence": true,
-                        "message": "The end period should be after the start period"
+                        "title": "Ngày kết thúc giai đoạn"
                     }
                 }
             }
@@ -52,19 +48,19 @@
             {
                 "component": "NumberInput",
                 "name": "amount",
-                "title": "Amount *"
+                "title": "Số tiền"
             },
             {
                 "component": "DateInput",
                 "name": "payment_date",
-                "title": "Payment Date"
+                "title": "Ngày trả tiền"
             }
         ],
         [
             {
                 "component": "TextareaInput",
                 "name": "note",
-                "title": "Note"
+                "title": "Ghi chú"
             }
         ]
     ],
@@ -74,20 +70,68 @@
         {
             "name":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã chi phí để trống"
+                }
             },
             "expense_type_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Loại chi phí để trống"
+                }
             },
             "building_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Tòa nhà để trống"
+                }
             },
+            "start_period": 
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Ngày bắt đầu giai đoạn để trống"
+                }, 
+                "smallDate": 
+                {
+                    "attribute": "end_period", 
+                    "message": "Ngày bắt đầu giai đoạn phải nhỏ hơn ngày kết thúc giai đoạn", 
+                    "presence": true 
+                }
+            }, 
+            "end_period": 
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Ngày kết thúc giai đoạn để trống"
+                }, 
+                "bigDate": 
+                {
+                    "attribute": "start_period", 
+                    "message": "Ngày kết thúc giai đoạn phải lớn hơn ngày bắt đầu giai đoạn", 
+                    "presence": true 
+                }
+            }, 
             "amount":
             {
-                "presence": true, 
-                "number_input_min": 0 
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Số tiền để trống"
+                }, 
+                "numericality": 
+                {
+                    "greaterThan": 0, 
+                    "message": "Số tiền phải lớn hơn 0" 
+                }
             } 
         }
     }

@@ -37,7 +37,7 @@
             },   
             "leaseagrm"=> function() use ($edit, $building_id, $id, $test_mode)
             {
-                return $edit? Query::GeneralData("leaseagrm", $id): OverviewQueries\LeaseAgrm::OverviewBuildingId($building_id, $test_mode); 
+                return ($edit && $id) ? Query::GeneralData("leaseagrm", $id): OverviewQueries\LeaseAgrm::OverviewBuildingId($building_id, $test_mode); 
             },   
             "invoices"=>function() use ($edit, $building_id, $id)
             {

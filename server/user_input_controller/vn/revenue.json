@@ -1,40 +1,39 @@
 {
-    "title": "Revenue",
+    "title": "Thu nhập",
     "form":
     [
         [
             {
                 "component": "TextInput",
                 "name": "name",
-                "title": "Name *"
+                "title": "Mã thu nhập"
             },
             {
                 "component": "SelectInput",
                 "name": "leaseagrm_id",
-                "title": "Lease Agreement *",
+                "title": "Mã hợp đồng",
                 "overview_controller": "leaseagrm",
-                "select_value": "id",
-                "text": "name"
+                "select_value": "ID",
+                "text": "Name"
             }
         ],
         [
             {
                 "component": "NumberInput",
                 "name": "amount",
-                "title": "Amount *"
+                "title": "Số tiền"
             }, 
             {
                 "component": "DateInput",
                 "name": "payment_date",
-                "title": "Payment date *",
-                "presence": true
+                "title": "Ngày trả tiền"
             }
         ],
         [
             {
                 "component": "TextareaInput",
                 "name": "note",
-                "title": "Note"
+                "title": "Ghi chú"
             }
         ]
     ],
@@ -44,16 +43,40 @@
         {
             "name":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã thu nhập để trống"
+                }
             },
             "leaseagrm_id":             
             {
-                "presence": true
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Mã hợp đồng để trống"
+                }
             },
             "amount":
             {
-                "presence": true, 
-                "number_input_min": 0 
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Số tiền để trống"
+                }, 
+                "numericality": 
+                {
+                    "greaterThan": 0, 
+                    "message": "Số tiền phải lớn hơn 0" 
+                }
+            }, 
+            "payment_date":             
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Ngày trả tiền để trống"
+                }
             } 
         }
     }
