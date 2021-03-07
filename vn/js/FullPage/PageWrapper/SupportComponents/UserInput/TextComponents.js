@@ -1,14 +1,7 @@
-class TextInput extends SimpleInputComponent
+class TextInput extends UserInputComponent
 {
     render() 
     {
-        var Change = event =>
-        {
-            let value = event.target.value; 
-            let state = {value}; 
-            this.setState(state); 
-            Emitter.emit("valueChange", state); 
-        }; 
         return (
             <MaterialUI.TextField 
                 size="medium"
@@ -19,14 +12,29 @@ class TextInput extends SimpleInputComponent
                 type={this.props.type} 
                 margin="normal"
                 variant="outlined"
-                onChange={Change}
+                onChange={this.SimpleInputOnChange}
                 {...this.ValidationObject()}
             />
         );
     }
 }
 
-
+class TextareaInput extends UserInputComponent
+{
+    render() 
+    {
+        return (
+            <UserInputFormControl title={this.props.title}>
+                <MaterialUI.TextareaAutosize 
+                    className="form-control"
+                    name={this.props.name} 
+                    rowsMin={5} 
+                    onChange={this.SimpleInputOnChange}
+                />
+            </UserInputFormControl>
+        ); 
+    }
+}
 
 class TextGroupConfirmation extends BaseComponent
 {
@@ -35,10 +43,6 @@ class TextGroupConfirmation extends BaseComponent
         super(props); 
         BindFunctions(this); 
         this.state = {value: undefined, confirm_value: undefined}; 
-    }
-    CustomEvents = 
-    {
-        "valueChange": (state)=> this.setState(state) 
     }
     Methods = 
     {
@@ -69,7 +73,7 @@ class TextGroupConfirmation extends BaseComponent
     {
         return (
             <React.Fragment>
-                <TextInput {...this.props}/>
+                <TextInput {...this.props} ValueChange={(state)=>this.setState(state)} />
                 <MaterialUI.TextField 
                     size="medium"
                     fullWidth

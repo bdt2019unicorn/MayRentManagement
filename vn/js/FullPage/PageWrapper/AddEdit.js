@@ -1,19 +1,35 @@
 class Add extends AddEditComponent
 {
-    CustomEvents = 
+    constructor(props)
     {
-        "formSubmitValid": (data)=> 
+        super(props); 
+        BindFunctions(this); 
+    }
+    Methods = 
+    {
+        FormSubmitValid(data)
         {
             let result = SubmitData("excel", this.ImportUrl(), [data]); 
             if(Number(result))
             {
-                alert(`${this.state.form.title} thành công!`); 
-                Emitter.emit("authorizeSuccess", this.props.controller, data, Number(result)); 
+                alert(`Thêm ${this.state.form.title} thành công!`); 
+                if(this.props.AuthorizeSuccess)
+                {
+                    this.props.AuthorizeSuccess(data, Number(result)); 
+                }
+                else
+                {
+                    this.Reset(); 
+                }
             }
             else 
             {
-                alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
+                alert(`Thêm ${this.state.form.title} thất bại! Vui lòng thử lại`); 
             }
+        }, 
+        Reset()
+        {
+            this.ReloadUserInput(); 
         }
     }
 }
@@ -29,6 +45,26 @@ class Edit extends AddEditComponent
     }
     Methods = 
     {
+        FormSubmitValid(data)
+        {
+            let controller = this.CurrentController(); 
+            var url = `../server/database_controller/edit.php?table=${controller}&id=${this.ObjectId()}`; 
+            var result = SubmitData("edit",url,data); 
+            
+            if(Number(result))
+            {
+                alert("Edit Information success"); 
+                if(controller=="buildings")
+                {
+                    console.log("This will be taken care later "); 
+                }
+                this.Reset(); 
+            }
+            else
+            {
+                alert("Edit Information fails"); 
+            }
+        }, 
         ModifyForm()
         {
             var form = _.cloneDeep(this.state.form); 
@@ -54,29 +90,10 @@ class Edit extends AddEditComponent
         {
             let data = this.TableData(this.CurrentController(), {id: this.ObjectId(), edit: 1}); 
             return data[0]; 
-        }
-    }
-    CustomEvents = 
-    {
-        "formSubmitValid": (data)=> 
+        }, 
+        Reset()
         {
-            let controller = this.CurrentController(); 
-            var url = `../server/database_controller/edit.php?table=${controller}&id=${this.ObjectId()}`; 
-            var result = SubmitData("edit",url,data); 
-            
-            if(Number(result))
-            {
-                alert("Edit Information success"); 
-                if(controller=="buildings")
-                {
-                    Emitter.emit("editBuildingSuccess"); 
-                }
-                this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()})); 
-            }
-            else
-            {
-                alert("Edit Information fails"); 
-            }
+            this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()})); 
         }
     }
 }

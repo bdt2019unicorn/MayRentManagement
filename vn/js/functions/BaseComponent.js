@@ -10,21 +10,6 @@ class BaseComponent extends React.Component
     {
         return null; 
     }
-    componentDidMount() 
-    {
-        if(this.CustomEvents)
-        {
-            Object.keys(this.CustomEvents).forEach(event=>Emitter.on(event, this.CustomEvents[event])); 
-        }
-        Emitter.emit("pageControllerUpdate", _.get(this.props, "match.params.controller")); 
-    }
-    componentWillUnmount() 
-    {
-        if(this.CustomEvents)
-        {
-            Object.keys(this.CustomEvents).forEach(event=>Emitter.off(event)); 
-        }
-    }
     Methods =
     {
         BuildingId()
@@ -103,7 +88,7 @@ class BaseComponent extends React.Component
         {
             let name = this.props[props_name]; 
             let replace_name = ( name.charAt(0).toUpperCase() + name.slice(1) ).replaceAll("_", " "); 
-            return validations[name][0].replace(replace_name, "").trim()
+            return validations[name][0].replaceAll(replace_name, "").trim()
         }
     }
 }

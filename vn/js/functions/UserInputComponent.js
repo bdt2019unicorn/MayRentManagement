@@ -4,6 +4,7 @@ class UserInputComponent extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
+        this.state = {value: this.InnitialValue()}; 
     }
     Methods = 
     {
@@ -11,8 +12,17 @@ class UserInputComponent extends BaseComponent
         {
             return this.props.edit_data? this.props.edit_data[this.props.name]: undefined; 
         }, 
-        ValidationObject()
+        SimpleInputOnChange(event)
         {
+            let state = {value: event.target.value}; 
+            this.setState(state); 
+            if(this.props.ValueChange)
+            {
+                this.props.ValueChange(state); 
+            }
+        }, 
+        ThisValidations()
+        {   
             var this_validations = _.cloneDeep(this.props.validations); 
             if(!this_validations)
             {
@@ -20,14 +30,31 @@ class UserInputComponent extends BaseComponent
             }
             else if(!this_validations[this.props.name])
             {
-                return; 
+                return undefined; 
             }
             else 
             {
                 this_validations = _.cloneDeep(this_validations[this.props.name]); 
             }
-            let required = this_validations.presence? true: false; 
-            let validations = validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
+            return this_validations; 
+        }, 
+        ThisValidationsRequired(this_validations)
+        {
+            return Boolean(_.get(this_validations, "presence")); 
+        }, 
+        ValidationAction(this_validations)
+        {
+            return validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
+        }, 
+        ValidationObject(this_validations)
+        {
+            this_validations = this_validations || this.ThisValidations(); 
+            if(!this_validations)
+            {
+                return undefined; 
+            }
+            let required = this.ThisValidationsRequired(this_validations); 
+            let validations = this.ValidationAction(this_validations); 
             var validation_object = 
             {
                 required, 
@@ -42,11 +69,62 @@ class UserInputComponent extends BaseComponent
     }
 }
 
-class SimpleInputComponent extends UserInputComponent 
+class UserInputFormControl extends React.Component
+{
+    render() 
+    {
+        return (
+            <MaterialUI.FormControl className="m-2" fullWidth error={this.props.error}>
+                <label className={this.props.error?"text-red": undefined}>{this.props.title+(this.props.required?" *": "")}</label>
+                {this.props.children}
+                {
+                    this.props.error && <MaterialUI.FormHelperText>{this.props.helperText}</MaterialUI.FormHelperText>
+                }
+            </MaterialUI.FormControl>         
+        );
+    }
+}
+
+class SelectInputFormControl extends React.Component
+{
+    render() 
+    {
+        var error = _.get(this.props.validation_object, "error"); 
+        return (
+            <MaterialUI.FormControl fullWidth className="m-3" error={error}>
+                <MaterialUI.InputLabel>{this.props.title + ((_.get(this.props.validation_object, "required")?" *": ""))}</MaterialUI.InputLabel>
+                {this.props.children}
+                {
+                    error && <MaterialUI.FormHelperText>{_.get(this.props.validation_object, "helperText")}</MaterialUI.FormHelperText>
+                } 
+            </MaterialUI.FormControl>
+        );
+    }
+}
+
+class SelectComponent extends UserInputComponent
 {
     constructor(props)
     {
         super(props); 
-        this.state = {value: this.InnitialValue()}; 
+        BindFunctions(this); 
+        this.state = {...this.state, options: this.PopulateSelectData()}; 
+    }
+    Methods =
+    {
+        PopulateSelectData()
+        {
+            var select_data = this.props.select_data || this.TableData(this.props.overview_controller, {edit: 1});
+            return select_data.map
+            (
+                option=>
+                (
+                    {
+                        value: option[this.props.select_value], 
+                        text: option[this.props.text]
+                    }
+                )
+            ); 
+        }
     }
 }

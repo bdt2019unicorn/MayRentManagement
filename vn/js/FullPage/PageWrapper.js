@@ -3,17 +3,7 @@ class PageWrapper extends AuthorizedComponent
     constructor(props)
     {
         super(props); 
-        this.state = {sidebar: ServerJson("sidebar.json"), controller: undefined}; 
-    }
-    CustomEvents = 
-    {
-        "pageControllerUpdate": (controller)=>
-        {
-            if(this.state.controller!=controller)
-            {
-                this.setState({controller}); 
-            }
-        }
+        this.state = {sidebar: ServerJson("sidebar.json")}; 
     }
     render()
     {
@@ -27,7 +17,7 @@ class PageWrapper extends AuthorizedComponent
         return (
             <Grid container>
                 <Grid className="p-1" item xs={3}>
-                    <Sidebar {...this.state} {...this.props.match.params} />
+                    <Sidebar sidebar={this.state.sidebar} controller={this.props.current_controller} {...this.props.match.params} />
                 </Grid>
                 <Grid className="p-3" item xs={9}>
                     <ReactRouterDOM.Switch>
@@ -36,7 +26,7 @@ class PageWrapper extends AuthorizedComponent
                             (
                                 controller => controller.menu.filter(item=>window[item.action]).map 
                                 (
-                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={window[item.action]} exact path={`/:building_id/:controller/${item.action}`} />
+                                    item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={ConnectComponentToStore(window[item.action])} exact path={`/:building_id/:controller/${item.action}`} />
                                 )
                             )
                         }

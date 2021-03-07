@@ -1,0 +1,21 @@
+class NumberInput extends UserInputComponent
+{
+    render() 
+    {
+        let validation_object = this.ValidationObject(); 
+        return (
+            <UserInputFormControl 
+                {...validation_object}
+                title={this.props.title}
+            >
+                <NumberFormat 
+                    className={`form-control mt-1 ${_.get(validation_object, "error")?"border-red": ""}`}
+                    thousandSeparator={true} 
+                    name={this.props.name}
+                    value={this.state.value}
+                    onValueChange={({value}) => this.setState({value})}
+                />
+            </UserInputFormControl>
+        ); 
+    }
+}

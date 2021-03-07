@@ -1,0 +1,29 @@
+{
+  "name": "unit-test-build-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --mode=production",
+    "build": "webpack --mode=development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "webpack": "^5.23.0",
+    "webpack-cli": "^4.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.17",
+    "@babel/core": "^7.12.17",
+    "@babel/preset-env": "^7.12.17",
+    "@babel/preset-react": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.1.1",
+    "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1"
+  }
+}

@@ -4,17 +4,20 @@ class AuthorizedComponent extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
-        this.PageWrapperUpdate(); 
+        this.UpdateCurrentBuilding(); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
-        this.PageWrapperUpdate(); 
+        this.UpdateCurrentBuilding(); 
     }
     Methods = 
     {
-        PageWrapperUpdate()
+        UpdateCurrentBuilding()
         {
-            Emitter.emit("pageWrapperUpdate", _.get(this.props, "match.params.building_id")); 
+            if(this.props.ChangeState)
+            {
+                this.props.ChangeState({state_name: "current_building", value: _.get(this.props, "match.params.building_id")}); 
+            }
         }
     }
 }

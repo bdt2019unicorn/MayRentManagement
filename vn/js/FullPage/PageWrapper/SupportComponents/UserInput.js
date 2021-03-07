@@ -19,12 +19,16 @@ class UserInput extends BaseComponent
                 {
                     Object.values(this.props.form.validate.eliminate).forEach(key=>delete data[key]); 
                 }
-                Emitter.emit("formSubmitValid", data); 
+                this.props.FormSubmitValid(data); 
             }
-        }, 
+        } 
     }
     render() 
     {
+        if(!this.props.form)
+        {
+            return null; 
+        }
         let form = this.props.form.form.map
         (
             components=> 
@@ -33,10 +37,18 @@ class UserInput extends BaseComponent
                 (
                     component =>  
                     {
+                        try {
                         var ComponentClass = window[component.component]; 
+                        if(!ComponentClass)
+                        {
+                            return (
+                                <div key={Math.random().toExponential(12).toString()}>{component.component}</div>
+                            ); 
+                        }
                         let name = component.name; 
                         return (
                             <MaterialUI.Grid
+                                className="p-2"
                                 item
                                 xs={12}
                                 md={12/(components.length)}
@@ -47,9 +59,13 @@ class UserInput extends BaseComponent
                                     key={name} 
                                     validations = {this.props.form.validate.rules}
                                     edit_data = {this.props.edit_data}
+                                    match = {this.props.match}
                                 />
                             </MaterialUI.Grid>); 
+                        }
+                        catch(exception){console.log(exception); console.log("not exist"); return <div key={Math.random().toExponential(10).toString()}>test</div>;}
                     }
+                    
                 ); 
                 return (
                     <MaterialUI.Grid key={encodeURIComponent(JSON.stringify(components)) + Math.random()} container spacing={1}>
@@ -65,6 +81,13 @@ class UserInput extends BaseComponent
                     <form onSubmit={this.FormSubmit}>
                         {form}
                         <SubmitButton />
+                        <SubmitButton 
+                            class="float-left" 
+                            icon="clear" 
+                            SubmitButtonClick={this.props.ClearButton}
+                            title="Xóa"
+                            type="reset" 
+                        />
                     </form>
                 </MaterialUI.Container>
             </MaterialUI.Grid>

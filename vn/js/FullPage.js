@@ -10,24 +10,13 @@ class FullPage extends BaseComponent
                 user_id: sessionStorage.getItem("user_id") ||""
             }
         ); 
-        this.state = {building_id: null}; 
-    }
-    CustomEvents = 
-    {
-        "pageWrapperUpdate": (building_id)=>
-        {
-            if(this.state.building_id!=building_id)
-            {
-                this.setState({building_id}); 
-            }
-        }
     }
     render()
     {
         let Switch = ReactRouterDOM.Switch; 
         let Route = ReactRouterDOM.Route; 
         let Redirect = ReactRouterDOM.Redirect; 
-        let main_nav_items = this.CheckLogin(null, <MainNavItems building_id={this.state.building_id} />); 
+        let main_nav_items = this.CheckLogin(null, <MainNavItems building_id={this.props.current_building} />); 
         return (
             <ReactRouterDOM.HashRouter>
                 {main_nav_items}
