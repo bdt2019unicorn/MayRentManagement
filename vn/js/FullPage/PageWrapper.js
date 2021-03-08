@@ -21,6 +21,7 @@ class PageWrapper extends AuthorizedComponent
                 </Grid>
                 <Grid className="p-3" item xs={9}>
                     <ReactRouterDOM.Switch>
+                        <Route component={ConnectComponentToStore(Overview)} exact path="/:building_id"/>
                         {
                             this.state.sidebar.flatMap
                             (
