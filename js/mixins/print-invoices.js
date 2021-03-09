@@ -28,16 +28,14 @@ var print_invoices_mixin =
             UtilitySpan = (number)=> `<span class="float-right mx-3">${this.NumeralFormat(Number(number))}</span>`; 
             return `
                 <table style="width: 100%; margin: 3px;"
-                    <tr><td colspan="5" style="text-align: center;"><img src="${image}"></td></tr>
-                    <tr><td colspan="5"><h1 style="text-align: center;">RENTAL AND UTILITY CHARGE</h1></td></tr>
+                    <tr><td colspan="3" style="text-align: center;"><img src="${image}"></td></tr>
+                    <tr><td colspan="3"><h1 style="text-align: center;">RENTAL AND UTILITY CHARGE</h1></td></tr>
                     <tr><td><br></td></tr>
-                    <tr>
-                        <td><b>Date</b></td><td>:</td><td>${this.DateReformatDisplay()}</td>
-                        <td>ROE:</td>
-                    </tr>
+                    <tr><td><b>Date</b></td><td>:</td><td>${this.DateReformatDisplay()}</td></tr>
                     <tr><td><b>Invoice</b></td><td>:</td><td>${invoice.invoice["name"]}</td></tr>
                     <tr><td><b>To</b></td><td>:</td><td>${invoice.invoice["tenant"]}</td></tr>
                     <tr><td></td><td></td><td><b>${invoice.invoice["unit"]}</b></td></tr>
+                    <tr><td><b>Company</b></td><td>:</td><td>${invoice.invoice["company"]}</td></tr>
                 </table>
                 <br>
                 <style>

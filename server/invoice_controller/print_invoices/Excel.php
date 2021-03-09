@@ -41,7 +41,7 @@
         function __construct($invoices, $image, $footer_array, $temp_path)
         {
             $this->invoices = $invoices; 
-            $this->png_logo = imagecreatefrompng($image); 
+            $this->png_logo = imagecreatefromgif($image); 
             $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
             $this->temp_path = $temp_path; 
             $this->folder = "{$temp_path}/invoices"; 
@@ -89,10 +89,11 @@
 
             $header = 
             [
-                ["Date", ":", date("d-M-Y"), "", "", "ROE:"],
+                ["Date", ":", date("d-M-Y")],
                 ["Inoice", ":", $invoice["invoice"]["name"]],
                 ["To", ":", "<b>{$invoice['invoice']['tenant']}</b>"],
-                ["", "", "{$invoice['invoice']['unit']}"]
+                ["", "", "{$invoice['invoice']['unit']}"], 
+                ["Company", ":", "<b>{$invoice['invoice']['company']}</b>"]
             ]; 
 
             $CellValuesStyles = function($cell, $styles, $text=null) use ($sheet)
