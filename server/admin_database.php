@@ -43,10 +43,24 @@
 
         public function CurrentEnvironmentSetUp()
         {
-            $values = json_decode($_POST["excel"], true); 
-            $test_mode = isset($values[0]["test_mode"]); 
-            $current_environment = new CurrentEnvironment(); 
-            $current_environment->SettingEnvironment($test_mode); 
+            $SetupEnvironment = function()
+            {
+                $values = json_decode($_POST["excel"], true); 
+                $test_mode = isset($values[0]["test_mode"]); 
+                $current_environment = new CurrentEnvironment(); 
+                $current_environment->SettingEnvironment($test_mode); 
+            }; 
+
+            $SetupLogoImg = function()
+            {
+                $main_dir = CurrentEnvironment::MainDir() . "logo"; 
+                // $logo_path = 
+            }; 
+
+
+            $SettingEnvironment(); 
+            $SetupLogoImg(); 
+
             echo true; 
         }
 

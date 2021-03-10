@@ -63,7 +63,7 @@
             return $_ENV["TESTMODE"]??false; 
         }
 
-        private static function MainDir()
+        public static function MainDir()
         {
             return dirname(dirname(__DIR__)); 
         }
