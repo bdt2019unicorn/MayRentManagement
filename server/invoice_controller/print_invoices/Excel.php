@@ -41,7 +41,7 @@
         function __construct($invoices, $image, $footer_array, $temp_path)
         {
             $this->invoices = $invoices; 
-            $this->png_logo = imagecreatefromgif($image); 
+            $this->png_logo = imagecreatefrompng($image); 
             $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
             $this->temp_path = $temp_path; 
             $this->folder = "{$temp_path}/invoices"; 

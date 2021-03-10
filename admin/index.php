@@ -100,7 +100,7 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-                <div>
+                <div class="border border-info p-3 text-center">
                     <h1>Current Logo</h1>
                     <img id="logo_img" alt="logo" class="border border-secondary p-3" />
                     <p><button class="btn btn-info m-3" type="button" onclick="ChangeLogo()">Change Logo</button></p>
