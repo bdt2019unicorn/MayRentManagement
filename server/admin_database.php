@@ -43,26 +43,10 @@
 
         public function CurrentEnvironmentSetUp()
         {
-            $SetupEnvironment = function()
-            {
-                $values = json_decode($_POST["excel"], true); 
-                $test_mode = isset($values[0]["test_mode"]); 
-                $current_environment = new CurrentEnvironment(); 
-                $current_environment->SettingEnvironment($test_mode); 
-            }; 
-
-            $SetupLogoImg = function()
-            {
-                $main_dir = CurrentEnvironment::MainDir() . "/img"; 
-                $logo_path = "{$main_dir}/temp/logo.png"; 
-                if(!file_exists($logo_path))
-                {
-                    copy("{$main_dir}/logo.png", "{$main_dir}/temp/logo.png");
-                }
-            }; 
-            $SettingEnvironment(); 
-            $SetupLogoImg(); 
-
+            $values = json_decode($_POST["excel"], true); 
+            $test_mode = isset($values[0]["test_mode"]); 
+            $current_environment = new CurrentEnvironment(); 
+            $current_environment->SettingEnvironment($test_mode); 
             echo true; 
         }
 
@@ -79,6 +63,43 @@
                 $result = false; 
             }
             echo $result; 
+        }
+
+        public function LogoImg()
+        {
+            $callback = function ($logo_path)
+            {
+                if(!file_exists($logo_path))
+                {
+                    copy(CurrentEnvironment::MainDir() . "/img/logo.png", $logo_path);
+                }
+            }; 
+            $this->LogoImgAction($callback); 
+        }
+
+        public function ChangeLogoImg()
+        {
+            if(isset($_FILES["file"]))
+            {
+                if(!$_FILES["file"]["error"])
+                {
+                    $callback = function($logo_path)
+                    {
+                        imagepng(imagecreatefromstring(file_get_contents($_FILES["file"]["tmp_name"])), "temp/logo.png"); 
+                    }; 
+                    $this->LogoImgAction($callback); 
+                    return;
+                }
+            }
+            echo false;
+        }
+
+        private function LogoImgAction($callback)
+        {
+            CurrentEnvironment::SetupFolder("temp"); 
+            $logo_path = "temp/logo.png"; 
+            $callback($logo_path); 
+            echo "server/{$logo_path}"; 
         }
     }
 

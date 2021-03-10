@@ -47,7 +47,7 @@
                 </form>
             <?php else: ?>
                 <?php
-                    $issue_state = $_GET["state"]??"all"; 
+                    $issue_state = $_GET["state"]??"open"; 
                     $url.= "?state={$issue_state}"; 
                 ?>
                 <h1>Issues Overview</h1>
@@ -58,7 +58,6 @@
                         </a>
 
                         <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="./issues.php?state=all">all</a>
                             <a class="dropdown-item" href="./issues.php?state=open">open</a>
                             <a class="dropdown-item" href="./issues.php?state=closed">closed</a>
                             <a class="dropdown-item" href="./issues.php?action=inserted">Create New Issue</a>

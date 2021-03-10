@@ -6,7 +6,6 @@ jQuery
         {
             let url = "server/admin_database.php?command=CheckEnvironment"; 
             let result = support_mixin.methods.AjaxRequest(url); 
-            console.log(result); 
             if(!Number(result))
             {
                 window.location.href = "admin/setup.php"; 
@@ -71,9 +70,11 @@ jQuery
                     else if (to.name=="home" && sessionStorage.getItem("username"))
                     {
                         next("dashboard"); 
-                        window.location.reload(); 
                     }
-                    next(); 
+                    else
+                    {
+                        next(); 
+                    }
                 }
             ); 
             return router; 
@@ -81,7 +82,7 @@ jQuery
 
         function StoreTrack()
         {
-            var store_track = new Vuex.Store
+            return new Vuex.Store
             (
                 {
                     state: 
@@ -104,16 +105,13 @@ jQuery
                                 }
                             );
                         }, 
-
                         ChangeState(state, {name, value})
                         {
                             state[name] = value; 
                         }
                     }
                 }
-    
             );
-            return store_track; 
         }
 
         function PageElements({router, store_track})
@@ -149,6 +147,6 @@ jQuery
         }
 
         CheckEnvironment(); 
-        new Promise ((resolve, reject)=>resolve({router: Router(), store_track: StoreTrack()})).then(PageElements); 
+        new Promise ((resolve, reject)=>resolve({router: Router(), store_track: StoreTrack()})).then(PageElements);  
     }
 ); 

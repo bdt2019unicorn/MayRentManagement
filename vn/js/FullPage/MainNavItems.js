@@ -101,7 +101,8 @@ class MainNavItems extends BaseComponent
             [
                 {to: "/general-edit/user", text: "Thông tin tài khoản"}, 
                 {text: "Đăng xuất", callback: ()=>this.props.Authorize({username: "", user_id: ""})}
-            ]
+            ], 
+            logo_src: "../" +  AjaxRequest("../server/admin_database.php?command=LogoImg") 
         }; 
         this.building_menu_ref = React.createRef(); 
         this.user_information_ref = React.createRef(); 
@@ -114,7 +115,7 @@ class MainNavItems extends BaseComponent
             <Grid container>
                 <Grid className="p-3" item xs={3}>
                     <Link to="/dashboard">
-                        <img src="../img/logo.png" alt="logo" style={{height: "10vmin"}} />
+                        <img src={this.state.logo_src} alt="logo" style={{height: "10vmin"}} />
                     </Link>
                 </Grid>
                 <Grid className="p-1" item container xs={6} justify="center">
@@ -148,7 +149,7 @@ class MainNavItems extends BaseComponent
                 <Grid className="pt-1 pr-3" item container xs={3} justify="flex-end">
                     <Grid item xs={8} ref={this.user_information_ref}>
                         <DropdownMenu reference={this.user_information_ref} menu_list={this.state.user_information}>
-                            <img src="../img/logo.png" alt="logo" style={{width: "10vmin"}} />
+                            <img src={this.state.logo_src} alt="logo" style={{width: "10vw"}} />
                         </DropdownMenu>
                     </Grid>
                 </Grid>
