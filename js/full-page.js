@@ -7,7 +7,7 @@ Vue.component
         data: ()=>({logo_src: ""}),
         created() 
         {
-            this.logo_src = this.AjaxRequest("server/admin_database.php?command=LogoImg"); 
+            this.logo_src = `${this.AjaxRequest("server/admin_database.php?command=LogoImg")}?q=${Date.now()}`; 
         }, 
         template: 
         `   
