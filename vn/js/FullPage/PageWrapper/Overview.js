@@ -6,7 +6,14 @@ class Test extends React.Component
                 I am testing {this.props.message}
                 {this.props.children}
             </div>
-        )
+        ); 
+    }
+}
+
+class TestWord extends React.Component
+{
+    render() {
+        return "word"; 
     }
 }
 
@@ -37,8 +44,8 @@ class Overview extends PageWrapperChildrenComponent
         return (
             <div>
                 Overview
+                <p><TestWord /></p>
                 <pre>
-                    {JSON.stringify(this.props, null, 2)}
                     {component}
                 </pre>
                 <div>

@@ -1,0 +1,5 @@
+<router-link to="leaseagrm/edit?id=124" append>Until December 31, 2022</router-link>
+
+
+to: to="(.+)"
+text: >(.+)<
