@@ -53,11 +53,13 @@
 
             $SetupLogoImg = function()
             {
-                $main_dir = CurrentEnvironment::MainDir() . "logo"; 
-                // $logo_path = 
+                $main_dir = CurrentEnvironment::MainDir() . "/img"; 
+                $logo_path = "{$main_dir}/temp/logo.png"; 
+                if(!file_exists($logo_path))
+                {
+                    copy("{$main_dir}/logo.png", "{$main_dir}/temp/logo.png");
+                }
             }; 
-
-
             $SettingEnvironment(); 
             $SetupLogoImg(); 
 

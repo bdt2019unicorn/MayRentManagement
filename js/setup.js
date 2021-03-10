@@ -6,6 +6,7 @@ jQuery
         {
             let url = "server/admin_database.php?command=CheckEnvironment"; 
             let result = support_mixin.methods.AjaxRequest(url); 
+            console.log(result); 
             if(!Number(result))
             {
                 window.location.href = "admin/setup.php"; 
