@@ -49,6 +49,9 @@ class Overview extends PageWrapperChildrenComponent
                     {component}
                 </pre>
                 <div>
+                    <HyperlinkListCompile append={this.BuildingId()} html='<router-link to="leaseagrm/edit?id=144" append>Until March 31, 2021</router-link>' />
+                </div>
+                <div>
                     <ScrollingTable table={this.state.table_data} />
                 </div>
             </div>         
