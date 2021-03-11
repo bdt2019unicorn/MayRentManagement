@@ -57,38 +57,60 @@
         <?php 
             include("layout/3.footer.php");
             require_once("../server/helper/database.php"); 
-            $result = Database::GetData("SELECT * FROM `user` WHERE approved = '1';");  
+            $error = false; 
+            set_error_handler
+            (
+                function($errorno, $errstr) use (&$error)
+                {
+                    if (str_contains($errstr, "mysqli::__construct(): (HY000/1049): Unknown database")) 
+                    {
+                        echo "<h1 class='text-center text-danger'>Database is not existed, for quick access, please switch to test mode</h1>"; 
+                        $error = true; 
+                    }
+                    return null;
+                }
+            ); 
+            try 
+            {
+                $result = Database::GetData("SELECT * FROM `user` WHERE approved = '1' LIMIT 1;");  
+            }
+            catch(Exception $exception)
+            {
+                $result = []; 
+            }
         ?>
         <script src="js/setup.js"></script>
+        <?php if(!$error): ?>
 
-        <?php if(!count($result)): ?>
-            <form class="container border border-info p-3" method="POST" action="../server/database_controller/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
-                <h1 class="text-center">Admin Set Up</h1>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input name="username" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input name="password" type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Phone number</label>
-                    <input name="phone_number" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Email address</label>
-                    <input name="email" type="email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label>Viber Number</label>
-                    <input name="viber_number" type="text" class="form-control">
-                </div>
-                <input name="approved" type="hidden" value="1">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        <?php else: ?>
-            <?php require_once("layout/4.admin.php"); ?>
+            <?php if(!count($result)): ?>
+                <form class="container border border-info p-3" method="POST" action="../server/database_controller/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
+                    <h1 class="text-center">Admin Set Up</h1>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input name="username" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input name="password" type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone number</label>
+                        <input name="phone_number" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input name="email" type="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Viber Number</label>
+                        <input name="viber_number" type="text" class="form-control">
+                    </div>
+                    <input name="approved" type="hidden" value="1">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            <?php else: ?>
+                <?php require_once("layout/4.admin.php"); ?>
+            <?php endif; ?>
         <?php endif; ?>
     </footer>
 </html>
