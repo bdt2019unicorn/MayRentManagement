@@ -49,7 +49,10 @@ class Overview extends PageWrapperChildrenComponent
                     {component}
                 </pre>
                 <div>
-                    <HyperlinkListCompile append={this.BuildingId()} html='<router-link to="leaseagrm/edit?id=144" append>Until March 31, 2021</router-link>' />
+                    <HyperlinkListCompile append={this.BuildingId()} html='<router-link to="leaseagrm/edit?id=144" append>Until March 31, 2021</router-link>`' />
+                </div>
+                <div>
+                    <HyperlinkListCompile html={`<router-link :to="{name: 'actions', params: {controller: 'leaseagrm', action: 'edit', building_id: 6}, query: {id: 146} }">Until 30/07/2022</router-link>`} />
                 </div>
                 <div>
                     <ScrollingTable table={this.state.table_data} />

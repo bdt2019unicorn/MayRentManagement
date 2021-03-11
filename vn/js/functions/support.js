@@ -60,6 +60,19 @@ function SubmitUserInformation(form_data)
     }
     catch(error) {}
 } 
+function ToActions({params, query}) 
+{
+    let {building_id, controller, action} = params; 
+    action = UpperCaseFirstChar(action || ""); 
+    return {
+        pathname: "/" + [building_id, controller, action].filter(value=>value).join("/"), 
+        search: SearchQueryString(query)
+    };
+}
+function UpperCaseFirstChar(value) 
+{
+    return value.charAt(0).toUpperCase() + value.slice(1); 
+}
 function UserInputForm(controller)
 {
     try 

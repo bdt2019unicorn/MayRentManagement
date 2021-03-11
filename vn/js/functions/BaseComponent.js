@@ -87,7 +87,7 @@ class BaseComponent extends React.Component
         ValidationHelperText(validations, props_name)
         {
             let name = this.props[props_name]; 
-            let replace_name = ( name.charAt(0).toUpperCase() + name.slice(1) ).replaceAll("_", " "); 
+            let replace_name = UpperCaseFirstChar(name).replaceAll("_", " "); 
             return validations[name][0].replaceAll(replace_name, "").trim()
         }
     }
