@@ -41,8 +41,15 @@ function SearchQueryString(params)
 }
 function ServerJson(url)
 {
-    let json = AjaxRequest(url); 
-    return JSON.parse(json); 
+    try 
+    {
+        let json = AjaxRequest(url); 
+        return JSON.parse(json); 
+    }
+    catch 
+    {
+        return undefined; 
+    }
 }
 function SubmitData(key, url, data, stringify=true) 
 {

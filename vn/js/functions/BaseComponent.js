@@ -72,6 +72,10 @@ class BaseComponent extends React.Component
                 }
             ); 
         }, 
+        TableActions(controller)
+        {
+            return ServerJson(`../server/overview_controller/table_actions/vn/${controller}.json`) || {}; 
+        }, 
         TableData(overview_controller, params=undefined)
         {
             var data = AjaxRequest(this.OverviewDataUrl(overview_controller, params));

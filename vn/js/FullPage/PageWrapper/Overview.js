@@ -10,13 +10,6 @@ class Test extends React.Component
     }
 }
 
-class TestWord extends React.Component
-{
-    render() {
-        return "word"; 
-    }
-}
-
 class Overview extends PageWrapperChildrenComponent
 {
     constructor(props)
@@ -25,7 +18,8 @@ class Overview extends PageWrapperChildrenComponent
         BindFunctions(this); 
         this.state = 
         {
-            table_data: this.TableData(this.CurrentController() || "overview")
+            table_data: this.TableData(this.CurrentController() || "overview"), 
+            table_actions: this.TableActions(this.CurrentController() || "overview")
         }; 
     }
     render() 
@@ -44,7 +38,6 @@ class Overview extends PageWrapperChildrenComponent
         return (
             <div>
                 Overview
-                <p><TestWord /></p>
                 <pre>
                     {component}
                 </pre>
@@ -55,7 +48,7 @@ class Overview extends PageWrapperChildrenComponent
                     <HyperlinkListCompile html={`<router-link :to="{name: 'actions', params: {controller: 'leaseagrm', action: 'edit', building_id: 6}, query: {id: 146} }">Until 30/07/2022</router-link>`} />
                 </div>
                 <div>
-                    <ScrollingTable table={this.state.table_data} />
+                    <ScrollingTable table={this.state.table_data} table_actions={this.state.table_actions} />
                 </div>
             </div>         
         );
