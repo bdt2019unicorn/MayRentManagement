@@ -1,34 +1,34 @@
 {
     "hidden_columns": ["leaseid", "Payment Status Value", "Rental Status Value", "tenantid"], 
-    "page_title": "Overview", 
-    "search": ["Unit Name", "Tenant Name", "Rental Status", "Payment Status"], 
+    "page_title": "Tổng quát", 
+    "search": ["Đơn vị", "Người thuê", "Tình trạng thuê", "Tình trạng tiền thuê"], 
     "sort": 
     {
-        "Rental Status": "Rental Status Value", 
-        "Payment Status": "Payment Status Value", 
-        "Unit Name": "ID"
+        "Tình trạng thuê": "Rental Status Value", 
+        "Tình trạng tiền thuê": "Payment Status Value", 
+        "Đơn vị": "Mã số"
     }, 
     "special": 
     {
-        "list": ["Rental Status", "Tenant Name", "Unit Name"], 
-        "hyperlink": 
+        "list": ["Tình trạng thuê", "Người thuê", "Đơn vị"], 
+        "Hyperlink": 
         {
-            "Unit Name":
+            "Đơn vị":
             {
                 "controller": "unit", 
-                "action": "edit", 
-                "object_id": "ID"
+                "action": "Edit", 
+                "object_id": "Mã số"
             }, 
-            "Tenant Name":
+            "Người thuê":
             {
                 "controller": "tenant", 
-                "action": "edit", 
+                "action": "Edit", 
                 "object_id": "tenantid"
             }
         }, 
-        "hyperlink-list-compile": 
+        "HyperlinkListCompile": 
         {
-            "Rental Status": true
+            "Tình trạng thuê": true
         } 
     }
 }
