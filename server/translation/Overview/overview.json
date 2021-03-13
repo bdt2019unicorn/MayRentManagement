@@ -1,0 +1,7 @@
+{
+    "ID": "Mã số", 
+    "Unit Name": "Đơn vị", 
+    "Rental Status": "Tình trạng thuê",
+    "Payment Status": "Tình trạng tiền thuê",
+    "Tenant Name": "Người thuê"
+}
