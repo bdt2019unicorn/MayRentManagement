@@ -1,55 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ToDoList</title>
 
-<head>
-	<title>Title</title>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    />
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="./style.css">
-</head>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-<body>
-	<div id="app">
-		<div class="container text-center">
-			<h1>ToDo List</h1>
+  <body>
+    <div class="card">
+      <div class="card__body">
+        <div id="app" class="card__content">
+          <div class="card__title">
+            <h1>ToDo List</h1>
+          </div>
+          <div class="card__add" v-if="!isEditing">
+            <input v-model="todo" placeholder="Enter Cost Type">
+            <button @click="storeTodo">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div class="card__add" v-else>
+            <input type="text" v-model="todo">
+            <button class="btn btn-primary" value="update" @click="updateTodo">
+              <i class="fas fa-check-double"></i>
+            </button>
+          </div>
+          <div class="card__todo">
+            <ul class="todo" id="todo">
+              <li v-for="(todo,index) in todos">
+                <span>{{ todo }}</span>
+                <div class="buttons">
+                  <button @click="deleteToDo(index, todo)" class="remove">
+                    <i class="fa fa-trash-alt"></i>
+                  </button>
+                  <button @click="editToDo(todo, index)" class="complete">
+                    <i class="far fa-edit"></i>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-			<div v-if="!isEditing">
-				<input type="text" v-model="todo">
-				<input type="submit" value="add" @click="storeTodo" class="text-capitalize btn btn-info">
-			</div>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    
 
-			<div v-else>
-				<input type="text" v-model="todo">
-				<input type="submit" value="update" @click="updateTodo">
-			</div>
+    <script>
+      $(function () {
+        $(".toggle-btn").click(function () {
+          $(".filter-btn").toggleClass("open");
+        });
 
-			<ol>
-				<li v-for="(todo,index) in todos" style="list-style: none; margin: 10px;">
-					{{ todo }}
-					<button @click="editToDo(todo, index)" class="btn btn-success">Chỉnh</button>
-					<button @click="deleteToDo(index, todo)" class="btn btn-danger">Xóa</button>
-				</li>
-			</ol>
-		</div>
-	</div>
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-	<script src="./main.js"></script>
-</body>
-
+        $(".filter-btn a").click(function () {
+          $(".filter-btn").removeClass("open");
+        });
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js" integrity="sha512-QJsj3afWlCpnQ60XzzYE8Jb3IgHIK1BcGZox9rUSmRRq3Ocz9vQ1yR80eX2/b9jfx/UuT5zYWNdrM8Te/eCMhQ==" crossorigin="anonymous"></script>
+    <script src="./main.js"></script>
+  </body>
 </html>
