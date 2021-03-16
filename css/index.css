@@ -6,18 +6,29 @@
   box-sizing: border-box;
 }
 
-.calendar-right-align
+.basic-calculations-unit-add-button 
 {
+  border: none;
+  border-radius: 50%;
   position: absolute;
+  top: 0;
   right: 0;
+  box-shadow: 0 0 0 2px rgba(222, 57, 99);
+  cursor: pointer;
+  outline: none;
 }
 
-.card__add
+.basic-calculations-unit-add-i 
 {
-  position: relative;
+  height: 5vmin;
+  width: 5vmin;
+  border-radius: 25px;
+  background: #fff;
+  line-height: 40px;
+  color: #de3963;
 }
 
-.card__add input 
+.basic-calculations-unit-add-input
 {
   width: 100%;
   height: 5vmin;
@@ -30,25 +41,46 @@
   outline: none;
 }
 
-.card__add button {
-  border: none;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  box-shadow: 0 0 0 2px rgba(222, 57, 99);
-  cursor: pointer;
-  outline: none;
+.basic-calculations-unit-li 
+{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: #444;
+  background: #fff;
+  box-shadow: 0px 0px 1rem rgba(44, 62, 80, 0.3);
+  margin: 0 0 1rem 0;
+  padding: 0 1rem;
+  word-break: break-word;
 }
 
-.card__add i 
+.basic-calculations-unit-li .buttons button 
 {
-  height: 5vmin;
-  width: 5vmin;
-  border-radius: 25px;
-  background: #fff;
-  line-height: 40px;
-  color: #de3963;
+  background: none;
+  border: 0px;
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  padding: 0.1rem 0 0.1rem 0.1rem;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.basic-calculations-unit-li .buttons .edit:hover 
+{
+  color: #25b99a;
+}
+
+.basic-calculations-unit-li .buttons .remove:hover 
+{
+  color: #fa396b;
+}
+
+.calendar-right-align
+{
+  position: absolute;
+  right: 0;
 }
 
 .popup-div
