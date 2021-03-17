@@ -22,13 +22,8 @@ Vue.component
         {
             BasicCalculations()
             {
-                var data = []; 
-                var input_num = (Math.random().toFixed(1)*20); 
-                for (let index = 0; index < input_num; index++) 
-                {
-                    data.push(index+1); 
-                }
-                this.basic_calculations = data; 
+                var overview_controller = this.tables[this.current_table]; 
+                this.basic_calculations = overview_controller?this.TableData(overview_controller): []; 
             }
         },
         watch: 
@@ -54,6 +49,57 @@ Vue.component
                     </b-dropdown-item>
                 </b-dropdown>
                 <br>
+                
+                <div v-if="current_table=='Lease Agreement Period'" class="basic-calculations-unit-div">
+                    <div class="position-relative">
+                        <input class="basic-calculations-unit-add-input" type="text">
+                        <button class="basic-calculations-unit-add-button" value="update">
+                            <i class="basic-calculations-unit-add-i fas fa-check-double"></i>
+                            <!--<i class="fas fa-check-double"></i>-->
+                        </button>
+                    </div>
+                    <div>
+                        <ul class="list-unstyled pt-4">
+                            <li class="basic-calculations-unit-li" v-for="unit in basic_calculations">
+                                <span>{{unit}}</span>
+                                <div class="buttons">
+                                    <button class="edit" title="Edit">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                    <button class="remove" title="Remove">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div v-if="current_table=='Revenue Type'" class="basic-calculations-unit-div">
+                    <div class="position-relative">
+                        <input class="basic-calculations-unit-add-input" type="text">
+                        <button class="basic-calculations-unit-add-button" value="update">
+                            <i class="basic-calculations-unit-add-i fas fa-check-double"></i>
+                            <!--<i class="fas fa-check-double"></i>-->
+                        </button>
+                    </div>
+                    <div>
+                        <ul class="list-unstyled pt-4">
+                            <li class="basic-calculations-unit-li" v-for="unit in basic_calculations">
+                                <span>{{unit}}</span>
+                                <div class="buttons">
+                                    <button class="edit" title="Edit">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                    <button class="remove" title="Remove">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div v-if="current_table" class="basic-calculations-unit-div">
                     <div class="position-relative">
                         <input class="basic-calculations-unit-add-input" type="text">
