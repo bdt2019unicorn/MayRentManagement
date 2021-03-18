@@ -8,6 +8,8 @@ Vue.component
             {
                 basic_calculations: [], 
                 current_table: undefined, 
+                edit_id: undefined, 
+                edit_text: undefined, 
                 tables: 
                 {
                     "Document Types": "document_type", 
@@ -24,6 +26,25 @@ Vue.component
             {
                 var overview_controller = this.tables[this.current_table]; 
                 this.basic_calculations = overview_controller?this.TableData(overview_controller): []; 
+                this.edit_text = undefined; 
+                this.edit_id = undefined; 
+            }, 
+            GeneralButtonClick()
+            {
+                if(this.edit_id)
+                {
+                    console.log("edit things"); 
+                }
+                else 
+                {
+                    console.log("adding things"); 
+                }
+                this.GeneralEditButtonClick(undefined, undefined); 
+            }, 
+            GeneralEditButtonClick(id, name)
+            {
+                this.edit_id = id; 
+                this.edit_text = name; 
             }
         },
         watch: 
@@ -102,18 +123,17 @@ Vue.component
 
                 <div v-if="current_table" class="basic-calculations-unit-div">
                     <div class="position-relative">
-                        <input class="basic-calculations-unit-add-input" type="text">
-                        <button class="basic-calculations-unit-add-button" value="update">
-                            <i class="basic-calculations-unit-add-i fas fa-check-double"></i>
-                            <!--<i class="fas fa-check-double"></i>-->
+                        <input class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
+                        <button class="basic-calculations-unit-add-button" @click="GeneralButtonClick">
+                            <i :class="'basic-calculations-unit-add-i ' + (edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
                         </button>
                     </div>
                     <div>
                         <ul class="list-unstyled pt-4">
-                            <li class="basic-calculations-unit-li" v-for="unit in basic_calculations">
-                                <span>{{unit}}</span>
+                            <li class="basic-calculations-unit-li" v-for="{id, name} in basic_calculations">
+                                <span>{{name}}</span>
                                 <div class="buttons">
-                                    <button class="edit" title="Edit">
+                                    <button class="edit" title="Edit" @click="GeneralEditButtonClick(id, name)">
                                         <i class="far fa-edit"></i>
                                     </button>
                                     <button class="remove" title="Remove">
