@@ -23,6 +23,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js" integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA==" crossorigin="anonymous"></script>
+            <!-- <script src="http://fb.me/JSXTransformer-0.13.3.js"></script> -->
 
             <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
@@ -36,10 +37,11 @@
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js" integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw==" crossorigin="anonymous"></script>
             <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
-            <script src="npm/immunity-helper.js"></script>
-            <script src="npm/react-number-format.js"></script>
-            <script src="npm/react-datetime.js"></script>
-            <script src="npm/react-widgets.js"></script>
+            <!-- <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.production.min.js"></script> -->
+            <script src="js/npm/immunity-helper.js"></script>
+            <script src="js/npm/react-number-format.js"></script>
+            <script src="js/npm/react-datetime.js"></script>
+            <script src="js/npm/react-widgets.js"></script>
 
             <script src="js/functions/support.js"></script>
             <script type="text/babel" src="js/functions/BaseComponent.js"></script>
@@ -48,6 +50,9 @@
             <script type="text/babel" src="js/functions/AuthorizedComponent.js"></script>
             <script type="text/babel" src="js/functions/PageWrapperChildrenComponent.js"></script>
             <script type="text/babel" src="js/functions/AddEditComponent.js"></script>
+
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable/TranslateComponents.js"></script>
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable/Hyperlinks.js"></script>
 
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/TextComponents.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/ActionButton.js"></script>
@@ -60,6 +65,7 @@
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/AddEdit.js"></script>
+            <script type="text/babel" src="js/FullPage/PageWrapper/Overview.js"></script>
 
             <script type="text/babel" src="js/FullPage/PageWrapper/ImportExcel.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/Sidebar.js"></script>
@@ -74,5 +80,21 @@
 
             <script defer type="text/babel" src="js/setup.js"></script>
         </footer>
+
+
+
+
+        <!-- <div>
+            <div>
+                <HyperlinkListCompile append={this.BuildingId()} html='<router-link to="leaseagrm/edit?id=144" append>Until March 31, 2021</router-link>`' />
+            </div>
+            <div>
+                <HyperlinkListCompile html={`<router-link :to="{name: 'actions', params: {controller: 'leaseagrm', action: 'edit', building_id: 6}, query: {id: 146} }">Until 30/07/2022</router-link>`} />
+            </div>
+            <div>
+                <h1>{_get(this.state.table_actions, "page_title") || "Tổng quát"}</h1>
+                <ScrollingTable table={this.state.table_data} table_actions={this.state.table_actions} />
+            </div>
+        </div>     -->
     </body>
 </html>

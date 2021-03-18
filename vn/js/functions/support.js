@@ -41,8 +41,15 @@ function SearchQueryString(params)
 }
 function ServerJson(url)
 {
-    let json = AjaxRequest(url); 
-    return JSON.parse(json); 
+    try 
+    {
+        let json = AjaxRequest(url); 
+        return JSON.parse(json); 
+    }
+    catch 
+    {
+        return undefined; 
+    }
 }
 function SubmitData(key, url, data, stringify=true) 
 {
@@ -60,6 +67,36 @@ function SubmitUserInformation(form_data)
     }
     catch(error) {}
 } 
+function ToActions({params, query}) 
+{
+    let {building_id, controller, action} = params; 
+    action = UpperCaseFirstChar(action || ""); 
+    return {
+        pathname: "/" + [building_id, controller, action].filter(value=>value).join("/"), 
+        search: SearchQueryString(query)
+    };
+}
+function TranslateTable(table, url) 
+{
+    var translate = ServerJson(url); 
+    return translate ? table.map
+    (
+        row=>Object.keys(row).reduce
+        (
+            (accumulator, current_value)=>
+            (
+                {
+                    ...accumulator, 
+                    [translate[current_value] || current_value]: row[current_value]
+                }
+            ), {}
+        ) 
+    ) : table; 
+}
+function UpperCaseFirstChar(value) 
+{
+    return value.charAt(0).toUpperCase() + value.slice(1); 
+}
 function UserInputForm(controller)
 {
     try 

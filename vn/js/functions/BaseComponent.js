@@ -72,6 +72,10 @@ class BaseComponent extends React.Component
                 }
             ); 
         }, 
+        TableActions(controller)
+        {
+            return ServerJson(`../server/overview_controller/table_actions/vn/${controller}.json`) || {}; 
+        }, 
         TableData(overview_controller, params=undefined)
         {
             var data = AjaxRequest(this.OverviewDataUrl(overview_controller, params));
@@ -87,7 +91,7 @@ class BaseComponent extends React.Component
         ValidationHelperText(validations, props_name)
         {
             let name = this.props[props_name]; 
-            let replace_name = ( name.charAt(0).toUpperCase() + name.slice(1) ).replaceAll("_", " "); 
+            let replace_name = UpperCaseFirstChar(name).replaceAll("_", " "); 
             return validations[name][0].replaceAll(replace_name, "").trim()
         }
     }

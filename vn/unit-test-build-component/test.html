@@ -34,6 +34,7 @@
 
             <script src="dist/bundle.js"></script>
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
+            <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
 
             
             <script type="text/babel">
@@ -66,6 +67,15 @@
                         return options; 
                 }
 
+                function OptionColumns()
+                {
+                    return [
+                        {field: "id", headerName: "id"}, 
+                        {field: "name", headerName: "name"}, 
+                        {field: "size", headerName: "size"} 
+                    ]; 
+                }
+
                 const select_options = CreateOptions();                 
                 
                 
@@ -74,15 +84,11 @@
                 {
                     render()
                     {
-
+                        var columns = OptionColumns(); 
+                        var rows = select_options; 
                         try {
-                        var Multiselect = ReactWidgets.Multiselect; 
-                        var Change = (option)=>
-                        {
-                            console.log(option); 
-                        }; 
                         return (
-                            <Multiselect onChange={Change} data={select_options}  valueField='id' textField='name' />
+                            <MaterialUIGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 
