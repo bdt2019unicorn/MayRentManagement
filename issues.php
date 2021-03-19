@@ -27,11 +27,12 @@
                     </div>
                     <hr> <br>
                     <div id="list__comment"></div>
-                    <form action="#" class="text-center" method="POST">
+                    <form id="issue_actions" action="#" class="text-center" method="POST">
                         <div class="issue__des container-fluid">
                             <textarea placeholder="Leave a comment" name="comment" id="comment" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
                         </div>
-                        <button type="button" class="btn btn-success text-center float-right" onclick="PostComment()">Comment</button>
+                        <button type="button" class="m-2 btn btn-success text-center float-right" onclick="PostComment()">Comment</button>
+                        <button type="button" class="m-2 btn btn-danger text-center float-right" onclick="CloseIssue()">Close Issue</button>
                     </form>
                 </section>
             <?php elseif(isset($_GET["action"])):?>
@@ -74,8 +75,14 @@
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-            <script src="js/issues.js"></script>
+            <?php if($issue_id): ?>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js" integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA==" crossorigin="anonymous"></script>
+                <script src="js/issues-actions.js"></script>
+            <?php else: ?>
+                <script src="js/issues-overview.js"></script>
+            <?php endif; ?>
             <script>
+                var issue_data; 
                 jQuery
                 (
                     function()
@@ -83,6 +90,7 @@
                         let url = `<?php echo $url; ?>`; 
                         var data = GetIssues(url); 
                         <?php if($issue_id): ?>
+                            issue_data = data; 
                             ShowIssue(data);
                             IssueComments(url); 
                         <?php else: ?>
@@ -90,6 +98,19 @@
                         <?php endif; ?>
                     }
                 ); 
+
+                function GetIssues(url) 
+                {
+                    let data = SendRequestToGithub(url, {}, "GET");
+                    try 
+                    {
+                        return data.filter(issue => !issue.pull_request);
+                    }
+                    catch
+                    {
+                        return data;
+                    }
+                }
 
                 function PostComment()
                 {
@@ -145,7 +166,7 @@
                     $.ajax
                     (
                         {
-                            headers: {Authorization : "<?php echo ($token="Token $repo->token");?>"}, 
+                            headers: {Authorization : "Token <?php echo $repo->token;?>"}, 
                             type: type, 
                             url: url, 
                             data: JSON.stringify(data), 

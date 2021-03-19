@@ -1,31 +1,3 @@
-function GetIssues(url) 
-{
-    let data = SendRequestToGithub(url, {}, "GET");
-    try 
-    {
-        return data.filter(issue => !issue.pull_request);
-    }
-    catch
-    {
-        return data;
-    }
-}
-
-function IssueComments(url)
-{
-    url = `${url}/comments`; 
-    let data = SendRequestToGithub(url, {}, "GET");
-    data.forEach((element, index)=>$("#list__comment").append(IssueCommentDiv(element, index))); 
-}
-
-function IssueCommentDiv(data, index)
-{
-    var div = document.createElement("div"); 
-    div.className = `issue__des container-fluid text-${(Number(index)%2==0)? "left": "right"}`; 
-    div.innerHTML = '<p>'+data.body+'</p>'; 
-    return div; 
-}
-
 function IssueOverview(data) 
 {
     var div = document.createElement("div");
@@ -33,8 +5,7 @@ function IssueOverview(data)
     $("#issues-overview").append(div);
 }
 
-
-function IssueDiv({ number, title, body }) 
+function IssueDiv({ number, title, body, state }) 
 {
     var div = document.createElement("div");
     div.className = "container-fluid row";
@@ -53,7 +24,7 @@ function IssueDiv({ number, title, body })
 
         let header_title = document.createElement("div");
         header_title.className = "col-10";
-        header_title.innerHTML = `<a href="./issues.php?id=${number}"><h3>${title}</h3></a>`;
+        header_title.innerHTML = `<a href="./issues.php?id=${number}"><h3${state=="closed"?" class='text-danger'": ""}>${title}</h3></a>`;
 
         let show_hide = document.createElement("div");
         show_hide.className = "col-1";
@@ -90,10 +61,4 @@ function IssueDiv({ number, title, body })
     div.append(header);
     div.append(content);
     return div;
-}
-
-function ShowIssue(data)
-{
-    document.getElementById("showtitle").innerText=data.title;
-    document.getElementById("updatecoment").innerText=data.body|| "There is no description here."; 
 }

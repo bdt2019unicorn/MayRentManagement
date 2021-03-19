@@ -42,7 +42,7 @@
     <?php endif; ?>
     
     <form class="container border border-warning p-3" data-whitespace="no-writespace" method="POST" action="../server/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event, false)">
-        <?php $key_list = ["USER", "REPO", "TOKEN"]; ?>
+        <?php $key_list = ["USER", "REPO", "TOKEN", "EMAIL_API", "NOTIFICATION_EMAIL"]; ?>
         <h1 class="text-center">Repository Information Set Up</h1>
         <?php foreach($key_list as $key): ?>
             <div class="form-group">
