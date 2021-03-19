@@ -4,9 +4,14 @@ function ShowIssue(data)
     document.getElementById("updatecoment").innerText=data.body|| "There is no description here."; 
     if(data.state=="closed")
     {
-        document.getElementById("showtitle").className = "text-danger"; 
-        document.getElementById("issue_actions").className = "d-none"; 
+        IssueClosedCallBack(); 
     }
+}
+
+function IssueClosedCallBack()
+{
+    document.getElementById("showtitle").className = "text-danger"; 
+    document.getElementById("issue_actions").className = "d-none"; 
 }
 
 function IssueCommentDiv(data, index)
@@ -57,7 +62,7 @@ function CloseIssue()
                 SendEmail(to, subject, content); 
             }
         }
-        console.log(issue_data); 
+        UpdateIssue(issue_data.number, {state: "closed"}, IssueClosedCallBack, "Close"); 
     }
 }
 
@@ -69,7 +74,7 @@ function SendEmail(to, subject, content)
             url: "server/helper/email.php", 
             data: {to, subject, content}, 
             type: "POST", 
-            dataType: "text"         
+            dataType: "text" 
         }
     ); 
 }
