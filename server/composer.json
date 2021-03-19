@@ -1,6 +1,7 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.1",
-        "phpoffice/phpspreadsheet": "^1.15"
+        "phpoffice/phpspreadsheet": "^1.15",
+        "sendgrid/sendgrid": "^7.9"
     }
 }
