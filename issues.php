@@ -2,7 +2,7 @@
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="css/issue.css">
+        <link rel="stylesheet" type="text/css" href="css/issues.css">
     </head>
     <body>
         <a href="./" class="mx-3">Main Page</a>
@@ -22,27 +22,27 @@
                 ?>
                 <section id="issue">
                     <h1 id="showtitle"></h1>
-                    <div class="issue__des container-fluid">
-                        <p id="updatecoment"></p>
-                    </div>
+                    <div id="issue_description" class="issue__des container-fluid"></div>
                     <hr> <br>
                     <div id="list__comment"></div>
-                    <form action="#" class="text-center" method="POST">
+                    <form id="issue_actions" action="#" class="text-center" method="POST">
                         <div class="issue__des container-fluid">
                             <textarea placeholder="Leave a comment" name="comment" id="comment" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
                         </div>
-                        <button type="button" class="btn btn-success text-center float-right" onclick="PostComment()">Comment</button>
+                        <button type="button" class="m-2 btn btn-success text-center float-right" onclick="PostComment()">Comment</button>
+                        <button type="button" class="m-2 btn btn-danger text-center float-right" onclick="CloseIssue()">Close Issue</button>
                     </form>
                 </section>
             <?php elseif(isset($_GET["action"])):?>
+            </div>
                 <form action="#" class="issue__create text-center" method="POST">
                     <h1>Issue Ticket</h1>
                     <div class="issue__des container-fluid">                      
                         <input placeholder="Title" type="text" name="issue__title" id="issue__title" required>
                     </div>
-                    <div class="issue__des container-fluid">
-                        <textarea placeholder="Leave a comment" name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
+                    <div contenteditable placeholder="Description" class="issue__des issue__description container-fluid" oninput="IssueContentOnchange(this)">
                     </div>
+                    <textarea hidden name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control"></textarea>
                     <button type="button" class="btn btn-success text-center" onclick="PostIssue()">Submit</button>
                 </form>
             <?php else: ?>
@@ -74,8 +74,55 @@
             <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-            <script src="js/issues.js"></script>
+            <?php if($issue_id): ?>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js" integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA==" crossorigin="anonymous"></script>
+                <script src="js/issues-actions.js"></script>
+                <script>
+                    function PostComment()
+                    {
+                        var comment = $("#comment").val().trim();  
+                        if(comment)
+                        {
+                            let url = "<?php echo $url; ?>/comments"; 
+                            var data = {body: comment}; 
+                            let result = SendRequestToGithub(url, data); 
+                            if(result.id)
+                            {
+                                let index = $("#list__comment").children().length; 
+                                $("#list__comment").append(IssueCommentDiv(result, index)); 
+                                $("#comment").val(""); 
+                            }
+                            else 
+                            {
+                                alert("There seems like an issue with the server, please try again"); 
+                            }
+                        }
+                        else 
+                        {
+                            alert("Please enter your comment"); 
+                        }
+                    }
+
+                    function UpdateIssue(id, data, callback=()=>null, title="Edit",)
+                    {
+                        let url = "<?php echo $url;?>"; 
+                        let result = SendRequestToGithub(url, data, "patch"); 
+                        if(result)
+                        {
+                            alert(`${title} Issue Success`); 
+                            callback(); 
+                        }
+                        else
+                        {
+                            alert(`${title} Fails`); 
+                        }
+                    }
+                </script>
+            <?php else: ?>
+                <script src="js/issues-overview.js"></script>
+            <?php endif; ?>
             <script>
+                var issue_data; 
                 jQuery
                 (
                     function()
@@ -83,36 +130,36 @@
                         let url = `<?php echo $url; ?>`; 
                         var data = GetIssues(url); 
                         <?php if($issue_id): ?>
+                            issue_data = data; 
                             ShowIssue(data);
                             IssueComments(url); 
                         <?php else: ?>
                             IssueOverview(data);
+                            $(".issue__description").empty(); 
+                            $(".issue__description").focusout
+                            (
+                                function()
+                                {
+                                    if(!this.innerText.trim())
+                                    {
+                                        $(this).empty(); 
+                                    }
+                                }
+                            ); 
                         <?php endif; ?>
                     }
                 ); 
 
-                function PostComment()
+                function GetIssues(url) 
                 {
-                    var comment = $("#comment").val().trim();  
-                    if(comment)
+                    let data = SendRequestToGithub(url, {}, "GET");
+                    try 
                     {
-                        let url = "<?php echo $url; ?>"; 
-                        var data = {body: comment}; 
-                        let result = SendRequestToGithub(`${url}/comments`, data); 
-                        if(result.id)
-                        {
-                            let index = $("#list__comment").children().length; 
-                            $("#list__comment").append(IssueCommentDiv(result, index)); 
-                            $("#comment").val(""); 
-                        }
-                        else 
-                        {
-                            alert("There seems like an issue with the server, please try again"); 
-                        }
+                        return data.filter(issue => !issue.pull_request);
                     }
-                    else 
+                    catch
                     {
-                        alert("Please enter your comment"); 
+                        return data;
                     }
                 }
 
@@ -145,7 +192,7 @@
                     $.ajax
                     (
                         {
-                            headers: {Authorization : "<?php echo ($token="Token $repo->token");?>"}, 
+                            headers: {Authorization : "Token <?php echo $repo->token;?>"}, 
                             type: type, 
                             url: url, 
                             data: JSON.stringify(data), 

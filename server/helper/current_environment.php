@@ -1,5 +1,5 @@
 <?php 
-    require_once(realpath(__DIR__."/../../vendor/autoload.php")); 
+    require_once(realpath(__DIR__."/../vendor/autoload.php")); 
     use Dotenv\Dotenv;
     
     class CurrentEnvironment
@@ -100,7 +100,12 @@
 
         public function Repo()
         {
-            return (object) ["user" => $_ENV["USER"], "repo" => $_ENV["REPO"], "token" => $_ENV["TOKEN"]]; 
+            return (object) 
+            [
+                "user" => $_ENV["USER"], 
+                "repo" => $_ENV["REPO"], 
+                "token" => $_ENV["TOKEN"]
+            ]; 
         }
     }
 ?>
