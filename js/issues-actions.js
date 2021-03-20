@@ -1,7 +1,22 @@
 function ShowIssue(data)
 {
     document.getElementById("showtitle").innerText=data.title;
-    document.getElementById("updatecoment").innerText=data.body|| "There is no description here."; 
+    var issue_description = document.getElementById("issue_description"); 
+    if(data.body.trim())
+    {
+        if(data.body.includes("img"))
+        {
+            issue_description.innerHTML = data.body; 
+        }
+        else 
+        {
+            issue_description.innerText = data.body; 
+        }
+    }
+    else 
+    {
+        issue_description.innerText = "There is no description here."; 
+    }
     if(data.state=="closed")
     {
         IssueClosedCallBack(); 
@@ -58,6 +73,8 @@ function CloseIssue()
                 `
                     <p>This is the notification that the issue </b>${issue_data.title}</b> is closed</p>
                     <p>If you believe this is a mistake, please reply to this email or contact the administrator</p>
+                    <br>
+                    <p>This is an automatic email</p>
                 `; 
                 SendEmail(to, subject, content); 
             }

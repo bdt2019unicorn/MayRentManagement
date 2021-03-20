@@ -2,7 +2,7 @@
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="css/issue.css">
+        <link rel="stylesheet" type="text/css" href="css/issues.css">
     </head>
     <body>
         <a href="./" class="mx-3">Main Page</a>
@@ -22,9 +22,7 @@
                 ?>
                 <section id="issue">
                     <h1 id="showtitle"></h1>
-                    <div class="issue__des container-fluid">
-                        <p id="updatecoment"></p>
-                    </div>
+                    <div id="issue_description" class="issue__des container-fluid"></div>
                     <hr> <br>
                     <div id="list__comment"></div>
                     <form id="issue_actions" action="#" class="text-center" method="POST">
@@ -36,14 +34,15 @@
                     </form>
                 </section>
             <?php elseif(isset($_GET["action"])):?>
+            </div>
                 <form action="#" class="issue__create text-center" method="POST">
                     <h1>Issue Ticket</h1>
                     <div class="issue__des container-fluid">                      
                         <input placeholder="Title" type="text" name="issue__title" id="issue__title" required>
                     </div>
-                    <div class="issue__des container-fluid">
-                        <textarea placeholder="Leave a comment" name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
+                    <div contenteditable placeholder="Description" class="issue__des issue__description container-fluid" oninput="IssueContentOnchange(this)">
                     </div>
+                    <textarea hidden name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control"></textarea>
                     <button type="button" class="btn btn-success text-center" onclick="PostIssue()">Submit</button>
                 </form>
             <?php else: ?>
@@ -136,6 +135,17 @@
                             IssueComments(url); 
                         <?php else: ?>
                             IssueOverview(data);
+                            $(".issue__description").empty(); 
+                            $(".issue__description").focusout
+                            (
+                                function()
+                                {
+                                    if(!this.innerText.trim())
+                                    {
+                                        $(this).empty(); 
+                                    }
+                                }
+                            ); 
                         <?php endif; ?>
                     }
                 ); 

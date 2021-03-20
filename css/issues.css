@@ -16,7 +16,6 @@ body
     text-transform: uppercase;
 }
 
-
 .issue__des
 {
     border-radius: 20px;
@@ -46,6 +45,23 @@ body
     border-radius: 5px;
 }
 
+.issue__description
+{
+    min-height: 30vh;
+    max-height: 60vh;
+    overflow: auto;
+    text-align: left;
+}
+
+.issue__description[placeholder]:empty::before
+{
+    content: attr(placeholder);
+}
+
+.issue__description[placeholder]:empty:focus::before
+{
+    content: "";
+}
 
 .btn__submit
 {
