@@ -4,7 +4,7 @@ function ShowIssue(data)
     var issue_description = document.getElementById("issue_description"); 
     if(data.body.trim())
     {
-        if(data.body.includes("img"))
+        if(data.body.match('<img src=".+"'))
         {
             issue_description.innerHTML = data.body; 
         }
