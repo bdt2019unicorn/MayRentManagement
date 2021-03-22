@@ -57,6 +57,7 @@
             $this->total_invoice_amount = OverviewQueries\LeaseAgrm::$TotalInvoiceAmountQuery; 
 
             $this->test_mode = CurrentEnvironment::TestMode(); 
+            $this->tenant_name = OverviewQueries\Tenant::TenantName($this->test_mode); 
         }
 
         private function LeaseAgrm($leaseagrm=null, $start_date_data=null, $rent_information=null)

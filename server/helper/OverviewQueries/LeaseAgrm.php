@@ -71,8 +71,6 @@
 
         private static function CompareTotals($main_total_query, $compared_total_query, $as, $test_mode=false)
         {
-            $format = $test_mode? "ROUND" : "FORMAT";  
-
             $condition = 
             "
                 (
@@ -84,17 +82,16 @@
             (
                 [
                     "'('", 
-                    Query::CastAsChar("(\n{$format}({$main_total_query} - {$compared_total_query}, 0)\n)", $test_mode), 
+                    Query::CastAsChar
+                    (
+                        Query::NumberFormat("{$main_total_query} - {$compared_total_query}", $test_mode), 
+                        $test_mode
+                    ), 
                     "')'"
                 ], $test_mode
             ); 
 
-            $false = 
-            "
-                (
-                    {$format}({$compared_total_query} - {$main_total_query}, 0)
-                )
-            "; 
+            $false = Query::NumberFormat("{$compared_total_query} - {$main_total_query}", $test_mode); 
 
             return "(\n" . Query::CaseWhen($condition, $true, $false) . "\n) AS `{$as}`"; 
         }
