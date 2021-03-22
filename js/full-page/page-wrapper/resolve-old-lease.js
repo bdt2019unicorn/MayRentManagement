@@ -123,7 +123,7 @@ Vue.component
             <div class="container-fluid">
                 <h1>Old Contracts To Resolve Payment</h1>
                 <template v-if="old_leases.length">
-                    <div class="container-fluid border border-info my-2" v-for="({id, name, show_details, ...rest}, index) in old_leases">
+                    <div :class="'container-fluid my-2 border ' + (DateChargedUntilInvalid(old_leases[index])?'border-danger': 'border-info')" v-for="({id, name, show_details, ...rest}, index) in old_leases">
                         <div class="row">
                             <div class="col-3">
                                 <h5 class="text-info">  
