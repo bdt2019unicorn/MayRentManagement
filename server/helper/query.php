@@ -83,7 +83,6 @@
                 END
             "; 
         }
-
         
         static public function IfNull($expression, $false)
         {
@@ -105,6 +104,25 @@
         {
             $char = $test_mode? "TEXT": "CHAR"; 
             return "CAST({$clause} AS {$char})"; 
+        }
+
+        static public function NumberFormat($expression, $test_mode=false)
+        {
+            $format = $test_mode? "ROUND" : "FORMAT";  
+            $number_format = 
+            "
+                (
+                    {$format}({$expression}, 0)
+                )
+            "; 
+            return $test_mode ? 
+            "
+                PRINTF
+                (
+                    '%,d', 
+                    {$number_format}
+                )
+            ": $number_format; 
         }
         
         static public function Concat($pieces, $test_mode=false)
