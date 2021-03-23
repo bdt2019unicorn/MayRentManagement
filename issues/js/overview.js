@@ -62,9 +62,3 @@ function IssueDiv({ number, title, body, state })
     div.append(content);
     return div;
 }
-
-function IssueContentOnchange(div)
-{
-    var img = $(div).find("img"); 
-    $("#issue__comments").val(img.length?div.innerHTML: div.innerText); 
-}

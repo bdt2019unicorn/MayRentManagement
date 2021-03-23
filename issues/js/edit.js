@@ -95,3 +95,19 @@ function SendEmail(to, subject, content)
         }
     ); 
 }
+
+function AttachImageCheckboxOnChange(checkbox) 
+{
+    var textarea_classes = document.getElementById("comment__textarea").classList;
+    var contenteditable_classes = document.getElementById("comment__contenteditable").classList; 
+    if(checkbox.checked)
+    {
+        contenteditable_classes.remove("d-none"); 
+        textarea_classes.add("d-none"); 
+    }
+    else 
+    {
+        contenteditable_classes.add("d-none"); 
+        textarea_classes.remove("d-none"); 
+    }
+}

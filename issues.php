@@ -5,122 +5,35 @@
         <link rel="stylesheet" type="text/css" href="css/issues.css">
     </head>
     <body>
-        <a href="./" class="mx-3">Main Page</a>
-        <a href="issues.php" class="mx-3">Issues</a>
+        <?php require_once("issues/pages/general.php"); ?>
         <div class="container-fluid">
             <?php 
-                require_once("server/helper/database.php"); 
-                $current_environment = new CurrentEnvironment(); 
-                $repo = $current_environment->Repo(); 
-                $issue_id = $_GET["id"]??null; 
-                $url = "https://api.github.com/repos/{$repo->user}/{$repo->repo}/issues"; 
+                if($issue_id)
+                {
+                    require_once("issues/pages/edit.php"); 
+                }
+                elseif(isset($_GET["action"]))
+                {
+                    require_once("issues/pages/add.php"); 
+                }
+                else
+                {
+                    require_once("issues/pages/overview.php"); 
+                }
             ?>
-
-            <?php if($issue_id): ?>
-                <?php 
-                    $url.="/{$issue_id}"; 
-                ?>
-                <section id="issue">
-                    <h1 id="showtitle"></h1>
-                    <div id="issue_description" class="issue__des container-fluid"></div>
-                    <hr> <br>
-                    <div id="list__comment"></div>
-                    <form id="issue_actions" action="#" class="text-center" method="POST">
-                        <div class="issue__des container-fluid">
-                            <textarea placeholder="Leave a comment" name="comment" id="comment" cols="30" rows="10" class="issue__textarea form-control" required></textarea>
-                        </div>
-                        <button type="button" class="m-2 btn btn-success text-center float-right" onclick="PostComment()">Comment</button>
-                        <button type="button" class="m-2 btn btn-danger text-center float-right" onclick="CloseIssue()">Close Issue</button>
-                    </form>
-                </section>
-            <?php elseif(isset($_GET["action"])):?>
-            </div>
-                <form action="#" class="issue__create text-center" method="POST">
-                    <h1>Issue Ticket</h1>
-                    <div class="issue__des container-fluid">                      
-                        <input placeholder="Title" type="text" name="issue__title" id="issue__title" required>
-                    </div>
-                    <div contenteditable placeholder="Description" class="issue__des issue__description container-fluid" oninput="IssueContentOnchange(this)">
-                    </div>
-                    <textarea hidden name="issue__comments" id="issue__comments" cols="30" rows="10" class="issue__textarea form-control"></textarea>
-                    <button type="button" class="btn btn-success text-center" onclick="PostIssue()">Submit</button>
-                </form>
-            <?php else: ?>
-                <?php
-                    $issue_state = $_GET["state"]??"open"; 
-                    $url.= "?state={$issue_state}"; 
-                ?>
-                <h1>Issues Overview</h1>
-                <div class="row justify-content-center align-self-center">
-                    <div class="col-4 dropdown">
-                        <a class="btn btn-info dropdown-toggle w-100" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php echo $issue_state; ?>
-                        </a>
-
-                        <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="./issues.php?state=open">open</a>
-                            <a class="dropdown-item" href="./issues.php?state=closed">closed</a>
-                            <a class="dropdown-item" href="./issues.php?action=inserted">Create New Issue</a>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row justify-content-center align-self-center">
-                    <div id="issues-overview" class="col-10"></div>
-                </div>
-            <?php endif; ?>
         </div>
         <footer>
-            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-            <?php if($issue_id): ?>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js" integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA==" crossorigin="anonymous"></script>
-                <script src="js/issues-actions.js"></script>
-                <script>
-                    function PostComment()
-                    {
-                        var comment = $("#comment").val().trim();  
-                        if(comment)
-                        {
-                            let url = "<?php echo $url; ?>/comments"; 
-                            var data = {body: comment}; 
-                            let result = SendRequestToGithub(url, data); 
-                            if(result.id)
-                            {
-                                let index = $("#list__comment").children().length; 
-                                $("#list__comment").append(IssueCommentDiv(result, index)); 
-                                $("#comment").val(""); 
-                            }
-                            else 
-                            {
-                                alert("There seems like an issue with the server, please try again"); 
-                            }
-                        }
-                        else 
-                        {
-                            alert("Please enter your comment"); 
-                        }
-                    }
-
-                    function UpdateIssue(id, data, callback=()=>null, title="Edit",)
-                    {
-                        let url = "<?php echo $url;?>"; 
-                        let result = SendRequestToGithub(url, data, "patch"); 
-                        if(result)
-                        {
-                            alert(`${title} Issue Success`); 
-                            callback(); 
-                        }
-                        else
-                        {
-                            alert(`${title} Fails`); 
-                        }
-                    }
-                </script>
-            <?php else: ?>
-                <script src="js/issues-overview.js"></script>
-            <?php endif; ?>
+            <?php 
+                require_once("issues/scripts/general.php"); 
+                if($issue_id)
+                {
+                    require_once("issues/scripts/edit.php"); 
+                }
+                else
+                {
+                    require_once("issues/scripts/overview.php"); 
+                }
+            ?>
             <script>
                 var issue_data; 
                 jQuery
@@ -149,66 +62,6 @@
                         <?php endif; ?>
                     }
                 ); 
-
-                function GetIssues(url) 
-                {
-                    let data = SendRequestToGithub(url, {}, "GET");
-                    try 
-                    {
-                        return data.filter(issue => !issue.pull_request);
-                    }
-                    catch
-                    {
-                        return data;
-                    }
-                }
-
-                function PostIssue()
-                {   
-                    let url = "<?php echo $url; ?>";
-                    var data = {title: document.getElementById("issue__title").value.trim(), body: document.getElementById("issue__comments").value.trim()}; 
-                    if(data.title)
-                    {
-                        let result = SendRequestToGithub(url, data); 
-                        if(result.number)
-                        {
-                            alert("Issue added"); 
-                            window.location.href = `./issues.php?id=${result.number}`; 
-                        }   
-                        else 
-                        {
-                            alert("There seems like to be an issue with the server, please try again."); 
-                        }
-                    }
-                    else 
-                    {
-                        alert("Please enter the issue tittle"); 
-                    }
-                }
-
-                function SendRequestToGithub(url, data, type="POST")
-                {
-                    var result; 
-                    $.ajax
-                    (
-                        {
-                            headers: {Authorization : "Token <?php echo $repo->token;?>"}, 
-                            type: type, 
-                            url: url, 
-                            data: JSON.stringify(data), 
-                            async: false,
-                            success: function(success)
-                            {
-                                result = success; 
-                            }, 
-                            error: function(error)
-                            {
-                                result = error; 
-                            }
-                        }
-                    ); 
-                    return result; 
-                }
             </script>
         </footer>
     </body>
