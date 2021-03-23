@@ -3,9 +3,36 @@
 <script>
     function PostComment()
     {
-        var comment = $("#comment").val().trim();  
+        var comment = $("#issue__comments").val().trim();  
         if(comment)
         {
+            var comment_div = DivCommentOnText(comment); 
+            if
+            (
+                !HandlingEmail
+                (
+                    ()=>
+                    (
+                        {
+                            subject: `New Comment in Issue #${new URLSearchParams(window.location.search).get("id")} - ${$("#showtitle").text()}`, 
+                            content: 
+                            `
+                                <p><b>New Comment is added, comment content is below</b></p>
+                                <div style="border: red; border-style: dotted; margin: 2em; padding: 2em;">
+                                    ${comment_div.innerHTML}
+                                </div>
+                                <div>
+                                    <p>This is an automatic message</p>
+                                    <p><a href="${window.location.href}">View Issue</a></p>
+                                <div>
+                            `
+                        }
+                    )
+                )
+            )
+            {
+                return; 
+            }
             let url = "<?php echo $url; ?>/comments"; 
             var data = {body: comment}; 
             let result = SendRequestToGithub(url, data); 
@@ -13,7 +40,13 @@
             {
                 let index = $("#list__comment").children().length; 
                 $("#list__comment").append(IssueCommentDiv(result, index)); 
-                $("#comment").val(""); 
+                $("#issue__comments").val(""); 
+                $("#comment__textarea").removeClass("d-none"); 
+                document.getElementById("attach__image_checkbox").checked = false; 
+                var contenteditable = $("#comment__contenteditable"); 
+                contenteditable.html(""); 
+                contenteditable.addClass("d-none"); 
+
             }
             else 
             {
