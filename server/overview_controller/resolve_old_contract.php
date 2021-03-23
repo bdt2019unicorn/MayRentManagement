@@ -36,7 +36,6 @@
                     `unit_id` IN (SELECT `id` FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}') AND
                     CURRENT_DATE BETWEEN `Start_date` AND `Finish`
             "; 
-
             $data = Database::GetData($sql); 
             echo json_encode($data); 
         }
