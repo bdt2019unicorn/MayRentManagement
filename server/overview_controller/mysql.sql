@@ -5,7 +5,9 @@ SET @previous_revenue_type_id = 0;
 
 SELECT 
     `info`.*,
-    `utility_price`.`value` AS `price` 
+    `info`.`number` - `info`.`previous_number` AS `quantity`,
+    `utility_price`.`value` AS `price`, 
+    (`info`.`number` - `info`.`previous_number`) * `utility_price`.`value` AS `amount`
 FROM 
     (
         SELECT 
@@ -39,6 +41,8 @@ FROM
         ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC, `revenue_type_id` 
     ) info
     LEFT JOIN `utility_price` ON `utility_price`.`revenue_type_id` = `info`.`revenue_type_id` AND `utility_price`.`date_valid` <= `info`.`previous_date`
-    WHERE `info`.`previous_date` <>'0000-00-00' 
+    WHERE 
+        `info`.`date` > `info`.`Start_date` AND `info`.`date` <= `info`.`Finish` 
+        AND `info`.`previous_date` <> '0000-00-00'
     ORDER BY `info`.`id`, `info`.`date` ASC, `info`.`revenue_type_id`
     
