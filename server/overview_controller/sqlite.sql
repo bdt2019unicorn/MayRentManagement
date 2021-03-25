@@ -1,25 +1,3 @@
-http://localhost/MayRentManagement/server/overview_controller/resolve_old_contract.php?command=LoadOldLeases&building_id=1
-
-SELECT 
-    *, 
-    (
-        SELECT `leaseagrm_period`.`name` FROM `leaseagrm_period` 
-        WHERE `leaseagrm_period`.`id` = `leaseagrm`.`leaseagrm_period_id`
-    ) AS `leaseagrm_period`, 
-    
-    GREATEST
-    (
-        `Start_date`, 
-        LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH)
-    ) AS `date_charged_until`
-FROM `leaseagrm` 
-WHERE 
-    `id` NOT IN (SELECT DISTINCT `leaseagrm_id` FROM `invoices`) AND 
-    `unit_id` IN (SELECT `id` FROM `unit` WHERE `unit`.`building_id` = '1') AND
-    CURRENT_DATE BETWEEN `Start_date` AND `Finish`
-
-SET @previous_date = '0000-00-00'; 
-SET @previous_number = 0; 
 
 SELECT 
     `leaseagrm`.`id`,
@@ -48,4 +26,3 @@ WHERE
     `leaseagrm`.`unit_id` IN (SELECT `id` FROM `unit` WHERE `unit`.`building_id` = '1') AND
     CURRENT_DATE BETWEEN `Start_date` AND `Finish` 
 ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC 
-
