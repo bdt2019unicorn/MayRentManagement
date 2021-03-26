@@ -53,18 +53,18 @@
                         SELECT 
                             `leaseagrm`.`id`,
                             `leaseagrm`.`name`,
-                            `leaseagrm`.`Tenant_ID`,
-                            `leaseagrm`.`ocupants_ids`,
                             `leaseagrm`.`Start_date`,
                             `leaseagrm`.`Finish`,
                             `leaseagrm`.`Rent_amount`,
                             `leaseagrm_period`.`name` AS `leaseagrm_period`, 
                             `utility_reading`.`id` AS `utility_reading_id`,
+                            `revenue_type`.`name` AS `revenue_type`, 
                             
                             {$extra_selects_sql}
                         FROM 
                             `leaseagrm` LEFT JOIN `utility_reading` ON `leaseagrm`.`unit_id` = `utility_reading`.`unit_id`
                             LEFT JOIN `leaseagrm_period` ON `leaseagrm`.`leaseagrm_period_id` = `leaseagrm_period`.`id` 
+                            LEFT JOIN `revenue_type` ON `utility_reading`.`revenue_type_id` = `revenue_type`.`id` AND `revenue_type`.`is_utility` = '1'
                         WHERE 
                             `leaseagrm`.`id` NOT IN (SELECT DISTINCT `leaseagrm_id` FROM `invoices`) AND 
                             `leaseagrm`.`unit_id` IN (SELECT `id` FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}') AND
@@ -89,19 +89,18 @@
                 "; 
             }
             $data = $test_mode? ConnectSqlite::Query($sql): Connect::MultiQuery($sql); 
-
             $old_leases = []; 
-            $leaseagrm_keys = ["id", "name", "Tenant_ID", "ocupants_ids", "Start_date", "Finish", "Rent_amount","leaseagrm_period", "date_charged_until"]; 
+            $leaseagrm_keys = ["id", "name", "Start_date", "Finish", "Rent_amount","leaseagrm_period", "date_charged_until"]; 
             foreach ($data as $leaseagrm_record) 
             {
                 $id = $leaseagrm_record["id"]; 
                 $utility_reading_id = $leaseagrm_record["utility_reading_id"]; 
-                $revenue_type_id = $leaseagrm_record["revenue_type_id"]; 
+                $revenue_type = $leaseagrm_record["revenue_type"]; 
                 $old_lease = 
                 [
                     "utilities" =>
                     [
-                        $revenue_type_id =>
+                        $revenue_type =>
                         [
                             $utility_reading_id=>[]
                         ]
@@ -118,12 +117,16 @@
                     }
                     else
                     {
-                        $old_lease["utilities"][$revenue_type_id][$utility_reading_id][$key] = $value; 
+                        $old_lease["utilities"][$revenue_type][$utility_reading_id][$key] = $value; 
                     }
                 }
                 if(isset($old_leases[$id]))
                 {
-                    $old_leases[$id]["utilities"][$revenue_type_id][$utility_reading_id] = $old_lease["utilities"][$revenue_type_id][$utility_reading_id]; 
+                    if(!isset($old_lease[$id]["utilities"][$revenue_type]))
+                    {
+                        $old_lease[$id]["utilities"][$revenue_type] = []; 
+                    }
+                    $old_leases[$id]["utilities"][$revenue_type][$utility_reading_id] = $old_lease["utilities"][$revenue_type][$utility_reading_id]; 
                 }
                 else
                 {
