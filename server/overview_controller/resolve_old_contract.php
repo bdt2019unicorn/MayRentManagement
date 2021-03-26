@@ -91,7 +91,7 @@
             $data = $test_mode? ConnectSqlite::Query($sql): Connect::MultiQuery($sql); 
 
             $old_leases = []; 
-            $leaseagrm_keys = ["id", "name", "Tenant_ID", "ocupants_ids", "Start_date", "Finish", "Rent_amount","leaseagrm_period"]; 
+            $leaseagrm_keys = ["id", "name", "Tenant_ID", "ocupants_ids", "Start_date", "Finish", "Rent_amount","leaseagrm_period", "date_charged_until"]; 
             foreach ($data as $leaseagrm_record) 
             {
                 $id = $leaseagrm_record["id"]; 
@@ -130,6 +130,8 @@
                     $old_leases[$id] = $old_lease; 
                 }
             }
+            require_once("../helper/support.php"); 
+            $old_leases = ObjectToArray($old_leases); 
             echo json_encode($old_leases); 
         }
 
