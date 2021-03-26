@@ -6,38 +6,131 @@
     {
         public function LoadOldLeases()
         {
-            $date_charged_until = CurrentEnvironment::TestMode()? 
-            "
+            $test_mode = CurrentEnvironment::TestMode(); 
+            $extra_selects_sql = $test_mode?
+            "            
+                CASE
+                    WHEN LAG(`utility_reading`.`unit_id`) OVER (ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC) = `utility_reading`.`unit_id` AND LAG(`utility_reading`.`revenue_type_id`) OVER (ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC) = `utility_reading`.`revenue_type_id` THEN LAG(`utility_reading`.`date`) OVER (ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC)
+                    ELSE NULL
+                END AS `previous_date`, 
+                CASE
+                    WHEN LAG(`utility_reading`.`unit_id`) OVER (ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC) = `utility_reading`.`unit_id` AND LAG(`utility_reading`.`revenue_type_id`) OVER (ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC) = `utility_reading`.`revenue_type_id` THEN LAG(`utility_reading`.`number`) OVER (ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC)
+                    ELSE NULL
+                END AS `previous_number`, 
+                `leaseagrm`.`unit_id`,
+                `utility_reading`.`revenue_type_id`,
+                `utility_reading`.`date`,
+                `utility_reading`.`number`, 
                 MAX
                 (
                     `Start_date`, 
                     DATE('now','start of month', '-1 day')
-                )
+                ) AS `date_charged_until`
             ": 
             "
+                IF(@previous_unit_id=`leaseagrm`.`unit_id` AND @previous_revenue_type_id=`utility_reading`.`revenue_type_id`, @previous_date, @previous_date:='0000-00-00') AS `previous_date`, 
+                IF(@previous_unit_id=`leaseagrm`.`unit_id` AND @previous_revenue_type_id=`utility_reading`.`revenue_type_id`, @previous_number, @previous_number:=0) AS `previous_number`, 
+                @previous_unit_id:= `leaseagrm`.`unit_id` AS `unit_id`,
+                @previous_revenue_type_id:=`utility_reading`.`revenue_type_id` AS `revenue_type_id`,
+                @previous_date:=`utility_reading`.`date` AS `date`,
+                @previous_number:=`utility_reading`.`number` AS `number`, 
                 GREATEST
                 (
                     `Start_date`, 
                     LAST_DAY(CURRENT_DATE - INTERVAL 1 MONTH)
-                )
+                ) AS `date_charged_until`
             "; 
+
             $sql = 
             "
                 SELECT 
-                    *, 
+                    `info`.*,
+                    `info`.`number` - `info`.`previous_number` AS `quantity`,
+                    `utility_price`.`value` AS `price`, 
+                    (`info`.`number` - `info`.`previous_number`) * `utility_price`.`value` AS `amount`
+                FROM
                     (
-                        SELECT `leaseagrm_period`.`name` FROM `leaseagrm_period` 
-                        WHERE `leaseagrm_period`.`id` = `leaseagrm`.`leaseagrm_period_id`
-                    ) AS `leaseagrm_period`, 
-                    {$date_charged_until} AS `date_charged_until`
-                FROM `leaseagrm` 
+                        SELECT 
+                            `leaseagrm`.`id`,
+                            `leaseagrm`.`name`,
+                            `leaseagrm`.`Tenant_ID`,
+                            `leaseagrm`.`ocupants_ids`,
+                            `leaseagrm`.`Start_date`,
+                            `leaseagrm`.`Finish`,
+                            `leaseagrm`.`Rent_amount`,
+                            `leaseagrm_period`.`name` AS `leaseagrm_period`, 
+                            `utility_reading`.`id` AS `utility_reading_id`,
+                            
+                            {$extra_selects_sql}
+                        FROM 
+                            `leaseagrm` LEFT JOIN `utility_reading` ON `leaseagrm`.`unit_id` = `utility_reading`.`unit_id`
+                            LEFT JOIN `leaseagrm_period` ON `leaseagrm`.`leaseagrm_period_id` = `leaseagrm_period`.`id` 
+                        WHERE 
+                            `leaseagrm`.`id` NOT IN (SELECT DISTINCT `leaseagrm_id` FROM `invoices`) AND 
+                            `leaseagrm`.`unit_id` IN (SELECT `id` FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}') AND
+                            CURRENT_DATE BETWEEN `Start_date` AND `Finish` 
+                        ORDER BY `leaseagrm`.`id`, `utility_reading`.`date` ASC 
+                    ) info 
+                    LEFT JOIN `utility_price` ON `utility_price`.`revenue_type_id` = `info`.`revenue_type_id` AND `utility_price`.`date_valid` <= `info`.`previous_date`
                 WHERE 
-                    `id` NOT IN (SELECT DISTINCT `leaseagrm_id` FROM `invoices`) AND 
-                    `unit_id` IN (SELECT `id` FROM `unit` WHERE `unit`.`building_id` = '{$_GET['building_id']}') AND
-                    CURRENT_DATE BETWEEN `Start_date` AND `Finish`
+                    `info`.`date` > `info`.`Start_date` AND `info`.`date` <= `info`.`Finish` 
+                    AND `info`.`previous_date` <> '0000-00-00'
+                ORDER BY `info`.`id`, `info`.`date` ASC, `info`.`revenue_type_id`
             "; 
-            $data = Database::GetData($sql); 
-            echo json_encode($data); 
+            if(!$test_mode)
+            {
+                $sql = 
+                "
+                    SET @previous_date = '0000-00-00'; 
+                    SET @previous_number = 0; 
+                    SET @previous_unit_id = 0; 
+                    SET @previous_revenue_type_id = 0; 
+                    {$sql}
+                "; 
+            }
+            $data = $test_mode? ConnectSqlite::Query($sql): Connect::MultiQuery($sql); 
+
+            $old_leases = []; 
+            $leaseagrm_keys = ["id", "name", "Tenant_ID", "ocupants_ids", "Start_date", "Finish", "Rent_amount","leaseagrm_period"]; 
+            foreach ($data as $leaseagrm_record) 
+            {
+                $id = $leaseagrm_record["id"]; 
+                $utility_reading_id = $leaseagrm_record["utility_reading_id"]; 
+                $revenue_type_id = $leaseagrm_record["revenue_type_id"]; 
+                $old_lease = 
+                [
+                    "utilities" =>
+                    [
+                        $revenue_type_id =>
+                        [
+                            $utility_reading_id=>[]
+                        ]
+                    ]
+                ]; 
+                foreach ($leaseagrm_record as $key => $value) 
+                {
+                    if (in_array($key, $leaseagrm_keys)) 
+                    {
+                        if(!isset($old_leases[$id]))
+                        {
+                            $old_lease[$key] = $value; 
+                        }
+                    }
+                    else
+                    {
+                        $old_lease["utilities"][$revenue_type_id][$utility_reading_id][$key] = $value; 
+                    }
+                }
+                if(isset($old_leases[$id]))
+                {
+                    $old_leases[$id]["utilities"][$revenue_type_id][$utility_reading_id] = $old_lease["utilities"][$revenue_type_id][$utility_reading_id]; 
+                }
+                else
+                {
+                    $old_leases[$id] = $old_lease; 
+                }
+            }
+            echo json_encode($old_leases); 
         }
 
         public function ResolveOldLeases()

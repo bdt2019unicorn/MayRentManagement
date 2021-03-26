@@ -13,19 +13,20 @@ FROM
         SELECT 
             `leaseagrm`.`id`,
             `leaseagrm`.`name`,
-            IF(@previous_unit_id=`leaseagrm`.`unit_id` AND @previous_revenue_type_id=`utility_reading`.`revenue_type_id`, @previous_date, @previous_date:='0000-00-00') AS `previous_date`, 
-            IF(@previous_unit_id=`leaseagrm`.`unit_id` AND @previous_revenue_type_id=`utility_reading`.`revenue_type_id`, @previous_number, @previous_number:=0) AS `previous_number`, 
-            @previous_unit_id:= `leaseagrm`.`unit_id` AS `unit_id`,
-            `utility_reading`.`id` AS `utility_reading_id`,
-            @previous_revenue_type_id:=`utility_reading`.`revenue_type_id` AS `revenue_type_id`,
-            @previous_date:=`utility_reading`.`date` AS `date`,
-            @previous_number:=`utility_reading`.`number` AS `number`, 
-            `leaseagrm_period`.`name` AS `leaseagrm_period`, 
             `leaseagrm`.`Tenant_ID`,
             `leaseagrm`.`ocupants_ids`,
             `leaseagrm`.`Start_date`,
             `leaseagrm`.`Finish`,
             `leaseagrm`.`Rent_amount`,
+            `leaseagrm_period`.`name` AS `leaseagrm_period`, 
+            `utility_reading`.`id` AS `utility_reading_id`,
+
+            IF(@previous_unit_id=`leaseagrm`.`unit_id` AND @previous_revenue_type_id=`utility_reading`.`revenue_type_id`, @previous_date, @previous_date:='0000-00-00') AS `previous_date`, 
+            IF(@previous_unit_id=`leaseagrm`.`unit_id` AND @previous_revenue_type_id=`utility_reading`.`revenue_type_id`, @previous_number, @previous_number:=0) AS `previous_number`, 
+            @previous_unit_id:= `leaseagrm`.`unit_id` AS `unit_id`,
+            @previous_revenue_type_id:=`utility_reading`.`revenue_type_id` AS `revenue_type_id`,
+            @previous_date:=`utility_reading`.`date` AS `date`,
+            @previous_number:=`utility_reading`.`number` AS `number`, 
             GREATEST
             (
                 `Start_date`, 
