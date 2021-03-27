@@ -32,6 +32,11 @@ var rent_invoice_mixin =
     data: ()=>({leaseagrm_periods: {}}), 
     created()
     {
+        if(this.$attrs["leaseagrm_periods"])
+        {
+            this.leaseagrm_periods = this.$attrs["leaseagrm_periods"]; 
+            return; 
+        }
         let url = "server/invoice_controller/action.php?command=LeasearmPeriodsSepcial"; 
         let data = this.AjaxRequest(url); 
         this.leaseagrm_periods = JSON.parse(data); 

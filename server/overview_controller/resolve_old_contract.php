@@ -146,17 +146,6 @@
                 return $date->format("d M Y"); 
             }; 
 
-            function RentDetails($leaseagrm)
-            {
-                $columns = ["start_date", "price", "amount"]; 
-                $details = []; 
-                foreach ($columns as $column) 
-                {
-                    $details[$column] = $leaseagrm[$column]; 
-                }
-                return $details; 
-            }; 
-
             $old_leases = json_decode($_POST["old_leases"], true); 
             $rent_id = OverviewQueries\Invoices::RentId(); 
             $test_mode = CurrentEnvironment::TestMode(); 
@@ -180,14 +169,14 @@
                     [
                         "leaseagrm"=>
                         [
-                            array_merge
-                            (
-                                [
-                                    "name" => "Rent {$general_name}", 
-                                    "revenue_type_id"=> $rent_id, 
-                                    "end_date"=> $leaseagrm["date_charged_until"]
-                                ], RentDetails($leaseagrm)
-                            )
+                            [
+                                "name" => "Rent {$general_name}", 
+                                "revenue_type_id" => $rent_id, 
+                                "end_date" => $leaseagrm["date_charged_until"], 
+                                "start_date" => $leaseagrm["start_date"], 
+                                "price" => $leaseagrm["price"], 
+                                "amount" => $leaseagrm["amount"]
+                            ]
                         ]
                     ]
                 ]; 
