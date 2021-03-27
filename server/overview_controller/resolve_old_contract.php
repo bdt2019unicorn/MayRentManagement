@@ -177,16 +177,17 @@
                                 "price" => $leaseagrm["price"], 
                                 "amount" => $leaseagrm["amount"]
                             ]
-                        ]
+                        ], 
+                        "utilities"=> $leaseagrm["utilities"]
                     ]
                 ]; 
 
                 $revenue_data = 
                 [
-                    "name" => "Rent {$general_name}", 
+                    "name" => "Payment for invoice {$general_name}", 
                     "leaseagrm_id" => $leaseagrm["id"], 
                     "Payment_date" => $leaseagrm["date_charged_until"], 
-                    "Amount" => $leaseagrm["amount"]
+                    "Amount" => $leaseagrm["total"]
                 ]; 
 
                 $queries = ImportInvoice($invoices, $test_mode); 
