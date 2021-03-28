@@ -160,6 +160,17 @@
         {
             $invoice_information = InvoiceInformation($_GET['leaseagrm_id']); 
             echo(json_encode($invoice_information)); 
+        }, 
+        "LeasearmPeriodsSepcial"=>function()
+        {
+            $data = Database::SelectData("leaseagrm_period", ["*"], ["is_basic"=>0]); 
+            $special_periods = []; 
+            foreach ($data as $leaseagrm_period) 
+            {
+                $name = $leaseagrm_period["name"]; 
+                $special_periods[$name] = $leaseagrm_period["calculation_method"]; 
+            }
+            echo json_encode($special_periods); 
         }
     ); 
 

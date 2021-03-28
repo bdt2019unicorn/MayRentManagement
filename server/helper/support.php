@@ -13,4 +13,14 @@
         flush();
         readfile($path); 
     }
+
+    function ObjectToArray($object)
+    {
+        $array = []; 
+        foreach ($object as $value) 
+        {
+            array_push($array, $value); 
+        }
+        return $array; 
+    }
 ?>

@@ -12,16 +12,32 @@ Vue.component
                 let old_leases_submit = this.old_leases.filter(leaseagrm=>!this.DateChargedUntilInvalid(leaseagrm)); 
                 return (old_leases_submit.length==this.old_leases.length)?old_leases_submit.map
                 (
-                    ({Start_date, date_charged_until, leaseagrm_period, Rent_amount, ...rest})=>
+                    ({id, name, Start_date, date_charged_until, leaseagrm_period, Rent_amount, utilities})=>
                     {
                         let quantity = this.RentQuantityCalculation(Start_date, date_charged_until, leaseagrm_period); 
+                        let amount = Rent_amount * quantity; 
+                        let date_charged_until_moment = moment(date_charged_until); 
+                        let utilities_details = Object.values(utilities).flatMap(object=>Object.values(object)).filter(({date})=>moment(date)<=date_charged_until_moment).map 
+                        (
+                            ({utility_reading_id, revenue_type_id, price, quantity, amount, revenue_type, date, previous_date})=>
+                            (
+                                {
+                                    name: `${name} - Resolve ${revenue_type} Period ${this.DateReformatDisplay(previous_date)} - ${this.DateReformatDisplay(date)}`, 
+                                    utility_reading_id, revenue_type_id, price, quantity, amount
+                                }
+                            )
+                        ); 
+                        let utilities_total = utilities_details.reduce((accumulator, {amount})=> accumulator + Number(amount), 0); 
                         return {
-                            ...rest, 
+                            id, 
+                            name, 
                             start_date: Start_date, 
                             date_charged_until: this.DateReformatDatabase(date_charged_until), 
                             price: Rent_amount, 
-                            quantity: quantity, 
-                            amount: (Rent_amount * quantity).toFixed(3)
+                            quantity,  
+                            amount: amount.toFixed(3), 
+                            utilities: utilities_details, 
+                            total: utilities_total + amount
                         }
                     }
                 ): undefined; 
@@ -72,83 +88,48 @@ Vue.component
                     alert("Resolve all contracts fails. There seems like an issue with the server."); 
                 }
             }, 
-            TableDetailsBind(index)
-            {
-                var leaseagrm = this.old_leases[index]; 
-                return {
-                    headVariant: "dark", 
-                    tableVariant: "primary", 
-                    fields: 
-                    [
-                        {
-                            key: "Start_date",
-                            label: 'Contract Start Date' 
-                        }, 
-                        {
-                            key: "date_charged_until",
-                            label: 'Paid Until', 
-                            variant: this.DateChargedUntilInvalid(leaseagrm)? "danger": undefined
-                        }, 
-                        {
-                            key: "Finish",
-                            label: 'Contract End Date' 
-                        }, 
-                        {
-                            key: "Rent_amount",
-                            label: 'Rent Amount' 
-                        }, 
-                        {
-                            key: "total_amount",
-                            label: 'Total Amount Paid' 
-                        }, 
-                    ], 
-                    items: [leaseagrm].map 
-                    (
-                        ({id, name, Rent_amount, Start_date, Finish, leaseagrm_period, date_charged_until, show_details, ...rest})=>
-                        (
-                            {
-                                Start_date: this.DateReformatDisplay(Start_date), 
-                                date_charged_until: this.DateReformatDisplay(date_charged_until), 
-                                Finish: this.DateReformatDisplay(Finish), 
-                                Rent_amount: Rent_amount, 
-                                total_amount: Rent_amount * this.RentQuantityCalculation(Start_date, date_charged_until, leaseagrm_period)
-                            }
-                        )
-                    )
-                }
-            }
         },
         template: 
         `
             <div class="container-fluid">
                 <h1>Old Contracts To Resolve Payment</h1>
                 <template v-if="old_leases.length">
-                    <div :class="'container-fluid my-2 border ' + (DateChargedUntilInvalid(old_leases[index])?'border-danger': 'border-info')" v-for="({id, name, show_details, ...rest}, index) in old_leases">
+                    <div :class="'container-fluid my-2 border ' + (DateChargedUntilInvalid(leaseagrm)?'border-danger': 'border-info')" v-for="(leaseagrm, index) in old_leases">
                         <div class="row">
                             <div class="col-3">
                                 <h5 class="text-info">  
                                     <b-button title="Delete" class="mx-1" variant="danger" @click="old_leases.splice(index,1)"><b-icon icon="trash"></b-icon></b-button>
-                                    {{name}}
+                                    {{leaseagrm.name}}
                                 </h5>
-
                             </div>
                             <div class="col">
                                 <vuejs-datepicker 
                                     calendar-class="calendar-right-align" 
                                     input-class="form-control" 
                                     format="dd/MM/yyyy" 
-                                    v-model="old_leases[index].date_charged_until" 
+                                    v-model="leaseagrm.date_charged_until" 
                                 ></vuejs-datepicker>
                             </div>
                             <div class="col-1">
-                                <details-button :show_details="show_details" @click="old_leases[index].show_details=!old_leases[index].show_details"></details-button>
+                                <details-button :show_details="leaseagrm.show_details" @click="old_leases[index].show_details=!old_leases[index].show_details"></details-button>
                             </div>
                         </div>
-                        <b-container fluid v-if="show_details">
-                            <br>
+                        <b-container fluid v-if="leaseagrm.show_details">
                             <b-row align-h="center">
+                                <b-col cols="12" class="m-3">
+                                    <b>Contract Start Date: </b>{{DateReformatDisplay(leaseagrm.Start_date)}}<br>
+                                    <b>Contract End Date: </b>{{DateReformatDisplay(leaseagrm.Finish)}}<br>
+                                    <span :class='DateChargedUntilInvalid(leaseagrm)? "text-danger": undefined'><b>Paid Until: </b>{{DateReformatDisplay(leaseagrm.date_charged_until)}}</span>
+                                </b-col>
                                 <b-col cols="11">
-                                    <b-table v-bind="TableDetailsBind(index)"></b-table>
+                                    <resolve-old-lease-details-rent
+                                        :date_invalid="DateChargedUntilInvalid(leaseagrm)"
+                                        :leaseagrm="leaseagrm"
+                                        :leaseagrm_periods="leaseagrm_periods"
+                                    ></resolve-old-lease-details-rent>
+
+                                    <resolve-old-lease-details-utilities :leaseagrm="leaseagrm"></resolve-old-lease-details-utilities>
+
                                 </b-col>
                             </b-row>
                         </b-container>
