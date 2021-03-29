@@ -1,4 +1,4 @@
-class GeneralEdit extends AuthorizedComponent 
+class GeneralEdit extends BaseComponent 
 {
     constructor(props)
     {
@@ -38,12 +38,11 @@ class GeneralEdit extends AuthorizedComponent
     }
     render()
     {
-        let redirect_component = this.CheckLogin();
-        if(redirect_component)
-        {
-            return redirect_component; 
-        }
-        return (this.state.edit?<Edit {...this.EditDataBind()} />: null); 
+        return (
+            <AuthorizedComponent>'
+                {this.state.edit?<Edit {...this.EditDataBind()} />: null}
+            </AuthorizedComponent>
+        ); 
     }
 }
 GeneralEdit = ConnectComponentToAll(GeneralEdit); 

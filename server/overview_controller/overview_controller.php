@@ -39,8 +39,22 @@
             {
                 return ($edit && $id) ? Query::GeneralData("leaseagrm", $id): OverviewQueries\LeaseAgrm::OverviewBuildingId($building_id, $test_mode); 
             },   
-            "invoices"=>function() use ($edit, $building_id, $id)
+            "invoices"=>function() use ($edit, $building_id, $id, $test_mode)
             {
+                $amount = Query::NumberFormat
+                (
+                    "
+                        IFNULL
+                        (
+                            (SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoices`.`id`), 0
+                        ) + 
+                        IFNULL
+                        (
+                            (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`), 0 
+                        )
+                    ", 
+                    $test_mode
+                ); 
                 return $edit? Query::GeneralData("invoices", $id): 
                 "
                     SELECT 
@@ -48,14 +62,7 @@
                         `invoices`.`name` AS `Name`, 
                         `unit`.`name` AS `Unit`, 
                         (
-                            IFNULL
-                            (
-                                (SELECT SUM(`amount`) FROM `invoice_leaseagrm` WHERE `invoice_leaseagrm`.`invoice_id` = `invoices`.`id`), 0
-                            ) + 
-                            IFNULL
-                            (
-                                (SELECT SUM(`amount`) FROM `invoice_utilities` WHERE `invoice_utilities`.`invoice_id` = `invoices`.`id`), 0 
-                            )
+                            {$amount}
                         ) AS `Amount`
                     FROM `invoices`, `leaseagrm`, `unit`
                     WHERE 

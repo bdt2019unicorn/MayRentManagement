@@ -1,18 +1,16 @@
-class Dashboard extends AuthorizedComponent 
+class Dashboard extends BaseComponent 
 {
     render()
     {
-        let redirect_component = this.CheckLogin();
-        if(redirect_component)
-        {
-            return redirect_component; 
-        }
         return (
-            <div>
-                dashboard
-            </div>
+            <AuthorizedComponent>
+                <div>
+                    Dashboard 
+                    <pre>
+                        {JSON.stringify(this.props, null, 2)}
+                    </pre>
+                </div>
+            </AuthorizedComponent>
         ); 
     }
 }
-
-Dashboard = ConnectComponentToStore(Dashboard); 

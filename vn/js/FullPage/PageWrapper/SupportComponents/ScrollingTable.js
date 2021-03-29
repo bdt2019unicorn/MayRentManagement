@@ -2,20 +2,20 @@ class ScrollingTable extends React.Component
 {
     render()
     {
-        var table_length; 
-        try 
-        {
-            table_length = this.props.table.length; 
-        } 
-        catch (error) 
-        {
-            return null;     
-        }
+        var table_length = _.get(this.props.table, "length"); 
+        var hidden_columns = _.get(this.props.table_actions,"hidden_columns") || []; 
         var columns = table_length?this.props.table.reduce
         (
             (previous_value, current_value)=>
             {
-                let keys = Object.keys(current_value).filter(column=>!previous_value.includes(column)); 
+                let keys = Object.keys(current_value).filter
+                (
+                    column=>! 
+                    ( 
+                        (previous_value.includes(column)) || 
+                        (hidden_columns.includes(column)) 
+                    ) 
+                ); 
                 return [...previous_value, ...keys]; 
             }, []
         ): undefined; 

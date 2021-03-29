@@ -1,3 +1,10 @@
-import 'react-widgets/dist/css/react-widgets.css';
-import { Multiselect, DropdownList } from "react-widgets"; 
-window.ReactWidgets = { Multiselect, DropdownList }; 
+import React from 'react';
+import { DataGrid } from '@material-ui/data-grid';
+// window.DataGrid = (props)=><DataGrid {...props} />; 
+function MaterialUIGrid(props)
+{
+    // return <DataGrid {...props} />; 
+    return <div>test</div>
+}
+export default MaterialUIGrid; 
+window.MaterialUIGrid = MaterialUIGrid; 
