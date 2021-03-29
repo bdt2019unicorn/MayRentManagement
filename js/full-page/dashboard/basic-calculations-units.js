@@ -122,11 +122,18 @@ Vue.component
                 </div>
 
                 <div v-if="current_table" class="basic-calculations-unit-div">
-                    <div class="position-relative">
-                        <input class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
-                        <button class="basic-calculations-unit-add-button" @click="GeneralButtonClick">
-                            <i :class="'basic-calculations-unit-add-i ' + (edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
-                        </button>
+                    <div class="row">
+                        <div class="col-11 p-1">
+                            <input class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
+                        </div>
+                        <div class="col-1 text-right">
+                            <button class="basic-calculations-unit-add-button">
+                                <i :class="'basic-calculations-unit-add-i ' + (edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
+                            </button>
+                            <button class="basic-calculations-unit-add-button">
+                                <i :class="'basic-calculations-unit-add-i ' + (edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <ul class="list-unstyled pt-4">

@@ -8,13 +8,9 @@
 
 .basic-calculations-unit-add-button 
 {
-  height: 5vmin;
-  width: 5vmin;
+  width: 50%;
   border: none;
   border-radius: 50%;
-  position: absolute;
-  top: 0;
-  right: 0;
   box-shadow: 0 0 0 0.2rem rgba(222, 57, 99);
   outline: none;
 }
