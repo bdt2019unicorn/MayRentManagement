@@ -15,5 +15,5 @@ jobs:
         uses: sebastianpopp/git-ftp-action@releases/v3
         with:
           url: ${{ secrets.MAY_FTP_URL }}
-          user: ${{ secrets.MAY_FTP_USER }}
-          password: ${{ secrets.MAY_FTP_PASSWORD }}
+          user: ${{ secrets.TEST_FTP_USER }}
+          password: ${{ secrets.TEST_FTP_PASSWORD }}

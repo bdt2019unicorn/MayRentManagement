@@ -116,7 +116,19 @@
             }
 
             DropdownWorkSection: 
-            $dropdown_list = Database::SelectData($dropdown["table"], $dropdown["selects"], $conditions); 
+            $DropdownSelects = function() use ($dropdown)
+            {
+                if(isset($dropdown["selects_test"]))
+                {
+                    $test_mode = CurrentEnvironment::TestMode(); 
+                    if($test_mode)
+                    {
+                        return $dropdown["selects_test"];
+                    }
+                }
+                return $dropdown["selects"];
+            }; 
+            $dropdown_list = Database::SelectData($dropdown["table"], $DropdownSelects(), $conditions); 
             if(!count($dropdown_list))
             {
                 return; 

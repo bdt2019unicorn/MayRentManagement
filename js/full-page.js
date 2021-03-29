@@ -4,12 +4,17 @@ Vue.component
     {
         props: ["buildings_data"], 
         mixins: [support_mixin], 
+        data: ()=>({logo_src: ""}),
+        created() 
+        {
+            this.logo_src = `${this.AjaxRequest("server/admin_database.php?command=LogoImg")}?q=${Date.now()}`; 
+        }, 
         template: 
         `   
             <nav class="navbar navbar-expand-lg top-page-nav">
 
                 <router-link :to="{name: 'dashboard'}" style="grid-area: logo;">
-                    <img src="img/logo.gif" alt="logo">
+                    <img style="height: 10vmin;" :src="logo_src" alt="logo">
                 </router-link>
 
                 <main-nav-items class="main-nav-items" :buildings_data="buildings_data" default_icon="building"></main-nav-items>
@@ -18,7 +23,7 @@ Vue.component
 
                     <div class="btn-group">
                         <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img style="width:5vw;" src="img/logo.gif" alt="logo">
+                            <img style="width:5vw;" :src="logo_src" alt="logo">
                             <p>{{StateObject('username')}}</p>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
@@ -42,12 +47,7 @@ Vue.component
     "side-bar", 
     {
         mixins: [support_mixin], 
-        data()
-        {
-            return {
-                nav_list_items: []
-            }
-        }, 
+        data: ()=>({nav_list_items: []}),
         created() 
         {
             this.nav_list_items = this.AjaxRequest("server/sidebar.json"); 
@@ -96,6 +96,14 @@ var page_wrapper = Vue.component
     {
         props: ["building_id"], 
         mixins: [support_mixin], 
+        created()
+        {
+            let building_id = Number(this.$route.params.building_id); 
+            if(!building_id)
+            {
+                window.router.push({name: "home"}); 
+            }
+        }, 
         template: 
         `
             <div class="wrapper">

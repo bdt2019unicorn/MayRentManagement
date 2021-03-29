@@ -21,6 +21,7 @@ Vue.component
                 invoice_information: 
                 {
                     unit_name: undefined, 
+                    tenant_name: undefined, 
                     leaseagrm: {}, 
                     utilities: {}
                 }, 
@@ -108,7 +109,7 @@ Vue.component
                         this.invoice.leaseagrm_id = leaseagrm_id; 
                         if(!this.edit_data)
                         {
-                            this.invoice.name = `${this.invoice.leaseagrm_id}-${this.DateReformatDisplay()}`; 
+                            this.invoice.name = `${this.invoice_information.tenant_name}_${this.DateReformatDisplay()}`; 
                             this.invoice.note = undefined; 
                         }
                     }

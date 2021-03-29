@@ -99,6 +99,13 @@
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
+
+                <div class="border border-info p-3 text-center">
+                    <h1>Current Logo</h1>
+                    <img id="logo_img" alt="logo" class="border border-secondary p-3" />
+                    <p><button class="btn btn-info m-3" type="button" onclick="ChangeLogo()">Change Logo</button></p>
+                </div>
+
             <?php endif; ?>
         </div>
 
@@ -122,6 +129,17 @@
                             OverviewTable(); 
                         }
                     );
+                </script>
+            <?php else: ?>
+                <script type="text/javascript">
+                    $(document).ready 
+                    (
+                        function()
+                        {
+                            var logo_src = support_mixin.methods.AjaxRequest("../server/admin_database.php?command=LogoImg"); 
+                            document.getElementById('logo_img').src = `../${logo_src}`; 
+                        }
+                    ); 
                 </script>
             <?php endif; ?>
         </footer>

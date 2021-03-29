@@ -19,14 +19,6 @@
             }
             echo $result; 
         }, 
-
-        "LeasearmPeriodScript" => function()
-        {
-            $leaseagrm_period = $_POST["leaseagrm_period"]; 
-            $data = Database::SelectData("leaseagrm_period",["calculation_method"], ["name"=> $leaseagrm_period]); 
-            echo $data[0]["calculation_method"]; 
-        }, 
-
         "Import" => function()
         {
             $invoices = json_decode($_POST["invoices"], true); 
@@ -35,7 +27,6 @@
             $result = $test_mode? ConnectSqlite::InsertWithDetails($data): Connect::ExecTransaction($data); 
             echo $result; 
         }, 
-
         "Update" => function()
         {
             $invoices = json_decode($_POST["invoices"], true); 

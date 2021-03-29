@@ -89,10 +89,11 @@
 
             $header = 
             [
-                ["Date", ":", date("d-M-Y"), "", "", "ROE:"],
+                ["Date", ":", date("d-M-Y")],
                 ["Inoice", ":", $invoice["invoice"]["name"]],
                 ["To", ":", "<b>{$invoice['invoice']['tenant']}</b>"],
-                ["", "", "{$invoice['invoice']['unit']}"]
+                ["", "", "{$invoice['invoice']['unit']}"], 
+                ["Company", ":", "<b>{$invoice['invoice']['company']}</b>"]
             ]; 
 
             $CellValuesStyles = function($cell, $styles, $text=null) use ($sheet)

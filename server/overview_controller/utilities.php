@@ -1,5 +1,6 @@
 <?php 
     require_once("../helper/database.php"); 
+    require_once("../helper/support.php"); 
     
     $conditions_sql = 
     "
@@ -120,11 +121,6 @@
 
         }
     }
-
-    $utilities_overview = []; 
-    foreach ($data as $unit_values) 
-    {
-        array_push($utilities_overview, $unit_values); 
-    }
+    $utilities_overview = ObjectToArray($data); 
     echo json_encode($utilities_overview); 
 ?>

@@ -64,6 +64,43 @@
             }
             echo $result; 
         }
+
+        public function LogoImg()
+        {
+            $callback = function ($logo_path)
+            {
+                if(!file_exists($logo_path))
+                {
+                    copy(CurrentEnvironment::MainDir() . "/img/logo.png", $logo_path);
+                }
+            }; 
+            $this->LogoImgAction($callback); 
+        }
+
+        public function ChangeLogoImg()
+        {
+            if(isset($_FILES["file"]))
+            {
+                if(!$_FILES["file"]["error"])
+                {
+                    $callback = function($logo_path)
+                    {
+                        imagepng(imagecreatefromstring(file_get_contents($_FILES["file"]["tmp_name"])), "temp/logo.png"); 
+                    }; 
+                    $this->LogoImgAction($callback); 
+                    return;
+                }
+            }
+            echo false;
+        }
+
+        private function LogoImgAction($callback)
+        {
+            CurrentEnvironment::SetupFolder("temp"); 
+            $logo_path = "temp/logo.png"; 
+            $callback($logo_path); 
+            echo "server/{$logo_path}"; 
+        }
     }
 
     $admin_database = new AdminDatabase(); 

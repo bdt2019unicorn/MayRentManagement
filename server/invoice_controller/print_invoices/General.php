@@ -13,9 +13,8 @@
 
         private function PopulateInvoiceData($building_id)
         {
-            $Tenant = function()
+            $TenantInformation = function($select, $as)
             {
-                $select = \Query::Concat(["IFNULL(`tenant`.`Last_Name`,'')" , "' '", "IFNULL(`tenant`.`First_Name`,'')"], $this->test_mode); 
                 return 
                 "
                     (
@@ -26,9 +25,22 @@
                             SELECT `leaseagrm`.`Tenant_ID` FROM `leaseagrm` 
                             WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
                         )
-                    ) AS `tenant` 
+                    ) AS `{$as}` 
                 "; 
             }; 
+
+            $tenant = $TenantInformation
+            (
+                \Query::Concat(["IFNULL(`tenant`.`Last_Name`,'')" , "' '", "IFNULL(`tenant`.`First_Name`,'')"], $this->test_mode), 
+                "tenant"
+            ); 
+
+            $tenant_company = $TenantInformation
+            (
+                "`tenant`.`Company_Name`", 
+                "company"
+            ); 
+
             $GrandTotal = function()
             {
                 $format = $this->test_mode? "ROUND": "FORMAT"; 
@@ -64,7 +76,8 @@
                             WHERE `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
                         )
                     ) AS `unit`, 
-                    {$Tenant()}, 
+                    {$tenant},
+                    {$tenant_company},  
                     (SELECT `leaseagrm`.`name` FROM `leaseagrm` WHERE `leaseagrm`.`id` = `invoices`.`leaseagrm_id`) AS `leaseagrm`, 
                     {$GrandTotal()}
                 FROM `invoices` 
@@ -93,7 +106,7 @@
         
         private function Base64Logo()
         {
-            $path = realpath(__DIR__ . "/../../../img/logo.png"); 
+            $path = realpath(__DIR__ . "/../../../img/logo.gif"); 
             $image = file_get_contents($path); 
             $base64 = base64_encode($image); 
             return "data:image/jpeg;base64,{$base64}"; 
