@@ -45,6 +45,10 @@ Vue.component
             {
                 this.edit_id = id; 
                 this.edit_text = name; 
+            }, 
+            SubmitChange(data = {name: this.edit_text})
+            {
+
             }
         },
         watch: 
@@ -123,16 +127,16 @@ Vue.component
 
                 <div v-if="current_table" class="basic-calculations-unit-div">
                     <div class="row">
-                        <div class="col-11 p-1">
-                            <input class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
-                        </div>
-                        <div class="col-1 text-right">
-                            <button class="basic-calculations-unit-add-button">
-                                <i :class="'basic-calculations-unit-add-i ' + (edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
-                            </button>
-                            <button class="basic-calculations-unit-add-button">
-                                <i :class="'basic-calculations-unit-add-i ' + (edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
-                            </button>
+                        <div class="col p-1">
+                            <input name="name" ref="name_input" class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
+                            <span class="basic-calculations-unit-span">
+                                <button class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
+                                    <i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
+                                </button>
+                                <button class="btn btn-danger ml-1 mr-1 p-1 rounded-circle">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
                     <div>
