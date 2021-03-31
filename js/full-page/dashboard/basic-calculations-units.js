@@ -31,9 +31,14 @@ Vue.component
         {
             BasicCalculations()
             {
-                this.basic_calculations = this.OverviewController?this.TableData(this.OverviewController): []; 
-                this.edit_text = undefined; 
-                this.edit_id = undefined; 
+                this.basic_calculations = this.OverviewController?this.TableData(this.OverviewController): [];
+                this.GeneralEditButtonClick(undefined, undefined);  
+            }, 
+            DeleteBasicUnit(id)
+            {
+                let url = this.ServerUrl("check_delete", id); 
+                let result = this.AjaxRequest(url); 
+                console.log(result); 
             }, 
             GeneralButtonClick()
             {
@@ -61,8 +66,15 @@ Vue.component
                 event.preventDefault(); 
                 var data = special_table? Object.fromEntries(new FormData(event.currentTarget)): {name: this.edit_text}; 
                 var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
-                var result = this.SubmitData(this.edit_id?"edit":"excel", url, data); 
-                console.log(result); 
+                var result = this.SubmitData(this.edit_id?"edit":"excel", url, this.edit_id?data:[data]); 
+                if(Number(result))
+                {
+                    this.BasicCalculations(); 
+                }
+                else
+                {
+                    alert("Something is wrong with the server! Please try again"); 
+                }
             }
         },
         watch: 
@@ -147,7 +159,7 @@ Vue.component
                                 <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
                                     <i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
                                 </button>
-                                <button class="btn btn-danger ml-1 mr-1 p-1 rounded-circle">
+                                <button type="button" class="btn btn-danger ml-1 mr-1 p-1 rounded-circle" @click="GeneralEditButtonClick(undefined, undefined)">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </span>
@@ -161,7 +173,7 @@ Vue.component
                                     <button class="edit" title="Edit" @click="GeneralEditButtonClick(id, name)">
                                         <i class="far fa-edit"></i>
                                     </button>
-                                    <button class="remove" title="Remove">
+                                    <button class="remove" title="Remove" @click="DeleteBasicUnit(id)">
                                         <i class="fa fa-trash-alt"></i>
                                     </button>
                                 </div>

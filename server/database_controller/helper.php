@@ -12,11 +12,16 @@
 		); 
 	
 		$data =  file_get_contents("params.json"); 
-		$controller = json_decode($data, true)[$table]; 
-		foreach ($controller as $key => $value) 
+		set_error_handler(function($errorno, $errstr){return null;}); 
+		try 
 		{
-			$params[$key] = $value; 
-        }
+			$controller = json_decode($data, true)[$table]; 
+			foreach ($controller as $key => $value) 
+			{
+				$params[$key] = $value; 
+			}
+		}
+		catch(Throwable $throwable){}
         return $params; 
 	}
 
@@ -95,6 +100,4 @@
 		}
 		return $data; 
 	}
-
-	// need to set error handler here. 
 ?>
