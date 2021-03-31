@@ -1,7 +1,7 @@
 <?php 
     require_once("../helper/database.php"); 
 
-	$import_controller = $_GET["import_controller"]; 
+	$import_controller = $_GET["import_controller"]??$_GET["table"]; 
 	if($import_controller=="login")
 	{
 		$data = json_decode($_POST["excel"])[0]; 

@@ -20,12 +20,18 @@ Vue.component
             }
         ),
         components: {...bootstrap, ...vueFragment}, 
+        computed: 
+        {
+            OverviewController()
+            {
+                return this.tables[this.current_table]; 
+            }
+        }, 
         methods: 
         {
             BasicCalculations()
             {
-                var overview_controller = this.tables[this.current_table]; 
-                this.basic_calculations = overview_controller?this.TableData(overview_controller): []; 
+                this.basic_calculations = this.OverviewController?this.TableData(this.OverviewController): []; 
                 this.edit_text = undefined; 
                 this.edit_id = undefined; 
             }, 
@@ -46,9 +52,17 @@ Vue.component
                 this.edit_id = id; 
                 this.edit_text = name; 
             }, 
-            SubmitChange(data = {name: this.edit_text})
+            ServerUrl(command, id)
             {
-
+                return `server/database_controller/${command}.php?table=${this.OverviewController}&id=${id}`; 
+            }, 
+            SubmitForm(event, special_table)
+            {
+                event.preventDefault(); 
+                var data = special_table? Object.fromEntries(new FormData(event.currentTarget)): {name: this.edit_text}; 
+                var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
+                var result = this.SubmitData(this.edit_id?"edit":"excel", url, data); 
+                console.log(result); 
             }
         },
         watch: 
@@ -127,17 +141,17 @@ Vue.component
 
                 <div v-if="current_table" class="basic-calculations-unit-div">
                     <div class="row">
-                        <div class="col p-1">
+                        <form class="col p-1" @submit="SubmitForm">
                             <input name="name" ref="name_input" class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
                             <span class="basic-calculations-unit-span">
-                                <button class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
+                                <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
                                     <i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
                                 </button>
                                 <button class="btn btn-danger ml-1 mr-1 p-1 rounded-circle">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </span>
-                        </div>
+                        </form>
                     </div>
                     <div>
                         <ul class="list-unstyled pt-4">
