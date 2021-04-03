@@ -1,0 +1,1 @@
+Need to take action when the server .env file is broken
