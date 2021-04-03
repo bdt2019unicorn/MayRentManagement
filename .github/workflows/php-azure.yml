@@ -1,0 +1,22 @@
+name: Test Deploy PHP To Azure
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: webtestmay
+          publish-profile: <publishData><publishProfile profileName="webtestmay - Web Deploy" publishMethod="MSDeploy" publishUrl="webtestmay.scm.azurewebsites.net:443" msdeploySite="webtestmay" userName="$webtestmay" userPWD="qs46aT5ferQC8G9FRXJtBraBFetys3EM9XmMYgcqHYuqirQBmfg7JpNyphKW" destinationAppUrl="http://webtestmay.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="webtestmay - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-blu-219.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="webtestmay\$webtestmay" userPWD="qs46aT5ferQC8G9FRXJtBraBFetys3EM9XmMYgcqHYuqirQBmfg7JpNyphKW" destinationAppUrl="http://webtestmay.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="webtestmay - Zip Deploy" publishMethod="ZipDeploy" publishUrl="webtestmay.scm.azurewebsites.net:443" userName="$webtestmay" userPWD="qs46aT5ferQC8G9FRXJtBraBFetys3EM9XmMYgcqHYuqirQBmfg7JpNyphKW" destinationAppUrl="http://webtestmay.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile></publishData>
+          
+
