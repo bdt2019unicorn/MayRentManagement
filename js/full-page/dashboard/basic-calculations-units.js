@@ -10,6 +10,8 @@ Vue.component
                 current_table: undefined, 
                 edit_id: undefined, 
                 edit_text: undefined, 
+                edit_data: undefined, 
+                extra_edit: true, 
                 tables: 
                 {
                     "Document Types": "document_type", 
@@ -25,6 +27,10 @@ Vue.component
             OverviewController()
             {
                 return this.tables[this.current_table]; 
+            }, 
+            SpecialTables()
+            {
+                return ['Revenue Type', 'Lease Agreement Period']; 
             }
         }, 
         methods: 
@@ -38,7 +44,20 @@ Vue.component
             {
                 let url = this.ServerUrl("check_delete", id); 
                 let result = this.AjaxRequest(url); 
-                console.log(result); 
+                try 
+                {
+                    result = JSON.parse(result);     
+                } 
+                catch 
+                {
+                    url = this.ServerUrl("delete"); 
+                    result = this.SubmitData("delete", url, [id]); 
+                    this.HandleResult(result); 
+                }
+            }, 
+            ExtraEditReset()
+            {
+                this.ResetValue({value_name: "extra_edit", new_value: true}); 
             }, 
             GeneralButtonClick()
             {
@@ -56,25 +75,31 @@ Vue.component
             {
                 this.edit_id = id; 
                 this.edit_text = name; 
+                this.edit_data = this.basic_calculations.find(element=> (element.id ==id) && (element.name==name)); 
             }, 
-            ServerUrl(command, id)
+            HandleResult(result)
             {
-                return `server/database_controller/${command}.php?table=${this.OverviewController}&id=${id}`; 
-            }, 
-            SubmitForm(event, special_table)
-            {
-                event.preventDefault(); 
-                var data = special_table? Object.fromEntries(new FormData(event.currentTarget)): {name: this.edit_text}; 
-                var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
-                var result = this.SubmitData(this.edit_id?"edit":"excel", url, this.edit_id?data:[data]); 
                 if(Number(result))
                 {
                     this.BasicCalculations(); 
+                    this.ExtraEditReset(); 
                 }
                 else
                 {
                     alert("Something is wrong with the server! Please try again"); 
                 }
+            }, 
+            ServerUrl(command, id=undefined)
+            {
+                return `server/database_controller/${command}.php?table=${this.OverviewController}&id=${id}`; 
+            }, 
+            SubmitForm(event)
+            {
+                event.preventDefault(); 
+                var data = this.SpecialTables.includes(this.current_table)? Object.fromEntries(new FormData(event.currentTarget)): {name: this.edit_text}; 
+                var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
+                var result = this.SubmitData(this.edit_id?"edit":"excel", url, this.edit_id?data:[data]); 
+                this.HandleResult(result); 
             }
         },
         watch: 
@@ -82,6 +107,10 @@ Vue.component
             current_table: function(new_value, old_value) 
             {
                 this.BasicCalculations(); 
+            }, 
+            edit_data: function(new_value, old_value)
+            {
+                this.ExtraEditReset(); 
             }
         }, 
         template: 
@@ -100,69 +129,29 @@ Vue.component
                     </b-dropdown-item>
                 </b-dropdown>
                 <br>
-                
-                <div v-if="current_table=='Lease Agreement Period'" class="basic-calculations-unit-div">
-                    <div class="position-relative">
-                        <input class="basic-calculations-unit-add-input" type="text">
-                        <button class="basic-calculations-unit-add-button" value="update">
-                            <i class="basic-calculations-unit-add-i fas fa-check-double"></i>
-                            <!--<i class="fas fa-check-double"></i>-->
-                        </button>
-                    </div>
-                    <div>
-                        <ul class="list-unstyled pt-4">
-                            <li class="basic-calculations-unit-li" v-for="unit in basic_calculations">
-                                <span>{{unit}}</span>
-                                <div class="buttons">
-                                    <button class="edit" title="Edit">
-                                        <i class="far fa-edit"></i>
-                                    </button>
-                                    <button class="remove" title="Remove">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div v-if="current_table=='Revenue Type'" class="basic-calculations-unit-div">
-                    <div class="position-relative">
-                        <input class="basic-calculations-unit-add-input" type="text">
-                        <button class="basic-calculations-unit-add-button" value="update">
-                            <i class="basic-calculations-unit-add-i fas fa-check-double"></i>
-                            <!--<i class="fas fa-check-double"></i>-->
-                        </button>
-                    </div>
-                    <div>
-                        <ul class="list-unstyled pt-4">
-                            <li class="basic-calculations-unit-li" v-for="unit in basic_calculations">
-                                <span>{{unit}}</span>
-                                <div class="buttons">
-                                    <button class="edit" title="Edit">
-                                        <i class="far fa-edit"></i>
-                                    </button>
-                                    <button class="remove" title="Remove">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
                 <div v-if="current_table" class="basic-calculations-unit-div">
                     <div class="row">
-                        <form class="col p-1" @submit="SubmitForm">
-                            <input name="name" ref="name_input" class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
-                            <span class="basic-calculations-unit-span">
-                                <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
-                                    <i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger ml-1 mr-1 p-1 rounded-circle" @click="GeneralEditButtonClick(undefined, undefined)">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                            </span>
+                        <form class="col-12 p-1" @submit="SubmitForm">
+                            <div :class="SpecialTables.includes(current_table)?'mb-2 mt-2': undefined">
+                                <input name="name" ref="name_input" class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
+                                <span class="basic-calculations-unit-span">
+                                    <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
+                                        <i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger ml-1 mr-1 p-1 rounded-circle" @click="GeneralEditButtonClick(undefined, undefined)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div v-if="current_table=='Revenue Type'" class="col-12 row">
+                                <checkbox-input 
+                                    v-if="extra_edit"
+                                    name="is_utility" 
+                                    :edit_data="edit_data"
+                                    title="Is Utility"
+                                ></checkbox-input>
+                            </div>
                         </form>
                     </div>
                     <div>
