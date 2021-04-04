@@ -1,0 +1,22 @@
+name: maymanagement.azurewebsites.net
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: maymanagement
+          publish-profile: ${{ secrets.MAY_AZURE_PUBLISH_PROFILE }}
+          
+
