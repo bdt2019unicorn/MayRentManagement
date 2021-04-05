@@ -138,17 +138,29 @@ Vue.component
 (
     "checkbox-input", 
     {
+        props: ["checked"], 
         mixins: [user_input_components_v_model_support_mixin], 
         mounted()
         {
-            if(this.edit_data)
+            if(this.checked)
+            {
+                this.content = Number(this.checked); 
+            }
+            else if(this.edit_data)
             {
                 this.content = Number(this.edit_data[this.name]); 
             }
         }, 
+        watch: 
+        {
+            checked: function(new_value, old_value)
+            {
+                this.content = Number(this.checked); 
+            }
+        }, 
         template: 
         `
-            <div class="form-group col">
+            <div class="form-group col" :style="LockStyle">
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" value="1" v-model='content'>
                     <input hidden type="text" :name="name" v-model="Number(this.content).toString()">

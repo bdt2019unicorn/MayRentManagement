@@ -12,6 +12,7 @@ Vue.component
                 edit_text: undefined, 
                 edit_data: undefined, 
                 extra_edit: true, 
+                is_basic: undefined, 
                 special_tables: ['Revenue Type', 'Lease Agreement Period'], 
                 tables: 
                 {
@@ -111,18 +112,24 @@ Vue.component
             edit_data: function(new_value, old_value)
             {
                 this.ExtraEditReset(); 
+                this.is_basic = R.path(["is_basic"], new_value); 
+            }, 
+            edit_text: function(new_value, old_value)
+            {
+                if(this.current_table=="Lease Agreement Period")
+                {
+                    var now = moment(); 
+                    var later_a_year = moment().add(1, "year"); 
+                    var bad_diff = later_a_year.diff(now); 
+                    var current_diff = later_a_year.diff(now, new_value, true); 
+                    this.is_basic = !(bad_diff==current_diff); 
+                }
             }
         }, 
         template: 
         `
             <div>
-                <b-dropdown 
-                    :text="current_table || 'All Basic Units'" 
-                    block 
-                    lazy
-                    menu-class="w-100" 
-                    variant="success"
-                >
+                <b-dropdown :text="current_table || 'All Basic Units'" block lazy menu-class="w-100" variant="success">
                     <b-dropdown-item @click="current_table=undefined"><br></b-dropdown-item>
                     <b-dropdown-item v-for="table in Object.keys(tables)" @click="current_table=table">
                         {{table}}
@@ -134,11 +141,7 @@ Vue.component
                     <div class="row">
                         <h2 class="col-11 text-danger">Unable to delete the unit - please check these places</h2>
                         <div class="col-1">
-                            <submit-button 
-                                icon="times" 
-                                title="Back to list" 
-                                @submit-button-clicked="unable_to_delete=undefined"
-                            ><submit-button>
+                            <submit-button icon="times" title="Back to list" @submit-button-clicked="unable_to_delete=undefined"></submit-button>
                         </div>
                     </div>
                     <template v-for="table in Object.keys(UnableToDelete)">
@@ -161,13 +164,18 @@ Vue.component
                                     </button>
                                 </span>
                             </div>
-                            <div v-if="current_table=='Revenue Type'" class="col-12 row">
-                                <checkbox-input 
-                                    v-if="extra_edit"
-                                    name="is_utility" 
-                                    :edit_data="edit_data"
-                                    title="Is Utility"
-                                ></checkbox-input>
+                            <div v-if="special_tables.includes(current_table)" class="col-12 row">
+                                <checkbox-input v-if="extra_edit && current_table=='Revenue Type'" name="is_utility" :edit_data="edit_data" title="Is Utility"></checkbox-input>
+                                <template v-else-if="extra_edit && current_table=='Lease Agreement Period'">
+                                    <div class="col-10">
+                                    </div>
+                                    <checkbox-input
+                                        :lock="true"
+                                        name="is_basic"
+                                        :checked="is_basic"
+                                        title="Is Basic Unit"
+                                    ></checkbox-input>
+                                </template>
                             </div>
                         </form>
                     </div>
