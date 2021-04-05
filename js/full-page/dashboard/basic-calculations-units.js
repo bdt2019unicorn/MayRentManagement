@@ -12,25 +12,37 @@ Vue.component
                 edit_text: undefined, 
                 edit_data: undefined, 
                 extra_edit: true, 
+                special_tables: ['Revenue Type', 'Lease Agreement Period'], 
                 tables: 
                 {
                     "Document Types": "document_type", 
                     "Expense Type": "expense_type", 
                     "Lease Agreement Period": "leaseagrm_period", 
                     "Revenue Type": "revenue_type"
-                } 
+                }, 
+                unable_to_delete: undefined
             }
         ),
-        components: {...bootstrap, ...vueFragment}, 
+        components: {...bootstrap}, 
         computed: 
         {
             OverviewController()
             {
                 return this.tables[this.current_table]; 
             }, 
-            SpecialTables()
+            UnableToDelete()
             {
-                return ['Revenue Type', 'Lease Agreement Period']; 
+                return this.unable_to_delete? Object.keys(this.unable_to_delete).reduce
+                (
+                    (accumulator, current_value)=>
+                    {
+                        var table_name = this.unable_to_delete[current_value][0]["table_name"]; 
+                        return {
+                            ...accumulator, 
+                            [table_name]: this.unable_to_delete[current_value].map(({table_name, ...rest})=>rest) 
+                        }
+                    }, {}
+                ): undefined; 
             }
         }, 
         methods: 
@@ -46,9 +58,9 @@ Vue.component
                 let result = this.AjaxRequest(url); 
                 try 
                 {
-                    result = JSON.parse(result);     
+                    this.unable_to_delete = JSON.parse(result); 
                 } 
-                catch 
+                catch
                 {
                     url = this.ServerUrl("delete"); 
                     result = this.SubmitData("delete", url, [id]); 
@@ -58,18 +70,6 @@ Vue.component
             ExtraEditReset()
             {
                 this.ResetValue({value_name: "extra_edit", new_value: true}); 
-            }, 
-            GeneralButtonClick()
-            {
-                if(this.edit_id)
-                {
-                    console.log("edit things"); 
-                }
-                else 
-                {
-                    console.log("adding things"); 
-                }
-                this.GeneralEditButtonClick(undefined, undefined); 
             }, 
             GeneralEditButtonClick(id, name)
             {
@@ -96,7 +96,7 @@ Vue.component
             SubmitForm(event)
             {
                 event.preventDefault(); 
-                var data = this.SpecialTables.includes(this.current_table)? Object.fromEntries(new FormData(event.currentTarget)): {name: this.edit_text}; 
+                var data = this.special_tables.includes(this.current_table)? Object.fromEntries(new FormData(event.currentTarget)): {name: this.edit_text}; 
                 var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
                 var result = this.SubmitData(this.edit_id?"edit":"excel", url, this.edit_id?data:[data]); 
                 this.HandleResult(result); 
@@ -115,7 +115,7 @@ Vue.component
         }, 
         template: 
         `
-            <fragment>
+            <div>
                 <b-dropdown 
                     :text="current_table || 'All Basic Units'" 
                     block 
@@ -130,10 +130,27 @@ Vue.component
                 </b-dropdown>
                 <br>
 
-                <div v-if="current_table" class="basic-calculations-unit-div">
+                <div v-if="unable_to_delete">
+                    <div class="row">
+                        <h2 class="col-11 text-danger">Unable to delete the unit - please check these places</h2>
+                        <div class="col-1">
+                            <submit-button 
+                                icon="times" 
+                                title="Back to list" 
+                                @submit-button-clicked="unable_to_delete=undefined"
+                            ><submit-button>
+                        </div>
+                    </div>
+                    <template v-for="table in Object.keys(UnableToDelete)">
+                        <h3 class="text-center">{{table}}</h3>
+                        <display-table :data="UnableToDelete[table]"></display-table>
+                    </template>
+                </div>
+
+                <div v-if="current_table" class="basic-calculations-unit-div" v-show="!unable_to_delete">
                     <div class="row">
                         <form class="col-12 p-1" @submit="SubmitForm">
-                            <div :class="SpecialTables.includes(current_table)?'mb-2 mt-2': undefined">
+                            <div :class="special_tables.includes(current_table)?'mb-2 mt-2': undefined">
                                 <input name="name" ref="name_input" class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
                                 <span class="basic-calculations-unit-span">
                                     <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
@@ -171,7 +188,7 @@ Vue.component
                     </div>
                 </div>
                 <div v-else style="height: 75vh;"></div>
-            </fragment>
+            </div>
         `
     }
 ); 

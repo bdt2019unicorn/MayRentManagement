@@ -1,5 +1,6 @@
 <?php 
     require_once("../helper/database.php"); 
+    $test_mode = CurrentEnvironment::TestMode();
     $id = $_GET["id"]; 
     $table = $_GET["table"]; 
     $sql = 
@@ -12,29 +13,21 @@
     "; 
     $data = Connect::MultiQuery($sql, true); 
     $data = $data[0]; 
-    $sql = "SELECT"; 
+    $sql = []; 
     $details = []; 
     foreach ($data as $reference) 
     {
         $table_name = $reference["TABLE_NAME"]; 
         $column_name = $reference["COLUMN_NAME"]; 
-        $sql.="\n (SELECT COUNT(*) FROM `{$table_name}` WHERE `{$column_name}` = '{$id}')";
-        array_push($details, "SELECT * FROM `{$table_name}` WHERE `$column_name` = '{$id}';"); 
+        array_push($sql, "\n (SELECT COUNT(*) FROM `{$table_name}` WHERE `{$column_name}` = '{$id}')"); 
+        array_push($details, "SELECT *, '{$table_name}' AS `table_name` FROM `{$table_name}` WHERE `$column_name` = '{$id}';"); 
     }
-    $sql .=" AS `count`;";
+    $sql = "SELECT " . implode("+", $sql) . " AS `count`;";
 
-    function CountData($count_data, $callback)
+    function CountData($count_data, $callback) 
     {
-        set_error_handler(function($errorno, $errstr){return null;}); 
-        $count = null;
-        try 
-        {
-            $count = boolval($count_data[0]["count"]); 
-        } 
-        catch (\Throwable $throwable) 
-        {
-            $count = boolval($count_data[0][0]["count"]); 
-        } 
+        global $test_mode; 
+        $count = boolval($test_mode?$count_data[0]["count"]:$count_data[0][0]["count"]); 
         if($count)
         {
             $result = $callback($count_data); 
@@ -51,7 +44,7 @@
         return array_filter($array, function($value){return count($value);}); 
     }
 
-    $test_mode = CurrentEnvironment::TestMode();
+    
     if($test_mode)
     {
         $count_data = ConnectSqlite::Query($sql); 
@@ -73,7 +66,7 @@
             $count_data, 
             function($count_data)
             {
-                unset($count_data[0]["count"]); 
+                unset($count_data[0]); 
                 return ArrayFilter($count_data); 
             }
         ); 
