@@ -13,32 +13,35 @@
         public static function Query($sql)
         {
             $connection = ConnectSqlite::Connection(); 
+            $rows = false; 
             try 
             {
                 $statement = $connection->query($sql); 
                 $rows = $statement->fetchAll(PDO::FETCH_ASSOC); 
-                return $rows; 
             }
             catch(Throwable $throwable)
             {
                 echo $throwable->getMessage(); 
-                return false; 
             }
+            $connection = null; 
+            return $rows; 
         }
 
         public static function Exec($sql, $get_id = false)
         {
             $connection = ConnectSqlite::Connection(); 
+            $result = false; 
             try 
             {
                 $result = $connection->exec($sql); 
-                return $get_id?$connection->lastInsertId(): $result; 
+                $result = $get_id?$connection->lastInsertId(): $result; 
             }
             catch(Throwable $throwable)
             {
                 echo $throwable->getMessage(); 
-                return false; 
             }
+            $connection = null; 
+            return $result; 
         }
 
         public static function ExecTransaction($sql)
