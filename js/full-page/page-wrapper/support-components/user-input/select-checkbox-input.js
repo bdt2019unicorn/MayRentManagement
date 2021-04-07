@@ -16,11 +16,11 @@ Vue.component
                 var select_data = this.select_data || this.TableData(this.overview_controller, {edit: 1});
                 this.options = select_data.map
                 (
-                    option=>
+                    option=> 
                     (
                         {
-                            value: option[this.select_value], 
-                            text: option[this.text]
+                            value: typeof(option)=="object"? option[this.select_value]: option, 
+                            text: typeof(option)=="object"? option[this.text]: option
                         }
                     )
                 ); 

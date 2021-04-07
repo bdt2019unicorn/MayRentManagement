@@ -7,6 +7,13 @@ Vue.component
         (
             {
                 basic_calculations: [], 
+                basic_operation: 
+                [
+                    {value: "+", text: "plus (+)"}, 
+                    {value: "-", text: "minus (-)"}, 
+                    {value: "*", text: "multiply (x)"}, 
+                    {value: "/", text: "divide (:)"}
+                ], 
                 current_table: undefined, 
                 edit_id: undefined, 
                 edit_text: undefined, 
@@ -167,14 +174,14 @@ Vue.component
                             <div v-if="special_tables.includes(current_table)" class="col-12 row">
                                 <checkbox-input v-if="extra_edit && current_table=='Revenue Type'" name="is_utility" :edit_data="edit_data" title="Is Utility"></checkbox-input>
                                 <template v-else-if="extra_edit && current_table=='Lease Agreement Period'">
-                                    <div class="col-10">
+                                    <div class="col-10 row">
+                                        <div class="col-2 align-self-center"><p><b>Difference in</b></p></div>
+                                        <select-input
+                                            :select_data="basic_calculations.filter(({is_basic})=>Number(is_basic)).map(({name})=>name)"
+                                        ></select-input>
+                                        <select-input :value="'+'" :select_data="basic_operation" select_value="value" text="text"></select-input>
                                     </div>
-                                    <checkbox-input
-                                        :lock="true"
-                                        name="is_basic"
-                                        :checked="is_basic"
-                                        title="Is Basic Unit"
-                                    ></checkbox-input>
+                                    <checkbox-input class="align-self-center" :lock="true" name="is_basic" :checked="is_basic" title="Is Basic Unit"></checkbox-input>
                                 </template>
                             </div>
                         </form>
