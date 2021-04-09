@@ -102,9 +102,13 @@
         private function RentInformation($data=null)
         {
             $data = $data?? ConnectSqlite::Query($this->RentInformationSql()); 
+            $DateReformat = function($date)
+            {
+                return ($date instanceof DateTime)? ($date->format($this->date_format)) : (new DateTime($date))->format($this->date_format); 
+            }; 
             if(!count($data))
             {
-                return [["start_date"=>(new DateTime($this->start_lease))->format($this->date_format), "end_date"=> null]]; 
+                return [["start_date"=>$DateReformat($this->start_lease), "end_date"=> null]]; 
             }
             $result = []; 
             for ($i=0; $i < count($data) ; $i++) 
@@ -127,13 +131,13 @@
                         $new_start_date = $new_start_date->modify("-1 day"); 
                         if($new_start_date>$next_start_date)
                         {
-                            array_push($result, ["start_date"=>$next_start_date, "end_date"=>$new_start_date]); 
+                            array_push($result, ["start_date"=>$DateReformat($next_start_date), "end_date"=>$DateReformat($next_start_date)]); 
                         }
                     }
                 }
                 else 
                 {
-                    array_push($result, ["start_date"=>$end_date, "end_date"=>null]); 
+                    array_push($result, ["start_date"=> $DateReformat((new DateTime($end_date))->modify("+1 day")) , "end_date"=>null]); 
                 }
             }
             return $result; 
