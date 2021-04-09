@@ -20,6 +20,9 @@ Vue.component
                 edit_data: undefined, 
                 extra_edit: true, 
                 is_basic: undefined, 
+                period_basic_operation_calculation: undefined, 
+                period_number_calculation: undefined, 
+                period_operation_calculation: "+", 
                 special_tables: ['Revenue Type', 'Lease Agreement Period'], 
                 tables: 
                 {
@@ -34,6 +37,14 @@ Vue.component
         components: {...bootstrap}, 
         computed: 
         {
+            CalculationMethod()
+            {
+                if(this.current_table!="Lease Agreement Period")
+                {
+                    return undefined; 
+                }
+                return "test"; 
+            }, 
             OverviewController()
             {
                 return this.tables[this.current_table]; 
@@ -138,18 +149,13 @@ Vue.component
             <div>
                 <b-dropdown :text="current_table || 'All Basic Units'" block lazy menu-class="w-100" variant="success">
                     <b-dropdown-item @click="current_table=undefined"><br></b-dropdown-item>
-                    <b-dropdown-item v-for="table in Object.keys(tables)" @click="current_table=table">
-                        {{table}}
-                    </b-dropdown-item>
+                    <b-dropdown-item v-for="table in Object.keys(tables)" @click="current_table=table">{{table}}</b-dropdown-item>
                 </b-dropdown>
                 <br>
-
                 <div v-if="unable_to_delete">
                     <div class="row">
                         <h2 class="col-11 text-danger">Unable to delete the unit - please check these places</h2>
-                        <div class="col-1">
-                            <submit-button icon="times" title="Back to list" @submit-button-clicked="unable_to_delete=undefined"></submit-button>
-                        </div>
+                        <div class="col-1"><submit-button icon="times" title="Back to list" @submit-button-clicked="unable_to_delete=undefined"></submit-button></div>
                     </div>
                     <template v-for="table in Object.keys(UnableToDelete)">
                         <h3 class="text-center">{{table}}</h3>
@@ -163,12 +169,8 @@ Vue.component
                             <div :class="special_tables.includes(current_table)?'mb-2 mt-2': undefined">
                                 <input name="name" ref="name_input" class="basic-calculations-unit-add-input" type="text" v-model="edit_text">
                                 <span class="basic-calculations-unit-span">
-                                    <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle">
-                                        <i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger ml-1 mr-1 p-1 rounded-circle" @click="GeneralEditButtonClick(undefined, undefined)">
-                                        <i class="fa fa-times"></i>
-                                    </button>
+                                    <button type="submit" class="btn btn-success ml-1 mr-1 p-1 rounded-circle"><i :class="(edit_id?'fas fa-check-double': 'fa fa-plus')"></i></button>
+                                    <button type="button" class="btn btn-danger ml-1 mr-1 p-1 rounded-circle" @click="GeneralEditButtonClick(undefined, undefined)"><i class="fa fa-times"></i></button>
                                 </span>
                             </div>
                             <div v-if="special_tables.includes(current_table)" class="col-12 row">
@@ -176,12 +178,12 @@ Vue.component
                                 <template v-else-if="extra_edit && current_table=='Lease Agreement Period'">
                                     <div class="col-10 row">
                                         <div class="col-2 align-self-center"><p><b>Difference in</b></p></div>
-                                        <select-input
-                                            :select_data="basic_calculations.filter(({is_basic})=>Number(is_basic)).map(({name})=>name)"
-                                        ></select-input>
+                                        <select-input :select_data="basic_calculations.filter(({is_basic})=>Number(is_basic)).map(({name})=>name)"></select-input>
                                         <select-input :value="'+'" :select_data="basic_operation" select_value="value" text="text"></select-input>
+                                        <number-input :value="period_number_calculation" v-model="period_number_calculation"></number-input>
                                     </div>
                                     <checkbox-input class="align-self-center" :lock="true" name="is_basic" :checked="is_basic" title="Is Basic Unit"></checkbox-input>
+                                    <input type="hidden" name="calculation_method" v-model="CalculationMethod" />
                                 </template>
                             </div>
                         </form>
@@ -191,12 +193,8 @@ Vue.component
                             <li class="basic-calculations-unit-li" v-for="{id, name} in basic_calculations">
                                 <span>{{name}}</span>
                                 <div class="buttons">
-                                    <button class="edit" title="Edit" @click="GeneralEditButtonClick(id, name)">
-                                        <i class="far fa-edit"></i>
-                                    </button>
-                                    <button class="remove" title="Remove" @click="DeleteBasicUnit(id)">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </button>
+                                    <button class="edit" title="Edit" @click="GeneralEditButtonClick(id, name)"><i class="far fa-edit"></i></button>
+                                    <button class="remove" title="Remove" @click="DeleteBasicUnit(id)"><i class="fa fa-trash-alt"></i></button>
                                 </div>
                             </li>
                         </ul>

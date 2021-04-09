@@ -12,7 +12,11 @@ Vue.component
         ), 
         mounted() 
         {
-            if(this.edit_data)
+            if(this.$attrs["value"])
+            {
+                this.number_value = this.$attrs["value"]; 
+            }
+            else if(this.edit_data)
             {
                 this.number_value = this.edit_data[this.name]; 
             }
@@ -74,6 +78,7 @@ Vue.component
             }, 
             number_value: function(new_value, old_value)
             {
+                this.$emit("input", new_value); 
                 if(this.edit_data)
                 {
                     if(new_value!=this.edit_data[this.name])
@@ -123,7 +128,7 @@ Vue.component
         template: 
         `
             <div class="form-group col">
-                <label :for="name"><b>{{title}}</b></label>
+                <label v-if="title" :for="name"><b>{{title}}</b></label>
                 <input type="text" :style="LockStyle" class="form-control" v-model="number_display">
                 <input type="text" hidden :name="name" v-model="number_value">
             </div>
