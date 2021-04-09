@@ -2,7 +2,7 @@ Vue.component
 (
     "add-monthly-invoices", 
     {
-        mixins: [support_mixin, rent_invoice_mixin, valid_invoice_details_mixin], 
+        mixins: [rent_invoice_mixin, valid_invoice_details_mixin], 
         data: () =>
         (
             {
@@ -56,7 +56,7 @@ Vue.component
         },
         created() 
         {
-            this.user_input = this.AjaxRequest("server/user_input_controller/invoice.json"); 
+            this.user_input = this.AjaxRequest("server/user_input_controller/en/invoice.json"); 
             this.MonthlyInvoices(); 
         },
         methods: 
