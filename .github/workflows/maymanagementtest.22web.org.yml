@@ -14,6 +14,6 @@ jobs:
       - name: Deploy to the server 
         uses: sebastianpopp/git-ftp-action@releases/v3
         with:
-          url: ftp://ftpupload.net:21/maymanagementtest.22web.org/htdocs
-          user: b17_27686411
-          password: hoangthanhbinh1994 
+          url: ${{ secrets.MAY_FTP_URL }}
+          user: ${{ secrets.TEST_FTP_URL }}
+          password: ${{ secrets.TEST_FTP_URL }} 
