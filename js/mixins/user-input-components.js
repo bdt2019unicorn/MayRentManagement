@@ -41,11 +41,26 @@ var user_input_components_mixin =
     }
 }; 
 
-var user_input_components_v_model_support_mixin = 
+var v_model_mixin = 
 {
     props: ["value"], 
-    mixins: [user_input_support_mixin], 
     data: () =>({content: this.value}), 
+    watch: 
+    {
+        content: function(new_value, old_value)
+        {
+            this.$emit("input", new_value); 
+        },
+        value: function(new_value, old_value)
+        {
+            this.content = new_value; 
+        }  
+    }
+}
+
+var user_input_components_v_model_support_mixin = 
+{
+    mixins: [user_input_support_mixin, v_model_mixin], 
     methods: 
     {
         BringEditData()
@@ -64,16 +79,5 @@ var user_input_components_v_model_support_mixin =
             this.content = this.value; 
         }
         this.BringEditData(); 
-    },
-    watch: 
-    {
-        content: function(new_value, old_value)
-        {
-            this.$emit("input", new_value); 
-        },
-        value: function(new_value, old_value)
-        {
-            this.content = new_value; 
-        }  
-    },
+    }
 }
