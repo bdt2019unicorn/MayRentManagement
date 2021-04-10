@@ -11,7 +11,7 @@
 
     $overview_controller = $_GET["overview_controller"]; 
     $actions = ["overview", "utilities"]; 
-    $generic_controllers = ["buildings", "expense_type", "leaseagrm_period", "revenue_type"]; 
+    $generic_controllers = ["buildings", "document_type", "expense_type", "leaseagrm_period", "revenue_type"]; 
 
     if(in_array($overview_controller, $actions))
     {

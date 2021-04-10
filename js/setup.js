@@ -90,7 +90,8 @@ jQuery
                         username: "", 
                         user_id: 0, 
                         buildings_data: [], 
-                        building_user_input: {}
+                        building_user_input: {}, 
+                        logo_src: ""
                     }, 
                     mutations: 
                     {
@@ -132,6 +133,7 @@ jQuery
                         }
                         let building_user_input = this.AjaxRequest("server/user_input_controller/en/buildings.json");    
                         store_track.commit("ChangeState", {name: "building_user_input", value: building_user_input});  
+                        store_track.commit("ChangeState", {name: "logo_src", value: `${this.AjaxRequest("server/admin_database.php?command=LogoImg")}?q=${Date.now()}`});  
                         store_track.commit
                         (
                             "Authorize", 
