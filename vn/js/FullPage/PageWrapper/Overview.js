@@ -10,7 +10,8 @@ class Overview extends PageWrapperChildrenComponent
         this.state = 
         {
             table_data: TranslateTable(table, translate_url), 
-            table_actions: this.TableActions(controller)
+            table_actions: this.TableActions(controller), 
+            translate: ServerJson("../server/translation/general.json")
         }; 
     }
     render() 
@@ -18,7 +19,12 @@ class Overview extends PageWrapperChildrenComponent
         return (
             <React.Fragment>
                 <h1>{_get(this.state.table_actions, "page_title") || "Tổng quát"}</h1>
-                <ScrollingTable table={this.state.table_data} table_actions={this.state.table_actions} />
+                <ScrollingTable 
+                    table={this.state.table_data} 
+                    table_actions={this.state.table_actions} 
+                    append={this.props.current_building} 
+                    translate={this.state.translate}
+                />
             </React.Fragment>
         );
     }

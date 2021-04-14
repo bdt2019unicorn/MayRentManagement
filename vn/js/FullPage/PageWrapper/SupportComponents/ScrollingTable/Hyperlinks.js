@@ -1,3 +1,16 @@
+class BaseHyperlink extends React.Component
+{
+    render()
+    {
+        var Link = ReactRouterDOM.Link; 
+        return (
+            <Link to={this.props.to}>
+                <Translate text={this.props.text} translate={this.props.translate} />
+            </Link> 
+        ); 
+    }
+}
+
 class HyperlinkListCompile extends React.Component 
 {
     constructor(props)
@@ -10,7 +23,7 @@ class HyperlinkListCompile extends React.Component
         ToObject()
         {
             let match = this.props.html.match('to="(.+)"'); 
-            if(!match.length)
+            if(!_.get(match, "length"))
             {
                 return undefined; 
             }
@@ -22,8 +35,8 @@ class HyperlinkListCompile extends React.Component
             }
             catch (exception)
             {
-                let last_splash = match[1].lastIndexOf("/"); 
-                let path = match[1].substr(0, last_splash + 1) + match[1].charAt(last_splash+1).toUpperCase() + match[1].substr(last_splash+2);
+                let last_slash = match[1].lastIndexOf("/"); 
+                let path = match[1].substr(0, last_slash + 1) + match[1].charAt(last_slash+1).toUpperCase() + match[1].substr(last_slash+2);
                 return `/${(this.props.append || "")}/${path}`; 
             }
             
@@ -45,22 +58,33 @@ class HyperlinkListCompile extends React.Component
         {
             return null; 
         }
-        text = text[1]; 
-        var Link = ReactRouterDOM.Link; 
-        return (
-            <Link to={to}>
-                <Translate text={text} />
-            </Link> 
-        ); 
+        return <BaseHyperlink to={to} text={text[1]} translate={this.props.translate} />; 
     }
 }
-
 
 class Hyperlink extends React.Component 
 {
     render() 
     {
-        var Link = ReactRouterDOM.Link; 
-        return this.props.text; 
+        if(!this.props.html)
+        {
+            return null; 
+        }
+        let {action, controller, object_id} = this.props.special; 
+        object_id = this.props.row[object_id]; 
+        return <BaseHyperlink 
+            to=
+            {
+                ToActions
+                (
+                    {
+                        params: {building_id: this.props.append, action, controller}, 
+                        query: {id: object_id}
+                    }
+                )
+            }
+            text={this.props.html}
+            translate={this.props.translate}
+        />; 
     }
 }

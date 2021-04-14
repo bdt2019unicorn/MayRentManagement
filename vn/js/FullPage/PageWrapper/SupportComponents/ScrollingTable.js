@@ -5,7 +5,7 @@ class ScrollingTable extends React.Component
         var table_length = _.get(this.props.table, "length"); 
         var hidden_columns = _.get(this.props.table_actions,"hidden_columns") || []; 
         var special_list = _.get(this.props.table_actions,"special.list") || []; 
-        console.log(special_list); 
+        var special = special_list.length? _.get(this.props.table_actions,"special"): undefined; 
         var columns = table_length?this.props.table.reduce
         (
             (previous_value, current_value)=>
@@ -55,6 +55,24 @@ class ScrollingTable extends React.Component
                                                         column=> 
                                                         {
                                                             var custom_component = row[column]; 
+                                                            if(special_list.includes(column))
+                                                            {
+                                                                for (var component in special) 
+                                                                {
+                                                                    if(special[component][column])
+                                                                    {
+                                                                        var Component = window[component]; 
+                                                                        custom_component = <Component 
+                                                                            html={custom_component} 
+                                                                            row={row} 
+                                                                            append={this.props.append} 
+                                                                            special={special[component][column]} 
+                                                                            translate={this.props.translate}
+                                                                        />; 
+                                                                        break; 
+                                                                    }
+                                                                }
+                                                            }
                                                             return <Td className="border" key={encodeURIComponent(row[column] + Math.random().toString())}>{custom_component}</Td>
                                                         }
                                                     )
