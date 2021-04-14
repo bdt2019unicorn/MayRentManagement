@@ -4,6 +4,8 @@ class ScrollingTable extends React.Component
     {
         var table_length = _.get(this.props.table, "length"); 
         var hidden_columns = _.get(this.props.table_actions,"hidden_columns") || []; 
+        var special_list = _.get(this.props.table_actions,"special.list") || []; 
+        console.log(special_list); 
         var columns = table_length?this.props.table.reduce
         (
             (previous_value, current_value)=>
@@ -48,7 +50,14 @@ class ScrollingTable extends React.Component
                                         row => (
                                             <Tr key={encodeURIComponent(JSON.stringify(row) + Math.random().toString())}>
                                                 {
-                                                    columns.map(column=> <Td className="border" key={encodeURIComponent(row[column] + Math.random().toString())}>{row[column]}</Td>)
+                                                    columns.map
+                                                    (
+                                                        column=> 
+                                                        {
+                                                            var custom_component = row[column]; 
+                                                            return <Td className="border" key={encodeURIComponent(row[column] + Math.random().toString())}>{custom_component}</Td>
+                                                        }
+                                                    )
                                                 }
                                             </Tr>
                                         )
