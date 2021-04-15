@@ -2,11 +2,10 @@ class ScrollingTable extends React.Component
 {
     render()
     {
-        var table_length = _.get(this.props.table, "length"); 
         var hidden_columns = _.get(this.props.table_actions,"hidden_columns") || []; 
         var special_list = _.get(this.props.table_actions,"special.list") || []; 
         var special = special_list.length? _.get(this.props.table_actions,"special"): undefined; 
-        var columns = table_length?this.props.table.reduce
+        var columns = _.get(this.props.table, "length")?this.props.table.reduce
         (
             (previous_value, current_value)=>
             {
@@ -54,7 +53,7 @@ class ScrollingTable extends React.Component
                                                     (
                                                         column=> 
                                                         {
-                                                            var custom_component = row[column]; 
+                                                            var custom_component = <Translate text={row[column]} translate={this.props.translate} />; 
                                                             if(special_list.includes(column))
                                                             {
                                                                 for (var component in special) 
@@ -63,7 +62,7 @@ class ScrollingTable extends React.Component
                                                                     {
                                                                         var Component = window[component]; 
                                                                         custom_component = <Component 
-                                                                            html={custom_component} 
+                                                                            html={row[column]} 
                                                                             row={row} 
                                                                             append={this.props.append} 
                                                                             special={special[component][column]} 
@@ -73,7 +72,12 @@ class ScrollingTable extends React.Component
                                                                     }
                                                                 }
                                                             }
-                                                            return <Td className="border" key={encodeURIComponent(row[column] + Math.random().toString())}>{custom_component}</Td>
+                                                            return (
+                                                                <Td 
+                                                                    className="border" 
+                                                                    key={encodeURIComponent(row[column] + Math.random().toString())}
+                                                                >{custom_component}</Td>
+                                                            ); 
                                                         }
                                                     )
                                                 }

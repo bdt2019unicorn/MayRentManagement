@@ -9,6 +9,10 @@ class Translate extends React.Component
     render() 
     {
         var text = this.props.text; 
+        if(!text)
+        {
+            return null; 
+        }
         for (var word in this.state.translate["datetime"]) 
         {
             if(text.includes(word))
