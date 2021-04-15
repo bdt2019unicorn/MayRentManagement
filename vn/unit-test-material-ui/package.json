@@ -1,5 +1,5 @@
 {
-  "name": "unit-test-build-component",
+  "name": "unit-test-material-ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/data-grid": "^4.0.0-alpha.25",
     "classnames": "^2.2.6",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",

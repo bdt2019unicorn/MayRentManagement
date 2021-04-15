@@ -1,2 +1,2 @@
-import Button from "@material-ui/core/Button";
-window.Button = Button; 
+import { DataGrid } from '@material-ui/data-grid';
+window.DataGrid = DataGrid; 

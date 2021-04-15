@@ -70,9 +70,9 @@
                 function OptionColumns()
                 {
                     return [
-                        {name: "id", label: "id"}, 
-                        {name: "name", label: "name"}, 
-                        {name: "size", label: "size"} 
+                        {field: "id", headerName: "id"}, 
+                        {field: "name", headerName: "name"}, 
+                        {field: "size", headerName: "size"} 
                     ]; 
                 }
 
@@ -86,11 +86,12 @@
                     {
                         var columns = OptionColumns(); 
                         var rows = select_options; 
+                        console.log(rows); 
                         try {
                         return (
-                            <Button variant="contained" color="primary">
-                                Hello World
-                            </Button>
+                            <div style={{ height: 300, width: "100%" }}>
+                                <DataGrid rows={rows} columns={columns} />
+                            </div>
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 
