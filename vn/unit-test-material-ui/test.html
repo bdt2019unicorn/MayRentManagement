@@ -36,6 +36,15 @@
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
             <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
 
+            <style>
+                .scrolling-table-div
+                {
+                    height: 30vh;
+                    min-height: 30vh;
+                    max-height: 75vh;
+                }
+            </style>
+
             
             <script type="text/babel">
 
@@ -89,9 +98,9 @@
                         console.log(rows); 
                         try {
                         return (
-                            <div style={{ height: 300, width: "100%" }}>
+                            <MaterialUI.Paper className="scrolling-table-div">
                                 <DataGrid rows={rows} columns={columns} />
-                            </div>
+                            </MaterialUI.Paper>
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 
