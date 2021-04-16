@@ -24,14 +24,14 @@ class TranslationValues
         }
         var DateTranslate = (text)=>
         {
+            if(Number(text))
+            {
+                return undefined; 
+            }
             var datetime = moment(text); 
             return datetime.isValid()? `Ngày ${datetime.date()} Tháng ${datetime.month() + 1} Năm ${datetime.year()}`: undefined;           
         }
         var date = DateTranslate(text); 
-        if(date)
-        {
-            return date; 
-        }
         for (var word in this.General["datetime"]) 
         {
             if(text.includes(word))
@@ -41,7 +41,6 @@ class TranslationValues
                 {
                     translate = translate["translate"]; 
                     text = text.replaceAll(word, "").trim(); 
-                    date = DateTranslate(text); 
                     return `${translate} ${date}`; 
                 } 
                 else 
@@ -49,6 +48,10 @@ class TranslationValues
                     return translate; 
                 }
             }
+        }
+        if(date)
+        {
+            return date; 
         }
         return text; 
     }
