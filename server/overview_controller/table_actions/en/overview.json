@@ -1,7 +1,7 @@
 {
-    "hidden_columns": ["leaseid", "Payment Status Value", "Rental Status Value", "tenantid"], 
+    "hidden_columns": ["tenantid", "leaseid", "Rental Status Value", "Rental Status VN", "Payment Status Value"], 
     "page_title": "Overview", 
-    "search": ["Unit Name", "Tenant Name", "Rental Status", "Payment Status"], 
+    "search": ["Payment Status", "Rental Status", "Tenant Name", "Unit Name"], 
     "sort": 
     {
         "Rental Status": "Rental Status Value", 

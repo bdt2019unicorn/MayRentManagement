@@ -4,21 +4,6 @@ class TranslationValues
     {
         "datetime": 
         {
-            "month": 
-            {
-                "January": 1,
-                "February": 2,
-                "March": 3,
-                "April": 4,
-                "May": 5,
-                "June": 6,
-                "July": 7,
-                "August": 8,
-                "September": 9,
-                "October": 10,
-                "November": 11,
-                "December": 12
-            }, 
             "Deposit paid": "Đã trả tiền cọc", 
             "Until": 
             {
@@ -30,10 +15,6 @@ class TranslationValues
     static Hyperlink(html)
     {
         return this.Translate(html); 
-    }
-    static HyperlinkListCompile()
-    {
-        return "test"; 
     }
     static Translate(text)
     {
@@ -60,5 +41,22 @@ class TranslationValues
             }
         }
         return text; 
+    }
+    static TranslateTable(table, translate_url) 
+    {
+        var translate = ServerJson(translate_url); 
+        return translate ? table.map
+        (
+            row=>Object.keys(row).reduce
+            (
+                (accumulator, current_value)=>
+                (
+                    {
+                        ...accumulator, 
+                        [translate[current_value] || current_value]: row[current_value]
+                    }
+                ), {}
+            ) 
+        ) : table; 
     }
 }

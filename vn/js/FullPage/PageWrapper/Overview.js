@@ -9,7 +9,8 @@ class Overview extends PageWrapperChildrenComponent
         var translate_url = `../server/translation/Overview/${controller}.json`; 
         this.state = 
         {
-            table_data: TranslateTable(table, translate_url), 
+            controller, 
+            table_data: TranslationValues.TranslateTable(table, translate_url), 
             table_actions: this.TableActions(controller)
         }; 
     }

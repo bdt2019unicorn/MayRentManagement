@@ -26,7 +26,7 @@ class Sidebar extends BaseComponent
                 }; 
                 return (
                     <MaterialUI.Accordion key={controller.name} onChange={AccordionChange} expanded={controller.name===this.state.expanded}>
-                        <MaterialUI.AccordionSummary className={(controller.name==current_controller)?"bg-yellow": undefined} expandIcon={<MaterialUI.Icon>expand_more</MaterialUI.Icon>}>
+                        <MaterialUI.AccordionSummary className={`width-full ${(controller.name==current_controller)?"bg-yellow": ""}`} expandIcon={<MaterialUI.Icon>expand_more</MaterialUI.Icon>}>
                             <MaterialUI.Icon>{controller.icon}</MaterialUI.Icon>
                             <h4 className="ml-2">{controller.text}</h4>
                         </MaterialUI.AccordionSummary>

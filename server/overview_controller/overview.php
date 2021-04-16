@@ -52,6 +52,7 @@
                 SELECT 
                     `unit`.`id` AS `ID`, 
                     `unit`.`name` AS `Unit Name`, 
+                    `leaseagrm_overview`.`Rental Status` AS `Rental Status VN`, 
                     {$RentalStatus()}, 
                     IFNULL(`leaseagrm_overview`.`Rental Status Value`, 0) AS `Rental Status Value`, 
                     `leaseagrm_overview`.`Payment Status`, 
