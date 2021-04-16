@@ -100,12 +100,11 @@ class ScrollingTable extends React.Component
             row=>
             (
                 {
-                    id: encodeURIComponent(JSON.stringify(row) + Math.random()), 
+                    id: md5(JSON.stringify(row) + Math.random()), 
                     ...row 
                 }
             )
         ); 
-
         var Grid = MaterialUI.Grid; 
 
         return (

@@ -12,6 +12,7 @@ new Promise
         if(Number(result))
         {
             ValidationSetup(); 
+            TranslationSetup(); 
             var setup = new PageSetup(); 
             ReactDOM.render(setup.FullPage(), document.getElementById("full_page"));
         }
@@ -120,4 +121,9 @@ function ValidationSetup()
         }; 
         return DateGroupValidation(value, options, key, attributes, callback); 
     }; 
+}
+function TranslationSetup()
+{
+    let test_mode = AjaxRequest("../server/admin_database.php?command=TestMode"); 
+    TranslationValues.TestMode = Boolean(test_mode); 
 }

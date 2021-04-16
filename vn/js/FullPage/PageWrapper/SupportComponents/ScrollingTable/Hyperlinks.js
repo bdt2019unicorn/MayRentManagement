@@ -22,7 +22,7 @@ class Hyperlink extends React.Component
                     )
                 }
             >
-                {TranslationValues.Translate(this.props.text) || null}
+                {TranslationValues.Translate(this.props.html) || null}
             </Link>
         ); 
     }

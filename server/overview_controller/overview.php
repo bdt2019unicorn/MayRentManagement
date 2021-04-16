@@ -67,8 +67,9 @@
         {
             $RentalStatus = function($true_word, $false_word, $date_format, $as)
             {
-                $true = Query::Concat(["'{$true_word}'", $this->test_mode? "STRFTIME('{$date_format['test']}', `Finish`)" : "DATE_FORMAT(`Finish`, '{$date_format['production']}')"], $this->test_mode); 
-                $false = Query::Concat(["'{$false_word}'", $this->test_mode? "STRFTIME('{$date_format['test']}', `Finish`)" : "DATE_FORMAT(`Finish`, '{$date_format['production']}')"], $this->test_mode); 
+                $condition_date = Query::DateFormat("`Finish`", $date_format, $this->test_mode); 
+                $true = Query::Concat(["'{$true_word}'", $condition_date], $this->test_mode); 
+                $false = Query::Concat(["'{$false_word}'", $condition_date], $this->test_mode); 
                 return "\n(" . Query::CaseWhen("`Start_date`<CURRENT_DATE", $true, $false) . "\n) AS `{$as}`"; 
             }; 
 

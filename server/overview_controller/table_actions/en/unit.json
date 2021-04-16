@@ -1,8 +1,8 @@
 {
-    "hidden_columns": ["tenantid"], 
+    "hidden_columns": ["tenantid", "Rental Status VN"], 
     "id": "ID", 
     "page_title": "Units", 
-    "search": ["Name", "Tenant Name", "Rental Status", "Payment Until"], 
+    "search": ["Name", "Tenant Name", "Rental Status", "Payment Status"], 
     "special": 
     {
         "list": ["Name", "Rental Status", "Tenant Name"], 

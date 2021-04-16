@@ -41,6 +41,11 @@
             echo CurrentEnvironment::DotEnvPath()? true: false;
         }
 
+        public function TestMode()
+        {
+            echo CurrentEnvironment::TestMode(); 
+        }
+
         public function CurrentEnvironmentSetUp()
         {
             $values = json_decode($_POST["excel"], true); 
