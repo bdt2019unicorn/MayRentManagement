@@ -12,6 +12,7 @@ class ScrollingTable extends React.Component
                     <MaterialUIDataGrid.GridToolbarContainer>
                         <MaterialUIDataGrid.GridFilterToolbarButton />
                         <MaterialUIDataGrid.GridDensitySelector />
+                        {this.props.children}
                     </MaterialUIDataGrid.GridToolbarContainer>
                 ) 
             }, 

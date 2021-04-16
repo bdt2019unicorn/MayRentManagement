@@ -1,3 +1,8 @@
+.d-flex-right-push
+{
+    margin-left: auto;
+    margin-right: 1rem;
+}
 .dropdown-ul li a
 {
     font-size: 2vmin;
@@ -22,4 +27,9 @@
 {
     width: 100%;
     height: 75vh;
+}
+.space-between-element *
+{
+    margin-left: 1em !important;
+    margin-right: 1em !important;
 }
