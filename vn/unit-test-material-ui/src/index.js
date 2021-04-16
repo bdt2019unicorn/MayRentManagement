@@ -1,2 +1,2 @@
-import { DataGrid } from '@material-ui/data-grid';
-window.DataGrid = DataGrid; 
+import * as MaterialUIDataGrid from '@material-ui/data-grid';
+window.MaterialUIDataGrid = MaterialUIDataGrid; 

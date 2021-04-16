@@ -20,9 +20,5 @@
 }
 .scrolling-table-div
 {
-    max-height: 75vh;
-}
-.scrolling-table-div-test
-{
     height: 75vh;
 }

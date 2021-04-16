@@ -10,7 +10,7 @@
     }, 
     "special": 
     {
-        "list": ["Tình trạng thuê", "Người thuê", "Đơn vị"], 
+        "list": ["Đơn vị", "Người thuê", "Tình trạng thuê", "Tình trạng tiền thuê"], 
         "Hyperlink": 
         {
             "Đơn vị":
@@ -29,6 +29,6 @@
         "HyperlinkListCompile": 
         {
             "Tình trạng thuê": true 
-        } 
+        }
     }
 }

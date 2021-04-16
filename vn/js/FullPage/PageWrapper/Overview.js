@@ -25,14 +25,6 @@ class Overview extends PageWrapperChildrenComponent
                     append={this.props.current_building} 
                     translate={this.state.translate}
                 />
-
-
-                <ScrollingTableTest  
-                    table={this.state.table_data} 
-                    table_actions={this.state.table_actions} 
-                    append={this.props.current_building} 
-                    translate={this.state.translate}
-                />
             </React.Fragment>
         );
     }
