@@ -1,5 +1,5 @@
 {
-    "id": "ID", 
-    "page_title": "Lease Agreements", 
-    "search": ["Name", "Apartment",	"Tenant Name"]
+    "id": "Mã số", 
+    "page_title": "Hợp đồng", 
+    "search": ["Đơn vị", "Người thuê", "Tên hợp đồng"]
 }

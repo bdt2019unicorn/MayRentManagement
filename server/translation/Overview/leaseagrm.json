@@ -1,0 +1,10 @@
+{
+    "ID": "Mã số",
+    "Name": "Tên hợp đồng",
+    "Unit": "Đơn vị",
+    "Tenant Name": "Người thuê",
+    "Start Date": "Ngày bắt đầu",
+    "End Date": "Ngày kết thúc",
+    "Outstanding Balance": "Số tiền dư",
+    "Deposit": "Tiền cọc"
+}
