@@ -5,7 +5,7 @@ class BaseHyperlink extends React.Component
         var Link = ReactRouterDOM.Link; 
         return (
             <Link to={this.props.to}>
-                <Translate text={this.props.text} translate={this.props.translate} />
+                {TranslationValues.Translate(this.props.text) || null}
             </Link> 
         ); 
     }
@@ -58,7 +58,7 @@ class HyperlinkListCompile extends React.Component
         {
             return null; 
         }
-        return <BaseHyperlink to={to} text={text[1]} translate={this.props.translate} />; 
+        return <BaseHyperlink to={to} text={text[1]} />; 
     }
 }
 
@@ -84,7 +84,6 @@ class Hyperlink extends React.Component
                 )
             }
             text={this.props.html}
-            translate={this.props.translate}
         />; 
     }
 }

@@ -10,8 +10,7 @@ class Overview extends PageWrapperChildrenComponent
         this.state = 
         {
             table_data: TranslateTable(table, translate_url), 
-            table_actions: this.TableActions(controller), 
-            translate: ServerJson("../server/translation/general.json")
+            table_actions: this.TableActions(controller)
         }; 
     }
     render() 
@@ -23,7 +22,6 @@ class Overview extends PageWrapperChildrenComponent
                     table={this.state.table_data} 
                     table_actions={this.state.table_actions} 
                     append={this.props.current_building} 
-                    translate={this.state.translate}
                 />
             </React.Fragment>
         );

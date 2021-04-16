@@ -67,9 +67,9 @@ class ScrollingTable extends React.Component
                             }
                             if(special_list.includes(column))
                             {
-                                definition.renderCell = (params)=>
+                                var fn = (params)=>
                                 {
-                                    var custom_component = <Translate text={params.value} translate={this.props.translate} />; 
+                                    var custom_component = TranslationValues.Translate(params.value) || null; 
                                     for (var component in special) 
                                     {
                                         if(special[component][column])
@@ -81,13 +81,14 @@ class ScrollingTable extends React.Component
                                                     row={params.row} 
                                                     append={this.props.append} 
                                                     special={special[component][column]} 
-                                                    translate={this.props.translate}
                                                 />
                                             ); 
                                         }
                                     }
                                     return custom_component; 
-                                }
+                                }; 
+                                definition.renderCell = fn; 
+                                definition.valueFormatter = fn; 
                             }
                         }
                         return definition; 
