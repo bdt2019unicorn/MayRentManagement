@@ -67,7 +67,6 @@ class ScrollingTable extends React.Component
                             }
                             if(special_list.includes(column))
                             {
-                                
                                 definition.renderCell = (params)=>
                                 {
                                     var custom_component = TranslationValues.Translate(params.value) || null; 
