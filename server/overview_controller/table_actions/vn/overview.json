@@ -8,6 +8,14 @@
         "Tình trạng thuê": "Rental Status Value", 
         "Tình trạng tiền thuê": "Payment Status Value" 
     }, 
+    "width": 
+    {
+        "Mã số": 100, 
+        "Đơn vị": 100, 
+        "Tình trạng thuê": 300,
+        "Tình trạng tiền thuê": 300,
+        "Người thuê": 300
+    }, 
     "special": 
     {
         "list": ["Đơn vị", "Người thuê", "Tình trạng thuê", "Tình trạng tiền thuê"], 

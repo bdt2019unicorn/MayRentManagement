@@ -19,6 +19,7 @@ class ScrollingTable extends React.Component
             var hidden_columns = _.get(this.props.table_actions,"hidden_columns") || []; 
             var sort = _.get(this.props.table_actions, "sort") || {}; 
             var search = _.get(this.props.table_actions, "search") || []; 
+            var width = _.get(this.props.table_actions, "width") || {}; 
             var special_list = _.get(this.props.table_actions,"special.list") || []; 
             var special = special_list.length? _.get(this.props.table_actions,"special"): undefined; 
             columns = 
@@ -28,7 +29,7 @@ class ScrollingTable extends React.Component
                 (
                     column=>
                     {
-                        var definition = {field: column, headerName: column, width: 200}; 
+                        var definition = {field: column, headerName: column, width: width[column]|| 200}; 
                         if(this.props.table_actions)
                         {
                             if(hidden_columns.includes(column))
