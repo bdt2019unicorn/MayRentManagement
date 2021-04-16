@@ -32,7 +32,7 @@ class TranslationValues
                     translate = translate["translate"]; 
                     text = text.replaceAll(word, "").trim(); 
                     var datetime = moment(text); 
-                    return `${translate} Ngày ${datetime.date()} Tháng ${datetime.month()} Năm ${datetime.year()}`; 
+                    return `${translate} Ngày ${datetime.date()} Tháng ${datetime.month() + 1} Năm ${datetime.year()}`; 
                 } 
                 else 
                 {

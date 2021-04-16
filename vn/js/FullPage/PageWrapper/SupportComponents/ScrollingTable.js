@@ -28,7 +28,7 @@ class ScrollingTable extends React.Component
                 (
                     column=>
                     {
-                        var definition = {field: column, headerName: column, flex: 1}; 
+                        var definition = {field: column, headerName: column, width: 200}; 
                         if(this.props.table_actions)
                         {
                             if(hidden_columns.includes(column))
