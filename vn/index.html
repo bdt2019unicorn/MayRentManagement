@@ -6,11 +6,11 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <link rel="stylesheet" href="https://unpkg.com/primer/build/build.css" />
 
-        <link rel="stylesheet" href="css/index.css" />
+        <link rel="stylesheet" href="../css/vn.css" />
     </head>
     <body>
         <div>
-            <a class="ml-3 mr-3" href="../issues.php">Báo cáo vấn đề</a>
+            <a class="ml-3 mr-3" href="../issues">Báo cáo vấn đề</a>
             <a class="float-right mr-3" href=".." title="English"><img src="../img/UK_flag.png"></a>
         </div>
 
@@ -23,7 +23,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js" integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA==" crossorigin="anonymous"></script>
-            <!-- <script src="http://fb.me/JSXTransformer-0.13.3.js"></script> -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js" integrity="sha512-Hmp6qDy9imQmd15Ds1WQJ3uoyGCUz5myyr5ijainC1z+tP7wuXcze5ZZR3dF7+rkRALfNy7jcfgS5hH8wJ/2dQ==" crossorigin="anonymous"></script>
 
             <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
@@ -42,17 +42,16 @@
             <script src="js/npm/react-number-format.js"></script>
             <script src="js/npm/react-datetime.js"></script>
             <script src="js/npm/react-widgets.js"></script>
+            <script src="js/npm/materialui-datagrid.js"></script>
 
             <script src="js/functions/support.js"></script>
+            <script src="js/functions/TranslationValues.js"></script>
             <script type="text/babel" src="js/functions/BaseComponent.js"></script>
             <script type="text/babel" src="js/functions/PageSetup.js"></script>
             <script type="text/babel" src="js/functions/UserInputComponent.js"></script>
             <script type="text/babel" src="js/functions/AuthorizedComponent.js"></script>
             <script type="text/babel" src="js/functions/PageWrapperChildrenComponent.js"></script>
             <script type="text/babel" src="js/functions/AddEditComponent.js"></script>
-
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable/TranslateComponents.js"></script>
-            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable/Hyperlinks.js"></script>
 
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/TextComponents.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/ActionButton.js"></script>
@@ -61,7 +60,9 @@
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/DateInput.js"></script>
             
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput/ComponentGroup.js"></script>
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/Hyperlinks.js"></script>
 
+            <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/TableActions.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/UserInput.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/SupportComponents/ScrollingTable.js"></script>
             <script type="text/babel" src="js/FullPage/PageWrapper/AddEdit.js"></script>
@@ -79,22 +80,7 @@
             <script type="text/babel" src="js/FullPage.js"></script>
 
             <script defer type="text/babel" src="js/setup.js"></script>
+
         </footer>
-
-
-
-
-        <!-- <div>
-            <div>
-                <HyperlinkListCompile append={this.BuildingId()} html='<router-link to="leaseagrm/edit?id=144" append>Until March 31, 2021</router-link>`' />
-            </div>
-            <div>
-                <HyperlinkListCompile html={`<router-link :to="{name: 'actions', params: {controller: 'leaseagrm', action: 'edit', building_id: 6}, query: {id: 146} }">Until 30/07/2022</router-link>`} />
-            </div>
-            <div>
-                <h1>{_get(this.state.table_actions, "page_title") || "Tổng quát"}</h1>
-                <ScrollingTable table={this.state.table_data} table_actions={this.state.table_actions} />
-            </div>
-        </div>     -->
     </body>
 </html>

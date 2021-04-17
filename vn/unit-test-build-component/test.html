@@ -70,9 +70,9 @@
                 function OptionColumns()
                 {
                     return [
-                        {field: "id", headerName: "id"}, 
-                        {field: "name", headerName: "name"}, 
-                        {field: "size", headerName: "size"} 
+                        {name: "id", label: "id"}, 
+                        {name: "name", label: "name"}, 
+                        {name: "size", label: "size"} 
                     ]; 
                 }
 
@@ -88,7 +88,9 @@
                         var rows = select_options; 
                         try {
                         return (
-                            <MaterialUIGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+                            <Button variant="contained" color="primary">
+                                Hello World
+                            </Button>
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 

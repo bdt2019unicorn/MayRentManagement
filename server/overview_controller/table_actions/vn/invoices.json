@@ -1,6 +1,13 @@
 {
-    "edit_action": "edit-invoice", 
-    "id": "ID", 
-    "page_title": "Invoices", 
-    "search": ["Unit"]
+    "edit_action": "EditInvoice", 
+    "id": "Mã số", 
+    "page_title": "Hóa đơn", 
+    "search": ["Đơn vị"], 
+    "width": 
+    {
+        "Mã số": 100, 
+        "Tên hóa đơn": 500, 
+        "Đơn vị": 100, 
+        "Số tiền": 100
+    }
 }

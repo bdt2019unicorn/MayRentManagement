@@ -1,0 +1,7 @@
+{
+    "ID": "Mã số",
+    "Name": "Tên chi phí",
+    "Type": "Loại chi phí",
+    "Amount": "Số tiền",
+    "Payment Date": "Ngày trả tiền"
+}

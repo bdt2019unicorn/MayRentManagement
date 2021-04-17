@@ -35,7 +35,7 @@ class BaseComponent extends React.Component
         }, 
         ObjectId()
         {
-            return this.props.object_id || "test"; 
+            return this.props.object_id || ""; 
         }, 
         OverviewDataUrl(overview_controller, params=undefined)
         {

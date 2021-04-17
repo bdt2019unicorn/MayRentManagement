@@ -75,7 +75,7 @@
             {
                 return $edit? Query::GeneralData("revenue", $id): 
                 "
-                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`, `unit`.`name` AS `Apartment`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
+                    SELECT `revenue`.`id` AS `ID`, `revenue`.`name` AS `Name`, `unit`.`name` AS `Unit`, `revenue`.`Amount`, DATE_FORMAT(`revenue`.`Payment_date`,'%d/%m/%Y') AS `Payment Date`
                     FROM `revenue`,`leaseagrm`, `unit`
                     WHERE 
                         `revenue`.`leaseagrm_id` = `leaseagrm`.`id` AND

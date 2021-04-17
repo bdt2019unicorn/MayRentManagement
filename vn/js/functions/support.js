@@ -76,23 +76,6 @@ function ToActions({params, query})
         search: SearchQueryString(query)
     };
 }
-function TranslateTable(table, url) 
-{
-    var translate = ServerJson(url); 
-    return translate ? table.map
-    (
-        row=>Object.keys(row).reduce
-        (
-            (accumulator, current_value)=>
-            (
-                {
-                    ...accumulator, 
-                    [translate[current_value] || current_value]: row[current_value]
-                }
-            ), {}
-        ) 
-    ) : table; 
-}
 function UpperCaseFirstChar(value) 
 {
     return value.charAt(0).toUpperCase() + value.slice(1); 

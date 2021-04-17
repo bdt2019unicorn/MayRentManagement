@@ -27,7 +27,7 @@
 
                 $tenant_from_lease = $LeaseagrmSelect("`Tenant_ID`"); 
 
-                $RentalStatusSelect = function() use ($LeaseagrmSelect, $tenant_from_lease, $test_mode)
+                $RentalStatusSelect = function($en = true) use ($LeaseagrmSelect, $tenant_from_lease, $test_mode)
                 {
                     $leaseagrm_id = $LeaseagrmSelect(Query::CastAsChar("`leaseagrm`.`id`", $test_mode)); 
                     $start_date_check = $LeaseagrmSelect("`Start_date` < CURRENT_DATE"); 
@@ -51,18 +51,17 @@
 
                     $UnitOccupied = function() use ($start_date_check, $end_date_lease, $start_date_lease, $test_mode)
                     {
-                        $true = Query::Concat(["'Until '", Query::DateFormatStandard($end_date_lease, $test_mode)], $test_mode); 
-                        $false = Query::Concat(["'Move in '", Query::DateFormatStandard($start_date_lease, $test_mode)], $test_mode); 
+                        $true = Query::Concat(["'Until '", Query::DateFormatDisplay($end_date_lease, $test_mode)], $test_mode); 
+                        $false = Query::Concat(["'Move in '", Query::DateFormatDisplay($start_date_lease, $test_mode)], $test_mode); 
                         return "\n(" . Query::CaseWhen($start_date_check, $true, $false) ."\n)\n"; 
                     }; 
 
                     $condition = "{$tenant_from_lease} IS NULL"; 
                     $true = "'Vacant'"; 
-                    $false = Query::Concat([$RouterLink(), $UnitOccupied(), "\n'</router-link>'\n" ], $test_mode); 
-
-                    return "\n(" . Query::CaseWhen($condition, $true, $false) . "\n) AS `Rental Status`"; 
+                    $false = $en? Query::Concat([$RouterLink(), $UnitOccupied(), "\n'</router-link>'\n" ], $test_mode): $UnitOccupied(); 
+                    return "\n(" . Query::CaseWhen($condition, $true, $false) . "\n) AS `Rental Status" .($en?"":" VN")."`"; 
                 }; 
-                $PaidUntilSelect = function() use ($tenant_from_lease)
+                $PaymentStatusSelect = function() use ($tenant_from_lease, $test_mode)
                 {
                     $WhereLeaseagrm = function($table) use ($tenant_from_lease)
                     {
@@ -75,9 +74,11 @@
                     }; 
 
                     $rent_id = Invoices::RentId(); 
+                    $end_date = Query::DateFormatDisplay("MAX(`invoice_leaseagrm`.`end_date`)", $test_mode); 
+                    $end_date = Query::Concat(["'Until '", $end_date], $test_mode); 
                     $expression = 
                     "
-                        SELECT MAX(`invoice_leaseagrm`.`end_date`) FROM `invoice_leaseagrm`
+                        SELECT {$end_date} FROM `invoice_leaseagrm`
                         WHERE 
                             `invoice_leaseagrm`.`invoice_id` IN
                             (
@@ -97,7 +98,7 @@
                             ) IS NULL
                         ", "''", "'Deposit Paid'"
                     ); 
-                    return Query::IfNull($expression, $false) . " AS `Paid Until` "; 
+                    return Query::IfNull($expression, $false) . " AS `Payment Status` "; 
                 }; 
                 $tenant_full_name = Query::Concat(["`tenant`.`Last_Name`", "' '", "`tenant`.`First_Name`"], $test_mode); 
                 return 
@@ -105,7 +106,8 @@
                     "`id` AS `ID`", 
                     "`name` AS `Name`", 
                     $RentalStatusSelect(), 
-                    $PaidUntilSelect(), 
+                    $RentalStatusSelect(false), 
+                    $PaymentStatusSelect(), 
                     "{$tenant_from_lease} AS `tenantid`", 
                     "
                         (

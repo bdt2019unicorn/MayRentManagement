@@ -24,7 +24,7 @@ function IssueDiv({ number, title, body, state })
 
         let header_title = document.createElement("div");
         header_title.className = "col-10";
-        header_title.innerHTML = `<a href="./issues.php?id=${number}"><h3${state=="closed"?" class='text-danger'": ""}>${title}</h3></a>`;
+        header_title.innerHTML = `<a href=".?id=${number}"><h3${state=="closed"?" class='text-danger'": ""}>${title}</h3></a>`;
 
         let show_hide = document.createElement("div");
         show_hide.className = "col-1";

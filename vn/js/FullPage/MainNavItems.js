@@ -56,12 +56,12 @@ class DropdownMenu extends BaseComponent
                                                 let key = Math.random() + encodeURIComponent(text); 
                                                 return callback? 
                                                 (
-                                                    <MenuItem key={key}>
+                                                    <MenuItem key={key} className="width-full">
                                                         <button className="btn width-full" onClick={callback}>{text}</button>
                                                     </MenuItem>
                                                 ) : 
                                                 (
-                                                    <MenuItem key={key} className={special_class}>
+                                                    <MenuItem key={key} className={`${special_class} width-full`}>
                                                         <Link className="width-full text-center" to={to}>{text}</Link>
                                                     </MenuItem>
                                                 ); 

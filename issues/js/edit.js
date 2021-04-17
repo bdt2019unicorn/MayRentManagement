@@ -111,7 +111,7 @@ function SendEmail(to, subject, content)
     $.ajax
     (
         {
-            url: "server/helper/email.php", 
+            url: "../server/helper/email.php", 
             data: {to, subject, content}, 
             type: "POST", 
             dataType: "text", 

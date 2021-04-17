@@ -1,29 +1,32 @@
 {
-    "hidden_columns": ["tenantid"], 
+    "hidden_columns": ["tenantid", "Rental Status"], 
     "id": "ID", 
-    "page_title": "Units", 
-    "search": ["Name", "Tenant Name", "Rental Status", "Payment Until"], 
+    "page_title": "Đơn vị", 
+    "search": ["Người thuê", "Tên Đơn vị", "Tình trạng thuê", "Tình trạng tiền thuê"], 
+    "width": 
+    {
+        "Mã số": 100, 
+        "Tình trạng thuê": 300, 
+        "Tình trạng tiền thuê": 300, 
+        "Người thuê": 300 
+    }, 
     "special": 
     {
-        "list": ["Name", "Rental Status", "Tenant Name"], 
-        "hyperlink": 
+        "list": ["Người thuê", "Tên Đơn vị", "Tình trạng thuê", "Tình trạng tiền thuê"], 
+        "Hyperlink": 
         {
-            "Name":
-            {
-                "controller": "unit", 
-                "action": "edit", 
-                "object_id": "ID"
-            }, 
-            "Tenant Name":
+            "Người thuê":
             {
                 "controller": "tenant", 
                 "action": "edit", 
                 "object_id": "tenantid"
-            }
-        }, 
-        "hyperlink-list-compile": 
-        {
-            "Rental Status": true 
-        } 
+            }, 
+            "Tên Đơn vị":
+            {
+                "controller": "unit", 
+                "action": "edit", 
+                "object_id": "ID"
+            } 
+        }
     }
 }

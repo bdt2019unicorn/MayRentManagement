@@ -9,9 +9,9 @@
             <?php echo $issue_state; ?>
         </a>
         <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="./issues.php?state=open">open</a>
-            <a class="dropdown-item" href="./issues.php?state=closed">closed</a>
-            <a class="dropdown-item" href="./issues.php?action=inserted">Create New Issue</a>
+            <a class="dropdown-item" href=".?state=open">open</a>
+            <a class="dropdown-item" href=".?state=closed">closed</a>
+            <a class="dropdown-item" href=".?action=inserted">Create New Issue</a>
         </div>
     </div>
 </div>

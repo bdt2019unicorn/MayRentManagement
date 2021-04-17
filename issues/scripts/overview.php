@@ -1,1 +1,1 @@
-<script src="issues/js/overview.js"></script>
+<script src="js/overview.js"></script>
