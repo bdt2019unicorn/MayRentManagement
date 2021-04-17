@@ -109,20 +109,12 @@
         static public function NumberFormat($expression, $test_mode=false)
         {
             $format = $test_mode? "ROUND" : "FORMAT";  
-            $number_format = 
+            return 
             "
                 (
                     {$format}({$expression}, 0)
                 )
             "; 
-            return $test_mode ? 
-            "
-                PRINTF
-                (
-                    '%,d', 
-                    {$number_format}
-                )
-            ": $number_format; 
         }
         
         static public function Concat($pieces, $test_mode=false)

@@ -106,7 +106,7 @@
         
         private function Base64Logo()
         {
-            $path = realpath(__DIR__ . "/../../../img/logo.gif"); 
+            $path = \CurrentEnvironment::TempFolderPath() . "/logo.png"; 
             $image = file_get_contents($path); 
             $base64 = base64_encode($image); 
             return "data:image/jpeg;base64,{$base64}"; 

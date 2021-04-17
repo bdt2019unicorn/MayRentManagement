@@ -16,8 +16,7 @@
             try 
             {
                 $statement = $connection->query($sql); 
-                $rows = $statement->fetchAll(PDO::FETCH_ASSOC); 
-                return $rows; 
+                return $statement->fetchAll(PDO::FETCH_ASSOC); 
             }
             catch(Throwable $throwable)
             {
