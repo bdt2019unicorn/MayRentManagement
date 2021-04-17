@@ -9,12 +9,21 @@ class Overview extends PageWrapperChildrenComponent
         this.state = 
         {
             controller, 
+            selected: [], 
+            table_actions: this.TableActions(controller),
             table_data: TranslationValues.TranslateTable(table, translate_url), 
-            table_actions: this.TableActions(controller)
+            translate_url 
         }; 
     }
     render() 
     {
+        var DeleteSuccess = () => this.setState
+        (
+            {
+                selected: [], 
+                table_data: TranslationValues.TranslateTable(this.TableData(this.state.controller), this.state.translate_url)
+            }
+        ); 
         return (
             <React.Fragment>
                 <h1 className="d-flex">
@@ -31,7 +40,25 @@ class Overview extends PageWrapperChildrenComponent
                     table={this.state.table_data} 
                     table_actions={this.state.table_actions} 
                     append={this.props.current_building} 
-                >{this.state.controller!="overview" && <TableActions />}</ScrollingTable>
+                    selected={this.state.selected}
+                    SelectionModelChanged={(selected)=>this.setState({selected})}
+                >
+                    {
+                        this.state.controller!="overview" && 
+                        <TableActions 
+                            selected={this.state.selected}
+                            params=
+                            {
+                                {
+                                    building_id: this.props.current_building, 
+                                    controller: this.state.controller, 
+                                    action: this.state.table_actions.edit_action || "Edit"
+                                }
+                            }
+                            controller={this.state.controller}
+                            DeleteSuccess={DeleteSuccess}
+                        />
+                    }</ScrollingTable>
             </React.Fragment>
         );
     }

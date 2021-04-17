@@ -34,3 +34,4 @@ class PageWrapper extends BaseComponent
         ); 
     }
 }
+PageWrapper = ConnectComponentToStore(PageWrapper); 

@@ -52,6 +52,6 @@ class Sidebar extends BaseComponent
                 ); 
             }
         ); 
-        return (<React.Fragment>{sidebar}</React.Fragment>); 
+        return <React.Fragment>{sidebar}</React.Fragment>; 
     }
 }

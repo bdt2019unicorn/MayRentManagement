@@ -8,9 +8,8 @@ class Hyperlink extends React.Component
         }
         let {action, controller, object_id} = this.props.special; 
         object_id = this.props.row[object_id]; 
-        var Link = ReactRouterDOM.Link; 
         return (
-            <Link  
+            <ReactRouterDOM.Link  
                 to=
                 {
                     ToActions
@@ -23,7 +22,7 @@ class Hyperlink extends React.Component
                 }
             >
                 {TranslationValues.Translate(this.props.html) || null}
-            </Link>
+            </ReactRouterDOM.Link>
         ); 
     }
 }

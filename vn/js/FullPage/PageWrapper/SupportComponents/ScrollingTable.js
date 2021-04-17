@@ -41,6 +41,7 @@ class ScrollingTable extends React.Component
             var width = _.get(this.props.table_actions, "width") || {}; 
             var special_list = _.get(this.props.table_actions,"special.list") || []; 
             var special = special_list.length? _.get(this.props.table_actions,"special"): undefined; 
+            var id_action = _.get(this.props.table_actions, "id"); 
             columns = 
             [
                 {field: "id", hide: true, filterable: false}, 
@@ -125,6 +126,8 @@ class ScrollingTable extends React.Component
                 }
             )
         ); 
+        var props_selected = this.props.selected || []; 
+        var selection_model = props_selected.length? this.props.selected.map(selected_id=>rows.find(row=>row[id_action]==selected_id).id): undefined; 
         var Grid = MaterialUI.Grid; 
 
         return (
@@ -134,10 +137,33 @@ class ScrollingTable extends React.Component
                         <MaterialUIDataGrid.DataGrid 
                             rows={rows} 
                             columns={columns} 
-                            checkboxSelection={ _.get(this.props.table_actions, "id")}
+                            checkboxSelection={id_action}
                             disableSelectionOnClick
+                            hideFooterSelectedRowCount
                             components={this.state.components}
                             localeText={this.state.locale_text}
+                            onSelectionModelChange=
+                            {
+                                this.props.SelectionModelChanged? ({selectionModel})=>
+                                {
+                                    var selected = selectionModel.map(selected_id=>rows.find(({id})=>id==selected_id)[id_action]); 
+                                    var SelectedDifferent = ()=>
+                                    {
+                                        if(selected.length!=props_selected.length)
+                                        {
+                                            return true; 
+                                        }
+                                        let difference = selected.filter(id=>!props_selected.includes(id)); 
+                                        return Boolean(difference.length); 
+                                    }; 
+                                    
+                                    if(SelectedDifferent())
+                                    {
+                                        this.props.SelectionModelChanged(selected); 
+                                    }
+                                }: undefined
+                            }
+                            selectionModel={selection_model}
                         />
                     </MaterialUI.Paper>
                 </Grid>
