@@ -23,13 +23,19 @@ Vue.component
                 {
                     return; 
                 }
+                var tables = $(this.$refs["overview"]).find("table"); 
 
-                let hidden_columns = this.table_actions.hidden_columns||[];
-                var worksheet = this.ExcelSheet(this.table_data, hidden_columns); 
-                let page_title = this.table_actions.page_title||'Overview'; 
-                var workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
-                XLSX.writeFile(workbook, `${page_title}.xlsx`);
+                for (const table of tables) 
+                {
+                    let tbody = $(table).find("tbody"); 
+                    if(tbody.length)
+                    {
+                        var page_title = this.table_actions.page_title||'Overview'; 
+                        var workbook = XLSX.utils.table_to_book(table, {sheet:page_title});
+                        XLSX.writeFile(workbook, `${page_title}.xlsx`);
+                        return; 
+                    }
+                }
             }, 
             PopulateData()
             {
@@ -57,7 +63,7 @@ Vue.component
         },
         template: 
         `
-            <div class="container-fluid">
+            <div class="container-fluid" ref="overview">
                 <vs-row vs-align="center" vs-justify="center" vs-type="flex">    
                     <vs-col vs-w="11">
                         <vs-row>
@@ -70,7 +76,6 @@ Vue.component
                         </vs-row>    
                     </vs-col>
                 </vs-row>
-                
                 <br>
                 <vs-row v-if="table_data.length" vs-align="center" vs-justify="center" vs-type="flex">
                     <vs-col vs-w="11">
