@@ -45,7 +45,7 @@ Vue.component
         data: ()=>({nav_list_items: []}),
         created() 
         {
-            this.nav_list_items = this.AjaxRequest("server/sidebar.json"); 
+            this.nav_list_items = this.AjaxRequest("server/json/sidebar/en.json"); 
         },
         methods: 
         {

@@ -74,7 +74,7 @@ class BaseComponent extends React.Component
         }, 
         TableActions(controller)
         {
-            return ServerJson(`../server/overview_controller/table_actions/vn/${controller}.json`) || {}; 
+            return ServerJson(`../server/json/table_actions/vn/${controller}.json`) || {}; 
         }, 
         TableData(overview_controller, params=undefined)
         {

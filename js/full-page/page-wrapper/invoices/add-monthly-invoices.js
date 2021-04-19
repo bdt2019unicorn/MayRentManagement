@@ -56,7 +56,7 @@ Vue.component
         },
         created() 
         {
-            this.user_input = this.AjaxRequest("server/user_input_controller/en/invoice.json"); 
+            this.user_input = this.AjaxRequest("server/json/user_input/en/invoice.json"); 
             this.MonthlyInvoices(); 
         },
         methods: 

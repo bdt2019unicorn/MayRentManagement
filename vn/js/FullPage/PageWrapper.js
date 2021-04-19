@@ -3,7 +3,7 @@ class PageWrapper extends BaseComponent
     constructor(props)
     {
         super(props); 
-        this.state = {sidebar: ServerJson("sidebar.json")}; 
+        this.state = {sidebar: ServerJson("../server/json/sidebar/vn.json")}; 
     }
     render()
     {

@@ -84,7 +84,7 @@ function UserInputForm(controller)
 {
     try 
     {
-        return ServerJson(`../server/user_input_controller/vn/${controller}.json`); 
+        return ServerJson(`../server/json/user_input/vn/${controller}.json`); 
     }
     catch (exception)
     {

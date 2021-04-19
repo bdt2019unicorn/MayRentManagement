@@ -194,7 +194,7 @@ var support_mixin =
         }, 
         TableActions(controller)
         {
-            var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/en/${controller}.json`);
+            var table_actions = this.AjaxRequest(`server/json/table_actions/en/${controller}.json`);
             return table_actions || {}; 
         }, 
         TableData(overview_controller, params=undefined)

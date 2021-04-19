@@ -16,7 +16,7 @@ class ScrollingTable extends React.Component
                     </MaterialUIDataGrid.GridToolbarContainer>
                 ) 
             }, 
-            locale_text: ServerJson("../server/translation/ScrollingTable.json")
+            locale_text: ServerJson("../server/json/translation/ScrollingTable.json")
         }
     }
     render()

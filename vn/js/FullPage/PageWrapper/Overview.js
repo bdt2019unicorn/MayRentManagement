@@ -5,7 +5,7 @@ class Overview extends PageWrapperChildrenComponent
         super(props); 
         var controller = this.CurrentController() || "overview"; 
         var table = this.TableData(controller); 
-        var translate_url = `../server/translation/Overview/${controller}.json`; 
+        var translate_url = `../server/json/translation/Overview/${controller}.json`; 
         this.state = 
         {
             controller, 

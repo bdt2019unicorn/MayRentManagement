@@ -8,7 +8,7 @@ class ImportExcel extends PageWrapperChildrenComponent
         {
             file_input: true, 
             table: [], 
-            translation: ServerJson(`../server/translation/ImportExcel/${this.CurrentController()}.json`)
+            translation: ServerJson(`../server/json/translation/ImportExcel/${this.CurrentController()}.json`)
         }; 
     }
     Methods = 
