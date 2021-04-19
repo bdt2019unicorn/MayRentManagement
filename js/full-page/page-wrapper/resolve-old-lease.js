@@ -72,7 +72,7 @@ Vue.component
             }, 
             ServerUrl(command)
             {
-                return `server/overview_controller/resolve_old_contract.php?command=${command}&building_id=${this.$route.params.building_id}`; 
+                return `server/controller/overview/resolve_old_contract.php?command=${command}&building_id=${this.$route.params.building_id}`; 
             }, 
             SubmitOldLeases()
             {

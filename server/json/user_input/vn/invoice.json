@@ -70,5 +70,5 @@
         "track-by": "id"
     }, 
     "rent_id": 1,
-    "main_url": "server/invoice_controller/action.php?command="
+    "main_url": "server/controller/invoice/action.php?command="
 }

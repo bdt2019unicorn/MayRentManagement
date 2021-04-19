@@ -1,6 +1,6 @@
 <?php 
-    require_once("../helper/database.php"); 
-    require_once("../helper/support.php"); 
+    require_once("../../helper/database.php"); 
+    require_once("../../helper/support.php"); 
     
     $conditions_sql = 
     "

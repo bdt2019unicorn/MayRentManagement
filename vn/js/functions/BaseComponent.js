@@ -45,7 +45,7 @@ class BaseComponent extends React.Component
                 overview_controller, 
                 ...params
             }
-            return `../server/overview_controller/overview_controller.php?${SearchQueryString(params)}`; 
+            return `../server/controller/overview/overview_controller.php?${SearchQueryString(params)}`; 
         }, 
         ResetStateValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
         {

@@ -5,7 +5,7 @@ var invoices_mixin =
     (
         {
             leaseagrm_select_data: [], 
-            main_url: "server/invoice_controller/action.php?command=", 
+            main_url: "server/controller/invoice/action.php?command=", 
             revenue_type: 
             {
                 leaseagrm: [], 
@@ -37,7 +37,7 @@ var rent_invoice_mixin =
             this.leaseagrm_periods = this.$attrs["leaseagrm_periods"]; 
             return; 
         }
-        let url = "server/invoice_controller/action.php?command=LeasearmPeriodsSepcial"; 
+        let url = "server/controller/invoice/action.php?command=LeasearmPeriodsSepcial"; 
         let data = this.AjaxRequest(url); 
         this.leaseagrm_periods = JSON.parse(data); 
     }, 

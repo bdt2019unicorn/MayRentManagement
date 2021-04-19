@@ -1,7 +1,7 @@
 <?php 
 
-    require_once("../helper/database.php"); 
-    require_once("../helper/overview_queries.php"); 
+    require_once("../../helper/database.php"); 
+    require_once("../../helper/overview_queries.php"); 
     
     $edit = $_GET["edit"]??null; 
     $building_id = $_GET["building_id"]??null; 

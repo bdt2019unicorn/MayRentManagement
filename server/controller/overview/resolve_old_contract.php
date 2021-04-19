@@ -1,6 +1,6 @@
 <?php 
-    require_once("../helper/database.php"); 
-    require_once("../invoice_controller/helper.php"); 
+    require_once("../../helper/database.php"); 
+    require_once("../invoice/helper.php"); 
 
     class ResolveOldContract 
     {
@@ -133,7 +133,7 @@
                     $old_leases[$id] = $old_lease; 
                 }
             }
-            require_once("../helper/support.php"); 
+            require_once("../../helper/support.php"); 
             $old_leases = ObjectToArray($old_leases); 
             echo json_encode($old_leases); 
         }

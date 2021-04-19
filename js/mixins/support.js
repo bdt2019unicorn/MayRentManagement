@@ -141,7 +141,7 @@ var support_mixin =
             }
 
             let search = this.SearchQueryString(params); 
-            return `server/overview_controller/overview_controller.php?${search}`; 
+            return `server/controller/overview/overview_controller.php?${search}`; 
         }, 
         ResetValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
         {
