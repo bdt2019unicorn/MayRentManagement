@@ -72,8 +72,20 @@
                         <?php foreach ($table_object->tbody as $tr): ?>
                             <tr>
                                 <td></td>
-                                <?php foreach($tr as $value): ?>
-                                    <td><?php echo $value; ?></td>
+                                <?php foreach($tr as $column=>$value): ?>
+                                    <td>
+                                        <?php 
+                                            if($table_object->current_table=="documents" && $column=="file")
+                                            {
+                                                $href = "data:application/octet-stream;base64," . base64_encode($value); 
+                                                echo "<a href='{$href}' download='file.{$tr['file_extension']}'>File</a>"; 
+                                            }
+                                            else 
+                                            {
+                                                echo $value; 
+                                            }
+                                        ?>
+                                    </td>
                                 <?php endforeach; ?>
                             </tr>
                         <?php endforeach; ?>
