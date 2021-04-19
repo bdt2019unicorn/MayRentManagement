@@ -1,5 +1,5 @@
 <?php 
-    require_once("../helper/database.php"); 
+    require_once("../../helper/database.php"); 
 
 	$import_controller = $_GET["import_controller"]??$_GET["table"]; 
 	if($import_controller=="login")

@@ -15,7 +15,7 @@ Vue.component
         {
             AddBuilding(data)
             {
-                let url = "server/database_controller/import.php?import_controller=buildings"; 
+                let url = "server/controller/database/import.php?import_controller=buildings"; 
                 let result = this.SubmitData("excel", url, [data]); 
                 if(Number(result))
                 {
@@ -30,7 +30,7 @@ Vue.component
             }, 
             DeleteBuilding(building_id)
             {
-                var url = `server/database_controller/delete.php?table=buildings`; 
+                var url = `server/controller/database/delete.php?table=buildings`; 
                 var result = this.SubmitData("delete", url, [building_id]); 
                 if(result)
                 {

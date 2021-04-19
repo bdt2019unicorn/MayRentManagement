@@ -1,5 +1,5 @@
 <?php 
-    require_once("../helper/database.php"); 
+    require_once("../../helper/database.php"); 
     $test_mode = CurrentEnvironment::TestMode();
     $id = $_GET["id"]; 
     $table = $_GET["table"]; 

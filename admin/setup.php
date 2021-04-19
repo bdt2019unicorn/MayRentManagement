@@ -83,7 +83,7 @@
         <?php if(!$error): ?>
 
             <?php if(!count($result)): ?>
-                <form class="container border border-info p-3" method="POST" action="../server/database_controller/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
+                <form class="container border border-info p-3" method="POST" action="../server/controller/database/import.php?import_controller=user" onsubmit="FormSubmit(this, event)">
                     <h1 class="text-center">Admin Set Up</h1>
                     <div class="form-group">
                         <label>Username</label>

@@ -9,7 +9,7 @@ Vue.component
         {
             DeleteData()
             {
-                var url = `server/database_controller/delete.php?table=${this.CurrentController}`; 
+                var url = `server/controller/database/delete.php?table=${this.CurrentController}`; 
                 var result = this.SubmitData("delete", url, this.check_array); 
                 if(Number(result))
                 {
@@ -23,7 +23,7 @@ Vue.component
             }, 
             DeleteDuplicate()
             {
-                var url = `server/database_controller/delete_duplicate.php?controller=${this.CurrentController}`; 
+                var url = `server/controller/database/delete_duplicate.php?controller=${this.CurrentController}`; 
                 var result = this.AjaxRequest(url); 
                 if(result)
                 {

@@ -90,7 +90,7 @@ function OverviewTable()
                         var data = SelectedData(table); 
                         if(data)
                         {
-                            let url = `../server/database_controller/delete.php${window.location.search}`; 
+                            let url = `../server/controller/database/delete.php${window.location.search}`; 
                             var result = support_mixin.methods.SubmitData("delete", url, data);
                             if(Number(result))
                             {
@@ -134,7 +134,7 @@ function OverviewTable()
 
 function UserPermissions(id)
 {
-    var url = `../server/database_controller/edit.php?table=user&id=${id}`; 
+    var url = `../server/controller/database/edit.php?table=user&id=${id}`; 
     var result = support_mixin.methods.SubmitData("edit", url, {approved: 1}); 
     if(Number(result))
     {

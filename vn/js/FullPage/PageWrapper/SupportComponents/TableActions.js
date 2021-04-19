@@ -9,7 +9,7 @@ class TableActions extends React.Component
     {
         Delete()
         {
-            var url = `../server/database_controller/delete.php?table=${this.props.controller}`; 
+            var url = `../server/controller/database/delete.php?table=${this.props.controller}`; 
             var result = SubmitData("delete", url, this.props.selected); 
             if(Number(result))
             {
@@ -23,7 +23,7 @@ class TableActions extends React.Component
         }, 
         DeleteDuplicate()
         {
-            var url = `../server/database_controller/delete_duplicate.php?controller=${this.props.controller}`; 
+            var url = `../server/controller/database/delete_duplicate.php?controller=${this.props.controller}`; 
             var result = AjaxRequest(url); 
             if(result)
             {

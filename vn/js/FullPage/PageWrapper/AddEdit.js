@@ -12,7 +12,7 @@ class Add extends AddEditComponent
             let result = SubmitData("excel", this.ImportUrl(), [data]); 
             if(Number(result))
             {
-                alert(`${( this.props.AuthorizeSuccess?"": "Thêm" ) + this.state.form.title} thành công!`); 
+                alert(`${( this.props.AuthorizeSuccess?"": "Thêm " ) + this.state.form.title} thành công!`); 
                 if(this.props.AuthorizeSuccess)
                 {
                     this.props.AuthorizeSuccess(data, Number(result)); 
@@ -24,7 +24,7 @@ class Add extends AddEditComponent
             }
             else 
             {
-                alert(`${( this.props.AuthorizeSuccess?"": "Thêm" ) + this.state.form.title} thất bại! Vui lòng thử lại`); 
+                alert(`${( this.props.AuthorizeSuccess?"": "Thêm " ) + this.state.form.title} thất bại! Vui lòng thử lại`); 
             }
         }, 
         Reset()
@@ -48,7 +48,7 @@ class Edit extends AddEditComponent
         FormSubmitValid(data)
         {
             let controller = this.CurrentController(); 
-            var url = `../server/database_controller/edit.php?table=${controller}&id=${this.ObjectId()}`; 
+            var url = `../server/controller/database/edit.php?table=${controller}&id=${this.ObjectId()}`; 
             var result = SubmitData("edit",url,data); 
             
             if(Number(result))

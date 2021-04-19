@@ -26,7 +26,7 @@ class BaseComponent extends React.Component
         },  
         ImportUrl()
         {
-            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`; 
+            return `../server/controller/database/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`; 
         }, 
         LoadForm(controller = undefined)
         {

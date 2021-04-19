@@ -1,5 +1,5 @@
 <?php 
-    require_once("../helper/database.php"); 
+    require_once("../../helper/database.php"); 
     class DeleteDuplicate
     {
         public $controller, $test_mode; 

@@ -77,7 +77,7 @@ Vue.component
             }, 
             ServerUrl(command, id=undefined)
             {
-                return `server/database_controller/${command}.php?table=${this.OverviewController}&id=${id}`; 
+                return `server/controller/database/${command}.php?table=${this.OverviewController}&id=${id}`; 
             }, 
             SubmitForm(event)
             {
