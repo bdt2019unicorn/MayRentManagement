@@ -8,7 +8,7 @@
     ?>
 
     <div class="container p-3">
-        <form class="row justify-content-center" method="POST" action="../server/admin_database.php?command=CurrentEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
+        <form class="row justify-content-center" method="POST" action="../server/controller/admin_database.php?command=CurrentEnvironmentSetUp" onsubmit="FormSubmit(this, event)">
             <div class="col-8 row border border-secondary p-3 m-3">
                 <h3 class="text-danger text-center col-12"><?php echo $test_mode?"Testing": "Production" ?> Environment</h3>
                 <div class="col-10">
@@ -27,7 +27,7 @@
     </div>
 
     <?php if(!$test_mode): ?>
-        <form class="container border border-primary p-3" data-whitespace="no-writespace" method="POST" action="../server/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event)">
+        <form class="container border border-primary p-3" data-whitespace="no-writespace" method="POST" action="../server/controller/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event)">
             <h1 class="text-center">Production Environment Set Up</h1>
             <?php $key_list = ["SERVERNAME", "USERNAME", "PASSWORD", "DBNAME"]; ?>
             <?php foreach($key_list as $key): ?>
@@ -41,7 +41,7 @@
         <br>
     <?php endif; ?>
     
-    <form class="container border border-warning p-3" data-whitespace="no-writespace" method="POST" action="../server/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event, false)">
+    <form class="container border border-warning p-3" data-whitespace="no-writespace" method="POST" action="../server/controller/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event, false)">
         <?php $key_list = ["USER", "REPO", "TOKEN", "EMAIL_API", "NOTIFICATION_EMAIL"]; ?>
         <h1 class="text-center">Repository Information Set Up</h1>
         <?php foreach($key_list as $key): ?>

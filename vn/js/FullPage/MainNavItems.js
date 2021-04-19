@@ -102,7 +102,7 @@ class MainNavItems extends BaseComponent
                 {to: "/general-edit/user", text: "Thông tin tài khoản"}, 
                 {text: "Đăng xuất", callback: ()=>this.props.Authorize({username: "", user_id: ""})}
             ], 
-            logo_src: `../${AjaxRequest("../server/admin_database.php?command=LogoImg")}?q=${Date.now()}`
+            logo_src: `../${AjaxRequest("../server/controller/admin_database.php?command=LogoImg")}?q=${Date.now()}`
         }; 
         this.building_menu_ref = React.createRef(); 
         this.user_information_ref = React.createRef(); 

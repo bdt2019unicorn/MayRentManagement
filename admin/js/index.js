@@ -158,7 +158,7 @@ function ChangeLogo()
         var file = file_input.files[0]; 
         var data = new FormData(); 
         data.append("file", file); 
-        let url = "../server/admin_database.php?command=ChangeLogoImg"; 
+        let url = "../server/controller/admin_database.php?command=ChangeLogoImg"; 
         var result = support_mixin.methods.AjaxRequest(url, data, "POST"); 
         if(result)
         {

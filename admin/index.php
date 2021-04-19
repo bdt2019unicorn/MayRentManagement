@@ -136,7 +136,7 @@
                     (
                         function()
                         {
-                            var logo_src = support_mixin.methods.AjaxRequest("../server/admin_database.php?command=LogoImg"); 
+                            var logo_src = support_mixin.methods.AjaxRequest("../server/controller/admin_database.php?command=LogoImg"); 
                             document.getElementById('logo_img').src = `../${logo_src}`; 
                         }
                     ); 

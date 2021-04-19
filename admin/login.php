@@ -13,7 +13,7 @@
                         <h3>Sign In</h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="../server/admin_database.php?command=Login" onsubmit="Login(event)">
+                        <form method="POST" action="../server/controller/admin_database.php?command=Login" onsubmit="Login(event)">
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>

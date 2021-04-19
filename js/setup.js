@@ -4,7 +4,7 @@ jQuery
     {
         function CheckEnvironment()
         {
-            let url = "server/admin_database.php?command=CheckEnvironment"; 
+            let url = "server/controller/admin_database.php?command=CheckEnvironment"; 
             let result = support_mixin.methods.AjaxRequest(url); 
             if(!Number(result))
             {
@@ -133,7 +133,7 @@ jQuery
                         }
                         let building_user_input = this.AjaxRequest("server/json/user_input/en/buildings.json");    
                         store_track.commit("ChangeState", {name: "building_user_input", value: building_user_input});  
-                        store_track.commit("ChangeState", {name: "logo_src", value: `${this.AjaxRequest("server/admin_database.php?command=LogoImg")}?q=${Date.now()}`});  
+                        store_track.commit("ChangeState", {name: "logo_src", value: `${this.AjaxRequest("server/controller/admin_database.php?command=LogoImg")}?q=${Date.now()}`});  
                         store_track.commit
                         (
                             "Authorize", 
