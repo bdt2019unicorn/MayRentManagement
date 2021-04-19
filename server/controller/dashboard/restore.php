@@ -1,5 +1,5 @@
 <?php
-    require_once("../helper/database.php"); 
+    require_once("../../helper/database.php"); 
     if($_FILES["file"]["error"]>0)
     {
         echo false; 

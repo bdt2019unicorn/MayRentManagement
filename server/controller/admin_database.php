@@ -90,7 +90,7 @@
                 {
                     $callback = function($logo_path)
                     {
-                        imagepng(imagecreatefromstring(file_get_contents($_FILES["file"]["tmp_name"])), "temp/logo.png"); 
+                        imagepng(imagecreatefromstring(file_get_contents($_FILES["file"]["tmp_name"])), $logo_path); 
                     }; 
                     $this->LogoImgAction($callback); 
                     return;
@@ -101,10 +101,10 @@
 
         private function LogoImgAction($callback)
         {
-            CurrentEnvironment::SetupFolder("temp"); 
-            $logo_path = "temp/logo.png"; 
+            $temp_path = CurrentEnvironment::TempFolderPath(); 
+            $logo_path = "{$temp_path}/logo.png"; 
             $callback($logo_path); 
-            echo "server/{$logo_path}"; 
+            echo "server/temp/logo.png"; 
         }
     }
 

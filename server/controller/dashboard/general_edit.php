@@ -1,6 +1,6 @@
 <?php 
-    require_once("../helper/database.php"); 
-    require_once("../helper/overview_queries.php"); 
+    require_once("../../helper/database.php"); 
+    require_once("../../helper/overview_queries.php"); 
     $controller = $_GET["controller"]; 
 
     $user_input = OverviewQueries\GeneralOverview::UserInput($controller, $_GET["lang"]??"en"); 

@@ -25,7 +25,7 @@ var general_edit = Vue.component
                 let user_input_json = undefined; 
                 if(controller!="user")
                 {
-                    let data = (controller=="buildings")? this.StateObject("building_user_input") : this.AjaxRequest(`server/dashboard_controller/general_edit.php?controller=${controller}`); 
+                    let data = (controller=="buildings")? this.StateObject("building_user_input") : this.AjaxRequest(`server/controller/dashboard/general_edit.php?controller=${controller}`); 
                     user_input_json = (controller=="buildings")? data: JSON.parse(data); 
                     object_id = this.$route.query.id; 
                     try 

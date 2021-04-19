@@ -23,7 +23,7 @@ var dashboard = Vue.component
         {
             GenerateData()
             {
-                let data = this.AjaxRequest("server/dashboard_controller/dashboard.php"); 
+                let data = this.AjaxRequest("server/controller/dashboard/general.php"); 
                 data = JSON.parse(data); 
                 Object.keys(data).forEach(key=>this[key] = data[key]); 
             }    
