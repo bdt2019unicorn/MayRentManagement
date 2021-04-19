@@ -1,6 +1,6 @@
 <?php 
     require_once("../../helper/database.php"); 
-    require_once("./helper.php"); 
+    require_once("helper.php"); 
 
     $row = json_decode($_POST["edit"]); 
 

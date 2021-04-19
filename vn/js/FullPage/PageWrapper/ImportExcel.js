@@ -87,7 +87,7 @@ class ImportExcel extends PageWrapperChildrenComponent
                     <Grid item xs={6} justify="center" alignItems="center" container>
                         <MaterialUI.Link 
                             className="icon-same-line-word btn btn-outline" 
-                            href={`../server/excel_controller/create_file.php?building_id=${this.props.match.params.building_id}&controller=${this.props.match.params.controller}&lang=vn`}
+                            href={`../server/controller/excel/create_file.php?building_id=${this.props.match.params.building_id}&controller=${this.props.match.params.controller}&lang=vn`}
                         >
                             <MaterialUI.Icon>grid_on</MaterialUI.Icon>
                             <b className="ml-2">Tải mẫu Excel</b>
