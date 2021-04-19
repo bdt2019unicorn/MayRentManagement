@@ -56,7 +56,7 @@ Vue.component
                 var url = this.ServerUrl(params); 
                 var result = this.AjaxRequest(url); 
                 var edit_data = JSON.parse(result); 
-                var url = "server/document_controller/download.php"; 
+                var url = "server/controller/document/download.php"; 
                 var file = this.BlobRequest(url, params); 
                 return {...edit_data, file: new File([file], edit_data.Name)}; 
             }, 

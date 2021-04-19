@@ -18,7 +18,7 @@
         {
             "Name": 
             {
-                "url": "server/document_controller/download.php", 
+                "url": "server/controller/document/download.php", 
                 "object_id": "ID", 
                 "name": "Name", 
                 "file_extension": "file_extension"
