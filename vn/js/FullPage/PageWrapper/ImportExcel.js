@@ -45,6 +45,13 @@ class ImportExcel extends PageWrapperChildrenComponent
         SubmitButtonClick()
         {
             let translation_keys = Object.keys(this.state.translation); 
+            let table_columns = Object.keys(this.state.table[0]); 
+            let columns_not_belong = table_columns.filter(column=>!translation_keys.includes(column)); 
+            if(columns_not_belong.length)
+            {
+                alert("Bạn đã nhập dữ liệu ở sai bảng. Vui lòng chọn mục khác"); 
+                return;
+            }
             let data = this.state.table.map
             (
                 row => translation_keys.reduce
@@ -58,8 +65,7 @@ class ImportExcel extends PageWrapperChildrenComponent
                     ), {}
                 )
             ); 
-            let url = this.ImportUrl(); 
-            let result = SubmitData("excel", url, data); 
+            let result = SubmitData("excel", this.ImportUrl(), data); 
             if(Number(result))
             {
                 alert(`Nhập danh sách bằng Excel thành công`); 
