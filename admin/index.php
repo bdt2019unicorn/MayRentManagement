@@ -93,7 +93,6 @@
                     <?php $table_object->PopulateTableColumnNames("tfoot"); ?>
                 </table>
             <?php else: ?>
-                
                 <?php $users = Database::SelectData("user", ["*"], ["approved"=>"0"]); ?>
                 <?php if(count($users)): ?>
                     <h1 class="text-center m-3">Users need attention</h1>
@@ -112,10 +111,17 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-                <div class="border border-info p-3 text-center">
+                <div class="border border-info p-3 m-3 text-center">
                     <h1>Current Logo</h1>
                     <img id="logo_img" alt="logo" class="border border-secondary p-3" />
                     <p><button class="btn btn-info m-3" type="button" onclick="ChangeLogo()">Change Logo</button></p>
+                </div>
+
+                <div class="border border-info p-3 m-3 text-center">
+                    <h1>Run Database Scripts</h1>
+                    <textarea id="db_scripts_textarea" class="w-100" rows="10" placeholder="Enter scripts here"></textarea>
+                    <dd>Separate each scripts with a semicolon (;)</dd>
+                    <p><button class="btn btn-info m-3" type="button" onclick="RunDbScripts()" title="Run Scripts"><i class="fas fa-arrow-right"></i></button></p>
                 </div>
 
             <?php endif; ?>
