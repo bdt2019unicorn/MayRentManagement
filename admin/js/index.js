@@ -1,3 +1,27 @@
+function ChangeLogo() 
+{
+    var file_input = document.createElement("input"); 
+    file_input.type = "file"; 
+    file_input.accept = "image/*"; 
+    file_input.click(); 
+    file_input.onchange = function(event)
+    {
+        var file = file_input.files[0]; 
+        var data = new FormData(); 
+        data.append("file", file); 
+        let url = "../server/controller/admin_database.php?command=ChangeLogoImg"; 
+        var result = support_mixin.methods.AjaxRequest(url, data, "POST"); 
+        if(result)
+        {
+            document.getElementById('logo_img').src = `../${result}?q=${Date.now()}`; 
+        }
+        else 
+        {
+            alert("Change logo image fails! Please try again"); 
+        }
+        
+    }
+}
 function OverviewTable()
 {
     $('#table-overview tfoot th').each
@@ -131,7 +155,27 @@ function OverviewTable()
         }
     ); 
 }
-
+function RunDbScripts()
+{
+    var text = $("#db_scripts_textarea").val().trim(); 
+    var sql = text.split(";").map(string=>string.trim()).filter(string=>string); 
+    if(!sql.length)
+    {
+        alert("Scripts are not valid!"); 
+        return; 
+    }
+    let url = "../server/controller/admin_database.php?command=RunDbScripts"; 
+    var result = support_mixin.methods.SubmitData("sql", url, sql); 
+    if(Number(result))
+    {
+        alert("Scripts run successfully!"); 
+        window.location.reload(); 
+    }
+    else 
+    {
+        alert("Scripts run fails. Please try again."); 
+    }
+}
 function UserPermissions(id)
 {
     var url = `../server/controller/database/edit.php?table=user&id=${id}`; 
@@ -144,30 +188,5 @@ function UserPermissions(id)
     else 
     {
         alert("User is not approved! There seems like a server error."); 
-    }
-}
-
-function ChangeLogo() 
-{
-    var file_input = document.createElement("input"); 
-    file_input.type = "file"; 
-    file_input.accept = "image/*"; 
-    file_input.click(); 
-    file_input.onchange = function(event)
-    {
-        var file = file_input.files[0]; 
-        var data = new FormData(); 
-        data.append("file", file); 
-        let url = "../server/controller/admin_database.php?command=ChangeLogoImg"; 
-        var result = support_mixin.methods.AjaxRequest(url, data, "POST"); 
-        if(result)
-        {
-            document.getElementById('logo_img').src = `../${result}?q=${Date.now()}`; 
-        }
-        else 
-        {
-            alert("Change logo image fails! Please try again"); 
-        }
-        
     }
 }

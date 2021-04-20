@@ -70,6 +70,12 @@
             echo $result; 
         }
 
+        public function RunDbScripts()
+        {
+            $sql = json_decode($_POST["sql"]); 
+            echo Database::ExecTransaction($sql); 
+        }
+
         public function LogoImg()
         {
             $callback = function ($logo_path)
