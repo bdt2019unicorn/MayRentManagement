@@ -47,7 +47,8 @@
                     `file_extension`, 
                     `description` AS `Description`, 
                     `username` AS `Uploader`, 
-                    {$upload_time} AS `Uploaded Time`
+                    {$upload_time} AS `Uploaded Time`, 
+                    `modified_time` AS `Uploaded Time VN`
                 FROM `documents`
                 WHERE 
             "; 

@@ -1,8 +1,8 @@
 {
     "edit_action": "edit-document", 
-    "hidden_columns": ["document_type_id", "file_extension", "unit_id"], 
+    "hidden_columns": ["document_type_id", "file_extension", "unit_id", "Uploaded Time VN"], 
     "id": "ID", 
-    "page_title": "Overview", 
+    "page_title": "Documents", 
     "search": ["Name", "Type", "Unit", "Uploaded Time", "Uploader"], 
     "sort": 
     {
