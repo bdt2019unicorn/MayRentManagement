@@ -17,22 +17,39 @@ class FileLink extends React.Component
         }, 
         DownLoadFile()
         {
+            var file; 
             if(!this.state.file)
             {
                 let blob = BlobRequest(this.props.url, {id: this.props.object_id}); 
-                console.log(blob); 
                 if(blob.size)
                 {
-                    this.setState({file: blob}); 
+                    file = blob; 
                 }
             }
-            if(this.state.file)
+            file = file || this.state.file; 
+            if(file)
             {
-                saveAs(this.state.file, this.DefaultName()); 
+                new Promise 
+                (
+                    (resolve, reject)=>
+                    {
+                        saveAs(file, this.DefaultName()); 
+                        resolve(); 
+                    }
+                ).then 
+                (
+                    ()=>
+                    {
+                        if(!this.state.file)
+                        {
+                            this.setState({file}); 
+                        }
+                    }
+                ); 
             }
             else 
             {
-                alert("There seems to be an error with the server! Please try again"); 
+                alert("Đã có lỗi hệ thống. Vui lòng thử lại sau."); 
             }
         }
     }
