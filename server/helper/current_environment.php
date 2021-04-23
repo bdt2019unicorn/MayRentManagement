@@ -81,20 +81,16 @@
 
         public static function WriteEnv($env)
         {
-            $content = ""; 
-            foreach ($_ENV as $key => $value) 
+            $env_clone = $_ENV; 
+            foreach ($env as $key => $value)
             {
-                if(isset($env[$key]))
-                {
-                    $content.= "{$key} = {$env[$key]}\n"; 
-                }
-                else 
-                {
-                    $content.= "{$key} = {$value}\n"; 
-                }
+                $env_clone[$key] = $value; 
             }
             $file = fopen(CurrentEnvironment::DotEnvPath(), "w"); 
-            fwrite($file, $content); 
+            foreach ($env_clone as $key => $value) 
+            {
+                fwrite($file, "{$key} = {$value}\n"); 
+            }
             fclose($file); 
         }
 

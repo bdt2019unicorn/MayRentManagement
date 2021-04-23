@@ -29,6 +29,7 @@
     <?php if(!$test_mode): ?>
         <form class="container border border-primary p-3" data-whitespace="no-writespace" method="POST" action="../server/controller/admin_database.php?command=EnvironmentVariableSetUp" onsubmit="FormSubmit(this, event)">
             <h1 class="text-center">Production Environment Set Up</h1>
+            <p class="text-center"><a href="createdb.php">Create Database</a></p>
             <?php $key_list = ["SERVERNAME", "USERNAME", "PASSWORD", "DBNAME"]; ?>
             <?php foreach($key_list as $key): ?>
                 <div class="form-group">
