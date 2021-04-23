@@ -55,6 +55,7 @@ class Overview extends PageWrapperChildrenComponent
                 table_data: TranslationValues.TranslateTable(this.TableData(this.state.controller), this.state.translate_url)
             }
         ); 
+        var action = this.state.table_actions.edit_action || "Edit"; 
         return (
             <React.Fragment>
                 <h1 className="d-flex">
@@ -84,7 +85,7 @@ class Overview extends PageWrapperChildrenComponent
                                 {
                                     building_id: this.props.current_building, 
                                     controller: this.state.controller, 
-                                    action: this.state.table_actions.edit_action || "Edit"
+                                    action: action
                                 }
                             }
                             controller={this.state.controller}

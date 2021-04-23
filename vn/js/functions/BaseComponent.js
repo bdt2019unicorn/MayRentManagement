@@ -35,7 +35,13 @@ class BaseComponent extends React.Component
         }, 
         ObjectId()
         {
-            return this.props.object_id || ""; 
+            if(this.props.object_id)
+            {
+                return this.props.object_id; 
+            }
+            var search_query_params = _.get(this.props.location, "search"); 
+            search_query_params = new URLSearchParams(search_query_params); 
+            return search_query_params.get("id") || ""; 
         }, 
         OverviewDataUrl(overview_controller, params=undefined)
         {

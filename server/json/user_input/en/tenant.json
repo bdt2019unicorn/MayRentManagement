@@ -33,7 +33,7 @@
             },
             {
                 "component": "text-input",
-                "name": "Nationality",
+                "name": "nationality",
                 "title": "Nationality *"
             }, 
             {
@@ -112,7 +112,7 @@
         {
             "last_name": "required",
             "passport_id_number": "required",
-            "Nationality": "required", 
+            "nationality": "required", 
             "building_id": "required", 
             "mobile_phone": "required",
             "personal_email": 
