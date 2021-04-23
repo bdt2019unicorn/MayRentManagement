@@ -32,7 +32,7 @@
             },
             {
                 "component": "TextInput",
-                "name": "Nationality",
+                "name": "nationality",
                 "title": "Quốc tịch"
             }, 
             {
@@ -133,7 +133,7 @@
                     "message": "Số hộ chiếu/CMND để trống"
                 }
             },
-            "Nationality":             
+            "nationality":             
             {
                 "presence": 
                 {

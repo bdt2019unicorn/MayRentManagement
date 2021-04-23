@@ -53,7 +53,7 @@ class Edit extends AddEditComponent
             
             if(Number(result))
             {
-                alert("Edit Information success"); 
+                alert("Chỉnh xửa thông tin thành công"); 
                 if(controller=="buildings")
                 {
                     console.log("This will be taken care later "); 
@@ -62,7 +62,7 @@ class Edit extends AddEditComponent
             }
             else
             {
-                alert("Edit Information fails"); 
+                alert("Chỉnh xửa thông tin thất bại."); 
             }
         }, 
         ModifyForm()
@@ -89,7 +89,12 @@ class Edit extends AddEditComponent
         PopulateDataIntoFields()
         {
             let data = this.TableData(this.CurrentController(), {id: this.ObjectId(), edit: 1}); 
-            return data[0]; 
+            var edit_data = {}; 
+            for (const key in data[0]) 
+            {
+                edit_data[key.toLowerCase()] = data[0][key]; 
+            }
+            return edit_data; 
         }, 
         Reset()
         {
