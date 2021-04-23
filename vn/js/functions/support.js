@@ -17,32 +17,33 @@ function BindFunctions(component)
 } 
 function BlobRequest(url, data={})
 {
-    var result = null; 
-    $.ajax 
-    (
+    console.log(data); 
+    var result = undefined; 
+    const request = new XMLHttpRequest(); 
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.
+    // request.responseType = "arraybuffer"; 
+    request.open("POST", url, false); 
+    request.onload = (result)=>
+    {
+        console.log(request.responseText); 
+        console.log(result); 
+        if(request.status==200)
         {
-            url: url, 
-            type: "POST", 
-            data: data,  
-            async: false, 
-            dataType: 'text',                              
-            mimeType: 'text/plain; charset=x-user-defined',
-            success: (data)=>
+            var bytes = new Uint8Array(result.length);
+            for (var i = 0; i < result.length; i++) 
             {
-                var bytes = new Uint8Array(data.length);
-                for (var i = 0; i < data.length; i++) 
-                {
-                    bytes[i] = data.charCodeAt(i);
-                }
-                result = new Blob([bytes], {type: "application/octetstream"}); 
-            }, 
-            error: function(error)
-            {
-                alert("There is something wrong with the server! Please try again"); 
-                console.log(error); 
+                bytes[i] = result.charCodeAt(i);
             }
+            result = new Blob([bytes], {type: "application/octetstream"}); 
         }
-    ); 
+    }; 
+    request.onerror = function(error)
+    {
+        alert("There is something wrong with the server! Please try again"); 
+        console.log(error); 
+    }; 
+    request.send(JSON.stringify(data)); 
     return result; 
 } 
 function ConnectComponentToAll(component_class)

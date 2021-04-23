@@ -19,7 +19,8 @@ class FileLink extends React.Component
         {
             if(!this.state.file)
             {
-                let blob = BlobRequest(this.url, {id: this.object_id}); 
+                let blob = BlobRequest(this.props.url, {id: this.props.object_id}); 
+                console.log(blob); 
                 if(blob.size)
                 {
                     this.setState({file: blob}); 
@@ -37,7 +38,7 @@ class FileLink extends React.Component
     }
     render() 
     {
-        return <a onClick={this.DownLoadFile}>{this.props.children || this.props.name}</a> ; 
+        return <a className="file-upload-download-label" onClick={this.DownLoadFile}>{this.props.children || this.props.name}</a> ; 
     }
 }
 

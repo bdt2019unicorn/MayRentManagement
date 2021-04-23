@@ -104,7 +104,7 @@ class ImportExcel extends PageWrapperChildrenComponent
                             this.state.file_input && 
                             <React.Fragment>
                                 <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="file-upload-input" id="file-upload" />
-                                <label htmlFor="file-upload" className="file-upload-label btn btn-primary icon-same-line-word">
+                                <label htmlFor="file-upload" className="file-upload-download-label btn btn-primary icon-same-line-word">
                                     <MaterialUI.Icon>cloud_download</MaterialUI.Icon>
                                     <b className="ml-2">Đưa tập tin Excel</b>
                                 </label>
