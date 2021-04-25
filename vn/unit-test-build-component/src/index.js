@@ -1,2 +1,2 @@
-import Button from "@material-ui/core/Button";
-window.Button = Button; 
+import { DropzoneAreaBase } from 'material-ui-dropzone';
+window.DropzoneAreaBase = DropzoneAreaBase; 

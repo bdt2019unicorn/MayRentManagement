@@ -1,2 +1,2 @@
-import * as MaterialUILab from "@material-ui/lab"; 
-window.MaterialUILab = MaterialUILab; 
+import { DropzoneArea } from 'material-ui-dropzone';
+window.DropzoneAreaBase = DropzoneArea; 
