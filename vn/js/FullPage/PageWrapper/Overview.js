@@ -60,7 +60,7 @@ class Overview extends PageWrapperChildrenComponent
             <React.Fragment>
                 <h1 className="d-flex">
                     {this.PageTitle()} 
-                    <span className="d-flex-right-push">
+                    <span className="d-flex-right-push space-between-element">
                         <MaterialUI.Button
                             className="btn-primary text-white"
                             size="large"

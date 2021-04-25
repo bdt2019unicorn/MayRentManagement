@@ -42,7 +42,7 @@ class Dashboard extends BaseComponent
         var CurrentComponent = this[this.state.current_tab]? this[this.state.current_tab]: window[this.state.current_tab]; 
         return (
             <AuthorizedComponent>
-                <div>
+                <div className="m-3">
                     <MaterialUI.AppBar position="static" >
                         <MaterialUI.Tabs 
                             value={this.state.current_tab} 

@@ -2,19 +2,19 @@
     "title": "Tòa nhà",
     "display": 
     {
-        "id": "ID",
-        "name": "Name",
-        "account_name": "Account Name",
-        "account_number": "Account Number",
-        "bank": "Bank",
-        "bank_link": "Bank Link",
-        "bank_branch": "Bank Branch",
-        "company": "Company",
-        "authorize_signature": "Authorize Signature",
-        "authorize_title": "Authorize Title",
-        "email": "Email",
-        "phone": "Phone",
-        "address": "Address" 
+        "id": "Mã số",
+        "name": "Tên tòa nhà",
+        "account_name": "Tên tài khoản",
+        "account_number": "Số tài khoản",
+        "bank": "Ngân hàng",
+        "bank_link": "Trang web ngân hàng",
+        "bank_branch": "Chi nhánh ngân hàng",
+        "company": "Công ti",
+        "authorize_signature": "Người đại diện",
+        "authorize_title": "Chức vụ người đại diện",
+        "email": "Địa chỉ Email",
+        "phone": "Số điện thoại",
+        "address": "Địa chỉ" 
     },
     "form": 
     [
@@ -22,84 +22,84 @@
             {
                 "component": "TextInput",
                 "name": "name",
-                "title": "Name"
+                "title": "Tên tòa nhà"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "account_name",
-                "title": "Account Name"
+                "title": "Tên tài khoản"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "account_number",
-                "title": "Account Number"
+                "title": "Số tài khoản"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "bank",
-                "title": "Bank"
+                "title": "Ngân hàng"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "bank_link",
-                "title": "Bank Link"
+                "title": "Trang web ngân hàng"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "bank_branch",
-                "title": "Bank Branch"
+                "title": "Chi nhánh ngân hàng"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "company",
-                "title": "Company"
+                "title": "Công ty"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "authorize_signature",
-                "title": "Authorize Signature"
+                "title": "Người đại diện"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "authorize_title",
-                "title": "Authorize Title"
+                "title": "Chức vụ"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "email",
-                "title": "Email"
+                "title": "Địa chỉ Email"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "phone",
-                "title": "Phone"
+                "title": "Số điện thoại"
             }
         ],
         [
             {
                 "component": "TextInput",
                 "name": "address",
-                "title": "Address"
+                "title": "Địa chỉ"
             }
         ]
     ],
@@ -109,7 +109,10 @@
         {
             "name": 
             {
-                "presence": true
+                "presence": 
+                {
+                    "message": "Tên tòa nhà để trống"
+                }
             }
         }
 	}
