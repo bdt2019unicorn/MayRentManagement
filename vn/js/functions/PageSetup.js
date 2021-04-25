@@ -8,7 +8,8 @@ class PageSetup
             user_id: 0, 
             current_controller: undefined, 
             current_building: undefined, 
-            buildings_data: ServerJson("../server/controller/overview/overview_controller.php?overview_controller=buildings"), 
+            // buildings_data: ServerJson("../server/controller/overview/overview_controller.php?overview_controller=buildings"), 
+            buildings_data: [], 
             building_user_input: UserInputForm("buildings") 
         }; 
         this.reducer = (state = this.innitial_state, action)=>

@@ -12,6 +12,19 @@ class BaseComponent extends React.Component
     }
     Methods =
     {
+        BuildingData()
+        {
+            let buildings_data = this.TableData("buildings"); 
+            try 
+            {
+                this.props.ChangeState({state_name: "buildings_data", value: buildings_data}); 
+                return undefined; 
+            }
+            catch(exception)
+            {
+                return buildings_data; 
+            }
+        }, 
         BuildingId()
         {
             return _.get(this.props, "match.params.building_id"); 

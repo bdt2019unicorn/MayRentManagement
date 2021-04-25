@@ -3,6 +3,7 @@ class FullPage extends BaseComponent
     constructor(props)
     {
         super(props); 
+        BindFunctions(this); 
         this.props.Authorize
         (
             {
@@ -10,6 +11,7 @@ class FullPage extends BaseComponent
                 user_id: sessionStorage.getItem("user_id") ||""
             }
         ); 
+        this.BuildingData(); 
     }
     render()
     {

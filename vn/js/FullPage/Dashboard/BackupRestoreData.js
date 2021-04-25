@@ -10,17 +10,61 @@ class BackupData extends React.Component
     }
 }
 
-class RestoreData extends React.Component
+class RestoreData extends BaseComponent
 {
+    constructor(props)
+    {
+        super(props); 
+        BindFunctions(this); 
+        this.state = {file: undefined}; 
+    }
     render()
     {
         return (
-            <a className="file-upload-download-label">
-                
-            </a>
+            <div>
+                <DropzoneAreaBase
+                    onAdd={(file_objects) => this.setState({file: file_objects[0]})}
+                    onDelete={(file) => this.setState({file: undefined})} 
+                    fileObjects={this.state.file?[this.state.file]: undefined}
+                    showAlerts={false}
+                    filesLimit={1}
+                    maxFileSize={15*(10**6)}
+                    showFileNames
+                    dropzoneText="Đưa tập tin sao lưu để phục hồi"
+                />
+                {
+                    this.state.file && 
+                    <SubmitButton 
+                        title="Sao lưu dữ liệu" 
+                        type="button" 
+                        SubmitButtonClick=
+                        {
+                            ()=>
+                            {
+                                let form_data = new FormData(); 
+                                form_data.append("file", this.state.file.file); 
+                                let url = "../server/controller/dashboard/restore.php"; 
+                                let result = AjaxRequest(url, form_data, "post"); 
+                                if(Number(result))
+                                {
+                                    alert("Dữ liệu đã được phục hồi"); 
+                                    this.BuildingData(); 
+                                    this.props.RestoreSuccess(); 
+                                    this.setState({file: undefined}); 
+                                }
+                                else
+                                {
+                                    alert("Dữ liệu phục hồi thất bại. Đã có lỗi hệ thống"); 
+                                }
+                            }
+                        }
+                    />
+                }
+            </div>
         ); 
     }
 }
+RestoreData = ConnectComponentToStore(RestoreData); 
 
 class BackupRestoreData extends React.Component 
 {
