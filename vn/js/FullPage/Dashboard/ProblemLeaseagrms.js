@@ -14,18 +14,6 @@ class ProblemLeaseagrms extends BaseComponent
     }
     Methods = 
     {
-        DeleteSuccess(delete_duplicate=undefined)
-        {
-            // if(delete_duplicate)
-            // {
-            //     this.$emit("delete-duplicate"); 
-            //     return; 
-            // }
-
-            // all_leaseagrm = this.leaseagrm.filter(leaseagrm=>!this.check_array.includes(leaseagrm.ID)); 
-            // this.check_array = []; 
-            // this.$emit("problem-leaseagrm-deleted", all_leaseagrm); 
-        }, 
         LeaseagrmCategorized()
         {
             let translate_url = TranslationValues.TranslateUrl("leaseagrm"); 
@@ -37,7 +25,7 @@ class ProblemLeaseagrms extends BaseComponent
                 "Không có căn hộ": unit_tenant_partition[0], 
                 "Không có người thuê": unit_tenant_partition[1]
             }; 
-        }, 
+        } 
     }
     render()
     {
@@ -63,11 +51,10 @@ class ProblemLeaseagrms extends BaseComponent
                     startIcon={<MaterialUI.Icon>grid_on</MaterialUI.Icon>}
                     classes={{colorInherit: "btn btn-primary"}}
                 >Xuất Excel</MaterialUI.Button>
-                <h3>{this.state.leaseagrm_table}</h3>
-                <pre>{JSON.stringify(leaseagrm_options[this.state.leaseagrm_table], null, 2)}</pre>
                 <ScrollingTable 
                     table={leaseagrm_options[this.state.leaseagrm_table]}
                     table_actions={this.state.table_actions}
+                    selected={this.state.selected}
                     SelectionModelChanged={(selected)=>this.setState({selected})}
                 >
                     <TableActions 
@@ -75,12 +62,19 @@ class ProblemLeaseagrms extends BaseComponent
                         params=
                         {
                             {
-                                controller: "leaseagrm", 
-                                action: "GeneralEdit"
+                                building_id: "GeneralEdit", 
+                                controller: "leaseagrm"
                             }
                         }
                         controller="leaseagrm"
-                        DeleteSuccess={this.DeleteSuccess}
+                        DeleteSuccess=
+                        {
+                            ()=>
+                            {
+                                this.setState({selected: []}); 
+                                this.props.DeleteSuccess(); 
+                            }
+                        }
                     />
                 </ScrollingTable>
             </React.Fragment>

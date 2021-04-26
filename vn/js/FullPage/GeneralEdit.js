@@ -25,7 +25,8 @@ class GeneralEdit extends BaseComponent
             let user_input_json = undefined; 
             if(controller!="user")
             {
-
+                // let data = (controller=="buildings")? this.StateObject("building_user_input") : AjaxRequest(`../server/controller/dashboard/general_edit.php?controller=${controller}`); 
+                // console.log(data); 
             }
             return {
                 controller, 

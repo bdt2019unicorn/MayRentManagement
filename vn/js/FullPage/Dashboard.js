@@ -35,24 +35,7 @@ class Dashboard extends BaseComponent
             return (
                 <ProblemLeaseagrms 
                     leaseagrm={this.state.data.leaseagrm}
-                    DeleteDuplicated={this.GenerateData}
-                    ProblemLeaseagrmDeleted=
-                    {
-                        leaseagrm=>
-                        {
-                            let new_state = ImmutabilityHelper 
-                            (
-                                this.state, 
-                                {
-                                    data: 
-                                    {
-                                        leaseagrm: {$set: leaseagrm}
-                                    }
-                                }
-                            ); 
-                            this.setState(new_state); 
-                        }
-                    }
+                    DeleteSuccess={()=>this.setState({data: this.GenerateData()})}
                 />
             ); 
         } 
