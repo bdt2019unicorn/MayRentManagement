@@ -40,13 +40,13 @@ class Dashboard extends BaseComponent
                     {
                         leaseagrm=>
                         {
-                            let new_state = update 
+                            let new_state = ImmutabilityHelper 
                             (
                                 this.state, 
                                 {
                                     data: 
                                     {
-                                        leaseagrm: leaseagrm
+                                        leaseagrm: {$set: leaseagrm}
                                     }
                                 }
                             ); 
