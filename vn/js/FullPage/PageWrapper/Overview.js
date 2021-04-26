@@ -6,7 +6,7 @@ class Overview extends PageWrapperChildrenComponent
         BindFunctions(this); 
         var controller = this.CurrentController() || "overview"; 
         var table = this.TableData(controller); 
-        var translate_url = `../server/json/translation/Overview/${controller}.json`; 
+        var translate_url = TranslationValues.TranslateUrl(controller); 
         this.state = 
         {
             controller, 
@@ -34,7 +34,6 @@ class Overview extends PageWrapperChildrenComponent
                     ), {}
                 )
             ); 
-            console.log(table); 
             var page_title = this.PageTitle(); 
             var worksheet = XLSX.utils.json_to_sheet(table); 
             var workbook = XLSX.utils.book_new();
@@ -70,9 +69,9 @@ class Overview extends PageWrapperChildrenComponent
                     </span>
                 </h1>
                 <ScrollingTable 
+                    append={this.props.current_building} 
                     table={this.state.table_data} 
                     table_actions={this.state.table_actions} 
-                    append={this.props.current_building} 
                     selected={this.state.selected}
                     SelectionModelChanged={(selected)=>this.setState({selected})}
                 >

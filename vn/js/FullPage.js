@@ -30,7 +30,7 @@ class FullPage extends BaseComponent
                     <Redirect from="/general-edit" exact to="/dashboard" />
                     <Route component={Dashboard} exact path="/dashboard" />
 
-                    <Route component={GeneralEdit} exact path="/general-edit/:controller" />
+                    <Route component={GeneralEdit} exact path="/GeneralEdit/:controller" />
 
                     <Route component={PageWrapper} path="/:building_id/" />
                 </Switch>

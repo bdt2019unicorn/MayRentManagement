@@ -88,7 +88,7 @@ class MainNavItems extends BaseComponent
         {
             user_information: 
             [
-                {to: "/general-edit/user", text: "Thông tin tài khoản"}, 
+                {to: "/GeneralEdit/user", text: "Thông tin tài khoản"}, 
                 {text: "Đăng xuất", callback: ()=>this.props.Authorize({username: "", user_id: ""})}
             ], 
             logo_src: `../${AjaxRequest("../server/controller/admin_database.php?command=LogoImg")}?q=${Date.now()}`
