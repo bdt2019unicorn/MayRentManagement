@@ -32,7 +32,29 @@ class Dashboard extends BaseComponent
         }, 
         ProblemLeaseagrms()
         {
-            return <div>problem leaseagrm</div>; 
+            return (
+                <ProblemLeaseagrms 
+                    leaseagrm={this.state.data.leaseagrm}
+                    DeleteDuplicated={this.GenerateData}
+                    ProblemLeaseagrmDeleted=
+                    {
+                        leaseagrm=>
+                        {
+                            let new_state = update 
+                            (
+                                this.state, 
+                                {
+                                    data: 
+                                    {
+                                        leaseagrm: leaseagrm
+                                    }
+                                }
+                            ); 
+                            this.setState(new_state); 
+                        }
+                    }
+                />
+            ); 
         } 
 
     }
