@@ -1,2 +1,2 @@
-import { DropzoneAreaBase } from 'material-ui-dropzone';
-window.DropzoneAreaBase = DropzoneAreaBase; 
+import { Dropdown } from 'reactjs-dropdown-component';
+window.Dropdown = Dropdown; 

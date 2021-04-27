@@ -107,46 +107,39 @@
                 
                 class Test extends React.Component 
                 {
-                    constructor(props)
-                    {
-                        super(props); 
-                        this.state = 
-                        {
-                            name: "test", 
-                            data: 
-                            {
-                                columns: OptionColumns(), 
-                                rows: select_options
-                            }
-                        }; 
-                    }
                     render()
                     {
+                        const locations = 
+                        [
+                            {
+                                label: 'New York',
+                                value: 'newYork',
+                            },
+                            {
+                                label: 'Oslo',
+                                value: 'oslo',
+                            },
+                            {
+                                label: 'Istanbul',
+                                value: 'istanbul',
+                            }
+                        ];
                         try {
                         return (
                             <div>
-                                <Child 
-                                    rows={this.state.data.rows} 
-                                    ChangeRows=
+                                <Dropdown
+                                    // name="location"
+                                    title="Select location"
+                                    searchable={["Search for location", "No matching location"]}
+                                    list={locations}
+                                    onChange=
                                     {
-                                        rows=>
+                                        (item, name) => 
                                         {
-                                            let new_state = ImmutabilityHelper 
-                                            (
-                                                this.state, 
-                                                {
-                                                    data: 
-                                                    {
-                                                        rows: {$set: rows}
-                                                    }
-                                                }
-                                            ); 
-                                            this.setState(new_state); 
+                                            console.log(item, name); 
                                         }
-                                    } 
-                                /> 
-                                <pre style={{color: "blue"}}>{JSON.stringify(this.state.data.columns, null, 2)}</pre>
-                                <h1>{this.state.name}</h1>
+                                    }
+                                />
                             </div>
                         ); 
                         }catch(exception){console.log(exception); }
