@@ -14,6 +14,7 @@ class BasicCalculationsForm extends React.Component
                             <ActionButton class="btn btn-danger circle ml-1 mr-1 p-1" icon="cancel" ActionButtonClick={this.props.Cancel}/>
                         </div>
                     </div>
+                    {this.props.children}
                 </form>
             </div>
         ); 

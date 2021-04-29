@@ -87,8 +87,8 @@ class BasicCalculationsUnits extends BaseComponent
         {
             event.preventDefault(); 
             var data = this.state.special_tables.includes(this.state.current_table)? Object.fromEntries(new FormData(event.currentTarget)): {name: this.state.edit_text}; 
-            var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
-            var result = SubmitData(this.edit_id?"edit":"excel", url, this.edit_id?data:[data]); 
+            var url = this.ServerUrl(this.state.edit_id?"edit": "import", this.state.edit_id); 
+            var result = SubmitData(this.state.edit_id?"edit":"excel", url, this.state.edit_id?data:[data]); 
             this.HandleResult(result); 
         }
     }
@@ -117,7 +117,24 @@ class BasicCalculationsUnits extends BaseComponent
                                 EditTextChanged={(event)=>this.setState({edit_text: event.currentTarget.value})}
                                 Cancel={()=>this.GeneralEditButtonClick(undefined, "")}
                             >
-
+                                {
+                                    this.state.special_tables.includes(this.state.current_table) && 
+                                    (
+                                        <div>
+                                            {
+                                                this.state.current_table == "Loại thu nhập" && 
+                                                (
+                                                    <MaterialUI.FormGroup row>
+                                                        <MaterialUI.FormControlLabel 
+                                                            label="Là đơn vị tiện ích"
+                                                            control={<MaterialUI.Switch onChange={(event)=>console.log(event)} />}
+                                                        />
+                                                    </MaterialUI.FormGroup>
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
                             </BasicCalculationsForm>
                             <BasicCalculationsList  
                                 basic_calculations={basic_calculations}

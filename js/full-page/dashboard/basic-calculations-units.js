@@ -123,12 +123,12 @@ Vue.component
                                 :edit_data="edit_data" 
                                 title="Utility"
                             ></checkbox-input>
-                            <leaseagrm_period_calculation
+                            <leaseagrm-period-calculation
                                 v-else-if="extra_edit && current_table=='Lease Agreement Period'"
                                 :basic_calculations="basic_calculations"
                                 :edit_data="edit_data"
                                 :edit_text="edit_text"
-                            ></leaseagrm_period_calculation>
+                            ></leaseagrm-period-calculation>
                         </div>
                     </basic-calculations-form>
                     <basic-calculations-list 
