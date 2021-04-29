@@ -81,10 +81,10 @@ class UserInput extends BaseComponent
                     <form onSubmit={this.FormSubmit}>
                         {form}
                         <SubmitButton />
-                        <SubmitButton 
+                        <ActionButton 
                             class="float-left" 
                             icon="clear" 
-                            SubmitButtonClick={this.props.ClearButton}
+                            ActionButtonClick={this.props.ClearButton}
                             title="Xóa"
                             type="reset" 
                         />

@@ -8,7 +8,7 @@ class BasicCalculationsUnits extends BaseComponent
         {
             current_table: undefined, 
             edit_id: undefined, 
-            edit_text: undefined, 
+            edit_text: "", 
             extra_edit: true, 
             special_tables: ['Loại thu nhập', 'Đơn vị thời gian thuê'], 
             tables: 
@@ -68,6 +68,7 @@ class BasicCalculationsUnits extends BaseComponent
             if(Number(result))
             {
                 this.ExtraEditReset(); 
+                this.GeneralEditButtonClick(undefined, ""); 
             }
             else
             {
@@ -111,14 +112,16 @@ class BasicCalculationsUnits extends BaseComponent
                         <div>
                             <BasicCalculationsForm
                                 edit_id={this.state.edit_id}
+                                edit_text={this.state.edit_text}
                                 SubmitForm={this.SubmitForm}
                                 EditTextChanged={(event)=>this.setState({edit_text: event.currentTarget.value})}
-                                Cancel={()=>this.GeneralEditButtonClick(undefined, undefined)}
+                                Cancel={()=>this.GeneralEditButtonClick(undefined, "")}
                             >
 
                             </BasicCalculationsForm>
                             <BasicCalculationsList  
                                 basic_calculations={basic_calculations}
+                                GeneralEditButtonClick={this.GeneralEditButtonClick}
                                 DeleteBasicUnit={this.DeleteBasicUnit}
                             />
                         </div>
@@ -128,7 +131,7 @@ class BasicCalculationsUnits extends BaseComponent
                     this.state.unable_to_delete && 
                     <UnableToDelete 
                         unable_to_delete={this.state.unable_to_delete}
-                        SubmitButtonClick={()=>this.setState({unable_to_delete: undefined})}
+                        ActionButtonClick={()=>this.setState({unable_to_delete: undefined})}
                     />
                 }
             </div>

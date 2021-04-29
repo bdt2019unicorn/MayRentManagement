@@ -12,37 +12,8 @@ class ImportExcel extends PageWrapperChildrenComponent
         }; 
     }
     Methods = 
-    {
-        ReadExcelFile: async(event)=>
-        {
-            let empty = "__EMPTY"; 
-            var file = event.currentTarget.files[0]; 
-    
-            var buffer = await file.arrayBuffer();
-            var workbook = XLSX.read
-            (
-                buffer,
-                {
-                    type: "array"
-                }
-            );
-            var worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            var json_data = XLSX.utils.sheet_to_json
-            (
-                worksheet,
-                {
-                    raw:false
-                }
-            ).filter(row=>row[empty]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes(empty)).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {}));
-    
-            this.SetStateTable(json_data); 
-        }, 
-        SetStateTable(table)
-        {
-            this.setState({table}); 
-            this.ResetStateValue({value_name: "file_input", new_value: true}); 
-        }, 
-        SubmitButtonClick()
+    { 
+        ActionButtonClick()
         {
             let translation_keys = Object.keys(this.state.translation); 
             let table_columns = Object.keys(this.state.table[0]); 
@@ -75,7 +46,36 @@ class ImportExcel extends PageWrapperChildrenComponent
             {
                 alert("Nhập danh sách Excel thất bại, vui lòng thử lại"); 
             }
-        }
+        }, 
+        ReadExcelFile: async(event)=>
+        {
+            let empty = "__EMPTY"; 
+            var file = event.currentTarget.files[0]; 
+    
+            var buffer = await file.arrayBuffer();
+            var workbook = XLSX.read
+            (
+                buffer,
+                {
+                    type: "array"
+                }
+            );
+            var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            var json_data = XLSX.utils.sheet_to_json
+            (
+                worksheet,
+                {
+                    raw:false
+                }
+            ).filter(row=>row[empty]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes(empty)).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {}));
+    
+            this.SetStateTable(json_data); 
+        }, 
+        SetStateTable(table)
+        {
+            this.setState({table}); 
+            this.ResetStateValue({value_name: "file_input", new_value: true}); 
+        } 
     }; 
     render()
     {
@@ -84,7 +84,7 @@ class ImportExcel extends PageWrapperChildrenComponent
         (
             <React.Fragment>
                 <ScrollingTable table={this.state.table} />
-                <SubmitButton type="button" SubmitButtonClick={this.SubmitButtonClick} />
+                <ActionButton type="button" ActionButtonClick={this.ActionButtonClick} />
             </React.Fragment>
         ): null; 
         return (

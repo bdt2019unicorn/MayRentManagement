@@ -17,7 +17,7 @@ class UnableToDelete extends React.Component
             <div className="border p-2">
                 <div className="d-flex flex-justify-between">
                     <div className="text-red text-center width-full"><h2>Không thể xóa đơn vị! Vui lòng kiểm tra những bảng này</h2></div>
-                    <div><SubmitButton icon="cancel" title="Quay trở lại danh sách" SubmitButtonClick={this.props.SubmitButtonClick} /></div>
+                    <div><ActionButton icon="cancel" title="Quay trở lại danh sách" ActionButtonClick={this.props.ActionButtonClick} /></div>
                 </div>
                 {
                     Object.keys(unable_to_delete).map 

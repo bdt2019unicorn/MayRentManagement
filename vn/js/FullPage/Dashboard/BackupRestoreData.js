@@ -34,10 +34,9 @@ class RestoreData extends BaseComponent
                 />
                 {
                     this.state.file && 
-                    <SubmitButton 
+                    <ActionButton 
                         title="Sao lưu dữ liệu" 
-                        type="button" 
-                        SubmitButtonClick=
+                        ActionButtonClick=
                         {
                             ()=>
                             {
