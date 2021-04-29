@@ -9,7 +9,6 @@ class BasicCalculationsUnits extends BaseComponent
             current_table: undefined, 
             edit_id: undefined, 
             edit_text: undefined, 
-            edit_data: undefined, 
             extra_edit: true, 
             special_tables: ['Loại thu nhập', 'Đơn vị thời gian thuê'], 
             tables: 
@@ -60,6 +59,10 @@ class BasicCalculationsUnits extends BaseComponent
         {
             this.ResetStateValue({value_name: "extra_edit", new_value: true}); 
         }, 
+        GeneralEditButtonClick(id, name)
+        {
+            this.setState({edit_id: id, edit_text: name}); 
+        }, 
         HandleResult(result)
         {
             if(Number(result))
@@ -79,10 +82,19 @@ class BasicCalculationsUnits extends BaseComponent
         {
             return `../server/controller/database/${command}.php?table=${this.OverviewController()}&id=${id}`; 
         }, 
+        SubmitForm(event)
+        {
+            event.preventDefault(); 
+            var data = this.state.special_tables.includes(this.state.current_table)? Object.fromEntries(new FormData(event.currentTarget)): {name: this.state.edit_text}; 
+            var url = this.ServerUrl(this.edit_id?"edit": "import", this.edit_id); 
+            var result = SubmitData(this.edit_id?"edit":"excel", url, this.edit_id?data:[data]); 
+            this.HandleResult(result); 
+        }
     }
     render()
     {
         var basic_calculations = this.BasicCalculations(); 
+        var edit_data = basic_calculations.find(element=> (element.id ==this.state.edit_id) && (element.name==this.state.edit_text));
         return (
             <div>
                 <Dropdown
@@ -97,6 +109,14 @@ class BasicCalculationsUnits extends BaseComponent
                     this.state.current_table && !this.state.unable_to_delete &&  
                     (
                         <div>
+                            <BasicCalculationsForm
+                                edit_id={this.state.edit_id}
+                                SubmitForm={this.SubmitForm}
+                                EditTextChanged={(event)=>this.setState({edit_text: event.currentTarget.value})}
+                                Cancel={()=>this.GeneralEditButtonClick(undefined, undefined)}
+                            >
+
+                            </BasicCalculationsForm>
                             <BasicCalculationsList  
                                 basic_calculations={basic_calculations}
                                 DeleteBasicUnit={this.DeleteBasicUnit}
