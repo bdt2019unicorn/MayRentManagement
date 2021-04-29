@@ -104,6 +104,13 @@ class BasicCalculationsUnits extends BaseComponent
                         </div>
                     )
                 }
+                {
+                    this.state.unable_to_delete && 
+                    <UnableToDelete 
+                        unable_to_delete={this.state.unable_to_delete}
+                        SubmitButtonClick={()=>this.setState({unable_to_delete: undefined})}
+                    />
+                }
             </div>
         ); 
     }
