@@ -10,7 +10,7 @@ class BasicCalculationsUnits extends BaseComponent
             edit_id: undefined, 
             edit_text: "", 
             extra_edit: true, 
-            special_tables: ['Loại thu nhập', 'Đơn vị thời gian thuê'], 
+            special_tables: ["leaseagrm_period", "revenue_type"], 
             tables: 
             [
                 {
@@ -31,7 +31,7 @@ class BasicCalculationsUnits extends BaseComponent
                 }
             ], 
             unable_to_delete: undefined
-        }
+        }; 
     }
     Methods = 
     {
@@ -79,6 +79,25 @@ class BasicCalculationsUnits extends BaseComponent
         {
             return _.get(this.state.current_table, "value"); 
         }, 
+        RevenueTypeComponent(edit_data)
+        {
+            var is_utility = Number(_.get(edit_data, "is_utility")) || 0; 
+            return (
+                <MaterialUI.FormGroup row>
+                    <MaterialUI.FormControlLabel 
+                        label="Là đơn vị tiện ích"
+                        control=
+                        {
+                            <MaterialUI.Switch 
+                                checked={Boolean(is_utility)} 
+                                onChange={(event)=>console.log(event)} 
+                            />
+                        }
+                    />
+                    <input hidden name="is_utility" ref={this.check_box_ref} defaultValue={is_utility} />
+                </MaterialUI.FormGroup>
+            ); 
+        }, 
         ServerUrl(command, id=undefined)
         {
             return `../server/controller/database/${command}.php?table=${this.OverviewController()}&id=${id}`; 
@@ -96,6 +115,7 @@ class BasicCalculationsUnits extends BaseComponent
     {
         var basic_calculations = this.BasicCalculations(); 
         var edit_data = basic_calculations.find(element=> (element.id ==this.state.edit_id) && (element.name==this.state.edit_text));
+        var table_value = _.get(this.state.current_table, "value"); 
         return (
             <div>
                 <Dropdown
@@ -118,20 +138,10 @@ class BasicCalculationsUnits extends BaseComponent
                                 Cancel={()=>this.GeneralEditButtonClick(undefined, "")}
                             >
                                 {
-                                    this.state.special_tables.includes(this.state.current_table) && 
+                                    this.state.special_tables.includes(table_value) && 
                                     (
                                         <div>
-                                            {
-                                                this.state.current_table == "Loại thu nhập" && 
-                                                (
-                                                    <MaterialUI.FormGroup row>
-                                                        <MaterialUI.FormControlLabel 
-                                                            label="Là đơn vị tiện ích"
-                                                            control={<MaterialUI.Switch onChange={(event)=>console.log(event)} />}
-                                                        />
-                                                    </MaterialUI.FormGroup>
-                                                )
-                                            }
+                                            {table_value == "revenue_type" && <RevenueTypeCalculation edit_data={edit_data} />}
                                         </div>
                                     )
                                 }
