@@ -1,6 +1,6 @@
 Vue.component
 (
-    "leaseagrm_period_calculation", 
+    "leaseagrm-period-calculation", 
     {
         props: ["basic_calculations", "edit_data", "edit_text"], 
         data: () =>

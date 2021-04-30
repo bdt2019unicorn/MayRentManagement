@@ -91,15 +91,27 @@
                 
                 class Test extends React.Component 
                 {
+                    constructor(props)
+                    {
+                        super(props); 
+                        this.state = {fileObjects: []}; 
+                    }
                     render()
                     {
-                        var columns = OptionColumns(); 
-                        var rows = select_options; 
-                        console.log(rows); 
+                        var test = 10**6; 
+                        console.log(test); 
                         try {
                         return (
                             <MaterialUI.Paper className="scrolling-table-div">
-                                <DataGrid rows={rows} columns={columns} />
+                                <DropzoneAreaBase
+                                    fileObjects={this.state.fileObjects}
+                                    onAdd={(fileObjs) => this.setState({fileObjects: this.state.fileObjects.concat(fileObjs)})}
+                                    showAlerts={false}
+                                    filesLimit={3}
+                                    maxFileSize={15*(10**6)}
+                                    showFileNames
+                                    onDelete={(fileObj) => console.log('Removed File:', fileObj)}
+                                />
                             </MaterialUI.Paper>
                         ); 
                         }catch(exception){console.log(exception); }

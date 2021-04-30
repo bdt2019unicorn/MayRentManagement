@@ -1,2 +1,2 @@
-import * as MaterialUIDataGrid from '@material-ui/data-grid';
-window.MaterialUIDataGrid = MaterialUIDataGrid; 
+import { DropzoneArea } from 'material-ui-dropzone';
+window.DropzoneAreaBase = DropzoneArea; 

@@ -1,16 +1,35 @@
+class ActionButton extends React.Component
+{
+    render()
+    {
+        return (
+            <MaterialUI.IconButton 
+                className={this.props.class}
+                title={this.props.title} 
+                type={this.props.type || "button"} 
+                size={this.props.size}
+                color={this.props.color}
+                onClick={this.props.ActionButtonClick|| null}
+            >
+                <MaterialUI.Icon>{this.props.icon}</MaterialUI.Icon>
+            </MaterialUI.IconButton>
+        );
+
+    }
+}
+
 class SubmitButton extends React.Component 
 {
     render() 
     {
         return (
-            <MaterialUI.IconButton 
-                className={this.props.class || "float-right"}
+            <ActionButton
+                class={this.props.class || "float-right"}
                 title={this.props.title} 
                 type={this.props.type || "submit"} 
-                onClick={this.props.SubmitButtonClick?()=>this.props.SubmitButtonClick(): null}
-            >
-                <MaterialUI.Icon>{this.props.icon || "arrow_forward"}</MaterialUI.Icon>
-            </MaterialUI.IconButton>
+                icon={this.props.icon || "arrow_forward"}
+                ActionButtonClick={this.props.SubmitButtonClick|| null}
+            />
         );
     }
 }

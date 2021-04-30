@@ -72,4 +72,8 @@ class TranslationValues
             ) 
         ) : table; 
     }
+    static TranslateUrl(controller)
+    {
+        return `../server/json/translation/Overview/${controller}.json`; 
+    }
 }

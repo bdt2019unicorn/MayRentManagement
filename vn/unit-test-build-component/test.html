@@ -31,6 +31,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js" integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw==" crossorigin="anonymous"></script>
             <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
 
+            <script src="../js/npm/immunity-helper.js"></script>
 
             <script src="dist/bundle.js"></script>
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
@@ -76,21 +77,70 @@
                     ]; 
                 }
 
-                const select_options = CreateOptions();                 
+                const select_options = CreateOptions();     
                 
+                class Child extends React.Component
+                {
+                    render()
+                    {
+                        return (
+                            <div>
+                                <pre>
+                                    {JSON.stringify(this.props.rows, null, 2)}
+                                </pre>
+                                <button 
+                                    type="button"
+                                    onClick=
+                                    {
+                                        ()=>
+                                        {
+                                            var rows = CreateOptions(); 
+                                            this.props.ChangeRows(rows.slice(0, 3)); 
+                                        }
+                                    }
+                                >Change the rows</button>
+                            </div>
+                        ); 
+                    }
+                }
                 
                 
                 class Test extends React.Component 
                 {
                     render()
                     {
-                        var columns = OptionColumns(); 
-                        var rows = select_options; 
+                        const locations = 
+                        [
+                            {
+                                label: 'New York',
+                                value: 'newYork',
+                            },
+                            {
+                                label: 'Oslo',
+                                value: 'oslo',
+                            },
+                            {
+                                label: 'Istanbul',
+                                value: 'istanbul',
+                            }
+                        ];
                         try {
                         return (
-                            <Button variant="contained" color="primary">
-                                Hello World
-                            </Button>
+                            <div>
+                                <Dropdown
+                                    // name="location"
+                                    title="Select location"
+                                    searchable={["Search for location", "No matching location"]}
+                                    list={locations}
+                                    onChange=
+                                    {
+                                        (item, name) => 
+                                        {
+                                            console.log(item, name); 
+                                        }
+                                    }
+                                />
+                            </div>
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 

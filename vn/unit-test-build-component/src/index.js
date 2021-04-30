@@ -1,2 +1,2 @@
-import Button from "@material-ui/core/Button";
-window.Button = Button; 
+import { Dropdown } from 'reactjs-dropdown-component';
+window.Dropdown = Dropdown; 

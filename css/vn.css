@@ -3,33 +3,60 @@
     margin-left: auto;
     margin-right: 1rem;
 }
+
 .dropdown-ul li a
 {
     font-size: 2vmin;
 }
+
 .file-upload-input
 {
     z-index: -1;
     opacity: 0;
     position: absolute;
 }
+
 .file-upload-download-label
 {
     cursor: pointer;
 }
+
 .icon-same-line-word
 {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
+
+.list-unstyle
+{
+    list-style: none;
+}
+
+.lock-element
+{
+    pointer-events: none !important;
+}
+
 .scrolling-table-div
 {
     width: 100%;
     height: 75vh;
 }
-.space-between-element *
+
+.select-center-text
+{
+    text-align: center;
+    text-align-last: center;
+}
+
+.space-between-element>*
 {
     margin-left: 1em !important;
     margin-right: 1em !important;
+}
+
+.w-80
+{
+    width: 80%;
 }

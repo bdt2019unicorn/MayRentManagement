@@ -3,6 +3,7 @@ class FullPage extends BaseComponent
     constructor(props)
     {
         super(props); 
+        BindFunctions(this); 
         this.props.Authorize
         (
             {
@@ -10,6 +11,7 @@ class FullPage extends BaseComponent
                 user_id: sessionStorage.getItem("user_id") ||""
             }
         ); 
+        this.BuildingData(); 
     }
     render()
     {
@@ -28,7 +30,7 @@ class FullPage extends BaseComponent
                     <Redirect from="/general-edit" exact to="/dashboard" />
                     <Route component={Dashboard} exact path="/dashboard" />
 
-                    <Route component={GeneralEdit} exact path="/general-edit/:controller" />
+                    <Route component={GeneralEdit} exact path="/GeneralEdit/:controller" />
 
                     <Route component={PageWrapper} path="/:building_id/" />
                 </Switch>

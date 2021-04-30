@@ -10,7 +10,15 @@ class UserInputComponent extends BaseComponent
     {
         InnitialValue()
         {
-            return this.props.edit_data? this.props.edit_data[this.props.name]: undefined; 
+            if(this.props.value)
+            {
+                return this.props.value; 
+            }
+            else if(this.props.edit_data) 
+            {
+                return this.props.edit_data[this.props.name]; 
+            }
+            return undefined; 
         }, 
         SimpleInputOnChange(event)
         {
@@ -91,7 +99,7 @@ class SelectInputFormControl extends React.Component
     {
         var error = _.get(this.props.validation_object, "error"); 
         return (
-            <MaterialUI.FormControl fullWidth className="m-3" error={error}>
+            <MaterialUI.FormControl fullWidth className="m-3" error={error} disabled={this.props.disabled}>
                 <MaterialUI.InputLabel>{this.props.title + ((_.get(this.props.validation_object, "required")?" *": ""))}</MaterialUI.InputLabel>
                 {this.props.children}
                 {
@@ -120,8 +128,8 @@ class SelectComponent extends UserInputComponent
                 option=>
                 (
                     {
-                        value: option[this.props.select_value], 
-                        text: option[this.props.text]
+                        value: typeof(option)=="object"? option[this.props.select_value]: option, 
+                        text: typeof(option)=="object"? option[this.props.text]: option
                     }
                 )
             ); 

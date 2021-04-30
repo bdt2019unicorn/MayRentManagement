@@ -4,7 +4,7 @@
     $test_mode = CurrentEnvironment::TestMode(); 
     if($test_mode)
     {
-        require_once("../helper/support.php"); 
+        require_once("../../helper/support.php"); 
         $path = CurrentEnvironment::TestSqliteDatabasePath(); 
         DownloadFile($path); 
     }

@@ -25,7 +25,7 @@
             if(result.number)
             {
                 alert("Issue added"); 
-                window.location.href = `./issues.php?id=${result.number}`; 
+                window.location.href = `./?id=${result.number}`; 
             }   
             else 
             {

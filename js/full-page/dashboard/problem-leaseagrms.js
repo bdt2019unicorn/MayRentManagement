@@ -7,7 +7,7 @@ Vue.component
         (
             {
                 leaseagrm_edit: undefined, 
-                leaseagrm_table: "No tenants and unit", 
+                leaseagrm_table: "No tenants and unit" 
             }
         ),
         mixins: [table_actions_mixin], 
