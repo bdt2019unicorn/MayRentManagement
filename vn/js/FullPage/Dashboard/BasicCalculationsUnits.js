@@ -69,14 +69,30 @@ class BasicCalculationsUnits extends BaseComponent
         }, 
         GeneralEditButtonClick(id, name)
         {
-            this.setState
+            new Promise
             (
+                (resolve, reject)=>
                 {
-                    edit_id: id, 
-                    edit_text: name, 
-                    edit_data: this.EditData(id, name)
+                    this.setState
+                    (
+                        {
+                            edit_id: id, 
+                            edit_text: name
+                        }
+                    ); 
+                    resolve({id, name}); 
                 }
-            ); 
+            ).then 
+            (
+                ({id, name})=> new Promise
+                (
+                    (resolve, reject)=>
+                    {
+                        this.setState({edit_data: this.EditData(id, name)}); 
+                        resolve(); 
+                    }
+                )
+            ).then(this.ExtraEditReset); 
         }, 
         HandleResult(result)
         {
