@@ -33,6 +33,11 @@
     list-style: none;
 }
 
+.lock-element
+{
+    pointer-events: none !important;
+}
+
 .scrolling-table-div
 {
     width: 100%;
@@ -49,4 +54,9 @@
 {
     margin-left: 1em !important;
     margin-right: 1em !important;
+}
+
+.w-80
+{
+    width: 80%;
 }

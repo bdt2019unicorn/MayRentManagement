@@ -6,7 +6,7 @@ class BasicCalculationsForm extends React.Component
             <div>
                 <form onSubmit={this.props.SubmitForm}>
                     <div className="d-flex flex-justify-between">
-                        <div className="pl-4" style={{width: "80%"}}>
+                        <div className="pl-4 w-80">
                             <input className="width-full border-black-fade bg-blue text-white" name="name" type="text" onChange={this.props.EditTextChanged} value={this.props.edit_text} />
                         </div>
                         <div>

@@ -6,7 +6,9 @@ class BasicCalculationsUnits extends BaseComponent
         BindFunctions(this); 
         this.state = 
         {
+            basic_calculations: [], 
             current_table: undefined, 
+            edit_data: undefined, 
             edit_id: undefined, 
             edit_text: "", 
             extra_edit: true, 
@@ -35,9 +37,9 @@ class BasicCalculationsUnits extends BaseComponent
     }
     Methods = 
     {
-        BasicCalculations()
+        BasicCalculations(overview_controller = undefined)
         {
-            let overview_controller = this.OverviewController(); 
+            overview_controller = overview_controller || this.OverviewController(); 
             return overview_controller? this.TableData(overview_controller): []; 
         },  
         DeleteBasicUnit(id)
@@ -55,19 +57,33 @@ class BasicCalculationsUnits extends BaseComponent
                 this.HandleResult(result); 
             }
         }, 
+        EditData(id = undefined, name=undefined)
+        {
+            id = id || this.state.edit_id; 
+            name = name || this.state.edit_text; 
+            return this.state.basic_calculations.find(element=> (element.id ==id) && (element.name==name));
+        }, 
         ExtraEditReset()
         {
             this.ResetStateValue({value_name: "extra_edit", new_value: true}); 
         }, 
         GeneralEditButtonClick(id, name)
         {
-            this.setState({edit_id: id, edit_text: name}); 
+            this.setState
+            (
+                {
+                    edit_id: id, 
+                    edit_text: name, 
+                    edit_data: this.EditData(id, name)
+                }
+            ); 
         }, 
         HandleResult(result)
         {
             if(Number(result))
             {
                 this.ExtraEditReset(); 
+                this.setState({basic_calculations: this.BasicCalculations()}); 
                 this.GeneralEditButtonClick(undefined, ""); 
             }
             else
@@ -79,25 +95,6 @@ class BasicCalculationsUnits extends BaseComponent
         {
             return _.get(this.state.current_table, "value"); 
         }, 
-        RevenueTypeComponent(edit_data)
-        {
-            var is_utility = Number(_.get(edit_data, "is_utility")) || 0; 
-            return (
-                <MaterialUI.FormGroup row>
-                    <MaterialUI.FormControlLabel 
-                        label="Là đơn vị tiện ích"
-                        control=
-                        {
-                            <MaterialUI.Switch 
-                                checked={Boolean(is_utility)} 
-                                onChange={(event)=>console.log(event)} 
-                            />
-                        }
-                    />
-                    <input hidden name="is_utility" ref={this.check_box_ref} defaultValue={is_utility} />
-                </MaterialUI.FormGroup>
-            ); 
-        }, 
         ServerUrl(command, id=undefined)
         {
             return `../server/controller/database/${command}.php?table=${this.OverviewController()}&id=${id}`; 
@@ -105,7 +102,7 @@ class BasicCalculationsUnits extends BaseComponent
         SubmitForm(event)
         {
             event.preventDefault(); 
-            var data = this.state.special_tables.includes(this.state.current_table)? Object.fromEntries(new FormData(event.currentTarget)): {name: this.state.edit_text}; 
+            var data = this.state.special_tables.includes(this.OverviewController())? Object.fromEntries(new FormData(event.currentTarget)): {name: this.state.edit_text}; 
             var url = this.ServerUrl(this.state.edit_id?"edit": "import", this.state.edit_id); 
             var result = SubmitData(this.state.edit_id?"edit":"excel", url, this.state.edit_id?data:[data]); 
             this.HandleResult(result); 
@@ -113,9 +110,7 @@ class BasicCalculationsUnits extends BaseComponent
     }
     render()
     {
-        var basic_calculations = this.BasicCalculations(); 
-        var edit_data = basic_calculations.find(element=> (element.id ==this.state.edit_id) && (element.name==this.state.edit_text));
-        var table_value = _.get(this.state.current_table, "value"); 
+        var overview_controller = this.OverviewController(); 
         return (
             <div>
                 <Dropdown
@@ -123,11 +118,23 @@ class BasicCalculationsUnits extends BaseComponent
                     title="Chọn đơn vị tính toán"
                     searchable={["Tìm kiếm đơn vị tính toán", "Không có đơn vị tính toán"]}
                     list={this.state.tables}
-                    onChange={(item)=>this.setState({current_table: item})}
+                    onChange=
+                    {
+                        item=>this.setState
+                        (
+                            {
+                                current_table: item, 
+                                basic_calculations: this.BasicCalculations(item.value), 
+                                edit_data: undefined, 
+                                edit_id: undefined, 
+                                edit_text: ""
+                            }
+                        )
+                    }
                 />
                 <br />
                 {
-                    this.state.current_table && !this.state.unable_to_delete &&  
+                    overview_controller && !this.state.unable_to_delete &&  
                     (
                         <div>
                             <BasicCalculationsForm
@@ -138,16 +145,17 @@ class BasicCalculationsUnits extends BaseComponent
                                 Cancel={()=>this.GeneralEditButtonClick(undefined, "")}
                             >
                                 {
-                                    this.state.special_tables.includes(table_value) && 
+                                    this.state.special_tables.includes(overview_controller) && 
                                     (
                                         <div>
-                                            {table_value == "revenue_type" && <RevenueTypeCalculation edit_data={edit_data} />}
+                                            {overview_controller == "revenue_type" && this.state.extra_edit && <RevenueTypeCalculation edit_data={this.state.edit_data} />}
+                                            {overview_controller == "leaseagrm_period" && this.state.extra_edit && <LeaseagrmPeriodCalculation basic_calculations={this.state.basic_calculations} edit_data={this.state.edit_data} edit_text={this.state.edit_text} />}
                                         </div>
                                     )
                                 }
                             </BasicCalculationsForm>
                             <BasicCalculationsList  
-                                basic_calculations={basic_calculations}
+                                basic_calculations={this.state.basic_calculations}
                                 GeneralEditButtonClick={this.GeneralEditButtonClick}
                                 DeleteBasicUnit={this.DeleteBasicUnit}
                             />
