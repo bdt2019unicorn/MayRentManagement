@@ -1,5 +1,5 @@
 <?php 
-    require_once(realpath(__DIR__."/../../vendor/autoload.php")); 
+    require_once(realpath(__DIR__."/../vendor/autoload.php")); 
     use Dotenv\Dotenv;
     
     class CurrentEnvironment
@@ -81,26 +81,27 @@
 
         public static function WriteEnv($env)
         {
-            $content = ""; 
-            foreach ($_ENV as $key => $value) 
+            $env_clone = $_ENV; 
+            foreach ($env as $key => $value)
             {
-                if(isset($env[$key]))
-                {
-                    $content.= "{$key} = {$env[$key]}\n"; 
-                }
-                else 
-                {
-                    $content.= "{$key} = {$value}\n"; 
-                }
+                $env_clone[$key] = $value; 
             }
             $file = fopen(CurrentEnvironment::DotEnvPath(), "w"); 
-            fwrite($file, $content); 
+            foreach ($env_clone as $key => $value) 
+            {
+                fwrite($file, "{$key} = {$value}\n"); 
+            }
             fclose($file); 
         }
 
         public function Repo()
         {
-            return (object) ["user" => $_ENV["USER"], "repo" => $_ENV["REPO"], "token" => $_ENV["TOKEN"]]; 
+            return (object) 
+            [
+                "user" => $_ENV["USER"], 
+                "repo" => $_ENV["REPO"], 
+                "token" => $_ENV["TOKEN"]
+            ]; 
         }
     }
 ?>

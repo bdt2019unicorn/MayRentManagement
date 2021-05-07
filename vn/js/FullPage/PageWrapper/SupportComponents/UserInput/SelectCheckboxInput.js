@@ -3,7 +3,7 @@ class SelectInput extends SelectComponent
     render() {
         var validation_object = this.ValidationObject(); 
         return (
-            <SelectInputFormControl validation_object={validation_object} title={this.props.title}>
+            <SelectInputFormControl validation_object={validation_object} title={this.props.title || ""} disabled={this.props.disabled}>
                 <MaterialUI.NativeSelect 
                     value={this.state.value}
                     inputProps={{name: this.props.name}}

@@ -15,7 +15,7 @@ Vue.component
         {
             AddBuilding(data)
             {
-                let url = "server/database_controller/import.php?import_controller=buildings"; 
+                let url = "server/controller/database/import.php?import_controller=buildings"; 
                 let result = this.SubmitData("excel", url, [data]); 
                 if(Number(result))
                 {
@@ -30,7 +30,7 @@ Vue.component
             }, 
             DeleteBuilding(building_id)
             {
-                var url = `server/database_controller/delete.php?table=buildings`; 
+                var url = `server/controller/database/delete.php?table=buildings`; 
                 var result = this.SubmitData("delete", url, [building_id]); 
                 if(result)
                 {
@@ -41,24 +41,12 @@ Vue.component
                 {
                     alert("Delete building fails! There seems to be a server issue"); 
                 }
-            }, 
-            EditBuilding(building_id)
-            {
-                window.router.push 
-                (
-                    {
-                        name: 'general-edit', 
-                        params: {controller: 'buildings'}, 
-                        query: {id: building_id}
-                    }
-                ); 
-            }    
+            }
         },
         created() 
         {
             this.display = this.StateObject("building_user_input").display;     
         },
-
         template: 
         `
             <fragment>
@@ -88,7 +76,9 @@ Vue.component
                             </template>
                             <vs-row slot="footer" vs-justify="flex-end">
                                 <b-button title="Delete" class="mx-1" variant="danger" @click="DeleteBuilding(building.id)"><b-icon icon="trash"></b-icon></b-button>
-                                <vs-button class="mx-1" color="secondary" type="gradient" icon="edit" title="Edit" @click="EditBuilding(building.id)"></vs-button>
+                                <router-link :to="{name: 'general-edit', params: {controller: 'buildings'}, query: {id: building.id}}">
+                                    <vs-button class="mx-1" color="secondary" type="gradient" icon="edit" title="Edit"></vs-button>
+                                </router-link>
                             </vs-row>
                         </vs-card>
                     </vs-col>

@@ -1,0 +1,29 @@
+{
+    "hidden_columns": ["tenantid", "Rental Status VN"], 
+    "id": "ID", 
+    "page_title": "Units", 
+    "search": ["Name", "Tenant Name", "Rental Status", "Payment Status"], 
+    "special": 
+    {
+        "list": ["Name", "Rental Status", "Tenant Name"], 
+        "hyperlink": 
+        {
+            "Name":
+            {
+                "controller": "unit", 
+                "action": "edit", 
+                "object_id": "ID"
+            }, 
+            "Tenant Name":
+            {
+                "controller": "tenant", 
+                "action": "edit", 
+                "object_id": "tenantid"
+            }
+        }, 
+        "hyperlink-list-compile": 
+        {
+            "Rental Status": true 
+        } 
+    }
+}

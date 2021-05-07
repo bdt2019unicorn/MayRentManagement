@@ -1,0 +1,11 @@
+{
+    "id": "Mã số", 
+    "page_title": "Thu nhập", 
+    "search": ["Đơn vị"], 
+    "width": 
+    {
+        "Mã số": 100, 
+        "Tên thu nhập": 500,
+        "Đơn vị": 100 
+    }
+}

@@ -11,7 +11,7 @@ var document_mixin =
     {
         ServerUrl(params, action="action")
         {
-            return `server/document_controller/${action}.php?building_id=${this.$route.params.building_id}&${this.SearchQueryString(params)}`; 
+            return `server/controller/document/${action}.php?building_id=${this.$route.params.building_id}&${this.SearchQueryString(params)}`; 
         }, 
         SubmitDocumentData({url, form_data, success_alert, reset_function})
         {

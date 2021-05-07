@@ -1,0 +1,119 @@
+{
+    "title": "Tòa nhà",
+    "display": 
+    {
+        "id": "Mã số",
+        "name": "Tên tòa nhà",
+        "account_name": "Tên tài khoản",
+        "account_number": "Số tài khoản",
+        "bank": "Ngân hàng",
+        "bank_link": "Trang web ngân hàng",
+        "bank_branch": "Chi nhánh ngân hàng",
+        "company": "Công ti",
+        "authorize_signature": "Người đại diện",
+        "authorize_title": "Chức vụ người đại diện",
+        "email": "Địa chỉ Email",
+        "phone": "Số điện thoại",
+        "address": "Địa chỉ" 
+    },
+    "form": 
+    [
+        [
+            {
+                "component": "TextInput",
+                "name": "name",
+                "title": "Tên tòa nhà"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "account_name",
+                "title": "Tên tài khoản"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "account_number",
+                "title": "Số tài khoản"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "bank",
+                "title": "Ngân hàng"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "bank_link",
+                "title": "Trang web ngân hàng"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "bank_branch",
+                "title": "Chi nhánh ngân hàng"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "company",
+                "title": "Công ty"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "authorize_signature",
+                "title": "Người đại diện"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "authorize_title",
+                "title": "Chức vụ"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "email",
+                "title": "Địa chỉ Email"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "phone",
+                "title": "Số điện thoại"
+            }
+        ],
+        [
+            {
+                "component": "TextInput",
+                "name": "address",
+                "title": "Địa chỉ"
+            }
+        ]
+    ],
+    "validate": 
+	{
+        "rules": 
+        {
+            "name": 
+            {
+                "presence": 
+                {
+                    "message": "Tên tòa nhà để trống"
+                }
+            }
+        }
+	}
+}

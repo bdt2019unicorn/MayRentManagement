@@ -5,7 +5,7 @@ Vue.component
         components: {...bootstrap}, 
         template: 
         `
-            <b-button variant="link" href="server/dashboard_controller/backup.php">
+            <b-button variant="link" href="server/controller/dashboard/backup.php">
                 <b-icon-cloud-upload></b-icon-cloud-upload>Download back up file
             </b-button>
         `
@@ -25,7 +25,7 @@ Vue.component
             {
                 let form_data = new FormData(); 
                 form_data.append("file", this.file); 
-                let url = "server/dashboard_controller/restore.php"; 
+                let url = "server/controller/dashboard/restore.php"; 
                 let result = this.AjaxRequest(url, form_data, "post"); 
                 if(Number(result))
                 {

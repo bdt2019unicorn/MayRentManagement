@@ -5,9 +5,13 @@
     class Tenant 
     {
         use OverviewTrait; 
+        public static function TenantName($test_mode)
+        {
+            return Query::Concat(["IFNULL(`Last_Name`,'')", "' '", "IFNULL(`First_Name`,'')"], $test_mode); 
+        }
         public static function Selects($edit, $building_id, $id, $test_mode=false)
         {
-            $full_name = Query::Concat(["IFNULL(`Last_Name`,'')", "' '", "IFNULL(`First_Name`,'')"], $test_mode) . " AS `Full Name`"; 
+            $full_name = Tenant::TenantName($test_mode) . " AS `Full Name`"; 
             return $edit? 
             [
                 "*", 

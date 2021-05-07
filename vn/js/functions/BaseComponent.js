@@ -12,6 +12,19 @@ class BaseComponent extends React.Component
     }
     Methods =
     {
+        BuildingData()
+        {
+            let buildings_data = this.TableData("buildings"); 
+            try 
+            {
+                this.props.ChangeState({state_name: "buildings_data", value: buildings_data}); 
+                return undefined; 
+            }
+            catch(exception)
+            {
+                return buildings_data; 
+            }
+        }, 
         BuildingId()
         {
             return _.get(this.props, "match.params.building_id"); 
@@ -26,7 +39,7 @@ class BaseComponent extends React.Component
         },  
         ImportUrl()
         {
-            return `../server/database_controller/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`; 
+            return `../server/controller/database/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`; 
         }, 
         LoadForm(controller = undefined)
         {
@@ -35,7 +48,13 @@ class BaseComponent extends React.Component
         }, 
         ObjectId()
         {
-            return this.props.object_id || "test"; 
+            if(this.props.object_id)
+            {
+                return this.props.object_id; 
+            }
+            var search_query_params = _.get(this.props.location, "search"); 
+            search_query_params = new URLSearchParams(search_query_params); 
+            return search_query_params.get("id") || ""; 
         }, 
         OverviewDataUrl(overview_controller, params=undefined)
         {
@@ -45,7 +64,7 @@ class BaseComponent extends React.Component
                 overview_controller, 
                 ...params
             }
-            return `../server/overview_controller/overview_controller.php?${SearchQueryString(params)}`; 
+            return `../server/controller/overview/overview_controller.php?${SearchQueryString(params)}`; 
         }, 
         ResetStateValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
         {
@@ -72,6 +91,10 @@ class BaseComponent extends React.Component
                 }
             ); 
         }, 
+        TableActions(controller)
+        {
+            return ServerJson(`../server/json/table_actions/vn/${controller}.json`) || {}; 
+        }, 
         TableData(overview_controller, params=undefined)
         {
             var data = AjaxRequest(this.OverviewDataUrl(overview_controller, params));
@@ -87,7 +110,7 @@ class BaseComponent extends React.Component
         ValidationHelperText(validations, props_name)
         {
             let name = this.props[props_name]; 
-            let replace_name = ( name.charAt(0).toUpperCase() + name.slice(1) ).replaceAll("_", " "); 
+            let replace_name = UpperCaseFirstChar(name).replaceAll("_", " "); 
             return validations[name][0].replaceAll(replace_name, "").trim()
         }
     }

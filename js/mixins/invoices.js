@@ -5,7 +5,7 @@ var invoices_mixin =
     (
         {
             leaseagrm_select_data: [], 
-            main_url: "server/invoice_controller/action.php?command=", 
+            main_url: "server/controller/invoice/action.php?command=", 
             revenue_type: 
             {
                 leaseagrm: [], 
@@ -29,6 +29,18 @@ var invoices_mixin =
 var rent_invoice_mixin = 
 {
     mixins: [support_mixin], 
+    data: ()=>({leaseagrm_periods: {}}), 
+    created()
+    {
+        if(this.$attrs["leaseagrm_periods"])
+        {
+            this.leaseagrm_periods = this.$attrs["leaseagrm_periods"]; 
+            return; 
+        }
+        let url = "server/controller/invoice/action.php?command=LeasearmPeriodsSepcial"; 
+        let data = this.AjaxRequest(url); 
+        this.leaseagrm_periods = JSON.parse(data); 
+    }, 
     methods: 
     {
         RentQuantityCalculation(start_period, end_period, leaseagrm_period="months")
@@ -40,15 +52,10 @@ var rent_invoice_mixin =
                 return 0; 
             }
             start_period.subtract(1, "days"); 
-            let bad_result = end_period.diff(start_period); 
+
+            var script = this.leaseagrm_periods[leaseagrm_period] || "actual_result;"; 
             let actual_result = end_period.diff(start_period, leaseagrm_period, true); 
-            if(bad_result==actual_result)
-            {
-                let url = "server/invoice_controller/post.php?command=LeasearmPeriodScript"; 
-                let script = this.SubmitData("leaseagrm_period", url, leaseagrm_period, false); 
-                script = `actual_result = ${script}`; 
-                eval(script); 
-            }
+            eval(`actual_result = ${script}`); 
             return actual_result.toFixed(3); 
         }, 
         

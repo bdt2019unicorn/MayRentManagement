@@ -69,10 +69,60 @@
             )
         "; 
 
+        private static $LeaseagrmAggregateQuery = 
+        "
+            SELECT 
+                `leaseagrm_invoice`.`leaseagrm_id` AS `id`, 
+                `leaseagrm_invoice`.`paid_amount`, 
+                `leaseagrm_invoice`.`Deposit_amount`, 
+                SUM(`leaseagrm_invoice`.`leaseagrm_amount` + `leaseagrm_invoice`.`utility_amount`) AS `invoice_amount` 
+            FROM 
+                (
+                    SELECT 
+                        `invoices`.`leaseagrm_id`, 
+                        `invoices`.`id` AS `invoice_id`, 
+                        `iu`.`utility_amount`, 
+                        `il`.`leaseagrm_amount`, 
+                        `lr`.`paid_amount`, 
+                        (
+                            CASE 
+                                WHEN `leaseagrm`.`Deposit_payment_date` IS NULL THEN 0 
+                                WHEN `leaseagrm`.`Deposit_payment_date` < CURRENT_DATE THEN IFNULL(`leaseagrm`.`Deposit_amount`, 0)
+                                ELSE 0 
+                            END 
+                        ) AS `Deposit_amount`
+                    FROM 
+                        `invoices` LEFT JOIN `leaseagrm` ON `invoices`.`leaseagrm_id` = `leaseagrm`.`id`
+                        LEFT JOIN 
+                        (
+                            SELECT 
+                                `invoice_utilities`.`invoice_id`, 
+                                SUM(IFNULL(`invoice_utilities`.`amount`, 0)) AS `utility_amount`
+                            FROM `invoice_utilities`
+                            GROUP BY `invoice_utilities`.`invoice_id`
+                        )`iu` ON `iu`.`invoice_id` = `invoices`.`id`
+                        LEFT JOIN 
+                        (
+                            SELECT 
+                                `invoice_leaseagrm`.`invoice_id`, 
+                                SUM(IFNULL(`invoice_leaseagrm`.`amount`, 0)) AS `leaseagrm_amount`
+                            FROM `invoice_leaseagrm`
+                            GROUP BY `invoice_leaseagrm`.`invoice_id`
+                        ) `il` ON `il`.`invoice_id` = `invoices`.`id`
+                        LEFT JOIN 
+                        (
+                            SELECT 
+                                `revenue`.`leaseagrm_id`, 
+                                SUM(`revenue`.`Amount`) AS `paid_amount` 
+                            FROM `revenue`
+                            GROUP BY `revenue`.`leaseagrm_id`
+                        ) `lr` ON `lr`.`leaseagrm_id` = `leaseagrm`.`id`
+                ) `leaseagrm_invoice`
+            GROUP BY `leaseagrm_invoice`.`leaseagrm_id`, `leaseagrm_invoice`.`paid_amount`, `leaseagrm_invoice`.`Deposit_amount` 
+        "; 
+
         private static function CompareTotals($main_total_query, $compared_total_query, $as, $test_mode=false)
         {
-            $format = $test_mode? "ROUND" : "FORMAT";  
-
             $condition = 
             "
                 (
@@ -84,25 +134,25 @@
             (
                 [
                     "'('", 
-                    Query::CastAsChar("(\n{$format}({$main_total_query} - {$compared_total_query}, 0)\n)", $test_mode), 
+                    Query::CastAsChar
+                    (
+                        Query::NumberFormat("{$main_total_query} - {$compared_total_query}", $test_mode), 
+                        $test_mode
+                    ), 
                     "')'"
                 ], $test_mode
             ); 
 
-            $false = 
-            "
-                (
-                    {$format}({$compared_total_query} - {$main_total_query}, 0)
-                )
-            "; 
+            $false = Query::NumberFormat("{$compared_total_query} - {$main_total_query}", $test_mode); 
 
             return "(\n" . Query::CaseWhen($condition, $true, $false) . "\n) AS `{$as}`"; 
         }
 
         private static function GeneralQuery($test_mode=false)
         {
-            $deposit = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::TotalPaidAmountQuery(), "Deposit", $test_mode); 
-            $outstanding_balance = LeaseAgrm::CompareTotals(LeaseAgrm::$TotalInvoiceAmountQuery, LeaseAgrm::$TotalPaidRevenueQuery, "Outstanding Balance", $test_mode); 
+            $invoice_amount = "IFNULL(`leaseagrm_aggregate`.`invoice_amount`, 0)"; 
+            $outstanding_balance = LeaseAgrm::CompareTotals($invoice_amount, "IFNULL(`leaseagrm_aggregate`.`paid_amount`, 0)", "Outstanding Balance", $test_mode); 
+            $deposit = LeaseAgrm::CompareTotals($invoice_amount, "(IFNULL(`leaseagrm_aggregate`.`paid_amount`, 0) + IFNULL(`leaseagrm_aggregate`.`Deposit_amount`, 0))", "Deposit", $test_mode); 
 
             $tenant_name = "(\n" . Query::CaseWhen
             (
@@ -128,6 +178,11 @@
                 FROM `leaseagrm`
                     LEFT JOIN `unit` ON `leaseagrm`.`unit_id` = `unit`.`id`
                     LEFT JOIN `tenant` ON `leaseagrm`.`Tenant_ID` = `tenant`.`id`
+                    LEFT JOIN 
+                    (
+                        " . LeaseAgrm::$LeaseagrmAggregateQuery . "
+                    ) `leaseagrm_aggregate` ON `leaseagrm`.`id` = `leaseagrm_aggregate`.`id` 
+
             "; 
         }
     }

@@ -2,7 +2,7 @@ Vue.component
 (
     "add-monthly-invoices", 
     {
-        mixins: [support_mixin, rent_invoice_mixin, valid_invoice_details_mixin], 
+        mixins: [rent_invoice_mixin, valid_invoice_details_mixin], 
         data: () =>
         (
             {
@@ -56,7 +56,7 @@ Vue.component
         },
         created() 
         {
-            this.user_input = this.AjaxRequest("server/user_input_controller/invoice.json"); 
+            this.user_input = this.AjaxRequest("server/json/user_input/en/invoice.json"); 
             this.MonthlyInvoices(); 
         },
         methods: 
@@ -80,7 +80,7 @@ Vue.component
             }, 
             Submit()
             {
-                let url = "server/invoice_controller/post.php?command=AddMonthlyInvoices"; 
+                let url = "server/controller/invoice/post.php?command=AddMonthlyInvoices"; 
                 let result = this.SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
                 if(Number(result))
                 {

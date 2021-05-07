@@ -1,3 +1,2 @@
-import 'react-widgets/dist/css/react-widgets.css';
-import { Multiselect, DropdownList } from "react-widgets"; 
-window.ReactWidgets = { Multiselect, DropdownList }; 
+import { Dropdown } from 'reactjs-dropdown-component';
+window.Dropdown = Dropdown; 

@@ -1,0 +1,34 @@
+{
+    "hidden_columns": ["tenantid", "leaseid", "Rental Status Value", "Rental Status VN", "Payment Status Value"], 
+    "page_title": "Overview", 
+    "search": ["Payment Status", "Rental Status", "Tenant Name", "Unit Name"], 
+    "sort": 
+    {
+        "Rental Status": "Rental Status Value", 
+        "Payment Status": "Payment Status Value", 
+        "Unit Name": "ID"
+    }, 
+    "special": 
+    {
+        "list": ["Rental Status", "Tenant Name", "Unit Name"], 
+        "hyperlink": 
+        {
+            "Unit Name":
+            {
+                "controller": "unit", 
+                "action": "edit", 
+                "object_id": "ID"
+            }, 
+            "Tenant Name":
+            {
+                "controller": "tenant", 
+                "action": "edit", 
+                "object_id": "tenantid"
+            }
+        }, 
+        "hyperlink-list-compile": 
+        {
+            "Rental Status": true
+        } 
+    }
+}

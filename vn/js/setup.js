@@ -2,7 +2,7 @@ new Promise
 (
     (resolve, reject)=>
     {
-        let result = AjaxRequest("../server/admin_database.php?command=CheckEnvironment"); 
+        let result = AjaxRequest("../server/controller/admin_database.php?command=CheckEnvironment"); 
         resolve(result); 
     }
 ).then 

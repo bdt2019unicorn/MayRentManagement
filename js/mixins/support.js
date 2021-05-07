@@ -8,7 +8,7 @@ var support_mixin =
         }, 
         ImportUrl()
         {
-            return `server/database_controller/import.php?import_controller=${this.CurrentController}&building_id=${this.$route.params.building_id}`; 
+            return `server/controller/database/import.php?import_controller=${this.CurrentController}&building_id=${this.$route.params.building_id}`; 
         }, 
         LockStyle()
         {
@@ -141,7 +141,7 @@ var support_mixin =
             }
 
             let search = this.SearchQueryString(params); 
-            return `server/overview_controller/overview_controller.php?${search}`; 
+            return `server/controller/overview/overview_controller.php?${search}`; 
         }, 
         ResetValue({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined})
         {
@@ -194,7 +194,7 @@ var support_mixin =
         }, 
         TableActions(controller)
         {
-            var table_actions = this.AjaxRequest(`server/overview_controller/table_actions/${controller}.json`);
+            var table_actions = this.AjaxRequest(`server/json/table_actions/en/${controller}.json`);
             return table_actions || {}; 
         }, 
         TableData(overview_controller, params=undefined)

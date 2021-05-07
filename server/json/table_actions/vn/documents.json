@@ -1,0 +1,28 @@
+{
+    "edit_action": "EditDocument", 
+    "hidden_columns": ["document_type_id", "file_extension", "unit_id", "Uploaded Time"], 
+    "id": "Mã số", 
+    "page_title": "Tài liệu", 
+    "search": ["Đơn vị", "Loại tài liệu", "Người đưa tài liệu", "Tên tài liệu", "Thời gian đưa tài liệu"], 
+    "sort": 
+    {
+        "Tên tài liệu": "Tên tài liệu", 
+        "Đơn vị": "Đơn vị", 
+        "Thời gian đưa tài liệu": "Thời gian đưa tài liệu", 
+        "Người đưa tài liệu": "Người đưa tài liệu"
+    }, 
+    "special": 
+    {
+        "list": ["Tên tài liệu", "Thời gian đưa tài liệu"], 
+        "FileDownload": 
+        {
+            "Tên tài liệu": 
+            {
+                "url": "../server/controller/document/download.php", 
+                "object_id": "Mã số", 
+                "name": "Tên tài liệu", 
+                "file_extension": "file_extension"
+            }
+        } 
+    }
+}

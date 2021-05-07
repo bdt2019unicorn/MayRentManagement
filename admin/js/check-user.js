@@ -10,7 +10,7 @@ function CheckUser()
             id: id, 
             approved: 1 
         }; 
-        let url = "../server/admin_database.php?command=CheckUser"; 
+        let url = "../server/controller/admin_database.php?command=CheckUser"; 
         let result = support_mixin.methods.SubmitData("check_user", url, data); 
         return Boolean(result); 
     }

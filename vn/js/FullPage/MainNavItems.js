@@ -56,12 +56,12 @@ class DropdownMenu extends BaseComponent
                                                 let key = Math.random() + encodeURIComponent(text); 
                                                 return callback? 
                                                 (
-                                                    <MenuItem key={key}>
+                                                    <MenuItem key={key} className="width-full">
                                                         <button className="btn width-full" onClick={callback}>{text}</button>
                                                     </MenuItem>
                                                 ) : 
                                                 (
-                                                    <MenuItem key={key} className={special_class}>
+                                                    <MenuItem key={key} className={`${special_class} width-full`}>
                                                         <Link className="width-full text-center" to={to}>{text}</Link>
                                                     </MenuItem>
                                                 ); 
@@ -86,23 +86,12 @@ class MainNavItems extends BaseComponent
         super(props); 
         this.state = 
         {
-            building_menu: this.props.buildings_data.map
-            (
-                ({id, name})=> 
-                (
-                    {
-                        id, 
-                        to: `/${id}/`, 
-                        text: name 
-                    }
-                )
-            ), 
             user_information: 
             [
-                {to: "/general-edit/user", text: "Thông tin tài khoản"}, 
+                {to: "/GeneralEdit/user", text: "Thông tin tài khoản"}, 
                 {text: "Đăng xuất", callback: ()=>this.props.Authorize({username: "", user_id: ""})}
             ], 
-            logo_src: `../${AjaxRequest("../server/admin_database.php?command=LogoImg")}?q=${Date.now()}`
+            logo_src: `../${AjaxRequest("../server/controller/admin_database.php?command=LogoImg")}?q=${Date.now()}`
         }; 
         this.building_menu_ref = React.createRef(); 
         this.user_information_ref = React.createRef(); 
@@ -111,6 +100,18 @@ class MainNavItems extends BaseComponent
     {
         var Grid = MaterialUI.Grid; 
         var Link = ReactRouterDOM.Link; 
+        var building_menu = this.props.buildings_data.map
+        (
+            ({id, name})=> 
+            (
+                {
+                    id, 
+                    to: `/${id}/`, 
+                    text: name, 
+                    special_class: (id==this.props.building_id)? "bg-yellow": undefined
+                }
+            )
+        ); 
         return (
             <Grid container>
                 <Grid className="p-3" item xs={3}>
@@ -122,24 +123,12 @@ class MainNavItems extends BaseComponent
                     <Grid item xs={8} ref={this.building_menu_ref}>
                         <DropdownMenu 
                             reference={this.building_menu_ref} 
-                            menu_list=
-                            {
-                                this.state.building_menu.map
-                                (
-                                    ({id, ...rest})=> 
-                                    (
-                                        {
-                                            ...rest, 
-                                            special_class: (id==this.props.building_id)? "bg-yellow": undefined
-                                        }
-                                    )
-                                )
-                            } 
+                            menu_list={building_menu}
                         >
                             {
                                 _.get
                                 ( 
-                                    this.state.building_menu.find(({id})=>id==this.props.building_id), 
+                                    building_menu.find(({id})=>id==this.props.building_id), 
                                     "text"
                                 ) || "Danh sách tòa nhà"
                             } 

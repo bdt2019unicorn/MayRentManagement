@@ -1,0 +1,17 @@
+{
+    "id": "Mã số", 
+    "page_title": "Người thuê", 
+    "search": ["Họ và tên", "Số chứng minh"], 
+    "width": 
+    {
+        "Mã số": 100, 
+        "Đơn vị": 100, 
+        "Họ và tên": 300, 
+        "Địa chỉ Email": 300, 
+        "Ngày sinh": 300
+    }, 
+    "special": 
+    {
+        "list": ["Ngày sinh"]
+    }
+}

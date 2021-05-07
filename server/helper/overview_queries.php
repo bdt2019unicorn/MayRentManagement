@@ -17,7 +17,7 @@
     {
         public static function UserInput($controller, $lang)
         {
-            $path = __DIR__ . "/../user_input_controller/{$lang}/{$controller}.json"; 
+            $path = __DIR__ . "/../json/user_input/{$lang}/{$controller}.json"; 
             $path = realpath($path); 
             if(!$path)
             {

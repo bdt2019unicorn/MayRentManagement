@@ -23,7 +23,7 @@ var dashboard = Vue.component
         {
             GenerateData()
             {
-                let data = this.AjaxRequest("server/dashboard_controller/dashboard.php"); 
+                let data = this.AjaxRequest("server/controller/dashboard/general.php"); 
                 data = JSON.parse(data); 
                 Object.keys(data).forEach(key=>this[key] = data[key]); 
             }    
@@ -47,8 +47,8 @@ var dashboard = Vue.component
                             <buildings></buildings>
                         </vs-tab>
 
-                        <vs-tab label="Income/Expense Types">
-                            <div>Need to have 2 tables showing the expense and income types, potentially do it like a to do list</div>
+                        <vs-tab label="Basic Calculation Units">
+                            <basic-calculations-units></basic-calculations-units>
                         </vs-tab>
 
                         <vs-tab label="Backup/Restore Data">

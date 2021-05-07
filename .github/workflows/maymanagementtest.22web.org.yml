@@ -1,4 +1,4 @@
-name: maymanagementtest.22web.org	
+name: maymanagementtest.22web.org
 
 on:
   push:
@@ -16,4 +16,4 @@ jobs:
         with:
           url: ${{ secrets.MAY_FTP_URL }}
           user: ${{ secrets.TEST_FTP_USER }}
-          password: ${{ secrets.TEST_FTP_PASSWORD }}
+          password: ${{ secrets.TEST_FTP_PASSWORD }} 

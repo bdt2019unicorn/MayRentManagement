@@ -20,4 +20,10 @@ class AuthorizedComponent extends BaseComponent
             }
         }
     }
+    render() 
+    {
+        let redirect_component = this.CheckLogin();
+        return redirect_component || this.props.children; 
+    }
 }
+AuthorizedComponent = ConnectComponentToStore(AuthorizedComponent); 

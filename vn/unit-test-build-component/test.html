@@ -31,9 +31,11 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js" integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw==" crossorigin="anonymous"></script>
             <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
 
+            <script src="../js/npm/immunity-helper.js"></script>
 
             <script src="dist/bundle.js"></script>
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
+            <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
 
             
             <script type="text/babel">
@@ -66,23 +68,79 @@
                         return options; 
                 }
 
-                const select_options = CreateOptions();                 
+                function OptionColumns()
+                {
+                    return [
+                        {name: "id", label: "id"}, 
+                        {name: "name", label: "name"}, 
+                        {name: "size", label: "size"} 
+                    ]; 
+                }
+
+                const select_options = CreateOptions();     
                 
+                class Child extends React.Component
+                {
+                    render()
+                    {
+                        return (
+                            <div>
+                                <pre>
+                                    {JSON.stringify(this.props.rows, null, 2)}
+                                </pre>
+                                <button 
+                                    type="button"
+                                    onClick=
+                                    {
+                                        ()=>
+                                        {
+                                            var rows = CreateOptions(); 
+                                            this.props.ChangeRows(rows.slice(0, 3)); 
+                                        }
+                                    }
+                                >Change the rows</button>
+                            </div>
+                        ); 
+                    }
+                }
                 
                 
                 class Test extends React.Component 
                 {
                     render()
                     {
-
+                        const locations = 
+                        [
+                            {
+                                label: 'New York',
+                                value: 'newYork',
+                            },
+                            {
+                                label: 'Oslo',
+                                value: 'oslo',
+                            },
+                            {
+                                label: 'Istanbul',
+                                value: 'istanbul',
+                            }
+                        ];
                         try {
-                        var Multiselect = ReactWidgets.Multiselect; 
-                        var Change = (option)=>
-                        {
-                            console.log(option); 
-                        }; 
                         return (
-                            <Multiselect onChange={Change} data={select_options}  valueField='id' textField='name' />
+                            <div>
+                                <Dropdown
+                                    // name="location"
+                                    title="Select location"
+                                    searchable={["Search for location", "No matching location"]}
+                                    list={locations}
+                                    onChange=
+                                    {
+                                        (item, name) => 
+                                        {
+                                            console.log(item, name); 
+                                        }
+                                    }
+                                />
+                            </div>
                         ); 
                         }catch(exception){console.log(exception); }
                         return null; 

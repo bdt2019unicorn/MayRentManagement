@@ -32,7 +32,7 @@ function AddEdit(event)
     }
     else 
     {
-        var url = `../server/database_controller/edit.php?table=${url_params.get("table")}&id=${data.id}`; 
+        var url = `../server/controller/database/edit.php?table=${url_params.get("table")}&id=${data.id}`; 
         delete data.id; 
         let result = support_mixin.methods.SubmitData("edit", url, data); 
         if(Number(result))
@@ -88,7 +88,7 @@ function AddEditAll()
     else 
     {
         data = data.map(({id, ...rest})=>({[id]: rest})).reduce((accumulator, current_value)=>({...accumulator, ...current_value}), {});
-        let url = `../server/admin_database.php?command=EditAll&table=${url_params.get("table")}`; 
+        let url = `../server/controller/admin_database.php?command=EditAll&table=${url_params.get("table")}`; 
         let result = support_mixin.methods.SubmitData("edit_all", url, data); 
         ActionResult(result, "Edit"); 
     }
@@ -96,7 +96,7 @@ function AddEditAll()
 
 function ImportDatabase(data)
 {
-    let url = `../server/database_controller/import.php?import_controller=${url_params.get("table")}`;
+    let url = `../server/controller/database/import.php?import_controller=${url_params.get("table")}`;
     return support_mixin.methods.SubmitData("excel", url, data); 
 }
 

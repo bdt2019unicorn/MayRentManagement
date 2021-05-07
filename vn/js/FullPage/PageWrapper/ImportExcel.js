@@ -8,11 +8,45 @@ class ImportExcel extends PageWrapperChildrenComponent
         {
             file_input: true, 
             table: [], 
-            translation: ServerJson(`../server/translation/ImportExcel/${this.CurrentController()}.json`)
+            translation: ServerJson(`../server/json/translation/ImportExcel/${this.CurrentController()}.json`)
         }; 
     }
     Methods = 
-    {
+    { 
+        ActionButtonClick()
+        {
+            let translation_keys = Object.keys(this.state.translation); 
+            let table_columns = Object.keys(this.state.table[0]); 
+            let columns_not_belong = table_columns.filter(column=>!translation_keys.includes(column)); 
+            if(columns_not_belong.length)
+            {
+                alert("Bạn đã nhập dữ liệu ở sai bảng. Vui lòng chọn mục khác"); 
+                return;
+            }
+            let data = this.state.table.map
+            (
+                row => translation_keys.reduce
+                (
+                    (accumulator, current_value) => 
+                    (
+                        {
+                            ...accumulator, 
+                            [this.state.translation[current_value]]: row[current_value]
+                        }
+                    ), {}
+                )
+            ); 
+            let result = SubmitData("excel", this.ImportUrl(), data); 
+            if(Number(result))
+            {
+                alert(`Nhập danh sách bằng Excel thành công`); 
+                this.SetStateTable([]); 
+            }
+            else 
+            {
+                alert("Nhập danh sách Excel thất bại, vui lòng thử lại"); 
+            }
+        }, 
         ReadExcelFile: async(event)=>
         {
             let empty = "__EMPTY"; 
@@ -41,35 +75,7 @@ class ImportExcel extends PageWrapperChildrenComponent
         {
             this.setState({table}); 
             this.ResetStateValue({value_name: "file_input", new_value: true}); 
-        }, 
-        SubmitButtonClick()
-        {
-            let translation_keys = Object.keys(this.state.translation); 
-            let data = this.state.table.map
-            (
-                row => translation_keys.reduce
-                (
-                    (accumulator, current_value) => 
-                    (
-                        {
-                            ...accumulator, 
-                            [this.state.translation[current_value]]: row[current_value]
-                        }
-                    ), {}
-                )
-            ); 
-            let url = this.ImportUrl(); 
-            let result = SubmitData("excel", url, data); 
-            if(Number(result))
-            {
-                alert(`Nhập danh sách bằng Excel thành công`); 
-                this.SetStateTable([]); 
-            }
-            else 
-            {
-                alert("Nhập danh sách Excel thất bại, vui lòng thử lại"); 
-            }
-        }
+        } 
     }; 
     render()
     {
@@ -78,7 +84,7 @@ class ImportExcel extends PageWrapperChildrenComponent
         (
             <React.Fragment>
                 <ScrollingTable table={this.state.table} />
-                <SubmitButton type="button" SubmitButtonClick={this.SubmitButtonClick} />
+                <ActionButton type="button" ActionButtonClick={this.ActionButtonClick} />
             </React.Fragment>
         ): null; 
         return (
@@ -87,7 +93,7 @@ class ImportExcel extends PageWrapperChildrenComponent
                     <Grid item xs={6} justify="center" alignItems="center" container>
                         <MaterialUI.Link 
                             className="icon-same-line-word btn btn-outline" 
-                            href={`../server/excel_controller/create_file.php?building_id=${this.props.match.params.building_id}&controller=${this.props.match.params.controller}&lang=vn`}
+                            href={`../server/controller/excel/create_file.php?building_id=${this.props.match.params.building_id}&controller=${this.props.match.params.controller}&lang=vn`}
                         >
                             <MaterialUI.Icon>grid_on</MaterialUI.Icon>
                             <b className="ml-2">Tải mẫu Excel</b>
@@ -98,7 +104,7 @@ class ImportExcel extends PageWrapperChildrenComponent
                             this.state.file_input && 
                             <React.Fragment>
                                 <input type="file" onChange={this.ReadExcelFile} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" className="file-upload-input" id="file-upload" />
-                                <label htmlFor="file-upload" className="file-upload-label btn btn-primary icon-same-line-word">
+                                <label htmlFor="file-upload" className="file-upload-download-label btn btn-primary icon-same-line-word">
                                     <MaterialUI.Icon>cloud_download</MaterialUI.Icon>
                                     <b className="ml-2">Đưa tập tin Excel</b>
                                 </label>

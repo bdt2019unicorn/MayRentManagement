@@ -83,7 +83,6 @@
                 END
             "; 
         }
-
         
         static public function IfNull($expression, $false)
         {
@@ -106,6 +105,17 @@
             $char = $test_mode? "TEXT": "CHAR"; 
             return "CAST({$clause} AS {$char})"; 
         }
+
+        static public function NumberFormat($expression, $test_mode=false)
+        {
+            $format = $test_mode? "ROUND" : "FORMAT";  
+            return 
+            "
+                (
+                    {$format}({$expression}, 0)
+                )
+            "; 
+        }
         
         static public function Concat($pieces, $test_mode=false)
         {
@@ -114,9 +124,19 @@
             return $test_mode? $concat: "CONCAT\n{$concat}"; 
         }
 
+        static public function DateFormat($clause, $date_format, $test_mode=false)
+        {
+            return $test_mode? "STRFTIME('{$date_format['test']}', {$clause})" : "DATE_FORMAT({$clause}, '{$date_format['production']}')"; 
+        }
+
         static public function DateFormatStandard($clause, $test_mode=false)
         {
             return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT({$clause},'%d/%m/%Y')"; 
+        }
+
+        static public function DateFormatDisplay($clause, $test_mode=false)
+        {
+            return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT({$clause},'%M %d, %Y')"; 
         }
 
         static private function Cause($cause, $data, $separator)

@@ -75,7 +75,7 @@ Vue.component
             }, 
             SubmitForm(data)
             {
-                var url = `server/database_controller/edit.php?table=${this.CurrentController}&id=${this.ObjectId}`; 
+                var url = `server/controller/database/edit.php?table=${this.CurrentController}&id=${this.ObjectId}`; 
                 var result = this.SubmitData("edit",url,data); 
 
                 if(Number(result))

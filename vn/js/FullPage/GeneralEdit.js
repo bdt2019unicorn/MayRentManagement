@@ -1,4 +1,4 @@
-class GeneralEdit extends AuthorizedComponent 
+class GeneralEdit extends BaseComponent 
 {
     constructor(props)
     {
@@ -25,7 +25,8 @@ class GeneralEdit extends AuthorizedComponent
             let user_input_json = undefined; 
             if(controller!="user")
             {
-
+                // let data = (controller=="buildings")? this.StateObject("building_user_input") : AjaxRequest(`../server/controller/dashboard/general_edit.php?controller=${controller}`); 
+                // console.log(data); 
             }
             return {
                 controller, 
@@ -38,12 +39,11 @@ class GeneralEdit extends AuthorizedComponent
     }
     render()
     {
-        let redirect_component = this.CheckLogin();
-        if(redirect_component)
-        {
-            return redirect_component; 
-        }
-        return (this.state.edit?<Edit {...this.EditDataBind()} />: null); 
+        return (
+            <AuthorizedComponent>'
+                {this.state.edit?<Edit {...this.EditDataBind()} />: null}
+            </AuthorizedComponent>
+        ); 
     }
 }
 GeneralEdit = ConnectComponentToAll(GeneralEdit); 

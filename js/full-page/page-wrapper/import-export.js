@@ -4,41 +4,7 @@ Vue.component
     {
         data: ()=>({excel_data: []}), 
         mixins: [support_mixin], 
-        components: {...vueGoodTable, ...vueFragment, FileUpload: VueUploadComponent}, 
-        computed: 
-        {
-            DisplayTable()    
-            {
-                return (this.excel_data.length==0)? undefined: 
-                {
-                    rows: this.excel_data, 
-                    columns: this.excel_data.reduce
-                    (
-                        (accumulator, current_value)=> [...accumulator, ...Object.keys(current_value).filter(key=>!accumulator.includes(key))], []
-                    ).map 
-                    (
-                        column=>
-                        (
-                            {
-                                field: column, 
-                                label: column, 
-                                sortable: true, 
-                                thClass: 'text-center' 
-                            }
-                        )
-                    ), 
-                    paginationOptions: 
-                    {
-                        enabled: true, 
-                        perPage: 10, 
-                        perPageDropdown: [10], 
-                        dropdownAllowAll: false 
-                    }, 
-                    styleClass: "vgt-table condensed bordered", 
-                    theme: "nocturnal" 
-                }
-            }
-        },
+        components: { ...vueFragment, FileUpload: VueUploadComponent}, 
         methods: 
         {
             async ReadExcel(files)
@@ -82,7 +48,6 @@ Vue.component
                 }   
             }
         },
-
         watch: 
         {
             $route: function(to, from)
@@ -90,13 +55,12 @@ Vue.component
                 this.excel_data = []; 
             }
         },
-
         template: 
         `
             <fragment>
                 <vs-row>
                     <vs-col vs-w="6" vs-align="center" vs-justify="center" vs-type="flex">
-                        <vs-button color="primary" type="border" icon="table_view" :href="'server/excel_controller/create_file.php?building_id=' + $route.params.building_id + '&controller=' + $route.params.controller">Download Excel Template</vs-button>
+                        <vs-button color="primary" type="border" icon="table_view" :href="'server/controller/excel/create_file.php?building_id=' + $route.params.building_id + '&controller=' + $route.params.controller">Download Excel Template</vs-button>
                     </vs-col>
                     <vs-col vs-w="6" vs-align="flex-end" vs-justify="center" vs-type="flex">
                         <vs-button color="success" type="gradient" icon="cloud_download">
@@ -108,10 +72,10 @@ Vue.component
                     </vs-col>
                 </vs-row>
                 <br>
-                <template v-if="DisplayTable">
+                <template v-if="excel_data.length">
                     <vs-row vs-align="center" vs-justify="center" vs-type="flex">
                         <vs-col vs-w="11">
-                            <vue-good-table v-bind="DisplayTable"></vue-good-table>
+                            <display-table :data="excel_data"></display-table>
                         </vs-col>
                     </vs-row>
                     <br>
@@ -122,6 +86,5 @@ Vue.component
 
             </fragment>
         `
-
     }
 ); 
