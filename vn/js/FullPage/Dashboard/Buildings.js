@@ -112,7 +112,7 @@ class Buildings extends BaseComponent
                         size="large"
                         startIcon={<MaterialUI.Icon>grid_on</MaterialUI.Icon>}
                         classes={{colorInherit: "btn btn-primary"}}
-                    >Xuất Excel</Button>
+                    >Nhập với Excel</Button>
                 </div>
                 <br />
                 {buildings_display}

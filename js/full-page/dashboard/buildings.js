@@ -7,7 +7,8 @@ Vue.component
         (
             {
                 add_building_form: undefined, 
-                display: {}
+                display: {}, 
+                import_buidlings: undefined
             }
         ),
         components: {...bootstrap, ...vueFragment}, 
@@ -41,6 +42,11 @@ Vue.component
                 {
                     alert("Delete building fails! There seems to be a server issue"); 
                 }
+            }, 
+            ImportBuidlings()
+            {
+                this.add_building_form = undefined; 
+                this.import_buidlings = true; 
             }
         },
         created() 
@@ -56,14 +62,15 @@ Vue.component
                 </vs-row>
 
                 <template v-if="add_building_form">
-                    <br>
-                    <div class="container-fluid text-right">
-                        <b-button pill title="Cancel" variant="danger" @click="add_building_form=undefined"><b-icon icon="x-circle"></b-icon></b-button>
-                    </div>
+                    <close-button @click="add_building_form=undefined"></close-button>
                     <user-input v-bind="add_building_form" title="Add Building" @form-information-valid="AddBuilding"></user-input>
                     <br>
                 </template>
 
+                <template v-else-if="import_buildings">
+                    <close-button @click="import_buidlings=undefined"></close-button>
+                    <import-export controller="buildings"></import-export>
+                </template>
 
                 <vs-row v-else class="my-2">
                     <vs-col v-for="building in StateObject('buildings_data')" type="flex" vs-w="4">
