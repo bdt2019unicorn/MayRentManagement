@@ -13,8 +13,12 @@ class ResolveOldLease_ultilities extends PageWrapperChildrenComponent {
 
     const {chiTietHD} = this.props;
     const tienIch = {...chiTietHD};
-    const dsTienIch = Object.values(tienIch);
-    const chiTietTienIch = Object.values(dsTienIch[0]);
+    // const dsTienIch = Object.values(tienIch);
+    // const chiTietTienIch = Object.values(dsTienIch[0]);
+    const chiTietTienIch = Object.values(tienIch).reduce((item, index)=>{
+      return [...item] = Object.values(index);
+    },[]);
+    console.log(chiTietTienIch);
     
     return (
       
@@ -31,17 +35,6 @@ class ResolveOldLease_ultilities extends PageWrapperChildrenComponent {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))} */}
             {chiTietTienIch.map((tienIch, index)=>{
               return <TableRow key={index}>
                 <TableCell align="left">{tienIch.revenue_type}</TableCell>
