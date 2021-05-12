@@ -2,6 +2,7 @@ Vue.component
 (
     "import-export", 
     {
+        props: ["controller"], 
         data: ()=>({excel_data: []}), 
         mixins: [support_mixin], 
         components: { ...vueFragment, FileUpload: VueUploadComponent}, 
@@ -40,6 +41,7 @@ Vue.component
                 {
                     alert("data imported"); 
                     this.excel_data = []; 
+                    this.$emit("import-excel-success"); 
                 } 
                 else 
                 {
@@ -60,7 +62,7 @@ Vue.component
             <fragment>
                 <vs-row>
                     <vs-col vs-w="6" vs-align="center" vs-justify="center" vs-type="flex">
-                        <vs-button color="primary" type="border" icon="table_view" :href="'server/controller/excel/create_file.php?building_id=' + $route.params.building_id + '&controller=' + $route.params.controller">Download Excel Template</vs-button>
+                        <vs-button color="primary" type="border" icon="table_view" :href="'server/controller/excel/create_file.php?building_id=' + $route.params.building_id + '&controller=' + CurrentController">Download Excel Template</vs-button>
                     </vs-col>
                     <vs-col vs-w="6" vs-align="flex-end" vs-justify="center" vs-type="flex">
                         <vs-button color="success" type="gradient" icon="cloud_download">

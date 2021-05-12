@@ -5,7 +5,7 @@ Vue.component
         template: 
         `
             <div class="my-2 container-fluid text-right">
-                <b-button pill title="Cancel" variant="danger" @click="$listeners['click']"><b-icon icon="x-circle"></b-icon></b-button>
+                <b-button pill title="Cancel" variant="danger" v-on="$listeners"><b-icon icon="x-circle"></b-icon></b-button>
             </div>
         `
     }

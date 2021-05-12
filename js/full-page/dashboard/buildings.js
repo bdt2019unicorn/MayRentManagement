@@ -8,7 +8,7 @@ Vue.component
             {
                 add_building_form: undefined, 
                 display: {}, 
-                import_buidlings: undefined
+                import_buildings: undefined
             }
         ),
         components: {...bootstrap, ...vueFragment}, 
@@ -43,10 +43,10 @@ Vue.component
                     alert("Delete building fails! There seems to be a server issue"); 
                 }
             }, 
-            ImportBuidlings()
+            ImportBuildings()
             {
                 this.add_building_form = undefined; 
-                this.import_buidlings = true; 
+                this.import_buildings = true; 
             }
         },
         created() 
@@ -58,7 +58,7 @@ Vue.component
             <fragment>
                 <vs-row>
                     <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline" @click="add_building_form=StateObject('building_user_input')">Add</vs-button>
-                    <vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on">Import Excel</vs-button>
+                    <vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on" @click="ImportBuildings">Import Excel</vs-button>
                 </vs-row>
 
                 <template v-if="add_building_form">
@@ -68,8 +68,8 @@ Vue.component
                 </template>
 
                 <template v-else-if="import_buildings">
-                    <close-button @click="import_buidlings=undefined"></close-button>
-                    <import-export controller="buildings"></import-export>
+                    <close-button @click="import_buildings=undefined"></close-button>
+                    <import-export controller="buildings" @import-excel-success="BuildingsData"></import-export>
                 </template>
 
                 <vs-row v-else class="my-2">
