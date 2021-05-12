@@ -53,8 +53,12 @@
             if(count($duplicate))
             {
                 $sql = "DELETE FROM {$this->controller} WHERE `id` IN (" . implode(", ", $duplicate) . ");"; 
-                $result = $this->test_mode? ConnectSqlite::Exec($sql): Connect::GetData($sql); 
+                $result = Database::Exec($sql); 
                 echo $result; 
+                if(boolval($result))
+                {
+                    Database::LogUserAction("Delete Duplicate", $this->controller, null, $sql); 
+                }
             }
             else 
             {
