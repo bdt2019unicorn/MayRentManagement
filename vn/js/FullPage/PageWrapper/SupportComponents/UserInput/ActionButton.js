@@ -4,14 +4,14 @@ class ActionButton extends React.Component
     {
         return (
             <MaterialUI.IconButton 
-                className={this.props.class}
+                className={this.props.class || "float-right"}
                 title={this.props.title} 
                 type={this.props.type || "button"} 
                 size={this.props.size}
                 color={this.props.color}
                 onClick={this.props.ActionButtonClick|| null}
             >
-                <MaterialUI.Icon>{this.props.icon}</MaterialUI.Icon>
+                <MaterialUI.Icon>{this.props.icon || "arrow_forward"}</MaterialUI.Icon>
             </MaterialUI.IconButton>
         );
 
@@ -24,10 +24,10 @@ class SubmitButton extends React.Component
     {
         return (
             <ActionButton
-                class={this.props.class || "float-right"}
+                class={this.props.class}
                 title={this.props.title} 
                 type={this.props.type || "submit"} 
-                icon={this.props.icon || "arrow_forward"}
+                icon={this.props.icon}
                 ActionButtonClick={this.props.SubmitButtonClick|| null}
             />
         );
