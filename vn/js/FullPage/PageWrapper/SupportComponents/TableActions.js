@@ -1,4 +1,4 @@
-class TableActions extends React.Component
+class TableActions extends BaseComponent
 {
     constructor(props)
     {
@@ -14,7 +14,7 @@ class TableActions extends React.Component
             if(Number(result))
             {
                 alert("Xóa dữ liệu thành công"); 
-                this.DeleteSuccess(); 
+                this.ExecPropsFunction("DeleteSuccess"); 
             }
             else
             {
@@ -28,18 +28,11 @@ class TableActions extends React.Component
             if(result)
             {
                 alert("Toàn bộ dữ liệu trùng đã bị xóa"); 
-                this.DeleteSuccess(); 
+                this.ExecPropsFunction("DeleteSuccess"); 
             }
             else 
             {
                 alert("Xóa dữ liệu trùng thất bại. Dường như đã có lỗi hệ thống"); 
-            }
-        }, 
-        DeleteSuccess()
-        {
-            if(this.props.DeleteSuccess)
-            {
-                this.props.DeleteSuccess(); 
             }
         }
     }

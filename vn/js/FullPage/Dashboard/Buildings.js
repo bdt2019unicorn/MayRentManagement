@@ -4,7 +4,11 @@ class Buildings extends BaseComponent
     {
         super(props); 
         BindFunctions(this); 
-        this.state = {add_building_form: undefined}; 
+        this.state = 
+        {
+            add_building_form: undefined, 
+            import_buildings: undefined
+        }; 
     }
     Methods = 
     {
@@ -45,15 +49,21 @@ class Buildings extends BaseComponent
         var IconButton = MaterialUI.IconButton; 
         var Icon = MaterialUI.Icon; 
         var display = _.get(this.props.building_user_input, "display") || {}; 
-        var buildings_display = this.state.add_building_form? 
+        var add_building = 
         (
             <div>
-                <div className="d-flex flex-justify-end p-3">
-                    <IconButton onClick={()=>this.setState({add_building_form: undefined})}><Icon>close</Icon></IconButton>
-                </div>
+                <CloseButton onClick={()=>this.setState({add_building_form: undefined})} />
                 <UserInput title="Thêm tòa nhà" form={this.state.add_building_form} FormSubmitValid={this.AddBuilding} />
             </div>
-        ): 
+        ); 
+        var import_buildings = 
+        (
+            <div>
+                <CloseButton onClick={()=>this.setState({import_buildings: undefined})} />
+                <ImportExcel controller="buildings" ImportExcelSuccess={this.BuildingData}/>
+            </div>
+        ); 
+        var buildings_list = 
         (
             <Grid container spacing={1}>
                 {
@@ -96,6 +106,16 @@ class Buildings extends BaseComponent
                 }
             </Grid>
         ); 
+
+        var buildings_display = buildings_list; 
+        if(this.state.add_building_form)
+        {
+            buildings_display = add_building; 
+        }
+        else if(this.state.import_buildings) 
+        {
+            buildings_display = import_buildings; 
+        }
         return (
             <div>
                 <div className="space-between-element">
@@ -112,6 +132,7 @@ class Buildings extends BaseComponent
                         size="large"
                         startIcon={<MaterialUI.Icon>grid_on</MaterialUI.Icon>}
                         classes={{colorInherit: "btn btn-primary"}}
+                        onClick={()=>this.setState({import_buildings: true})}
                     >Nhập với Excel</Button>
                 </div>
                 <br />

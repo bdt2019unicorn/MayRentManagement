@@ -11,7 +11,7 @@ class Overview extends PageWrapperChildrenComponent
         {
             controller, 
             selected: [], 
-            table_actions: this.TableActions(controller),
+            table_actions: TableAction(controller),
             table_data: TranslationValues.TranslateTable(table, translate_url), 
             translate_url 
         }; 

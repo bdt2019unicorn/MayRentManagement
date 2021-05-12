@@ -11,10 +11,7 @@ class DateInput extends UserInputComponent
         ValueStateChange(value = undefined)
         {
             this.setState({value}); 
-            if(this.props.ValueStateChange)
-            {
-                this.props.ValueStateChange(); 
-            }
+            this.ExecPropsFunction("ValueStateChange"); 
         }
     }
     componentDidUpdate(previous_props, previous_state)

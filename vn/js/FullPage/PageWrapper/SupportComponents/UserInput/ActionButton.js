@@ -57,3 +57,15 @@ class ClearButton extends React.Component
         );
     }
 }
+
+class CloseButton extends React.Component
+{
+    render()
+    {
+        return (
+            <div className="d-flex flex-justify-end p-3">
+                <MaterialUI.IconButton onClick={this.props.onClick}><MaterialUI.Icon>close</MaterialUI.Icon></MaterialUI.IconButton>
+            </div>
+        ); 
+    }
+}
