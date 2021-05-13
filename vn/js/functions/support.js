@@ -93,6 +93,10 @@ function SubmitUserInformation(form_data)
     }
     catch(error) {}
 } 
+function TableAction(controller)
+{
+    return ServerJson(`../server/json/table_actions/vn/${controller}.json`) || {}; 
+}
 function ToActions({params, query}) 
 {
     let {building_id, controller, action} = params; 

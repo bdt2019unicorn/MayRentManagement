@@ -37,6 +37,13 @@ class BaseComponent extends React.Component
         {
             return this.props.controller || _.get(this.props, "match.params.controller"); 
         },  
+        ExecPropsFunction(func)
+        {
+            if(this.props[func])
+            {
+                this.props[func](); 
+            }
+        }, 
         ImportUrl()
         {
             return `../server/controller/database/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`; 
@@ -90,10 +97,6 @@ class BaseComponent extends React.Component
                     }
                 }
             ); 
-        }, 
-        TableActions(controller)
-        {
-            return ServerJson(`../server/json/table_actions/vn/${controller}.json`) || {}; 
         }, 
         TableData(overview_controller, params=undefined)
         {

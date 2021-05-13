@@ -1,13 +1,12 @@
-Vue.component
+Vue.component 
 (
-    "submit-button", 
+    "close-button", 
     {
-        props: ["icon", "type"], 
         template: 
         `
-            <button :type="type||'button'" class="btn" @click="$emit('submit-button-clicked')">
-                <i style="font-size: xx-large;" :class="'fas fa-'+ (icon||'arrow-alt-circle-right')"></i>
-            </button>
+            <div class="my-2 container-fluid text-right">
+                <b-button pill title="Cancel" variant="danger" v-on="$listeners"><b-icon icon="x-circle"></b-icon></b-button>
+            </div>
         `
     }
 ); 
@@ -31,5 +30,19 @@ Vue.component
             }
         },
         template: `<vs-button v-bind="ButtonBind" v-on="$listeners"></vs-button>`
+    }
+); 
+
+Vue.component
+(
+    "submit-button", 
+    {
+        props: ["icon", "type"], 
+        template: 
+        `
+            <button :type="type||'button'" class="btn" @click="$emit('submit-button-clicked')">
+                <i style="font-size: xx-large;" :class="'fas fa-'+ (icon||'arrow-alt-circle-right')"></i>
+            </button>
+        `
     }
 ); 

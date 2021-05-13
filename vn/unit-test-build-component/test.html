@@ -92,11 +92,7 @@
                                     type="button"
                                     onClick=
                                     {
-                                        ()=>
-                                        {
-                                            var rows = CreateOptions(); 
-                                            this.props.ChangeRows(rows.slice(0, 3)); 
-                                        }
+                                        this.props.onClick
                                     }
                                 >Change the rows</button>
                             </div>
@@ -104,9 +100,30 @@
                     }
                 }
                 
+
+                class Parents extends React.Component 
+                {
+                    render()
+                    {
+                        return (
+                            <div>
+                                <p>parent is testing children</p>
+                                <Child onClick={this.props.onClick} rows={this.props.rows} />
+                            </div>
+                        ); 
+                    }
+                }
                 
                 class Test extends React.Component 
                 {
+                    constructor(props)
+                    {
+                        super(props); 
+                        this.state = 
+                        {
+                            rows: CreateOptions()
+                        }; 
+                    }
                     render()
                     {
                         const locations = 
@@ -128,7 +145,6 @@
                         return (
                             <div>
                                 <Dropdown
-                                    // name="location"
                                     title="Select location"
                                     searchable={["Search for location", "No matching location"]}
                                     list={locations}
@@ -140,6 +156,9 @@
                                         }
                                     }
                                 />
+                                
+                                <Parents rows={this.state.rows} onClick={()=>this.setState({rows: CreateOptions().slice(0,4)})} />
+
                             </div>
                         ); 
                         }catch(exception){console.log(exception); }

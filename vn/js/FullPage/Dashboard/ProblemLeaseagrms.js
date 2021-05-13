@@ -9,7 +9,7 @@ class ProblemLeaseagrms extends BaseComponent
             leaseagrm_edit: undefined, 
             leaseagrm_table: "Không có người thuê và căn hộ", 
             selected: [], 
-            table_actions: this.TableActions("leaseagrm")
+            table_actions: TableAction("leaseagrm")
         }
     }
     Methods = 
