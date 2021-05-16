@@ -258,7 +258,7 @@
                     "lessThanOrEqualTo": 
                     {
                         "attribute": 28, 
-                        "message": "Ngày trả tiền mỗi tháng phải lớn hơn hoặc bằng 28"
+                        "message": "Ngày trả tiền mỗi tháng phải nhỏ hơn hoặc bằng 28"
                     }
                 }
             }, 

@@ -1,4 +1,9 @@
 <?php
+    function DisableError()
+    {
+        set_error_handler(function($errorno, $errstr){return null;}); 
+    }
+
     function DownloadFile($path)
     {
         header('Content-Description: File Transfer');

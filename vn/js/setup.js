@@ -32,7 +32,6 @@ function ValidationSetup()
         var result = validate(attributes, {[key]: options}); 
         return Boolean(result)? ( _.get(result, `${key}.0`) || "Dữ liệu không đúng định dạng" ) : undefined; 
     }; 
-
     validate.validators.numeric = function(value, options, key, attributes)
     {
         var keys = Object.keys(options); 
@@ -88,10 +87,9 @@ function ValidationSetup()
         var DateCompare = function(options)
         {
             var date = document.getElementById(_.get(options, "attribute")); 
-            var value = _.get(date, "value"); 
-            return value? moment(value, date_format) : undefined; 
+            var date_value = _.get(date, "value"); 
+            return date_value? moment(date_value, date_format) : undefined; 
         }; 
-
 
         var compare_date = DateCompare(options); 
         if(!compare_date)
@@ -99,6 +97,14 @@ function ValidationSetup()
             return undefined; 
         }
         value = moment.isMoment(value) ? value: moment(value, date_format); 
+        if(!moment.isMoment(value))
+        {
+            value = moment(value, date_format); 
+        }
+        if(!value.isValid())
+        {
+            value = moment(_.get(attributes, key)); 
+        }
         return callback(value, compare_date); 
     }; 
 
