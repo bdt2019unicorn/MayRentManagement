@@ -1,4 +1,5 @@
 <?php 
+	require_once("../../helper/support.php"); 
     function Params($table)
     {
         $params = array
@@ -12,7 +13,7 @@
 		); 
 	
 		$data =  file_get_contents("params.json"); 
-		set_error_handler(function($errorno, $errstr){return null;}); 
+		DisableError();
 		try 
 		{
 			$controller = json_decode($data, true)[$table]; 

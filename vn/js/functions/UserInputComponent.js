@@ -117,6 +117,7 @@ class SelectComponent extends UserInputComponent
         super(props); 
         BindFunctions(this); 
         this.state = {...this.state, options: this.PopulateSelectData()}; 
+        this.state.value = this.state.value || ""; 
     }
     Methods =
     {

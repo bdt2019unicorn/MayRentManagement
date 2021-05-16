@@ -56,7 +56,7 @@ class Edit extends AddEditComponent
                 alert("Chỉnh xửa thông tin thành công"); 
                 if(controller=="buildings")
                 {
-                    console.log("This will be taken care later "); 
+                    this.BuildingData(); 
                 }
                 this.Reset(); 
             }

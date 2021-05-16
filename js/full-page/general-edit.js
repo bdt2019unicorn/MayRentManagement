@@ -27,7 +27,7 @@ var general_edit = Vue.component
                 {
                     let data = (controller=="buildings")? this.StateObject("building_user_input") : this.AjaxRequest(`server/controller/dashboard/general_edit.php?controller=${controller}`); 
                     user_input_json = (controller=="buildings")? data: JSON.parse(data); 
-                    object_id = this.$route.query.id; 
+                    object_id = this.ObjectId; 
                     try 
                     {
                         titles = user_input_json.title; 
@@ -38,10 +38,10 @@ var general_edit = Vue.component
                     }
                 }
                 return {
-                    controller: controller, 
+                    controller, 
                     form_title: surfix + titles, 
-                    object_id: object_id, 
-                    user_input_json: user_input_json 
+                    object_id, 
+                    user_input_json 
                 }
             }    
         },

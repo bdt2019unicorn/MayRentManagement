@@ -1,6 +1,7 @@
 <?php
     namespace OverviewQueries; 
     require_once("query.php");
+    require_once("support.php"); 
     spl_autoload_register
     (
         function($class)
@@ -8,7 +9,11 @@
             if(strpos($class, __NAMESPACE__)!==false) 
             {
                 $class = str_replace("\\", "/", $class); 
-                require_once("{$class}.php");
+                $file = "{$class}.php";
+                if(@$result = include $file)
+                {
+                    require_once($file);
+                }
             }
         }
     ); 
@@ -40,11 +45,19 @@
             $this->Contruct($edit, $building_id, $id); 
             $controller = ucfirst($controller); 
             $this->class = __NAMESPACE__ . "\\{$controller}"; 
+            DisableError(); 
         }
 
         public function GetArray($method)
         {
-            return call_user_func_array("{$this->class}::{$method}", [$this->edit, $this->building_id, $this->id]); 
+            try 
+            {
+                return call_user_func_array("{$this->class}::{$method}", [$this->edit, $this->building_id, $this->id]); 
+            }
+            catch (\Throwable $t)
+            {
+                return null; 
+            }
         }
     }
 
