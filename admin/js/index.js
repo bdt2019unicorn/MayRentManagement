@@ -176,10 +176,9 @@ function RunDbScripts()
         alert("Scripts run fails. Please try again."); 
     }
 }
-function UserPermissions(id)
+function UserApprove(id)
 {
-    var url = `../server/controller/database/edit.php?table=user&id=${id}`; 
-    var result = support_mixin.methods.SubmitData("edit", url, {approved: 1}); 
+    var result = UserEdit(id, {approved: 1}); 
     if(Number(result))
     {
         alert("User is approved!"); 
@@ -189,4 +188,13 @@ function UserPermissions(id)
     {
         alert("User is not approved! There seems like a server error."); 
     }
+}
+function UserEdit(id, data)
+{
+    var url = `../server/controller/database/edit.php?table=user&id=${id}`; 
+    return support_mixin.methods.SubmitData("edit", url, data); 
+}
+function UserPermisssion(event)
+{
+    event.preventDefault(); 
 }

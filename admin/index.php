@@ -93,10 +93,13 @@
                     <?php $table_object->PopulateTableColumnNames("tfoot"); ?>
                 </table>
             <?php else: ?>
-                <?php $users = Database::SelectData("user", ["*"], ["approved"=>"0"]); ?>
-                <?php if(count($users)): ?>
+                <?php 
+                    $users = Database::SelectData("user", ["*"]); 
+                    $unapproved_users = array_filter($users, function($user){return $user["approved"]=="0"; }); 
+                ?>
+                <?php if(count($unapproved_users)): ?>
                     <h1 class="text-center m-3">Users need attention</h1>
-                    <?php foreach ($users as $user): ?>
+                    <?php foreach ($unapproved_users as $user): ?>
                         <div class="row m-2 border border-info">
                             <div class="col">
                                 <h4><?php echo $user["username"]; ?></h4>
@@ -105,7 +108,7 @@
                                 <p><b>Viber Number: </b><?php echo $user["viber_number"]; ?></p>
                             </div>
                             <div class="col-1 text-right">
-                                <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserPermissions('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserApprove('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
                             </div>
                         </div>
                     <?php endforeach; ?>
