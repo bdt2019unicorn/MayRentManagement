@@ -10,8 +10,5 @@
     $sql = Query::Update($_GET["table"], $data, ["id"=>$_GET["id"]]);
     $result = Database::Exec($sql);  
     echo $result; 
-    if(boolval($result))
-    {
-        Database::LogUserAction("Edit", $_GET["table"], $_POST["edit"], $sql); 
-    }
+    Database::LogUserAction($result, "Edit", $_GET["table"], $_POST["edit"], $sql); 
 ?>

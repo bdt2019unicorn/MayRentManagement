@@ -76,6 +76,7 @@
                     rmdir($_POST['file']); 
                 }
                 echo $result; 
+                Database::LogUserAction($result, "AddDocument", "document", json_encode($_POST), null); 
             }
             else 
             {
@@ -85,6 +86,7 @@
                 $sql = Query::Insert("documents", $data); 
                 $result = Connect::GetData($sql); 
                 echo $result; 
+                Database::LogUserAction($result, "AddDocument", "document", json_encode($data), $sql); 
             }
 
         }, 

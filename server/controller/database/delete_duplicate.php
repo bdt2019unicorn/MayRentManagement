@@ -55,10 +55,7 @@
                 $sql = "DELETE FROM {$this->controller} WHERE `id` IN (" . implode(", ", $duplicate) . ");"; 
                 $result = Database::Exec($sql); 
                 echo $result; 
-                if(boolval($result))
-                {
-                    Database::LogUserAction("Delete Duplicate", $this->controller, null, $sql); 
-                }
+                Database::LogUserAction($result, "Delete Duplicate", $this->controller, null, $sql); 
             }
             else 
             {

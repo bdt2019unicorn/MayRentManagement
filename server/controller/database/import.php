@@ -19,9 +19,6 @@
 		$queries = array_map(function($row)use ($params, $test_mode, $import_controller){return Query::Insert($params['table']?:$import_controller, RowData($row, $params, $test_mode));}, $excel); 
 		$result = Database::ExecTransaction($queries); 
 		echo $result; 
-		if(boolval($result))
-		{
-			Database::LogUserAction("Import", $import_controller, $_POST['excel'], implode("\n", $queries)); 
-		}
+		Database::LogUserAction($result, "Import", $import_controller, $_POST['excel'], implode("\n", $queries)); 
 	}
 ?>

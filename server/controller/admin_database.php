@@ -31,9 +31,9 @@
             {
                 array_push($sql, Query::Update($_GET["table"], $data, ["id"=>$id])); 
             }
-
             $result = Connect::ExecTransaction($sql); 
             echo $result; 
+            Database::LogUserAction($result, "Admin Edit All", $_GET["table"], $_POST["edit_all"], implode("\n", $sql)); 
         }
 
         public function CheckEnvironment()
@@ -99,6 +99,7 @@
                         imagepng(imagecreatefromstring(file_get_contents($_FILES["file"]["tmp_name"])), $logo_path); 
                     }; 
                     $this->LogoImgAction($callback); 
+                    Database::LogUserAction(true, "Change logo", null, file_get_contents($_FILES["file"]["tmp_name"]), null); 
                     return;
                 }
             }

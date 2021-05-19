@@ -46,8 +46,12 @@
             return Database::GetData($sql); 
         }
 
-        public static function LogUserAction($action, $tables, $data, $queries)
+        public static function LogUserAction($result, $action, $tables, $data, $queries)
         {
+            if(!boolval($result))
+            {
+                return; 
+            }
             $test_mode = CurrentEnvironment::TestMode(); 
             $headers = getallheaders(); 
             $sql = Query::Insert
