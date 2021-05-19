@@ -1,8 +1,5 @@
 <?php
-
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-
-require_once("query.php"); 
+    require_once("query.php"); 
     require_once("current_environment.php"); 
     $dotenv = new CurrentEnvironment(); 
     require_once("Database/Connect.php"); 

@@ -8,6 +8,10 @@
     $data = RowData($row, $params); 
 
     $sql = Query::Update($_GET["table"], $data, ["id"=>$_GET["id"]]);
-    $result = CurrentEnvironment::TestMode()? ConnectSqlite::Exec($sql): Connect::GetData($sql); 
+    $result = Database::Exec($sql);  
     echo $result; 
+    if(boolval($result))
+    {
+        Database::LogUserAction("Edit", $_GET["table"], $_POST["edit"], $sql); 
+    }
 ?>

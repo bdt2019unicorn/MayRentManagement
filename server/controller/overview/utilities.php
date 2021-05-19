@@ -1,7 +1,5 @@
 <?php 
     require_once("../../helper/database.php"); 
-    require_once("../../helper/support.php"); 
-    
     $conditions_sql = 
     "
         FROM 
@@ -121,6 +119,5 @@
 
         }
     }
-    $utilities_overview = ObjectToArray($data); 
-    echo json_encode($utilities_overview); 
+    echo json_encode(array_values($utilities_overview)); 
 ?>
