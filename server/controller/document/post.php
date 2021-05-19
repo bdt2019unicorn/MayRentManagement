@@ -158,6 +158,7 @@
                 $sql = Query::Update("documents", $data, $conditions); 
                 $result = Database::GetData($sql); 
                 echo $result; 
+                // this function fails - need to do something 
             }
             else 
             {
