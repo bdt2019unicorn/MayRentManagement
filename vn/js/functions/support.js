@@ -53,6 +53,10 @@ function ConnectComponentToStore(component_class)
 {
     return ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(component_class); 
 }
+function DateReformatDatabase(moment_value)
+{
+    return moment(moment_value).format("YYYY-MM-DD"); 
+}
 function DateFormatDisplay(moment_value) 
 {
     return moment(moment_value).format("DD/MM/YYYY"); 

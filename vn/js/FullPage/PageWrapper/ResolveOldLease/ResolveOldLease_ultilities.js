@@ -9,19 +9,19 @@ class ResolveOldLease_ultilities extends PageWrapperChildrenComponent {
       TableBody,
       TableCell,
       TableFooter,
+      Typography,
     } = MaterialUI;
 
-    const {chiTietHD} = this.props;
-    const tienIch = {...chiTietHD};
-    // const dsTienIch = Object.values(tienIch);
-    // const chiTietTienIch = Object.values(dsTienIch[0]);
-    const chiTietTienIch = Object.values(tienIch).reduce((item, index)=>{
-      return [...item] = Object.values(index);
-    },[]);
-    console.log(chiTietTienIch);
-    
+    const { chiTietHD, endDate } = this.props;
+    const tienIch = { ...chiTietHD };
+
+    let chiTietTienIch = Object.values(tienIch).flatMap((item) =>
+      Object.values(item)
+    );
+
+    // console.log(chiTietTienIch);
+
     return (
-      
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -35,26 +35,41 @@ class ResolveOldLease_ultilities extends PageWrapperChildrenComponent {
             </TableRow>
           </TableHead>
           <TableBody>
-            {chiTietTienIch.map((tienIch, index)=>{
-              return <TableRow key={index}>
-                <TableCell align="left">{tienIch.revenue_type}</TableCell>
-                <TableCell align="right">{tienIch.previous_date}</TableCell>
-                <TableCell align="right">{tienIch.date}</TableCell>
-                <TableCell align="right">{(tienIch.price).toLocaleString()}</TableCell>
-                <TableCell align="right">{(tienIch.quantity).toLocaleString()}</TableCell>
-                <TableCell align="right">{(tienIch.quantity * tienIch.price).toLocaleString()}</TableCell>
-              </TableRow>
-            })}
+            {
+              chiTietTienIch.filter(({date}) => moment(date).isBefore(moment(endDate))).map
+              (
+                (item, index)=>
+                (
+                  <TableRow key={index}>
+                    <TableCell align="left">{item.revenue_type}</TableCell>
+                    <TableCell align="right">
+                    {moment(item.previous_date).format("DD-MM-YYYY")}
+                    </TableCell>
+                    <TableCell align="right">
+                    {moment(item.date).format("DD-MM-YYYY")}
+                    </TableCell>
+                    <TableCell align="right">{item.price}</TableCell>
+                    <TableCell align="right">{item.quantity}</TableCell>
+                    <TableCell align="right">
+                    {(item.quantity * item.price).toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                )
+              )
+            }
           </TableBody>
           <TableFooter>
-              <TableRow>
-                <TableCell align="center">Tổng thành tiền: {
-                  (chiTietTienIch.reduce((tongTien, item)=>{
-                    return tongTien += item.quantity * item.price
-                  },0)).toLocaleString()
-                }</TableCell>
-              </TableRow>
-         </TableFooter>
+            <TableRow>
+              <TableCell align="right" colSpan={6}>
+                <Typography variant="subtitle2" gutterBottom>
+                  Tổng thành tiền:{" "}
+                  {(chiTietTienIch.reduce((tongTien, item) => {
+                    return (tongTien += item.quantity * item.price);
+                  }, 0)).toLocaleString()}
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     );

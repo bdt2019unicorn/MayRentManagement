@@ -3,8 +3,9 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     super(props);
     BindFunctions(this); 
     this.state = {
-      mangHopDongCu: [...this.LoadOldLeases(),...this.LoadOldLeases()],
+      mangHopDongCu: this.LoadOldLeases()
     };
+    this.rentInvoice = new RentInvoice(); 
   }
 
   Methods =
@@ -40,7 +41,29 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
       <Container>
         <h1>Xử lý hợp đồng cũ</h1>
         {mangHopDongCu.map((hopDong, index)=>{
-          return <ResolveOldLease_content hopDong={hopDong} key={index} />
+          return <ResolveOldLease_content 
+                  rentInvoice={this.rentInvoice}
+                  hopDong={hopDong} 
+                  key={index} 
+                  DateChargedUntilChanged=
+                  {
+                    (date)=>
+                    {
+                      var mangHopDongCuMoi = ImmutabilityHelper
+                      (
+                        mangHopDongCu, 
+                        {
+                          [index]: 
+                          {
+                            date_charged_until: {$set: moment(date).format("YYYY-MM-DD")} 
+                          } 
+                        }
+                      ); 
+                      this.setState({mangHopDongCu: mangHopDongCuMoi}); 
+                    }
+
+                  }
+                />
         })}
       </Container>
     );

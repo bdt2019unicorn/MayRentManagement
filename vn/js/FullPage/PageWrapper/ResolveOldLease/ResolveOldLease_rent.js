@@ -9,15 +9,17 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
       TableBody,
       TableCell,
       TableFooter,
+      Typography,
     } = MaterialUI;
 
-    function createData(name, calories, fat, carbs, protein) {
-      return { name, calories, fat, carbs, protein };
-    }
+    const { hopDong, rentInvoice } = this.props;
 
-    const rows = [
-      createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    ];
+    // const tinhSoLuong = ()=>{
+    //   return rentInvoice.RentQuantityCalculation(hopDong.Start_date, hopDong.date_charged_until, hopDong.leaseagrm_period);
+    // }
+
+    const tinhSoLuong = rentInvoice.RentQuantityCalculation(hopDong.Start_date, hopDong.date_charged_until, hopDong.leaseagrm_period);
+    const thanhTien = tinhSoLuong * hopDong.Rent_amount; 
 
     return (
       <TableContainer component={Paper}>
@@ -33,23 +35,16 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
+            <TableRow>
+              <TableCell align="left">{moment(hopDong.Start_date).format("DD-MM-YYYY")}</TableCell>
+              <TableCell align="right">{moment(hopDong.date_charged_until).format("DD-MM-YYYY")}</TableCell>
+              <TableCell align="right">{hopDong.leaseagrm_period}</TableCell>
+              <TableCell align="right">{hopDong.Rent_amount}</TableCell>
+              <TableCell align="right">{tinhSoLuong}</TableCell>
+              <TableCell align="right">{thanhTien.toFixed(3)}</TableCell>
+            </TableRow>
           </TableBody>
-          <TableFooter>
-              <TableRow>
-                <TableCell align="right">Tổng thành tiền: </TableCell>
-              </TableRow>
-         </TableFooter>
+          
         </Table>
       </TableContainer>
     );

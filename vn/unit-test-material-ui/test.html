@@ -1,131 +1,150 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        <link rel="stylesheet" href="https://unpkg.com/primer/build/build.css" />
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/primer/build/build.css" />
+  </head>
+  <body>
+    <div id="full_page"></div>
+    <footer>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"
+        integrity="sha512-m2PhLxj2N91eYrIGU2cmIu2d0SkaE4A14bCjVb9zykvp6WtsdriFCiXQ/8Hdj0kssUB/Nz0dMBcoLsJkSCto0Q=="
+        crossorigin="anonymous"
+      ></script>
 
-    </head>
-    <body>
-        <div id="full_page"></div>
-        <footer>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" integrity="sha512-m2PhLxj2N91eYrIGU2cmIu2d0SkaE4A14bCjVb9zykvp6WtsdriFCiXQ/8Hdj0kssUB/Nz0dMBcoLsJkSCto0Q==" crossorigin="anonymous"></script>
+      <script
+        type="text/javascript"
+        lang="javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.1/xlsx.full.min.js"
+      ></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"
+        integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww=="
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"
+        integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA=="
+        crossorigin="anonymous"
+      ></script>
 
-            <script type="text/javascript" lang="javascript"src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.1/xlsx.full.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js" integrity="sha512-jjkKtALXHo5xxDA4I5KJyEtYCAqHyOPuWwYFGWGQR2RgOIEFTQsZSDEC5GCdoAKMa8Yay/C+jMW8LCSZbb6YeA==" crossorigin="anonymous"></script>
+      <script
+        crossorigin
+        src="https://unpkg.com/react@16/umd/react.development.js"
+      ></script>
+      <script
+        crossorigin
+        src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+      ></script>
 
-            <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-
-
-            <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+      <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
 
-            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js" integrity="sha512-P36ourTueX/PrXrD4Auc1kVLoTE7bkWrIrkaM0IG2X3Fd90LFgTRogpZzNBssay0XOXhrIgudf4wFeftdsPDiQ==" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.2/react-redux.min.js" integrity="sha512-XTD4hwwD/OaJj0jZP9+rdrrirXfDkFaBoZB16n9hP4wuXifvlI4YNtSucUZ4cF4uX6eH30LPFXTyqAGqyfhI6Q==" crossorigin="anonymous"></script>
+      <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.5/redux.min.js"
+        integrity="sha512-P36ourTueX/PrXrD4Auc1kVLoTE7bkWrIrkaM0IG2X3Fd90LFgTRogpZzNBssay0XOXhrIgudf4wFeftdsPDiQ=="
+        crossorigin="anonymous"
+      ></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.2.2/react-redux.min.js"
+        integrity="sha512-XTD4hwwD/OaJj0jZP9+rdrrirXfDkFaBoZB16n9hP4wuXifvlI4YNtSucUZ4cF4uX6eH30LPFXTyqAGqyfhI6Q=="
+        crossorigin="anonymous"
+      ></script>
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js" integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw==" crossorigin="anonymous"></script>
-            <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.min.js"
+        integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw=="
+        crossorigin="anonymous"
+      ></script>
+      <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
 
+      <script src="dist/bundle.js"></script>
+      <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
+      <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
 
-            <script src="dist/bundle.js"></script>
-            <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
-            <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
+      <style>
+        .scrolling-table-div {
+          height: 30vh;
+          min-height: 30vh;
+          max-height: 75vh;
+        }
+      </style>
 
-            <style>
-                .scrolling-table-div
-                {
-                    height: 30vh;
-                    min-height: 30vh;
-                    max-height: 75vh;
-                }
-            </style>
+      <script type="text/babel">
+        function CreateOptions() {
+          var options = [
+            {
+              id: "5507c0528152e61f3c348d56",
+              name: "elit laborum et",
+              size: "Large",
+            },
+            {
+              id: "5507c0526305bceb0c0e2c7a",
+              name: "dolor nulla velit",
+              size: "Medium",
+            },
+          ];
+          for (let index = 0; index < 20; index++) {
+            var option = {
+              id: index + encodeURIComponent(Math.random()) + Math.random(),
+              name: index + encodeURIComponent(Math.random()),
+              size: index,
+            };
+            options.push(option);
+          }
+          return options;
+        }
 
-            
-            <script type="text/babel">
+        function OptionColumns() {
+          return [
+            { field: "id", headerName: "id" },
+            { field: "name", headerName: "name" },
+            { field: "size", headerName: "size" },
+          ];
+        }
 
-                function CreateOptions()
-                {
-                    var options = 
-                        [
-                            {
-                                "id": "5507c0528152e61f3c348d56",
-                                "name": "elit laborum et",
-                                "size": "Large"
-                            },
-                            {
-                                "id": "5507c0526305bceb0c0e2c7a",
-                                "name": "dolor nulla velit",
-                                "size": "Medium"
-                            }
-                        ]; 
-                        for (let index = 0; index < 20; index++) 
-                        {
-                            var option = 
-                            {
-                                id: index + encodeURIComponent(Math.random()) + Math.random(), 
-                                name: index + encodeURIComponent(Math.random()), 
-                                size: index 
-                            }
-                            options.push(option); 
-                        }
-                        return options; 
-                }
+        const select_options = CreateOptions();
 
-                function OptionColumns()
-                {
-                    return [
-                        {field: "id", headerName: "id"}, 
-                        {field: "name", headerName: "name"}, 
-                        {field: "size", headerName: "size"} 
-                    ]; 
-                }
-
-                const select_options = CreateOptions();                 
+        class Test extends React.Component {
+          constructor(props) {
+            super(props);
+            this.state = { date: new Date() };
+          }
+          render() {
+            try {
+              return (
+                <MuiPickersUtilsProvider utils={MomentUtils}>
                 
-                
-                
-                class Test extends React.Component 
-                {
-                    constructor(props)
-                    {
-                        super(props); 
-                        this.state = {fileObjects: []}; 
-                    }
-                    render()
-                    {
-                        var test = 10**6; 
-                        console.log(test); 
-                        try {
-                        return (
-                            <MaterialUI.Paper className="scrolling-table-div">
-                                <DropzoneAreaBase
-                                    fileObjects={this.state.fileObjects}
-                                    onAdd={(fileObjs) => this.setState({fileObjects: this.state.fileObjects.concat(fileObjs)})}
-                                    showAlerts={false}
-                                    filesLimit={3}
-                                    maxFileSize={15*(10**6)}
-                                    showFileNames
-                                    onDelete={(fileObj) => console.log('Removed File:', fileObj)}
-                                />
-                            </MaterialUI.Paper>
-                        ); 
-                        }catch(exception){console.log(exception); }
-                        return null; 
-                    }
-                }
+                  <DatePicker
+                    disableToolbar
+                    variant="inline"
+                    label="Only calendar"
+                    helperText="No year selection"
+                    value={this.state.date}
+                    onChange={(date)=> this.setState({date})}
+                  />
+                </MuiPickersUtilsProvider>
+              );
+            } catch (exception) {
+              console.log(exception);
+            }
+            return null;
+          }
+        }
 
-
-
-
-
-
-                ReactDOM.render(<Test />, document.getElementById("full_page")); 
-            </script>
-        </footer>
-    </body>
+        ReactDOM.render(<Test />, document.getElementById("full_page"));
+      </script>
+    </footer>
+  </body>
 </html>
