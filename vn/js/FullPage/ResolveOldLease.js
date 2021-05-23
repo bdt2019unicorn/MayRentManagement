@@ -81,6 +81,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
                   }
                 />
         })}
+        <SubmitButton type="button"/>
       </Container>
     );
   }

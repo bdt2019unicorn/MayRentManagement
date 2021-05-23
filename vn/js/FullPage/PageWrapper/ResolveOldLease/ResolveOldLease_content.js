@@ -20,18 +20,18 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
 
     return (
       <Box borderColor="primary.main" border={1} padding={2}>
-        <Grid container justify="space-evenly" alignItems="center">
-          <Grid item xs={1}>
+        <Grid container justify="space-around" alignItems="center" spacing={1}>
+          <Grid item xs={2} lg={2} >
             <MaterialUI.IconButton onClick={()=> this.handleDeleteChoice(hopDong.id)} className="btn btn-danger">
               <MaterialUI.Icon fontSize="large">delete</MaterialUI.Icon>
             </MaterialUI.IconButton>
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item xs={4} lg={4}>
             <h2>{hopDong.name}</h2>
           </Grid>
 
-          <Grid item xs={7}>
+          <Grid item xs={5} lg={5}>
             {/* <ReactDatetime
               className="width-full mt-1"
               dateFormat="DD/MM/yyyy"
@@ -41,7 +41,6 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
               <DatePicker
                 disableToolbar
                 variant="inline"
-                label="Only calendar"
                 format="DD/MM/yyyy"
                 value={hopDong.date_charged_until}
                 onChange={this.props.DateChargedUntilChanged}
@@ -49,7 +48,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={1} lg={1}>
             <IconButton
               aria-label="expand row"
               size="small"

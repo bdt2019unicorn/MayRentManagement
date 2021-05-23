@@ -1,8 +1,8 @@
-var invoicIes_mixin = 
+var invoices_mixin = 
 {
     mixins: [support_mixin], 
     data: () =>
-    (s
+    (
         {
             leaseagrm_select_data: [], 
             main_url: "server/controller/invoice/action.php?command=", 
