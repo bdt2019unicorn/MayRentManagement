@@ -117,16 +117,11 @@
 
             $data = []; 
             $user_information_data = []; 
-            $file = $CompareFiles($new_file, $current_file); 
-            if($file)
-            {
-                $data["file"] = $file; 
-            }
             
             $current_data = $CurrentData(); 
             foreach ($_POST as $key => $value) 
             {
-                if(isset($current_data[$key]))
+                if(array_key_exists($key, $current_data))
                 {
                     if($current_data[$key]!=$value)
                     {
@@ -138,6 +133,13 @@
                     $user_information_data[$key] = $value; 
                 }
             }
+            
+            $file = $CompareFiles($new_file, $current_file); 
+            if($file)
+            {
+                $data["file"] = $file; 
+            }
+            // something wrong with the picture - need to find out 
             if(count($data))
             {
                 $data = array_merge($data, $user_information_data); 
@@ -158,7 +160,7 @@
                 $sql = Query::Update("documents", $data, $conditions); 
                 $result = Database::GetData($sql); 
                 echo $result; 
-                // this function fails - need to do something 
+                Database::LogUserAction($result, "Edit Document", "documents", json_encode($data), $sql);
             }
             else 
             {
