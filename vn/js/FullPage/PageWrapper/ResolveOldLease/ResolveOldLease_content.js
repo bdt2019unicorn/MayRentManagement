@@ -7,18 +7,10 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
     };
   }
 
-  // componentDidMount(){
-  //   const { hopDong } = this.props;
-  //   this.setState({
-  //     endDateCharge: hopDong.date_charged_until,
-  //   })
-  // }
-
-  // handleChangeDate = (date)=>{
-  //   this.setState({
-  //     endDateCharge: date,
-  //   });
-  // }
+  handleDeleteChoice = (id)=>{
+    const { handleDelete } = this.props;
+    handleDelete(id);
+  }
 
   render() {
     const { Collapse, Box, Grid, IconButton, Icon} = MaterialUI;
@@ -30,7 +22,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
       <Box borderColor="primary.main" border={1} padding={2}>
         <Grid container justify="space-evenly" alignItems="center">
           <Grid item xs={1}>
-            <MaterialUI.IconButton className="btn btn-danger">
+            <MaterialUI.IconButton onClick={()=> this.handleDeleteChoice(hopDong.id)} className="btn btn-danger">
               <MaterialUI.Icon fontSize="large">delete</MaterialUI.Icon>
             </MaterialUI.IconButton>
           </Grid>

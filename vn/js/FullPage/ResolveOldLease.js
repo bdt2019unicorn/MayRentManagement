@@ -3,7 +3,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     super(props);
     BindFunctions(this); 
     this.state = {
-      mangHopDongCu: this.LoadOldLeases()
+      mangHopDongCu: this.LoadOldLeases(),
     };
     this.rentInvoice = new RentInvoice(); 
   }
@@ -33,10 +33,25 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     }, 
   }
 
+  handleDelete = (id)=>{
+    const { mangHopDongCu } = this.state;
+    let newMangHopDongCu = [...mangHopDongCu];
+    let indexHD = newMangHopDongCu.findIndex(hopDong => hopDong.id === id);
+    
+    if(indexHD !== -1){
+      newMangHopDongCu.splice(indexHD, 1);
+    }
+    
+    this.setState({
+      mangHopDongCu: newMangHopDongCu,
+    })
+  }
+
   render() {
     const {Container}=MaterialUI;
     const {mangHopDongCu} = this.state;
-    
+
+    console.log(mangHopDongCu);
     return (
       <Container>
         <h1>Xử lý hợp đồng cũ</h1>
@@ -44,7 +59,8 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
           return <ResolveOldLease_content 
                   rentInvoice={this.rentInvoice}
                   hopDong={hopDong} 
-                  key={index} 
+                  key={index}
+                  handleDelete = {this.handleDelete} 
                   DateChargedUntilChanged=
                   {
                     (date)=>
