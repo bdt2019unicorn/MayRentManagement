@@ -40,7 +40,7 @@
                 if($table=="documents")
                 {
                     $insert_data = $value; 
-                    $file = "0x" . bin2hex($insert_data["file"]); 
+                    $file = Query::FileToHex($insert_data["file"]); 
                     unset($insert_data["file"]); 
                     array_push($result, Query::Insert($table, $insert_data, ["file"=>$file])); 
                     continue; 

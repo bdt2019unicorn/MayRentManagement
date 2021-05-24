@@ -21,9 +21,20 @@
             return "INSERT INTO `{$table}`(" . implode(",",$columns) . ") VALUES (" . implode(",", $values) . ");"; 
         }
 
-        static public function Update($table, $data, $conditions)
+        static public function Update($table, $data, $conditions, $variable_data=[])
         {
-            return "UPDATE `{$table}`" . Query::Cause("SET", $data, ",") . Query::Cause("WHERE", $conditions, "AND") . ";"; 
+            $variable_update = ""; 
+            if(count($variable_data))
+            {
+                $update_data = []; 
+                foreach ($variable_data as $column => $value) 
+                {
+                    array_push($update_data, "`{$column}`={$value}"); 
+                }
+                $variable_update = count($data)? ", " : ""; 
+                $variable_update.= implode(", ", $update_data) . " "; 
+            }
+            return "UPDATE `{$table}`" . Query::Cause("SET", $data, ",") . $variable_update . Query::Cause("WHERE", $conditions, "AND") . ";"; 
         }
         
         static public function Delete($table, $id_column, $ids)
@@ -137,6 +148,11 @@
         static public function DateFormatDisplay($clause, $test_mode=false)
         {
             return $test_mode? "STRFTIME('%d/%m/%Y', {$clause})" : "DATE_FORMAT({$clause},'%M %d, %Y')"; 
+        }
+
+        static public function FileToHex($file)
+        {
+            return "0x" . bin2hex($file); 
         }
 
         static private function Cause($cause, $data, $separator)
