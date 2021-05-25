@@ -3,7 +3,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
     super(props);
     this.state = {
       open: false,
-      endDateCharge: "",
+      status: true,
     };
   }
 
@@ -12,10 +12,22 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
     handleDelete(id);
   }
 
+  componentDidUpdate(prevProps, prevState){
+    const { hopDong, handleCheckDate } =  this.props;
+    if(prevState.status !== this.state.status){
+      let isValid;
+      if(moment(hopDong.date_charged_until).isSameOrBefore(hopDong.Start_date)){
+        isValid = false;
+      }
+      isValid = true;
+      handleCheckDate(isValid);
+    }
+  }
+
   render() {
     const { Collapse, Box, Grid, IconButton, Icon} = MaterialUI;
 
-    const { hopDong, rentInvoice } = this.props;
+    const { hopDong, rentInvoice, isValid, DateChargedUntilChanged } = this.props;
     const { open } = this.state;
 
     return (
@@ -43,7 +55,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
                 variant="inline"
                 format="DD/MM/yyyy"
                 value={hopDong.date_charged_until}
-                onChange={this.props.DateChargedUntilChanged}
+                onChange={(date)=>{DateChargedUntilChanged(date); this.setState({status: !this.state.status,})}}
                 autoOk={true}
               />
             </MuiPickersUtilsProvider>
@@ -66,7 +78,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box className="m-3">
-            <ResolveOldLease_header hopDong={hopDong} />
+            <ResolveOldLease_header hopDong={hopDong} isValid={isValid}  />
             <h3 align="center" className="m-3">
               Bảng giá Thuê
             </h3>

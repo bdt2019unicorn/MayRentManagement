@@ -8,11 +8,13 @@ class ResolveOldLease_header extends PageWrapperChildrenComponent {
     );
     const ngayBatDau = moment(hopDong.Start_date).format("DD-MM-YYYY");
     const ngayKetThuc = moment(hopDong.Finish).format("DD-MM-YYYY");
-    const handleDiffDate = () => {
-        if(moment(hopDong.date_charged_until).isSameOrBefore(hopDong.Start_date)){
-            return "error";
-        }
-        return "initial";
+    
+    const changeColor = ()=>{
+      const {isValid} = this.props;
+      if(!isValid){
+        return "error";
+      }
+      return "initial";
     }
     return (
       <div>
@@ -22,7 +24,7 @@ class ResolveOldLease_header extends PageWrapperChildrenComponent {
         <Typography variant="subtitle1" gutterBottom>
           Ngày kết thúc hợp đồng: {ngayKetThuc}
         </Typography>
-        <Typography variant="subtitle1" color={handleDiffDate()} gutterBottom>
+        <Typography variant="subtitle1" color={changeColor()} gutterBottom>
           Trả đến khi: {ngayTraDenKhi}
         </Typography>
       </div>
