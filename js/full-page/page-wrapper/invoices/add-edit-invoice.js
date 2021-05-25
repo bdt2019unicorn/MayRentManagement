@@ -105,7 +105,7 @@ Vue.component
                             edit_data: this.edit_data, 
                             new_data: invoice 
                         }
-                        let url = "server/controller/invoice/post.php?action=Update";
+                        let url = "server/controller/invoice/post.php?command=Update";
                         let result = this.SubmitData("invoices", url, data); 
                         var new_edit_data = undefined; 
                         try 

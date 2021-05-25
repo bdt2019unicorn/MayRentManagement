@@ -14,7 +14,6 @@
             }
             else 
             {
-                print_r($sql); 
                 $sql = array_reduce($sql, function($current, $queries){return array_merge($current, $queries); }, []); 
                 $result = Connect::ExecTransaction($sql); 
             }
@@ -119,7 +118,7 @@
             $result = Database::ExecTransaction($queries); 
             if($result)
             {
-                Database::LogUserAction($result, "Edit Invoice", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["invoices"], $queries); 
+                Database::LogUserAction($result, "Edit Invoice", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["invoices"], implode("\n", $queries)); 
                 $invoice_information = Query::GeneralData("invoices", $invoice_id); 
                 $invoice_details = InvoiceDetails($invoice_id); 
 

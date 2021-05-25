@@ -29,7 +29,7 @@
         {
             $queries = []; 
             array_push($queries, Query::Insert("invoices", $invoices["invoice"]), "SET @invoice_id=LAST_INSERT_ID();"); 
-        
+
             foreach ($invoices["details"] as $table => $values) 
             {
                 foreach ($values as $data) 
