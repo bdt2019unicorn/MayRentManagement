@@ -7,17 +7,19 @@
             $monthly_invoices = json_decode($_POST["monthly_invoices"], true); 
             $test_mode = CurrentEnvironment::TestMode(); 
             $sql = array_map(function($invoices) use ($test_mode) {return ImportInvoice($invoices, $test_mode);}, $monthly_invoices); 
-        
+
             if($test_mode)
             {
                 $result = ConnectSqlite::InsertWithDetailsGroup($sql); 
             }
             else 
             {
+                print_r($sql); 
                 $sql = array_reduce($sql, function($current, $queries){return array_merge($current, $queries); }, []); 
                 $result = Connect::ExecTransaction($sql); 
             }
             echo $result; 
+            Database::LogUserAction($result, "Add Monthly Invoices", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["monthly_invoices"], json_encode($sql)); 
         }, 
         "Import" => function()
         {
@@ -26,6 +28,7 @@
             $data = ImportInvoice($invoices, $test_mode); 
             $result = $test_mode? ConnectSqlite::InsertWithDetails($data): Connect::ExecTransaction($data); 
             echo $result; 
+            Database::LogUserAction($result, "Import Invoice", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["invoices"], json_encode($data)); 
         }, 
         "Update" => function()
         {
@@ -116,6 +119,7 @@
             $result = Database::ExecTransaction($queries); 
             if($result)
             {
+                Database::LogUserAction($result, "Edit Invoice", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["invoices"], $queries); 
                 $invoice_information = Query::GeneralData("invoices", $invoice_id); 
                 $invoice_details = InvoiceDetails($invoice_id); 
 

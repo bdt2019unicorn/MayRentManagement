@@ -85,7 +85,6 @@ var document_mixin =
                 ()=>
                 {
                     var result = this.AjaxRequest(url, form_data, "POST"); 
-                    console.log(result); 
                     if(Number(result))
                     {
                         alert(success_alert); 
