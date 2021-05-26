@@ -43,7 +43,7 @@ Vue.component
             NewPrice(data)
             {
                 let current_price = this.CurrentPriceInformation(data.revenue_type_id); 
-                let data_date_valid = moment(data.date_valid, "DD/MM/YY"); 
+                let data_date_valid = moment(data.date_valid, "DD/MM/YYYY"); 
                 var current_price_date_valid = data_date_valid; 
                 try 
                 {
@@ -63,7 +63,7 @@ Vue.component
 
                 if(data_date_valid<current_price_date_valid)
                 {
-                    ModifyDateValid(`Please enter a later date than the current date at ${this.DateFormat( current_price_date_valid)}`); 
+                    ModifyDateValid(`Please enter a later date than the current date at ${this.DateFormat(current_price_date_valid)}`); 
                 }
                 else
                 {

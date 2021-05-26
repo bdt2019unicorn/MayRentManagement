@@ -118,5 +118,5 @@
             );  
         }
     }
-    echo json_encode(array_values($utilities_overview)); 
+    echo json_encode(array_values($data)); 
 ?>
