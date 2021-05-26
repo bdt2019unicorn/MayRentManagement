@@ -162,8 +162,8 @@
                         {
                             var logo_src = support_mixin.methods.AjaxRequest(AdminDatabaseUrl("LogoImg")); 
                             document.getElementById('logo_img').src = `../${logo_src}`; 
-                            UserLogCount(); 
-                            UserLog(1); 
+                            UserLog.UserLogCount(); 
+                            UserLog.UserLog(1); 
                         }
                     ); 
                 </script>
