@@ -10,8 +10,8 @@ class ResolveOldLease_header extends PageWrapperChildrenComponent {
     const ngayKetThuc = moment(hopDong.Finish).format("DD-MM-YYYY");
     
     const changeColor = ()=>{
-      const {isValid} = this.props;
-      if(!isValid){
+      // console.log(hopDong.isHDValid);
+      if(!hopDong.isHDValid){
         return "error";
       }
       return "initial";

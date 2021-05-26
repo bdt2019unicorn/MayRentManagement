@@ -44,17 +44,22 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     });
   };
 
-  handleCheckDate = (check)=>{
+  componentDidMount(){
+    const newArray = this.state.mangHopDongCu.map( hopDong =>({...hopDong, isHDValid: true}));
+    this.setState({
+      mangHopDongCu: newArray,
+    })
+  }
+
+  checkSubmit = (check)=>{
     this.setState({
       isValid: check,
-    }, ()=>{console.log(this.state)})
+    })
   }
 
   render() {
     const { Container, Box } = MaterialUI;
     const { mangHopDongCu, isValid } = this.state;
-
-    // console.log(mangHopDongCu);
 
     return (
       <Container>
@@ -66,13 +71,22 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
               hopDong={hopDong}
               key={index}
               handleDelete={this.handleDelete}
-              handleCheckDate = {this.handleCheckDate}
-              isValid = {isValid}
               DateChargedUntilChanged={(date) => {
                 var mangHopDongCuMoi = ImmutabilityHelper(mangHopDongCu, {
                   [index]: {
                     date_charged_until: {
                       $set: moment(date).format("YYYY-MM-DD"),
+                    },
+                  },
+                });
+                this.setState({ mangHopDongCu: mangHopDongCuMoi });
+              }}
+              checkSubmit={this.checkSubmit}
+              handleCheckDate={(check) =>{
+                var mangHopDongCuMoi = ImmutabilityHelper(mangHopDongCu, {
+                  [index]: {
+                    isHDValid: {
+                      $set: check,
                     },
                   },
                 });

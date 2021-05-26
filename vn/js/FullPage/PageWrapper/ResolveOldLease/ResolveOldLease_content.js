@@ -7,34 +7,38 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
     };
   }
 
-  handleDeleteChoice = (id)=>{
+  handleDeleteChoice = (id) => {
     const { handleDelete } = this.props;
     handleDelete(id);
-  }
+  };
 
   componentDidUpdate(prevProps, prevState){
-    const { hopDong, handleCheckDate } =  this.props;
-    if(prevState.status !== this.state.status){
-      let isValid;
-      if(moment(hopDong.date_charged_until).isSameOrBefore(hopDong.Start_date)){
-        isValid = false;
+    const { hopDong, handleCheckDate, checkSubmit } = this.props;
+    if (prevState.status !== this.state.status) {
+      let check = true;
+      if (moment(hopDong.date_charged_until).isSameOrBefore(hopDong.Start_date)) {
+        check = false;
       }
-      isValid = true;
-      handleCheckDate(isValid);
+      handleCheckDate(check);
+      checkSubmit(check);
     }
   }
 
-  render() {
-    const { Collapse, Box, Grid, IconButton, Icon} = MaterialUI;
 
-    const { hopDong, rentInvoice, isValid, DateChargedUntilChanged } = this.props;
+  render() {
+    const { Collapse, Box, Grid, IconButton, Icon } = MaterialUI;
+
+    const { hopDong, rentInvoice, DateChargedUntilChanged } = this.props;
     const { open } = this.state;
 
     return (
       <Box borderColor="primary.main" border={1} padding={2}>
         <Grid container justify="space-around" alignItems="center" spacing={1}>
-          <Grid item xs={2} lg={2} >
-            <MaterialUI.IconButton onClick={()=> this.handleDeleteChoice(hopDong.id)} className="btn btn-danger">
+          <Grid item xs={2} lg={2}>
+            <MaterialUI.IconButton
+              onClick={() => this.handleDeleteChoice(hopDong.id)}
+              className="btn btn-danger"
+            >
               <MaterialUI.Icon fontSize="large">delete</MaterialUI.Icon>
             </MaterialUI.IconButton>
           </Grid>
@@ -55,7 +59,9 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
                 variant="inline"
                 format="DD/MM/yyyy"
                 value={hopDong.date_charged_until}
-                onChange={(date)=>{DateChargedUntilChanged(date); this.setState({status: !this.state.status,})}}
+                onChange={(date)=>{DateChargedUntilChanged(date); this.setState({
+                  status: !this.state.status,
+                })}}
                 autoOk={true}
               />
             </MuiPickersUtilsProvider>
@@ -78,17 +84,23 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box className="m-3">
-            <ResolveOldLease_header hopDong={hopDong} isValid={isValid}  />
+            <ResolveOldLease_header
+              hopDong={hopDong}
+            />
             <h3 align="center" className="m-3">
               Bảng giá Thuê
             </h3>
-            <ResolveOldLease_rent hopDong={hopDong} className="m-3" rentInvoice={rentInvoice} />
+            <ResolveOldLease_rent
+              hopDong={hopDong}
+              className="m-3"
+              rentInvoice={rentInvoice}
+            />
             <h3 align="center" className="m-3">
               Chi phí sinh hoạt
             </h3>
             <ResolveOldLease_ultilities
               chiTietHD={hopDong.utilities}
-              endDate = {hopDong.date_charged_until}
+              endDate={hopDong.date_charged_until}
               className="m-3"
             />
           </Box>
