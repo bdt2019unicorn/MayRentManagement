@@ -3,7 +3,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     super(props);
     BindFunctions(this);
     this.state = {
-      mangHopDongCu: this.LoadOldLeases(),
+      mangHopDongCu: [...this.LoadOldLeases(), ...this.LoadOldLeases()],
       isValid: true,
     };
     this.rentInvoice = new RentInvoice();
@@ -61,6 +61,14 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     const { Container, Box } = MaterialUI;
     const { mangHopDongCu, isValid } = this.state;
 
+    const checkSubmit = ()=>{
+      let check = true;
+      for(const hopDong of mangHopDongCu){
+        check = check && hopDong.isHDValid;
+      }
+      return check;
+    }
+
     return (
       <Container>
         <h1>Xử lý hợp đồng cũ</h1>
@@ -95,7 +103,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
             />
           );
         })}
-        <Box component="span" display={isValid ? "block" : "none"}>
+        <Box component="span" display={checkSubmit() ? "block" : "none"}>
           <SubmitButton type="button" />
         </Box>
       </Container>

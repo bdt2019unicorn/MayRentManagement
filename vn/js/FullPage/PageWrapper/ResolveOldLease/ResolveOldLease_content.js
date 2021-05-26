@@ -13,14 +13,13 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
   };
 
   componentDidUpdate(prevProps, prevState){
-    const { hopDong, handleCheckDate, checkSubmit } = this.props;
+    const { hopDong, handleCheckDate } = this.props;
     if (prevState.status !== this.state.status) {
       let check = true;
       if (moment(hopDong.date_charged_until).isSameOrBefore(hopDong.Start_date)) {
         check = false;
       }
       handleCheckDate(check);
-      checkSubmit(check);
     }
   }
 
