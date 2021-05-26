@@ -118,6 +118,13 @@
                 </div>
 
                 <div class="border border-info p-3 m-3 text-center">
+                    <h1>User Logs</h1>
+                    <div class="user-logs-pagnition"></div>
+                    <div id="user-logs"></div>
+                    <div class="user-logs-pagnition"></div>
+                </div>
+
+                <div class="border border-info p-3 m-3 text-center">
                     <h1>Run Database Scripts</h1>
                     <textarea id="db_scripts_textarea" class="w-100" rows="10" placeholder="Enter scripts here"></textarea>
                     <dd>Separate each scripts with a semicolon (;)</dd>
@@ -139,23 +146,17 @@
                 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
                 <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
                 <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
-                <script>
-                    $(document).ready
-                    ( 
-                        function () 
-                        {
-                            OverviewTable(); 
-                        }
-                    );
-                </script>
+                <script>$(document).ready(OverviewTable);</script>
             <?php else: ?>
                 <script type="text/javascript">
                     $(document).ready 
                     (
                         function()
                         {
-                            var logo_src = support_mixin.methods.AjaxRequest("../server/controller/admin_database.php?command=LogoImg"); 
+                            var logo_src = support_mixin.methods.AjaxRequest(AdminDatabaseUrl("LogoImg")); 
                             document.getElementById('logo_img').src = `../${logo_src}`; 
+                            UserLogCount(); 
+                            UserLog(1); 
                         }
                     ); 
                 </script>
