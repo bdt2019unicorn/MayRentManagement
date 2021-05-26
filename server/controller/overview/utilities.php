@@ -116,7 +116,6 @@
                 "Unit price (VND/kWh)"=> $values["unit_price"],
                 "Bill"=>$consumption*doubleval($values["unit_price"])
             );  
-
         }
     }
     echo json_encode(array_values($utilities_overview)); 
