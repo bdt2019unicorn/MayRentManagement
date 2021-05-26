@@ -158,6 +158,8 @@
                         {
                             var logo_src = support_mixin.methods.AjaxRequest("../server/controller/admin_database.php?command=LogoImg"); 
                             document.getElementById('logo_img').src = `../${logo_src}`; 
+                            UserLog.UserLogCount(); 
+                            UserLog.UserLog(1); 
                         }
                     ); 
                 </script>
