@@ -3,78 +3,68 @@ class UserInputComponent extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = {value: this.InnitialValue()}; 
     }
-    Methods = 
+    InnitialValue = () =>
     {
-        InnitialValue()
+        if(this.props.value)
         {
-            if(this.props.value)
-            {
-                return this.props.value; 
-            }
-            else if(this.props.edit_data) 
-            {
-                return this.props.edit_data[this.props.name]; 
-            }
-            return undefined; 
-        }, 
-        SimpleInputOnChange(event)
+            return this.props.value; 
+        }
+        else if(this.props.edit_data) 
         {
-            let state = {value: event.target.value}; 
-            this.setState(state); 
-            if(this.props.ValueChange)
-            {
-                this.props.ValueChange(state); 
-            }
-        }, 
-        ThisValidations()
-        {   
-            var this_validations = _.cloneDeep(this.props.validations); 
-            if(!this_validations)
-            {
-                return undefined; 
-            }
-            else if(!this_validations[this.props.name])
-            {
-                return undefined; 
-            }
-            else 
-            {
-                this_validations = _.cloneDeep(this_validations[this.props.name]); 
-            }
-            return this_validations; 
-        }, 
-        ThisValidationsRequired(this_validations)
-        {
-            return Boolean(_.get(this_validations, "presence")); 
-        }, 
-        ValidationAction(this_validations)
-        {
-            return validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations}); 
-        }, 
-        ValidationObject(this_validations)
-        {
-            this_validations = this_validations || this.ThisValidations(); 
-            if(!this_validations)
-            {
-                return undefined; 
-            }
-            let required = this.ThisValidationsRequired(this_validations); 
-            let validations = this.ValidationAction(this_validations); 
-            var validation_object = 
-            {
-                required, 
-                error: Boolean(validations)
-            }; 
-            return validation_object.error? 
-            {
-                ...validation_object, 
-                helperText: this.ValidationHelperText(validations, "name") 
-            }: validation_object
-        }   
+            return this.props.edit_data[this.props.name]; 
+        }
+        return undefined; 
     }
+    SimpleInputOnChange = (event) =>
+    {
+        let state = {value: event.target.value}; 
+        this.setState(state); 
+        if(this.props.ValueChange)
+        {
+            this.props.ValueChange(state); 
+        }
+    }
+    ThisValidations = () =>
+    {   
+        var this_validations = _.cloneDeep(this.props.validations); 
+        if(!this_validations)
+        {
+            return undefined; 
+        }
+        else if(!this_validations[this.props.name])
+        {
+            return undefined; 
+        }
+        else 
+        {
+            this_validations = _.cloneDeep(this_validations[this.props.name]); 
+        }
+        return this_validations; 
+    }
+    ThisValidationsRequired = (this_validations) => Boolean(_.get(this_validations, "presence"))
+    ValidationAction = (this_validations) => validate({[this.props.name]:this.state.value}, {[this.props.name]: this_validations})
+    ValidationObject = (this_validations) =>
+    {
+        this_validations = this_validations || this.ThisValidations(); 
+        if(!this_validations)
+        {
+            return undefined; 
+        }
+        let required = this.ThisValidationsRequired(this_validations); 
+        let validations = this.ValidationAction(this_validations); 
+        var validation_object = 
+        {
+            required, 
+            error: Boolean(validations)
+        }; 
+        return validation_object.error? 
+        {
+            ...validation_object, 
+            helperText: this.ValidationHelperText(validations, "name") 
+        }: validation_object
+    }   
 }
 
 class UserInputFormControl extends React.Component
@@ -115,25 +105,21 @@ class SelectComponent extends UserInputComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = {...this.state, options: this.PopulateSelectData()}; 
         this.state.value = this.state.value || ""; 
     }
-    Methods =
+    PopulateSelectData = () =>
     {
-        PopulateSelectData()
-        {
-            var select_data = this.props.select_data || this.TableData(this.props.overview_controller, {edit: 1});
-            return select_data.map
+        var select_data = this.props.select_data || this.TableData(this.props.overview_controller, {edit: 1});
+        return select_data.map
+        (
+            option=>
             (
-                option=>
-                (
-                    {
-                        value: typeof(option)=="object"? option[this.props.select_value]: option, 
-                        text: typeof(option)=="object"? option[this.props.text]: option
-                    }
-                )
-            ); 
-        }
+                {
+                    value: typeof(option)=="object"? option[this.props.select_value]: option, 
+                    text: typeof(option)=="object"? option[this.props.text]: option
+                }
+            )
+        ); 
     }
 }

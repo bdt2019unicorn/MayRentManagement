@@ -15,7 +15,6 @@ class RestoreData extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = {file: undefined}; 
     }
     render()

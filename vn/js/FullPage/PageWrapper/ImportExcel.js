@@ -3,7 +3,6 @@ class ImportExcel extends PageWrapperChildrenComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = 
         {
             file_input: true, 
@@ -11,73 +10,70 @@ class ImportExcel extends PageWrapperChildrenComponent
             translation: ServerJson(`../server/json/translation/ImportExcel/${this.CurrentController()}.json`)
         }; 
     }
-    Methods = 
-    { 
-        ActionButtonClick()
+    ActionButtonClick = () =>
+    {
+        let translation_keys = Object.keys(this.state.translation); 
+        let table_columns = Object.keys(this.state.table[0]); 
+        let columns_not_belong = table_columns.filter(column=>!translation_keys.includes(column)); 
+        if(columns_not_belong.length)
         {
-            let translation_keys = Object.keys(this.state.translation); 
-            let table_columns = Object.keys(this.state.table[0]); 
-            let columns_not_belong = table_columns.filter(column=>!translation_keys.includes(column)); 
-            if(columns_not_belong.length)
-            {
-                alert("Bạn đã nhập dữ liệu ở sai bảng. Vui lòng chọn mục khác"); 
-                return;
-            }
-            let data = this.state.table.map
+            alert("Bạn đã nhập dữ liệu ở sai bảng. Vui lòng chọn mục khác"); 
+            return;
+        }
+        let data = this.state.table.map
+        (
+            row => translation_keys.reduce
             (
-                row => translation_keys.reduce
+                (accumulator, current_value) => 
                 (
-                    (accumulator, current_value) => 
-                    (
-                        {
-                            ...accumulator, 
-                            [this.state.translation[current_value]]: row[current_value]
-                        }
-                    ), {}
-                )
-            ); 
-            let result = SubmitData("excel", this.ImportUrl(), data); 
-            if(Number(result))
-            {
-                alert(`Nhập danh sách bằng Excel thành công`); 
-                this.SetStateTable([]); 
-                this.ExecPropsFunction("ImportExcelSuccess"); 
-            }
-            else 
-            {
-                alert("Nhập danh sách Excel thất bại, vui lòng thử lại"); 
-            }
-        }, 
-        ReadExcelFile: async(event)=>
+                    {
+                        ...accumulator, 
+                        [this.state.translation[current_value]]: row[current_value]
+                    }
+                ), {}
+            )
+        ); 
+        let result = SubmitData("excel", this.ImportUrl(), data); 
+        if(Number(result))
         {
-            let empty = "__EMPTY"; 
-            var file = event.currentTarget.files[0]; 
-    
-            var buffer = await file.arrayBuffer();
-            var workbook = XLSX.read
-            (
-                buffer,
-                {
-                    type: "array"
-                }
-            );
-            var worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            var json_data = XLSX.utils.sheet_to_json
-            (
-                worksheet,
-                {
-                    raw:false
-                }
-            ).filter(row=>row[empty]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes(empty)).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {}));
-    
-            this.SetStateTable(json_data); 
-        }, 
-        SetStateTable(table)
+            alert(`Nhập danh sách bằng Excel thành công`); 
+            this.SetStateTable([]); 
+            this.ExecPropsFunction("ImportExcelSuccess"); 
+        }
+        else 
         {
-            this.setState({table}); 
-            this.ResetStateValue({value_name: "file_input", new_value: true}); 
-        } 
-    }; 
+            alert("Nhập danh sách Excel thất bại, vui lòng thử lại"); 
+        }
+    }
+    ReadExcelFile = async(event) =>
+    {
+        let empty = "__EMPTY"; 
+        var file = event.currentTarget.files[0]; 
+
+        var buffer = await file.arrayBuffer();
+        var workbook = XLSX.read
+        (
+            buffer,
+            {
+                type: "array"
+            }
+        );
+        var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        var json_data = XLSX.utils.sheet_to_json
+        (
+            worksheet,
+            {
+                raw:false
+            }
+        ).filter(row=>row[empty]==undefined).map(row=>Object.keys(row).filter(key=>!key.includes(empty)).reduce((accumulator, current_value)=>({...accumulator, [current_value]:row[current_value]}), {}));
+
+        this.SetStateTable(json_data); 
+    }
+    SetStateTable = (table) =>
+    {
+        this.setState({table}); 
+        this.ResetStateValue({value_name: "file_input", new_value: true}); 
+    } 
     render()
     {
         var Grid = MaterialUI.Grid; 

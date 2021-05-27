@@ -54,7 +54,6 @@ class LeaseagrmPeriodCalculation extends React.Component
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = 
         {
             number: undefined, 
@@ -89,41 +88,38 @@ class LeaseagrmPeriodCalculation extends React.Component
             }; 
         }
     }
-    Methods = 
+    CalculationMethod = () => 
     {
-        CalculationMethod()
+        if(this.IsBasic() || !this.state.unit)
         {
-            if(this.IsBasic() || !this.state.unit)
-            {
-                return ""; 
-            }
-            var number = this.state.operation?(this.state.number||0): undefined; 
-            let script = `end_period.diff(start_period, "${this.state.unit}", true)${this.state.operation || ""}${number==undefined? "": number};`; 
-
-            let {start_period, end_period} = this.TestPeriod(); 
-            var test_result; 
-            eval(`test_result = ${script}`); 
-            if((test_result === Infinity) || !test_result) 
-            {
-                return ""; 
-            }
-            return script; 
-        }, 
-        IsBasic()
-        {
-            let {start_period, end_period} = this.TestPeriod(); 
-            var bad_diff = end_period.diff(start_period); 
-            var current_diff = end_period.diff(start_period, this.props.edit_text, true); 
-            return !(bad_diff==current_diff); 
-        }, 
-        TestPeriod()
-        {
-            return {
-                start_period: moment(), 
-                end_period: moment().add(1, "year")
-            }; 
+            return ""; 
         }
+        var number = this.state.operation?(this.state.number||0): undefined; 
+        let script = `end_period.diff(start_period, "${this.state.unit}", true)${this.state.operation || ""}${number==undefined? "": number};`; 
+
+        let {start_period, end_period} = this.TestPeriod(); 
+        var test_result; 
+        eval(`test_result = ${script}`); 
+        if((test_result === Infinity) || !test_result) 
+        {
+            return ""; 
+        }
+        return script; 
     }
+    IsBasic = () => 
+    {
+        let {start_period, end_period} = this.TestPeriod(); 
+        var bad_diff = end_period.diff(start_period); 
+        var current_diff = end_period.diff(start_period, this.props.edit_text, true); 
+        return !(bad_diff==current_diff); 
+    }
+    TestPeriod = () => 
+    (
+        {
+            start_period: moment(), 
+            end_period: moment().add(1, "year")
+        } 
+    )
     render()
     {
         var Grid = MaterialUI.Grid; 

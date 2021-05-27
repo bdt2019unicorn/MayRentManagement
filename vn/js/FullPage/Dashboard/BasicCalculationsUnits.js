@@ -3,7 +3,6 @@ class BasicCalculationsUnits extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = 
         {
             basic_calculations: [], 
@@ -35,94 +34,82 @@ class BasicCalculationsUnits extends BaseComponent
             unable_to_delete: undefined
         }; 
     }
-    Methods = 
+    BasicCalculations = (overview_controller = undefined) =>
     {
-        BasicCalculations(overview_controller = undefined)
+        overview_controller = overview_controller || this.OverviewController(); 
+        return overview_controller? this.TableData(overview_controller): []; 
+    } 
+    DeleteBasicUnit = (id) =>
+    {
+        let url = this.ServerUrl("check_delete", id); 
+        let result = AjaxRequest(url); 
+        try 
         {
-            overview_controller = overview_controller || this.OverviewController(); 
-            return overview_controller? this.TableData(overview_controller): []; 
-        },  
-        DeleteBasicUnit(id)
+            this.setState({unable_to_delete: JSON.parse(result)}); 
+        } 
+        catch(exception)
         {
-            let url = this.ServerUrl("check_delete", id); 
-            let result = AjaxRequest(url); 
-            try 
+            url = this.ServerUrl("delete"); 
+            result = SubmitData("delete", url, [id]); 
+            this.HandleResult(result); 
+        }
+    }
+    EditData = (id = undefined, name=undefined) =>
+    {
+        id = id || this.state.edit_id; 
+        name = name || this.state.edit_text; 
+        return this.state.basic_calculations.find(element=> (element.id ==id) && (element.name==name));
+    }
+    ExtraEditReset = () => this.ResetStateValue({value_name: "extra_edit", new_value: true})
+    GeneralEditButtonClick = (id, name) =>
+    {
+        new Promise
+        (
+            (resolve, reject)=>
             {
-                this.setState({unable_to_delete: JSON.parse(result)}); 
-            } 
-            catch(exception)
-            {
-                url = this.ServerUrl("delete"); 
-                result = SubmitData("delete", url, [id]); 
-                this.HandleResult(result); 
+                this.setState
+                (
+                    {
+                        edit_id: id, 
+                        edit_text: name
+                    }
+                ); 
+                resolve({id, name}); 
             }
-        }, 
-        EditData(id = undefined, name=undefined)
-        {
-            id = id || this.state.edit_id; 
-            name = name || this.state.edit_text; 
-            return this.state.basic_calculations.find(element=> (element.id ==id) && (element.name==name));
-        }, 
-        ExtraEditReset()
-        {
-            this.ResetStateValue({value_name: "extra_edit", new_value: true}); 
-        }, 
-        GeneralEditButtonClick(id, name)
-        {
-            new Promise
+        ).then 
+        (
+            ({id, name})=> new Promise
             (
                 (resolve, reject)=>
                 {
-                    this.setState
-                    (
-                        {
-                            edit_id: id, 
-                            edit_text: name
-                        }
-                    ); 
-                    resolve({id, name}); 
+                    this.setState({edit_data: this.EditData(id, name)}); 
+                    resolve(); 
                 }
-            ).then 
-            (
-                ({id, name})=> new Promise
-                (
-                    (resolve, reject)=>
-                    {
-                        this.setState({edit_data: this.EditData(id, name)}); 
-                        resolve(); 
-                    }
-                )
-            ).then(this.ExtraEditReset); 
-        }, 
-        HandleResult(result)
+            )
+        ).then(this.ExtraEditReset); 
+    }
+    HandleResult = (result) =>
+    {
+        if(Number(result))
         {
-            if(Number(result))
-            {
-                this.ExtraEditReset(); 
-                this.setState({basic_calculations: this.BasicCalculations()}); 
-                this.GeneralEditButtonClick(undefined, ""); 
-            }
-            else
-            {
-                alert("Đã có lỗi hệ thống. Vui lòng thử lại."); 
-            }
-        }, 
-        OverviewController()
-        {
-            return _.get(this.state.current_table, "value"); 
-        }, 
-        ServerUrl(command, id=undefined)
-        {
-            return `../server/controller/database/${command}.php?table=${this.OverviewController()}&id=${id}`; 
-        }, 
-        SubmitForm(event)
-        {
-            event.preventDefault(); 
-            var data = this.state.special_tables.includes(this.OverviewController())? Object.fromEntries(new FormData(event.currentTarget)): {name: this.state.edit_text}; 
-            var url = this.ServerUrl(this.state.edit_id?"edit": "import", this.state.edit_id); 
-            var result = SubmitData(this.state.edit_id?"edit":"excel", url, this.state.edit_id?data:[data]); 
-            this.HandleResult(result); 
+            this.ExtraEditReset(); 
+            this.setState({basic_calculations: this.BasicCalculations()}); 
+            this.GeneralEditButtonClick(undefined, ""); 
         }
+        else
+        {
+            alert("Đã có lỗi hệ thống. Vui lòng thử lại."); 
+        }
+    }
+    OverviewController = () => _.get(this.state.current_table, "value")
+    ServerUrl = (command, id=undefined) => `../server/controller/database/${command}.php?table=${this.OverviewController()}&id=${id}`
+    SubmitForm = (event) =>
+    {
+        event.preventDefault(); 
+        var data = this.state.special_tables.includes(this.OverviewController())? Object.fromEntries(new FormData(event.currentTarget)): {name: this.state.edit_text}; 
+        var url = this.ServerUrl(this.state.edit_id?"edit": "import", this.state.edit_id); 
+        var result = SubmitData(this.state.edit_id?"edit":"excel", url, this.state.edit_id?data:[data]); 
+        this.HandleResult(result); 
     }
     render()
     {

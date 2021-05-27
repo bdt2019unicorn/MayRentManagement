@@ -3,7 +3,6 @@ class Dashboard extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = 
         {
             current_tab: "ProblemLeaseagrms", 
@@ -19,28 +18,19 @@ class Dashboard extends BaseComponent
         }; 
         this.state.data = this.GenerateData(); 
     }
-    Methods = 
+    BackupRestoreData = () => <BackupRestoreData RestoreSuccess={this.GenerateData} />
+    GenerateData = () => 
     {
-        BackupRestoreData()
-        {
-            return <BackupRestoreData RestoreSuccess={this.GenerateData} />; 
-        },
-        GenerateData()
-        {
-            let data = AjaxRequest("../server/controller/dashboard/general.php"); 
-            return JSON.parse(data); 
-        }, 
-        ProblemLeaseagrms()
-        {
-            return (
-                <ProblemLeaseagrms 
-                    leaseagrm={this.state.data.leaseagrm}
-                    DeleteSuccess={()=>this.setState({data: this.GenerateData()})}
-                />
-            ); 
-        } 
-
-    }
+        let data = AjaxRequest("../server/controller/dashboard/general.php"); 
+        return JSON.parse(data); 
+    } 
+    ProblemLeaseagrms = () => 
+    (
+        <ProblemLeaseagrms 
+            leaseagrm={this.state.data.leaseagrm}
+            DeleteSuccess={()=>this.setState({data: this.GenerateData()})}
+        />
+    ) 
     render()
     {
         var Tab = MaterialUI.Tab; 
