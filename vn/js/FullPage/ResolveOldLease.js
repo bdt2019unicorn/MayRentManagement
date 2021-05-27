@@ -59,7 +59,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
 
   render() {
     const { Container, Box } = MaterialUI;
-    const { mangHopDongCu, isValid } = this.state;
+    const { mangHopDongCu } = this.state;
 
     const checkSubmit = ()=>{
       let check = true;

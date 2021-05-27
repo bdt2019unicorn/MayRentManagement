@@ -8,8 +8,7 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
       TableRow,
       TableBody,
       TableCell,
-      TableFooter,
-      Typography,
+      withStyles,
     } = MaterialUI;
 
     const { hopDong, rentInvoice } = this.props;
@@ -20,6 +19,9 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
 
     const tinhSoLuong = rentInvoice.RentQuantityCalculation(hopDong.Start_date, hopDong.date_charged_until, hopDong.leaseagrm_period);
     const thanhTien = tinhSoLuong * hopDong.Rent_amount; 
+
+
+    
 
     return (
       <TableContainer component={Paper}>
@@ -37,7 +39,7 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
           <TableBody>
             <TableRow>
               <TableCell align="left">{moment(hopDong.Start_date).format("DD-MM-YYYY")}</TableCell>
-              <TableCell align="right">{moment(hopDong.date_charged_until).format("DD-MM-YYYY")}</TableCell>
+              <TableCell style={hopDong.isHDValid ? {backgroundColor: ""}:{backgroundColor: "red"}} align="right">{moment(hopDong.date_charged_until).format("DD-MM-YYYY")}</TableCell>
               <TableCell align="right">{hopDong.leaseagrm_period}</TableCell>
               <TableCell align="right">{hopDong.Rent_amount}</TableCell>
               <TableCell align="right">{tinhSoLuong}</TableCell>
