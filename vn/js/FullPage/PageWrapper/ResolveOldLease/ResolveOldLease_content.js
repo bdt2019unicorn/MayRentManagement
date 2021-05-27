@@ -30,8 +30,15 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
     const { hopDong, rentInvoice, DateChargedUntilChanged } = this.props;
     const { open } = this.state;
 
+    const colorChange = ()=>{
+      if(hopDong.isHDValid){
+        return "primary.main";
+      }
+      return "secondary.main";
+    }
+
     return (
-      <Box borderColor="primary.main" border={1} padding={2}>
+      <Box borderColor={colorChange()} border={3} padding={2} m={5}>
         <Grid container justify="space-around" alignItems="center" spacing={1}>
           <Grid item xs={2} lg={2}>
             <MaterialUI.IconButton
@@ -42,11 +49,11 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
             </MaterialUI.IconButton>
           </Grid>
 
-          <Grid item xs={4} lg={4}>
+          <Grid item xs={5} lg={4}>
             <h2>{hopDong.name}</h2>
           </Grid>
 
-          <Grid item xs={5} lg={5}>
+          <Grid item xs={4} lg={5}>
             {/* <ReactDatetime
               className="width-full mt-1"
               dateFormat="DD/MM/yyyy"
@@ -56,6 +63,8 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
               <DatePicker
                 disableToolbar
                 variant="inline"
+                openTo="year"
+                views={["year", "month", "date"]}
                 format="DD/MM/yyyy"
                 value={hopDong.date_charged_until}
                 onChange={(date)=>{DateChargedUntilChanged(date); this.setState({

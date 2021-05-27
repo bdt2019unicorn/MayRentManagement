@@ -64,7 +64,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
     const checkSubmit = ()=>{
       let check = true;
       for(const hopDong of mangHopDongCu){
-        check = check && hopDong.isHDValid;
+        check &= hopDong.isHDValid;
       }
       return check;
     }
