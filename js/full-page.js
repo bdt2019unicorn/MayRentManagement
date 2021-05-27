@@ -41,7 +41,7 @@ Vue.component
 (
     "side-bar", 
     {
-        mixins: [support_mixin], 
+        mixins: [permissions_mixin], 
         data: ()=>({nav_list_items: []}),
         created() 
         {
@@ -52,6 +52,14 @@ Vue.component
             IconClass(icon)
             {
                 return ['fas', 'fa-'+ icon]; 
+            }, 
+            ItemPermission({permissions})
+            {
+                if(!permissions)
+                {
+                    return true; 
+                }
+                return permissions.map(role=> Boolean(this[`${role}Permission`])).includes(true); 
             }
         }, 
         template: 
@@ -68,7 +76,7 @@ Vue.component
                     </button>
 
                     <ul class="list-unstyled w-100" :id="item.name">
-                        <li v-for="link in item.menu">
+                        <li v-if="ItemPermission(link)" v-for="link in item.menu">
                             <router-link 
                                 :class="['w-100', 'btn', 'btn-'+link.button]" 
                                 :to="ToActions({controller: item.name, action: link.action})" 

@@ -12,25 +12,25 @@
         <link rel="stylesheet" href="css/en.css">
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col text-left">
-                    <!-- <a href="admin">Admin</a> -->
-                    <a href="issues">Issues</a>
-                </div>
-                <div class="col text-right">
-                    <a lang="vi" href="vn" title="Tiếng Việt"><img src="img/VN_flag.png"></a>
-                </div>
-            </div>
-        </div>
-
         <div id="full-page">
-
-            <div v-if="StateObject('username')">
-                <page-navbar :buildings_data="StateObject('buildings_data')"></page-navbar>
-                <router-view></router-view>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col text-left">
+                        <a v-if="AdminPermission" href="admin" class="ml-3 mr-3">Admin</a>
+                        <a href="issues" class="ml-3 mr-3">Issues</a>
+                    </div>
+                    <div class="col text-right">
+                        <a lang="vi" href="vn" title="Tiếng Việt"><img src="img/VN_flag.png"></a>
+                    </div>
+                </div>
             </div>
-            <page-administration v-if="!StateObject('username')"></page-administration>
+            <div>
+                <div v-if="StateObject('username')">
+                    <page-navbar :buildings_data="StateObject('buildings_data')"></page-navbar>
+                    <router-view></router-view>
+                </div>
+                <page-administration v-if="!StateObject('username')"></page-administration>
+            </div>
         </div>
 
         <footer>
@@ -65,6 +65,7 @@
             <script src="js/npm/html2pdf.bundle.js"></script>
             
             <script src="js/mixins/support.js"></script>
+            <script src="js/mixins/permissions.js"></script>
             <script src="js/mixins/user-input-components.js"></script>
             <script src="js/mixins/add-edit.js"></script>
             <script src="js/mixins/utilities.js"></script>
@@ -137,8 +138,8 @@
             <script defer src="js/setup.js"></script>
 
 
-            <!-- ALTER TABLE `user`  ADD `import` BOOLEAN NULL  AFTER `approved`,  ADD `import_excel` BOOLEAN NULL  AFTER `import`; -->
-            <!-- UPDATE `user` SET `import`=1 ,`import_excel`=1 -->
+            <!-- ALTER TABLE `user`  ADD `add_edit` BOOLEAN NULL  AFTER `approved`,  ADD `import_excel` BOOLEAN NULL  AFTER `add_edit`; -->
+            <!-- UPDATE `user` SET `add_edit`=1 ,`import_excel`=1 -->
         </footer>
     </body>
 </html>

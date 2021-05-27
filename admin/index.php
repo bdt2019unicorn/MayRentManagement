@@ -107,8 +107,19 @@
                                 <p><b>Email Address: </b><?php echo $user["email"]; ?></p>
                                 <p><b>Viber Number: </b><?php echo $user["viber_number"]; ?></p>
                             </div>
+                            <form class="col" id="approve-user-<?php echo $user["id"]; ?>">
+                                <h5>Permissions</h5>
+                                <div class="form-check">
+                                    <input name="add_edit" type="checkbox" class="form-check-input">
+                                    <label class="form-check-label">Add and Edit</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="import_excel" type="checkbox" class="form-check-input" value="1">
+                                    <label class="form-check-label">Import Excel</label>
+                                </div>
+                            </form>
                             <div class="col-1 text-right">
-                                <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserApprove('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
+                                <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserPermissions('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -158,8 +169,8 @@
                         {
                             var logo_src = support_mixin.methods.AjaxRequest("../server/controller/admin_database.php?command=LogoImg"); 
                             document.getElementById('logo_img').src = `../${logo_src}`; 
-                            UserLog.UserLogCount(); 
-                            UserLog.UserLog(1); 
+                            // UserLog.UserLogCount(); 
+                            // UserLog.UserLog(1); 
                         }
                     ); 
                 </script>
