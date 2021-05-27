@@ -163,18 +163,15 @@
         private static function FileDatabaseExecute($sql, $params, $file_path, $file_key = "file")
         {
             $file = fopen($file_path, "rb"); 
-    
-            $connection = ConnectSqlite::Connection();  
-        
+            $connection = ConnectSqlite::Connection(); 
             $statement = $connection->prepare($sql);
             foreach ($params as $key => $value) 
             {
                 $statement->bindValue($key, $value); 
             }
-        
             $statement->bindValue(":{$file_key}", $file, PDO::PARAM_LOB);
             $result = $statement->execute();
-        
+
             fclose($file); 
             return $result; 
         }

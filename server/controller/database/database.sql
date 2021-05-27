@@ -1,3 +1,13 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+
 CREATE TABLE `buildings` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -102,6 +112,16 @@ CREATE TABLE `leaseagrm_period` (
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `is_basic` tinyint(1) NOT NULL DEFAULT '1',
   `calculation_method` text COLLATE utf8mb4_vietnamese_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL,
+  `action` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `tables` varchar(255) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `data` text COLLATE utf8mb4_vietnamese_ci,
+  `queries` text COLLATE utf8mb4_vietnamese_ci,
+  `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `modified_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `revenue` (
@@ -227,6 +247,9 @@ ALTER TABLE `leaseagrm`
 ALTER TABLE `leaseagrm_period`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `revenue`
   ADD PRIMARY KEY (`id`),
   ADD KEY `leaseagrm_id` (`leaseagrm_id`);
@@ -286,6 +309,9 @@ ALTER TABLE `leaseagrm`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `leaseagrm_period`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `revenue`
@@ -350,4 +376,8 @@ ALTER TABLE `utility_price`
 ALTER TABLE `utility_reading`
   ADD CONSTRAINT `utility_reading_ibfk_1` FOREIGN KEY (`revenue_type_id`) REFERENCES `revenue_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `utility_reading_ibfk_2` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

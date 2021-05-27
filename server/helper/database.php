@@ -1,4 +1,4 @@
-<?php 
+<?php
     require_once("query.php"); 
     require_once("current_environment.php"); 
     $dotenv = new CurrentEnvironment(); 
@@ -16,6 +16,12 @@
         {
             $test_mode = CurrentEnvironment::TestMode(); 
             return $test_mode?ConnectSqlite::ExecTransaction($sql): Connect::ExecTransaction($sql); 
+        }
+
+        public static function Exec($sql)
+        {
+            $test_mode = CurrentEnvironment::TestMode(); 
+            return $test_mode? ConnectSqlite::Exec($sql): Connect::GetData($sql); 
         }
 
         public static function GetId($table, $conditions, $id_field='id')
@@ -38,6 +44,29 @@
         {
             $sql = Query::SelectData($table, $selects, $conditions); 
             return Database::GetData($sql); 
+        }
+
+        public static function LogUserAction($result, $action, $tables, $data, $queries)
+        {
+            if(!boolval($result))
+            {
+                return; 
+            }
+            $test_mode = CurrentEnvironment::TestMode(); 
+            $headers = getallheaders(); 
+            $sql = Query::Insert
+            (
+                "logs",
+                [
+                    "action"=>$action, 
+                    "tables"=>$tables, 
+                    "data"=>$data, 
+                    "queries"=>$test_mode?str_replace("'", "''", $queries): addslashes($queries), 
+                    "username"=>$headers["username"]??null, 
+                    "modified_time"=>$headers["modified_time"]??null
+                ]
+            );
+            Database::Exec($sql);  
         }
     }
 ?>

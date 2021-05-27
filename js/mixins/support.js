@@ -31,6 +31,7 @@ var support_mixin =
             $.ajax
             (
                 {
+                    headers: this.UserInformationHeader(), 
                     type: type, 
                     url: url, 
                     data: data, 
@@ -57,6 +58,7 @@ var support_mixin =
             $.ajax 
             (
                 {
+                    headers: this.UserInformationHeader(), 
                     url: url, 
                     type: "POST", 
                     data: data,  
@@ -208,7 +210,7 @@ var support_mixin =
             {
                 return []; 
             }          
-        }, 
+        },
         ToActions({controller=undefined, action, query=undefined})
         {
             return {
@@ -221,6 +223,20 @@ var support_mixin =
                 }, 
                 query: query
             }; 
+        },  
+        UserInformationHeader()
+        {
+            try 
+            {
+                return {
+                    username: sessionStorage.getItem("username"), 
+                    modified_time: moment().format("YYYY-MM-DD HH:MM:ss") 
+                }
+            }
+            catch 
+            {
+                return {}
+            }
         }, 
         ValidObject(object)
         {

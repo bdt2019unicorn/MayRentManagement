@@ -47,7 +47,7 @@
         private $date_format = "Y-m-d", $test_mode; 
         function __construct($leaseagrm_id)
         {
-            $helper_path = __DIR__ . "/../../helper"; 
+            $helper_path = realpath(__DIR__ . "/../../../helper"); 
             require_once(realpath("{$helper_path}/database.php")); 
             require_once(realpath("{$helper_path}/overview_queries.php")); 
 

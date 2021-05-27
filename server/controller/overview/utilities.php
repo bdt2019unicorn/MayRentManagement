@@ -1,7 +1,5 @@
 <?php 
     require_once("../../helper/database.php"); 
-    require_once("../../helper/support.php"); 
-    
     $conditions_sql = 
     "
         FROM 
@@ -118,9 +116,7 @@
                 "Unit price (VND/kWh)"=> $values["unit_price"],
                 "Bill"=>$consumption*doubleval($values["unit_price"])
             );  
-
         }
     }
-    $utilities_overview = ObjectToArray($data); 
-    echo json_encode($utilities_overview); 
+    echo json_encode(array_values($data)); 
 ?>

@@ -69,13 +69,13 @@
                         }
                     }
                 }
-                $result = ConnectSqlite::InsertFile("document", $_POST, $file_path, "file"); 
+                $result = ConnectSqlite::InsertFile("documents", $_POST, $file_path, "file"); 
                 if(isset($_POST["file"]))
                 {
                     unlink($file_path); 
                     rmdir($_POST['file']); 
                 }
-                echo $result; 
+                Database::LogUserAction($result, "AddDocument", "documents", json_encode($_POST), null); 
             }
             else 
             {
@@ -84,9 +84,9 @@
                 $data["file"] = addslashes($file); 
                 $sql = Query::Insert("documents", $data); 
                 $result = Connect::GetData($sql); 
-                echo $result; 
+                Database::LogUserAction($result, "AddDocument", "document", json_encode($data), $sql); 
             }
-
+            echo $result; 
         }, 
         "DocumentEditSubmit"=> function()
         {
@@ -97,9 +97,9 @@
 
             $CompareFiles = function($new_file, $current_file)
             {
-                $new64 = base64_encode($new_file); 
-                $current64 = base64_encode($current_file); 
-                return ($new64==$current64)? null: addslashes($new_file); 
+                $new_hex = Query::FileToHex($new_file); 
+                $current_hex = Query::FileToHex($current_file); 
+                return ($new_hex==$current_hex)? null: $new_hex; 
             }; 
 
             $CurrentData = function() use ($document, $test_mode)
@@ -115,16 +115,11 @@
 
             $data = []; 
             $user_information_data = []; 
-            $file = $CompareFiles($new_file, $current_file); 
-            if($file)
-            {
-                $data["file"] = $file; 
-            }
             
             $current_data = $CurrentData(); 
             foreach ($_POST as $key => $value) 
             {
-                if(isset($current_data[$key]))
+                if(array_key_exists($key, $current_data))
                 {
                     if($current_data[$key]!=$value)
                     {
@@ -136,31 +131,40 @@
                     $user_information_data[$key] = $value; 
                 }
             }
-            if(count($data))
-            {
-                $data = array_merge($data, $user_information_data); 
-                $conditions = ["id"=>$document->id]; 
-                if($test_mode && $file)
-                {
-                    $file_path = TempFolder(); 
-                    $file_name = md5(json_encode($user_information_data)) . random_int(PHP_INT_MIN, PHP_INT_MAX) . ".tmp"; 
-                    $file_path = "{$file_path}/{$file_name}"; 
-                    $file = fopen($file_path, "ab"); 
-                    fwrite($file, $new_file); 
-                    fclose($file); 
-                    $result = ConnectSqlite::EditFile("documents", $data, $conditions, $file_path); 
-                    unlink($file_path); 
-                    echo $result; 
-                    return; 
-                }
-                $sql = Query::Update("documents", $data, $conditions); 
-                $result = Database::GetData($sql); 
-                echo $result; 
-            }
-            else 
+            
+            $file = $CompareFiles($new_file, $current_file); 
+            if(!count($data) && !$file)
             {
                 echo true; 
+                return; 
             }
+
+            $data = array_merge($data, $user_information_data); 
+            $conditions = ["id"=>$document->id]; 
+            $variable_data = []; 
+            if($test_mode && $file)
+            {
+                $file_path = TempFolder(); 
+                $file_name = md5(json_encode($user_information_data)) . random_int(PHP_INT_MIN, PHP_INT_MAX) . ".tmp"; 
+                $file_path = "{$file_path}/{$file_name}"; 
+                $file = fopen($file_path, "ab"); 
+                fwrite($file, $new_file); 
+                fclose($file); 
+                $result = ConnectSqlite::EditFile("documents", $data, $conditions, $file_path); 
+                unlink($file_path); 
+                goto LogResult; 
+            }
+            else if($file)
+            {
+                unset($data["file"]); 
+                $variable_data["file"] = $file; 
+            }
+            $sql = Query::Update("documents", $data, $conditions, $variable_data); 
+            $result = Database::GetData($sql); 
+            
+            LogResult: 
+            echo $result; 
+            Database::LogUserAction($result, "Edit Document", "documents", json_encode($data), $sql??null);
         }
     ]; 
 
