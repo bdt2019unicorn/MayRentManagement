@@ -78,11 +78,11 @@
                 "icon": "add"
             }, 
             {
-                "action": "resolve-old-lease", 
-                "text": "Resolve Old Contracts", 
-                "title": "Put the date contract paid to keep old contract up to date", 
-                "button": "info", 
-                "icon": "file-contract"
+                "action": "ResolveOldLease", 
+                "text": "Giải quyết hợp đồng cũ", 
+                "title": "Cập nhật ngày thanh toán cho hợp đồng cũ", 
+                "button": "purple", 
+                "icon": "file_copy"
             }, 
             {
                 "action": "ImportExcel", 

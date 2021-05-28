@@ -15,7 +15,6 @@ function BlobRequest(url, data={})
     request.overrideMimeType("text/plain; charset=x-user-defined"); 
     request.open("POST", url, false); 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
     request.onload = ()=>
     {
         var bytes = new Uint8Array(request.responseText.length);
