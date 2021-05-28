@@ -8,7 +8,6 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
       TableRow,
       TableBody,
       TableCell,
-      withStyles,
     } = MaterialUI;
 
     const { hopDong, rentInvoice } = this.props;
