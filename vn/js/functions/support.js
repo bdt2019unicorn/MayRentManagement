@@ -33,10 +33,6 @@ function BlobRequest(url, data={})
     request.send(SearchQueryString(data)); 
     return result; 
 } 
-function DateFormatDisplay(moment_value) 
-{
-    return moment(moment_value).format("DD/MM/YYYY"); 
-}
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 
