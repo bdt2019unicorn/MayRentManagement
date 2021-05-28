@@ -2,6 +2,6 @@ class AddInvoice extends React.Component
 {
     render()
     {
-        return null; 
+        return <div>add invoice</div>; 
     }
 }
