@@ -1,39 +1,31 @@
 class TableActions extends BaseComponent
 {
-    constructor(props)
+    Delete = () => 
     {
-        super(props); 
-        BindFunctions(this); 
+        var url = `../server/controller/database/delete.php?table=${this.props.controller}`; 
+        var result = SubmitData("delete", url, this.props.selected); 
+        if(Number(result))
+        {
+            alert("Xóa dữ liệu thành công"); 
+            this.ExecPropsFunction("DeleteSuccess"); 
+        }
+        else
+        {
+            alert("Xóa dữ liệu thất bại. Dường như đã có lỗi hệ thống"); 
+        }
     }
-    Methods = 
+    DeleteDuplicate = () => 
     {
-        Delete()
+        var url = `../server/controller/database/delete_duplicate.php?controller=${this.props.controller}`; 
+        var result = AjaxRequest(url); 
+        if(result)
         {
-            var url = `../server/controller/database/delete.php?table=${this.props.controller}`; 
-            var result = SubmitData("delete", url, this.props.selected); 
-            if(Number(result))
-            {
-                alert("Xóa dữ liệu thành công"); 
-                this.ExecPropsFunction("DeleteSuccess"); 
-            }
-            else
-            {
-                alert("Xóa dữ liệu thất bại. Dường như đã có lỗi hệ thống"); 
-            }
-        }, 
-        DeleteDuplicate()
+            alert("Toàn bộ dữ liệu trùng đã bị xóa"); 
+            this.ExecPropsFunction("DeleteSuccess"); 
+        }
+        else 
         {
-            var url = `../server/controller/database/delete_duplicate.php?controller=${this.props.controller}`; 
-            var result = AjaxRequest(url); 
-            if(result)
-            {
-                alert("Toàn bộ dữ liệu trùng đã bị xóa"); 
-                this.ExecPropsFunction("DeleteSuccess"); 
-            }
-            else 
-            {
-                alert("Xóa dữ liệu trùng thất bại. Dường như đã có lỗi hệ thống"); 
-            }
+            alert("Xóa dữ liệu trùng thất bại. Dường như đã có lỗi hệ thống"); 
         }
     }
     render() 

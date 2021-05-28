@@ -1,28 +1,20 @@
 class UserInput extends BaseComponent
 {
-    constructor(props)
+    FormSubmit = (event) =>
     {
-        super(props); 
-        BindFunctions(this); 
-    }
-    Methods =  
-    {
-        FormSubmit(event)
+        event.preventDefault(); 
+        var form_data = new FormData(event.target); 
+        var data = Object.fromEntries(form_data); 
+        let validation = validate(data, this.props.form.validate.rules); 
+        if(!validation)
         {
-            event.preventDefault(); 
-            var form_data = new FormData(event.target); 
-            var data = Object.fromEntries(form_data); 
-            let validation = validate(data, this.props.form.validate.rules); 
-            if(!validation)
+            if(this.props.form.validate.eliminate)
             {
-                if(this.props.form.validate.eliminate)
-                {
-                    Object.values(this.props.form.validate.eliminate).forEach(key=>delete data[key]); 
-                }
-                this.props.FormSubmitValid(data); 
+                Object.values(this.props.form.validate.eliminate).forEach(key=>delete data[key]); 
             }
-        } 
-    }
+            this.props.FormSubmitValid(data); 
+        }
+    } 
     render() 
     {
         if(!this.props.form)
@@ -37,14 +29,7 @@ class UserInput extends BaseComponent
                 (
                     component =>  
                     {
-                        try {
                         var ComponentClass = window[component.component]; 
-                        if(!ComponentClass)
-                        {
-                            return (
-                                <div key={Math.random().toExponential(12).toString()}>{component.component}</div>
-                            ); 
-                        }
                         let name = component.name; 
                         return (
                             <MaterialUI.Grid
@@ -62,10 +47,7 @@ class UserInput extends BaseComponent
                                     match = {this.props.match}
                                 />
                             </MaterialUI.Grid>); 
-                        }
-                        catch(exception){console.log(exception); console.log("not exist"); return <div key={Math.random().toExponential(10).toString()}>test</div>;}
                     }
-                    
                 ); 
                 return (
                     <MaterialUI.Grid key={encodeURIComponent(JSON.stringify(components)) + Math.random()} container spacing={1}>

@@ -7,14 +7,6 @@ function AjaxRequest(url, data = new FormData(), type = "get")
     request.send(data); 
     return result; 
 }
-function BindFunctions(component)
-{
-    if(!component.Methods)
-    {
-        return; 
-    }
-    Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
-} 
 function BlobRequest(url, data={})
 {
     var result = undefined; 

@@ -3,16 +3,12 @@ class DateInput extends UserInputComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state.validation_object = this.ValidationObject(); 
     }
-    Methods =
+    ValueStateChange = (value = undefined) => 
     {
-        ValueStateChange(value = undefined)
-        {
-            this.setState({value}); 
-            this.ExecPropsFunction("ValueStateChange"); 
-        }
+        this.setState({value}); 
+        this.ExecPropsFunction("ValueStateChange"); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
