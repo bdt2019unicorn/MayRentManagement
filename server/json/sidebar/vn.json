@@ -114,9 +114,9 @@
                 "icon": "calendar-alt"
             }, 
             {
-                "action": "Add-invoice", 
+                "action": "AddInvoice", 
                 "text": "Thêm", 
-                "title": "Thêm New Invoice", 
+                "title": "Thêm Hóa Đơn", 
                 "button": "outline", 
                 "icon": "add"
             }, 
