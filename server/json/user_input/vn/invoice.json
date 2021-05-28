@@ -52,7 +52,7 @@
     "leaseagrm_id": 
     {
         "name": "leaseagrm_id",
-        "title": "Lease Agreement", 
+        "title": "Hợp đồng", 
         "select_value": "id",
         "text": "name"
     }, 
@@ -70,5 +70,5 @@
         "track-by": "id"
     }, 
     "rent_id": 1,
-    "main_url": "server/controller/invoice/action.php?command="
+    "main_url": "../server/controller/invoice/action.php?command="
 }

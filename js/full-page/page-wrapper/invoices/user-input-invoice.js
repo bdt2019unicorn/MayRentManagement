@@ -166,7 +166,7 @@ Vue.component
                             v-bind="BindObjectMultiSelect('utilities')" 
                             v-model="list.utilities"
                             @search-data-changed="MultiSelectInput('utilities')"
-                            ></multi-select-input>
+                        ></multi-select-input>
                     </div>
 
                     <br>

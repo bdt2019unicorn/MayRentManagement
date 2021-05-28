@@ -14,11 +14,10 @@ class Invoices extends PageWrapperChildrenComponent
             }, 
             user_input: {}
         } 
-        let config = ServerJson(`${this.main_url}InvoiceConfigs&lang=en&building_id=${this.current_building}`); 
+        let config = ServerJson(`${this.state.main_url}InvoiceConfigs&lang=vn&building_id=${this.props.current_building}`); 
         Object.keys(config).forEach(key=>this.state[key]=config[key]); 
     }
 }
-Invoices = ConnectComponentToStore(Invoices); 
 
 class RentInvoice
 {
