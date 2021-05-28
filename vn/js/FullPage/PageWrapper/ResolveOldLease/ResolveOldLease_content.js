@@ -63,8 +63,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
               <DatePicker
                 disableToolbar
                 variant="inline"
-                openTo="year"
-                views={["year", "month", "date"]}
+                openTo="date"
                 format="DD/MM/yyyy"
                 value={hopDong.date_charged_until}
                 onChange={(date)=>{DateChargedUntilChanged(date); this.setState({
