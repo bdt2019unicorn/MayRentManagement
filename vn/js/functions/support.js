@@ -36,6 +36,10 @@ function ItemsClasses(item_value, compared_value, based_classes, good_class, bad
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 
 } 
+function NumeralFormat(number)
+{
+    return numbro(number).format({thousandSeparated: true});
+}
 function SearchQueryString(params)
 {
     return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 

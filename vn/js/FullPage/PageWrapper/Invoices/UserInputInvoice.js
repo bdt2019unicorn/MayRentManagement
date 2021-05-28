@@ -38,6 +38,9 @@ class UserInputInvoice extends React.Component
     InvoiceInformation = (leaseagrm_id) => this.setState({invoice_information: ServerJson(`${this.props.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`)})
     LeaseagrmIdSelectChanged = ({value}) => 
     {
+        // potentially get rid of the promise 
+        // maybe React don't need it. 
+        // try it out and find out 
         new Promise 
         (
             (resolve, reject)=>
@@ -66,7 +69,7 @@ class UserInputInvoice extends React.Component
                 ); 
                 if(!this.props.edit_data)
                 {
-                    invoice.name = `${this.state.invoice_information.tenant_name}_${this.DateReformatDisplay()}`; 
+                    invoice.name = `${this.state.invoice_information.tenant_name}_${DateReformat.Display()}`; 
                     invoice.note = undefined; 
                 }
                 this.setState({invoice}); 
@@ -85,8 +88,7 @@ class UserInputInvoice extends React.Component
     )
     render()
     {
-        let {edit_data, leaseagrm_select_data, main_url, revenue_type, title, user_input} = this.props; 
-        console.log(this.props); 
+        let {edit_data, leaseagrm_select_data, main_url, revenue_type, title, user_input, InvoiceInformation} = this.props; 
         return (
             <MaterialUI.Container>
                 <h1>{title}</h1>
@@ -97,9 +99,10 @@ class UserInputInvoice extends React.Component
                         select_data={leaseagrm_select_data}
                         lock={edit_data}
                         edit_data={edit_data?edit_data.invoice: undefined}
-                        ValueChange={}
+                        ValueChange={this.LeaseagrmIdSelectChanged}
                     />
                 </div>
+                {InvoiceInformation && InvoiceInformation(this.state.invoice, this.state.invoice_information)}
             </MaterialUI.Container>
         ); 
     }
