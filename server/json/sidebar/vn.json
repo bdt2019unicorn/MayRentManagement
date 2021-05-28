@@ -115,8 +115,8 @@
             }, 
             {
                 "action": "AddInvoice", 
-                "text": "Thêm Hóa Đơn", 
-                "title": "Thêm", 
+                "text": "Thêm", 
+                "title": "Thêm Hóa Đơn", 
                 "button": "outline", 
                 "icon": "add"
             }, 
