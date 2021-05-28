@@ -51,4 +51,4 @@ class PageAdministration extends BaseComponent
     }
 }
 
-PageAdministration = ConnectComponentToStore(PageAdministration); 
+PageAdministration = ConnectComponent.Store(PageAdministration); 

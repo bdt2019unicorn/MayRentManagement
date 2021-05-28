@@ -33,22 +33,6 @@ function BlobRequest(url, data={})
     request.send(SearchQueryString(data)); 
     return result; 
 } 
-function ConnectComponentToAll(component_class)
-{
-    return ConnectComponentToRouter(ConnectComponentToStore(component_class)); 
-}
-function ConnectComponentToRouter(component_class)
-{
-    return ReactRouterDOM.withRouter(component_class); 
-}
-function ConnectComponentToStore(component_class)
-{
-    return ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(component_class); 
-}
-function DateFormatDisplay(moment_value) 
-{
-    return moment(moment_value).format("DD/MM/YYYY"); 
-}
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 

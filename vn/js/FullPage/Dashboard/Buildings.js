@@ -137,4 +137,4 @@ class Buildings extends BaseComponent
         ); 
     }
 }
-Buildings = ConnectComponentToStore(Buildings); 
+Buildings = ConnectComponent.Store(Buildings); 
