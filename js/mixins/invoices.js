@@ -23,7 +23,7 @@ var invoices_mixin =
             Object.keys(config).forEach(key=>this[key]=config[key]); 
         }
         catch {}
-    },
+    } 
 }; 
 
 var rent_invoice_mixin = 

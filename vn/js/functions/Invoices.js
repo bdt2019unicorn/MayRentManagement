@@ -1,3 +1,25 @@
+class Invoices extends PageWrapperChildrenComponent
+{
+    constructor(props)
+    {
+        super(props); 
+        this.state = 
+        {
+            leaseagrm_select_data: [], 
+            main_url: "../server/controller/invoice/action.php?command=", 
+            revenue_type: 
+            {
+                leaseagrm: [], 
+                utilities: []
+            }, 
+            user_input: {}
+        } 
+        let config = ServerJson(`${this.main_url}InvoiceConfigs&lang=en&building_id=${this.current_building}`); 
+        Object.keys(config).forEach(key=>this.state[key]=config[key]); 
+    }
+}
+Invoices = ConnectComponentToStore(Invoices); 
+
 class RentInvoice
 {
     constructor(leaseagrm_period=undefined)

@@ -1,7 +1,11 @@
-class AddInvoice extends React.Component 
+class AddInvoice extends Invoices
 {
     render()
     {
-        return <div>add invoice</div>; 
+        return (
+            <UserInputInvoice title="Thêm Hóa Đơn">
+
+            </UserInputInvoice>
+        );  
     }
 }
