@@ -20,7 +20,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
   OldLeasesJson = (data) => {
     return JSON.parse(data).map((leaseagrm) => ({
       ...leaseagrm,
-      show_details: false,
+      show_details: false
     }));
   };
 
@@ -45,10 +45,10 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
   componentDidMount() {
     const newArray = this.state.mangHopDongCu.map((hopDong) => ({
       ...hopDong,
-      isHDValid: true,
+      isHDValid: true
     }));
     this.setState({
-      mangHopDongCu: newArray,
+      mangHopDongCu: newArray
     });
   }
 
@@ -64,7 +64,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
         date_charged_until,
         leaseagrm_period,
         Rent_amount,
-        utilities,
+        utilities
       }) => {
         let quantity = this.rentInvoice.RentQuantityCalculation(
           Start_date,
@@ -85,7 +85,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
               amount,
               revenue_type,
               date,
-              previous_date,
+              previous_date
             }) => ({
               name: `${name} - Giải quyết ${revenue_type} kỳ thanh toán ${DateReformat.Display(
                 previous_date
@@ -94,7 +94,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
               revenue_type_id,
               price,
               quantity,
-              amount,
+              amount
             })
           );
         let utilities_total = utilities_details.reduce(
@@ -110,7 +110,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
           quantity,
           amount: amount.toFixed(3),
           utilities: utilities_details,
-          total: utilities_total + amount,
+          total: utilities_total + amount
         };
       }
     );
@@ -144,7 +144,7 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
 
       return mangHopDongCu.map((hopDong, index) => {
         return (
-          <ResolveOldLease_content
+          <ResolveOldLeaseContent
             rentInvoice={this.rentInvoice}
             hopDong={hopDong}
             key={index}
@@ -153,9 +153,9 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
               var mangHopDongCuMoi = ImmutabilityHelper(mangHopDongCu, {
                 [index]: {
                   date_charged_until: {
-                    $set: moment(date).format("YYYY-MM-DD"),
-                  },
-                },
+                    $set: DateReformat.Database(date)
+                  }
+                }
               });
               this.setState({ mangHopDongCu: mangHopDongCuMoi });
             }}
@@ -164,9 +164,9 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
               var mangHopDongCuMoi = ImmutabilityHelper(mangHopDongCu, {
                 [index]: {
                   isHDValid: {
-                    $set: check,
-                  },
-                },
+                    $set: check
+                  }
+                }
               });
               this.setState({ mangHopDongCu: mangHopDongCuMoi });
             }}
@@ -191,8 +191,6 @@ class ResolveOldLease extends PageWrapperChildrenComponent {
         </Box>
       );
     };
-
-    console.log(mangHopDongCu);
     return (
       <Container>
         <h1>Xử lý hợp đồng cũ</h1>
