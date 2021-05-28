@@ -3,7 +3,6 @@ class ProblemLeaseagrms extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = 
         {
             leaseagrm_edit: undefined, 
@@ -12,21 +11,18 @@ class ProblemLeaseagrms extends BaseComponent
             table_actions: TableAction("leaseagrm")
         }
     }
-    Methods = 
+    LeaseagrmCategorized = () =>
     {
-        LeaseagrmCategorized()
-        {
-            let translate_url = TranslationValues.TranslateUrl("leaseagrm"); 
-            var leaseagrm = TranslationValues.TranslateTable(this.props.leaseagrm, translate_url); 
-            let partition_all_null = _.partition(leaseagrm, leaseagrm=>(leaseagrm["Đơn vị"]==undefined && leaseagrm["Người thuê"]==undefined)); 
-            let unit_tenant_partition = _.partition(partition_all_null[1], leaseagrm=>leaseagrm["Đơn vị"]==undefined); 
-            return {
-                "Không có người thuê và căn hộ": partition_all_null[0], 
-                "Không có căn hộ": unit_tenant_partition[0], 
-                "Không có người thuê": unit_tenant_partition[1]
-            }; 
-        } 
-    }
+        let translate_url = TranslationValues.TranslateUrl("leaseagrm"); 
+        var leaseagrm = TranslationValues.TranslateTable(this.props.leaseagrm, translate_url); 
+        let partition_all_null = _.partition(leaseagrm, leaseagrm=>(leaseagrm["Đơn vị"]==undefined && leaseagrm["Người thuê"]==undefined)); 
+        let unit_tenant_partition = _.partition(partition_all_null[1], leaseagrm=>leaseagrm["Đơn vị"]==undefined); 
+        return {
+            "Không có người thuê và căn hộ": partition_all_null[0], 
+            "Không có căn hộ": unit_tenant_partition[0], 
+            "Không có người thuê": unit_tenant_partition[1]
+        }; 
+    } 
     render()
     {
         var leaseagrm_options = this.LeaseagrmCategorized(); 

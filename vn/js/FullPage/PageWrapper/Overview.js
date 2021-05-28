@@ -3,7 +3,6 @@ class Overview extends PageWrapperChildrenComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         var controller = this.CurrentController() || "overview"; 
         var table = this.TableData(controller); 
         var translate_url = TranslationValues.TranslateUrl(controller); 
@@ -16,35 +15,29 @@ class Overview extends PageWrapperChildrenComponent
             translate_url 
         }; 
     }
-    Methods = 
+    ExportExcel = () =>
     {
-        ExportExcel()
-        {
-            var hidden_columns = _.get(this.state.table_actions,"hidden_columns") || []; 
-            var table = this.state.table_data.map
+        var hidden_columns = _.get(this.state.table_actions,"hidden_columns") || []; 
+        var table = this.state.table_data.map
+        (
+            row=> Object.keys(row).filter(column=>!hidden_columns.includes(column)).reduce
             (
-                row=> Object.keys(row).filter(column=>!hidden_columns.includes(column)).reduce
+                (accumulator, current_value)=>
                 (
-                    (accumulator, current_value)=>
-                    (
-                        {
-                            ...accumulator, 
-                            [current_value]: TranslationValues.Translate(row[current_value])
-                        }
-                    ), {}
-                )
-            ); 
-            var page_title = this.PageTitle(); 
-            var worksheet = XLSX.utils.json_to_sheet(table); 
-            var workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
-            XLSX.writeFile(workbook, `${page_title}.xlsx`);
-        }, 
-        PageTitle()
-        {
-            return _get(this.state.table_actions, "page_title") || "Tổng quát"; 
-        }
+                    {
+                        ...accumulator, 
+                        [current_value]: TranslationValues.Translate(row[current_value])
+                    }
+                ), {}
+            )
+        ); 
+        var page_title = this.PageTitle(); 
+        var worksheet = XLSX.utils.json_to_sheet(table); 
+        var workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
+        XLSX.writeFile(workbook, `${page_title}.xlsx`);
     }
+    PageTitle = () => _get(this.state.table_actions, "page_title") || "Tổng quát"
     render() 
     {
         var DeleteSuccess = () => this.setState

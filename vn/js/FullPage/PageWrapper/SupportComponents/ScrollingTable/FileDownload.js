@@ -3,54 +3,50 @@ class FileLink extends React.Component
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = {file: undefined}; 
     }
-    Methods = 
+    DefaultName = () =>
     {
-        DefaultName()
+        var file_extension = this.props.file_extension.trim(); 
+        var name = this.props.name.trim(); 
+        let start_position = name.length - file_extension.length; 
+        return (name.substr(start_position)==file_extension && name[start_position-1]==".")? name: `${name}.${file_extension}`; 
+    } 
+    DownLoadFile = () =>
+    {
+        var file; 
+        if(!this.state.file)
         {
-            var file_extension = this.props.file_extension.trim(); 
-            var name = this.props.name.trim(); 
-            let start_position = name.length - file_extension.length; 
-            return (name.substr(start_position)==file_extension && name[start_position-1]==".")? name: `${name}.${file_extension}`; 
-        }, 
-        DownLoadFile()
-        {
-            var file; 
-            if(!this.state.file)
+            let blob = BlobRequest(this.props.url, {id: this.props.object_id}); 
+            if(blob.size)
             {
-                let blob = BlobRequest(this.props.url, {id: this.props.object_id}); 
-                if(blob.size)
+                file = blob; 
+            }
+        }
+        file = file || this.state.file; 
+        if(file)
+        {
+            new Promise 
+            (
+                (resolve, reject)=>
                 {
-                    file = blob; 
+                    saveAs(file, this.DefaultName()); 
+                    resolve(); 
                 }
-            }
-            file = file || this.state.file; 
-            if(file)
-            {
-                new Promise 
-                (
-                    (resolve, reject)=>
+            ).then 
+            (
+                ()=>
+                {
+                    if(!this.state.file)
                     {
-                        saveAs(file, this.DefaultName()); 
-                        resolve(); 
+                        this.setState({file}); 
                     }
-                ).then 
-                (
-                    ()=>
-                    {
-                        if(!this.state.file)
-                        {
-                            this.setState({file}); 
-                        }
-                    }
-                ); 
-            }
-            else 
-            {
-                alert("Đã có lỗi hệ thống. Vui lòng thử lại sau."); 
-            }
+                }
+            ); 
+        }
+        else 
+        {
+            alert("Đã có lỗi hệ thống. Vui lòng thử lại sau."); 
         }
     }
     render() 

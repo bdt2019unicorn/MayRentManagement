@@ -3,8 +3,7 @@ class AddEditComponent extends PageWrapperChildrenComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
-        this.InnitialState(); 
+        this.state = {form: this.LoadForm()}; 
     }
     componentDidUpdate(previous_props, previous_state)
     {
@@ -15,17 +14,7 @@ class AddEditComponent extends PageWrapperChildrenComponent
             this.setState({form: this.LoadForm(controller)}); 
         }
     }
-    Methods = 
-    {
-        InnitialState()
-        {
-            this.state = {form: this.LoadForm()}; 
-        }, 
-        ReloadUserInput(callback_resolve=undefined)
-        {
-            this.ResetStateValue({value_name: "form", new_value: _.cloneDeep(this.state.form), callback_resolve}); 
-        }
-    }
+    ReloadUserInput = (callback_resolve=undefined) => this.ResetStateValue({value_name: "form", new_value: _.cloneDeep(this.state.form), callback_resolve})
     render()
     {
         return this.state.form? (
