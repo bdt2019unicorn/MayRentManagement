@@ -62,7 +62,7 @@ class RestoreData extends BaseComponent
         ); 
     }
 }
-RestoreData = ConnectComponentToStore(RestoreData); 
+RestoreData = ConnectComponent.Store(RestoreData); 
 
 class BackupRestoreData extends React.Component 
 {

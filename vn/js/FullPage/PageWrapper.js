@@ -17,17 +17,17 @@ class PageWrapper extends BaseComponent
                     </Grid>
                     <Grid className="p-3" item xs={9}>
                         <ReactRouterDOM.Switch>
-                            <Route component={ConnectComponentToStore(Overview)} exact path="/:building_id"/>
+                            <Route component={ConnectComponent.Store(Overview)} exact path="/:building_id"/>
                             {
                                 this.state.sidebar.flatMap
                                 (
                                     controller => controller.menu.filter(item=>window[item.action]).map 
                                     (
-                                        item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={ConnectComponentToStore(window[item.action])} exact path={`/:building_id/:controller/${item.action}`} />
+                                        item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={ConnectComponent.Store(window[item.action])} exact path={`/:building_id/:controller/${item.action}`} />
                                     )
                                 )
                             }
-                            <Route component={ConnectComponentToStore(Edit)} exact path="/:building_id/:controller/Edit" />
+                            <Route component={ConnectComponent.Store(Edit)} exact path="/:building_id/:controller/Edit" />
                         </ReactRouterDOM.Switch>
                     </Grid>
                 </Grid>
@@ -35,4 +35,4 @@ class PageWrapper extends BaseComponent
         ); 
     }
 }
-PageWrapper = ConnectComponentToStore(PageWrapper); 
+PageWrapper = ConnectComponent.Store(PageWrapper); 
