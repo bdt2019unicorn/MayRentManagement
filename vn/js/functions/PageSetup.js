@@ -47,7 +47,7 @@ class PageSetup
     {
         var Provider = ReactRedux.Provider; 
         var store = Redux.createStore(this.reducer, this.innitial_state); 
-        var Page = ConnectComponentToStore(FullPage); 
+        var Page = ConnectComponent.Store(FullPage); 
         return <Provider store={store}><Page /></Provider>; 
     }
 }

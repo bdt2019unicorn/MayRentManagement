@@ -26,4 +26,4 @@ class AuthorizedComponent extends BaseComponent
         return redirect_component || this.props.children; 
     }
 }
-AuthorizedComponent = ConnectComponentToStore(AuthorizedComponent); 
+AuthorizedComponent = ConnectComponent.Store(AuthorizedComponent); 

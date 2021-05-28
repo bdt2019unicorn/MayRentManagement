@@ -46,4 +46,4 @@ class GeneralEdit extends BaseComponent
         ); 
     }
 }
-GeneralEdit = ConnectComponentToAll(GeneralEdit); 
+GeneralEdit = ConnectComponent.All(GeneralEdit); 

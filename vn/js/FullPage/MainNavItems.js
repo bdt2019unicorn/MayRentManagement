@@ -77,7 +77,7 @@ class DropdownMenu extends BaseComponent
         ); 
     }
 }
-DropdownMenu = ConnectComponentToRouter(DropdownMenu); 
+DropdownMenu = ConnectComponent.Router(DropdownMenu); 
 
 class MainNavItems extends BaseComponent 
 {
@@ -146,4 +146,4 @@ class MainNavItems extends BaseComponent
         ); 
     }
 }
-MainNavItems = ConnectComponentToAll(MainNavItems); 
+MainNavItems = ConnectComponent.All(MainNavItems); 
