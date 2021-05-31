@@ -223,9 +223,9 @@
                 "icon": "home"
             }, 
             {
-                "action": "utility-reading", 
-                "text": "Thêm New Readings", 
-                "title": "Thêm New Readings", 
+                "action": "UtilityReading", 
+                "text": "Thêm số liệu tiện ích", 
+                "title": "Thêm số liệu tiện ích", 
                 "button": "outline", 
                 "icon": "add"
             }, 
