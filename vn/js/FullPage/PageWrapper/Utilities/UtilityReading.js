@@ -13,6 +13,7 @@ class UtilityReading extends PageWrapperChildrenComponent {
           <UtilityReadingListChoice/>
         </FormControl>
         <UtilityReadingTable />
+        <SubmitButton type="button" />
       </Box>
     );
   }
