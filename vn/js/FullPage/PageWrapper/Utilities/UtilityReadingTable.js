@@ -8,7 +8,37 @@ class UtilityReadingTable extends PageWrapperChildrenComponent {
       TableBody,
       TableCell,
       Paper,
+      TextField,
+      withStyles,
+      Icon,
+      IconButton,
     } = MaterialUI;
+
+    const { DeleteIcon } = Icon;
+
+    const StyleText = withStyles({
+      root: {
+        "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+          {
+            display: "none",
+            margin: 80,
+          },
+        "&$disabled": {
+          "&:before": {
+            borderBottom: "none!important",
+          },
+          "& svg": {
+            display: "none",
+          },
+        },
+        underline: {
+          "&:after": {
+            transition: "none",
+          },
+        },
+      },
+    })(TextField);
+
     return (
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -24,7 +54,28 @@ class UtilityReadingTable extends PageWrapperChildrenComponent {
               <TableCell>Xóa</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody></TableBody>
+          <TableBody>
+            <TableRow>
+              <TableCell>ABC</TableCell>
+              <TableCell>ABC</TableCell>
+              <TableCell>
+                <StyleText type="number" />
+              </TableCell>
+              <TableCell>
+                <StyleText type="number" />
+              </TableCell>
+              <TableCell>
+                <StyleText type="number" />
+              </TableCell>
+              <TableCell>ABC</TableCell>
+              <TableCell>ABC</TableCell>
+              <TableCell>
+                <IconButton>
+                  <Icon>delete</Icon>
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       </TableContainer>
     );
