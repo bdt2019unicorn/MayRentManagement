@@ -58,16 +58,13 @@
     }, 
     "select_atributes": 
     {
-        "clear-on-select": false, 
-        "close-on-select": false, 
-        "hideSelected": true, 
-        "label": "name", 
-        "multiple": true, 
-        "openDirection": "bottom", 
-        "placeholder": "", 
-        "selectLabel": "", 
-        "tagPlaceholder": "", 
-        "track-by": "id"
+        "valueField" : "value", 
+        "textField": "text", 
+        "containerClassName": "p-1 mt-1", 
+        "messages": 
+        {
+            "emptyList": "Hiện tại không có đơn vị tính nào trong danh sách này"
+        }
     }, 
     "rent_id": 1,
     "main_url": "../server/controller/invoice/action.php?command="

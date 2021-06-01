@@ -31,18 +31,22 @@ class MultiSelectValue extends SelectComponent
                     value={JSON.parse(this.state.value||"[]").map(value=>value.toString())}
                     onChange=
                     {
-                        (options)=>this.setState
-                        (
-                            {
-                                value: JSON.stringify
-                                ( 
-                                    options.map
+                        (options)=>
+                        {
+                            this.setState
+                            (
+                                {
+                                    value: JSON.stringify
                                     ( 
-                                        ({value}) => Number(value) 
-                                    ) 
-                                )
-                            }
-                        )
+                                        options.map
+                                        ( 
+                                            ({value}) => Number(value) 
+                                        ) 
+                                    )
+                                }
+                            ); 
+                            // this.ExecPropsFunction("")
+                        }
                     }
                 />
                 <ClearButton ClearButtonClick={()=>this.setState({value: "[]"})} />

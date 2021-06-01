@@ -65,7 +65,7 @@ Vue.component
                     ...this.$props, 
                     invoice_information: this.invoice_information,
                     list: this.list[property],
-                }
+                }; 
             }, 
 
             BindObjectMultiSelect(property)
@@ -81,7 +81,7 @@ Vue.component
                     select_atributes: this.user_input.select_atributes, 
                     select_data: this.revenue_type[property], 
                     edit_data: this.edit_data?this.edit_data.multi_select:undefined
-                }
+                }; 
             }, 
 
             InvoiceInformation(leaseagrm_id)

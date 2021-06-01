@@ -30,6 +30,19 @@ class UserInputInvoice extends React.Component
             }
         }; 
     }
+    BindObjectMultiSelect = (property) => 
+    {
+        var {edit_data, revenue_type, user_input} = this.props; 
+        return {
+            // name: `${property}_multi_select`, 
+            select_value: "id", 
+            text: "name", 
+            value: this.state.list[property], 
+            select_atributes: user_input.select_atributes, 
+            select_data: revenue_type[property], 
+            edit_data: _.get(edit_data, "multi_select")
+        }; 
+    } 
     InvoiceDetails = () =>
     {
         let invoice_complete = Object.keys(this.state.invoice).filter(key=>key!="note").map(key=>Boolean(this.state.invoice[key])); 
@@ -38,18 +51,15 @@ class UserInputInvoice extends React.Component
     InvoiceInformation = (leaseagrm_id) => this.setState({invoice_information: ServerJson(`${this.props.main_url}InvoiceInformation&leaseagrm_id=${leaseagrm_id}`)})
     LeaseagrmIdSelectChanged = ({value}) => 
     {
-        // potentially get rid of the promise 
-        // maybe React don't need it. 
-        // try it out and find out 
         new Promise 
         (
             (resolve, reject)=>
             {
+                this.UpdateStateInvoiceDetail("leaseagrm_id", undefined); 
                 this.InvoiceInformation(value); 
                 this.setState
                 (
                     {
-                        leaseagrm_id: undefined, 
                         invoice_details: this.StateObjectEmpty("invoice_details", []), 
                         list: this.StateObjectEmpty("list", []) 
                     }
@@ -58,24 +68,32 @@ class UserInputInvoice extends React.Component
             }
         ).then 
         (
-            leaseagrm_id=>
-            {
-                var invoice = ImmutabilityHelper
-                (
-                    this.state.invoice, 
-                    {
-                        leaseagrm_id: {$set: leaseagrm_id}
-                    }
-                ); 
-                if(!this.props.edit_data)
+            leaseagrm_id => this.UpdateStateInvoiceDetail
+            (
+                "leaseagrm_id", 
+                leaseagrm_id, 
+                (invoice) => 
                 {
-                    invoice.name = `${this.state.invoice_information.tenant_name}_${DateReformat.Display()}`; 
-                    invoice.note = undefined; 
+                    if(!this.props.edit_data)
+                    {
+                        invoice.name = `${this.state.invoice_information.tenant_name}_${DateReformat.Display()}`; 
+                        invoice.note = undefined; 
+                    }
                 }
-                this.setState({invoice}); 
-            }
+            ) 
         ); 
     } 
+    ModelTextInputInvoice = (invoice_property) => 
+    (
+        {
+            size: "medium", 
+            fullWidth: true, 
+            value: this.state.invoice[invoice_property] || "",  
+            margin: "normal", 
+            variant: "outlined", 
+            onChange: (event)=> this.UpdateStateInvoiceDetail(invoice_property, event.target.value)
+        }
+    )
     StateObjectEmpty = (state_name, empty_value) => Object.keys(this.state[state_name]).reduce
     (
         (accumulator, current_value)=> 
@@ -86,11 +104,25 @@ class UserInputInvoice extends React.Component
             }
         ), {}
     )
+    UpdateStateInvoiceDetail = (invoice_property, value, extra_invoice_update = (invoice)=>null) => 
+    {
+        var invoice = ImmutabilityHelper
+        (
+            this.state.invoice, 
+            {
+                [invoice_property]: {$set: value}
+            }
+        ); 
+        extra_invoice_update(invoice); 
+        this.setState({invoice}); 
+    }
     render()
     {
         let {edit_data, leaseagrm_select_data, main_url, revenue_type, title, user_input, InvoiceInformation} = this.props; 
+        var invoice_details = this.InvoiceDetails(); 
+        let {Container, Grid, TextField} = MaterialUI; 
         return (
-            <MaterialUI.Container>
+            <Container>
                 <h1>{title}</h1>
                 <br />
                 <div>
@@ -101,9 +133,29 @@ class UserInputInvoice extends React.Component
                         edit_data={edit_data?edit_data.invoice: undefined}
                         ValueChange={this.LeaseagrmIdSelectChanged}
                     />
+                    <TextField {...this.ModelTextInputInvoice("name")} label="Tên Hợp Đồng" />
+                    <TextField {...this.ModelTextInputInvoice("note")} label="Ghi chú" />
                 </div>
                 {InvoiceInformation && InvoiceInformation(this.state.invoice, this.state.invoice_information)}
-            </MaterialUI.Container>
+                <hr />
+                {
+                    (edit_data || invoice_details) && 
+                    (
+                        <React.Fragment>
+                            <h2>Chi tiết hóa đơn</h2>
+                            <br />
+                            <Grid container spacing={1}>
+                                <Grid item xs={6}>
+                                    <MultiSelectValue title="Tiền thuê và chi phí khác" {...this.BindObjectMultiSelect("leaseagrm")} />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <MultiSelectValue title="Tiện ích" {...this.BindObjectMultiSelect("utilities")} />
+                                </Grid>
+                            </Grid>
+                        </React.Fragment>
+                    )
+                }
+            </Container>
         ); 
     }
 }
