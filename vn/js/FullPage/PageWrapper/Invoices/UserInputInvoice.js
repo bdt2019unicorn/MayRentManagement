@@ -37,7 +37,11 @@ class UserInputInvoice extends React.Component
             // name: `${property}_multi_select`, 
             select_value: "id", 
             text: "name", 
-            value: this.state.list[property], 
+            value: JSON.stringify(this.state.list[property]), 
+            SelectValueChanged: (value) => 
+            {
+                console.log(value); 
+            }, 
             select_atributes: user_input.select_atributes, 
             select_data: revenue_type[property], 
             edit_data: _.get(edit_data, "multi_select")
