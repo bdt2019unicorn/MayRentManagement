@@ -53,13 +53,9 @@ Vue.component
             {
                 return ['fas', 'fa-'+ icon]; 
             }, 
-            ItemPermission({permissions})
+            ItemPermission({permission})
             {
-                if(!permissions)
-                {
-                    return true; 
-                }
-                return permissions.map(role=> Boolean(this[`${role}Permission`])).includes(true); 
+                return !permission ? true: Boolean(this[`${permission}Permission`]); 
             }
         }, 
         template: 

@@ -3,6 +3,11 @@ var permissions_mixin =
     mixins: [support_mixin], 
     computed: 
     {
+        AddEditPermission()
+        {
+            let {add_edit} = this.PermissonObject; 
+            return add_edit; 
+        }, 
         AdminPermission()
         {
             let {add_edit, import_excel} = this.PermissonObject; 
@@ -19,11 +24,6 @@ var permissions_mixin =
             {
                 return {}; 
             }
-        }, 
-        UserPermission()
-        {
-            let {add_edit, import_excel} = this.PermissonObject; 
-            return add_edit && !import_excel; 
         }
     }
 }

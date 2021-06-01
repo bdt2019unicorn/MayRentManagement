@@ -3,7 +3,7 @@ Vue.component
     "user-input", 
     {
         props: ["edit_data", "form", "title", "validate"], 
-        mixins: [support_mixin], 
+        mixins: [permissions_mixin], 
         data: ()=>
         (
             {
@@ -11,8 +11,15 @@ Vue.component
                 row_valid: {}
             }
         ), 
+        computed:
+        {
+            AbleToSubmit()
+            {
+                return this.AddEditPermission || R.pathEq(['params', 'controller'], 'user', this.$route); 
+            }  
+        }, 
         methods: 
-        {    
+        {  
             FormValid()
             {
                 return (
@@ -75,7 +82,7 @@ Vue.component
                 </template>
             
                 <br>
-                <div class="row">
+                <div v-if="AbleToSubmit" class="row">
                     <div class="form-group col-2"><submit-button icon="times" title="Clear" type="reset"></submit-button></div>
                     <div class="form-group col-8"></div>
                     <div class="form-group col-2"><submit-button type="submit" :title="title"></submit-button></div>

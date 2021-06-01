@@ -18,7 +18,7 @@
                 "title": "Add New Unit", 
                 "button": "secondary", 
                 "icon": "plus", 
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "import-export", 
@@ -26,7 +26,7 @@
                 "title": "Import Excel Data", 
                 "button": "success", 
                 "icon": "table", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }
         ]
     },
@@ -49,7 +49,7 @@
                 "title": "Add New Apartment", 
                 "button": "secondary", 
                 "icon": "plus",
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "import-export", 
@@ -57,7 +57,7 @@
                 "title": "Import Excel Data", 
                 "button": "success", 
                 "icon": "table", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }
         ]
     },
@@ -80,7 +80,7 @@
                 "title": "Add New Contract", 
                 "button": "secondary", 
                 "icon": "plus", 
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "resolve-old-lease", 
@@ -88,7 +88,7 @@
                 "title": "Put the date contract paid to keep old contract up to date", 
                 "button": "info", 
                 "icon": "file-contract", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }, 
             {
                 "action": "import-export", 
@@ -96,7 +96,7 @@
                 "title": "Import Excel Data", 
                 "button": "success", 
                 "icon": "table", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }
         ]
     },
@@ -119,7 +119,7 @@
                 "title": "Add Monthly Invoices", 
                 "button": "light", 
                 "icon": "calendar-alt", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }, 
             {
                 "action": "add-invoice", 
@@ -127,7 +127,7 @@
                 "title": "Add New Invoice", 
                 "button": "secondary", 
                 "icon": "plus",
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "print-invoices", 
@@ -157,7 +157,7 @@
                 "title": "Add New Income", 
                 "button": "secondary", 
                 "icon": "plus",
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "import-export", 
@@ -165,7 +165,7 @@
                 "title": "Import Excel Data", 
                 "button": "success", 
                 "icon": "table", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }
         ]
     },
@@ -188,7 +188,7 @@
                 "title": "Add New Expense", 
                 "button": "secondary", 
                 "icon": "plus",
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "import-export", 
@@ -196,7 +196,7 @@
                 "title": "Import Excel Data", 
                 "button": "success", 
                 "icon": "table", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }
         ]
     },
@@ -219,7 +219,7 @@
                 "title": "Add", 
                 "button": "secondary", 
                 "icon": "plus",
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             } 
         ]
     }, 
@@ -242,7 +242,7 @@
                 "title": "Add New Readings", 
                 "button": "secondary", 
                 "icon": "plus",
-                "permissions": ["Admin", "User"]
+                "permission": "AddEdit"
             }, 
             {
                 "action": "import-export", 
@@ -250,7 +250,7 @@
                 "title": "Import Excel Data", 
                 "button": "success", 
                 "icon": "table", 
-                "permissions": ["Admin"]
+                "permission": "Admin"
             }
         ]
     }
