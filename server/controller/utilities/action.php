@@ -101,6 +101,7 @@
             $sql = Query::Insert("utility_price", $data); 
             $result = Database::GetData($sql); 
             echo $result; 
+            Database::LogUserAction($result, "New Utility Price", "utility_price", json_encode($data), $sql); 
         }
     ); 
 

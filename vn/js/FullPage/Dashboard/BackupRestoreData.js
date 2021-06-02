@@ -15,7 +15,6 @@ class RestoreData extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = {file: undefined}; 
     }
     render()
@@ -63,7 +62,7 @@ class RestoreData extends BaseComponent
         ); 
     }
 }
-RestoreData = ConnectComponentToStore(RestoreData); 
+RestoreData = ConnectComponent.Store(RestoreData); 
 
 class BackupRestoreData extends React.Component 
 {

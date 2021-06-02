@@ -3,21 +3,17 @@ class AuthorizedComponent extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.UpdateCurrentBuilding(); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
         this.UpdateCurrentBuilding(); 
     }
-    Methods = 
+    UpdateCurrentBuilding = () => 
     {
-        UpdateCurrentBuilding()
+        if(this.props.ChangeState)
         {
-            if(this.props.ChangeState)
-            {
-                this.props.ChangeState({state_name: "current_building", value: _.get(this.props, "match.params.building_id")}); 
-            }
+            this.props.ChangeState({state_name: "current_building", value: _.get(this.props, "match.params.building_id")}); 
         }
     }
     render() 
@@ -26,4 +22,4 @@ class AuthorizedComponent extends BaseComponent
         return redirect_component || this.props.children; 
     }
 }
-AuthorizedComponent = ConnectComponentToStore(AuthorizedComponent); 
+AuthorizedComponent = ConnectComponent.Store(AuthorizedComponent); 

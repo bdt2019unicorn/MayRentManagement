@@ -3,21 +3,17 @@ class DropdownMenu extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = {element: null}; 
     }
-    Methods = 
-    {
-        DropDownMenuStyles()
+    DropDownMenuStyles = () =>
+    (
         {
-            return {
-                width: this.state.element.offsetWidth, 
-                position: "absolute", 
-                display: "block", 
-                zIndex: 1000
-            }; 
-        }
-    }
+            width: this.state.element.offsetWidth, 
+            position: "absolute", 
+            display: "block", 
+            zIndex: 1000
+        } 
+    )
     componentDidUpdate(previous_props, previous_state)
     {
         if
@@ -77,7 +73,7 @@ class DropdownMenu extends BaseComponent
         ); 
     }
 }
-DropdownMenu = ConnectComponentToRouter(DropdownMenu); 
+DropdownMenu = ConnectComponent.Router(DropdownMenu); 
 
 class MainNavItems extends BaseComponent 
 {
@@ -146,4 +142,4 @@ class MainNavItems extends BaseComponent
         ); 
     }
 }
-MainNavItems = ConnectComponentToAll(MainNavItems); 
+MainNavItems = ConnectComponent.All(MainNavItems); 

@@ -7,14 +7,6 @@ function AjaxRequest(url, data = new FormData(), type = "get")
     request.send(data); 
     return result; 
 }
-function BindFunctions(component)
-{
-    if(!component.Methods)
-    {
-        return; 
-    }
-    Object.keys(component.Methods).forEach(func => component[func] = component.Methods[func].bind(component)); 
-} 
 function BlobRequest(url, data={})
 {
     var result = undefined; 
@@ -23,7 +15,6 @@ function BlobRequest(url, data={})
     request.overrideMimeType("text/plain; charset=x-user-defined"); 
     request.open("POST", url, false); 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
     request.onload = ()=>
     {
         var bytes = new Uint8Array(request.responseText.length);
@@ -41,22 +32,6 @@ function BlobRequest(url, data={})
     request.send(SearchQueryString(data)); 
     return result; 
 } 
-function ConnectComponentToAll(component_class)
-{
-    return ConnectComponentToRouter(ConnectComponentToStore(component_class)); 
-}
-function ConnectComponentToRouter(component_class)
-{
-    return ReactRouterDOM.withRouter(component_class); 
-}
-function ConnectComponentToStore(component_class)
-{
-    return ReactRedux.connect(PageSetup.MapStateToProps, PageSetup.MapDispatchToProps)(component_class); 
-}
-function DateFormatDisplay(moment_value) 
-{
-    return moment(moment_value).format("DD/MM/YYYY"); 
-}
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 

@@ -132,6 +132,13 @@
                 </div>
 
                 <div class="border border-info p-3 m-3 text-center">
+                    <h1>User Logs</h1>
+                    <div class="user-logs-pagnition"></div>
+                    <div id="user-logs"></div>
+                    <div class="user-logs-pagnition"></div>
+                </div>
+
+                <div class="border border-info p-3 m-3 text-center">
                     <h1>Run Database Scripts</h1>
                     <textarea id="db_scripts_textarea" class="w-100" rows="10" placeholder="Enter scripts here"></textarea>
                     <dd>Separate each scripts with a semicolon (;)</dd>
@@ -167,10 +174,10 @@
                     (
                         function()
                         {
-                            var logo_src = support_mixin.methods.AjaxRequest("../server/controller/admin_database.php?command=LogoImg"); 
+                            var logo_src = support_mixin.methods.AjaxRequest(AdminDatabaseUrl("LogoImg")); 
                             document.getElementById('logo_img').src = `../${logo_src}`; 
-                            // UserLog.UserLogCount(); 
-                            // UserLog.UserLog(1); 
+                            UserLog.UserLogCount(); 
+                            UserLog.UserLog(1); 
                         }
                     ); 
                 </script>

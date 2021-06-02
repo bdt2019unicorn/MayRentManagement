@@ -121,44 +121,22 @@
                         super(props); 
                         this.state = 
                         {
-                            rows: CreateOptions()
+                            word: "the innitial word"
                         }; 
+                    }
+                    ChangeWording = ()=>
+                    {
+                        this.setState({word: Math.random().toString()}); 
+                        console.log("I have just set a new state"); 
+                        console.log(this.state); 
                     }
                     render()
                     {
-                        const locations = 
-                        [
-                            {
-                                label: 'New York',
-                                value: 'newYork',
-                            },
-                            {
-                                label: 'Oslo',
-                                value: 'oslo',
-                            },
-                            {
-                                label: 'Istanbul',
-                                value: 'istanbul',
-                            }
-                        ];
                         try {
                         return (
                             <div>
-                                <Dropdown
-                                    title="Select location"
-                                    searchable={["Search for location", "No matching location"]}
-                                    list={locations}
-                                    onChange=
-                                    {
-                                        (item, name) => 
-                                        {
-                                            console.log(item, name); 
-                                        }
-                                    }
-                                />
-                                
-                                <Parents rows={this.state.rows} onClick={()=>this.setState({rows: CreateOptions().slice(0,4)})} />
-
+                                <button type="button" onClick={this.ChangeWording}>Change rendom word</button>
+                                <p>{this.state.word}</p>
                             </div>
                         ); 
                         }catch(exception){console.log(exception); }

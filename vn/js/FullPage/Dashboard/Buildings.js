@@ -3,43 +3,39 @@ class Buildings extends BaseComponent
     constructor(props)
     {
         super(props); 
-        BindFunctions(this); 
         this.state = 
         {
             add_building_form: undefined, 
             import_buildings: undefined
         }; 
     }
-    Methods = 
+    AddBuilding = (data) =>
     {
-        AddBuilding(data)
+        let url = "../server/controller/database/import.php?import_controller=buildings"; 
+        let result = SubmitData("excel", url, [data]); 
+        if(Number(result))
         {
-            let url = "../server/controller/database/import.php?import_controller=buildings"; 
-            let result = SubmitData("excel", url, [data]); 
-            if(Number(result))
-            {
-                this.BuildingData(); 
-                alert("Thêm tòa nhà thành công"); 
-                this.setState({add_building_form: undefined}); 
-            }
-            else
-            {
-                alert("Thêm tòa nhà thất bại. Đã có lỗi hệ thống"); 
-            }
-        }, 
-        DeleteBuilding(building_id)
+            this.BuildingData(); 
+            alert("Thêm tòa nhà thành công"); 
+            this.setState({add_building_form: undefined}); 
+        }
+        else
         {
-            var url = `../server/controller/database/delete.php?table=buildings`; 
-            var result = SubmitData("delete", url, [building_id]); 
-            if(result)
-            {
-                this.BuildingData(); 
-                alert("Xóa tòa nhà thành công"); 
-            }
-            else 
-            {
-                alert("Xóa tòa nhà thất bại. Đã có lỗi hệ thống"); 
-            }
+            alert("Thêm tòa nhà thất bại. Đã có lỗi hệ thống"); 
+        }
+    } 
+    DeleteBuilding = (building_id) =>
+    {
+        var url = `../server/controller/database/delete.php?table=buildings`; 
+        var result = SubmitData("delete", url, [building_id]); 
+        if(result)
+        {
+            this.BuildingData(); 
+            alert("Xóa tòa nhà thành công"); 
+        }
+        else 
+        {
+            alert("Xóa tòa nhà thất bại. Đã có lỗi hệ thống"); 
         }
     }
     render()
@@ -141,4 +137,4 @@ class Buildings extends BaseComponent
         ); 
     }
 }
-Buildings = ConnectComponentToStore(Buildings); 
+Buildings = ConnectComponent.Store(Buildings); 
