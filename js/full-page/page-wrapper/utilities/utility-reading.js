@@ -27,7 +27,6 @@ Vue.component
                     )
                 ); 
             }, 
-            
             UtilitiesReadingValid()
             {
                 if(this.utilities_readings.length==0)

@@ -2,7 +2,7 @@ Vue.component
 (
     "utilities-overview", 
     {
-        mixins: [utilities_mixin], 
+        mixins: [permissions_mixin, utilities_mixin], 
         data: ()=>
         (
             {
@@ -53,7 +53,7 @@ Vue.component
                 
                 data.value = data.value.replace(/,/g,''); 
 
-                ModifyDateValid = (bad_message=undefined)=>
+                ModifyDateValid = (bad_message=undefined) =>
                 {
                     let date_valid = this.add_price_form.form[0].pop(); 
                     date_valid["bad_message"] = bad_message; 
@@ -159,7 +159,7 @@ Vue.component
                                     {{valid_price_date}}
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div v-if="AddEditPermission" class="col-2">
                                 <button class="btn" title="Add Current Price" @click="add_price_form=add_price_form_temp"><i class="fas fa-plus-circle"></i></button>
                             </div>
                         </div>
