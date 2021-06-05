@@ -1,4 +1,4 @@
-class UserInputInvoice extends React.Component 
+class UserInputInvoice extends BaseComponent 
 {
     constructor(props)
     {
@@ -30,6 +30,14 @@ class UserInputInvoice extends React.Component
             }
         }; 
     }
+    BindObjectComponent = (property) => 
+    (
+        {
+            ...this.props, 
+            invoice_information: this.state.invoice_information, 
+            list: this.state.list[property]
+        }
+    )
     BindObjectMultiSelect = (property) => 
     {
         var {edit_data, revenue_type, user_input} = this.props; 
@@ -40,7 +48,14 @@ class UserInputInvoice extends React.Component
             value: JSON.stringify(this.state.list[property]), 
             SelectValueChanged: (value) => 
             {
-                console.log(value); 
+                var list = ImmutabilityHelper
+                (
+                    this.state.list, 
+                    {
+                        [property]: {$set: value}
+                    }
+                ); 
+                this.setState({list}); 
             }, 
             select_atributes: user_input.select_atributes, 
             select_data: revenue_type[property], 
@@ -59,7 +74,7 @@ class UserInputInvoice extends React.Component
         (
             (resolve, reject)=>
             {
-                this.UpdateStateInvoiceDetail("leaseagrm_id", undefined); 
+                this.UpdateStateValueProperty("invoice", "leaseagrm_id", undefined); 
                 this.InvoiceInformation(value); 
                 this.setState
                 (
@@ -72,8 +87,9 @@ class UserInputInvoice extends React.Component
             }
         ).then 
         (
-            leaseagrm_id => this.UpdateStateInvoiceDetail
+            leaseagrm_id => this.UpdateStateValueProperty
             (
+                "invoice", 
                 "leaseagrm_id", 
                 leaseagrm_id, 
                 (invoice) => 
@@ -95,7 +111,7 @@ class UserInputInvoice extends React.Component
             value: this.state.invoice[invoice_property] || "",  
             margin: "normal", 
             variant: "outlined", 
-            onChange: (event)=> this.UpdateStateInvoiceDetail(invoice_property, event.target.value)
+            onChange: (event)=> this.UpdateStateValueProperty("invoice", invoice_property, event.target.value)
         }
     )
     StateObjectEmpty = (state_name, empty_value) => Object.keys(this.state[state_name]).reduce
@@ -108,18 +124,18 @@ class UserInputInvoice extends React.Component
             }
         ), {}
     )
-    UpdateStateInvoiceDetail = (invoice_property, value, extra_invoice_update = (invoice)=>null) => 
-    {
-        var invoice = ImmutabilityHelper
-        (
-            this.state.invoice, 
-            {
-                [invoice_property]: {$set: value}
-            }
-        ); 
-        extra_invoice_update(invoice); 
-        this.setState({invoice}); 
-    }
+    // UpdateStateInvoiceDetail = (invoice_property, value, extra_invoice_update = (invoice)=>null) => 
+    // {
+    //     var invoice = ImmutabilityHelper
+    //     (
+    //         this.state.invoice, 
+    //         {
+    //             [invoice_property]: {$set: value}
+    //         }
+    //     ); 
+    //     extra_invoice_update(invoice); 
+    //     this.setState({invoice}); 
+    // }
     render()
     {
         let {edit_data, leaseagrm_select_data, main_url, revenue_type, title, user_input, InvoiceInformation} = this.props; 
@@ -156,6 +172,15 @@ class UserInputInvoice extends React.Component
                                     <MultiSelectValue title="Tiện ích" {...this.BindObjectMultiSelect("utilities")} />
                                 </Grid>
                             </Grid>
+                            <br />
+                            {
+                                Boolean(this.state.list.leaseagrm.length) && 
+                                <InvoiceLeaseagrm 
+                                    ValidInvoiceDetailsUpdate=
+                                    {(invoice_details_leaseagrm) => this.UpdateStateValueProperty("invoice_details", "leaseagrm", invoice_details_leaseagrm)}
+                                    {...this.BindObjectComponent("leaseagrm")}
+                               />
+                            }
                         </React.Fragment>
                     )
                 }

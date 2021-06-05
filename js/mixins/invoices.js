@@ -88,7 +88,7 @@ var rent_invoice_mixin =
                         end_date: rent_end_date, 
                         quantity: this.RentQuantityCalculation(start_date, rent_end_date, leaseagrm_period), 
                         row: row 
-                    }
+                    }; 
                 }
             ); 
 
@@ -104,7 +104,7 @@ var rent_invoice_mixin =
                 )
             ); 
         }
-    },
+    } 
 };
 
 var user_input_invoice_component_mixin = 

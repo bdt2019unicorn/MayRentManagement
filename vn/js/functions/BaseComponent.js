@@ -95,6 +95,18 @@ class BaseComponent extends React.Component
             return []; 
         }          
     }
+    UpdateStateValueProperty = (state_name, property, value, extra_update = (new_state)=>null) => 
+    {
+        var new_state = ImmutabilityHelper 
+        (
+            this.state[state_name], 
+            {
+                [property]: {$set: value}
+            }
+        ); 
+        extra_update(new_state); 
+        this.setState({[state_name]: new_state}); 
+    }
     ValidationHelperText = (validations, props_name) => 
     {
         let name = this.props[props_name]; 
