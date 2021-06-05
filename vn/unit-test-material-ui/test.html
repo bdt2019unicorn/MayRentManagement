@@ -48,7 +48,7 @@
       ></script>
 
       <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
+          <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script> -->
 
       <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
       <script
@@ -70,6 +70,8 @@
       <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
 
       <script src="dist/bundle.js"></script>
+      <script src="dist/material-ui-date-picker.js"></script>
+      <!--<script src="dist/material-ui-time-picker.js"></script>-->
       <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
       <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
 
@@ -124,17 +126,34 @@
           render() {
             try {
               return (
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                
-                  <DatePicker
-                    disableToolbar
-                    variant="inline"
-                    label="Only calendar"
-                    helperText="No year selection"
-                    value={this.state.date}
-                    onChange={(date)=> this.setState({date})}
-                  />
-                </MuiPickersUtilsProvider>
+                <div>
+                  <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <TimePicker
+                      // disableToolbar
+                      // variant="inline"
+                      // label="Only calendar"
+                      // helperText="No year selection"
+                      // value={this.state.date}
+                      // onChange={(date)=> this.setState({date})}
+                      // value = {this.state.date}
+                      autoOk
+                      label="12 hours"
+                    />
+                  </MuiPickersUtilsProvider>
+                  <MuiPickersUtilsProvider utils={MomentUtils}>
+                      <DatePicker
+                        disableToolbar
+                        variant="inline"
+                        label="Only calendar"
+                        helperText="No year selection"
+                        value={this.state.date}
+                        onChange={(date)=> this.setState({date})}
+                        value = {this.state.date}
+                        // autoOk
+                        // label="12 hours"
+                      />
+                    </MuiPickersUtilsProvider>
+                </div>
               );
             } catch (exception) {
               console.log(exception);
