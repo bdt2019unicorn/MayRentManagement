@@ -15,7 +15,7 @@
                         "small_date":
                         {
                             "name": "start_date",
-                            "title": "Start Period",
+                            "title": "Ngày bắt đầu",
                             "presence": true,
                             "lock": true, 
                             "message": "The start period should be before the end period"
@@ -23,7 +23,7 @@
                         "big_date":
                         {
                             "name": "end_date",
-                            "title": "End Period",
+                            "title": "Ngày kết thúc",
                             "presence": true,
                             "message": "The end period should be after the start period"
                         }
@@ -37,12 +37,12 @@
                         {
                             "component": "NumberInput",
                             "name": "price",
-                            "title": "Price"
+                            "title": "Giá tiền"
                         },
                         {
                             "component": "NumberInput",
                             "name": "quantity",
-                            "title": "Quantity"
+                            "title": "Số lượng"
                         }
                     ]
                 }

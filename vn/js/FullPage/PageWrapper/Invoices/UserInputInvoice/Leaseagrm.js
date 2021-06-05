@@ -4,6 +4,7 @@ class LeaseagrmRow extends React.Component
     {
         var {revenue_type, user_input} = this.props; 
         var {Grid} = MaterialUI; 
+        var grid_xs = 12 / revenue_type.row.length; 
         return (
             <div>
                 <br />
@@ -11,23 +12,33 @@ class LeaseagrmRow extends React.Component
                     revenue_type.display && 
                     (
                         <form>
-                            <Grid container>
-                                <Grid item xs={4}>
-                                    {/* <TextInput edit_data={revenue_type} name="name" /> */}
-                                    <pre>
-                                        {JSON.stringify(revenue_type, null, 2)}
-
-                                    </pre>
+                            <Grid container spacing={1}>
+                                <Grid item xs={7}>
+                                    <TextInput edit_data={revenue_type} name="name" />
                                 </Grid>
-                                <Grid item xs={4} className="text-center"><h5>{revenue_type.title}</h5></Grid>
-                                <Grid item xs={4} className="text-right"><b>{revenue_type.amount}</b></Grid>
+                                <Grid item xs={3} className="text-center"><h5>{revenue_type.title}</h5></Grid>
+                                <Grid item xs={2} className="text-right"><b>{revenue_type.amount}</b></Grid>
                             </Grid>
-                            {/* <row-group 
-                                :row="revenue_type.row" 
-                                :edit_data="revenue_type" 
-                                v-on="$listeners" 
-                                :lock="Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined"
-                            ></row-group> */}
+                            <Grid container spacing={1}>
+                                {
+                                    revenue_type.row.map 
+                                    (
+                                        (row, index)=> 
+                                        {
+                                            var Component = window[row.component]; 
+                                            return (
+                                                <Grid key={index} item xs={grid_xs}>
+                                                    <Component 
+                                                        {...row}
+                                                        edit_data={revenue_type}
+                                                        lock={Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined}
+                                                    />
+                                                </Grid>
+                                            ); 
+                                        }
+                                    )
+                                }
+                            </Grid>
                         </form>
                     )
                 }

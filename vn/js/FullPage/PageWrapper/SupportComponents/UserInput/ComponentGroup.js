@@ -1,3 +1,35 @@
+class ComponentGroup extends UserInputComponent
+{
+    render()
+    {
+        var {component_data, edit_data, lock} = this.props; 
+        var Grid = MaterialUI.Grid; 
+        var grid_xs = 12/component_data.length; 
+        return (
+            <Grid container spacing={1}>
+                {
+                    component_data.map
+                    (
+                        (component, index) =>
+                        {
+                            var Component = window[component.component]; 
+                            return (
+                                <Grid key={index} item xs={grid_xs}>
+                                    <Component
+                                        {...component}
+                                        edit_data={edit_data}
+                                        lock={lock?lock.includes(component.name):undefined}
+                                    />
+                                </Grid>
+                            ); 
+                        }
+                    )
+                }
+            </Grid>
+        ); 
+    }
+}
+
 class DateGroup extends UserInputComponent
 {
     constructor(props)

@@ -130,7 +130,7 @@ Vue.component
                 {
                     invoice: this.invoice, 
                     details: this.invoice_details
-                }
+                };
                 this.$emit("invoice-submit", invoices); 
             }
         },

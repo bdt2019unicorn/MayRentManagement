@@ -46,17 +46,15 @@ class UserInputInvoice extends BaseComponent
             select_value: "id", 
             text: "name", 
             value: JSON.stringify(this.state.list[property]), 
-            SelectValueChanged: (value) => 
-            {
-                var list = ImmutabilityHelper
+            SelectValueChanged: (value) => this.UpdateStateValueProperty
+            (
+                "list", 
+                property, 
+                value.map
                 (
-                    this.state.list, 
-                    {
-                        [property]: {$set: value}
-                    }
-                ); 
-                this.setState({list}); 
-            }, 
+                    revenue_type_id => revenue_type[property].find(({id})=>id==revenue_type_id)
+                )
+            ),
             select_atributes: user_input.select_atributes, 
             select_data: revenue_type[property], 
             edit_data: _.get(edit_data, "multi_select")
@@ -124,18 +122,6 @@ class UserInputInvoice extends BaseComponent
             }
         ), {}
     )
-    // UpdateStateInvoiceDetail = (invoice_property, value, extra_invoice_update = (invoice)=>null) => 
-    // {
-    //     var invoice = ImmutabilityHelper
-    //     (
-    //         this.state.invoice, 
-    //         {
-    //             [invoice_property]: {$set: value}
-    //         }
-    //     ); 
-    //     extra_invoice_update(invoice); 
-    //     this.setState({invoice}); 
-    // }
     render()
     {
         let {edit_data, leaseagrm_select_data, main_url, revenue_type, title, user_input, InvoiceInformation} = this.props; 
