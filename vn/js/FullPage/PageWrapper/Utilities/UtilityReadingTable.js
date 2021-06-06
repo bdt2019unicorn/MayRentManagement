@@ -1,17 +1,10 @@
 class UtilityReadingTable extends PageWrapperChildrenComponent {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      ngayNhapLieu : new Date(),
-    }
+      ngayNhapLieu: new Date(),
+    };
   }
-
-  handleDate = (date) =>{
-    this.setState({
-      ngayNhapLieu: date,
-    })
-  }
-
 
   render() {
     const {
@@ -65,7 +58,10 @@ class UtilityReadingTable extends PageWrapperChildrenComponent {
       ...item,
     }));
 
-    const {ngayNhapLieu} = this.state;
+    const initalDate = {
+      date: moment().format("DD-MM-YYYY"),
+      time: moment().format("HH:mm"),
+    };
 
     const renderTable = () => {
       return (
@@ -89,25 +85,24 @@ class UtilityReadingTable extends PageWrapperChildrenComponent {
                   <TableRow key={index}>
                     <TableCell>{tienIch.name}</TableCell>
                     <TableCell>{tenCanHoChon}</TableCell>
+
                     <TableCell>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DatePicker
-                          disableToolbar
-                          variant="inline"
-                          openTo="date"
-                          format="DD/MM/yyyy"
-                          value={ngayNhapLieu}
-                          onChange={(date) => this.handleDate(date)}
-                          autoOk={true}
-                        />
-                      </MuiPickersUtilsProvider>
+                       <StyleText error
+                        type="text"
+                        defaultValue={initalDate.date}  />
                     </TableCell>
                     <TableCell>
-                      <StyleText error type="time" />
+                      <StyleText
+                        error
+                        type="text"
+                        defaultValue={initalDate.time}
+                      />
                     </TableCell>
+
                     <TableCell>
                       <StyleText error type="number" />
                     </TableCell>
+
                     <TableCell>
                       {tienIch.number === undefined ? 0 : tienIch.number}
                     </TableCell>

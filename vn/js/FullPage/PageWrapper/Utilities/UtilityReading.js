@@ -24,8 +24,14 @@ class UtilityReading extends Utilities {
 
   render() {
     const { Box, Typography, FormControl } = MaterialUI;
-    const { mangCanHo, chonCanHo, danhSachTienIch, mangThongSoTienIch, tenCanHoChon } = this.state;
-  
+    const {
+      mangCanHo,
+      chonCanHo,
+      danhSachTienIch,
+      mangThongSoTienIch,
+      tenCanHoChon,
+    } = this.state;
+
     return (
       <Box>
         <Typography variant="h4" gutterBottom>
@@ -44,13 +50,14 @@ class UtilityReading extends Utilities {
             mangCanHo={mangCanHo}
             handleChoice={this.handleChoice}
           />
+
+          <UtilityReadingTable
+            chonCanHo={chonCanHo}
+            danhSachTienIch={danhSachTienIch}
+            mangThongSoTienIch={mangThongSoTienIch}
+            tenCanHoChon={tenCanHoChon}
+          />
         </FormControl>
-        <UtilityReadingTable
-          chonCanHo={chonCanHo}
-          danhSachTienIch={danhSachTienIch}
-          mangThongSoTienIch={mangThongSoTienIch}
-          tenCanHoChon ={tenCanHoChon}
-        />
         <SubmitButton type="button" />
       </Box>
     );
