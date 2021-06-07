@@ -21,10 +21,7 @@ class UserInputComponent extends BaseComponent
     {
         let state = {value: event.target.value}; 
         this.setState(state); 
-        if(this.props.ValueChange)
-        {
-            this.props.ValueChange(state); 
-        }
+        this.ExecPropsFunction("ValueChange", state); 
     }
     ThisValidations = () =>
     {   

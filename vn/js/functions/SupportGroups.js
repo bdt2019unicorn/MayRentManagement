@@ -10,4 +10,5 @@ class DateReformat
     static MomentDate = (string = undefined) => string ? moment(string) : moment()
     static Database = (string = undefined) => this.MomentDate(string).format("YYYY-MM-DD") 
     static Display = (string = undefined) => this.MomentDate(string).format("DD/MM/YYYY")
+    static TimeDisplay = (string = undefined) => this.MomentDate(string).format("HH:mm")
 }
