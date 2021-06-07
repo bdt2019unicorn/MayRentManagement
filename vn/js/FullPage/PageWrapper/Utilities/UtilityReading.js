@@ -1,36 +1,32 @@
-class UtilityReading extends Utilities {
-  constructor(props) {
+class UtilityReading extends Utilities 
+{
+  constructor(props) 
+  {
     super(props);
-    this.state = {
+    this.state = 
+    {
       ...this.state,
-      mangCanHo: this.state.select_data.units,
-      chonCanHo: "",
-      danhSachTienIch: this.state.select_data.utilities,
-      tenCanHoChon: "",
-      mangThongSoTienIch: [],
+      // mangCanHo: this.state.select_data.units,
+      // chonCanHo: "",
+      // danhSachTienIch: this.state.select_data.utilities,
+      // tenCanHoChon: "",
+      // mangThongSoTienIch: [],
     };
   }
 
   handleChoice = (id, tenCanHo) => {
-    let current_readings = ServerJson(
-      `${this.state.main_url}CurrentReadings&unit_id=${id}`
-    );
+    let current_readings = ServerJson(`${this.state.main_url}CurrentReadings&unit_id=${id}`);
     this.setState({
       chonCanHo: id,
       mangThongSoTienIch: current_readings,
-      tenCanHoChon: tenCanHo,
+      tenCanHoChon: tenCanHo 
     });
   };
 
-  render() {
-    const { Box, Typography, FormControl } = MaterialUI;
-    const {
-      mangCanHo,
-      chonCanHo,
-      danhSachTienIch,
-      mangThongSoTienIch,
-      tenCanHoChon,
-    } = this.state;
+  render() 
+  {
+    const { Box, FormControl, Typography } = MaterialUI;
+    const { mangCanHo, chonCanHo, danhSachTienIch, mangThongSoTienIch, tenCanHoChon } = this.state;
 
     return (
       <Box>
@@ -46,6 +42,14 @@ class UtilityReading extends Utilities {
           size="small"
           margin="normal"
         >
+          <div className="pr-3">
+            <SelectInput 
+              select_data={this.state.select_data.units}
+              select_value="id"
+              text="name"
+            />
+          </div>
+          {/*
           <UtilityReadingListChoice
             mangCanHo={mangCanHo}
             handleChoice={this.handleChoice}
@@ -57,6 +61,7 @@ class UtilityReading extends Utilities {
             mangThongSoTienIch={mangThongSoTienIch}
             tenCanHoChon={tenCanHoChon}
           />
+        */}
         </FormControl>
         <SubmitButton type="button" />
       </Box>
