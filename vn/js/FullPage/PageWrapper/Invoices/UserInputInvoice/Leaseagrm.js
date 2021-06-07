@@ -53,9 +53,8 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
     constructor(props)
     {
         super(props); 
-        this.rent_invoice = new RentInvoice(); 
+        this.rent_invoice = props.rent_invoice || new RentInvoice(); 
     }
-    
     PopulateList = (value) => 
     {
         var {edit_data, invoice_information, user_input} = this.props; 
@@ -113,7 +112,7 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
                             }
                         ]; 
                     }
-                );                        
+                );        
                 this.setState
                 (
                     {

@@ -28,28 +28,21 @@ class UserInputInvoiceComponent extends BaseComponent
     }
     componentDidMount()
     {
-        var {list, ValidInvoiceDetailsUpdate} = this.props; 
-        this.PopulateList(list); 
-        var valid_invoice_details = this.ValidInvoiceDetails(); 
-        ValidInvoiceDetailsUpdate(valid_invoice_details); 
+        this.PopulateList(this.props.list); 
+        this.ValidInvoiceDetailsChanged(); 
     }
     componentDidUpdate(previous_props, previous_state)
     {
-        var valid_invoice_details = this.ValidInvoiceDetails(); 
-        console.log(valid_invoice_details); 
+        if(this.props.list!=previous_props.list)
+        {
+            this.PopulateList(this.props.list); 
+        }
+        if(this.props.valid_invoice_details!=previous_props.valid_invoice_details)
+        {
+            this.ValidInvoiceDetailsChanged(); 
+        }
     }
-    
-    // watch: 
-    // {
-    //     list: function(new_value, old_value)
-    //     {
-    //         this.PopulateList(new_value); 
-    //     }, 
-    //     ValidInvoiceDetails: function(new_value, old_value)
-    //     {
-    //         this.$emit("input", new_value); 
-    //     }
-    // }
+    ValidInvoiceDetailsChanged = () => this.ExecPropsFunction("ValidInvoiceDetailsUpdate", this.ValidInvoiceDetails()); 
 }
 
 class RentInvoice

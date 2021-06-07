@@ -29,13 +29,16 @@ class UserInputInvoice extends BaseComponent
                 utilities: []
             }
         }; 
+        this.rent_invoice = new RentInvoice(); 
     }
     BindObjectComponent = (property) => 
     (
         {
             ...this.props, 
             invoice_information: this.state.invoice_information, 
-            list: this.state.list[property]
+            list: this.state.list[property], 
+            valid_invoice_details: this.state.invoice_details[property], 
+            ValidInvoiceDetailsUpdate: (valid_invoice_details) => this.UpdateStateValueProperty("invoice_details", property, valid_invoice_details)
         }
     )
     BindObjectMultiSelect = (property) => 
@@ -161,11 +164,7 @@ class UserInputInvoice extends BaseComponent
                             <br />
                             {
                                 Boolean(this.state.list.leaseagrm.length) && 
-                                <InvoiceLeaseagrm 
-                                    ValidInvoiceDetailsUpdate=
-                                    {(invoice_details_leaseagrm) => this.UpdateStateValueProperty("invoice_details", "leaseagrm", invoice_details_leaseagrm)}
-                                    {...this.BindObjectComponent("leaseagrm")}
-                               />
+                                <InvoiceLeaseagrm {...this.BindObjectComponent("leaseagrm")} rent_invoice={this.rent_invoice} />
                             }
                         </React.Fragment>
                     )
