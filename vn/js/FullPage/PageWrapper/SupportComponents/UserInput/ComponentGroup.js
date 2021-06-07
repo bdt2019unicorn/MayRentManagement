@@ -2,7 +2,7 @@ class ComponentGroup extends UserInputComponent
 {
     render()
     {
-        var {component_data, edit_data, lock} = this.props; 
+        var {component_data, edit_data, lock, ValueChange} = this.props; 
         var Grid = MaterialUI.Grid; 
         var grid_xs = 12/component_data.length; 
         return (
@@ -16,6 +16,7 @@ class ComponentGroup extends UserInputComponent
                             return (
                                 <Grid key={index} item xs={grid_xs}>
                                     <Component
+                                        ValueChange={ValueChange}
                                         {...component}
                                         edit_data={edit_data}
                                         lock={lock?lock.includes(component.name):undefined}

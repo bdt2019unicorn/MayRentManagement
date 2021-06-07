@@ -32,6 +32,7 @@ class LeaseagrmRow extends React.Component
                                                         {...row}
                                                         edit_data={revenue_type}
                                                         lock={Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined}
+                                                        ValueChange={(state)=>console.log(state)}
                                                     />
                                                 </Grid>
                                             ); 
@@ -129,7 +130,7 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
     render()
     {
         var {Grid} = MaterialUI; 
-        var {user_input} = this.props; 
+        var {user_input, ValueChange} = this.props; 
         return (
             <Grid container>
                 <Grid item xs={12}>
@@ -137,7 +138,7 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
                     {
                         this.state.invoice_details.map 
                         (
-                            (revenue_type, index) => <LeaseagrmRow key={index} user_input={user_input} revenue_type={revenue_type} />
+                            (revenue_type, index) => <LeaseagrmRow key={index} user_input={user_input} revenue_type={revenue_type} ValueChange={ValueChange} />
                         )
                     }
                 </Grid>
