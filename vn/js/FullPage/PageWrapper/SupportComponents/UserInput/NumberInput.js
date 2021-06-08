@@ -5,6 +5,7 @@ class NumberInput extends UserInputComponent
         let validation_object = this.ValidationObject(); 
         return (
             <UserInputFormControl 
+                lock={this.props.lock}
                 {...validation_object}
                 title={this.props.title}
             >

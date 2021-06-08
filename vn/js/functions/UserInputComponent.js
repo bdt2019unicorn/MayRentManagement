@@ -5,6 +5,13 @@ class UserInputComponent extends BaseComponent
         super(props); 
         this.state = {value: this.InnitialValue()}; 
     }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        if(!_.isEqual(this.props.edit_data, previous_props.edit_data))
+        {
+            this.setState({value: this.InnitialValue()}); 
+        }
+    }
     InnitialValue = () =>
     {
         if(this.props.value)

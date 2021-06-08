@@ -57,7 +57,7 @@ class RentInvoice
     {
         this.leaseagrm_periods = leaseagrm_period || ServerJson("../server/controller/invoice/action.php?command=LeasearmPeriodsSepcial"); 
     }
-    PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_period="months", user_input, leaseagrm_id=undefined})
+    PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_end_date,  leaseagrm_period="months", user_input, leaseagrm_id=undefined})
     {
         let details = 
         {
@@ -79,7 +79,7 @@ class RentInvoice
             {
                 let row = _.cloneDeep(user_input.invoice_details.leaseagrm.form); 
                 row[0].date_data.big_date.lock = Boolean(end_date); 
-                let rent_end_date = end_date||this.invoice_information.leaseagrm["end_date"]; 
+                let rent_end_date = end_date||leaseagrm_end_date; 
                 return {
                     ...details, 
                     start_date: start_date, 
@@ -96,8 +96,8 @@ class RentInvoice
             (
                 {
                     ...rent, 
-                    name: `${revenue_type.name} (${this.DateReformatDisplay(rent.start_date)} - ${this.DateReformatDisplay(rent.end_date)})`,
-                    amount: this.NumeralFormat(rent.price * rent.quantity)
+                    name: `${revenue_type.name} (${DateReformat.Display(rent.start_date)} - ${DateReformat.Display(rent.end_date)})`,
+                    amount: NumeralFormat(rent.price * rent.quantity)
                 }
             )
         ); 
@@ -105,7 +105,7 @@ class RentInvoice
     RentQuantityCalculation(start_period, end_period, leaseagrm_period="months")
     {
         [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
-        let [str_start, str_end] = [start_period, end_period].map(moment_object=>DateReformatDatabase(moment_object)); 
+        let [str_start, str_end] = [start_period, end_period].map(moment_object=>DateReformat.Database(moment_object)); 
         if(str_start==str_end)
         {
             return 0; 

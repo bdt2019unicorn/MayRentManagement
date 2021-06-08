@@ -90,10 +90,11 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
                         this.rent_invoice.PopulateRentInformation
                         (
                             {
-                                revenue_type: revenue_type, 
+                                revenue_type,  
                                 price: invoice_information.leaseagrm["rent_amount"], 
-                                rent_information: invoice_information.leaseagrm.rent_information, 
-                                user_input: user_input, 
+                                rent_information: invoice_information.leaseagrm["rent_information"], 
+                                leaseagrm_end_date: invoice_information.leaseagrm["end_date"], 
+                                user_input,  
                                 leaseagrm_period: invoice_information.leaseagrm["leaseagrm_period"]
                             }
                         ): 
@@ -130,7 +131,7 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
     render()
     {
         var {Grid} = MaterialUI; 
-        var {user_input} = this.props; 
+        var {invoice_information, user_input} = this.props; 
         return (
             <Grid container>
                 <Grid item xs={12}>
@@ -148,6 +149,10 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
                                     ({name, value}) => 
                                     {
                                         var invoice_detail = { ...revenue_type, [name]: value};
+                                        if(Number(revenue_type.revenue_type_id) == Number(user_input.rent_id))
+                                        {
+                                            invoice_detail.quantity = this.rent_invoice.RentQuantityCalculation(invoice_detail.start_date, invoice_detail.end_date, invoice_information.leaseagrm["leaseagrm_period"]); 
+                                        }
                                         invoice_detail.amount = Number(invoice_detail.price) * Number(invoice_detail.quantity); 
                                         this.UpdateStateValueProperty("invoice_details", index, invoice_detail); 
                                     }
