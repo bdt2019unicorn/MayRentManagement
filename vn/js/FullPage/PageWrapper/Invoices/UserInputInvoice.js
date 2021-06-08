@@ -125,10 +125,20 @@ class UserInputInvoice extends BaseComponent
             }
         ), {}
     )
+    ValidInvoiceDetails = () => 
+    {
+        if(ValidObject(this.state.invoice_details))
+        {
+            let total_details = Object.values(this.state.invoice_details).reduce((accumulator, current_value)=>(accumulator+ current_value.length),0); 
+            return (total_details>0)?this.state.invoice_details: false; 
+        }
+        return false; 
+    }
     render()
     {
-        let {edit_data, leaseagrm_select_data, main_url, revenue_type, title, user_input, InvoiceInformation} = this.props; 
+        let {edit_data, leaseagrm_select_data, title, user_input, InvoiceInformation} = this.props; 
         var invoice_details = this.InvoiceDetails(); 
+        var valid_invoice_details = this.ValidInvoiceDetails(); 
         let {Container, Grid, TextField} = MaterialUI; 
         return (
             <Container>
@@ -162,12 +172,20 @@ class UserInputInvoice extends BaseComponent
                                 </Grid>
                             </Grid>
                             <br />
+                            
                             {
                                 Boolean(this.state.list.leaseagrm.length) && 
                                 <InvoiceLeaseagrm {...this.BindObjectComponent("leaseagrm")} rent_invoice={this.rent_invoice} />
                             }
+
+                            {
+                                Boolean(this.state.list.utilities.length) && <InvoiceUtilities {...this.BindObjectComponent("utilities")} />
+                            }
                         </React.Fragment>
                     )
+                }
+                {
+                    Boolean(invoice_details && valid_invoice_details) && <SubmitButton type="button" SubmitButtonClick={()=>console.log("submit button is clicked")} />
                 }
             </Container>
         ); 

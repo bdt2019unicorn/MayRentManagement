@@ -14,7 +14,7 @@ class LeaseagrmRow extends React.Component
                         <form>
                             <Grid container spacing={1}>
                                 <Grid item xs={7}>
-                                    <TextInput edit_data={revenue_type} name="name" />
+                                    <TextInput edit_data={revenue_type} name="name" ValueChange={({value})=> ValueChange({name: "name", value})} />
                                 </Grid>
                                 <Grid item xs={3} className="text-center"><h5>{revenue_type.title}</h5></Grid>
                                 <Grid item xs={2} className="text-right"><b>{NumeralFormat(revenue_type.amount)}</b></Grid>
