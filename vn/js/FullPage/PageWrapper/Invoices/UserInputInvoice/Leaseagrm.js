@@ -2,7 +2,7 @@ class LeaseagrmRow extends React.Component
 {
     render()
     {
-        var {revenue_type, user_input} = this.props; 
+        var {revenue_type, user_input, ValueChange} = this.props; 
         var {Grid} = MaterialUI; 
         var grid_xs = 12 / revenue_type.row.length; 
         return (
@@ -17,7 +17,7 @@ class LeaseagrmRow extends React.Component
                                     <TextInput edit_data={revenue_type} name="name" />
                                 </Grid>
                                 <Grid item xs={3} className="text-center"><h5>{revenue_type.title}</h5></Grid>
-                                <Grid item xs={2} className="text-right"><b>{revenue_type.amount}</b></Grid>
+                                <Grid item xs={2} className="text-right"><b>{NumeralFormat(revenue_type.amount)}</b></Grid>
                             </Grid>
                             <Grid container spacing={1}>
                                 {
@@ -32,7 +32,7 @@ class LeaseagrmRow extends React.Component
                                                         {...row}
                                                         edit_data={revenue_type}
                                                         lock={Number(revenue_type.revenue_type_id)==user_input.rent_id?user_input.invoice_details.leaseagrm.rent_lock:undefined}
-                                                        ValueChange={(state)=>console.log(state)}
+                                                        ValueChange={ValueChange}
                                                     />
                                                 </Grid>
                                             ); 
@@ -130,7 +130,7 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
     render()
     {
         var {Grid} = MaterialUI; 
-        var {user_input, ValueChange} = this.props; 
+        var {user_input} = this.props; 
         return (
             <Grid container>
                 <Grid item xs={12}>
@@ -138,7 +138,21 @@ class InvoiceLeaseagrm extends UserInputInvoiceComponent
                     {
                         this.state.invoice_details.map 
                         (
-                            (revenue_type, index) => <LeaseagrmRow key={index} user_input={user_input} revenue_type={revenue_type} ValueChange={ValueChange} />
+                            (revenue_type, index) => 
+                            <LeaseagrmRow 
+                                key={index} 
+                                user_input={user_input} 
+                                revenue_type={revenue_type} 
+                                ValueChange=
+                                {
+                                    ({name, value}) => 
+                                    {
+                                        var invoice_detail = { ...revenue_type, [name]: value};
+                                        invoice_detail.amount = Number(invoice_detail.price) * Number(invoice_detail.quantity); 
+                                        this.UpdateStateValueProperty("invoice_details", index, invoice_detail); 
+                                    }
+                                } 
+                            />
                         )
                     }
                 </Grid>

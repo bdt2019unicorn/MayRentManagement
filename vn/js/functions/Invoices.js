@@ -33,11 +33,17 @@ class UserInputInvoiceComponent extends BaseComponent
     }
     componentDidUpdate(previous_props, previous_state)
     {
-        if(this.props.list!=previous_props.list)
+        if(!_.isEqual(this.props.list, previous_props.list))
         {
             this.PopulateList(this.props.list); 
         }
-        if(this.props.valid_invoice_details!=previous_props.valid_invoice_details)
+        if
+        (
+            !(
+                _.isEqual(this.state.invoice_details, previous_state.invoice_details) && 
+                _.isEqual(this.props.valid_invoice_details, previous_props.valid_invoice_details)
+            )
+        )
         {
             this.ValidInvoiceDetailsChanged(); 
         }
@@ -134,7 +140,7 @@ class ValidInvoiceDetails
                     price: numbro.unformat(revenue_type.price)>0,
                     quantity: revenue_type.quantity>0, 
                     amount: numbro.unformat(revenue_type.amount)>0
-                }
+                }; 
                 return ValidObject(validation); 
             }
         ).map(({name, revenue_type_id, start_date, end_date, price, quantity, amount})=>({name, revenue_type_id, start_date, end_date, price, quantity, amount: amount.toString().replaceAll(",","")})); 
