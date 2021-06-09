@@ -10,7 +10,6 @@ class UtilityReading extends Utilities
 			utilities_readings: []
 		};
 	}
-
 	UnitIdValueChanged = ({value}) => this.ResetStateValue
 	(
 		{
@@ -62,8 +61,42 @@ class UtilityReading extends Utilities
 				}
 			}
 		}
-	) 
-
+	)             
+	UtilitiesReadingValid()
+	{
+		if(!this.state.utilities_readings.length)
+		{
+			return false; 
+		}
+		let valid = this.state.utilities_readings.filter
+		(
+			({date, time, number, current_reading, current_date })=>
+			{
+				date = DateReformat.ConvertFormatDisplay(date); 
+				let validation = 
+				{
+					date: moment(date).isValid(), 
+					time: moment(time, "HH:mm").isValid(), 
+					number: Number(number)>=current_reading, 
+					current_date: current_date?moment(current_date)<moment(date): true 
+				}; 
+				return !Object.values(validation).includes(false); 
+			}
+		); 
+		return valid.length==this.utilities_readings.length?                
+		this.utilities_readings.map 
+		(
+			({unit_name, service, current_reading, current_date, date, time, number, ...rest })=>
+			(
+				{
+					number: Number(number), 
+					date: `${this.DateReformatDatabase(date)} ${moment(time, "HH:mm").format("HH:mm:ss")}`,  
+					...rest
+				}
+			) 
+		): 
+		false; 
+	}
 	render() 
 	{
 		const { Box, FormControl, Icon, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, withStyles } = MaterialUI;
@@ -142,7 +175,26 @@ class UtilityReading extends Utilities
 									        			<TableCell><StyleText error type="number" /></TableCell>
 												        <TableCell>{utilities_reading.current_reading}</TableCell>
 												        <TableCell>{DateReformat.Display(utilities_reading.current_date)}</TableCell>
-											          <TableCell><IconButton><Icon>delete</Icon></IconButton></TableCell>
+											          	<TableCell>
+															<IconButton 
+																onClick=
+																{
+																	() => 
+																	{
+																		var utilities_readings = ImmutabilityHelper
+																		(
+																			this.state.utilities_readings, 
+																			{
+																				$splice: [[index, 1]]
+																			}
+																		); 
+																		this.setState({utilities_readings}); 
+																	}
+																}
+															>
+																  <Icon>delete</Icon>
+															</IconButton>
+														</TableCell>
 								          			</TableRow>
 									          	) 
 									      	)

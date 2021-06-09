@@ -7,8 +7,9 @@ class ConnectComponent
 
 class DateReformat 
 {
-    static MomentDate = (string = undefined) => string ? moment(string) : moment()
+    static ConvertFormatDisplay = (string) => this.Database(moment(string, "DD MMM YYYY"))
     static Database = (string = undefined) => this.MomentDate(string).format("YYYY-MM-DD") 
     static Display = (string = undefined) => this.MomentDate(string).format("DD/MM/YYYY")
+    static MomentDate = (string = undefined) => string ? moment(string) : moment()
     static TimeDisplay = (string = undefined) => this.MomentDate(string).format("HH:mm")
 }
