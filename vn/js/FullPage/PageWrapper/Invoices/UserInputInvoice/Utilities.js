@@ -36,7 +36,7 @@ class InvoiceUtilities extends UserInputInvoiceComponent
     {
         var {edit_data, invoice_information, revenue_type} = this.props; 
         let revenue_type_ids = value.map(revenue_type=>revenue_type.id); 
-        InvoiceInformationDetails = ()=>
+        var InvoiceInformationDetails = ()=>
         {
             return invoice_information.utilities.filter(details=>revenue_type_ids.includes(details.revenue_type_id)).map
             (
@@ -78,15 +78,14 @@ class InvoiceUtilities extends UserInputInvoiceComponent
             this.setState({invoice_details: InvoiceInformationDetails()}); 
         }
     }
-    ValidInvoiceDetails = () => ValidInvoiceDetails.Utilities(this.props.invoice_details, this.props.list)
+    ValidInvoiceDetails = () => ValidInvoiceDetails.Utilities(this.state.invoice_details, this.props.list)
     render()
     {
-        var { invoice_details } = this.props; 
-        return invoice_details.length?  
+        return this.state.invoice_details.length?  
         (
             <div className="m-3">
                 <h4>Tiện ích</h4>
-                {invoice_details.map((revenue_type, index) => <UtilitiesRow key={index} {...revenue_type} />)}
+                {this.state.invoice_details.map((revenue_type, index) => <UtilitiesRow key={index} {...revenue_type} />)}
             </div>
         ): null;
     }

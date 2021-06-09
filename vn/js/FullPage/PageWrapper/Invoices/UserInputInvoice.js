@@ -37,7 +37,6 @@ class UserInputInvoice extends BaseComponent
             ...this.props, 
             invoice_information: this.state.invoice_information, 
             list: this.state.list[property], 
-            valid_invoice_details: this.state.invoice_details[property], 
             ValidInvoiceDetailsUpdate: (valid_invoice_details) => this.UpdateStateValueProperty("invoice_details", property, valid_invoice_details)
         }
     )
@@ -174,8 +173,7 @@ class UserInputInvoice extends BaseComponent
                             <br />
                             
                             {
-                                Boolean(this.state.list.leaseagrm.length) && 
-                                <InvoiceLeaseagrm {...this.BindObjectComponent("leaseagrm")} rent_invoice={this.rent_invoice} />
+                                Boolean(this.state.list.leaseagrm.length) && <InvoiceLeaseagrm {...this.BindObjectComponent("leaseagrm")} rent_invoice={this.rent_invoice} />
                             }
 
                             {

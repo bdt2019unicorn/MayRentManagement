@@ -36,14 +36,9 @@ class UserInputInvoiceComponent extends BaseComponent
         if(!_.isEqual(this.props.list, previous_props.list))
         {
             this.PopulateList(this.props.list); 
+            return; 
         }
-        if
-        (
-            !(
-                _.isEqual(this.state.invoice_details, previous_state.invoice_details) && 
-                _.isEqual(this.props.valid_invoice_details, previous_props.valid_invoice_details)
-            )
-        )
+        if(!_.isEqual(this.state.invoice_details, previous_state.invoice_details))
         {
             this.ValidInvoiceDetailsChanged(); 
         }
@@ -153,15 +148,15 @@ class ValidInvoiceDetails
         {
             for (let index = 0; index < list.length; index++) 
             {
-                let details = invoice_details.filter(({revenue_type_id})=>revenue_type_id==list[index].id); 
-                if(!details.length)
+                let details = invoice_details.find(({revenue_type_id})=>revenue_type_id==list[index].id); 
+                if(!details)
                 {
                     return false; 
                 }
             }
         }
-        var valid_details = invoice_details.filter(({amount})=> numbro.unformat(amount)>=0); 
-        return (valid_details.length<invoice_details.length)? false: 
+        var invalid_details = invoice_details.find(({amount})=> numbro.unformat(amount)<0); 
+        return invalid_details ? false: 
         invoice_details.map(({id, name, amount, price, quantity, revenue_type_id})=>({utility_reading_id: id, name, amount, price, quantity, revenue_type_id})); 
     }    
 }
