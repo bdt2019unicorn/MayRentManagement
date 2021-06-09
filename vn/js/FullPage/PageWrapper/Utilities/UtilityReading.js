@@ -10,6 +10,7 @@ class UtilityReading extends Utilities
 			utilities_readings: []
 		};
 	}
+	// NewUtilityReadingValue = (name, value, index) => 
 	UnitIdValueChanged = ({value}) => this.ResetStateValue
 	(
 		{
@@ -73,29 +74,30 @@ class UtilityReading extends Utilities
 			({date, time, number, current_reading, current_date })=>
 			{
 				date = DateReformat.ConvertFormatDisplay(date); 
-				let validation = 
-				{
-					date: moment(date).isValid(), 
-					time: moment(time, "HH:mm").isValid(), 
-					number: Number(number)>=current_reading, 
-					current_date: current_date?moment(current_date)<moment(date): true 
-				}; 
-				return !Object.values(validation).includes(false); 
+				return ValidObject
+				(
+					{
+						date: moment(date).isValid(), 
+						time: moment(time, "HH:mm").isValid(), 
+						number: Number(number)>=current_reading, 
+						current_date: current_date?moment(current_date)<moment(date): true 
+					}
+				); 
 			}
 		); 
-		return valid.length==this.utilities_readings.length?                
-		this.utilities_readings.map 
+		return valid.length==this.state.utilities_readings.length?                
+		this.state.utilities_readings.map 
 		(
-			({unit_name, service, current_reading, current_date, date, time, number, ...rest })=>
+			({ date, time, number, revenue_type_id, unit_id })=>
 			(
 				{
+					date: `${DateReformat.Database(date)} ${DateReformat.ConvertTimeDisplay(time)}`,  
 					number: Number(number), 
-					date: `${this.DateReformatDatabase(date)} ${moment(time, "HH:mm").format("HH:mm:ss")}`,  
-					...rest
+					revenue_type_id, 
+					unit_id
 				}
 			) 
-		): 
-		false; 
+		): undefined; 
 	}
 	render() 
 	{
@@ -131,6 +133,7 @@ class UtilityReading extends Utilities
   				} 
   			}
   		)(TextField);
+		var utilities_reading_valid = this.UtilitiesReadingValid(); 
 
 		return (
 			<Box>
@@ -170,9 +173,26 @@ class UtilityReading extends Utilities
 									        		<TableRow key={index}>
 												        <TableCell>{utilities_reading.service}</TableCell>
 												        <TableCell>{utilities_reading.unit_name}</TableCell>
-									        			<TableCell><StyleText error type="text" defaultValue={DateReformat.Display()} /></TableCell>
-									        			<TableCell><StyleText error type="text" defaultValue={DateReformat.TimeDisplay()} /></TableCell>
-									        			<TableCell><StyleText error type="number" /></TableCell>
+									        			<TableCell>
+															<StyleText 
+																error 
+																type="text" 
+																defaultValue={DateReformat.Display()} 
+															/>
+														</TableCell>
+									        			<TableCell>
+															<StyleText 
+																error 
+																type="text" 
+																defaultValue={DateReformat.TimeDisplay()} 
+															/>
+														</TableCell>
+									        			<TableCell>
+															<StyleText 
+																error 
+																type="number" 
+															/>
+														</TableCell>
 												        <TableCell>{utilities_reading.current_reading}</TableCell>
 												        <TableCell>{DateReformat.Display(utilities_reading.current_date)}</TableCell>
 											          	<TableCell>
@@ -205,7 +225,7 @@ class UtilityReading extends Utilities
 						)
 					}
 				</FormControl>
-				<SubmitButton type="button" />
+				{ utilities_reading_valid && <SubmitButton type="button" /> }
 			</Box>
 		);
 	}
