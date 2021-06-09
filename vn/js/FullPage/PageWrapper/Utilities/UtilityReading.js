@@ -9,8 +9,52 @@ class UtilityReading extends Utilities
 			unit_id: "", 
 			utilities_readings: []
 		};
+		this.StyleText = MaterialUI.withStyles
+		(
+			{
+				root: 
+				{
+					"& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+					{
+						display: "none",
+						margin: 80
+					},
+					"&$disabled": 
+					{
+						"&:before": 
+						{
+							borderBottom: "none!important"
+						},
+						"& svg": 
+						{
+							display: "none"
+						} 
+					},
+					underline: 
+					{
+						"&:after": 
+						{
+							transition: "none"
+						},
+					} 
+				} 
+			}
+		)(MaterialUI.TextField);
 	}
-	// NewUtilityReadingValue = (name, value, index) => 
+	NewUtilityReadingValue = (name, index, value) => 
+	{
+		var utilities_readings = ImmutabilityHelper
+		(
+			this.state.utilities_readings, 
+			{
+				[index]:  
+				{
+					[name]: {$set: value}
+				}
+			}
+		); 
+		this.setState({utilities_readings}); 
+	}
 	UnitIdValueChanged = ({value}) => this.ResetStateValue
 	(
 		{
@@ -101,39 +145,10 @@ class UtilityReading extends Utilities
 	}
 	render() 
 	{
-		const { Box, FormControl, Icon, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, withStyles } = MaterialUI;
-  		const StyleText = withStyles
-  		(
-  			{
-  				root: 
-  				{
-			  		"& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-			  		{
-			  			display: "none",
-			  			margin: 80
-			  		},
-			  		"&$disabled": 
-			  		{
-			  			"&:before": 
-			  			{
-			  				borderBottom: "none!important"
-			  			},
-			  			"& svg": 
-			  			{
-			  				display: "none"
-			  			} 
-  					},
-			  		underline: 
-			  		{
-			  			"&:after": 
-			  			{
-			  				transition: "none"
-			  			},
-  					} 
-  				} 
-  			}
-  		)(TextField);
+		const { Box, FormControl, Icon, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } = MaterialUI;
+		const StyleText = this.StyleText;
 		var utilities_reading_valid = this.UtilitiesReadingValid(); 
+		
 
 		return (
 			<Box>
@@ -177,20 +192,24 @@ class UtilityReading extends Utilities
 															<StyleText 
 																error 
 																type="text" 
-																defaultValue={DateReformat.Display()} 
+																value={utilities_reading.date} 
+																onChange={(event)=>this.NewUtilityReadingValue("date", index, event.target.value)}
 															/>
 														</TableCell>
 									        			<TableCell>
 															<StyleText 
 																error 
 																type="text" 
-																defaultValue={DateReformat.TimeDisplay()} 
+																value={utilities_reading.time} 
+																onChange={(event)=>this.NewUtilityReadingValue("time", index, event.target.value)}
 															/>
 														</TableCell>
 									        			<TableCell>
 															<StyleText 
 																error 
 																type="number" 
+																value={utilities_reading.number}
+																onChange={(event)=>this.NewUtilityReadingValue("number", index, event.target.value)}
 															/>
 														</TableCell>
 												        <TableCell>{utilities_reading.current_reading}</TableCell>
