@@ -31,6 +31,20 @@ class UserInputInvoice extends BaseComponent
         }; 
         this.rent_invoice = new RentInvoice(); 
     }
+    componentDidMount()
+    {
+        if(this.props.edit_data)
+        {
+            var edit_data = this.props.edit_data; 
+            var multi_select = _.get(edit_data, "multi_select"); 
+            var list = Object.keys(this.state.list).reduce
+            (
+                (accumulator, property) => ({ ...accumulator, [property]: JSON.parse(multi_select[`${property}_multi_select`])}), {}
+            ); 
+            // I think the issue is here. Need further investigate
+            this.setState({list}, () => this.setState({invoice_details: _.get(edit_data, "details"), invoice: _.get(edit_data, "invoice")})); 
+        }
+    }
     BindObjectComponent = (property) => 
     (
         {
@@ -43,9 +57,8 @@ class UserInputInvoice extends BaseComponent
     )
     BindObjectMultiSelect = (property) => 
     {
-        var {edit_data, revenue_type, user_input} = this.props; 
+        var { revenue_type, user_input } = this.props; 
         return {
-            // name: `${property}_multi_select`, 
             select_value: "id", 
             text: "name", 
             value: JSON.stringify(this.state.list[property]), 
@@ -59,8 +72,7 @@ class UserInputInvoice extends BaseComponent
                 )
             ),
             select_atributes: user_input.select_atributes, 
-            select_data: revenue_type[property], 
-            edit_data: _.get(edit_data, "multi_select")
+            select_data: revenue_type[property] 
         }; 
     } 
     InvoiceDetails = () =>
@@ -148,7 +160,7 @@ class UserInputInvoice extends BaseComponent
                     <SelectInput 
                         {...user_input.leaseagrm_id} 
                         select_data={leaseagrm_select_data}
-                        lock={edit_data}
+                        disabled={Boolean(edit_data)}
                         edit_data={edit_data?edit_data.invoice: undefined}
                         ValueChange={this.LeaseagrmIdSelectChanged}
                     />
