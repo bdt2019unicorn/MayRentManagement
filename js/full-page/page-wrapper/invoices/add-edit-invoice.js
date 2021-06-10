@@ -94,7 +94,7 @@ Vue.component
                     }
                 }; 
             }, 
-            Submit(invoice)
+            Submit(invoices)
             {
                 new Promise
                 (
@@ -103,7 +103,7 @@ Vue.component
                         let data = 
                         {
                             edit_data: this.edit_data, 
-                            new_data: invoice 
+                            new_data: invoices
                         }
                         let url = "server/controller/invoice/post.php?command=Update";
                         let result = this.SubmitData("invoices", url, data); 

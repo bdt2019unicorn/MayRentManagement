@@ -35,13 +35,17 @@ class UserInputInvoiceComponent extends BaseComponent
     {
         if(!_.isEqual(this.props.list, previous_props.list))
         {
-            this.PopulateList(this.props.list); 
+            this.componentDidMount(); 
             return; 
         }
         if(!_.isEqual(this.state.invoice_details, previous_state.invoice_details))
         {
             this.ValidInvoiceDetailsChanged(); 
         }
+    }
+    componentWillUnmount()
+    {
+        this.ExecPropsFunction("Unmount"); 
     }
     ValidInvoiceDetailsChanged = () => this.ExecPropsFunction("ValidInvoiceDetailsUpdate", this.ValidInvoiceDetails()); 
 }
@@ -116,7 +120,6 @@ class RentInvoice
 
 class ValidInvoiceDetails  
 {
-    
     static Leaseagrm(invoice_details)
     {
         if(!invoice_details.length)

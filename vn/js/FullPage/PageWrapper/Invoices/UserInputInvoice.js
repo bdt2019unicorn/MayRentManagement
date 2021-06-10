@@ -37,7 +37,8 @@ class UserInputInvoice extends BaseComponent
             ...this.props, 
             invoice_information: this.state.invoice_information, 
             list: this.state.list[property], 
-            ValidInvoiceDetailsUpdate: (valid_invoice_details) => this.UpdateStateValueProperty("invoice_details", property, valid_invoice_details)
+            ValidInvoiceDetailsUpdate: (valid_invoice_details) => this.UpdateStateValueProperty("invoice_details", property, valid_invoice_details), 
+            Unmount: () => this.UpdateStateValueProperty("invoice_details", property, [])
         }
     )
     BindObjectMultiSelect = (property) => 
@@ -183,7 +184,7 @@ class UserInputInvoice extends BaseComponent
                     )
                 }
                 {
-                    Boolean(invoice_details && valid_invoice_details) && <SubmitButton type="button" SubmitButtonClick={()=>console.log("submit button is clicked")} />
+                    Boolean(invoice_details && valid_invoice_details) && <SubmitButton type="button" SubmitButtonClick={()=>this.ExecPropsFunction("InvoiceSubmit", {invoice: this.state.invoice, details: this.state.invoice_details})} />
                 }
             </Container>
         ); 

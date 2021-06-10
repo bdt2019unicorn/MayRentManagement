@@ -32,6 +32,23 @@ class AddInvoice extends Invoices
 
                     ): null 
                 }
+                InvoiceSubmit=
+                {
+                    (invoices) => 
+                    {
+                        let url = "../server/controller/invoice/post.php?command=Import"; 
+                        let result = SubmitData("invoices", url, invoices); 
+                        if(Number(result))
+                        {
+                            alert("Thêm hóa đơn thành công"); 
+                            this.ResetStateValue({value_name: "user_input", new_value: _.cloneDeep(this.state.user_input)}); 
+                        }
+                        else
+                        {
+                            alert("Thêm hóa đơn thất bại. Vui lòng thử lại"); 
+                        }
+                    }
+                }
             />
         ): null;  
     }
