@@ -1,6 +1,6 @@
 var add_edit_mixin = 
 {
-    props: ["controller"], 
+    props: ["controller", "permission"], 
     mixins: [support_mixin], 
     data: ()=>
     (
@@ -49,5 +49,5 @@ var add_edit_mixin =
         }    
     },
 
-    template: `<user-input v-if="user_input" v-bind="$data" :edit_data="this.edit_data" @form-information-valid="SubmitForm"></user-input>`
+    template: `<user-input v-if="user_input" v-bind="$data" :edit_data="this.edit_data" @form-information-valid="SubmitForm" :permission="permission"></user-input>`
 }

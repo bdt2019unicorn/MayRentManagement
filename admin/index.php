@@ -93,10 +93,13 @@
                     <?php $table_object->PopulateTableColumnNames("tfoot"); ?>
                 </table>
             <?php else: ?>
-                <?php $users = Database::SelectData("user", ["*"], ["approved"=>"0"]); ?>
-                <?php if(count($users)): ?>
+                <?php 
+                    $users = Database::SelectData("user", ["*"]); 
+                    $unapproved_users = array_filter($users, function($user){return $user["approved"]=="0"; }); 
+                ?>
+                <?php if(count($unapproved_users)): ?>
                     <h1 class="text-center m-3">Users need attention</h1>
-                    <?php foreach ($users as $user): ?>
+                    <?php foreach ($unapproved_users as $user): ?>
                         <div class="row m-2 border border-info">
                             <div class="col">
                                 <h4><?php echo $user["username"]; ?></h4>
@@ -104,6 +107,17 @@
                                 <p><b>Email Address: </b><?php echo $user["email"]; ?></p>
                                 <p><b>Viber Number: </b><?php echo $user["viber_number"]; ?></p>
                             </div>
+                            <form class="col" id="approve-user-<?php echo $user["id"]; ?>">
+                                <h5>Permissions</h5>
+                                <div class="form-check">
+                                    <input name="add_edit" type="checkbox" class="form-check-input">
+                                    <label class="form-check-label">Add and Edit</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="import_excel" type="checkbox" class="form-check-input" value="1">
+                                    <label class="form-check-label">Import Excel</label>
+                                </div>
+                            </form>
                             <div class="col-1 text-right">
                                 <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserPermissions('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
                             </div>

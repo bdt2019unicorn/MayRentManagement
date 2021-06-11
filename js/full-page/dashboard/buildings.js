@@ -2,7 +2,7 @@ Vue.component
 (
     "buildings", 
     {
-        mixins: [support_mixin], 
+        mixins: [permissions_mixin], 
         data: () =>
         (
             {
@@ -56,7 +56,7 @@ Vue.component
         template: 
         `
             <fragment>
-                <vs-row>
+                <vs-row v-if="AddEditPermission">
                     <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline" @click="add_building_form=StateObject('building_user_input')">Add</vs-button>
                     <vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on" @click="ImportBuildings">Import Excel</vs-button>
                 </vs-row>
@@ -82,7 +82,7 @@ Vue.component
                                 <br>
                             </template>
                             <vs-row slot="footer" vs-justify="flex-end">
-                                <b-button title="Delete" class="mx-1" variant="danger" @click="DeleteBuilding(building.id)"><b-icon icon="trash"></b-icon></b-button>
+                                <b-button v-if="AddEditPermission" title="Delete" class="mx-1" variant="danger" @click="DeleteBuilding(building.id)"><b-icon icon="trash"></b-icon></b-button>
                                 <router-link :to="{name: 'general-edit', params: {controller: 'buildings'}, query: {id: building.id}}">
                                     <vs-button class="mx-1" color="secondary" type="gradient" icon="edit" title="Edit"></vs-button>
                                 </router-link>

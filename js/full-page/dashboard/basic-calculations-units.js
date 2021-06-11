@@ -2,7 +2,7 @@ Vue.component
 (
     "basic-calculations-units", 
     {
-        mixins: [support_mixin], 
+        mixins: [permissions_mixin], 
         data: () =>
         (
             {
@@ -111,6 +111,7 @@ Vue.component
 
                 <div v-if="current_table" v-show="!unable_to_delete">
                     <basic-calculations-form 
+                        v-if="AddEditPermission"
                         :edit_id="edit_id"
                         @click="GeneralEditButtonClick(undefined, undefined)"
                         @submit="SubmitForm"
@@ -133,6 +134,7 @@ Vue.component
                     </basic-calculations-form>
                     <basic-calculations-list 
                         :basic_calculations="basic_calculations" 
+                        :permission="AddEditPermission"
                         @general-edit-button="GeneralEditButtonClick" 
                         @delete-basic-unit="DeleteBasicUnit"
                     ></basic-calculations-list>
