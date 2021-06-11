@@ -5,13 +5,10 @@ class DateInput extends UserInputComponent
         super(props); 
         this.state.validation_object = this.ValidationObject(); 
     }
-    ValueStateChange = (value = undefined) => 
-    {
-        this.setState({value}); 
-        this.ExecPropsFunction("ValueStateChange"); 
-    }
+    ValueStateChange = (value = undefined) => this.setState({value}, () => this.ExecPropsFunction("ValueStateChange", value))
     componentDidUpdate(previous_props, previous_state)
     {
+        super.componentDidUpdate(previous_props, previous_state); 
         if
         ( 
             (previous_state.value==this.state.value) && 
@@ -38,7 +35,7 @@ class DateInput extends UserInputComponent
             input_props["value"] = ""; 
         }
         return (
-            <UserInputFormControl title={this.props.title} {...this.state.validation_object}>
+            <UserInputFormControl lock={this.props.lock} title={this.props.title} {...this.state.validation_object}>
                 <ReactDatetime
                     className="width-full mt-1"
                     value={value}
@@ -50,7 +47,7 @@ class DateInput extends UserInputComponent
                 />
                 <ClearButton 
                     error={error}  
-                    ClearButtonClick={()=>this.ValueStateChange()}
+                    ClearButtonClick={this.ValueStateChange}
                 />
             </UserInputFormControl>
 

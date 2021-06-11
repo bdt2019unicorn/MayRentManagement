@@ -7,7 +7,7 @@ class TextInput extends UserInputComponent
                 size="medium"
                 fullWidth
                 name={this.props.name}
-                label={this.props.title.replaceAll("*","").trim()} 
+                label={(this.props.title || "").replaceAll("*","").trim()} 
                 value={this.state.value || ""} 
                 type={this.props.type} 
                 margin="normal"

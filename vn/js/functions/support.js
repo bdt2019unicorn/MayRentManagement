@@ -3,6 +3,7 @@ function AjaxRequest(url, data = new FormData(), type = "get")
     var result = undefined; 
     const request = new XMLHttpRequest(); 
     request.open(type, url, false); 
+    UserInformation.Header(request); 
     request.onload = ()=> result = request.responseText; 
     request.send(data); 
     return result; 
@@ -11,10 +12,10 @@ function BlobRequest(url, data={})
 {
     var result = undefined; 
     const request = new XMLHttpRequest(); 
-    
     request.overrideMimeType("text/plain; charset=x-user-defined"); 
     request.open("POST", url, false); 
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    UserInformation.Header(request); 
     request.onload = ()=>
     {
         var bytes = new Uint8Array(request.responseText.length);
@@ -36,6 +37,10 @@ function ItemsClasses(item_value, compared_value, based_classes, good_class, bad
 {
     return based_classes + " " + ((item_value==compared_value)?good_class: bad_class); 
 } 
+function NumeralFormat(number)
+{
+    return numbro(number).format({thousandSeparated: true});
+}
 function SearchQueryString(params)
 {
     return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
@@ -56,18 +61,9 @@ function SubmitData(key, url, data, stringify=true)
 {
     var form_data = new FormData(); 
     form_data.append(key, (stringify)?JSON.stringify(data): data); 
-    SubmitUserInformation(form_data); 
+    UserInformation.Submit(form_data); 
     return AjaxRequest(url, form_data, "post"); 
 }
-function SubmitUserInformation(form_data)
-{
-    try 
-    {
-        form_data.append("username", sessionStorage.getItem("username")); 
-        form_data.append("modified_time", moment().format("YYYY-MM-DD HH:MM:ss")); 
-    }
-    catch(error) {}
-} 
 function TableAction(controller)
 {
     return ServerJson(`../server/json/table_actions/vn/${controller}.json`) || {}; 
@@ -96,4 +92,19 @@ function UserInputForm(controller)
         console.log(exception); 
         return undefined; 
     }
+} 
+function ValidObject(object)
+{
+    return !(Object.values(object).includes(false));
+} 
+function ValidPeriod(start_period, end_period, equal=false)
+{
+    [start_period, end_period] = [start_period, end_period].map(period=>moment(period)); 
+
+    let [str_start, str_end] = [start_period, end_period].map(moment_object=>DateReformat.Database(moment_object)); 
+    if((str_start==str_end) && equal)
+    {
+        return true; 
+    }
+    return moment(str_end)>moment(str_start); 
 }

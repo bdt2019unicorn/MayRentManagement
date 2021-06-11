@@ -231,11 +231,11 @@ var support_mixin =
                 return {
                     username: sessionStorage.getItem("username"), 
                     modified_time: moment().format("YYYY-MM-DD HH:MM:ss") 
-                }
+                }; 
             }
             catch 
             {
-                return {}
+                return {}; 
             }
         }, 
         ValidObject(object)

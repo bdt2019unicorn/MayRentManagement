@@ -21,6 +21,23 @@ class SelectInput extends SelectComponent
 
 class MultiSelectValue extends SelectComponent
 {
+    componentDidMount()
+    {
+        this.ExecPropsFunction("UpdateValueStarted", this.SelectValueChanged); 
+    }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        if(this.state.value==previous_state.value)
+        {
+            return; 
+        }
+        this.SelectValueChanged(); 
+    }
+    SelectValueChanged = () => 
+    {
+        var value = JSON.parse(this.state.value); 
+        this.ExecPropsFunction("SelectValueChanged", value); 
+    }
     render() 
     {
         return (
@@ -31,7 +48,7 @@ class MultiSelectValue extends SelectComponent
                     value={JSON.parse(this.state.value||"[]").map(value=>value.toString())}
                     onChange=
                     {
-                        (options)=>this.setState
+                        (options)=> this.setState
                         (
                             {
                                 value: JSON.stringify
@@ -42,7 +59,7 @@ class MultiSelectValue extends SelectComponent
                                     ) 
                                 )
                             }
-                        )
+                        ) 
                     }
                 />
                 <ClearButton ClearButtonClick={()=>this.setState({value: "[]"})} />

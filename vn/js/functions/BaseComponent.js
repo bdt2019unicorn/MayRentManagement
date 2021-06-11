@@ -25,11 +25,11 @@ class BaseComponent extends React.Component
     BuildingId = () => _.get(this.props, "match.params.building_id")
     CheckLogin = (redirect_component = <ReactRouterDOM.Redirect to="/page-administration/login" />, otherwise = null) => !(this.props.username && this.props.user_id)? redirect_component: otherwise
     CurrentController = () => this.props.controller || _.get(this.props, "match.params.controller")
-    ExecPropsFunction = (func) =>
+    ExecPropsFunction = (func, ...params) =>
     {
         if(this.props[func])
         {
-            this.props[func](); 
+            this.props[func](...params); 
         }
     }
     ImportUrl = () => `../server/controller/database/import.php?import_controller=${this.CurrentController()}&building_id=${this.BuildingId()}`
@@ -94,6 +94,18 @@ class BaseComponent extends React.Component
         {
             return []; 
         }          
+    }
+    UpdateStateValueProperty = (state_name, property, value, extra_update = (new_state)=>null) => 
+    {
+        var new_state = ImmutabilityHelper 
+        (
+            this.state[state_name], 
+            {
+                [property]: {$set: value}
+            }
+        ); 
+        extra_update(new_state); 
+        this.setState({[state_name]: new_state}); 
     }
     ValidationHelperText = (validations, props_name) => 
     {

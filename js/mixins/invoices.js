@@ -23,7 +23,7 @@ var invoices_mixin =
             Object.keys(config).forEach(key=>this[key]=config[key]); 
         }
         catch {}
-    },
+    } 
 }; 
 
 var rent_invoice_mixin = 
@@ -88,7 +88,7 @@ var rent_invoice_mixin =
                         end_date: rent_end_date, 
                         quantity: this.RentQuantityCalculation(start_date, rent_end_date, leaseagrm_period), 
                         row: row 
-                    }
+                    }; 
                 }
             ); 
 
@@ -104,8 +104,8 @@ var rent_invoice_mixin =
                 )
             ); 
         }
-    },
-}
+    } 
+};
 
 var user_input_invoice_component_mixin = 
 {
@@ -128,7 +128,7 @@ var user_input_invoice_component_mixin =
             this.$emit("input", new_value); 
         }
     }
-}
+};
 
 var valid_invoice_details_mixin = 
 {
@@ -180,4 +180,4 @@ var valid_invoice_details_mixin =
             invoice_details.map(({id, name, amount, price, quantity, revenue_type_id, ...rest})=>({utility_reading_id: id, name, amount, price, quantity, revenue_type_id})); 
         }    
     } 
-}
+};
