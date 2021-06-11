@@ -69,9 +69,7 @@ class InvoiceUtilities extends UserInputInvoiceComponent
             let edit_data_utilities = edit_data.details.utilities.filter(detail=>(!edit_ids.includes(detail.edit_id)) && (revenue_type_ids.includes(detail.revenue_type_id))); 
 
             let invoice_information_details = InvoiceInformationDetails(); 
-
             this.setState({invoice_details: [...details_utilities, ...edit_data_utilities, ...invoice_information_details]}); 
-
         }
         else 
         {

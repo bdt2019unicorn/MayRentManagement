@@ -21,7 +21,7 @@ class UserInputInvoice extends BaseComponent
                 unit_name: undefined, 
                 tenant_name: undefined, 
                 leaseagrm: {}, 
-                utilities: {}
+                utilities: []
             }, 
             list: 
             {

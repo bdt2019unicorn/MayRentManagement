@@ -117,28 +117,27 @@ class EditInvoice extends Invoices
             {
                 (invoices) => 
                 {
-            /*
                     new Promise
                     (
                         (resolve, reject)=>
                         {
                             let data = 
                             {
-                                edit_data: this.edit_data, 
+                                edit_data: this.state.edit_data, 
                                 new_data: invoices
-                            }
-                            let url = "server/controller/invoice/post.php?command=Update";
-                            let result = this.SubmitData("invoices", url, data); 
+                            }; 
+                            let url = "../server/controller/invoice/post.php?command=Update";
+                            let result = SubmitData("invoices", url, data); 
                             var new_edit_data = undefined; 
                             try 
                             {
                                 new_edit_data = JSON.parse(result); 
-                                alert("Edit invoice success!"); 
+                                alert("Chỉnh xửa hóa đơn thành công"); 
                                 
                             }
-                            catch 
+                            catch (exception)
                             {
-                                alert("Edit invoice fails, please try again later"); 
+                                alert("Chỉnh sửa hóa đơn thất bại. Vui lòng thử lại"); 
                                 reject(); 
                             }
                             resolve(new_edit_data); 
@@ -147,23 +146,12 @@ class EditInvoice extends Invoices
                     (
                         new_edit_data=>
                         {
-                            return new Promise
-                            (
-                                (resolve, reject)=>
-                                {
-                                    if(new_edit_data)
-                                    {
-                                        this.edit_data = undefined; 
-                                        resolve(new_edit_data); 
-                                    }
-                                    reject(); 
-                                }
-                            ); 
-            
+                            if(new_edit_data)
+                            {
+                                this.setState({edit_data: undefined}, () => this.EditData(new_edit_data.invoice, new_edit_data.details)); 
+                            }
                         }
-                    ).then(new_edit_data=>this.EditData(new_edit_data.invoice, new_edit_data.details)); 
-
-            */
+                    ); 
                 }
             }
         />: null; 
