@@ -30,9 +30,7 @@ class UserInputInvoice extends BaseComponent
             }
         }; 
         this.rent_invoice = new RentInvoice(); 
-    }
-    componentDidMount()
-    {
+
         if(this.props.edit_data)
         {
             var edit_data = this.props.edit_data; 
@@ -41,8 +39,20 @@ class UserInputInvoice extends BaseComponent
             (
                 (accumulator, property) => ({ ...accumulator, [property]: JSON.parse(multi_select[`${property}_multi_select`])}), {}
             ); 
-            // I think the issue is here. Need further investigate
-            this.setState({list}, () => this.setState({invoice_details: _.get(edit_data, "details"), invoice: _.get(edit_data, "invoice")})); 
+            this.state = 
+            { 
+                ...this.state, 
+                list,  
+                invoice_details: _.get(edit_data, "details"), 
+                invoice: _.get(edit_data, "invoice")
+            }; 
+        }
+    }
+    componentDidMount()
+    {
+        if(this.props.edit_data)
+        {
+            this.InvoiceInformation(this.props.edit_data.invoice.leaseagrm_id); 
         }
     }
     BindObjectComponent = (property) => 
@@ -56,9 +66,10 @@ class UserInputInvoice extends BaseComponent
         }
     )
     BindObjectMultiSelect = (property) => 
-    {
-        var { revenue_type, user_input } = this.props; 
-        return {
+    (
+        {
+            select_atributes: this.props.user_input.select_atributes, 
+            select_data: this.props.revenue_type[property], 
             select_value: "id", 
             text: "name", 
             value: JSON.stringify(this.state.list[property]), 
@@ -68,13 +79,22 @@ class UserInputInvoice extends BaseComponent
                 property, 
                 value.map
                 (
-                    revenue_type_id => revenue_type[property].find(({id})=>id==revenue_type_id)
+                    revenue_type_id => this.props.revenue_type[property].find(({id})=>Number(id)==Number(revenue_type_id))
                 )
-            ),
-            select_atributes: user_input.select_atributes, 
-            select_data: revenue_type[property] 
-        }; 
-    } 
+            ), 
+            UpdateValueStarted: this.props.edit_data ? (callback) => 
+            {
+                new Promise 
+                (
+                    (resolve, reject) => 
+                    {
+                        this.UpdateStateValueProperty("list", property, []); 
+                        resolve(); 
+                    }
+                ).then(callback); 
+            }: undefined 
+        } 
+    )
     InvoiceDetails = () =>
     {
         let invoice_complete = Object.keys(this.state.invoice).filter(key=>key!="note").map(key=>Boolean(this.state.invoice[key])); 
