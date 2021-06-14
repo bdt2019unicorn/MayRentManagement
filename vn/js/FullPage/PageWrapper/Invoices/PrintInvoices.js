@@ -1,78 +1,81 @@
-Vue.component
-(
-    "print-invoices", 
+class PrintInvoices extends BaseComponent 
+{
+    // mixins: [print_invoices_mixin], 
+    constructor(props)
     {
-        mixins: [print_invoices_mixin], 
-        data: () =>
-        (
-            {
-                excel: [], 
-                html: {}, 
-                invoices: [], 
-                selected: false 
-            }
-        ),
-        components: {...bootstrap}, 
-        computed: 
+        super(props); 
+        this.state = 
         {
-            CheckedInvoices()
-            {
-                return this.invoices.filter(({checked, ...rest})=>checked); 
-            }, 
-            SelectAllBind()
-            {
-                return {
-                    size: this.CheckedInvoices.length? "sm": "md", 
-                    button: Boolean(this.CheckedInvoices.length), 
-                    buttonVariant: "outline-secondary"
-                }
-            }
-        },
-        created() 
-        {
-            let url = `${this.ServerUrl}General`;
-            let data = this.AjaxRequest(url); 
-            data = JSON.parse(data); 
-            Object.keys(data).forEach(key=>this[key] = data[key]); 
-            this.html.footer = 
-            `
-                <table style='width: 100%;'>
-                    ${
-                        this.excel.map 
-                        (
-                            row =>
-                            `
-                                <tr>
-                                    <td>
-                                        ${row[0]}
-                                    </td>
+            excel: [], 
+            html: {}, 
+            invoices: [], 
+            selected: false 
+        }; 
+    }
+/*
+    created() 
+    {
+        let url = `${this.ServerUrl}General`;
+        let data = this.AjaxRequest(url); 
+        data = JSON.parse(data); 
+        Object.keys(data).forEach(key=>this[key] = data[key]); 
+        this.html.footer = 
+        `
+            <table style='width: 100%;'>
+                ${
+                    this.excel.map 
+                    (
+                        row =>
+                        `
+                            <tr>
+                                <td>
+                                    ${row[0]}
+                                </td>
 
-                                    <td>
-                                        ${row[row.length-1]}
-                                    </td>
-                                </tr>
-                            `
-                        ).join("\n")
-                    }
-                </table>
-            `; 
-        },
-        methods: 
+                                <td>
+                                    ${row[row.length-1]}
+                                </td>
+                            </tr>
+                        `
+                    ).join("\n")
+                }
+            </table>
+        `; 
+    },
+*/
+    CheckedInvoices = () => 
+    {
+        return this.invoices.filter(({checked, ...rest})=>checked); 
+    } 
+    SelectAllBind = () => 
+    {
+        return {
+            size: this.CheckedInvoices.length? "sm": "md", 
+            button: Boolean(this.CheckedInvoices.length), 
+            buttonVariant: "outline-secondary"
+        }
+    }
+    SelectAllInput = (selected) => 
+    {
+        if(this.CheckedInvoices.length && this.CheckedInvoices.length<this.invoices.length)
         {
-            SelectAllInput(selected)
-            {
-                if(this.CheckedInvoices.length && this.CheckedInvoices.length<this.invoices.length)
-                {
-                    this.selected = true; 
-                    this.invoices.forEach(invoice=>invoice.checked=true); 
-                }
-                else 
-                {
-                    this.invoices.forEach(invoice=>invoice.checked = selected); 
-                }
-            }
-        },
-        template: 
+            this.selected = true; 
+            this.invoices.forEach(invoice=>invoice.checked=true); 
+        }
+        else 
+        {
+            this.invoices.forEach(invoice=>invoice.checked = selected); 
+        }
+    }
+    render()
+    {
+        return (
+            <div>
+                print invoices
+            </div>
+        ); 
+
+/*
         `
             <div class="container-fluid">
                 <h1>Print All Invoices</h1>
@@ -123,5 +126,6 @@ Vue.component
 
             </div>
         `
+*/
     }
-); 
+}

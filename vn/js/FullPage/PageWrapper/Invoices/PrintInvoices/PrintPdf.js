@@ -1,56 +1,61 @@
-Vue.component
-(
-    "print-pdf", 
+class PrintPdf extends BaseComponent 
+{
+    // props: ["html", "invoices"], 
+    // mixins: [print_invoices_mixin], 
+    PrintPdf = () => 
     {
-        props: ["html", "invoices"], 
-        mixins: [print_invoices_mixin], 
-        methods: 
+        if(!this.invoices.length)
         {
-            PrintPdf()
+            alert("No invoices are selected, please select invoice to print"); 
+            return; 
+        }
+        var zip = new JSZip();
+        var folder = zip.folder("invoices");
+        var options = 
+        {
+            margin: 10, 
+            html2canvas: {scale: 5}
+        }; 
+
+        var PromiseChain = (index)=> new Promise 
+        (
+            (resolve, reject)=>
             {
-                if(!this.invoices.length)
+                let invoice = this.invoices[index]; 
+                if(index==this.invoices.length)
                 {
-                    alert("No invoices are selected, please select invoice to print"); 
-                    return; 
+                    reject(zip); 
                 }
-                var zip = new JSZip();
-                var folder = zip.folder("invoices");
-                var options = 
-                {
-                    margin: 10, 
-                    html2canvas: {scale: 5}
-                }; 
-
-                var PromiseChain = (index)=> new Promise 
+                let html = this.InvoiceHtml(invoice, this.html); 
+                html2pdf().set(options).from(html).outputPdf("blob").then
                 (
-                    (resolve, reject)=>
+                    pdf=>
                     {
-                        let invoice = this.invoices[index]; 
-                        if(index==this.invoices.length)
-                        {
-                            reject(zip); 
-                        }
-                        let html = this.InvoiceHtml(invoice, this.html); 
-                        html2pdf().set(options).from(html).outputPdf("blob").then
-                        (
-                            pdf=>
-                            {
-                                folder.file(`${invoice.invoice.name}.pdf`, pdf); 
-                                resolve(index+1); 
-                            }
-                        ); 
+                        folder.file(`${invoice.invoice.name}.pdf`, pdf); 
+                        resolve(index+1); 
                     }
-                ).then(PromiseChain); 
+                ); 
+            }
+        ).then(PromiseChain); 
 
-                PromiseChain(0).catch(this.ExportZipFile); 
-            
-            } 
-        },
-        template: 
+        PromiseChain(0).catch(this.ExportZipFile); 
+    
+    } 
+    render()
+    {
+        return (
+            <div>Print pdf</div>
+        ); 
+
+/*
+
         `
             <vs-button color="danger" type="gradient" icon="picture_as_pdf" title="Print PDF" @click="PrintPdf">
                 <slot></slot>
             </vs-button>
         `
+
+*/
     }
-); 
+
+}

@@ -1,61 +1,63 @@
-Vue.component
-(
-    "print-word",
+class PrintWor extends BaseComponent 
+{
+    // props: ["invoices", "html"],
+    // mixins: [print_invoices_mixin],
+    PrintWord = () => 
     {
-        props: ["invoices", "html"],
-        mixins: [print_invoices_mixin],
-        methods:
+        if(!this.invoices.length)
         {
-            PrintWord()
+            alert("No invoices are selected, please select invoice to print");
+            return;
+        }
+        var zip = new JSZip();
+        var folder = zip.folder("invoices");
+
+        var PromiseChain = (index)=> new Promise
+        (
+            (resolve, reject)=>
             {
-                if(!this.invoices.length)
+                let invoice = this.invoices[index];
+                if(index==this.invoices.length)
                 {
-                    alert("No invoices are selected, please select invoice to print");
-                    return;
+                    reject(zip);
                 }
-                var zip = new JSZip();
-                var folder = zip.folder("invoices");
-
-                var PromiseChain = (index)=> new Promise
+                var html =
+                `
+                    <html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                        <head>
+                            <meta charset='utf-8'>
+                        </head>
+                        <body>
+                            ${this.InvoiceHtml(invoice, this.html)}
+                        </body>
+                    </html>
+                `;
+                let url = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
+                fetch(url).then(response=>response.blob()).then
                 (
-                    (resolve, reject)=>
+                    word=>
                     {
-                        let invoice = this.invoices[index];
-                        if(index==this.invoices.length)
-                        {
-                            reject(zip);
-                        }
-                        var html =
-                        `
-                            <html xmlns:o='urn:schemas-microsoft-com:office:office xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-                                <head>
-                                    <meta charset='utf-8'>
-                                </head>
-                                <body>
-                                    ${this.InvoiceHtml(invoice, this.html)}
-                                </body>
-                            </html>
-                        `;
-                        let url = `data:application/vnd.ms-word;charset=utf-8,${encodeURIComponent(html)}`;
-                        fetch(url).then(response=>response.blob()).then
-                        (
-                            word=>
-                            {
-                                folder.file(`${invoice.invoice.name}.doc`, word);
-                                resolve(index+1);
-                            }
-                        );
+                        folder.file(`${invoice.invoice.name}.doc`, word);
+                        resolve(index+1);
                     }
-                ).then(PromiseChain);
+                );
+            }
+        ).then(PromiseChain);
 
-                PromiseChain(0).catch(this.ExportZipFile);
-            } 
-        },
-        template:
+        PromiseChain(0).catch(this.ExportZipFile);
+    } 
+    render()
+    {
+        return (
+            <div>Print word</div>
+        ); 
+/*
         `
             <vs-button color="light" type="gradient" icon="assignment" title="Print Word" @click="PrintWord">
                 <slot></slot>
             </vs-button>
         `
+
+*/
     }
-);
+}

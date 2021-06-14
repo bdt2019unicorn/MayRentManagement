@@ -1,147 +1,149 @@
-Vue.component
-(
-    "add-monthly-invoices", 
+class AddMonthlyInvoices extends BaseComponent 
+{
+    // mixins: [rent_invoice_mixin, valid_invoice_details_mixin], 
+    constructor(props) 
     {
-        mixins: [rent_invoice_mixin, valid_invoice_details_mixin], 
-        data: () =>
-        (
-            {
-                monthly_invoices: {}, 
-                monthly_invoices_display: {}, 
-                title: "Add Monthly Invoices", 
-                user_input: {}
-            }
-        ),
-        computed: 
+        super(props); 
+        this.state =
         {
-            MonthlyInvoicesSubmit()
-            {
-                try 
-                {
-                    let monthly_invoices = Object.keys(this.monthly_invoices).filter(leaseagrm_id=>this.monthly_invoices_display[leaseagrm_id].total).map
-                    (
-                        leaseagrm_id=>
-                        (
-                            {
-                                invoice: 
-                                {
-                                    name: this.monthly_invoices[leaseagrm_id].name, 
-                                    leaseagrm_id: leaseagrm_id
-                                }, 
-                                details: 
-                                {
-                                    leaseagrm: this.ValidInvoiceDetailsLeaseagrm(this.monthly_invoices_display[leaseagrm_id].leaseagrm), 
-                                    utilities: this.ValidInvoiceDetailsUtilities(this.monthly_invoices_display[leaseagrm_id].utilities)
-                                }
-                            }
-                        ) 
-                    ).map 
-                    (
-                        ({invoice, details})=>
-                        (
-                            {
-                                invoice: invoice, 
-                                details: details, 
-                                total_details: Object.values(details).reduce((accumulator, current_value)=>(accumulator + current_value.length), 0)
-                            }
-                        )
-                    ).filter(({total_details, ...rest})=>total_details); 
-                    return monthly_invoices.length>0? monthly_invoices: false; 
-                }   
-                catch
-                {
-                    return false; 
-                } 
-            }
-        },
-        created() 
+            monthly_invoices: {}, 
+            monthly_invoices_display: {}, 
+            title: "Add Monthly Invoices", 
+            user_input: {}
+        }; 
+    }
+    
+    // created() 
+    // {
+    //     this.user_input = this.AjaxRequest("server/json/user_input/en/invoice.json"); 
+    //     this.MonthlyInvoices(); 
+    // },
+//     watch: 
+// {
+//     monthly_invoices: function(new_value, old_value)
+//     {
+//         try 
+//         {
+//             let monthly_invoices = {}; 
+//             Object.keys(this.monthly_invoices).forEach
+//             (
+//                 leaseagrm_id=>monthly_invoices[leaseagrm_id] = 
+//                 {
+//                     leaseagrm: this.PopulateRentInformation
+//                     (
+//                         {
+//                             revenue_type: 
+//                             {
+//                                 id: this.user_input.rent_id, 
+//                                 name: this.monthly_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
+//                             }, 
+//                             price: this.monthly_invoices[leaseagrm_id].rent_amount, 
+//                             rent_information: this.monthly_invoices[leaseagrm_id].leaseagrm, 
+//                             leaseagrm_period: this.monthly_invoices[leaseagrm_id].leaseagrm_period, 
+//                             user_input: this.user_input, 
+//                             leaseagrm_id: leaseagrm_id
+//                         }
+//                     ), 
+//                     utilities: this.monthly_invoices[leaseagrm_id].utilities.map
+//                     (
+//                         utility=>
+//                         (
+//                             {
+//                                 ...utility, 
+//                                 name: `${this.monthly_invoices[leaseagrm_id].unit_name} - ${this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
+//                                 revenue_type: this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
+//                             }
+//                         )
+//                     )
+//                 }
+//             ); 
+//             Object.keys(monthly_invoices).forEach(leaseagrm_id=>monthly_invoices[leaseagrm_id].total = [...monthly_invoices[leaseagrm_id].leaseagrm, ...monthly_invoices[leaseagrm_id].utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0)); 
+//             this.monthly_invoices_display = monthly_invoices; 
+//         }   
+//         catch
+//         {
+//             this.monthly_invoices_display = {}; 
+//         } 
+//     }  
+// },
+    MonthlyInvoices = () => 
+    {
+        var url = `${this.user_input.main_url}AddMonthlyInvoices&building_id=${this.$route.params.building_id}`; 
+        let monthly_invoices = this.AjaxRequest(url); 
+        this.monthly_invoices = JSON.parse(monthly_invoices); 
+    }
+    MonthlyInvoicesSubmit = () => 
+    {
+        try 
         {
-            this.user_input = this.AjaxRequest("server/json/user_input/en/invoice.json"); 
-            this.MonthlyInvoices(); 
-        },
-        methods: 
-        {
-            MonthlyInvoices()
-            {
-                var url = `${this.user_input.main_url}AddMonthlyInvoices&building_id=${this.$route.params.building_id}`; 
-                let monthly_invoices = this.AjaxRequest(url); 
-                this.monthly_invoices = JSON.parse(monthly_invoices); 
-            }, 
-            NewValueChangeValid(edit_data, name, new_value)
-            {
-                for (let index = 0; index < this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm.length; index++) 
-                {
-                    if(R.equals(this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm[index], edit_data))
+            let monthly_invoices = Object.keys(this.monthly_invoices).filter(leaseagrm_id=>this.monthly_invoices_display[leaseagrm_id].total).map
+            (
+                leaseagrm_id=>
+                (
                     {
-                        this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm[index][name] = new_value; 
-                        break; 
-                    }
-                }
-            }, 
-            Submit()
-            {
-                let url = "server/controller/invoice/post.php?command=AddMonthlyInvoices"; 
-                let result = this.SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
-                if(Number(result))
-                {
-                    alert(`${this.title} Success!`); 
-                    this.MonthlyInvoices(); 
-                }
-                else 
-                {
-                    alert(`${this.title} Fails! Please try again later.`); 
-                }
-            }   
-        },
-        watch: 
-        {
-            monthly_invoices: function(new_value, old_value)
-            {
-                try 
-                {
-                    let monthly_invoices = {}; 
-                    Object.keys(this.monthly_invoices).forEach
-                    (
-                        leaseagrm_id=>monthly_invoices[leaseagrm_id] = 
+                        invoice: 
                         {
-                            leaseagrm: this.PopulateRentInformation
-                            (
-                                {
-                                    revenue_type: 
-                                    {
-                                        id: this.user_input.rent_id, 
-                                        name: this.monthly_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
-                                    }, 
-                                    price: this.monthly_invoices[leaseagrm_id].rent_amount, 
-                                    rent_information: this.monthly_invoices[leaseagrm_id].leaseagrm, 
-                                    leaseagrm_period: this.monthly_invoices[leaseagrm_id].leaseagrm_period, 
-                                    user_input: this.user_input, 
-                                    leaseagrm_id: leaseagrm_id
-                                }
-                            ), 
-                            utilities: this.monthly_invoices[leaseagrm_id].utilities.map
-                            (
-                                utility=>
-                                (
-                                    {
-                                        ...utility, 
-                                        name: `${this.monthly_invoices[leaseagrm_id].unit_name} - ${this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
-                                        revenue_type: this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
-                                    }
-                                )
-                            )
+                            name: this.monthly_invoices[leaseagrm_id].name, 
+                            leaseagrm_id: leaseagrm_id
+                        }, 
+                        details: 
+                        {
+                            leaseagrm: this.ValidInvoiceDetailsLeaseagrm(this.monthly_invoices_display[leaseagrm_id].leaseagrm), 
+                            utilities: this.ValidInvoiceDetailsUtilities(this.monthly_invoices_display[leaseagrm_id].utilities)
                         }
-                    ); 
-                    Object.keys(monthly_invoices).forEach(leaseagrm_id=>monthly_invoices[leaseagrm_id].total = [...monthly_invoices[leaseagrm_id].leaseagrm, ...monthly_invoices[leaseagrm_id].utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0)); 
-                    this.monthly_invoices_display = monthly_invoices; 
-                }   
-                catch
-                {
-                    this.monthly_invoices_display = {}; 
-                } 
-            }  
-        },
-        template: 
+                    }
+                ) 
+            ).map 
+            (
+                ({invoice, details})=>
+                (
+                    {
+                        invoice: invoice, 
+                        details: details, 
+                        total_details: Object.values(details).reduce((accumulator, current_value)=>(accumulator + current_value.length), 0)
+                    }
+                )
+            ).filter(({total_details, ...rest})=>total_details); 
+            return monthly_invoices.length>0? monthly_invoices: false; 
+        }   
+        catch
+        {
+            return false; 
+        } 
+    }
+    NewValueChangeValid = (edit_data, name, new_value) => 
+    {
+        for (let index = 0; index < this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm.length; index++) 
+        {
+            if(R.equals(this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm[index], edit_data))
+            {
+                this.monthly_invoices_display[edit_data.leaseagrm_id].leaseagrm[index][name] = new_value; 
+                break; 
+            }
+        }
+    }
+    Submit = () => 
+    {
+        let url = "server/controller/invoice/post.php?command=AddMonthlyInvoices"; 
+        let result = this.SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
+        if(Number(result))
+        {
+            alert(`${this.title} Success!`); 
+            this.MonthlyInvoices(); 
+        }
+        else 
+        {
+            alert(`${this.title} Fails! Please try again later.`); 
+        }
+    }   
+    render()
+    {
+        return (
+            <div>Add monthly invoice</div>
+        ); 
+
+/*
+
         `
             <div class="container-fluid">
                 <h1>{{title}}</h1>
@@ -192,5 +194,7 @@ Vue.component
                 
             </div>
         `
+
+*/
     }
-); 
+}
