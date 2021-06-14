@@ -110,8 +110,8 @@
                 "action": "AddMonthlyInvoices", 
                 "text": "Thêm Hóa đơn tháng",  
                 "title": "Thêm Hóa đơn tháng", 
-                "button": "light", 
-                "icon": "calendar-alt"
+                "button": "danger", 
+                "icon": "calendar_today_two_tone"
             }, 
             {
                 "action": "AddInvoice", 
@@ -124,7 +124,7 @@
                 "action": "PrintInvoices", 
                 "text": "Print Invoices", 
                 "title": "Print Invoices", 
-                "button": "info", 
+                "button": "purple", 
                 "icon": "print"
             }
         ]

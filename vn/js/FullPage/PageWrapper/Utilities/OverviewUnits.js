@@ -58,7 +58,7 @@ class UtilitiesOverview extends BaseComponent
         {
             current_price_date_valid= moment(current_price.date_valid); 
         }
-        catch{}
+        catch (exception) {}
         
         data.value = data.value.replace(/,/g,''); 
 
@@ -101,7 +101,7 @@ class UtilitiesOverview extends BaseComponent
             this.current_price = price_information.value; 
             this.valid_price_date = this.DateFormat(price_information.date_valid); 
         }
-        catch
+        catch (exception) 
         {
             this.current_price = this.valid_price_date = undefined; 
         }
@@ -190,7 +190,7 @@ class UnitUtilities extends BaseComponent
             let unit_utitlities = JSON.parse(unit_utitlities_json)[0]; 
             this.table_data = Object.values(unit_utitlities.unit_table).reverse(); 
         }
-        catch {}
+        catch (exception) {}
     }
     render()
     {

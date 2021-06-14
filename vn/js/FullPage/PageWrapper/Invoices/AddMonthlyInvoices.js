@@ -106,7 +106,7 @@ class AddMonthlyInvoices extends BaseComponent
             ).filter(({total_details, ...rest})=>total_details); 
             return monthly_invoices.length>0? monthly_invoices: false; 
         }   
-        catch
+        catch (exception)
         {
             return false; 
         } 

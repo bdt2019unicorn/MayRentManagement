@@ -46,7 +46,7 @@ class GeneralUtilities extends BaseComponent
                 ).then(this.Search); 
             }
         }
-        catch {}
+        catch (exception) {}
     } 
     CalendarOpened = () => 
     {
@@ -81,7 +81,7 @@ class GeneralUtilities extends BaseComponent
                 revenue_type_id: this.select_data.utilities[0].id 
             }; 
         }
-        catch
+        catch (exception)
         {
             return undefined; 
         }
