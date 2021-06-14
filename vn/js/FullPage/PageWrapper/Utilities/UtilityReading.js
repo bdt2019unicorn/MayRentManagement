@@ -113,24 +113,20 @@ class UtilityReading extends Utilities
 		{
 			return false; 
 		}
-		let valid = this.state.utilities_readings.filter
+		let valid = this.state.utilities_readings.map(({date, ...rest})=>({date: DateReformat.ConvertFormatDisplay(date), ...rest})).filter
 		(
-			({date, time, number, current_reading, current_date })=>
-			{
-				date = DateReformat.ConvertFormatDisplay(date); 
-				return ValidObject
-				(
-					{
-						date: moment(date).isValid(), 
-						time: moment(time, DateReformat.Formats.TimeDisplay).isValid(), 
-						number: (number!="") && (Number(number)>=Number(current_reading)), 
-						current_date: current_date?moment(current_date)<moment(date): true 
-					}
-				); 
-			}
+			({date, time, number, current_reading, current_date }) => ValidObject
+			(
+				{
+					date: moment(date).isValid(), 
+					time: moment(time, DateReformat.Formats.TimeDisplay).isValid(), 
+					number: (number!="") && (Number(number)>=Number(current_reading)), 
+					current_date: current_date?moment(current_date)<moment(date): true 
+				}
+			)
 		); 
 		return valid.length==this.state.utilities_readings.length?                
-		this.state.utilities_readings.map 
+		valid.map 
 		(
 			({ date, time, number, revenue_type_id, unit_id })=>
 			(
