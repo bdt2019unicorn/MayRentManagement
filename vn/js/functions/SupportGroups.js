@@ -7,10 +7,17 @@ class ConnectComponent
 
 class DateReformat 
 {
-    static ConvertFormatDisplay = (string) => this.Database(moment(string, "DD MMM YYYY"))
-    static ConvertTimeDisplay = (string) => moment(string, "HH:mm").format("HH:mm:ss")
-    static Database = (string = undefined) => this.MomentDate(string).format("YYYY-MM-DD") 
-    static Display = (string = undefined) => this.MomentDate(string).format("DD/MM/YYYY")
+    static Formats = 
+    {
+        DateDatabase: "YYYY-MM-DD", 
+        DateDisplay: "DD/MM/YYYY", 
+        TimeDatabase: "HH:mm:ss", 
+        TimeDisplay: "HH:mm"
+    }; 
+    static ConvertFormatDisplay = (string) => this.Database(moment(string, this.Formats.DateDisplay))
+    static ConvertTimeDisplay = (string) => moment(string, this.Formats.TimeDisplay).format(this.Formats.TimeDatabase)
+    static Database = (string = undefined) => this.MomentDate(string).format(this.Formats.DateDatabase) 
+    static Display = (string = undefined) => this.MomentDate(string).format(this.Formats.DateDisplay)
     static MomentDate = (string = undefined) => string ? moment(string) : moment()
-    static TimeDisplay = (string = undefined) => this.MomentDate(string).format("HH:mm")
+    static TimeDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDisplay)
 }

@@ -74,6 +74,7 @@
 			{
 				$value = trim($value); 
 				$date = date_create_from_format("d/m/Y", $value);
+				// use date_create here to sort this thing out 
 				if(!$date)
 				{
 					return; 

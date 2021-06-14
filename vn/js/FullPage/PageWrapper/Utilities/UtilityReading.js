@@ -122,8 +122,8 @@ class UtilityReading extends Utilities
 				(
 					{
 						date: moment(date).isValid(), 
-						time: moment(time, "HH:mm").isValid(), 
-						number: Number(number)>=current_reading, 
+						time: moment(time, DateReformat.Formats.TimeDisplay).isValid(), 
+						number: (number!="") && (Number(number)>=Number(current_reading)), 
 						current_date: current_date?moment(current_date)<moment(date): true 
 					}
 				); 
@@ -148,8 +148,6 @@ class UtilityReading extends Utilities
 		const { Box, FormControl, Icon, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } = MaterialUI;
 		const StyleText = this.StyleText;
 		var utilities_reading_valid = this.UtilitiesReadingValid(); 
-		
-
 		return (
 			<Box>
 				<Typography variant="h4" gutterBottom>Tiện Ích</Typography>
@@ -244,7 +242,28 @@ class UtilityReading extends Utilities
 						)
 					}
 				</FormControl>
-				{ utilities_reading_valid && <SubmitButton type="button" /> }
+				{ 
+					utilities_reading_valid && 
+					<SubmitButton 
+						type="button" 
+						SubmitButtonClick=
+						{
+							() =>
+							{
+								let result = SubmitData("excel", this.ImportUrl(),utilities_reading_valid); 
+								if(Number(result))
+								{
+									alert("Add Reading Success"); 
+									this.UnitIdValueChanged({value: this.state.unit_id}); 
+								}
+								else 
+								{
+									alert("There seems like an issue with the server, please try again"); 
+								}
+							}
+						}
+					/> 
+				}
 			</Box>
 		);
 	}
