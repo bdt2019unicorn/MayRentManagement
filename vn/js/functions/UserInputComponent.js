@@ -5,6 +5,13 @@ class UserInputComponent extends BaseComponent
         super(props); 
         this.state = {value: this.InnitialValue()}; 
     }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        if(!_.isEqual(this.props.edit_data, previous_props.edit_data))
+        {
+            this.setState({value: this.InnitialValue()}); 
+        }
+    }
     InnitialValue = () =>
     {
         if(this.props.value)
@@ -69,7 +76,7 @@ class UserInputFormControl extends React.Component
     render() 
     {
         return (
-            <MaterialUI.FormControl className="m-2" fullWidth error={this.props.error}>
+            <MaterialUI.FormControl className={`m-2 ${this.props.lock?"lock-element":""}`} fullWidth error={this.props.error}>
                 <label className={this.props.error?"text-red": undefined}>{this.props.title+(this.props.required?" *": "")}</label>
                 {this.props.children}
                 {

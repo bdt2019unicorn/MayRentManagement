@@ -37,14 +37,14 @@
             {
                 "action": "Overview", 
                 "text": "Tổng quan", 
-                "title": "All Tenants in this building", 
+                "title": "Toàn bộ người thuê trong tòa nhà", 
                 "button": "warning", 
                 "icon": "people_outline"
             }, 
             {
                 "action": "Add", 
                 "text": "Thêm", 
-                "title": "Thêm New Apartment", 
+                "title": "Thêm người thuê", 
                 "button": "outline", 
                 "icon": "add"
             }, 
@@ -66,14 +66,14 @@
             {
                 "action": "Overview", 
                 "text": "Tổng quan", 
-                "title": "All Contracts", 
+                "title": "Tất cả hợp đồng", 
                 "button": "warning", 
                 "icon": "folder_open"
             }, 
             {
                 "action": "Add", 
                 "text": "Thêm", 
-                "title": "Thêm New Contract", 
+                "title": "Thêm hợp đồng", 
                 "button": "outline", 
                 "icon": "add"
             }, 
@@ -102,21 +102,21 @@
             {
                 "action": "Overview", 
                 "text": "Tổng quan", 
-                "title": "All Invoices", 
+                "title": "Toàn bộ hóa đơn", 
                 "button": "warning", 
                 "icon": "receipt"
             }, 
             {
                 "action": "Add-monthly-invoices", 
-                "text": "Thêm Monthly Invoices",  
-                "title": "Thêm Monthly Invoices", 
+                "text": "Thêm Hóa đơn tháng",  
+                "title": "Thêm Hóa đơn tháng", 
                 "button": "light", 
                 "icon": "calendar-alt"
             }, 
             {
-                "action": "Add-invoice", 
+                "action": "AddInvoice", 
                 "text": "Thêm", 
-                "title": "Thêm New Invoice", 
+                "title": "Thêm Hóa Đơn", 
                 "button": "outline", 
                 "icon": "add"
             }, 
@@ -138,14 +138,14 @@
             {
                 "action": "Overview", 
                 "text": "Tổng quan", 
-                "title": "All Incomes", 
+                "title": "Toàn bộ thu nhập", 
                 "button": "warning", 
                 "icon": "attach_money"
             }, 
             {
                 "action": "Add", 
                 "text": "Thêm", 
-                "title": "Thêm New Income", 
+                "title": "Thêm thu nhập mới", 
                 "button": "outline", 
                 "icon": "add"
             }, 
@@ -167,14 +167,14 @@
             {
                 "action": "Overview", 
                 "text": "Tổng quan", 
-                "title": "All Expenses", 
+                "title": "Toàn bộ chi phí của tòa nhà", 
                 "button": "warning", 
                 "icon": "money_off"
             }, 
             {
                 "action": "Add", 
                 "text": "Thêm", 
-                "title": "Thêm New Expense", 
+                "title": "Thêm chi phí mới", 
                 "button": "outline", 
                 "icon": "add"
             }, 
@@ -196,14 +196,14 @@
             {
                 "action": "Overview", 
                 "text": "Tổng quan", 
-                "title": "All Documents", 
+                "title": "Toàn bộ tài liệu trong tòa nhà", 
                 "button": "warning", 
                 "icon": "folder-open"
             }, 
             {
                 "action": "Add-document", 
                 "text": "Thêm", 
-                "title": "Thêm", 
+                "title": "Thêm tài liệu", 
                 "button": "outline", 
                 "icon": "add"
             } 
@@ -218,7 +218,7 @@
             {
                 "action": "utilities-Overview", 
                 "text": "Tổng quan", 
-                "title": "All Apartments", 
+                "title": "Toàn bộ tiện ích", 
                 "button": "warning", 
                 "icon": "home"
             }, 
@@ -226,6 +226,7 @@
                 "action": "UtilityReading", 
                 "text": "Thêm số liệu tiện ích", 
                 "title": "Thêm số liệu tiện ích", 
+
                 "button": "outline", 
                 "icon": "add"
             }, 

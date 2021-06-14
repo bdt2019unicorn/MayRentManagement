@@ -107,6 +107,8 @@
                         <input name="viber_number" type="text" class="form-control">
                     </div>
                     <input name="approved" type="hidden" value="1">
+                    <input name="import" type="hidden" value="1">
+                    <input name="import_excel" type="hidden" value="1">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             <?php else: ?>

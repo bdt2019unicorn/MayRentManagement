@@ -28,6 +28,7 @@ class PageWrapper extends BaseComponent
                                 )
                             }
                             <Route component={ConnectComponent.Store(Edit)} exact path="/:building_id/:controller/Edit" />
+                            <Route component={ConnectComponent.Store(EditInvoice)} exact path="/:building_id/:controller/EditInvoice" />
                         </ReactRouterDOM.Switch>
                     </Grid>
                 </Grid>

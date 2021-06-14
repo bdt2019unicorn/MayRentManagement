@@ -76,7 +76,7 @@ Vue.component
                 return {
                     ...this.select_atributes, 
                     options: this.options, 
-                }
+                }; 
             }
         },
         created() 
@@ -92,7 +92,7 @@ Vue.component
             PopulateSelectData()
             {
                 this.options = this.select_data || this.TableData(this.overview_controller, {edit: 1});
-            }, 
+            } 
         },
         mounted() 
         {

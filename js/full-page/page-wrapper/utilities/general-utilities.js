@@ -143,7 +143,6 @@ Vue.component
                 <br>
                 <slot name="utility_price"></slot>
                 <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table>
-
             </div>
         `
     }

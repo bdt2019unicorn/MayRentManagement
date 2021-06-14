@@ -15,7 +15,7 @@
                         "small_date":
                         {
                             "name": "start_date",
-                            "title": "Start Period",
+                            "title": "Ngày bắt đầu",
                             "presence": true,
                             "lock": true, 
                             "message": "The start period should be before the end period"
@@ -23,7 +23,7 @@
                         "big_date":
                         {
                             "name": "end_date",
-                            "title": "End Period",
+                            "title": "Ngày kết thúc",
                             "presence": true,
                             "message": "The end period should be after the start period"
                         }
@@ -37,12 +37,12 @@
                         {
                             "component": "NumberInput",
                             "name": "price",
-                            "title": "Price"
+                            "title": "Giá tiền"
                         },
                         {
                             "component": "NumberInput",
                             "name": "quantity",
-                            "title": "Quantity"
+                            "title": "Số lượng"
                         }
                     ]
                 }
@@ -52,23 +52,20 @@
     "leaseagrm_id": 
     {
         "name": "leaseagrm_id",
-        "title": "Lease Agreement", 
+        "title": "Hợp đồng", 
         "select_value": "id",
         "text": "name"
     }, 
     "select_atributes": 
     {
-        "clear-on-select": false, 
-        "close-on-select": false, 
-        "hideSelected": true, 
-        "label": "name", 
-        "multiple": true, 
-        "openDirection": "bottom", 
-        "placeholder": "", 
-        "selectLabel": "", 
-        "tagPlaceholder": "", 
-        "track-by": "id"
+        "valueField" : "value", 
+        "textField": "text", 
+        "containerClassName": "p-1 mt-1", 
+        "messages": 
+        {
+            "emptyList": "Hiện tại không có đơn vị tính nào trong danh sách này"
+        }
     }, 
     "rent_id": 1,
-    "main_url": "server/controller/invoice/action.php?command="
+    "main_url": "../server/controller/invoice/action.php?command="
 }

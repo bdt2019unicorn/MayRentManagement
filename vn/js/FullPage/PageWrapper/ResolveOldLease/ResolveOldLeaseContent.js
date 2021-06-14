@@ -1,9 +1,10 @@
-class ResolveOldLease_content extends PageWrapperChildrenComponent {
+class ResolveOldLeaseContent extends React.Component 
+{
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      status: true,
+      status: true
     };
   }
 
@@ -54,11 +55,6 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
           </Grid>
 
           <Grid item xs={4} lg={5}>
-            {/* <ReactDatetime
-              className="width-full mt-1"
-              dateFormat="DD/MM/yyyy"
-              inputProps={{ className: "width-full" }}
-            /> */}
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 disableToolbar
@@ -78,11 +74,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
               aria-label="expand row"
               size="small"
               className="float-right"
-              onClick={() =>
-                this.setState({
-                  open: !open,
-                })
-              }
+              onClick={() => this.setState({open: !open,})}
             >
               <Icon>{open ? "keyboard_arrow_up" : "keyboard_arrow_down"}</Icon>
             </IconButton>
@@ -91,13 +83,13 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box className="m-3">
-            <ResolveOldLease_header
+            <ResolveOldLeaseHeader
               hopDong={hopDong}
             />
             <h3 align="center" className="m-3">
               Bảng giá Thuê
             </h3>
-            <ResolveOldLease_rent
+            <ResolveOldLeaseRent
               hopDong={hopDong}
               className="m-3"
               rentInvoice={rentInvoice}
@@ -105,7 +97,7 @@ class ResolveOldLease_content extends PageWrapperChildrenComponent {
             <h3 align="center" className="m-3">
               Chi phí sinh hoạt
             </h3>
-            <ResolveOldLease_ultilities
+            <ResolveOldLeaseUltilities
               chiTietHD={hopDong.utilities}
               endDate={hopDong.date_charged_until}
               className="m-3"

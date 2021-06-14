@@ -89,6 +89,7 @@ jQuery
                     {
                         username: "", 
                         user_id: 0, 
+                        user_permissions: undefined, 
                         buildings_data: [], 
                         building_user_input: {}, 
                         logo_src: ""
@@ -97,14 +98,29 @@ jQuery
                     {
                         Authorize(state, payload)
                         {
+                            let user_information = undefined; 
                             Object.keys(payload).forEach
                             (
                                 key=>
                                 {
                                     state[key] = payload[key]; 
                                     sessionStorage.setItem(key, payload[key]); 
+                                    if(payload[key])
+                                    {
+                                        user_information = payload[key]; 
+                                    }
                                 }
                             );
+                            if(user_information)
+                            {
+                                let url = `server/controller/overview/overview_controller.php?overview_controller=user&id=${payload.user_id}`;
+                                user_information = support_mixin.methods.AjaxRequest(url); 
+                                state.user_permissions = JSON.parse(user_information)[0]; 
+                            }
+                            else 
+                            {
+                                state.user_permissions = undefined; 
+                            }
                         }, 
                         ChangeState(state, {name, value})
                         {
@@ -123,7 +139,7 @@ jQuery
             (
                 {
                     el: "#full-page", 
-                    mixins:[support_mixin], 
+                    mixins:[permissions_mixin], 
                     created() 
                     {
                         let buildings_data = this.BuildingsData(); 

@@ -65,7 +65,7 @@ Vue.component
                     ...this.$props, 
                     invoice_information: this.invoice_information,
                     list: this.list[property],
-                }
+                }; 
             }, 
 
             BindObjectMultiSelect(property)
@@ -81,7 +81,7 @@ Vue.component
                     select_atributes: this.user_input.select_atributes, 
                     select_data: this.revenue_type[property], 
                     edit_data: this.edit_data?this.edit_data.multi_select:undefined
-                }
+                }; 
             }, 
 
             InvoiceInformation(leaseagrm_id)
@@ -130,7 +130,7 @@ Vue.component
                 {
                     invoice: this.invoice, 
                     details: this.invoice_details
-                }
+                };
                 this.$emit("invoice-submit", invoices); 
             }
         },
@@ -166,7 +166,7 @@ Vue.component
                             v-bind="BindObjectMultiSelect('utilities')" 
                             v-model="list.utilities"
                             @search-data-changed="MultiSelectInput('utilities')"
-                            ></multi-select-input>
+                        ></multi-select-input>
                     </div>
 
                     <br>

@@ -1,4 +1,5 @@
-class ResolveOldLease_rent extends PageWrapperChildrenComponent {
+class ResolveOldLeaseRent extends React.Component  
+{
   render() {
     const {
       Table,
@@ -12,16 +13,8 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
 
     const { hopDong, rentInvoice } = this.props;
 
-    // const tinhSoLuong = ()=>{
-    //   return rentInvoice.RentQuantityCalculation(hopDong.Start_date, hopDong.date_charged_until, hopDong.leaseagrm_period);
-    // }
-
     const tinhSoLuong = rentInvoice.RentQuantityCalculation(hopDong.Start_date, hopDong.date_charged_until, hopDong.leaseagrm_period);
     const thanhTien = tinhSoLuong * hopDong.Rent_amount; 
-
-
-    
-
     return (
       <TableContainer component={Paper}>
         <Table>
@@ -37,8 +30,8 @@ class ResolveOldLease_rent extends PageWrapperChildrenComponent {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell align="left">{moment(hopDong.Start_date).format("DD-MM-YYYY")}</TableCell>
-              <TableCell style={hopDong.isHDValid ? {backgroundColor: ""}:{backgroundColor: "red"}} align="right">{moment(hopDong.date_charged_until).format("DD-MM-YYYY")}</TableCell>
+              <TableCell align="left">{DateReformat.Display(hopDong.Start_date)}</TableCell>
+              <TableCell style={hopDong.isHDValid ? {backgroundColor: ""}:{backgroundColor: "red"}} align="right">{DateReformat.Display(hopDong.date_charged_until)}</TableCell>
               <TableCell align="right">{hopDong.leaseagrm_period}</TableCell>
               <TableCell align="right">{hopDong.Rent_amount}</TableCell>
               <TableCell align="right">{tinhSoLuong}</TableCell>

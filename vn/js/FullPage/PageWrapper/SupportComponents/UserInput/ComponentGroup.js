@@ -1,3 +1,36 @@
+class ComponentGroup extends UserInputComponent
+{
+    render()
+    {
+        var {component_data, edit_data, lock, ValueChange} = this.props; 
+        var Grid = MaterialUI.Grid; 
+        var grid_xs = 12/component_data.length; 
+        return (
+            <Grid container spacing={1}>
+                {
+                    component_data.map
+                    (
+                        (component, index) =>
+                        {
+                            var Component = window[component.component]; 
+                            return (
+                                <Grid key={index} item xs={grid_xs}>
+                                    <Component
+                                        ValueChange={ValueChange}
+                                        {...component}
+                                        edit_data={edit_data}
+                                        lock={lock?lock.includes(component.name):undefined}
+                                    />
+                                </Grid>
+                            ); 
+                        }
+                    )
+                }
+            </Grid>
+        ); 
+    }
+}
+
 class DateGroup extends UserInputComponent
 {
     constructor(props)
@@ -12,7 +45,7 @@ class DateGroup extends UserInputComponent
             edit_data: this.props.edit_data, 
             validations: this.props.validations,  
             compare: this.state.value, 
-            ValueStateChange: ()=> this.setState({value: this.state.value+1})
+            ValueStateChange: (value)=> this.setState({value: this.state.value+1}, ()=> this.ExecPropsFunction("ValueChange", { value: DateReformat.Database(value), ...this.props.date_data[group] }))
         } 
     )
     render() 

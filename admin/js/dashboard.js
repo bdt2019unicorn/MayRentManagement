@@ -45,8 +45,12 @@ function RunDbScripts()
 }
 function UserPermissions(id)
 {
+    var form = document.getElementById(`approve-user-${id}`); 
+    var form_data = new FormData(form); 
+    var data = Array.from(form_data.keys()).reduce((accumulator, current_value)=>({...accumulator, [current_value]: 1}), {approved: 1}); 
     var url = `../server/controller/database/edit.php?table=user&id=${id}`; 
-    var result = support_mixin.methods.SubmitData("edit", url, {approved: 1}); 
+    var result = support_mixin.methods.SubmitData("edit", url, data); 
+
     if(Number(result))
     {
         alert("User is approved!"); 
