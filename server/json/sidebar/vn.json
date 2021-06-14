@@ -107,7 +107,7 @@
                 "icon": "receipt"
             }, 
             {
-                "action": "Add-monthly-invoices", 
+                "action": "AddMonthlyInvoices", 
                 "text": "Thêm Hóa đơn tháng",  
                 "title": "Thêm Hóa đơn tháng", 
                 "button": "light", 
@@ -121,7 +121,7 @@
                 "icon": "add"
             }, 
             {
-                "action": "print-invoices", 
+                "action": "PrintInvoices", 
                 "text": "Print Invoices", 
                 "title": "Print Invoices", 
                 "button": "info", 
@@ -201,7 +201,7 @@
                 "icon": "folder-open"
             }, 
             {
-                "action": "Add-document", 
+                "action": "AddDocument", 
                 "text": "Thêm", 
                 "title": "Thêm tài liệu", 
                 "button": "outline", 
@@ -216,7 +216,7 @@
         "menu": 
         [
             {
-                "action": "utilities-Overview", 
+                "action": "UtilitiesOverview", 
                 "text": "Tổng quan", 
                 "title": "Toàn bộ tiện ích", 
                 "button": "warning", 
@@ -226,7 +226,6 @@
                 "action": "UtilityReading", 
                 "text": "Thêm số liệu tiện ích", 
                 "title": "Thêm số liệu tiện ích", 
-
                 "button": "outline", 
                 "icon": "add"
             }, 

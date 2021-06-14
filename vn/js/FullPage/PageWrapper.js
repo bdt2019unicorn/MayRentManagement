@@ -21,14 +21,18 @@ class PageWrapper extends BaseComponent
                             {
                                 this.state.sidebar.flatMap
                                 (
-                                    controller => controller.menu.filter(item=>window[item.action]).map 
+                                    controller => controller.menu.map 
                                     (
                                         item => <Route key={encodeURIComponent(JSON.stringify(item) + Math.random().toString())} component={ConnectComponent.Store(window[item.action])} exact path={`/:building_id/:controller/${item.action}`} />
                                     )
                                 )
                             }
-                            <Route component={ConnectComponent.Store(Edit)} exact path="/:building_id/:controller/Edit" />
-                            <Route component={ConnectComponent.Store(EditInvoice)} exact path="/:building_id/:controller/EditInvoice" />
+                            {
+                                ["Edit", "EditDocument", "EditInvoice", "UnitUtilities"].map
+                                (
+                                    component_name => <Route key={component_name} component={ConnectComponent.Store(window[component_name])} exact path={`/:building_id/:controller/${component_name}`} />
+                                )
+                            }
                         </ReactRouterDOM.Switch>
                     </Grid>
                 </Grid>

@@ -83,15 +83,7 @@ Vue.component
                         alert("There seems to be a problem with the server, please try again"); 
                     }
                 }
-            }, 
-            Search(search_data, search_button=false)
-            {
-                if(search_button)
-                {
-                    this.table_data = JSON.parse(this.AjaxRequest(this.OverviewUrl, search_data,"post")); 
-                    this.revenue_type_id = search_data.get("revenue_type_id"); 
-                }
-            }, 
+            },  
             PriceInformation()
             {
                 try 
@@ -103,6 +95,14 @@ Vue.component
                 catch
                 {
                     this.current_price = this.valid_price_date = undefined; 
+                }
+            }, 
+            Search(search_data, search_button=false)
+            {
+                if(search_button)
+                {
+                    this.table_data = JSON.parse(this.AjaxRequest(this.OverviewUrl, search_data,"post")); 
+                    this.revenue_type_id = search_data.get("revenue_type_id"); 
                 }
             }
         },

@@ -9,7 +9,7 @@
             "Unit Name":
             {
                 "controller": "utilities", 
-                "action": "unit-utilities", 
+                "action": "UnitUtilities", 
                 "object_id": "unit_id" 
             }
         }
