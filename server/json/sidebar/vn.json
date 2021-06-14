@@ -223,9 +223,10 @@
                 "icon": "home"
             }, 
             {
-                "action": "utility-reading", 
-                "text": "Thêm", 
-                "title": "Thêm chỉ số mới", 
+                "action": "UtilityReading", 
+                "text": "Thêm số liệu tiện ích", 
+                "title": "Thêm số liệu tiện ích", 
+
                 "button": "outline", 
                 "icon": "add"
             }, 

@@ -74,11 +74,17 @@
 			{
 				$value = trim($value); 
 				$date = date_create_from_format("d/m/Y", $value);
+				$date_time = false; 
 				if(!$date)
 				{
-					return; 
+					$date = date_create($value); 
+					$date_time = true; 
+					if(!$date)
+					{
+						return; 
+					}
 				}
-				$value = date_format($date, "Y-m-d");  
+				$value = date_format($date, $date_time? "Y-m-d H:i:s": "Y-m-d");  
 			}
 			else if(in_array($key, $params['comma']))
 			{

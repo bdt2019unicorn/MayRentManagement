@@ -7,9 +7,21 @@ class ConnectComponent
 
 class DateReformat 
 {
+    static Formats = 
+    {
+        DateDatabase: "YYYY-MM-DD", 
+        DateDisplay: "DD/MM/YYYY", 
+        DateTimeDatabase: "YYYY-MM-DD HH:MM:ss", 
+        TimeDatabase: "HH:mm:ss", 
+        TimeDisplay: "HH:mm"
+    }; 
+    static ConvertFormatDisplay = (string) => this.Database(moment(string, this.Formats.DateDisplay))
+    static ConvertTimeDisplay = (string) => moment(string, this.Formats.TimeDisplay).format(this.Formats.TimeDatabase)
+    static Database = (string = undefined) => this.MomentDate(string).format(this.Formats.DateDatabase) 
+    static DateTimeDatabase = (string = undefined) => this.MomentDate(string).format(this.Formats.DateTimeDatabase)    
+    static Display = (string = undefined) => this.MomentDate(string).format(this.Formats.DateDisplay)
     static MomentDate = (string = undefined) => string ? moment(string) : moment()
-    static Database = (string = undefined) => this.MomentDate(string).format("YYYY-MM-DD") 
-    static Display = (string = undefined) => this.MomentDate(string).format("DD/MM/YYYY")
+    static TimeDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDisplay)
 }
 
 class UserInformation 
@@ -19,7 +31,7 @@ class UserInformation
         try 
         {
             func("username", sessionStorage.getItem("username")); 
-            func("modified_time", moment().format("YYYY-MM-DD HH:MM:ss")); 
+            func("modified_time", DateReformat.DateTimeDatabase()); 
         }
         catch {}
     }
