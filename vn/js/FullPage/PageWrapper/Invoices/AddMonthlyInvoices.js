@@ -1,77 +1,70 @@
-class AddMonthlyInvoices extends BaseComponent 
+class AddMonthlyInvoices extends PageWrapperChildrenComponent 
 {
-    // mixins: [rent_invoice_mixin, valid_invoice_details_mixin], 
     constructor(props) 
     {
         super(props); 
         this.state =
         {
+            expanded: undefined, 
             monthly_invoices: {}, 
             monthly_invoices_display: {}, 
-            title: "Add Monthly Invoices", 
-            user_input: {}
+            title: "Thêm hóa đơn tháng", 
+            user_input: ServerJson("../server/json/user_input/vn/invoice.json")
         }; 
+        this.state.monthly_invoices = this.MonthlyInvoices(); 
+        this.rent_invoice = new RentInvoice(); 
     }
-    
-    // created() 
-    // {
-    //     this.user_input = this.AjaxRequest("server/json/user_input/en/invoice.json"); 
-    //     this.MonthlyInvoices(); 
-    // },
-//     watch: 
-// {
-//     monthly_invoices: function(new_value, old_value)
-//     {
-//         try 
-//         {
-//             let monthly_invoices = {}; 
-//             Object.keys(this.monthly_invoices).forEach
-//             (
-//                 leaseagrm_id=>monthly_invoices[leaseagrm_id] = 
-//                 {
-//                     leaseagrm: this.PopulateRentInformation
-//                     (
-//                         {
-//                             revenue_type: 
-//                             {
-//                                 id: this.user_input.rent_id, 
-//                                 name: this.monthly_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
-//                             }, 
-//                             price: this.monthly_invoices[leaseagrm_id].rent_amount, 
-//                             rent_information: this.monthly_invoices[leaseagrm_id].leaseagrm, 
-//                             leaseagrm_period: this.monthly_invoices[leaseagrm_id].leaseagrm_period, 
-//                             user_input: this.user_input, 
-//                             leaseagrm_id: leaseagrm_id
-//                         }
-//                     ), 
-//                     utilities: this.monthly_invoices[leaseagrm_id].utilities.map
-//                     (
-//                         utility=>
-//                         (
-//                             {
-//                                 ...utility, 
-//                                 name: `${this.monthly_invoices[leaseagrm_id].unit_name} - ${this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
-//                                 revenue_type: this.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
-//                             }
-//                         )
-//                     )
-//                 }
-//             ); 
-//             Object.keys(monthly_invoices).forEach(leaseagrm_id=>monthly_invoices[leaseagrm_id].total = [...monthly_invoices[leaseagrm_id].leaseagrm, ...monthly_invoices[leaseagrm_id].utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0)); 
-//             this.monthly_invoices_display = monthly_invoices; 
-//         }   
-//         catch
-//         {
-//             this.monthly_invoices_display = {}; 
-//         } 
-//     }  
-// },
+
     MonthlyInvoices = () => 
     {
-        var url = `${this.user_input.main_url}AddMonthlyInvoices&building_id=${this.$route.params.building_id}`; 
-        let monthly_invoices = this.AjaxRequest(url); 
-        this.monthly_invoices = JSON.parse(monthly_invoices); 
+        var url = `${this.state.user_input.main_url}AddMonthlyInvoices&building_id=${this.BuildingId()}`; 
+        return ServerJson(url); 
     }
+    MonthlyInvoicesDisplay = () => 
+    {
+        try 
+        {
+            let monthly_invoices = {}; 
+            Object.keys(this.state.monthly_invoices).forEach
+            (
+                leaseagrm_id=>monthly_invoices[leaseagrm_id] = 
+                {
+                    leaseagrm: this.rent_invoice.PopulateRentInformation
+                    (
+                        {
+                            revenue_type: 
+                            {
+                                id: this.state.user_input.rent_id, 
+                                name: this.state.monthly_invoices[leaseagrm_id].revenue_types[this.state.user_input.rent_id]
+                            }, 
+                            price: this.state.monthly_invoices[leaseagrm_id].rent_amount, 
+                            rent_information: this.state.monthly_invoices[leaseagrm_id].leaseagrm, 
+                            leaseagrm_period: this.state.monthly_invoices[leaseagrm_id].leaseagrm_period, 
+                            user_input: this.state.user_input, 
+                            leaseagrm_id: leaseagrm_id
+                        }
+                    ), 
+                    utilities: this.state.monthly_invoices[leaseagrm_id].utilities.map
+                    (
+                        utility=>
+                        (
+                            {
+                                ...utility, 
+                                name: `${this.state.monthly_invoices[leaseagrm_id].unit_name} - ${this.state.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${DateReformat.Display(utility.previous_date)}`, 
+                                revenue_type: this.state.monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
+                            }
+                        )
+                    )
+                }
+            ); 
+            Object.keys(monthly_invoices).forEach(leaseagrm_id=>monthly_invoices[leaseagrm_id].total = [...monthly_invoices[leaseagrm_id].leaseagrm, ...monthly_invoices[leaseagrm_id].utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0)); 
+            return monthly_invoices; 
+        }   
+        catch (exception) 
+        {
+            return {}; 
+        } 
+    }  
     MonthlyInvoicesSubmit = () => 
     {
         try 
@@ -124,8 +117,8 @@ class AddMonthlyInvoices extends BaseComponent
     }
     Submit = () => 
     {
-        let url = "server/controller/invoice/post.php?command=AddMonthlyInvoices"; 
-        let result = this.SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
+        let url = "../server/controller/invoice/post.php?command=AddMonthlyInvoices"; 
+        let result = SubmitData("monthly_invoices", url, this.MonthlyInvoicesSubmit);
         if(Number(result))
         {
             alert(`${this.title} Success!`); 
@@ -138,15 +131,59 @@ class AddMonthlyInvoices extends BaseComponent
     }   
     render()
     {
+        var { Accordion, AccordionDetails, AccordionSummary, Grid } = MaterialUI; 
+        var monthly_invoices_display = this.MonthlyInvoicesDisplay(); 
+        var monthly_invoices_display_keys = Object.keys(monthly_invoices_display); 
         return (
-            <div>Add monthly invoice</div>
+            <div>
+                <h1>{this.state.title}</h1>
+                {
+                    monthly_invoices_display_keys.length ? 
+                    (
+                        <React.Fragment>
+                            {
+                                monthly_invoices_display_keys.map 
+                                (
+                                    leaseagrm_id => 
+                                    <Accordion key={leaseagrm_id}>
+                                        <AccordionSummary>
+                                            {leaseagrm_id}
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <div>
+                                                {
+                                                    Array(10).fill(leaseagrm_id).map 
+                                                    (
+                                                        (value, index)=> <p key={index}>{value}Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
+                                                        maximus est, id dignissim quam.</p>
+                                                    )
+                                                }
+                                            </div>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                )
+                            }
+                        </React.Fragment>
+                    ): 
+                    (
+                        <div>
+                            <br />
+                            <Grid container justify="center">
+                                <Grid item xs={6} className="border border-red">
+                                    <h3 className="text-danger text-center">Toàn bộ hóa đơn tháng này đã được tạo</h3>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    )
+                }
+            </div>
         ); 
 
 /*
 
         `
             <div class="container-fluid">
-                <h1>{{title}}</h1>
+                
                 <template v-if="Object.keys(monthly_invoices_display).length">
 
                     <vs-collapse accordion>
