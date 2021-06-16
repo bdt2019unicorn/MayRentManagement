@@ -82,9 +82,8 @@ class PrintInvoices extends PrintInvoicesComponent
                             <Grid container>
                                 <Grid item xs={1}>
                                     <Checkbox 
-                                        // v-bind="SelectAllBind" v-model="selected" @change="SelectAllInput" 
-                                        checked={Boolean(checked_invoices.length)}
-                                        indeterminate={checked_invoices.length<this.state.invoices.length}
+                                        checked={checked_invoices.length==this.state.invoices.length}
+                                        indeterminate={Boolean(checked_invoices.length) && (checked_invoices.length<this.state.invoices.length)}
                                         onChange=
                                         {
                                             (event)=>
@@ -96,11 +95,10 @@ class PrintInvoices extends PrintInvoicesComponent
                                             }
                                         }
                                     />
-                                        {/* <b-icon v-if="CheckedInvoices.length" :icon='(CheckedInvoices.length==invoices.length)?"check": "dash"'></b-icon> */}
                                 </Grid>
-                                <Grid item xs={6}><h6 className="text-info">Invoice</h6></Grid>
-                                <Grid item xs={3}><b>Tenant</b></Grid>
-                                <Grid item xs={1}><b>Unit</b></Grid>
+                                <Grid item xs={6} className="d-flex flex-items-center"><h5 className="text-blue">Invoice</h5></Grid>
+                                <Grid item xs={3} className="d-flex flex-items-center"><b>Tenant</b></Grid>
+                                <Grid item xs={1} className="d-flex flex-items-center"><b>Unit</b></Grid>
                             </Grid>
                             {/* 
                             <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
