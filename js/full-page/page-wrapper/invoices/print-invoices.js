@@ -112,14 +112,12 @@ Vue.component
                     </div>
                 </template>
 
-                <template v-else>
-                    <div class="row justify-content-center align-self-center">
-                        <div class="col-6 border border-info text-danger text-center">
-                            <h3>There are currently no invoices in this building</h3>
-                            <h3>Please try again later</h3>
-                        </div>
+                <div v-else class="row justify-content-center align-self-center">
+                    <div class="col-6 border border-info text-danger text-center">
+                        <h3>There are currently no invoices in this building</h3>
+                        <h3>Please try again later</h3>
                     </div>
-                </template>
+                </div>
 
             </div>
         `

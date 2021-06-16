@@ -1,4 +1,4 @@
-class PrintWor extends BaseComponent 
+class PrintWord extends BaseComponent 
 {
     // props: ["invoices", "html"],
     // mixins: [print_invoices_mixin],

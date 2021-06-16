@@ -1,6 +1,5 @@
-class PrintInvoices extends BaseComponent 
+class PrintInvoices extends PrintInvoicesComponent 
 {
-    // mixins: [print_invoices_mixin], 
     constructor(props)
     {
         super(props); 
@@ -11,19 +10,15 @@ class PrintInvoices extends BaseComponent
             invoices: [], 
             selected: false 
         }; 
-    }
-/*
-    created() 
-    {
-        let url = `${this.ServerUrl}General`;
-        let data = this.AjaxRequest(url); 
-        data = JSON.parse(data); 
-        Object.keys(data).forEach(key=>this[key] = data[key]); 
-        this.html.footer = 
+
+        let url = `${this.ServerUrl()}General`;
+        let data = ServerJson(url); 
+        Object.keys(data).forEach(key=>this.state[key] = data[key]); 
+        this.state.html.footer = 
         `
             <table style='width: 100%;'>
                 ${
-                    this.excel.map 
+                    this.state.excel.map 
                     (
                         row =>
                         `
@@ -41,8 +36,7 @@ class PrintInvoices extends BaseComponent
                 }
             </table>
         `; 
-    },
-*/
+    }
     CheckedInvoices = () => 
     {
         return this.invoices.filter(({checked, ...rest})=>checked); 
@@ -69,63 +63,73 @@ class PrintInvoices extends BaseComponent
     }
     render()
     {
+        var checked_invoices = this.state.invoices.filter(({checked})=>checked); 
+        var { Grid, Checkbox } = MaterialUI; 
         return (
             <div>
-                print invoices
+                <h1>In hóa đơn</h1>
+                <br />
+                {
+                    Boolean(this.state.invoices.length) ?  
+                    (
+                        <React.Fragment>
+                            <div className="space-between-element d-flex">
+                                <PrintPdf invoices={checked_invoices} html={this.state.html} />
+                                <PrintWord invoices={checked_invoices} html={this.state.html} />
+                                <PrintExcel invoices={checked_invoices} footer_array={this.state.excel} image={this.state.html.image} />
+                            </div>
+                            <br />
+                            <Grid container>
+                                <Grid item xs={1}>
+                                    <Checkbox 
+                                        // v-bind="SelectAllBind" v-model="selected" @change="SelectAllInput" 
+                                        checked={Boolean(checked_invoices.length)}
+                                        indeterminate={checked_invoices.length<this.state.invoices.length}
+                                        onChange=
+                                        {
+                                            (event)=>
+                                            {
+                                                var checked = event.target.checked; 
+                                                var invoices = _.cloneDeep(this.state.invoices); 
+                                                invoices.forEach(invoice=>invoice.checked = (checked_invoices.length && checked_invoices.length<this.state.invoices.length) ? true: checked); 
+                                                this.setState({invoices}); 
+                                            }
+                                        }
+                                    />
+                                        {/* <b-icon v-if="CheckedInvoices.length" :icon='(CheckedInvoices.length==invoices.length)?"check": "dash"'></b-icon> */}
+                                </Grid>
+                                <Grid item xs={6}><h6 className="text-info">Invoice</h6></Grid>
+                                <Grid item xs={3}><b>Tenant</b></Grid>
+                                <Grid item xs={1}><b>Unit</b></Grid>
+                            </Grid>
+                            {/* 
+                            <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
+                                <div class="row col-12">
+                                    <div class="col-1"><b-form-checkbox v-model="invoices[index].checked" size="md" @change="selected = Boolean(CheckedInvoices.length)"></b-form-checkbox></div>
+                                    <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
+                                    <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
+                                    <div class="col-1"><b>{{invoice.invoice.unit}}</b></div>
+                                    <div class="col-1">
+                                        <details-button :show_details="invoice.show_details" @click="invoices[index].show_details=!invoices[index].show_details"></details-button>
+                                    </div>
+                                </div>
+                                <div v-if="invoice.show_details" class="row col-12">
+                                    <div class="col" v-html="InvoiceHtml(invoice, html)"></div>
+                                </div>
+                            </div> */}
+                        </React.Fragment>
+                    ) : 
+                    (
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Grid item xs={6} className="border border-yellow text-red text-center">
+                                <h3>Hiện tại không có hóa đơn nào</h3>
+                                <h3>Vui lòng thử lại</h3>
+                            </Grid>
+                        </Grid>
+                    )
+                        
+                }
             </div>
         ); 
-
-/*
-        `
-            <div class="container-fluid">
-                <h1>Print All Invoices</h1>
-                <br>
-                <template v-if="invoices.length">
-                    <div class="container-fluid row">
-                        <print-pdf :invoices="CheckedInvoices" :html="html">PDF</print-pdf>
-                        <print-word :invoices="CheckedInvoices" :html="html" class="mx-2">Word</print-word>
-                        <print-excel :invoices="CheckedInvoices" :footer_array="excel" :image="html.image" class="mx-2">Excel</print-excel>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="row col">
-                            <div class="col-1">
-                                <b-form-checkbox v-bind="SelectAllBind" v-model="selected" @change="SelectAllInput">
-                                    <b-icon v-if="CheckedInvoices.length" :icon='(CheckedInvoices.length==invoices.length)?"check": "dash"'></b-icon>
-                                </b-form-checkbox>
-                            </div>
-                            <div class="col-6"><h6 class="text-info">Invoice</h6></div>
-                            <div class="col-3"><b>Tenant</b></div>
-                            <div class="col-1"><b>Unit</b></div>
-                        </div>
-                    </div>
-                    <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
-                        <div class="row col-12">
-                            <div class="col-1"><b-form-checkbox v-model="invoices[index].checked" size="md" @change="selected = Boolean(CheckedInvoices.length)"></b-form-checkbox></div>
-                            <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
-                            <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
-                            <div class="col-1"><b>{{invoice.invoice.unit}}</b></div>
-                            <div class="col-1">
-                                <details-button :show_details="invoice.show_details" @click="invoices[index].show_details=!invoices[index].show_details"></details-button>
-                            </div>
-                        </div>
-                        <div v-if="invoice.show_details" class="row col-12">
-                            <div class="col" v-html="InvoiceHtml(invoice, html)"></div>
-                        </div>
-                    </div>
-                </template>
-
-                <template v-else>
-                    <div class="row justify-content-center align-self-center">
-                        <div class="col-6 border border-info text-danger text-center">
-                            <h3>There are currently no invoices in this building</h3>
-                            <h3>Please try again later</h3>
-                        </div>
-                    </div>
-                </template>
-
-            </div>
-        `
-*/
     }
 }
