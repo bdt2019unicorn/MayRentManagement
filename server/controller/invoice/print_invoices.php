@@ -37,10 +37,10 @@
             $path = $print_excel->ZipAllExcel(); 
             if($path)
             {
-                require_once("../helper/support.php"); 
+                require_once("../../helper/support.php"); 
                 DownloadFile($path); 
-                // @unlink($path);
-                // $print_excel->ResolveFolder(); 
+                @unlink($path);
+                $print_excel->ResolveFolder(); 
             }
         }
     }

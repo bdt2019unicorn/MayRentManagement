@@ -4,6 +4,7 @@
     use PhpOffice\PhpSpreadsheet\Spreadsheet; 
     use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing; 
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+    use glen\FilenameNormalizer\Normalizer;
 
     class Excel 
     {
@@ -43,7 +44,7 @@
             $this->invoices = $invoices; 
             $this->png_logo = imagecreatefrompng($image); 
             $this->footer_rich_text = $this->RichTextArrayConvert($footer_array); 
-            $this->temp_path = $temp_path; 
+            $this->temp_path = realpath($temp_path); 
             $this->folder = "{$temp_path}/invoices"; 
         }
 
@@ -51,6 +52,7 @@
         {
             $this->ResolveFolder(); 
             mkdir($this->folder); 
+            $this->folder = realpath($this->folder); 
             foreach($this->invoices as $invoice)
             {
                 $this->CreateExcelFile($invoice); 
@@ -95,8 +97,6 @@
                 ["", "", "{$invoice['invoice']['unit']}"], 
                 ["Company", ":", "<b>{$invoice['invoice']['company']}</b>"]
             ]; 
-
-            print_r($header); 
 
             $CellValuesStyles = function($cell, $styles, $text=null) use ($sheet)
             {
@@ -220,7 +220,8 @@
             $sheet->fromArray($this->footer_rich_text, null, "B{$row_position}"); 
 
             $writer = new Xlsx($spreadsheet); 
-            $writer->save("{$this->folder}/{$invoice['invoice']['name']}.xlsx"); 
+            $invoice_name = Normalizer::normalize($invoice['invoice']['name']); 
+            $writer->save("{$this->folder}/{$invoice_name}.xlsx"); 
         }
 
         private function RichTextArrayConvert($array)
