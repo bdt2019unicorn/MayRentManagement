@@ -109,7 +109,7 @@
             $path = \CurrentEnvironment::TempFolderPath() . "/logo.png"; 
             $image = file_get_contents($path); 
             $base64 = base64_encode($image); 
-            return "data:image/jpeg;base64,{$base64}"; 
+            return "data:image/png;base64,{$base64}"; 
         }
 
         private function InvoicesInformation()

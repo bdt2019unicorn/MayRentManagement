@@ -7,8 +7,7 @@ class PrintInvoices extends PrintInvoicesComponent
         {
             excel: [], 
             html: {}, 
-            invoices: [], 
-            selected: false 
+            invoices: []
         }; 
 
         let url = `${this.ServerUrl()}General`;
@@ -37,34 +36,10 @@ class PrintInvoices extends PrintInvoicesComponent
             </table>
         `; 
     }
-    CheckedInvoices = () => 
-    {
-        return this.invoices.filter(({checked, ...rest})=>checked); 
-    } 
-    SelectAllBind = () => 
-    {
-        return {
-            size: this.CheckedInvoices.length? "sm": "md", 
-            button: Boolean(this.CheckedInvoices.length), 
-            buttonVariant: "outline-secondary"
-        }
-    }
-    SelectAllInput = (selected) => 
-    {
-        if(this.CheckedInvoices.length && this.CheckedInvoices.length<this.invoices.length)
-        {
-            this.selected = true; 
-            this.invoices.forEach(invoice=>invoice.checked=true); 
-        }
-        else 
-        {
-            this.invoices.forEach(invoice=>invoice.checked = selected); 
-        }
-    }
     render()
     {
         var checked_invoices = this.state.invoices.filter(({checked})=>checked); 
-        var { Grid, Checkbox } = MaterialUI; 
+        var { Accordion, AccordionDetails, AccordionSummary, Checkbox, Grid, Icon, IconButton } = MaterialUI; 
         return (
             <div>
                 <h1>In hóa đơn</h1>
@@ -100,21 +75,57 @@ class PrintInvoices extends PrintInvoicesComponent
                                 <Grid item xs={3} className="d-flex flex-items-center"><b>Tenant</b></Grid>
                                 <Grid item xs={1} className="d-flex flex-items-center"><b>Unit</b></Grid>
                             </Grid>
-                            {/* 
-                            <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
-                                <div class="row col-12">
-                                    <div class="col-1"><b-form-checkbox v-model="invoices[index].checked" size="md" @change="selected = Boolean(CheckedInvoices.length)"></b-form-checkbox></div>
-                                    <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
-                                    <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
-                                    <div class="col-1"><b>{{invoice.invoice.unit}}</b></div>
-                                    <div class="col-1">
-                                        <details-button :show_details="invoice.show_details" @click="invoices[index].show_details=!invoices[index].show_details"></details-button>
-                                    </div>
-                                </div>
-                                <div v-if="invoice.show_details" class="row col-12">
-                                    <div class="col" v-html="InvoiceHtml(invoice, html)"></div>
-                                </div>
-                            </div> */}
+                            {
+                                this.state.invoices.map
+                                ( 
+                                    (invoice, index) => 
+                                    (
+                                        <Accordion key={index} className="border border-blue mb-2">
+                                            <AccordionSummary className="p-0">
+                                                <Grid container>
+                                                    <Grid item xs={1}>
+                                                        <Checkbox 
+                                                            onClick={(event) => event.stopPropagation()}
+                                                            onFocus={(event) => event.stopPropagation()}
+                                                            checked={Boolean(this.state.invoices[index].checked)}
+                                                            onChange=
+                                                            {
+                                                                (event)=>
+                                                                {
+                                                                    var checked = event.target.checked; 
+                                                                    var invoices = ImmutabilityHelper
+                                                                    (
+                                                                        this.state.invoices, 
+                                                                        {
+                                                                            [index]: 
+                                                                            {
+                                                                                checked: 
+                                                                                {
+                                                                                    $set: checked
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ); 
+                                                                    this.setState({invoices}); 
+                                                                }
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}><h5 className="text-blue">{invoice.invoice.name}</h5></Grid>
+                                                    <Grid item xs={3}><b>{invoice.invoice.tenant}</b></Grid>
+                                                    <Grid item xs={1}><b>{invoice.invoice.unit}</b></Grid>
+                                                    <Grid item xs={1}><IconButton className="p-0"><Icon>expand_more</Icon></IconButton></Grid>
+                                                </Grid>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <div>
+                                                    <div dangerouslySetInnerHTML={{__html: this.InvoiceHtml(invoice, this.state.html)}}></div>
+                                                </div>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    )
+                                )
+                            }
                         </React.Fragment>
                     ) : 
                     (
@@ -125,7 +136,6 @@ class PrintInvoices extends PrintInvoicesComponent
                             </Grid>
                         </Grid>
                     )
-                        
                 }
             </div>
         ); 

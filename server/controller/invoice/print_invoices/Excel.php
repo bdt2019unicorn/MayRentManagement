@@ -96,6 +96,8 @@
                 ["Company", ":", "<b>{$invoice['invoice']['company']}</b>"]
             ]; 
 
+            print_r($header); 
+
             $CellValuesStyles = function($cell, $styles, $text=null) use ($sheet)
             {
                 $sheet->getCell($cell)->setValue($text); 

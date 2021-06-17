@@ -1,2 +1,2 @@
-import { Dropdown } from 'reactjs-dropdown-component';
-window.Dropdown = Dropdown; 
+import { Preview, print } from 'react-html2pdf';
+window.ReactHtml2Pdf = {Preview, print}; 

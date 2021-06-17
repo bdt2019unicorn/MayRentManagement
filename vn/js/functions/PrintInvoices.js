@@ -6,10 +6,7 @@ class PrintInvoicesComponent extends PageWrapperChildrenComponent
         {
             zip.generateAsync({type: "blob"}).then(content=> saveAs(content, "AllInvoices.zip"));  
         }
-        catch (exception)
-        {
-            console.log(zip); 
-        }
+        catch (exception) {}
     } 
     InvoiceHtml = (invoice, {footer, image}) => 
     {
