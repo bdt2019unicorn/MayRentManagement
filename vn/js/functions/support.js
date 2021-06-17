@@ -11,10 +11,11 @@ function AjaxRequest(url, data = new FormData(), type = "get")
 function BlobRequest(url, data={})
 {
     var result = undefined; 
+    var form_data = new FormData(); 
+    Object.keys(data).forEach(key=>form_data.append(key, data[key])); 
     const request = new XMLHttpRequest(); 
     request.overrideMimeType("text/plain; charset=x-user-defined"); 
     request.open("POST", url, false); 
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     UserInformation.Header(request); 
     request.onload = ()=>
     {
@@ -30,7 +31,7 @@ function BlobRequest(url, data={})
         alert("There is something wrong with the server! Please try again"); 
         console.log(error); 
     }; 
-    request.send(SearchQueryString(data)); 
+    request.send(form_data); 
     return result; 
 } 
 function ItemsClasses(item_value, compared_value, based_classes, good_class, bad_class="")

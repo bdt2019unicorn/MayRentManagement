@@ -68,10 +68,16 @@ class ComposerStaticInit2143526515a1c210087d2ec1f2b47897
         '6ab8ad87a734f276a6bcd5a0fe1289be' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/operations/divideinto.php',
         '79f66bc0a1900f77abe4a9a299057a0a' => __DIR__ . '/..' . '/starkbank/ecdsa/src/ellipticcurve.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'g' => 
+        array (
+            'glen\\FilenameNormalizer\\Test\\' => 29,
+            'glen\\FilenameNormalizer\\' => 24,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -80,6 +86,7 @@ class ComposerStaticInit2143526515a1c210087d2ec1f2b47897
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'SendGrid\\Stats\\' => 15,
             'SendGrid\\Mail\\' => 14,
@@ -116,6 +123,14 @@ class ComposerStaticInit2143526515a1c210087d2ec1f2b47897
     );
 
     public static $prefixDirsPsr4 = array (
+        'glen\\FilenameNormalizer\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/glen/filename-normalizer/tests',
+        ),
+        'glen\\FilenameNormalizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/glen/filename-normalizer/src',
+        ),
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
@@ -127,6 +142,10 @@ class ComposerStaticInit2143526515a1c210087d2ec1f2b47897
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
@@ -202,6 +221,7 @@ class ComposerStaticInit2143526515a1c210087d2ec1f2b47897
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'BaseSendGridClientInterface' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/BaseSendGridClientInterface.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'SendGrid' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/SendGrid.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'TwilioEmail' => __DIR__ . '/..' . '/sendgrid/sendgrid/lib/TwilioEmail.php',

@@ -40,80 +40,249 @@
             
             <script type="text/babel">
 
-                function CreateOptions()
+                function Template()
                 {
-                    var options = 
-                        [
-                            {
-                                "id": "5507c0528152e61f3c348d56",
-                                "name": "elit laborum et",
-                                "size": "Large"
-                            },
-                            {
-                                "id": "5507c0526305bceb0c0e2c7a",
-                                "name": "dolor nulla velit",
-                                "size": "Medium"
-                            }
-                        ]; 
-                        for (let index = 0; index < 20; index++) 
-                        {
-                            var option = 
-                            {
-                                id: index + encodeURIComponent(Math.random()) + Math.random(), 
-                                name: index + encodeURIComponent(Math.random()), 
-                                size: index 
-                            }
-                            options.push(option); 
-                        }
-                        return options; 
+                    return `
+                    <div><div>
+            <table style="width: 100%; margin: 3px;" <tr=""><tbody><tr><td colspan="3" style="text-align: center;"><img src="data:image/jpeg;base64,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"></td></tr>
+                <tr><td colspan="3"><h1 style="text-align: center;">RENTAL AND UTILITY CHARGE</h1></td></tr>
+                <tr><td><br></td></tr>
+                <tr><td><b>Date</b></td><td>:</td><td>17/06/2021</td></tr>
+                <tr><td><b>Invoice</b></td><td>:</td><td>Resolve "FUJIKIN" period 01 Dec 2019 - 28 Feb 2021</td></tr>
+                <tr><td><b>To</b></td><td>:</td><td>TSUNEO YOSHIDA</td></tr>
+                <tr><td></td><td></td><td><b>101</b></td></tr>
+                <tr><td><b>Company</b></td><td>:</td><td>CONG TY TNHH FUJIKIN VIỆT NAM</td></tr>
+            </tbody></table>
+            <br>
+            <style>
+                .description
+                {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .description th, .description td
+                {
+                    border: 3px;
+                    border-style: solid;
+                }
+                .utilities
+                {
+                    width: 100%;
+                }
+                .utilities td
+                {
+                    border-style: none;
+                }
+            </style>
+            <table class="description">
+                <tbody><tr>
+                    <th class="text-left">DESCRIPTION</th>
+                    <th class="text-right">VND</th>
+                </tr>
+                <tr><td class="text-left px-3">Rent "FUJIKIN" period 01 Dec 2019 - 28 Feb 2021</td><td class="text-right px-3">460,350,000</td></tr>
+                
+                            <tr>
+                                <td>
+                                    <table class="utilities">
+                                        <tbody><tr><td colspan="2" class="px-3">FUJIKIN - Resolve Electricity Period 31 Oct 2020 - 30 Nov 2020</td></tr>
+                                        <tr>
+                                            <td class="px-3">
+                                                Begining<br>
+                                                Finishing<br>
+                                                Total 
+                                            </td>
+                                            <td>
+                                                12:00AM, 31st Oct 2020 <span class="float-right mx-3">50,258</span> <br>
+                                                12:00AM, 30th Nov 2020 <span class="float-right mx-3">50,592</span> <br>
+                                                4,587 <span class="float-right mx-3">334</span>
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                                <td class="text-right px-3"><br><br><br>1,532,058</td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    <table class="utilities">
+                                        <tbody><tr><td colspan="2" class="px-3">FUJIKIN - Resolve Electricity Period 30 Nov 2020 - 31 Dec 2020</td></tr>
+                                        <tr>
+                                            <td class="px-3">
+                                                Begining<br>
+                                                Finishing<br>
+                                                Total 
+                                            </td>
+                                            <td>
+                                                12:00AM, 30th Nov 2020 <span class="float-right mx-3">50,592</span> <br>
+                                                12:00AM, 31st Dec 2020 <span class="float-right mx-3">50,943</span> <br>
+                                                4,587 <span class="float-right mx-3">351</span>
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                                <td class="text-right px-3"><br><br><br>1,610,037</td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    <table class="utilities">
+                                        <tbody><tr><td colspan="2" class="px-3">FUJIKIN - Resolve Electricity Period 31 Dec 2020 - 30 Jan 2021</td></tr>
+                                        <tr>
+                                            <td class="px-3">
+                                                Begining<br>
+                                                Finishing<br>
+                                                Total 
+                                            </td>
+                                            <td>
+                                                12:00AM, 31st Dec 2020 <span class="float-right mx-3">50,943</span> <br>
+                                                12:00AM, 30th Jan 2021 <span class="float-right mx-3">51,282</span> <br>
+                                                4,587 <span class="float-right mx-3">339</span>
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                                <td class="text-right px-3"><br><br><br>1,554,993</td>
+                            </tr>
+                        
+
+                <tr>
+                    <th class="text-left">Grand Total</th>
+                    <th class="text-right">465,047,088</th>
+                </tr>
+            </tbody></table>
+            <br>
+            
+            <table style="width: 100%;">
+                
+                            <tbody><tr>
+                                <td>
+                                    Please make transfer payment to
+                                </td>
+
+                                <td>
+                                    For and on behalf of
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    Account name: <b>Nguyen Le</b>
+                                </td>
+
+                                <td>
+                                    <b>DNTN Nguyen Le</b>
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    Account number: <b>49651469</b>
+                                </td>
+
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    Bank: <a href="www.acb.com.vn"><b>ACB</b></a>
+                                </td>
+
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    Branch: <b>PGD Đa Kao</b>
+                                </td>
+
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    
+                                </td>
+
+                                <td>
+                                    Authorized Signature
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    
+                                </td>
+
+                                <td>
+                                    <b>Nguyen Thị Thu Tâm</b>
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    
+                                </td>
+
+                                <td>
+                                    <b>Chủ DNTN</b>
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    
+                                </td>
+
+                                <td>
+                                    <a href="mailto: ngthutam38@gmail.com">ngthutam38@gmail.com</a>
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    
+                                </td>
+
+                                <td>
+                                    Phone No. 0939266416
+                                </td>
+                            </tr>
+                        
+
+                            <tr>
+                                <td>
+                                    
+                                </td>
+
+                                <td>
+                                    <i>47-49-51 Phùng Khắc Khoan, Phường Đa Kao, Quận 1, TP. HCM</i>
+                                </td>
+                            </tr>
+                        
+            </tbody></table>
+        
+            <br><br>
+        </div></div>
+        `; 
                 }
 
-                function OptionColumns()
-                {
-                    return [
-                        {name: "id", label: "id"}, 
-                        {name: "name", label: "name"}, 
-                        {name: "size", label: "size"} 
-                    ]; 
-                }
-
-                const select_options = CreateOptions();     
-                
-                class Child extends React.Component
-                {
-                    render()
-                    {
-                        return (
-                            <div>
-                                <pre>
-                                    {JSON.stringify(this.props.rows, null, 2)}
-                                </pre>
-                                <button 
-                                    type="button"
-                                    onClick=
-                                    {
-                                        this.props.onClick
-                                    }
-                                >Change the rows</button>
-                            </div>
-                        ); 
-                    }
-                }
-                
-
-                class Parents extends React.Component 
-                {
-                    render()
-                    {
-                        return (
-                            <div>
-                                <p>parent is testing children</p>
-                                <Child onClick={this.props.onClick} rows={this.props.rows} />
-                            </div>
-                        ); 
-                    }
-                }
-                
                 class Test extends React.Component 
                 {
                     constructor(props)
@@ -121,22 +290,21 @@
                         super(props); 
                         this.state = 
                         {
-                            word: "the innitial word"
                         }; 
-                    }
-                    ChangeWording = ()=>
-                    {
-                        this.setState({word: Math.random().toString()}); 
-                        console.log("I have just set a new state"); 
-                        console.log(this.state); 
                     }
                     render()
                     {
+                        var { Preview, print } = ReactHtml2Pdf; 
+                        var template = Template(); 
                         try {
                         return (
                             <div>
-                                <button type="button" onClick={this.ChangeWording}>Change rendom word</button>
-                                <p>{this.state.word}</p>
+                                <Preview id={'html-template'} html={template}/>
+                                <button onClick={()=>print('a', 'html-template')}> print</button>
+                                <Preview id={'jsx-template'} >
+                                    <p>adsf</p>
+                                </Preview>
+                                <button onClick={()=>print('a', 'jsx-template')}> print</button>
                             </div>
                         ); 
                         }catch(exception){console.log(exception); }

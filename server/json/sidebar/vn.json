@@ -122,8 +122,8 @@
             }, 
             {
                 "action": "PrintInvoices", 
-                "text": "Print Invoices", 
-                "title": "Print Invoices", 
+                "text": "In hóa đơn", 
+                "title": "In hóa đơn", 
                 "button": "purple", 
                 "icon": "print"
             }

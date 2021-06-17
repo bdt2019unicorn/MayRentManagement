@@ -13,6 +13,7 @@ class DateReformat
         DateDisplay: "DD/MM/YYYY", 
         DateTimeDatabase: "YYYY-MM-DD HH:MM:ss", 
         TimeDatabase: "HH:mm:ss", 
+        TimeDateDisplay: "hh:mmA, Do MMM YYYY", 
         TimeDisplay: "HH:mm"
     }; 
     static ConvertFormatDisplay = (string) => this.Database(moment(string, this.Formats.DateDisplay))
@@ -21,6 +22,7 @@ class DateReformat
     static DateTimeDatabase = (string = undefined) => this.MomentDate(string).format(this.Formats.DateTimeDatabase)    
     static Display = (string = undefined) => this.MomentDate(string).format(this.Formats.DateDisplay)
     static MomentDate = (string = undefined) => string ? moment(string) : moment()
+    static TimeDateDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDateDisplay) 
     static TimeDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDisplay)
 }
 

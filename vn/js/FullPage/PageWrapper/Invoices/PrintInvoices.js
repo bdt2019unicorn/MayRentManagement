@@ -1,6 +1,5 @@
-class PrintInvoices extends BaseComponent 
+class PrintInvoices extends PrintInvoicesComponent 
 {
-    // mixins: [print_invoices_mixin], 
     constructor(props)
     {
         super(props); 
@@ -8,22 +7,17 @@ class PrintInvoices extends BaseComponent
         {
             excel: [], 
             html: {}, 
-            invoices: [], 
-            selected: false 
+            invoices: []
         }; 
-    }
-/*
-    created() 
-    {
-        let url = `${this.ServerUrl}General`;
-        let data = this.AjaxRequest(url); 
-        data = JSON.parse(data); 
-        Object.keys(data).forEach(key=>this[key] = data[key]); 
-        this.html.footer = 
+
+        let url = `${this.ServerUrl()}General`;
+        let data = ServerJson(url); 
+        Object.keys(data).forEach(key=>this.state[key] = data[key]); 
+        this.state.html.footer = 
         `
             <table style='width: 100%;'>
                 ${
-                    this.excel.map 
+                    this.state.excel.map 
                     (
                         row =>
                         `
@@ -41,91 +35,109 @@ class PrintInvoices extends BaseComponent
                 }
             </table>
         `; 
-    },
-*/
-    CheckedInvoices = () => 
-    {
-        return this.invoices.filter(({checked, ...rest})=>checked); 
-    } 
-    SelectAllBind = () => 
-    {
-        return {
-            size: this.CheckedInvoices.length? "sm": "md", 
-            button: Boolean(this.CheckedInvoices.length), 
-            buttonVariant: "outline-secondary"
-        }
-    }
-    SelectAllInput = (selected) => 
-    {
-        if(this.CheckedInvoices.length && this.CheckedInvoices.length<this.invoices.length)
-        {
-            this.selected = true; 
-            this.invoices.forEach(invoice=>invoice.checked=true); 
-        }
-        else 
-        {
-            this.invoices.forEach(invoice=>invoice.checked = selected); 
-        }
     }
     render()
     {
+        var checked_invoices = this.state.invoices.filter(({checked})=>checked); 
+        var { Accordion, AccordionDetails, AccordionSummary, Checkbox, Grid, Icon, IconButton } = MaterialUI; 
         return (
             <div>
-                print invoices
+                <h1>In hóa đơn</h1>
+                <br />
+                {
+                    Boolean(this.state.invoices.length) ?  
+                    (
+                        <React.Fragment>
+                            <div className="space-between-element d-flex">
+                                <PrintPdf invoices={checked_invoices} html={this.state.html} />
+                                <PrintWord invoices={checked_invoices} html={this.state.html} />
+                                <PrintExcel invoices={checked_invoices} footer_array={this.state.excel} image={this.state.html.image} />
+                            </div>
+                            <br />
+                            <Grid container>
+                                <Grid item xs={1}>
+                                    <Checkbox 
+                                        checked={checked_invoices.length==this.state.invoices.length}
+                                        indeterminate={Boolean(checked_invoices.length) && (checked_invoices.length<this.state.invoices.length)}
+                                        onChange=
+                                        {
+                                            (event)=>
+                                            {
+                                                var checked = event.target.checked; 
+                                                var invoices = _.cloneDeep(this.state.invoices); 
+                                                invoices.forEach(invoice=>invoice.checked = (checked_invoices.length && checked_invoices.length<this.state.invoices.length) ? true: checked); 
+                                                this.setState({invoices}); 
+                                            }
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={6} className="d-flex flex-items-center"><h5 className="text-blue">Invoice</h5></Grid>
+                                <Grid item xs={3} className="d-flex flex-items-center"><b>Tenant</b></Grid>
+                                <Grid item xs={1} className="d-flex flex-items-center"><b>Unit</b></Grid>
+                            </Grid>
+                            {
+                                this.state.invoices.map
+                                ( 
+                                    (invoice, index) => 
+                                    (
+                                        <Accordion key={index} className="border border-blue mb-2">
+                                            <AccordionSummary className="p-0">
+                                                <Grid container>
+                                                    <Grid item xs={1}>
+                                                        <Checkbox 
+                                                            onClick={(event) => event.stopPropagation()}
+                                                            onFocus={(event) => event.stopPropagation()}
+                                                            checked={Boolean(this.state.invoices[index].checked)}
+                                                            onChange=
+                                                            {
+                                                                (event)=>
+                                                                {
+                                                                    var checked = event.target.checked; 
+                                                                    var invoices = ImmutabilityHelper
+                                                                    (
+                                                                        this.state.invoices, 
+                                                                        {
+                                                                            [index]: 
+                                                                            {
+                                                                                checked: 
+                                                                                {
+                                                                                    $set: checked
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ); 
+                                                                    this.setState({invoices}); 
+                                                                }
+                                                            }
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={6}><h5 className="text-blue">{invoice.invoice.name}</h5></Grid>
+                                                    <Grid item xs={3}><b>{invoice.invoice.tenant}</b></Grid>
+                                                    <Grid item xs={1}><b>{invoice.invoice.unit}</b></Grid>
+                                                    <Grid item xs={1}><IconButton className="p-0"><Icon>expand_more</Icon></IconButton></Grid>
+                                                </Grid>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <div>
+                                                    <div dangerouslySetInnerHTML={{__html: this.InvoiceHtml(invoice, this.state.html)}}></div>
+                                                </div>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    )
+                                )
+                            }
+                        </React.Fragment>
+                    ) : 
+                    (
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Grid item xs={6} className="border border-yellow text-red text-center">
+                                <h3>Hiện tại không có hóa đơn nào</h3>
+                                <h3>Vui lòng thử lại</h3>
+                            </Grid>
+                        </Grid>
+                    )
+                }
             </div>
         ); 
-
-/*
-        `
-            <div class="container-fluid">
-                <h1>Print All Invoices</h1>
-                <br>
-                <template v-if="invoices.length">
-                    <div class="container-fluid row">
-                        <print-pdf :invoices="CheckedInvoices" :html="html">PDF</print-pdf>
-                        <print-word :invoices="CheckedInvoices" :html="html" class="mx-2">Word</print-word>
-                        <print-excel :invoices="CheckedInvoices" :footer_array="excel" :image="html.image" class="mx-2">Excel</print-excel>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="row col">
-                            <div class="col-1">
-                                <b-form-checkbox v-bind="SelectAllBind" v-model="selected" @change="SelectAllInput">
-                                    <b-icon v-if="CheckedInvoices.length" :icon='(CheckedInvoices.length==invoices.length)?"check": "dash"'></b-icon>
-                                </b-form-checkbox>
-                            </div>
-                            <div class="col-6"><h6 class="text-info">Invoice</h6></div>
-                            <div class="col-3"><b>Tenant</b></div>
-                            <div class="col-1"><b>Unit</b></div>
-                        </div>
-                    </div>
-                    <div class="row border border-info my-2" v-for="(invoice, index) in invoices">
-                        <div class="row col-12">
-                            <div class="col-1"><b-form-checkbox v-model="invoices[index].checked" size="md" @change="selected = Boolean(CheckedInvoices.length)"></b-form-checkbox></div>
-                            <div class="col-6"><h6 class="text-info">{{invoice.invoice.name}}</h6></div>
-                            <div class="col-3"><b>{{invoice.invoice.tenant}}</b></div>
-                            <div class="col-1"><b>{{invoice.invoice.unit}}</b></div>
-                            <div class="col-1">
-                                <details-button :show_details="invoice.show_details" @click="invoices[index].show_details=!invoices[index].show_details"></details-button>
-                            </div>
-                        </div>
-                        <div v-if="invoice.show_details" class="row col-12">
-                            <div class="col" v-html="InvoiceHtml(invoice, html)"></div>
-                        </div>
-                    </div>
-                </template>
-
-                <template v-else>
-                    <div class="row justify-content-center align-self-center">
-                        <div class="col-6 border border-info text-danger text-center">
-                            <h3>There are currently no invoices in this building</h3>
-                            <h3>Please try again later</h3>
-                        </div>
-                    </div>
-                </template>
-
-            </div>
-        `
-*/
     }
 }
