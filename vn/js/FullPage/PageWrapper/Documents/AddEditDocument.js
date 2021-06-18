@@ -1,46 +1,33 @@
-class AddDocument extends Document  
+class AddDocument extends Document   
 {
-    // mixins: [document_mixin], 
-    Reset = () => 
-    {
-        this.ResetValue({value_name: "select_data_bind", new_value: R.clone(this.select_data_bind)}); 
-    }
-    Submit = (form_data) => 
-    {
-        this.SubmitDocumentData
-        (
-            {
-                url: this.ServerUrl({command: "AddDocument"}, "post"), 
-                form_data, 
-                success_alert: "Document is added!", 
-                reset_function: this.Reset
-            }
-        ); 
-    }
+    Reset = () => this.ResetValue({value_name: "select_data_bind", new_value: _.cloneDeep(this.state.select_data_bind)}) 
+    Submit = (form_data) => this.SubmitDocumentData
+    (
+        {
+            url: this.ServerUrl({command: "AddDocument"}, "post"), 
+            form_data, 
+            success_alert: "Document is added!", 
+            reset_function: this.Reset
+        }
+    )
     render() 
     {
-        return (
-            <div>Add documnetn</div>
-        ); 
-/*
-    
-    `
-        <user-input-document 
-            v-if="select_data_bind" 
-            :select_data_bind="select_data_bind" 
-            :in_progress="in_progress"
-            text="Add New Document" 
-            @document-form-data-valid="Submit"
-            @user-input-document-reset="Reset"
-        >
-            <h1>Add Documents</h1>
-        </user-input-document>
-    `
-*/
+        return this.state.select_data_bind ? 
+        (
+            <UserInputDocument 
+                select_data_bind={this.state.select_data_bind}
+                in_progress={this.state.in_progress}
+                text="Thêm tài liệu mới" 
+                DocumentFormDataValid={this.Submit}
+                UserInputDocumentReset={this.Reset}
+            >
+                <h1>Thêm tài liệu</h1>
+            </UserInputDocument>
+        ): null; 
     }
 }
 
-class EditDocument extends BaseComponent  
+class EditDocument extends Document  
 {
     // mixins: [document_mixin], 
     constructor(props)

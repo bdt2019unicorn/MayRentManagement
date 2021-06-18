@@ -13,6 +13,7 @@ class UserInputDocument extends BaseComponent
             unit_id: undefined 
         }; 
     }
+
     // created() 
     // {
     //     if(this.edit_data)
@@ -94,46 +95,54 @@ class UserInputDocument extends BaseComponent
     } 
     render()
     {
+        var { children, edit_data, in_progress, select_data_bind } = this.props; 
         return (
-            <div>user input invoice</div>
-        ); 
-/* 
-    `
-        <fragment>
+            <React.Fragment>
+                <div>
+                    {children}
 
-            <div class="container-fluid">
-                <slot></slot>
-                <div class="row">
-                    <vs-upload 
-                        limit="1" 
-                        :show-upload-button="false" 
-                        :text="$attrs['text']||''" 
-                        @change="FileChanged" 
-                        @on-delete="FileDeleted" 
+                    <DropzoneAreaBase
+                        onAdd={(file_objects) => this.setState({file: file_objects[0]})}
+                        onDelete={(file) => this.setState({file: undefined})} 
+                        fileObjects={this.state.file?[this.state.file]: undefined}
+                        showAlerts={false}
+                        filesLimit={1}
+                        maxFileSize={15*(10**6)}
+                        showFileNames
+                        dropzoneText="Đưa tập tin vào đây"
                     />
-                </div>
-                <p v-if="FileLinkBind"><a v-bind="FileLinkBind">{{FileLinkBind.download}}</a></p>
-                <br>
-                <div class="row"><text-input title="Document Name" name="name" v-model="name" :edit_data="EditData"></text-input></div>
-                <div class="row"><select-input v-bind="select_data_bind.document_type_id" name="document_type_id" v-model="document_type_id" :edit_data="EditData"></select-input></div>
-                <div class="row"><select-input v-bind="select_data_bind.unit_id" name="unit_id" v-model="unit_id" :edit_data="EditData"></select-input></div>
-                <div class="row"><textarea-input title="Description" name="description" v-model="description" :edit_data="EditData"></textarea-input></div>
-                <div class="row d-flex bd-highlight">
-                    <submit-button class="mr-auto bd-highlight" icon="times" title="Reset" @submit-button-clicked="$emit('user-input-document-reset')"></submit-button>
-                    <submit-button v-if="ValidData" class="ml-auto bd-highlight" title="Submit" @submit-button-clicked="$emit('document-form-data-valid', ValidData)"></submit-button>
-                </div>
-            </div>
 
-            <div v-if="in_progress" class="popup-div">
-                <div class="inner-div text-center border border-danger">
-                    <h1>Documents is being processed</h1>
-                    <div>{{in_progress}}%</div>
-                    <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
+
+                    {/* <div class="row">
+                        <vs-upload 
+                            limit="1" 
+                            :show-upload-button="false" 
+                            :text="$attrs['text']||''" 
+                            @change="FileChanged" 
+                            @on-delete="FileDeleted" 
+                        />
+                    </div> */}
+                    {/* <p v-if="FileLinkBind"><a v-bind="FileLinkBind">{{FileLinkBind.download}}</a></p> */}
+                    {/* <br> */}
+                    {/* <div class="row"><text-input title="Document Name" name="name" v-model="name" :edit_data="EditData"></text-input></div> */}
+                    {/* <div class="row"><select-input v-bind="select_data_bind.document_type_id" name="document_type_id" v-model="document_type_id" :edit_data="EditData"></select-input></div> */}
+                    {/* <div class="row"><select-input v-bind="select_data_bind.unit_id" name="unit_id" v-model="unit_id" :edit_data="EditData"></select-input></div> */}
+                    {/* <div class="row"><textarea-input title="Description" name="description" v-model="description" :edit_data="EditData"></textarea-input></div> */}
+                    {/* <div class="row d-flex bd-highlight"> */}
+                        {/* <submit-button class="mr-auto bd-highlight" icon="times" title="Reset" @submit-button-clicked="$emit('user-input-document-reset')"></submit-button> */}
+                        {/* <submit-button v-if="ValidData" class="ml-auto bd-highlight" title="Submit" @submit-button-clicked="$emit('document-form-data-valid', ValidData)"></submit-button> */}
+                    {/* </div> */}
                 </div>
-            </div>
-            
-        </fragment>
-    `
-*/
+    
+                {/* <div v-if="in_progress" class="popup-div">
+                    <div class="inner-div text-center border border-danger">
+                        <h1>Documents is being processed</h1>
+                        <div>{{in_progress}}%</div>
+                        <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
+                    </div>
+                </div> */}
+                
+            </React.Fragment>
+        ); 
     }
 }

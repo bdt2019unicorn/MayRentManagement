@@ -2,14 +2,14 @@ class Document extends PageWrapperChildrenComponent
 {
     constructor(props)
     {
-        super(props); 
+        super(props);
         this.state = 
         {
             select_data_bind: ServerJson(this.ServerUrl({command: "SelectDataBind"})), 
             in_progress: false
         }; 
     }
-    ServerUrl = (params, action="action") => `../server/controller/document/${action}.php?building_id=${this.BuidingId()}&${SearchQueryString(params)}`; 
+    ServerUrl = (params, action="action") => `../server/controller/document/${action}.php?building_id=${this.BuildingId()}&${SearchQueryString(params)}`; 
     SubmitDocumentData = ({url, form_data, success_alert, reset_function}) =>
     {
         var file = form_data.get("file"); 
