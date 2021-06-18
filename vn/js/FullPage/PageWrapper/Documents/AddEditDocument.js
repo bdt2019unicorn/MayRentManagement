@@ -1,4 +1,4 @@
-class AddDocument extends BaseComponent  
+class AddDocument extends Document  
 {
     // mixins: [document_mixin], 
     Reset = () => 
