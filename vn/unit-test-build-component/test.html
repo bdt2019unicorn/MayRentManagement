@@ -37,9 +37,6 @@
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
             <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
             
-            <link rel="stylesheet" href="dist/styles.css">
-            <script src="dist/react-infinite-calendar.min.js"></script>
-
 
             <script type="text/babel">
 
@@ -50,22 +47,23 @@
                         super(props); 
                         this.state = 
                         {
-                            value: [new Date(), new Date()]
+                            value: 
+                            {
+                                from: null, 
+                                to: null 
+                            }
                         }; 
                     }
                     render()
                     {
                         try {
-                            var { Calendar, withRange}  = window.InfiniteCalendar;
-                            var InfiniteCalendar = window.InfiniteCalendar.default;
                         return (
                             <div>
-                                <InfiniteCalendar
-                                Component={withRange(Calendar)}
-                                selected={{
-                                    start: new Date(2021, 6, 21),
-                                    end: new Date(2021, 7, 6)
-                                }}
+                                <MordernDatePicker
+                                    value={this.state.value}
+                                    onChange={(value)=>console.log(value)}
+                                    inputPlaceholder="Select a day range"
+                                    shouldHighlightWeekends
                                 />
 
                             </div>
