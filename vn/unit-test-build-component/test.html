@@ -36,8 +36,11 @@
             <script src="dist/bundle.js"></script>
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
             <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
-
             
+            <link rel="stylesheet" href="dist/styles.css">
+            <script src="dist/react-infinite-calendar.min.js"></script>
+
+
             <script type="text/babel">
 
                 class Test extends React.Component 
@@ -53,22 +56,16 @@
                     render()
                     {
                         try {
+                            var { Calendar, withRange}  = window.InfiniteCalendar;
+                            var InfiniteCalendar = window.InfiniteCalendar.default;
                         return (
                             <div>
-                                <DateRangePicker 
-                                    className="width-full"
-                                    calendarIcon={null}
-                                    calendarClassName="width-full"
-                                    inline={true}
-                                    value={this.state.value}
-                                    onChange= 
-                                    {
-                                        (value)=>
-                                        {
-                                            this.setState({value}); 
-                                        }
-                                    }
-                                    format="yyyy-MM-dd"
+                                <InfiniteCalendar
+                                Component={withRange(Calendar)}
+                                selected={{
+                                    start: new Date(2021, 6, 21),
+                                    end: new Date(2021, 7, 6)
+                                }}
                                 />
 
                             </div>
