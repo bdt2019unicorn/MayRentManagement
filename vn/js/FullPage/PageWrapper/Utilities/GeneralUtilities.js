@@ -126,6 +126,20 @@ class GeneralUtilities extends GeneralUtilities
                     </Grid>
                 </form>
 
+
+                
+									{/* <RangeDatePicker
+										startDate={this.state.startDate}
+										endDate={this.state.endDate}
+										onChange={(startDate, endDate) => this.setState({startDate, endDate})}
+										dateFormat="DD/MM/YYYY"
+										monthFormat="MMM YYYY"
+										startDatePlaceholder="Start Date"
+										endDatePlaceholder="End Date"
+										className="my-own-class-name"
+										highlightToday
+									/> */}
+
                 {/* <div class="row"> */}
                     {/* <form class="container-fluid col" @submit.prevent="Search" ref="search_form">   */}
 {/* 
