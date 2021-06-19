@@ -43,6 +43,7 @@
 			integrity="sha512-NG4Cm3Ubs7d/nPyzrTFM53RP8tPjQhRT0hea48yJ/qEXsuhq7wGbjX68A5gBiW6BoCQbqE3/M+UOj2lLXPauhw=="
 			crossorigin="anonymous"></script>
 		<script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/vi.min.js" integrity="sha512-LvYVj/X6QpABcaqJBqgfOkSjuXv81bLz+rpz0BQoEbamtLkUF2xhPNwtI/xrokAuaNEQAMMA1/YhbeykYzNKWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 		<script src="dist/bundle.js"></script>
 		<!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
@@ -61,60 +62,31 @@
 			class Test extends React.Component {
 				constructor(props) {
 					super(props);
-					this.state =
-					{
-						value:
-						{
-							from: null,
-							to: null
-						}
-					};
-					this.state.value = 
-					{
-						from: 
-						{
-							year: 2021, 
-							month: 6, 
-							date: 13, 
-						}, 
-						to: 
-						{
-							year: 2021, 
-							month: 6, 
-							date: 20, 
-						}
-					}; 
+					moment.locale("vi"); 
+
+					this.state = 
+                        {
+                            startDate: new Date("2021-06-01"), 
+                            endDate: new Date()
+                        }; 
 				}
 				render() {
 					try {
 						return (
-							<React.Fragment>
-								{/*
 								<div>
-									<MordernDatePicker
-										wrapperClassName="width-full"
-										inputClassName="width-full"
-										// calendarClassName="width-full"
-										value={this.state.value}
-										onChange={(value)=>this.setState({value})}
-										inputPlaceholder="Select a day range"
-										shouldHighlightWeekends
-									/>
 
-
-									
-								</div>
-							*/}
-								<div>
-									
-									<Calendar
-									calendarClassName="width-full"
-									value={this.state.value}
-									onChange={(value)=>this.setState({value})}
-									shouldHighlightWeekends
+									<RangeDatePicker
+										startDate={this.state.startDate}
+										endDate={this.state.endDate}
+										onChange={(startDate, endDate) => this.setState({startDate, endDate})}
+										dateFormat="DD/MM/YYYY"
+										monthFormat="MMM YYYY"
+										startDatePlaceholder="Start Date"
+										endDatePlaceholder="End Date"
+										className="my-own-class-name"
+										highlightToday
 									/>
 								</div>
-							</React.Fragment>
 						);
 					} catch (exception) {
 						console.log(exception);

@@ -33,6 +33,8 @@
 
             <script src="../js/npm/immunity-helper.js"></script>
 
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/vi.min.js" integrity="sha512-LvYVj/X6QpABcaqJBqgfOkSjuXv81bLz+rpz0BQoEbamtLkUF2xhPNwtI/xrokAuaNEQAMMA1/YhbeykYzNKWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
             <script src="dist/bundle.js"></script>
             <!-- https://www.youtube.com/watch?v=ydDUm1yPZs0 -->
             <!-- https://material-ui.com/guides/minimizing-bundle-size/ -->
@@ -47,11 +49,8 @@
                         super(props); 
                         this.state = 
                         {
-                            value: 
-                            {
-                                from: null, 
-                                to: null 
-                            }
+                            startDate: new Date(), 
+                            endDate: new Date()
                         }; 
                     }
                     render()
@@ -59,11 +58,18 @@
                         try {
                         return (
                             <div>
-                                <MordernDatePicker
-                                    value={this.state.value}
-                                    onChange={(value)=>console.log(value)}
-                                    inputPlaceholder="Select a day range"
-                                    shouldHighlightWeekends
+
+                                <RangeDatePicker
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+                                    onChange={(startDate, endDate) => this.setState({startDate, endDate})}
+                                    dateFormat="D"
+                                    monthFormat="MMM YYYY"
+                                    startDatePlaceholder="Start Date"
+                                    endDatePlaceholder="End Date"
+                                    disabled={false}
+                                    className="my-own-class-name"
+                                    startWeekDay="monday"
                                 />
 
                             </div>
