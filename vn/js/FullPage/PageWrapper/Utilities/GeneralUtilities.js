@@ -1,4 +1,4 @@
-class GeneralUtilities extends BaseComponent 
+class GeneralUtilities extends GeneralUtilities 
 {
     // props: ["select_data", "table_data"],
     // mixins: [general_utilities_mixin], 
@@ -7,6 +7,7 @@ class GeneralUtilities extends BaseComponent
         super(props);
         this.state = 
         {
+            ...this.state, 
             date_picker_opened: false, 
             end_date: undefined, 
             function_calendar_model: undefined, 
@@ -102,21 +103,32 @@ class GeneralUtilities extends BaseComponent
     }
     render()
     {
+        var Grid = MaterialUI.Grid; 
+        var { select_data, FormUnitsSelect } = this.props; 
         return (
-            <div>general</div>
-        ); 
-/*
-        `
-            <div class="container-fluid">
-                <h1>Utilities</h1>
+            <div>
+                <h1>Tiện ích</h1>
+                <form onSubmit={(event)=>{event.preventDefault(); console.log("submit")}}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={FormUnitsSelect ? 5 : 12}>
+                            <SelectInput
+                                select_data={select_data.utilities} 
+                                {...select_data}
+                                name="revenue_type_id" 
+                                title="Loại tiện ích"
+                                // edit_data="EditSelectUtilitiesData" 
+                                // search-data-changed="Search" 
+                                value={this.state.revenue_type_id}
+                                ValueChange={({value})=>this.setState({revenue_type_id: value})}
+                            />
+                        </Grid>
+                        {FormUnitsSelect || null}
+                    </Grid>
+                </form>
 
-                <div class="row">
-                    <form class="container-fluid col" @submit.prevent="Search" ref="search_form">  
-                        <div class="row">
-                            <select-input :select_data="select_data.utilities" v-bind="select_data" name="revenue_type_id" :edit_data="EditSelectUtilitiesData" @search-data-changed="Search" v-model="revenue_type_id"></select-input>
-                            <slot name="form_units_select" v-bind:select_data="select_data"></slot>
-                        </div>
-
+                {/* <div class="row"> */}
+                    {/* <form class="container-fluid col" @submit.prevent="Search" ref="search_form">   */}
+{/* 
                         <div class="row">
                             <div class="col">
                                 <input type="text" class="form-control text-center" @click="date_picker_opened = !date_picker_opened" readonly :value="LabelDateRange">
@@ -134,15 +146,13 @@ class GeneralUtilities extends BaseComponent
                                 <input type="text" name="start_date" v-model="start_date" hidden>
                                 <input type="text" name="end_date" v-model="end_date" hidden>
                             </div>
-                            <slot name="utility_overview"></slot>
-                        </div>
-                    </form>
-                </div>
-                <br>
-                <slot name="utility_price"></slot>
-                <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table>
+                        </div> */}
+                    {/* </form> */}
+                {/* </div> */}
+                {/* <br> */}
+                {/* <slot name="utility_price"></slot> */}
+                {/* <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table> */}
             </div>
-        `
-*/
+        ); 
     }
 }

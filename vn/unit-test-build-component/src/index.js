@@ -1,2 +1,2 @@
-import { Preview, print } from 'react-html2pdf';
-window.ReactHtml2Pdf = {Preview, print}; 
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+window.DateRangePicker = DateRangePicker; 

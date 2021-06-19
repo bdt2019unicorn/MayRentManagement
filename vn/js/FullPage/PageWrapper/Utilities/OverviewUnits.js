@@ -1,4 +1,4 @@
-class UtilitiesOverview extends BaseComponent
+class UtilitiesOverview extends Utilities
 {
     // mixins: [permissions_mixin, utilities_mixin], 
     
@@ -7,6 +7,7 @@ class UtilitiesOverview extends BaseComponent
         super(props); 
         this.state = 
         {
+            ...this.state, 
             add_price_form: false, 
             add_price_form_temp: undefined, 
             current_price: undefined, 
@@ -128,8 +129,38 @@ class UtilitiesOverview extends BaseComponent
     }
     render()
     {
+        var { Button, Grid } = MaterialUI; 
+        const space_submit_button = 3; 
         return (
-            <div>overview utilities</div>
+            <GeneralUtilities 
+                select_data={this.state.select_data}
+                table_data={this.state.table_data}
+                SearchDataChanged={this.Search}
+                FormUnitsSelect=
+                {
+                    <React.Fragment>
+                        <Grid item xs={4}>
+                            <SelectInput 
+                                select_data={_.get(this.state.select_data, "units")}
+                                {...this.state.select_data}
+                                name="unit_id" 
+                                title="Toàn bộ đơn vị"
+                            />
+                        </Grid>
+                        <Grid item xs={space_submit_button}>
+                            <div className="width-full mt-4 mb-4 ml-3 mr-0 pl-3 pr-3">
+                                <Button type="submit" variant="contained" color="primary">Tìm kiếm</Button>
+                            </div>
+                        </Grid>
+                    </React.Fragment>
+                }
+                UtilityOverview=
+                {
+                    <Grid item xs={space_submit_button}>
+                        <br />
+                    </Grid>
+                }
+            />
         ); 
 /*
         `
@@ -137,8 +168,8 @@ class UtilitiesOverview extends BaseComponent
                 <template #form_units_select>
                     <select-input :select_data="select_data.units" v-bind="select_data" name="unit_id" :not_required="true">All Units</select-input>
                     <div class="col-2">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+                        <button type="submit" class="btn btn-primry">Search</button>
+                    </div>a
                 </template>
 
                 <template #utility_overview>
@@ -178,7 +209,7 @@ class UtilitiesOverview extends BaseComponent
     }
 }
 
-class UnitUtilities extends BaseComponent 
+class UnitUtilities extends Utilities 
 {
     // mixins: [utilities_mixin], 
     Search(search_data)
