@@ -111,8 +111,19 @@ class UtilitiesOverview extends Utilities
     {
         if(search_button)
         {
-            this.table_data = JSON.parse(this.AjaxRequest(this.OverviewUrl, search_data,"post")); 
-            this.revenue_type_id = search_data.get("revenue_type_id"); 
+            this.setState
+            (
+                {
+                    table_data: undefined, 
+                    revenue_type_id: search_data.get("revenue_type_id")
+                }, 
+                () => this.setState 
+                (
+                    {
+                        table_data: JSON.parse(AjaxRequest(this.OverviewUrl(), search_data,"post"))
+                    }
+                )
+            ); 
         }
     }
     UtilityNameSearchById = () => 
@@ -133,6 +144,7 @@ class UtilitiesOverview extends Utilities
         const space_submit_button = 3; 
         return (
             <GeneralUtilities 
+                current_building={this.props.current_building}
                 select_data={this.state.select_data}
                 table_data={this.state.table_data}
                 SearchDataChanged={this.Search}

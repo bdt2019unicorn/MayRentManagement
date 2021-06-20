@@ -57,7 +57,8 @@ class BaseComponent extends React.Component
             ...params
         }
         return `../server/controller/overview/overview_controller.php?${SearchQueryString(params)}`; 
-    }
+    } 
+    OverviewUrl = () => this.OverviewDataUrl(this.CurrentController(), {id: this.ObjectId()})
     ResetStateValue = ({value_name, new_value, undefined_value=undefined, callback=undefined, callback_resolve=undefined}) => 
     {
         new Promise 

@@ -1,33 +1,36 @@
 class GeneralUtilities extends GeneralUtilities 
 {
-    // props: ["select_data", "table_data"],
-    // mixins: [general_utilities_mixin], 
     constructor(props)
     {
         super(props);
+        let { current_building, select_data, unit_id } = props; 
+        let revenue_type_id = _.get(select_data, "utilities.0.id"); 
+        var start_date = AjaxRequest(`${this.state.main_url}SelectStartDate&revenue_type_id=${revenue_type_id}&${unit_id?`unit_id=${unit_id}`: `building_id=${current_building}`}`); 
+        var end_date = moment().endOf('month').format(DateReformat.Formats.DateDatabase); 
         this.state = 
         {
             ...this.state, 
-            date_picker_opened: false, 
-            end_date: undefined, 
-            function_calendar_model: undefined, 
-            revenue_type_id: undefined, 
-            start_date: undefined, 
-            table_action: {}
+            end_date: new Date(end_date), 
+            revenue_type_id, 
+            start_date: new Date(start_date), 
+            table_action: TableAction("utilities") 
         }; 
+        this.search_form = React.createRef(); 
     } 
-    // mounted()
-    // {
-    //     new Promise
-    //     (
-    //         (resolve, reject)=>
-    //         {
-    //             this.ThisMonthDayRange();
-    //             this.table_action = this.TableActions("utilities"); 
-    //             resolve(true); 
-    //         }
-    //     ).then(this.Search); 
-    // }, 
+    componentDidMount()
+    {
+        this.Search(true); 
+    } 
+    componentDidUpdate(previous_props, previous_state)
+    {
+        if(!_.isEqual(this.props.table_data, previous_props.table_data))
+        {
+            console.groupCollapsed(); 
+            console.log(JSON.stringify(this.props.table_data, null, 2)); 
+            console.log(JSON.stringify(previous_props.table_data, null, 2)); 
+            console.groupEnd(); 
+        }
+    }
     CalendarChooseDay = () => 
     {
         try 
@@ -93,8 +96,13 @@ class GeneralUtilities extends GeneralUtilities
     }
     Search = (event=undefined) => 
     {
-        var search_data = new FormData(this.$refs["search_form"]); 
-        this.$emit("search-data-changed", search_data, Boolean(event)); 
+        try 
+        {
+            event.preventDefault(); 
+        }
+        catch (exception) {}
+        var search_data = new FormData(this.search_form.current); 
+        this.ExecPropsFunction("SearchDataChanged", search_data, Boolean(event)); 
     } 
     ThisMonthDayRange = () => 
     {
@@ -104,11 +112,11 @@ class GeneralUtilities extends GeneralUtilities
     render()
     {
         var Grid = MaterialUI.Grid; 
-        var { select_data, FormUnitsSelect } = this.props; 
+        var { select_data, table_data, FormUnitsSelect, UtilityPrice } = this.props; 
         return (
             <div>
                 <h1>Tiện ích</h1>
-                <form onSubmit={(event)=>{event.preventDefault(); console.log("submit")}}>
+                <form ref={this.search_form} onSubmit={this.Search}>
                     <Grid container spacing={1}>
                         <Grid item xs={FormUnitsSelect ? 5 : 12}>
                             <SelectInput
@@ -124,48 +132,29 @@ class GeneralUtilities extends GeneralUtilities
                         </Grid>
                         {FormUnitsSelect || null}
                     </Grid>
+                    <Grid container>
+                        <Grid item xs={9}>
+                            <RangeDatePicker
+                                startDate={this.state.start_date}
+                                endDate={this.state.end_date}
+                                onChange={(start_date, end_date) => this.setState({start_date, end_date})}
+                                dateFormat={DateReformat.Formats.Display}
+                                monthFormat={DateReformat.Formats.MonthDisplay}
+                                startDatePlaceholder="Ngày bắt đầu"
+                                endDatePlaceholder="Ngày kết thúc"
+                                highlightToday
+                            />
+                            <input type="text" name="start_date" value={DateReformat.Database(this.state.start_date)} readOnly hidden />
+                            <input type="text" name="end_date" value={DateReformat.Database(this.state.end_date)} readOnly hidden />
+                        </Grid>
+                    </Grid>
                 </form>
-
-
-                
-									{/* <RangeDatePicker
-										startDate={this.state.startDate}
-										endDate={this.state.endDate}
-										onChange={(startDate, endDate) => this.setState({startDate, endDate})}
-										dateFormat="DD/MM/YYYY"
-										monthFormat="MMM YYYY"
-										startDatePlaceholder="Start Date"
-										endDatePlaceholder="End Date"
-										className="my-own-class-name"
-										highlightToday
-									/> */}
-
-                {/* <div class="row"> */}
-                    {/* <form class="container-fluid col" @submit.prevent="Search" ref="search_form">   */}
-{/* 
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" class="form-control text-center" @click="date_picker_opened = !date_picker_opened" readonly :value="LabelDateRange">
-                                <FunctionalCalendar 
-                                    ref="calendar" 
-                                    v-if='date_picker_opened' 
-                                    class="col"
-                                    dateFormat="yyyy-mm-dd" 
-                                    :is-date-range='true' 
-                                    v-model="function_calendar_model" 
-                                    @opened="CalendarOpened"
-                                    @choseDay="CalendarChooseDay"
-                                ></FunctionalCalendar>
-
-                                <input type="text" name="start_date" v-model="start_date" hidden>
-                                <input type="text" name="end_date" v-model="end_date" hidden>
-                            </div>
-                        </div> */}
-                    {/* </form> */}
-                {/* </div> */}
-                {/* <br> */}
-                {/* <slot name="utility_price"></slot> */}
-                {/* <scrolling-table :table_data="table_data" :table_actions='table_action'></scrolling-table> */}
+                <br />
+                {UtilityPrice || null}
+                {
+                    Boolean(_.get(table_data, "length")) && 
+                    <ScrollingTable table={table_data} table_actions={this.state.table_action} />
+                }
             </div>
         ); 
     }
