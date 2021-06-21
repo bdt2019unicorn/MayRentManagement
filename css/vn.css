@@ -38,6 +38,33 @@
     pointer-events: none !important;
 }
 
+.popup-div
+{
+  position: absolute;
+  background-color: beige;
+  opacity: 0.95;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vmax;
+}
+
+.popup-div .close-popup
+{
+  position: absolute;
+  top: 0; 
+  right: 0;
+}
+
+.popup-div .inner-div
+{
+  position: absolute;
+  background-color: white;
+  top: 20vh; 
+  left: 20vw;
+  width: 60vw;
+}
+
 .scrolling-table-div
 {
     width: 100%;
