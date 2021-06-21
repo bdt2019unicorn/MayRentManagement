@@ -10,73 +10,63 @@ class UserInputDocument extends BaseComponent
             document_type_id: undefined, 
             file: undefined,
             name: undefined, 
-            unit_id: undefined 
+            unit_id: undefined, 
+            ...this.EditDataClone()
         }; 
     }
-
-    // created() 
-    // {
-    //     if(this.edit_data)
-    //     {
-    //         this.EditDataClone(this); 
-    //     }    
-    // },
-    // mixins: [support_mixin], 
     CallbackReset = () => 
     {
         alert("File uploaded!"); 
         Object.keys(this.$data).forEach(key=>this[key]=undefined); 
     }
-    EditData = () => 
+    EditDataClone = () => this.props.edit_data ? Object.keys(this.state).reduce
+    (
+        (accumulator, current_value) => 
+        (
+            {
+                ...accumulator, 
+                [current_value]: this.props.edit_data[current_value.toLocaleLowerCase()]
+            }, {}
+        )
+    ): undefined
+    FileChanged = (files) => 
     {
-        if(this.edit_data)
+        var state = {file: files[0], name: (this.state.name || "").trim()}; 
+        let file_name = state.file.file.name;
+        if(!state.name)
         {
-            var edit_data = {}; 
-            this.EditDataClone(edit_data); 
-            return edit_data; 
-        }
-        return undefined; 
-    }
-    EditDataClone = (object) => 
-    {
-        Object.keys(this.edit_data).filter(key=>Object.keys(this.$data).includes(key.toLocaleLowerCase())).forEach(key=> object[key.toLocaleLowerCase()]=this.edit_data[key]); 
-    }
-    FileChanged = (path, files) => 
-    {
-        var file = files.find(file=>!file.remove); 
-        this.file = file; 
-        if(!this.name || !this.name.trim())
-        {
-            this.name = file.name; 
+            state.name = file_name; 
         }
         else 
         {
-            let name = prompt("Enter new file name or cancel to keep current file name", file.name); 
+            let name = prompt("Enter new file name or cancel to keep current file name", file_name); 
             if(name)
             {
-                this.name = name; 
+                state.name = name; 
             }
         }
+        this.setState(state); 
     }
-    FileDeleted = () => 
+    FileDeleted = (file) => 
     {
-        this.file = undefined; 
+        var state = {file: undefined}; 
         var reset_name = confirm("Would you like to reset the document name?"); 
         if(reset_name)
         {
-            this.name = undefined; 
+            state.name = undefined; 
         }
+        this.setState(state); 
     }
     FileLinkBind = () => 
     {
-        if(!this.file)
+        if(!this.state.file)
         {
             return undefined; 
         }
         return {
-            href: URL.createObjectURL(this.file), 
-            download: this.file.name
-        }
+            href: this.state.file.data,
+            download: this.state.file.file.name
+        }; 
     }
     ValidData = () => 
     {
@@ -95,15 +85,17 @@ class UserInputDocument extends BaseComponent
     } 
     render()
     {
-        var { children, edit_data, in_progress, select_data_bind } = this.props; 
+        var { children, in_progress, select_data_bind } = this.props; 
+        var file_link_bind = this.FileLinkBind(); 
+        var document_edit_data = this.EditDataClone(); 
         return (
             <React.Fragment>
                 <div>
                     {children}
-
+                    <br />
                     <DropzoneAreaBase
-                        onAdd={(file_objects) => this.setState({file: file_objects[0]})}
-                        onDelete={(file) => this.setState({file: undefined})} 
+                        onAdd={this.FileChanged}
+                        onDelete={this.FileDeleted} 
                         fileObjects={this.state.file?[this.state.file]: undefined}
                         showAlerts={false}
                         filesLimit={1}
@@ -111,35 +103,30 @@ class UserInputDocument extends BaseComponent
                         showFileNames
                         dropzoneText="Đưa tập tin vào đây"
                     />
-
-                    {/* <div class="row">
-                        <vs-upload 
-                            limit="1" 
-                            :show-upload-button="false" 
-                            :text="$attrs['text']||''" 
-                            @change="FileChanged" 
-                            @on-delete="FileDeleted" 
-                        />
-                    </div> */}
-                    {/* <p v-if="FileLinkBind"><a v-bind="FileLinkBind">{{FileLinkBind.download}}</a></p> */}
-                    {/* <br> */}
-                    {/* <div class="row"><text-input title="Document Name" name="name" v-model="name" :edit_data="EditData"></text-input></div> */}
-                    {/* <div class="row"><select-input v-bind="select_data_bind.document_type_id" name="document_type_id" v-model="document_type_id" :edit_data="EditData"></select-input></div> */}
-                    {/* <div class="row"><select-input v-bind="select_data_bind.unit_id" name="unit_id" v-model="unit_id" :edit_data="EditData"></select-input></div> */}
-                    {/* <div class="row"><textarea-input title="Description" name="description" v-model="description" :edit_data="EditData"></textarea-input></div> */}
-                    {/* <div class="row d-flex bd-highlight"> */}
-                        {/* <submit-button class="mr-auto bd-highlight" icon="times" title="Reset" @submit-button-clicked="$emit('user-input-document-reset')"></submit-button> */}
-                        {/* <submit-button v-if="ValidData" class="ml-auto bd-highlight" title="Submit" @submit-button-clicked="$emit('document-form-data-valid', ValidData)"></submit-button> */}
-                    {/* </div> */}
+                    { Boolean(file_link_bind) && <p><a {...file_link_bind}>{file_link_bind.download}</a></p> }
+                    <br />
+                    <TextInput title="Tên tài liệu" name="name" value={this.state.name} ValueChange={({value})=>this.setState({name: value})} edit_data={document_edit_data} />
+                    <SelectInput {...select_data_bind.document_type_id} title="Loại tài liệu" name="document_type_id" value={this.state.document_type_id} ValueChange={({value})=>this.setState({document_type_id: value})} edit_data={document_edit_data} />
+                    <SelectInput {...select_data_bind.unit_id} title="Đơn vị" name="unit_id" value={this.state.unit_id} ValueChange={({value})=>this.setState({unit_id: value})} edit_data={document_edit_data} />
+                    <TextareaInput title="Mô tả" name="description" value={this.state.description} ValueChange={({value})=>this.setState({description: value})} edit_data={document_edit_data} />
+                    <div>
+                        <ActionButton class="float-left" icon="clear" />
+                        <SubmitButton type="button" />
+                    </div>
                 </div>
     
-                {/* <div v-if="in_progress" class="popup-div">
-                    <div class="inner-div text-center border border-danger">
-                        <h1>Documents is being processed</h1>
-                        <div>{{in_progress}}%</div>
-                        <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
-                    </div>
-                </div> */}
+                {
+                    Boolean(in_progress) && 
+                    (
+                        <div class="popup-div">
+                            <div class="inner-div text-center border border-danger">
+                                <h1>Documents is being processed</h1>
+                                <div>{{in_progress}}%</div>
+                                <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
+                            </div>
+                        </div>
+                    )
+                }
                 
             </React.Fragment>
         ); 

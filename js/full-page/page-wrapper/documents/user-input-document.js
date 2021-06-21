@@ -43,7 +43,7 @@ Vue.component
                 return {
                     href: URL.createObjectURL(this.file), 
                     download: this.file.name
-                }
+                };
             }, 
             ValidData()
             {
