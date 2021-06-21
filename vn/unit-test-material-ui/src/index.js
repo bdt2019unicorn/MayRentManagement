@@ -1,2 +1,2 @@
-import {  KeyboardTimePicker } from "@material-ui/pickers";
-window.KeyboardTimePicker = KeyboardTimePicker; 
+import { DropzoneAreaBase } from 'material-ui-dropzone';
+window.DropzoneAreaBase = DropzoneAreaBase; 

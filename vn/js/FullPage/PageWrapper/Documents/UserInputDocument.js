@@ -101,6 +101,12 @@ class UserInputDocument extends BaseComponent
                 <div>
                     {children}
 
+                    {/* <DropzoneAreaBase
+  onAdd={(fileObjs) => console.log('Added Files:', fileObjs)}
+  onDelete={(fileObj) => console.log('Removed File:', fileObj)}
+  onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
+/> */}
+
                     <DropzoneAreaBase
                         onAdd={(file_objects) => this.setState({file: file_objects[0]})}
                         onDelete={(file) => this.setState({file: undefined})} 
@@ -111,6 +117,23 @@ class UserInputDocument extends BaseComponent
                         showFileNames
                         dropzoneText="Đưa tập tin vào đây"
                     />
+                    {/* <DropzoneComponent 
+                        config=
+                        {
+                            {
+                                postUrl: "no-url"
+                            }
+                        }
+                        djsConfig=
+                        {
+                            {
+                                autoProcessQueue: false, 
+                                addRemoveLinks: true, 
+                                dictDefaultMessage: ":test", 
+                                maxFiles: 1 
+                            }
+                        }
+                    /> */}
 
 
                     {/* <div class="row">
