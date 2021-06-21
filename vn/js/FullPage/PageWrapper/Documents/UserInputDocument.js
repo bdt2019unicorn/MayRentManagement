@@ -118,13 +118,14 @@ class UserInputDocument extends BaseComponent
                 {
                     Boolean(in_progress) && 
                     (
-                        <div class="popup-div">
-                            <div class="inner-div text-center border border-danger">
-                                <h1>Documents is being processed</h1>
-                                <div>{{in_progress}}%</div>
-                                <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
-                            </div>
-                        </div>
+                        null
+                        // <div class="popup-div">
+                        //     <div class="inner-div text-center border border-danger">
+                        //         <h1>Documents is being processed</h1>
+                        //         <div>{{in_progress}}%</div>
+                        //         <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
+                        //     </div>
+                        // </div>
                     )
                 }
                 
