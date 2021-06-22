@@ -21,16 +21,6 @@ class GeneralUtilities extends GeneralUtilities
     {
         this.Search(true); 
     } 
-    componentDidUpdate(previous_props, previous_state)
-    {
-        if(!_.isEqual(this.props.table_data, previous_props.table_data))
-        {
-            console.groupCollapsed(); 
-            console.log(JSON.stringify(this.props.table_data, null, 2)); 
-            console.log(JSON.stringify(previous_props.table_data, null, 2)); 
-            console.groupEnd(); 
-        }
-    }
     CalendarChooseDay = () => 
     {
         try 
@@ -130,7 +120,7 @@ class GeneralUtilities extends GeneralUtilities
                                 ValueChange={({value})=>this.setState({revenue_type_id: value})}
                             />
                         </Grid>
-                        {FormUnitsSelect || null}
+                        { FormUnitsSelect || null }
                     </Grid>
                     <Grid container>
                         <Grid item xs={9}>
@@ -150,7 +140,7 @@ class GeneralUtilities extends GeneralUtilities
                     </Grid>
                 </form>
                 <br />
-                {UtilityPrice || null}
+                { UtilityPrice || null }
                 {
                     Boolean(_.get(table_data, "length")) && 
                     <ScrollingTable table={table_data} table_actions={this.state.table_action} />

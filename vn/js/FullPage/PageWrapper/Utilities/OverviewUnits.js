@@ -129,7 +129,7 @@ class UtilitiesOverview extends Utilities
     UtilityNameSearchById = () => 
     {
         let utility_name_by_id = {}; 
-        this.select_data.utilities.forEach
+        this.state.select_data.utilities.forEach
         (
             element => 
             {
@@ -142,6 +142,8 @@ class UtilitiesOverview extends Utilities
     {
         var { Button, Grid } = MaterialUI; 
         const space_submit_button = 3; 
+        let utility_name_by_id = this.UtilityNameSearchById(); 
+        let add_edit_permission = true; 
         return (
             <GeneralUtilities 
                 current_building={this.props.current_building}
@@ -171,6 +173,42 @@ class UtilitiesOverview extends Utilities
                     <Grid item xs={space_submit_button}>
                         <br />
                     </Grid>
+                }
+                UtilityPrice=
+                {
+                    <React.Fragment>
+                        <h4>Giá {utility_name_by_id[this.state.revenue_type_id]}</h4>
+                        <Grid container spacing={1}>
+                            <Grid item xs={10} container spacing={1}>
+                                <Grid item xs={5}>
+                                    <b>Current: </b>
+                                    {this.state.current_price}
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <b>Valid from: </b>
+                                    {this.state.valid_price_date}
+                                </Grid>
+                            </Grid>
+                            {
+                                add_edit_permission && 
+                                (
+                                    <Grid item xs={2}>
+                                        <ActionButton
+                                            title="Nhập giá hiện tại"
+                                            icon="add_circle"
+                                            ActionButtonClick={()=>this.setState({add_price_form: _.cloneDeep(this.add_price_form)})}
+                                        />
+                                )
+                            }
+                        </Grid>
+
+                        <div v-if="add_price_form" class="popup-div">
+                            <button class="btn btn-danger close-popup" @click="add_price_form=false"><i class="far fa-times-circle"></i></button>
+                            <user-input class="inner-div" v-bind="add_price_form" @form-information-valid="NewPrice"></user-input>
+                        </div>
+
+                        <h4>Overview</h4>
+                    </React.Fragment>
                 }
             />
         ); 
