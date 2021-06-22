@@ -12,6 +12,7 @@ class DateReformat
         DateDatabase: "YYYY-MM-DD", 
         DateDisplay: "DD/MM/YYYY", 
         DateTimeDatabase: "YYYY-MM-DD HH:MM:ss", 
+        MonthDisplay: "MMM YYYY", 
         TimeDatabase: "HH:mm:ss", 
         TimeDateDisplay: "hh:mmA, Do MMM YYYY", 
         TimeDisplay: "HH:mm"
