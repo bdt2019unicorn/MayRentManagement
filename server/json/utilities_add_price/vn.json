@@ -1,0 +1,60 @@
+{
+    "title": "Thêm giá tiện ích", 
+    "form":
+    [
+        [
+            {
+                "component": "SelectInput",
+                "name": "revenue_type_id",
+                "title": "Loại tiện ích",
+                "select_value": "id",
+                "text": "name"
+            },             
+            {
+                "component": "NumberInput",
+                "name": "value",
+                "title": "Giá"
+            },
+            {
+                "component": "DateInput",
+                "name": "date_valid",
+                "title": "Ngày có hiệu lực" 
+            }
+        ]
+    ],
+    "validate":
+    {
+        "rules":
+        {
+            "revenue_type_id": 
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Loại tiện ích để trống"
+                }
+            },
+            "value": 
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Giá để trống"
+                }, 
+                "numericality": 
+                {
+                    "greaterThan": 0, 
+                    "message": "Giá phải lớn hơn 0" 
+                }
+            }, 
+            "date_valid":
+            {
+                "presence": 
+                {
+                    "allowEmpty": false, 
+                    "message": "Ngày có hiệu lực để trống"
+                }
+            }
+        }
+    }
+}

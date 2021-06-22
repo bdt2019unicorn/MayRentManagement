@@ -1,7 +1,7 @@
 var general_utilities_mixin = 
 {
     mixins: [support_mixin], 
-    data: () =>({main_url: "server/controller/utilities/action.php?command="})
+    data: () =>({main_url: "server/controller/utilities.php?command="})
 }
 
 var utilities_mixin = 

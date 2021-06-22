@@ -5,7 +5,7 @@ class GeneralUtilities extends PageWrapperChildrenComponent
 		super(props);
 		this.state = 
 		{
-			main_url: "../server/controller/utilities/action.php?command="
+			main_url: "../server/controller/utilities.php?command="
 		};
 	}
 }
