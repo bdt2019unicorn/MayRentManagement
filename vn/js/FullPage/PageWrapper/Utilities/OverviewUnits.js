@@ -37,10 +37,6 @@ class UtilitiesOverview extends Utilities
         }
     }
     CurrentPriceInformation = (revenue_type_id) => ServerJson(`${this.state.main_url}CurrentPrice&revenue_type_id=${revenue_type_id}`)[0]
-    DateFormat = (string) => 
-    {
-        return moment(string).format("DD/MM/YYYY"); 
-    } 
     NewPrice = (data) => 
     {
         let current_price = this.CurrentPriceInformation(data.revenue_type_id); 
@@ -226,23 +222,21 @@ class UtilitiesOverview extends Utilities
 
 class UnitUtilities extends Utilities 
 {
-    // mixins: [utilities_mixin], 
-    Search(search_data)
+    Search = (search_data) => 
     {
         try 
         {
-            search_data.append("unit_id", this.$route.query.id); 
-            let unit_utitlities_json = this.AjaxRequest(this.OverviewUrl, search_data,"post"); 
+            search_data.append("unit_id", this.ObjectId()); 
+            let unit_utitlities_json = AjaxRequest(this.OverviewUrl(), search_data,"post"); 
             let unit_utitlities = JSON.parse(unit_utitlities_json)[0]; 
-            this.table_data = Object.values(unit_utitlities.unit_table).reverse(); 
+            this.setState({table_data: Object.values(unit_utitlities.unit_table).reverse()}); 
         }
         catch (exception) {}
     }
     render()
     {
         return (
-            <div>unit utilities </div>
+            <GeneralUtilities select_data={this.state.select_data} table_data={this.state.table_data} unit_id={this.ObjectId()} SearchDataChanged={this.Search} />
         ); 
-        // `<general-utilities @search-data-changed="Search" :select_data="select_data" :table_data="table_data"></general-utilities>`
     } 
 }

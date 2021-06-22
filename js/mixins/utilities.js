@@ -24,7 +24,6 @@ var utilities_mixin =
     {
         this.SelectData(); 
     },
-
     methods: 
     {
         SelectData()
