@@ -45,7 +45,7 @@ class PageAdministration extends BaseComponent
                     </MaterialUI.Grid>
 
                 </MaterialUI.Container>
-                <Add AuthorizeSuccess={AuthorizeSuccess} controller={this.state.controller} container_width={container_width} />
+                <Add AuthorizeSuccess={AuthorizeSuccess} controller={this.state.controller} container_width={container_width} permission={true} />
             </MaterialUI.Grid>
         ); 
     }
