@@ -96,17 +96,26 @@ jQuery
                     }, 
                     mutations: 
                     {
-                        Authorize(state, payload=undefined)
+                        Authorize(state, payload={})
                         {
                             state.user_permissions = payload; 
+                            var has_information = false; 
                             KeyAssign = (key, reference=undefined) => 
                             {
                                 let value = R.path([reference || key], payload) || ""; 
                                 state[key] = value; 
                                 sessionStorage.setItem(key, value); 
+                                if(value)
+                                {
+                                    has_information = true; 
+                                }
                             }; 
                             KeyAssign("user_id", "id"); 
                             KeyAssign("username"); 
+                            if(has_information && !(payload.hasOwnProperty("add_edit") && payload.hasOwnProperty("import_excel")))
+                            {
+                                
+                            }
                         }, 
                         ChangeState(state, {name, value})
                         {
@@ -141,7 +150,7 @@ jQuery
                             "Authorize", 
                             {
                                 username: sessionStorage.getItem("username") ||"", 
-                                user_id: sessionStorage.getItem("user_id") ||""
+                                id: sessionStorage.getItem("user_id") ||""
                             }
                         ); 
                     },

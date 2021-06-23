@@ -7,7 +7,7 @@ class FullPage extends BaseComponent
         (
             {
                 username: sessionStorage.getItem("username") ||"", 
-                user_id: sessionStorage.getItem("user_id") ||""
+                id: sessionStorage.getItem("user_id") ||""
             }
         ); 
         this.BuildingData(); 

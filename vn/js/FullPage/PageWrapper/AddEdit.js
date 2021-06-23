@@ -7,12 +7,12 @@ class Add extends AddEditComponent
         {
             if(Boolean(result))
             {
-                alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
+                alert(`${this.state.form.title} thành công`); 
                 this.props.AuthorizeSuccess(JSON.parse(result)); 
             }
             else 
             {
-                alert(`${this.state.form.title} thành công`); 
+                alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
             }
         }
         else if(Number(result))

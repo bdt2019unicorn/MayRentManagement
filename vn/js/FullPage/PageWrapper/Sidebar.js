@@ -33,7 +33,7 @@ class Sidebar extends BaseComponent
                         <MaterialUI.AccordionDetails>
                             <MaterialUI.List component="nav" className="width-full">
                                 {
-                                    controller.menu.filter(item=>window[item.action]).map
+                                    controller.menu.map
                                     (
                                         item=> 
                                         (
