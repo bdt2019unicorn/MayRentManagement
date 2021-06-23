@@ -25,7 +25,7 @@ Vue.component
                             <router-link class="btn dropdown-item" :to="{name: 'general-edit', params: {controller: 'user'}}">Manage your Account</router-link>
                             <button 
                                 class="btn dropdown-item" 
-                                onclick="window.store_track.commit('Authorize', {username: '', user_id: ''}); window.router.push({name: 'home'}).catch(error=>{});"
+                                onclick="window.store_track.commit('Authorize'); window.router.push({name: 'home'}).catch(error=>{});"
                             >Logout</button>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ class PageAdministration extends BaseComponent
             return <ReactRouterDOM.Redirect to="/page-administration/login" />; 
         }
         let AuthorizeSuccess = this.state.controller=="login"? 
-        (data, result)=> this.props.Authorize({username: data.username, user_id: result}): (data, result)=> this.setState({controller: undefined}) 
+        (data)=> this.props.Authorize(data): (data)=> this.setState({controller: undefined}) 
         let container_width = "sm"; 
         let Link = ReactRouterDOM.Link; 
         return (

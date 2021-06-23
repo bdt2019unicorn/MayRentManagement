@@ -6,6 +6,7 @@ class PageSetup
         {
             username: "", 
             user_id: 0, 
+            user_permissions: undefined, 
             current_controller: undefined, 
             current_building: undefined, 
             buildings_data: [], 
@@ -29,18 +30,28 @@ class PageSetup
         {
             return {...state, [state_name]: value}; 
         }, 
-        Authorize(state = this.innitial_state, {username, user_id})
+        Authorize(state = this.innitial_state, payload)
         {
-            var payload = {username, user_id}; 
-            Object.keys(payload).forEach(key=> sessionStorage.setItem(key, payload[key])); 
-            return {...state, ...payload}; 
+            var new_state = 
+            { 
+                user_permissions: new Permissions(payload)
+            }; 
+            var KeyAssign = (key, reference=undefined) => 
+            {
+                let value = _.get(payload, reference || key) || ""; 
+                new_state[key] = value; 
+                sessionStorage.setItem(key, value); 
+            }; 
+            KeyAssign("user_id", "id"); 
+            KeyAssign("username"); 
+            return {...state, ...new_state}; 
         }
     }
     static MapStateToProps = state => state; 
     static MapDispatchToProps = 
     {
         ChangeState: ({state_name, value})=>({type: "ChangeState", payload:{state_name, value}}), 
-        Authorize: ({username, user_id})=>({type: "Authorize", payload: {username, user_id}})
+        Authorize: (payload)=>({type: "Authorize", payload: payload})
     } 
     FullPage()
     {

@@ -96,31 +96,17 @@ jQuery
                     }, 
                     mutations: 
                     {
-                        Authorize(state, payload)
+                        Authorize(state, payload=undefined)
                         {
-                            let user_information = undefined; 
-                            Object.keys(payload).forEach
-                            (
-                                key=>
-                                {
-                                    state[key] = payload[key]; 
-                                    sessionStorage.setItem(key, payload[key]); 
-                                    if(payload[key])
-                                    {
-                                        user_information = payload[key]; 
-                                    }
-                                }
-                            );
-                            if(user_information)
+                            state.user_permissions = payload; 
+                            KeyAssign = (key, reference=undefined) => 
                             {
-                                let url = `server/controller/overview/overview_controller.php?overview_controller=user&id=${payload.user_id}`;
-                                user_information = support_mixin.methods.AjaxRequest(url); 
-                                state.user_permissions = JSON.parse(user_information)[0]; 
-                            }
-                            else 
-                            {
-                                state.user_permissions = undefined; 
-                            }
+                                let value = R.path([reference || key], payload) || ""; 
+                                state[key] = value; 
+                                sessionStorage.setItem(key, value); 
+                            }; 
+                            KeyAssign("user_id", "id"); 
+                            KeyAssign("username"); 
                         }, 
                         ChangeState(state, {name, value})
                         {

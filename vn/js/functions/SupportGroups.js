@@ -27,6 +27,17 @@ class DateReformat
     static TimeDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDisplay)
 }
 
+class Permissions 
+{
+    AddEdit = undefined; 
+    Admin = undefined; 
+    constructor({add_edit, import_excel})
+    {
+        this.AddEdit = add_edit; 
+        this.Admin = add_edit && import_excel; 
+    }
+}
+
 class UserInformation 
 {
     static ExecFunctionUserInformation(func)
