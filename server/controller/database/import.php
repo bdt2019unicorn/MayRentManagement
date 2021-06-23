@@ -5,10 +5,7 @@
 	{
 		$data = json_decode($_POST["excel"])[0]; 
 		$user_information = Database::SelectData("user", ["*"], ["approved"=>1, "username"=>$data->username, "password"=>$data->password]); 
-		if(isset($user_information[0]["id"]))
-		{
-			echo $user_information[0]["id"]; 
-		}
+		echo isset($user_information[0]["id"])? json_encode($user_information[0]) : false; 	
 	}
 	else
 	{

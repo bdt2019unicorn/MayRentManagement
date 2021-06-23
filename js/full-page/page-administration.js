@@ -11,7 +11,7 @@ Vue.component
                 switch (controller) 
                 {
                     case "login":
-                        window.store_track.commit("Authorize", {username: data.username, user_id: data.user_id}); 
+                        window.store_track.commit("Authorize", data); 
                         window.router.push({name: "dashboard"}); 
                         break;
                     case "user": 

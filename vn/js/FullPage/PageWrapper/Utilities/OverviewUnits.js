@@ -1,7 +1,5 @@
 class UtilitiesOverview extends Utilities
 {
-    // mixins: [permissions_mixin, utilities_mixin], 
-    
     constructor(props)
     {
         super(props); 
@@ -130,7 +128,6 @@ class UtilitiesOverview extends Utilities
         var { Button, Grid } = MaterialUI; 
         const space_submit_button = 3; 
         let utility_name_by_id = this.UtilityNameSearchById(); 
-        let add_edit_permission = true; 
         return (
             <GeneralUtilities 
                 add_price_form={this.state.add_price_form}
@@ -178,7 +175,7 @@ class UtilitiesOverview extends Utilities
                                 </Grid>
                             </Grid>
                             {
-                                add_edit_permission && 
+                                this.props.user_permissions.AddEdit && 
                                 (
                                     <Grid item xs={2}>
                                         <ActionButton

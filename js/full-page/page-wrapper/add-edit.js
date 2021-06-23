@@ -9,15 +9,22 @@ Vue.component
             SubmitForm(data)
             {
                 let result = this.SubmitData("excel", this.ImportUrl,[data]); 
-                if(Number(result))
+                if(this.controller)
+                {
+                    if(Boolean(result))
+                    {
+                        alert(`${this.title} Success!`); 
+                        data = JSON.parse(result); 
+                        this.$emit("authorize-controller-success", this.controller, data); 
+                    }
+                    else
+                    {
+                        alert(`${this.title} Fails, please try again!`); 
+                    }
+                }
+                else if (Number(result))
                 {
                     alert(`${this.title} Success!`); 
-                    if(this.controller)
-                    {
-                        data["user_id"] = Number(result); 
-                        this.$emit("authorize-controller-success", this.controller, data); 
-                        return; 
-                    }
                     this.ReloadUserInput(); 
                 }
                 else

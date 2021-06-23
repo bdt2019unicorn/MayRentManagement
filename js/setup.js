@@ -96,30 +96,28 @@ jQuery
                     }, 
                     mutations: 
                     {
-                        Authorize(state, payload)
+                        Authorize(state, payload={})
                         {
-                            let user_information = undefined; 
-                            Object.keys(payload).forEach
-                            (
-                                key=>
+                            state.user_permissions = payload; 
+                            var has_information = false; 
+                            KeyAssign = (key, reference=undefined) => 
+                            {
+                                let value = R.path([reference || key], payload) || ""; 
+                                state[key] = value; 
+                                sessionStorage.setItem(key, value); 
+                                if(value)
                                 {
-                                    state[key] = payload[key]; 
-                                    sessionStorage.setItem(key, payload[key]); 
-                                    if(payload[key])
-                                    {
-                                        user_information = payload[key]; 
-                                    }
+                                    has_information = true; 
                                 }
-                            );
-                            if(user_information)
+                            }; 
+                            KeyAssign("user_id", "id"); 
+                            KeyAssign("username"); 
+                            if(has_information && !(payload.hasOwnProperty("add_edit") && payload.hasOwnProperty("import_excel")))
                             {
-                                let url = `server/controller/overview/overview_controller.php?overview_controller=user&id=${payload.user_id}`;
-                                user_information = support_mixin.methods.AjaxRequest(url); 
+
+                                let url = `server/controller/overview/overview_controller.php?overview_controller=user&id=${payload.id}`;
+                                let user_information = support_mixin.methods.AjaxRequest(url); 
                                 state.user_permissions = JSON.parse(user_information)[0]; 
-                            }
-                            else 
-                            {
-                                state.user_permissions = undefined; 
                             }
                         }, 
                         ChangeState(state, {name, value})
@@ -155,7 +153,7 @@ jQuery
                             "Authorize", 
                             {
                                 username: sessionStorage.getItem("username") ||"", 
-                                user_id: sessionStorage.getItem("user_id") ||""
+                                id: sessionStorage.getItem("user_id") ||""
                             }
                         ); 
                     },
