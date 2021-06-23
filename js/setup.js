@@ -114,7 +114,10 @@ jQuery
                             KeyAssign("username"); 
                             if(has_information && !(payload.hasOwnProperty("add_edit") && payload.hasOwnProperty("import_excel")))
                             {
-                                
+
+                                let url = `server/controller/overview/overview_controller.php?overview_controller=user&id=${payload.id}`;
+                                let user_information = support_mixin.methods.AjaxRequest(url); 
+                                state.user_permissions = JSON.parse(user_information)[0]; 
                             }
                         }, 
                         ChangeState(state, {name, value})

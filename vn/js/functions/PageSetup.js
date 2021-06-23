@@ -30,20 +30,31 @@ class PageSetup
         {
             return {...state, [state_name]: value}; 
         }, 
-        Authorize(state = this.innitial_state, payload)
+        Authorize(state = this.innitial_state, payload={})
         {
             var new_state = 
             { 
                 user_permissions: new Permissions(payload)
             }; 
+            var has_information = false; 
             var KeyAssign = (key, reference=undefined) => 
             {
                 let value = _.get(payload, reference || key) || ""; 
                 new_state[key] = value; 
                 sessionStorage.setItem(key, value); 
+                if(value)
+                {
+                    has_information = true; 
+                }
             }; 
             KeyAssign("user_id", "id"); 
             KeyAssign("username"); 
+            if(has_information && !(payload.hasOwnProperty("add_edit") && payload.hasOwnProperty("import_excel")))
+            {
+                let url = `../server/controller/overview/overview_controller.php?overview_controller=user&id=${payload.id}`;
+                let user_information = ServerJson(url); 
+                new_state.user_permissions = new Permissions(user_information[0]); 
+            }
             return {...state, ...new_state}; 
         }
     }
