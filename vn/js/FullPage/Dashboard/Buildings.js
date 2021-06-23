@@ -86,9 +86,12 @@ class Buildings extends BaseComponent
                                         }
                                     </MaterialUI.CardContent>
                                     <MaterialUI.CardActions className="flex-justify-end">
-                                        <IconButton style={{color: "red"}} onClick={()=>this.DeleteBuilding(building.id)}>
-                                            <Icon>delete</Icon>
-                                        </IconButton>
+                                        {
+                                            this.props.user_permissions.AddEdit && 
+                                            <IconButton style={{color: "red"}} onClick={()=>this.DeleteBuilding(building.id)}>
+                                                <Icon>delete</Icon>
+                                            </IconButton>
+                                        }
                                         <ReactRouterDOM.Link to={`GeneralEdit/buildings?id=${building.id}`}>
                                             <IconButton style={{color: "purple"}}>
                                                 <Icon>edit</Icon>
@@ -114,23 +117,29 @@ class Buildings extends BaseComponent
         }
         return (
             <div>
-                <div className="space-between-element">
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        startIcon={<MaterialUI.Icon>add_circle</MaterialUI.Icon>}
-                        onClick={()=>this.setState({add_building_form: this.props.building_user_input})}
-                    >Thêm</Button>
-                    <Button
-                        variant="contained"
-                        color="inherit"
-                        size="large"
-                        startIcon={<MaterialUI.Icon>grid_on</MaterialUI.Icon>}
-                        classes={{colorInherit: "btn btn-primary"}}
-                        onClick={()=>this.setState({import_buildings: true})}
-                    >Nhập với Excel</Button>
-                </div>
+                {
+                    this.props.user_permissions.AddEdit && 
+                    <div className="space-between-element">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            startIcon={<MaterialUI.Icon>add_circle</MaterialUI.Icon>}
+                            onClick={()=>this.setState({add_building_form: this.props.building_user_input})}
+                        >Thêm</Button>
+                        {
+                            this.props.user_permissions.Admin && 
+                            <Button
+                                variant="contained"
+                                color="inherit"
+                                size="large"
+                                startIcon={<MaterialUI.Icon>grid_on</MaterialUI.Icon>}
+                                classes={{colorInherit: "btn btn-primary"}}
+                                onClick={()=>this.setState({import_buildings: true})}
+                            >Nhập với Excel</Button>
+                        }
+                    </div>
+                }
                 <br />
                 {buildings_display}
             </div>

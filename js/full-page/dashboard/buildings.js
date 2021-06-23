@@ -58,7 +58,7 @@ Vue.component
             <fragment>
                 <vs-row v-if="AddEditPermission">
                     <vs-button class="mx-1 my-1" color="primary" type="gradient" icon="add_circle_outline" @click="add_building_form=StateObject('building_user_input')">Add</vs-button>
-                    <vs-button class="mx-1 my-1" color="success" type="gradient" icon="grid_on" @click="ImportBuildings">Import Excel</vs-button>
+                    <vs-button v-if="AdminPermission" class="mx-1 my-1" color="success" type="gradient" icon="grid_on" @click="ImportBuildings">Import Excel</vs-button>
                 </vs-row>
 
                 <template v-if="add_building_form">

@@ -48,10 +48,7 @@ class Dashboard extends BaseComponent
                             <Tab label="Hợp đồng có vấn đề" value="ProblemLeaseagrms" />
                             <Tab label="Các tòa nhà" value="Buildings" />
                             <Tab label="Các đơn vị tính toán" value="BasicCalculationsUnits" />
-                            {
-                                Boolean(this.props.user_permissions.AddEdit) &&
-                                <Tab label="Sao lưu/Khôi phục dữ liệu" value="BackupRestoreData" />
-                            }
+                            { this.props.user_permissions.AddEdit && <Tab label="Sao lưu/Khôi phục dữ liệu" value="BackupRestoreData" /> }
                         </MaterialUI.Tabs>
                     </MaterialUI.AppBar>
                     <div className="m-3">

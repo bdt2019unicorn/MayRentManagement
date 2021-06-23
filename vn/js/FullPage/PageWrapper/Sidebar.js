@@ -33,7 +33,7 @@ class Sidebar extends BaseComponent
                         <MaterialUI.AccordionDetails>
                             <MaterialUI.List component="nav" className="width-full">
                                 {
-                                    controller.menu.filter(({permissions})=>!permissions ? true : Boolean(this.props.user_permissions[permissions])).map
+                                    controller.menu.filter(({permissions})=>!permissions ? true : this.props.user_permissions[permissions]).map
                                     (
                                         item=> 
                                         (

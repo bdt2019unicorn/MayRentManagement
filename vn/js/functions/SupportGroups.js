@@ -33,8 +33,8 @@ class Permissions
     Admin = undefined; 
     constructor({add_edit, import_excel})
     {
-        this.AddEdit = Number(add_edit); 
-        this.Admin = Number(add_edit) && Number(import_excel); 
+        this.AddEdit = Boolean(Number(add_edit)); 
+        this.Admin = Boolean(Number(add_edit) && Number(import_excel)); 
     }
 }
 
