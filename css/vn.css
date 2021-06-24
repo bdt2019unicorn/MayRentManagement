@@ -49,13 +49,6 @@
   height: 100vmax;
 }
 
-.popup-div .close-popup
-{
-  position: absolute;
-  top: 0; 
-  right: 0;
-}
-
 .popup-div .inner-div
 {
   position: absolute;
