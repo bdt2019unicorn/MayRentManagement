@@ -29,62 +29,46 @@ class AddDocument extends Document
 
 class EditDocument extends Document  
 {
-    // mixins: [document_mixin], 
     constructor(props)
     {
         super(props); 
-        this.state = {edit_data: undefined}; 
-    // created() 
-    // {
-    //     this.edit_data = this.EditData(); 
-    // },
+        this.state = {...this.state, edit_data: this.EditData()}; 
     }
     EditData = () => 
     {
-        let params = {command: "DocumentEditInformation", id: this.$route.query.id}; 
+        let params = {command: "DocumentEditInformation", id: this.ObjectId()}; 
         var url = this.ServerUrl(params); 
-        var result = this.AjaxRequest(url); 
-        var edit_data = JSON.parse(result); 
-        var url = "server/controller/document/download.php"; 
-        var file = this.BlobRequest(url, params); 
-        return {...edit_data, file: new File([file], edit_data.Name)}; 
+        var edit_data = ServerJson(url); 
+        url = "../server/controller/document/download.php"; 
+        var file = BlobRequest(url, params); 
+        edit_data.file = new File([file], edit_data.Name); 
+        return _.transform(edit_data, (result, value, key)=>result[key.toLowerCase()]=value); 
     } 
-    Reset = () => 
-    {
-        this.ResetStateValue({value_name: "edit_data", new_value: this.EditData()}); 
-    } 
-    Submit = (form_data) => 
-    {
-        this.SubmitDocumentData
-        (
-            {
-                url: this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}, "post"), 
-                form_data, 
-                success_alert: "Chỉnh sửa tài liệu thành công", 
-                reset_function: this.Reset
-            }
-        ); 
-    }
+    Reset = () => this.ResetStateValue({value_name: "edit_data", new_value: this.EditData()})
+    Submit = (form_data) => this.SubmitDocumentData
+    (
+        {
+            url: this.ServerUrl({command: "DocumentEditSubmit", id: this.ObjectId()}, "post"), 
+            form_data, 
+            success_alert: "Chỉnh sửa tài liệu thành công", 
+            reset_function: this.Reset
+        }
+    )
     render()
     {
-        return (
-            <div>edit document</div>
-        ); 
-/*
-    `
-        <user-input-document 
-            v-if="edit_data" 
-            :edit_data="edit_data"
-            :select_data_bind="select_data_bind" 
-            :in_progress="in_progress"
-            text="Add Edited Document" 
-            @document-form-data-valid="Submit"
-            @user-input-document-reset="Reset"
-        >
-            <h1>Edit Documents</h1>
-            <b>ID: {{edit_data.ID}}</b>
-        </user-input-document>
-    `
-*/
+        return this.state.edit_data ? 
+        (
+            <UserInputDocument 
+                edit_data={this.state.edit_data}
+                select_data_bind={this.state.select_data_bind}
+                in_progress={this.state.in_progress}
+                text="Chỉnh sửa tài liệu" 
+                DocumentFormDataValid={this.Submit}
+                UserInputDocumentReset={this.Reset}
+            >
+                <h1>Chỉnh sửa tài liệu</h1>
+                <b>Mã tài liệu: {this.state.edit_data.ID}</b>
+            </UserInputDocument>
+        ): null; 
     }
 }

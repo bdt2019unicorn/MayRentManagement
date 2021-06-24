@@ -1,8 +1,7 @@
 class UserInputDocument extends BaseComponent 
 {
-    // props: ["edit_data", "in_progress", "select_data_bind"], 
     constructor(props)
-    { 
+    {
         super(props); 
         this.state = 
         {
@@ -10,9 +9,13 @@ class UserInputDocument extends BaseComponent
             document_type_id: undefined, 
             file: undefined,
             name: undefined, 
-            unit_id: undefined, 
-            ...this.EditDataClone()
+            unit_id: undefined 
         }; 
+        this.state = {...this.state, ...this.EditDataClone()};
+        if(this.state.file)
+        {
+            this.state.file = {file: this.state.file}; 
+        }
     }
     EditDataClone = () => this.props.edit_data ? Object.keys(this.state).reduce
     (
@@ -20,9 +23,9 @@ class UserInputDocument extends BaseComponent
         (
             {
                 ...accumulator, 
-                [current_value]: this.props.edit_data[current_value.toLocaleLowerCase()]
-            }, {}
-        )
+                [current_value]: this.props.edit_data[current_value]
+            }
+        ), {}
     ): undefined
     FileChanged = (files) => 
     {
@@ -45,7 +48,7 @@ class UserInputDocument extends BaseComponent
     FileDeleted = (file) => 
     {
         var state = {file: undefined}; 
-        var reset_name = confirm("Bạn có muốn xác nhận tên tập tin mới"); 
+        var reset_name = confirm("Bạn có muốn nhập tên tập tin mới"); 
         if(reset_name)
         {
             state.name = undefined; 
@@ -59,8 +62,8 @@ class UserInputDocument extends BaseComponent
             return undefined; 
         }
         return {
-            href: this.state.file.data,
-            download: this.state.file.file.name
+            href: _.get(this.state.file, "data") || URL.createObjectURL(this.state.file.file),
+            download: _.get(this.state.file, "file.name") 
         }; 
     }
     ValidData = () => 
