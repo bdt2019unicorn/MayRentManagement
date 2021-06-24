@@ -125,12 +125,11 @@ class UtilitiesOverview extends Utilities
     }
     render()
     {
-        var { Button, Grid } = MaterialUI; 
+        var { Button, Grid, Modal } = MaterialUI; 
         const space_submit_button = 3; 
         let utility_name_by_id = this.UtilityNameSearchById(); 
         return (
             <GeneralUtilities 
-                add_price_form={this.state.add_price_form}
                 current_building={this.props.current_building}
                 select_data={this.state.select_data}
                 table_data={this.state.table_data}
@@ -187,28 +186,25 @@ class UtilitiesOverview extends Utilities
                                 )
                             }
                         </Grid>
-                        {
-                            Boolean(this.state.add_price_form) && 
-                            (
-                                <div className="popup-div">
-                                    <CloseButton onClick={()=>this.setState({add_price_form: false})} />
-                                    <UserInput 
-                                        form={this.state.add_price_form} 
-                                        ClearButton=
-                                        {
-                                            () => this.ResetStateValue
-                                            (
-                                                {
-                                                    value_name: "add_price_form", 
-                                                    new_value: _.cloneDeep(this.add_price_form)
-                                                }
-                                            )
-                                        }
-                                        FormSubmitValid={this.NewPrice} 
-                                    />
-                                </div>
-                            )
-                        }
+                        <Modal disableEnforceFocus open={Boolean(this.state.add_price_form)}>
+                            <div className="popup-div">
+                                <CloseButton onClick={()=>this.setState({add_price_form: false})} />
+                                <UserInput 
+                                    form={this.state.add_price_form} 
+                                    ClearButton=
+                                    {
+                                        () => this.ResetStateValue
+                                        (
+                                            {
+                                                value_name: "add_price_form", 
+                                                new_value: _.cloneDeep(this.add_price_form)
+                                            }
+                                        )
+                                    }
+                                    FormSubmitValid={this.NewPrice} 
+                                />
+                            </div>
+                        </Modal>
                         <h4>Tổng quan</h4>
                     </React.Fragment>
                 }

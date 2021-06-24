@@ -102,46 +102,41 @@ class GeneralUtilities extends GeneralUtilities
     render()
     {
         var Grid = MaterialUI.Grid; 
-        var { add_price_form, current_building, select_data, table_data, FormUnitsSelect, UtilityPrice } = this.props; 
+        var { current_building, select_data, table_data, FormUnitsSelect, UtilityPrice } = this.props; 
         return (
             <div>
                 <h1>Tiện ích</h1>
-                {
-                    !Boolean(add_price_form) && 
-                    (
-                        <form ref={this.search_form} onSubmit={this.Search}>
-                            <Grid container spacing={1}>
-                                <Grid item xs={FormUnitsSelect ? 5 : 11}>
-                                    <SelectInput
-                                        select_data={select_data.utilities} 
-                                        {...select_data}
-                                        name="revenue_type_id" 
-                                        title="Loại tiện ích"
-                                        value={this.state.revenue_type_id}
-                                        ValueChange={({value})=>this.setState({revenue_type_id: value}, ()=>this.Search(false))}
-                                    />
-                                </Grid>
-                                { FormUnitsSelect || null }
-                            </Grid>
-                            <Grid container>
-                                <Grid item xs={9}>
-                                    <RangeDatePicker
-                                        startDate={this.state.start_date}
-                                        endDate={this.state.end_date}
-                                        onChange={(start_date, end_date) => this.setState({start_date, end_date}, ()=>this.Search(false))}
-                                        dateFormat={DateReformat.Formats.Display}
-                                        monthFormat={DateReformat.Formats.MonthDisplay}
-                                        startDatePlaceholder="Ngày bắt đầu"
-                                        endDatePlaceholder="Ngày kết thúc"
-                                        highlightToday
-                                    />
-                                    <input type="text" name="start_date" value={DateReformat.Database(this.state.start_date)} readOnly hidden />
-                                    <input type="text" name="end_date" value={DateReformat.Database(this.state.end_date)} readOnly hidden />
-                                </Grid>
-                            </Grid>
-                        </form>
-                    )
-                }
+                <form ref={this.search_form} onSubmit={this.Search}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={FormUnitsSelect ? 5 : 11}>
+                            <SelectInput
+                                select_data={select_data.utilities} 
+                                {...select_data}
+                                name="revenue_type_id" 
+                                title="Loại tiện ích"
+                                value={this.state.revenue_type_id}
+                                ValueChange={({value})=>this.setState({revenue_type_id: value}, ()=>this.Search(false))}
+                            />
+                        </Grid>
+                        { FormUnitsSelect || null }
+                    </Grid>
+                    <Grid container>
+                        <Grid item xs={9}>
+                            <RangeDatePicker
+                                startDate={this.state.start_date}
+                                endDate={this.state.end_date}
+                                onChange={(start_date, end_date) => this.setState({start_date, end_date}, ()=>this.Search(false))}
+                                dateFormat={DateReformat.Formats.Display}
+                                monthFormat={DateReformat.Formats.MonthDisplay}
+                                startDatePlaceholder="Ngày bắt đầu"
+                                endDatePlaceholder="Ngày kết thúc"
+                                highlightToday
+                            />
+                            <input type="text" name="start_date" value={DateReformat.Database(this.state.start_date)} readOnly hidden />
+                            <input type="text" name="end_date" value={DateReformat.Database(this.state.end_date)} readOnly hidden />
+                        </Grid>
+                    </Grid>
+                </form>
                 <br />
                 { UtilityPrice || null }
                 {
