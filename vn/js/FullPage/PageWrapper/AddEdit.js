@@ -3,21 +3,26 @@ class Add extends AddEditComponent
     FormSubmitValid = (data) => 
     {
         let result = SubmitData("excel", this.ImportUrl(), [data]); 
-        if(Number(result))
+        if(this.props.AuthorizeSuccess)
         {
-            alert(`${( this.props.AuthorizeSuccess?"": "Thêm " ) + this.state.form.title} thành công!`); 
-            if(this.props.AuthorizeSuccess)
+            if(Boolean(result))
             {
-                this.props.AuthorizeSuccess(data, Number(result)); 
+                alert(`${this.state.form.title} thành công`); 
+                this.props.AuthorizeSuccess(JSON.parse(result)); 
             }
-            else
+            else 
             {
-                this.Reset(); 
+                alert(`${this.state.form.title} thất bại! Vui lòng thử lại`); 
             }
+        }
+        else if(Number(result))
+        {
+            alert(`Thêm ${this.state.form.title} thành công!`); 
+            this.Reset(); 
         }
         else 
         {
-            alert(`${( this.props.AuthorizeSuccess?"": "Thêm " ) + this.state.form.title} thất bại! Vui lòng thử lại`); 
+            alert(`Thêm ${this.state.form.title} thất bại! Vui lòng thử lại`); 
         }
     } 
     Reset = () => this.ReloadUserInput()

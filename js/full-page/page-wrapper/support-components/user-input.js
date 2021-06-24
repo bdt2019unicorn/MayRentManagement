@@ -15,7 +15,7 @@ Vue.component
         {
             AbleToSubmit()
             {
-                return this.AddEditPermission || R.pathEq(['params', 'controller'], 'user', this.$route); 
+                return this.AddEditPermission || R.pathEq(['params', 'controller'], 'user', this.$route) || this.permission; 
             }  
         }, 
         methods: 
@@ -82,7 +82,7 @@ Vue.component
                 </template>
             
                 <br>
-                <div v-if="AbleToSubmit || permission" class="row">
+                <div v-if="AbleToSubmit" class="row">
                     <div class="form-group col-2"><submit-button icon="times" title="Clear" type="reset"></submit-button></div>
                     <div class="form-group col-8"></div>
                     <div class="form-group col-2"><submit-button type="submit" :title="title"></submit-button></div>

@@ -27,11 +27,12 @@ class GeneralEdit extends BaseComponent
             title = _.get(user_input_json, "title"); 
         }
         return {
+            container_width: "md", 
             controller, 
             form_title: surfix + title, 
             object_id, 
             user_input_json,
-            container_width: "md", 
+            user_permissions: this.props.user_permissions, 
             ChangeState: this.props.ChangeState
         }; 
     }

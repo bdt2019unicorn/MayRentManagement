@@ -108,7 +108,7 @@ Vue.component
         },
         mounted() 
         {
-            var add_price = this.AjaxRequest("server/controller/utilities/add_price.json"); 
+            var add_price = this.AjaxRequest("server/json/utilities_add_price/en.json"); 
             add_price.form[0][0]["select_data"] = this.select_data.utilities; 
             this.add_price_form_temp = add_price; 
         },

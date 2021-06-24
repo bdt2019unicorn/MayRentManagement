@@ -21,10 +21,12 @@ class AddEditComponent extends PageWrapperChildrenComponent
             <UserInput 
                 container_width={this.props.container_width} 
                 edit_data={this.state.edit_data} 
-                FormSubmitValid={this.FormSubmitValid} 
                 form={this.state.form} 
-                ClearButton={this.Reset}
                 match={this.props.match}
+                permission={this.props.permission || this.props.controller=="user"}
+                user_permissions={this.props.user_permissions}
+                FormSubmitValid={this.FormSubmitValid} 
+                ClearButton={this.Reset}
             />
         ): null; 
     }

@@ -15,49 +15,43 @@ class Overview extends PageWrapperChildrenComponent
             translate_url 
         }; 
     }
-    ExportExcel = () =>
-    {
-        var hidden_columns = _.get(this.state.table_actions,"hidden_columns") || []; 
-        var table = this.state.table_data.map
-        (
-            row=> Object.keys(row).filter(column=>!hidden_columns.includes(column)).reduce
-            (
-                (accumulator, current_value)=>
-                (
-                    {
-                        ...accumulator, 
-                        [current_value]: TranslationValues.Translate(row[current_value])
-                    }
-                ), {}
-            )
-        ); 
-        var page_title = this.PageTitle(); 
-        var worksheet = XLSX.utils.json_to_sheet(table); 
-        var workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
-        XLSX.writeFile(workbook, `${page_title}.xlsx`);
-    }
-    PageTitle = () => _get(this.state.table_actions, "page_title") || "Tổng quát"
     render() 
     {
-        var DeleteSuccess = () => this.setState
-        (
-            {
-                selected: [], 
-                table_data: TranslationValues.TranslateTable(this.TableData(this.state.controller), this.state.translate_url)
-            }
-        ); 
+        var page_title = _.get(this.state.table_actions, "page_title") || "Tổng quát"; 
         var action = this.state.table_actions.edit_action || "Edit"; 
         return (
             <React.Fragment>
                 <h1 className="d-flex">
-                    {this.PageTitle()} 
+                    {page_title} 
                     <span className="d-flex-right-push space-between-element">
                         <MaterialUI.Button
                             className="btn-primary text-white"
                             size="large"
                             startIcon={<MaterialUI.Icon>view_comfy</MaterialUI.Icon>}
-                            onClick={this.ExportExcel}
+                            onClick=
+                            {
+                                () =>
+                                {
+                                    var hidden_columns = _.get(this.state.table_actions,"hidden_columns") || []; 
+                                    var table = this.state.table_data.map
+                                    (
+                                        row=> Object.keys(row).filter(column=>!hidden_columns.includes(column)).reduce
+                                        (
+                                            (accumulator, current_value)=>
+                                            (
+                                                {
+                                                    ...accumulator, 
+                                                    [current_value]: TranslationValues.Translate(row[current_value])
+                                                }
+                                            ), {}
+                                        )
+                                    ); 
+                                    var worksheet = XLSX.utils.json_to_sheet(table); 
+                                    var workbook = XLSX.utils.book_new();
+                                    XLSX.utils.book_append_sheet(workbook, worksheet, page_title);
+                                    XLSX.writeFile(workbook, `${page_title}.xlsx`);
+                                } 
+                            }
                         >Xuất Excel</MaterialUI.Button>
                     </span>
                 </h1>
@@ -69,7 +63,7 @@ class Overview extends PageWrapperChildrenComponent
                     SelectionModelChanged={(selected)=>this.setState({selected})}
                 >
                     {
-                        this.state.controller!="overview" && 
+                        this.state.controller!="overview" && this.props.user_permissions.AddEdit && 
                         <TableActions 
                             selected={this.state.selected}
                             params=
@@ -81,7 +75,16 @@ class Overview extends PageWrapperChildrenComponent
                                 }
                             }
                             controller={this.state.controller}
-                            DeleteSuccess={DeleteSuccess}
+                            DeleteSuccess=
+                            {
+                                () => this.setState
+                                (
+                                    {
+                                        selected: [], 
+                                        table_data: TranslationValues.TranslateTable(this.TableData(this.state.controller), this.state.translate_url)
+                                    }
+                                )
+                            }
                         />
                     }</ScrollingTable>
             </React.Fragment>

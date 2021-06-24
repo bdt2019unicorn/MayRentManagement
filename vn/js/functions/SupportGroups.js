@@ -12,6 +12,7 @@ class DateReformat
         DateDatabase: "YYYY-MM-DD", 
         DateDisplay: "DD/MM/YYYY", 
         DateTimeDatabase: "YYYY-MM-DD HH:MM:ss", 
+        MonthDisplay: "MMM YYYY", 
         TimeDatabase: "HH:mm:ss", 
         TimeDateDisplay: "hh:mmA, Do MMM YYYY", 
         TimeDisplay: "HH:mm"
@@ -24,6 +25,17 @@ class DateReformat
     static MomentDate = (string = undefined) => string ? moment(string) : moment()
     static TimeDateDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDateDisplay) 
     static TimeDisplay = (string = undefined) => this.MomentDate(string).format(this.Formats.TimeDisplay)
+}
+
+class Permissions 
+{
+    AddEdit = undefined; 
+    Admin = undefined; 
+    constructor({add_edit, import_excel})
+    {
+        this.AddEdit = Boolean(Number(add_edit)); 
+        this.Admin = Boolean(Number(add_edit) && Number(import_excel)); 
+    }
 }
 
 class UserInformation 

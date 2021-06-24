@@ -53,25 +53,28 @@ class ProblemLeaseagrms extends BaseComponent
                     selected={this.state.selected}
                     SelectionModelChanged={(selected)=>this.setState({selected})}
                 >
-                    <TableActions 
-                        selected={this.state.selected} 
-                        params=
-                        {
+                    {
+                        this.props.user_permissions.AddEdit && 
+                        <TableActions 
+                            selected={this.state.selected} 
+                            params=
                             {
-                                building_id: "GeneralEdit", 
-                                controller: "leaseagrm"
+                                {
+                                    building_id: "GeneralEdit", 
+                                    controller: "leaseagrm"
+                                }
                             }
-                        }
-                        controller="leaseagrm"
-                        DeleteSuccess=
-                        {
-                            ()=>
+                            controller="leaseagrm"
+                            DeleteSuccess=
                             {
-                                this.setState({selected: []}); 
-                                this.props.DeleteSuccess(); 
+                                ()=>
+                                {
+                                    this.setState({selected: []}); 
+                                    this.props.DeleteSuccess(); 
+                                }
                             }
-                        }
-                    />
+                        />
+                    }
                 </ScrollingTable>
             </React.Fragment>
         ); 

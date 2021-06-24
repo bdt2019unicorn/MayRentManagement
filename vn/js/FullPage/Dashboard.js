@@ -24,9 +24,10 @@ class Dashboard extends BaseComponent
         let data = AjaxRequest("../server/controller/dashboard/general.php"); 
         return JSON.parse(data); 
     } 
-    ProblemLeaseagrms = () => 
+    ProblemLeaseagrms = (props) => 
     (
         <ProblemLeaseagrms 
+            {...props}
             leaseagrm={this.state.data.leaseagrm}
             DeleteSuccess={()=>this.setState({data: this.GenerateData()})}
         />
@@ -47,14 +48,15 @@ class Dashboard extends BaseComponent
                             <Tab label="Hợp đồng có vấn đề" value="ProblemLeaseagrms" />
                             <Tab label="Các tòa nhà" value="Buildings" />
                             <Tab label="Các đơn vị tính toán" value="BasicCalculationsUnits" />
-                            <Tab label="Sao lưu/Khôi phục dữ liệu" value="BackupRestoreData" />
+                            { this.props.user_permissions.AddEdit && <Tab label="Sao lưu/Khôi phục dữ liệu" value="BackupRestoreData" /> }
                         </MaterialUI.Tabs>
                     </MaterialUI.AppBar>
                     <div className="m-3">
-                        <CurrentComponent />
+                        <CurrentComponent user_permissions={this.props.user_permissions} />
                     </div>
                 </div>
             </AuthorizedComponent>
         ); 
     }
 }
+Dashboard = ConnectComponent.Store(Dashboard); 

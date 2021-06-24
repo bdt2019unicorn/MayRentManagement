@@ -137,27 +137,31 @@ class BasicCalculationsUnits extends BaseComponent
                 />
                 <br />
                 {
-                    overview_controller && !this.state.unable_to_delete &&  
+                    overview_controller && !this.state.unable_to_delete &&
                     (
                         <div>
-                            <BasicCalculationsForm
-                                edit_id={this.state.edit_id}
-                                edit_text={this.state.edit_text}
-                                SubmitForm={this.SubmitForm}
-                                EditTextChanged={(event)=>this.setState({edit_text: event.currentTarget.value})}
-                                Cancel={()=>this.GeneralEditButtonClick(undefined, "")}
-                            >
-                                {
-                                    this.state.special_tables.includes(overview_controller) && 
-                                    (
-                                        <div>
-                                            {overview_controller == "revenue_type" && this.state.extra_edit && <RevenueTypeCalculation edit_data={this.state.edit_data} />}
-                                            {overview_controller == "leaseagrm_period" && this.state.extra_edit && <LeaseagrmPeriodCalculation basic_calculations={this.state.basic_calculations} edit_data={this.state.edit_data} edit_text={this.state.edit_text} />}
-                                        </div>
-                                    )
-                                }
-                            </BasicCalculationsForm>
+                            {
+                                this.props.user_permissions.AddEdit &&
+                                <BasicCalculationsForm
+                                    edit_id={this.state.edit_id}
+                                    edit_text={this.state.edit_text}
+                                    SubmitForm={this.SubmitForm}
+                                    EditTextChanged={(event)=>this.setState({edit_text: event.currentTarget.value})}
+                                    Cancel={()=>this.GeneralEditButtonClick(undefined, "")}
+                                >
+                                    {
+                                        this.state.special_tables.includes(overview_controller) && 
+                                        (
+                                            <div>
+                                                {overview_controller == "revenue_type" && this.state.extra_edit && <RevenueTypeCalculation edit_data={this.state.edit_data} />}
+                                                {overview_controller == "leaseagrm_period" && this.state.extra_edit && <LeaseagrmPeriodCalculation basic_calculations={this.state.basic_calculations} edit_data={this.state.edit_data} edit_text={this.state.edit_text} />}
+                                            </div>
+                                        )
+                                    }
+                                </BasicCalculationsForm>
+                            }
                             <BasicCalculationsList  
+                                permission={this.props.user_permissions.AddEdit}
                                 basic_calculations={this.state.basic_calculations}
                                 GeneralEditButtonClick={this.GeneralEditButtonClick}
                                 DeleteBasicUnit={this.DeleteBasicUnit}
