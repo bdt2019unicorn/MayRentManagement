@@ -1,8 +1,7 @@
 class UserInputDocument extends BaseComponent 
 {
-    // props: ["edit_data", "in_progress", "select_data_bind"], 
     constructor(props)
-    { 
+    {
         super(props); 
         this.state = 
         {
@@ -12,128 +11,121 @@ class UserInputDocument extends BaseComponent
             name: undefined, 
             unit_id: undefined 
         }; 
-    }
-    // created() 
-    // {
-    //     if(this.edit_data)
-    //     {
-    //         this.EditDataClone(this); 
-    //     }    
-    // },
-    // mixins: [support_mixin], 
-    CallbackReset = () => 
-    {
-        alert("File uploaded!"); 
-        Object.keys(this.$data).forEach(key=>this[key]=undefined); 
-    }
-    EditData = () => 
-    {
-        if(this.edit_data)
+        this.state = {...this.state, ...this.EditDataClone()};
+        if(this.state.file)
         {
-            var edit_data = {}; 
-            this.EditDataClone(edit_data); 
-            return edit_data; 
+            this.state.file = {file: this.state.file}; 
         }
-        return undefined; 
     }
-    EditDataClone = (object) => 
+    EditDataClone = () => this.props.edit_data ? Object.keys(this.state).reduce
+    (
+        (accumulator, current_value) => 
+        (
+            {
+                ...accumulator, 
+                [current_value]: this.props.edit_data[current_value]
+            }
+        ), {}
+    ): undefined
+    FileChanged = (files) => 
     {
-        Object.keys(this.edit_data).filter(key=>Object.keys(this.$data).includes(key.toLocaleLowerCase())).forEach(key=> object[key.toLocaleLowerCase()]=this.edit_data[key]); 
-    }
-    FileChanged = (path, files) => 
-    {
-        var file = files.find(file=>!file.remove); 
-        this.file = file; 
-        if(!this.name || !this.name.trim())
+        var state = {file: files[0], name: (this.state.name || "").trim()}; 
+        let file_name = state.file.file.name;
+        if(!state.name)
         {
-            this.name = file.name; 
+            state.name = file_name; 
         }
         else 
         {
-            let name = prompt("Enter new file name or cancel to keep current file name", file.name); 
+            let name = prompt("Nhập tên tập tin hoặc hủy để giữ tên cũ", file_name); 
             if(name)
             {
-                this.name = name; 
+                state.name = name; 
             }
         }
+        this.setState(state); 
     }
-    FileDeleted = () => 
+    FileDeleted = (file) => 
     {
-        this.file = undefined; 
-        var reset_name = confirm("Would you like to reset the document name?"); 
+        var state = {file: undefined}; 
+        var reset_name = confirm("Bạn có muốn nhập tên tập tin mới"); 
         if(reset_name)
         {
-            this.name = undefined; 
+            state.name = undefined; 
         }
+        this.setState(state); 
     }
     FileLinkBind = () => 
     {
-        if(!this.file)
+        if(!this.state.file)
         {
             return undefined; 
         }
         return {
-            href: URL.createObjectURL(this.file), 
-            download: this.file.name
-        }
+            href: _.get(this.state.file, "data") || URL.createObjectURL(this.state.file.file),
+            download: _.get(this.state.file, "file.name") 
+        }; 
     }
     ValidData = () => 
     {
-        var all_keys = Object.keys(this.$data).filter(key=>key!="description"); 
-        var validation = all_keys.map(key=>Boolean(this.$data[key])); 
-        if(!this.ValidObject(validation))
+        var all_keys = Object.keys(this.state).filter(key=>key!="description"); 
+        var validation = all_keys.map(key=>Boolean(this.state[key])); 
+        if(!ValidObject(validation))
         {
             return false; 
         }
         var form_data = new FormData(); 
-        all_keys.forEach(key=>form_data.append(key, this[key])); 
-        form_data.append("description", this.description||""); 
-        form_data.append("file_extension", this.file.name.split(".").pop()); 
-        this.SubmitUserInformation(form_data); 
+        all_keys.forEach(key=>form_data.append(key, this.state[key])); 
+        form_data.append("description", this.state.description||""); 
+        form_data.append("file_extension", this.state.file.file.name.split(".").pop()); 
+        form_data.set("file", this.state.file.file); 
+        UserInformation.Submit(form_data); 
         return form_data; 
     } 
     render()
     {
+        var { children, in_progress, select_data_bind, DocumentFormDataValid, UserInputDocumentReset } = this.props; 
+        var { LinearProgress, Modal } = MaterialUI; 
+        var file_link_bind = this.FileLinkBind(); 
+        var document_edit_data = this.EditDataClone(); 
+        var valid_data = this.ValidData(); 
         return (
-            <div>user input invoice</div>
-        ); 
-/* 
-    `
-        <fragment>
-
-            <div class="container-fluid">
-                <slot></slot>
-                <div class="row">
-                    <vs-upload 
-                        limit="1" 
-                        :show-upload-button="false" 
-                        :text="$attrs['text']||''" 
-                        @change="FileChanged" 
-                        @on-delete="FileDeleted" 
+            <React.Fragment>
+                <div>
+                    {children}
+                    <br />
+                    <DropzoneAreaBase
+                        onAdd={this.FileChanged}
+                        onDelete={this.FileDeleted} 
+                        fileObjects={this.state.file?[this.state.file]: undefined}
+                        showAlerts={false}
+                        filesLimit={1}
+                        maxFileSize={15*(10**6)}
+                        showFileNames
+                        dropzoneText="Đưa tập tin vào đây"
                     />
+                    { Boolean(file_link_bind) && <p><a {...file_link_bind}>{file_link_bind.download}</a></p> }
+                    <br />
+                    <TextInput title="Tên tài liệu" name="name" value={this.state.name} ValueChange={({value})=>this.setState({name: value})} edit_data={document_edit_data} />
+                    <SelectInput {...select_data_bind.document_type_id} title="Loại tài liệu" name="document_type_id" value={this.state.document_type_id} ValueChange={({value})=>this.setState({document_type_id: value})} edit_data={document_edit_data} />
+                    <SelectInput {...select_data_bind.unit_id} title="Đơn vị" name="unit_id" value={this.state.unit_id} ValueChange={({value})=>this.setState({unit_id: value})} edit_data={document_edit_data} />
+                    <TextareaInput title="Mô tả" name="description" value={this.state.description} ValueChange={({value})=>this.setState({description: value})} edit_data={document_edit_data} />
+                    <div>
+                        <ActionButton class="float-left" icon="clear" ActionButtonClick={UserInputDocumentReset} />
+                        { Boolean(valid_data) && <SubmitButton type="button" SubmitButtonClick={()=>DocumentFormDataValid(valid_data)} /> }
+                    </div>
                 </div>
-                <p v-if="FileLinkBind"><a v-bind="FileLinkBind">{{FileLinkBind.download}}</a></p>
-                <br>
-                <div class="row"><text-input title="Document Name" name="name" v-model="name" :edit_data="EditData"></text-input></div>
-                <div class="row"><select-input v-bind="select_data_bind.document_type_id" name="document_type_id" v-model="document_type_id" :edit_data="EditData"></select-input></div>
-                <div class="row"><select-input v-bind="select_data_bind.unit_id" name="unit_id" v-model="unit_id" :edit_data="EditData"></select-input></div>
-                <div class="row"><textarea-input title="Description" name="description" v-model="description" :edit_data="EditData"></textarea-input></div>
-                <div class="row d-flex bd-highlight">
-                    <submit-button class="mr-auto bd-highlight" icon="times" title="Reset" @submit-button-clicked="$emit('user-input-document-reset')"></submit-button>
-                    <submit-button v-if="ValidData" class="ml-auto bd-highlight" title="Submit" @submit-button-clicked="$emit('document-form-data-valid', ValidData)"></submit-button>
-                </div>
-            </div>
 
-            <div v-if="in_progress" class="popup-div">
-                <div class="inner-div text-center border border-danger">
-                    <h1>Documents is being processed</h1>
-                    <div>{{in_progress}}%</div>
-                    <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
-                </div>
-            </div>
-            
-        </fragment>
-    `
-*/
+                <Modal disableEnforceFocus open={Boolean(in_progress)}>
+                    <div className="popup-div">
+                        <div className="inner-div text-center border border-red">
+                            <h1>Tài liệu đang được tải lên</h1>
+                            <div>{in_progress}%</div>
+                            <LinearProgress value={in_progress} variant="determinate" />
+                        </div>
+                    </div>
+                </Modal>
+            </React.Fragment>
+        ); 
     }
 }
