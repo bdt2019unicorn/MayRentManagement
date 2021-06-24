@@ -17,15 +17,18 @@ class Document extends PageWrapperChildrenComponent
         var part = 1; 
         new Promise
         (
-            (resolve, reject)=>
-            {
-                this.setState({in_progress: 1}); 
-                if(file.size>chunk_size)
+            (resolve, reject)=>this.setState
+            (
+                {in_progress: 1}, 
+                ()=> 
                 {
-                    resolve(); 
+                    if(file.size>chunk_size)
+                    {
+                        resolve(); 
+                    }
+                    reject(); 
                 }
-                reject(); 
-            }
+            )
         )
         .then
         (
@@ -51,24 +54,20 @@ class Document extends PageWrapperChildrenComponent
                         data.append("part", part); 
                         part++; 
 
-                        const request = new XMLHttpRequest(); 
-                        request.open("POST", upload_url, false); 
-                        // request.onloadstart = (event) => this.setState({in_progress: next_slice/file.size * percentage}); 
-                        // request.onloadstart = (event) => console.log({in_progress: next_slice/file.size * percentage}); 
-                        // var test = (event) => console.log({in_progress: next_slice/file.size * percentage}); 
-                        // request.onprogress = (event) => console.log({in_progress: next_slice/file.size * percentage}); 
-                        // request.addEventListener("progress", test); 
-                        request.onload = (temp_folder) => 
-                        {
-                            this.setState({in_progress: next_slice/file.size * percentage}); 
-                            if(end_of_file)
+                        var temp_folder = AjaxRequest(upload_url, data, "POST"); 
+                        this.setState
+                        (
+                            {in_progress: next_slice/file.size * percentage}, 
+                            () => 
                             {
-                                form_data.set("file", temp_folder); 
-                                reject(); 
+                                if(end_of_file)
+                                {
+                                    form_data.set("file", temp_folder); 
+                                    reject(); 
+                                }
+                                resolve(next_slice); 
                             }
-                            resolve(next_slice); 
-                        }; 
-                        request.send(data); 
+                        ); 
                     }
                 ).then(UploadFile); 
                 return UploadFile(0); 
@@ -76,9 +75,8 @@ class Document extends PageWrapperChildrenComponent
         )
         .catch
         (
-            (exception)=>
+            ()=>
             {
-                console.log(exception); return; 
                 var result = AjaxRequest(url, form_data, "POST"); 
                 if(Number(result))
                 {
@@ -87,7 +85,7 @@ class Document extends PageWrapperChildrenComponent
                 }
                 else
                 {
-                    alert("There seems to be a server error, please try again"); 
+                    alert("Đã có lỗi hệ thống. Vui lòng thử lại"); 
                 }
                 this.setState({in_progress: false}); 
             }
