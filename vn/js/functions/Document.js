@@ -19,7 +19,7 @@ class Document extends PageWrapperChildrenComponent
         (
             (resolve, reject)=>
             {
-                this.in_progress = 1; 
+                this.setState({in_progress: 1}); 
                 if(file.size>chunk_size)
                 {
                     resolve(); 
@@ -51,27 +51,24 @@ class Document extends PageWrapperChildrenComponent
                         data.append("part", part); 
                         part++; 
 
-                        $.ajax 
-                        (
+                        const request = new XMLHttpRequest(); 
+                        request.open("POST", upload_url, false); 
+                        // request.onloadstart = (event) => this.setState({in_progress: next_slice/file.size * percentage}); 
+                        // request.onloadstart = (event) => console.log({in_progress: next_slice/file.size * percentage}); 
+                        // var test = (event) => console.log({in_progress: next_slice/file.size * percentage}); 
+                        // request.onprogress = (event) => console.log({in_progress: next_slice/file.size * percentage}); 
+                        // request.addEventListener("progress", test); 
+                        request.onload = (temp_folder) => 
+                        {
+                            this.setState({in_progress: next_slice/file.size * percentage}); 
+                            if(end_of_file)
                             {
-                                type: "POST", 
-                                url: upload_url, 
-                                data, 
-                                contentType: false,
-                                processData: false,
-                                enctype: 'multipart/form-data',
-                                beforeSend: ()=>this.setState({in_progress: next_slice/file.size * percentage}), 
-                                success: function(temp_folder)
-                                {
-                                    if(end_of_file)
-                                    {
-                                        form_data.set("file", temp_folder); 
-                                        reject(); 
-                                    }
-                                    resolve(next_slice); 
-                                } 
+                                form_data.set("file", temp_folder); 
+                                reject(); 
                             }
-                        ); 
+                            resolve(next_slice); 
+                        }; 
+                        request.send(data); 
                     }
                 ).then(UploadFile); 
                 return UploadFile(0); 
@@ -79,9 +76,10 @@ class Document extends PageWrapperChildrenComponent
         )
         .catch
         (
-            ()=>
+            (exception)=>
             {
-                var result = this.AjaxRequest(url, form_data, "POST"); 
+                console.log(exception); return; 
+                var result = AjaxRequest(url, form_data, "POST"); 
                 if(Number(result))
                 {
                     alert(success_alert); 

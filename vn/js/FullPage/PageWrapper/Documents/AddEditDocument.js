@@ -1,12 +1,12 @@
 class AddDocument extends Document   
 {
-    Reset = () => this.ResetValue({value_name: "select_data_bind", new_value: _.cloneDeep(this.state.select_data_bind)}) 
+    Reset = () => this.ResetStateValue({value_name: "select_data_bind", new_value: _.cloneDeep(this.state.select_data_bind)}) 
     Submit = (form_data) => this.SubmitDocumentData
     (
         {
             url: this.ServerUrl({command: "AddDocument"}, "post"), 
             form_data, 
-            success_alert: "Document is added!", 
+            success_alert: "Đã thêm tài liệu thành công", 
             reset_function: this.Reset
         }
     )
@@ -51,7 +51,7 @@ class EditDocument extends Document
     } 
     Reset = () => 
     {
-        this.ResetValue({value_name: "edit_data", new_value: this.EditData()}); 
+        this.ResetStateValue({value_name: "edit_data", new_value: this.EditData()}); 
     } 
     Submit = (form_data) => 
     {
@@ -60,7 +60,7 @@ class EditDocument extends Document
             {
                 url: this.ServerUrl({command: "DocumentEditSubmit", id: this.$route.query.id}, "post"), 
                 form_data, 
-                success_alert: "Document edited success!", 
+                success_alert: "Chỉnh sửa tài liệu thành công", 
                 reset_function: this.Reset
             }
         ); 

@@ -14,11 +14,6 @@ class UserInputDocument extends BaseComponent
             ...this.EditDataClone()
         }; 
     }
-    CallbackReset = () => 
-    {
-        alert("File uploaded!"); 
-        Object.keys(this.$data).forEach(key=>this[key]=undefined); 
-    }
     EditDataClone = () => this.props.edit_data ? Object.keys(this.state).reduce
     (
         (accumulator, current_value) => 
@@ -39,7 +34,7 @@ class UserInputDocument extends BaseComponent
         }
         else 
         {
-            let name = prompt("Enter new file name or cancel to keep current file name", file_name); 
+            let name = prompt("Nhập tên tập tin hoặc hủy để giữ tên cũ", file_name); 
             if(name)
             {
                 state.name = name; 
@@ -50,7 +45,7 @@ class UserInputDocument extends BaseComponent
     FileDeleted = (file) => 
     {
         var state = {file: undefined}; 
-        var reset_name = confirm("Would you like to reset the document name?"); 
+        var reset_name = confirm("Bạn có muốn xác nhận tên tập tin mới"); 
         if(reset_name)
         {
             state.name = undefined; 
@@ -70,24 +65,27 @@ class UserInputDocument extends BaseComponent
     }
     ValidData = () => 
     {
-        var all_keys = Object.keys(this.$data).filter(key=>key!="description"); 
-        var validation = all_keys.map(key=>Boolean(this.$data[key])); 
-        if(!this.ValidObject(validation))
+        var all_keys = Object.keys(this.state).filter(key=>key!="description"); 
+        var validation = all_keys.map(key=>Boolean(this.state[key])); 
+        if(!ValidObject(validation))
         {
             return false; 
         }
         var form_data = new FormData(); 
-        all_keys.forEach(key=>form_data.append(key, this[key])); 
-        form_data.append("description", this.description||""); 
-        form_data.append("file_extension", this.file.name.split(".").pop()); 
-        this.SubmitUserInformation(form_data); 
+        all_keys.forEach(key=>form_data.append(key, this.state[key])); 
+        form_data.append("description", this.state.description||""); 
+        form_data.append("file_extension", this.state.file.file.name.split(".").pop()); 
+        form_data.set("file", this.state.file.file); 
+        UserInformation.Submit(form_data); 
         return form_data; 
     } 
     render()
     {
-        var { children, in_progress, select_data_bind } = this.props; 
+        var { children, in_progress, select_data_bind, DocumentFormDataValid, UserInputDocumentReset } = this.props; 
+        var { LinearProgress, Modal } = MaterialUI; 
         var file_link_bind = this.FileLinkBind(); 
         var document_edit_data = this.EditDataClone(); 
+        var valid_data = this.ValidData(); 
         return (
             <React.Fragment>
                 <div>
@@ -110,25 +108,20 @@ class UserInputDocument extends BaseComponent
                     <SelectInput {...select_data_bind.unit_id} title="Đơn vị" name="unit_id" value={this.state.unit_id} ValueChange={({value})=>this.setState({unit_id: value})} edit_data={document_edit_data} />
                     <TextareaInput title="Mô tả" name="description" value={this.state.description} ValueChange={({value})=>this.setState({description: value})} edit_data={document_edit_data} />
                     <div>
-                        <ActionButton class="float-left" icon="clear" />
-                        <SubmitButton type="button" />
+                        <ActionButton class="float-left" icon="clear" ActionButtonClick={UserInputDocumentReset} />
+                        { Boolean(valid_data) && <SubmitButton type="button" SubmitButtonClick={()=>DocumentFormDataValid(valid_data)} /> }
                     </div>
                 </div>
-    
-                {
-                    Boolean(in_progress) && 
-                    (
-                        null
-                        // <div class="popup-div">
-                        //     <div class="inner-div text-center border border-danger">
-                        //         <h1>Documents is being processed</h1>
-                        //         <div>{{in_progress}}%</div>
-                        //         <vs-progress class="container-fluid mb-2" :height="12" :percent="in_progress" color="success"></vs-progress>
-                        //     </div>
-                        // </div>
-                    )
-                }
-                
+
+                <Modal disableEnforceFocus open={Boolean(in_progress)}>
+                    <div className="popup-div">
+                        <div className="inner-div text-center border border-red">
+                            <h1>Tài liệu đang được tải lên</h1>
+                            <div>{in_progress}%</div>
+                            <LinearProgress value={in_progress} variant="determinate" />
+                        </div>
+                    </div>
+                </Modal>
             </React.Fragment>
         ); 
     }
