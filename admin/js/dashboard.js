@@ -73,7 +73,14 @@ class UserLog
         var data = new FormData(); 
         data.append("page", page); 
         var logs = support_mixin.methods.AjaxRequest(url, data, "POST"); 
-        logs = JSON.parse(logs); 
+        try 
+        {
+            logs = JSON.parse(logs); 
+        }
+        catch 
+        {
+            logs = []; 
+        }
         $("#user-logs").html 
         (
             logs.reduce

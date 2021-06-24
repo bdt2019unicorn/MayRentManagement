@@ -42,7 +42,7 @@ class EditDocument extends Document
         url = "../server/controller/document/download.php"; 
         var file = BlobRequest(url, params); 
         edit_data.file = new File([file], edit_data.Name); 
-        return _.transform(edit_data, (result, value, key)=>result[key.toLowerCase()]=value); 
+        return TransformLowerCase(edit_data); 
     } 
     Reset = () => this.ResetStateValue({value_name: "edit_data", new_value: this.EditData()})
     Submit = (form_data) => this.SubmitDocumentData

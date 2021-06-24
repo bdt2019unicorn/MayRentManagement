@@ -5,6 +5,13 @@ class GeneralEdit extends BaseComponent
         super(props); 
         this.state = {edit: true}; 
     }
+    componentDidUpdate(previous_props, previous_state)
+    {
+        if(!_.isEqual(this.props.location,previous_props.location))
+        {
+            this.ResetStateValue({value_name: "edit", new_value: true}); 
+        }
+    }
     EditDataBind = () =>
     {
         if(!this.state.edit)

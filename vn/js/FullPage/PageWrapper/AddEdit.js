@@ -80,12 +80,7 @@ class Edit extends AddEditComponent
     PopulateDataIntoFields = () => 
     {
         let data = this.TableData(this.CurrentController(), {id: this.ObjectId(), edit: 1}); 
-        var edit_data = {}; 
-        for (const key in data[0]) 
-        {
-            edit_data[key.toLowerCase()] = data[0][key]; 
-        }
-        return edit_data; 
+        return TransformLowerCase(data[0]); 
     }
     Reset = () => this.ReloadUserInput(()=>this.setState({edit_data: this.PopulateDataIntoFields()}))
 }

@@ -84,7 +84,8 @@
                 $data["file"] = addslashes($file); 
                 $sql = Query::Insert("documents", $data); 
                 $result = Connect::GetData($sql); 
-                Database::LogUserAction($result, "AddDocument", "document", json_encode($data), $sql); 
+                unset($data["file"]); 
+                Database::LogUserAction($result, "AddDocument", "document", json_encode($data), null); 
             }
             echo $result; 
         }, 
@@ -164,7 +165,7 @@
             
             LogResult: 
             echo $result; 
-            Database::LogUserAction($result, "Edit Document", "documents", json_encode($data), $sql??null);
+            Database::LogUserAction($result, "Edit Document", "documents", json_encode($data), isset($conditions)?json_encode($conditions): null);
         }
     ]; 
 

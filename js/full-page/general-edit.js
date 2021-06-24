@@ -42,7 +42,7 @@ var general_edit = Vue.component
                     form_title: surfix + titles, 
                     object_id, 
                     user_input_json 
-                }
+                }; 
             }    
         },
         watch: 

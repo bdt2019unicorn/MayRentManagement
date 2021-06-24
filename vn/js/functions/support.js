@@ -78,6 +78,10 @@ function ToActions({params, query})
         search: SearchQueryString(query)
     };
 }
+function TransformLowerCase(object)
+{
+    return _.transform(object, (result, value, key)=>result[key.toLowerCase()]=value); 
+}
 function UpperCaseFirstChar(value) 
 {
     return value.charAt(0).toUpperCase() + value.slice(1); 
