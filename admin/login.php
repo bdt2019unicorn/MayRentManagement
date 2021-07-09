@@ -29,7 +29,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="text" value="1" name="approved" hidden>
-                                <input type="text" value="1" name="import" hidden>
+                                <input type="text" value="1" name="add_edit" hidden>
                                 <input type="text" value="1" name="import_excel" hidden>
                                 <input type="submit" value="Login" class="btn float-right login_btn">
                             </div>

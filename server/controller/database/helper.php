@@ -5,6 +5,7 @@
         $params = array
 		(
 			"table" => "", 
+			"exclude_columns" => [], 
 			"date_columns" => [], 
 			"get_id" => [], 
 			"comma" => [], 
@@ -43,6 +44,10 @@
 			}; 
 
 			$key = $ModifyKey($key); 
+			if(in_array($key, $params["exclude_columns"]))
+			{
+				return; 
+			}
 			if(isset($params['get_id'][$key]))
 			{
 
