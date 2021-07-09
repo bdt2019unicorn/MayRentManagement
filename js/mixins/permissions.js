@@ -18,7 +18,7 @@ var permissions_mixin =
             try 
             {
                 let {add_edit, import_excel} = this.StateObject("user_permissions"); 
-                return {add_edit, import_excel}; 
+                return {add_edit: Boolean(Number(add_edit)), import_excel: Boolean(Number(import_excel))}; 
             }
             catch 
             {
