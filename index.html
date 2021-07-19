@@ -135,6 +135,23 @@
 
             <script src="js/full-page.js"></script>
             <script defer src="js/setup.js"></script>
+
+
+            <!-- ALTER TABLE `user` ADD `import_excel_utilities` BOOLEAN NULL AFTER `import_excel`, ADD `admin_page` BOOLEAN NULL AFTER `import_excel_utilities`; -->
+<!-- 
+            UPDATE `user` SET `import_excel_utilities` = '1', `admin_page` = '1' WHERE 
+            `approved` = '1' AND `add_edit` = '1' AND `import_excel` = '1';  -->
+
+
+
+<!-- 
+
+            ALTER TABLE `user` ADD `import_excel_utilities` BOOLEAN NULL;  
+            ALTER TABLE `user` ADD `admin_page` BOOLEAN NULL;
+                  UPDATE `user` SET `import_excel_utilities` = '1', `admin_page` = '1' WHERE 
+            `approved` = '1' AND `add_edit` = '1' AND `import_excel` = '1'; 
+
+             -->
         </footer>
     </body>
 </html>
