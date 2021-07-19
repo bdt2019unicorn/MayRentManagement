@@ -29,12 +29,15 @@ class DateReformat
 
 class Permissions 
 {
-    AddEdit = undefined; 
-    Admin = undefined; 
-    constructor({add_edit, import_excel})
+    DataEntry = undefined; 
+    Reviewer = undefined; 
+    SystemAdmin = undefined; 
+    constructor({add_edit, import_excel, import_excel_utilities, admin_page})
     {
-        this.AddEdit = Boolean(Number(add_edit)); 
-        this.Admin = Boolean(Number(add_edit) && Number(import_excel)); 
+        [add_edit, import_excel, import_excel_utilities, admin_page] = [add_edit, import_excel, import_excel_utilities, admin_page].map(value=>Boolean(Number(value))); 
+        this.DataEntry = add_edit && import_excel_utilities; 
+        this.Reviewer = add_edit && import_excel && import_excel_utilities && !admin_page;  
+        this.SystemAdmin = add_edit && import_excel && import_excel_utilities && admin_page; 
     }
 }
 

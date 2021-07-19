@@ -63,7 +63,7 @@ class Overview extends PageWrapperChildrenComponent
                     SelectionModelChanged={(selected)=>this.setState({selected})}
                 >
                     {
-                        this.state.controller!="overview" && this.props.user_permissions.AddEdit && 
+                        this.state.controller!="overview" && this.props.user_permissions.DataEntry && 
                         <TableActions 
                             selected={this.state.selected}
                             params=

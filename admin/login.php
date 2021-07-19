@@ -31,6 +31,8 @@
                                 <input type="text" value="1" name="approved" hidden>
                                 <input type="text" value="1" name="add_edit" hidden>
                                 <input type="text" value="1" name="import_excel" hidden>
+                                <input type="text" value="1" name="import_excel_utilities" hidden>
+                                <input type="text" value="1" name="admin_page" hidden>
                                 <input type="submit" value="Login" class="btn float-right login_btn">
                             </div>
                         </form>

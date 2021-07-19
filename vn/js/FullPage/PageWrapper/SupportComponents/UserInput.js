@@ -62,7 +62,7 @@ class UserInput extends BaseComponent
                     <h1 className="text-center">{this.props.form.title}</h1>
                     <form onSubmit={this.FormSubmit}>
                         {form}
-                        { Boolean(_.get(this.props.user_permissions, "AddEdit") || this.props.permission) && <SubmitButton />}
+                        { Boolean(_.get(this.props.user_permissions, "DataEntry") || this.props.permission) && <SubmitButton />}
                         <ActionButton 
                             class="float-left" 
                             icon="clear" 

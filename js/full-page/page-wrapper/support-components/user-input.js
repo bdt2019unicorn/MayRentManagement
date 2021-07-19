@@ -15,7 +15,7 @@ Vue.component
         {
             AbleToSubmit()
             {
-                return this.AddEditPermission || R.pathEq(['params', 'controller'], 'user', this.$route) || this.permission; 
+                return this.DataEntryPermission || R.pathEq(['params', 'controller'], 'user', this.$route) || this.permission; 
             }  
         }, 
         methods: 

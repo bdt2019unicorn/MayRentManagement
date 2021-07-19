@@ -141,7 +141,7 @@ class BasicCalculationsUnits extends BaseComponent
                     (
                         <div>
                             {
-                                this.props.user_permissions.AddEdit &&
+                                this.props.user_permissions.DataEntry &&
                                 <BasicCalculationsForm
                                     edit_id={this.state.edit_id}
                                     edit_text={this.state.edit_text}
@@ -161,7 +161,7 @@ class BasicCalculationsUnits extends BaseComponent
                                 </BasicCalculationsForm>
                             }
                             <BasicCalculationsList  
-                                permission={this.props.user_permissions.AddEdit}
+                                permission={this.props.user_permissions.DataEntry}
                                 basic_calculations={this.state.basic_calculations}
                                 GeneralEditButtonClick={this.GeneralEditButtonClick}
                                 DeleteBasicUnit={this.DeleteBasicUnit}

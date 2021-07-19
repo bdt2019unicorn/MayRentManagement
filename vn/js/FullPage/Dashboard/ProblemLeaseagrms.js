@@ -54,7 +54,7 @@ class ProblemLeaseagrms extends BaseComponent
                     SelectionModelChanged={(selected)=>this.setState({selected})}
                 >
                     {
-                        this.props.user_permissions.AddEdit && 
+                        this.props.user_permissions.DataEntry && 
                         <TableActions 
                             selected={this.state.selected} 
                             params=

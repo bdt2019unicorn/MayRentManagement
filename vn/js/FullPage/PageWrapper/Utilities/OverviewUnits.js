@@ -174,7 +174,7 @@ class UtilitiesOverview extends Utilities
                                 </Grid>
                             </Grid>
                             {
-                                this.props.user_permissions.AddEdit && 
+                                this.props.user_permissions.DataEntry && 
                                 (
                                     <Grid item xs={2}>
                                         <ActionButton

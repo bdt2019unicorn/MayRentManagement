@@ -18,7 +18,7 @@
                 "title": "Thêm đơn vị mới", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "ImportExcel", 
@@ -26,7 +26,7 @@
                 "title": "Nhập dữ liệu qua Excel", 
                 "button": "primary", 
                 "icon": "table", 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }
         ]
     },
@@ -49,7 +49,7 @@
                 "title": "Thêm người thuê", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "ImportExcel", 
@@ -57,7 +57,7 @@
                 "title": "Nhập dữ liệu qua Excel", 
                 "button": "primary", 
                 "icon": "table", 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }
         ]
     },
@@ -80,7 +80,7 @@
                 "title": "Thêm hợp đồng", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "ResolveOldLease", 
@@ -88,7 +88,7 @@
                 "title": "Cập nhật ngày thanh toán cho hợp đồng cũ", 
                 "button": "purple", 
                 "icon": "file_copy", 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }, 
             {
                 "action": "ImportExcel", 
@@ -96,7 +96,7 @@
                 "title": "Nhập dữ liệu qua Excel", 
                 "button": "primary", 
                 "icon": "table", 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }
         ]
     },
@@ -119,7 +119,7 @@
                 "title": "Thêm Hóa đơn tháng", 
                 "button": "danger", 
                 "icon": "calendar_today_two_tone",                 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }, 
             {
                 "action": "AddInvoice", 
@@ -127,7 +127,7 @@
                 "title": "Thêm Hóa Đơn", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "PrintInvoices", 
@@ -157,7 +157,7 @@
                 "title": "Thêm thu nhập mới", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "ImportExcel", 
@@ -165,7 +165,7 @@
                 "title": "Nhập dữ liệu qua Excel", 
                 "button": "primary", 
                 "icon": "table", 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }
         ]
     },
@@ -188,7 +188,7 @@
                 "title": "Thêm chi phí mới", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "ImportExcel", 
@@ -196,7 +196,7 @@
                 "title": "Nhập dữ liệu qua Excel", 
                 "button": "primary", 
                 "icon": "table", 
-                "permission": "Admin"
+                "permission": "Reviewer"
             }
         ]
     },
@@ -219,7 +219,7 @@
                 "title": "Thêm tài liệu", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             } 
         ]
     }, 
@@ -242,7 +242,7 @@
                 "title": "Thêm số liệu tiện ích", 
                 "button": "outline", 
                 "icon": "add", 
-                "permission": "AddEdit"
+                "permission": "DataEntry"
             }, 
             {
                 "action": "ImportExcel", 
@@ -250,7 +250,7 @@
                 "title": "Nhập dữ liệu qua Excel", 
                 "button": "primary", 
                 "icon": "table", 
-                "permission": "Admin"
+                "permission": "DataEntry"
             }
         ]
     }

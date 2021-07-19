@@ -117,6 +117,14 @@
                                     <input name="import_excel" type="checkbox" class="form-check-input" value="1">
                                     <label class="form-check-label">Import Excel</label>
                                 </div>
+                                <div class="form-check">
+                                    <input name="import_excel_utilities" type="checkbox" class="form-check-input">
+                                    <label class="form-check-label">Import Utilities</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="admin_page" type="checkbox" class="form-check-input" value="1">
+                                    <label class="form-check-label">Access to Admin Page</label>
+                                </div>
                             </form>
                             <div class="col-1 text-right">
                                 <button class="btn btn-success" title="Approve <?php echo $user['username']; ?>" onclick="UserPermissions('<?php echo $user['id']; ?>')"><i class="fas fa-check"></i></button>
