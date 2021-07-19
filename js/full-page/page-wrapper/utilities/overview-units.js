@@ -159,7 +159,7 @@ Vue.component
                                     {{valid_price_date}}
                                 </div>
                             </div>
-                            <div v-if="AddEditPermission" class="col-2">
+                            <div v-if="DataEntryPermission" class="col-2">
                                 <button class="btn" title="Add Current Price" @click="add_price_form=add_price_form_temp"><i class="fas fa-plus-circle"></i></button>
                             </div>
                         </div>

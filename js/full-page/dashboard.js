@@ -49,7 +49,7 @@ var dashboard = Vue.component
                             <basic-calculations-units></basic-calculations-units>
                         </vs-tab>
 
-                        <vs-tab v-if="AddEditPermission" label="Backup/Restore Data">
+                        <vs-tab v-if="DataEntryPermission" label="Backup/Restore Data">
                             <backup-restore-data @restore-success="GenerateData"></backup-restore-data>
                         </vs-tab>
                     </vs-tabs>

@@ -38,7 +38,7 @@ Vue.component
         },
         template: 
         `
-            <vs-row v-if="AddEditPermission" vs-type="flex" vs-align="space-between">
+            <vs-row v-if="DataEntryPermission" vs-type="flex" vs-align="space-between">
                 <b-button variant="light" @click="DeleteDuplicate">Delete Duplicates</b-button>
                 <b-button variant="danger" class="mx-1" :disabled="check_array.length==0" @click="DeleteData">Delete</b-button>
                 <b-button class="mx-1" disabled v-if="check_array.length!=1">Edit</b-button>
