@@ -87,7 +87,7 @@ class Buildings extends BaseComponent
                                     </MaterialUI.CardContent>
                                     <MaterialUI.CardActions className="flex-justify-end">
                                         {
-                                            this.props.user_permissions.AddEdit && 
+                                            this.props.user_permissions.DataEntry && 
                                             <IconButton style={{color: "red"}} onClick={()=>this.DeleteBuilding(building.id)}>
                                                 <Icon>delete</Icon>
                                             </IconButton>
@@ -118,7 +118,7 @@ class Buildings extends BaseComponent
         return (
             <div>
                 {
-                    this.props.user_permissions.AddEdit && 
+                    this.props.user_permissions.DataEntry && 
                     <div className="space-between-element">
                         <Button
                             variant="contained"
@@ -128,7 +128,7 @@ class Buildings extends BaseComponent
                             onClick={()=>this.setState({add_building_form: this.props.building_user_input})}
                         >Thêm</Button>
                         {
-                            this.props.user_permissions.Admin && 
+                            this.props.user_permissions.Reviewer && 
                             <Button
                                 variant="contained"
                                 color="inherit"

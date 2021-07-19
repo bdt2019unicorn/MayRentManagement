@@ -22,7 +22,7 @@ class FullPage extends BaseComponent
             <ReactRouterDOM.HashRouter>
                 <div className="space-between-element">
                     <a href="../issues">Báo cáo vấn đề</a>
-                    { _.get(this.props.user_permissions, "Admin") && <a href="../admin">Quản lí</a> }
+                    { _.get(this.props.user_permissions, "SystemAdmin") && <a href="../admin">Quản lí</a> }
                     <a className="float-right mr-3" href=".." title="English"><img src="../img/UK_flag.png" /></a>
                 </div>
                 {main_nav_items}
