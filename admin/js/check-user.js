@@ -8,11 +8,12 @@ function CheckUser()
         {
             username: username, 
             id: id, 
-            approved: 1 
+            approved: 1, 
+            admin_page: 1 
         }; 
         let url = "../server/controller/admin_database.php?command=CheckUser"; 
         let result = support_mixin.methods.SubmitData("check_user", url, data); 
-        return Boolean(result); 
+        return Boolean(Number(result)); 
     }
     else 
     {
@@ -20,8 +21,11 @@ function CheckUser()
     }
 }
 
-function Logout()
+function Logout(clear = undefined)
 {
-    sessionStorage.clear(); 
+    if(clear)
+    {
+        sessionStorage.clear(); 
+    }
     window.location.href = "./login.php"; 
 }
