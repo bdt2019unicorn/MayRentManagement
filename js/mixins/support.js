@@ -174,6 +174,18 @@ var support_mixin =
         {
             return Object.keys(params).filter(key=>params[key]!=undefined).map(key=>`${key}=${params[key]}`).join("&"); 
         }, 
+        ServerJson(url)
+        {
+            try 
+            {
+                let json = this.AjaxRequest(url); 
+                return JSON.parse(json); 
+            }
+            catch 
+            {
+                return undefined; 
+            }
+        }, 
         StateObject(state_property)
         {
             return window.store_track.state[state_property]; 
