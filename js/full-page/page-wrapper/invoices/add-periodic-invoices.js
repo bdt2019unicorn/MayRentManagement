@@ -63,9 +63,30 @@ Vue.component
         {
             PeriodicInvoices()
             {
-                var url = `${this.user_input.main_url}AddPeriodicInvoices&building_id=${this.$route.params.building_id}`; 
-                let periodic_invoices = this.AjaxRequest(url); 
-                this.periodic_invoices = JSON.parse(periodic_invoices); 
+                let periodic_invoices = this.ServerJson(`${this.user_input.main_url}AddPeriodicInvoices&building_id=${this.$route.params.building_id}`) || {}; 
+                let end_of_month = moment().endOf("month"); 
+                let test = R.clone(periodic_invoices); 
+                for (const leaseagrm_id in periodic_invoices) 
+                {
+                    let { lease_end, leaseagrm, leaseagrm_period, utilities } = periodic_invoices[leaseagrm_id]; 
+
+
+                    
+                    console.groupCollapsed(leaseagrm_id); 
+                    console.log(lease_end); 
+                    console.log(leaseagrm); 
+                    console.log(leaseagrm_period); 
+                    lease_end = moment(lease_end); 
+                    console.log(lease_end); 
+
+
+
+
+                    console.groupEnd(); 
+                }
+
+                console.log(periodic_invoices); 
+                this.periodic_invoices = test; 
             }, 
             NewValueChangeValid(edit_data, name, new_value)
             {
@@ -145,7 +166,7 @@ Vue.component
         `
             <div class="container-fluid">
                 <h1>{{title}}</h1>
-                <template v-if="Object.keys(periodic_invoices_display).length">
+                <template v-if="!R.isEmpty(periodic_invoices_display)">
 
                     <vs-collapse accordion>
                         <vs-collapse-item 
@@ -158,7 +179,7 @@ Vue.component
                             <div class="row"><text-input name="name" v-model="periodic_invoices[leaseagrm_id].name" title="Invoice Name"></text-input></div>
 
                             <hr>
-                            <div v-if="periodic_invoices_display[leaseagrm_id].leaseagrm.length>0" class="container-fluid">
+                            <div v-if="!R.isEmpty(periodic_invoices_display[leaseagrm_id].leaseagrm)" class="container-fluid">
                                 <h6>Rent</h6>
                                 <leaseagrm-row 
                                     v-for="rent in periodic_invoices_display[leaseagrm_id].leaseagrm" 
@@ -168,7 +189,7 @@ Vue.component
                                 ></leaseagrm-row>
                             </div>
 
-                            <div v-if="periodic_invoices_display[leaseagrm_id].utilities.length>0" class="container-fluid">
+                            <div v-if="R.isEmpty(periodic_invoices_display[leaseagrm_id].utilities)" class="container-fluid">
                                 <h6>Utilities</h6>
                                 <utilities-row v-for="utility in periodic_invoices_display[leaseagrm_id].utilities" v-bind="utility"></utilities-row>
                             </div>
