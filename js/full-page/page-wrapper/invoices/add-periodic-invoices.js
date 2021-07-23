@@ -65,28 +65,39 @@ Vue.component
             {
                 let periodic_invoices = this.ServerJson(`${this.user_input.main_url}AddPeriodicInvoices&building_id=${this.$route.params.building_id}`) || {}; 
                 let end_of_month = moment().endOf("month"); 
-                let test = R.clone(periodic_invoices); 
                 for (const leaseagrm_id in periodic_invoices) 
                 {
                     let { lease_end, leaseagrm, leaseagrm_period, utilities } = periodic_invoices[leaseagrm_id]; 
-
-
-                    
-                    console.groupCollapsed(leaseagrm_id); 
-                    console.log(lease_end); 
-                    console.log(leaseagrm); 
-                    console.log(leaseagrm_period); 
                     lease_end = moment(lease_end); 
-                    console.log(lease_end); 
 
+                    leaseagrm = leaseagrm.map 
+                    (
+                        ({start_date, end_date}) => 
+                        {
+                            if(!end_date)
+                            {
+                                let new_end_date = R.clone(moment.min(lease_end, end_of_month)); 
+                                let quantity = this.RentQuantityCalculation(start_date, new_end_date, leaseagrm_period); 
+                                if(quantity>1)
+                                {
+                                    end_date = this.DateReformatDatabase(new_end_date); 
+                                }
+                            }
+                            return { start_date, end_date }; 
+                        }
+                    ).filter(({end_date})=>end_date); 
 
-
-
-                    console.groupEnd(); 
+                    if(R.isEmpty([...leaseagrm, ...utilities]))
+                    {
+                        delete periodic_invoices[leaseagrm_id]; 
+                    }
+                    else 
+                    {
+                        periodic_invoices[leaseagrm_id].leaseagrm = leaseagrm; 
+                    }
                 }
 
-                console.log(periodic_invoices); 
-                this.periodic_invoices = test; 
+                this.periodic_invoices = periodic_invoices; 
             }, 
             NewValueChangeValid(edit_data, name, new_value)
             {
@@ -121,44 +132,48 @@ Vue.component
                 try 
                 {
                     let periodic_invoices = {}; 
-                    Object.keys(this.periodic_invoices).forEach
-                    (
-                        leaseagrm_id=>periodic_invoices[leaseagrm_id] = 
-                        {
-                            leaseagrm: this.PopulateRentInformation
+                    for (const leaseagrm_id in this.periodic_invoices) 
+                    {
+                        let leaseagrm = this.PopulateRentInformation
+                        (
+                            {
+                                revenue_type: 
+                                {
+                                    id: this.user_input.rent_id, 
+                                    name: this.periodic_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
+                                }, 
+                                price: this.periodic_invoices[leaseagrm_id].rent_amount, 
+                                rent_information: this.periodic_invoices[leaseagrm_id].leaseagrm, 
+                                leaseagrm_period: this.periodic_invoices[leaseagrm_id].leaseagrm_period, 
+                                user_input: this.user_input, 
+                                leaseagrm_id: leaseagrm_id
+                            }
+                        ); 
+                        let utilities = this.periodic_invoices[leaseagrm_id].utilities.map 
+                        (
+                            utility=>
                             (
                                 {
-                                    revenue_type: 
-                                    {
-                                        id: this.user_input.rent_id, 
-                                        name: this.periodic_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
-                                    }, 
-                                    price: this.periodic_invoices[leaseagrm_id].rent_amount, 
-                                    rent_information: this.periodic_invoices[leaseagrm_id].leaseagrm, 
-                                    leaseagrm_period: this.periodic_invoices[leaseagrm_id].leaseagrm_period, 
-                                    user_input: this.user_input, 
-                                    leaseagrm_id: leaseagrm_id
+                                    ...utility, 
+                                    name: `${this.periodic_invoices[leaseagrm_id].unit_name} - ${this.periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
+                                    revenue_type: this.periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
                                 }
-                            ), 
-                            utilities: this.periodic_invoices[leaseagrm_id].utilities.map
-                            (
-                                utility=>
-                                (
-                                    {
-                                        ...utility, 
-                                        name: `${this.periodic_invoices[leaseagrm_id].unit_name} - ${this.periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${this.DateReformatDisplay(utility.previous_date)}`, 
-                                        revenue_type: this.periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
-                                    }
-                                )
                             )
-                        }
-                    ); 
-                    Object.keys(periodic_invoices).forEach(leaseagrm_id=>periodic_invoices[leaseagrm_id].total = [...periodic_invoices[leaseagrm_id].leaseagrm, ...periodic_invoices[leaseagrm_id].utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0)); 
+                        ); 
+                        let total = [...leaseagrm, ...utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0); 
+                        periodic_invoices[leaseagrm_id] = 
+                        {
+                            leaseagrm, 
+                            utilities, 
+                            total, 
+                            leaseagrm_period: this.periodic_invoices[leaseagrm_id].leaseagrm_period
+                        }; 
+                    }
                     this.periodic_invoices_display = periodic_invoices; 
                 }   
                 catch
                 {
-                    this.periodic_invoices_display = {}; 
+                    this.periodic_invoices_display = undefined; 
                 } 
             }  
         },
@@ -166,7 +181,7 @@ Vue.component
         `
             <div class="container-fluid">
                 <h1>{{title}}</h1>
-                <template v-if="!R.isEmpty(periodic_invoices_display)">
+                <template v-if="periodic_invoices_display">
 
                     <vs-collapse accordion>
                         <vs-collapse-item 
@@ -179,8 +194,8 @@ Vue.component
                             <div class="row"><text-input name="name" v-model="periodic_invoices[leaseagrm_id].name" title="Invoice Name"></text-input></div>
 
                             <hr>
-                            <div v-if="!R.isEmpty(periodic_invoices_display[leaseagrm_id].leaseagrm)" class="container-fluid">
-                                <h6>Rent</h6>
+                            <div v-if="periodic_invoices_display[leaseagrm_id].leaseagrm.length" class="container-fluid">
+                                <h6>Rent - Period: {{periodic_invoices_display[leaseagrm_id].leaseagrm_period}}</h6>
                                 <leaseagrm-row 
                                     v-for="rent in periodic_invoices_display[leaseagrm_id].leaseagrm" 
                                     :revenue_type="rent"
@@ -189,7 +204,7 @@ Vue.component
                                 ></leaseagrm-row>
                             </div>
 
-                            <div v-if="R.isEmpty(periodic_invoices_display[leaseagrm_id].utilities)" class="container-fluid">
+                            <div v-if="periodic_invoices_display[leaseagrm_id].utilities.length" class="container-fluid">
                                 <h6>Utilities</h6>
                                 <utilities-row v-for="utility in periodic_invoices_display[leaseagrm_id].utilities" v-bind="utility"></utilities-row>
                             </div>

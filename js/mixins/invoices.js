@@ -84,7 +84,7 @@ var rent_invoice_mixin =
                     let rent_end_date = end_date||this.invoice_information.leaseagrm["end_date"]; 
                     return {
                         ...details, 
-                        start_date: start_date, 
+                        start_date, 
                         end_date: rent_end_date, 
                         quantity: this.RentQuantityCalculation(start_date, rent_end_date, leaseagrm_period), 
                         row: row 
