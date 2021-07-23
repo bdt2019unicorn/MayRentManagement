@@ -114,9 +114,9 @@
                 "icon": "file-contract"
             }, 
             {
-                "action": "add-monthly-invoices", 
-                "text": "Add Monthly Invoices",  
-                "title": "Add Monthly Invoices", 
+                "action": "add-periodic-invoices", 
+                "text": "Add Periodic Invoices",  
+                "title": "Add Periodic Invoices", 
                 "button": "light", 
                 "icon": "calendar-alt", 
                 "permission": "Reviewer"

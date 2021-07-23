@@ -1,4 +1,4 @@
-class AddMonthlyInvoices extends PageWrapperChildrenComponent 
+class AddPeriodicInvoices extends PageWrapperChildrenComponent 
 {
     constructor(props) 
     {
@@ -8,24 +8,24 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
         this.state =
         {
             expanded: undefined, 
-            monthly_invoices: this.MonthlyInvoices(), 
-            title: "Thêm hóa đơn tháng" 
+            periodic_invoices: this.PeriodicInvoices(), 
+            title: "Thêm hóa đơn định kì" 
         }; 
-        this.monthly_invoices_display = this.MonthlyInvoicesDisplay(); 
+        this.periodic_invoices_display = this.PeriodicInvoicesDisplay(); 
     }
 
-    MonthlyInvoices = () => 
+    PeriodicInvoices = () => 
     {
-        var url = `${this.user_input.main_url}AddMonthlyInvoices&building_id=${this.BuildingId()}`; 
+        var url = `${this.user_input.main_url}AddPeriodicInvoices&building_id=${this.BuildingId()}`; 
         return ServerJson(url); 
     }
-    MonthlyInvoicesDisplay = (state_monthly_invoices=undefined) => 
+    PeriodicInvoicesDisplay = (state_periodic_invoices=undefined) => 
     {
         try 
         {
-            let monthly_invoices = {}; 
-            state_monthly_invoices = state_monthly_invoices || this.state.monthly_invoices; 
-            Object.keys(state_monthly_invoices).forEach
+            let periodic_invoices = {}; 
+            state_periodic_invoices = state_periodic_invoices || this.state.periodic_invoices; 
+            Object.keys(state_periodic_invoices).forEach
             (
                 leaseagrm_id=>
                 {
@@ -37,23 +37,23 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
                                 revenue_type: 
                                 {
                                     id: this.user_input.rent_id, 
-                                    name: state_monthly_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
+                                    name: state_periodic_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
                                 }, 
-                                price: state_monthly_invoices[leaseagrm_id].rent_amount, 
-                                rent_information: state_monthly_invoices[leaseagrm_id].leaseagrm, 
-                                leaseagrm_period: state_monthly_invoices[leaseagrm_id].leaseagrm_period, 
+                                price: state_periodic_invoices[leaseagrm_id].rent_amount, 
+                                rent_information: state_periodic_invoices[leaseagrm_id].leaseagrm, 
+                                leaseagrm_period: state_periodic_invoices[leaseagrm_id].leaseagrm_period, 
                                 user_input: this.user_input, 
                                 leaseagrm_id: leaseagrm_id
                             }
                         ), 
-                        utilities: state_monthly_invoices[leaseagrm_id].utilities.map
+                        utilities: state_periodic_invoices[leaseagrm_id].utilities.map
                         (
                             utility=>
                             (
                                 {
                                     ...utility, 
-                                    name: `${state_monthly_invoices[leaseagrm_id].unit_name} - ${state_monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${DateReformat.Display(utility.previous_date)}`, 
-                                    revenue_type: state_monthly_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
+                                    name: `${state_periodic_invoices[leaseagrm_id].unit_name} - ${state_periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${DateReformat.Display(utility.previous_date)}`, 
+                                    revenue_type: state_periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
                                 }
                             )
                         )
@@ -62,35 +62,35 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
                     
                     if(total)
                     {
-                        monthly_invoices[leaseagrm_id] = {total, ...monthly_invoice}; 
+                        periodic_invoices[leaseagrm_id] = {total, ...monthly_invoice}; 
                     }
                 }
             ); 
-            return monthly_invoices; 
+            return periodic_invoices; 
         }   
         catch (exception) 
         {
             return {}; 
         } 
     }  
-    MonthlyInvoicesSubmit = () => 
+    PeriodicInvoicesSubmit = () => 
     {
         try 
         {
-            let monthly_invoices = Object.keys(this.monthly_invoices_display).map
+            let periodic_invoices = Object.keys(this.periodic_invoices_display).map
             (
                 leaseagrm_id=>
                 (
                     {
                         invoice: 
                         {
-                            name: this.state.monthly_invoices[leaseagrm_id].name, 
+                            name: this.state.periodic_invoices[leaseagrm_id].name, 
                             leaseagrm_id: leaseagrm_id
                         }, 
                         details: 
                         {
-                            leaseagrm: ValidInvoiceDetails.Leaseagrm(this.monthly_invoices_display[leaseagrm_id].leaseagrm), 
-                            utilities: ValidInvoiceDetails.Utilities(this.monthly_invoices_display[leaseagrm_id].utilities)
+                            leaseagrm: ValidInvoiceDetails.Leaseagrm(this.periodic_invoices_display[leaseagrm_id].leaseagrm), 
+                            utilities: ValidInvoiceDetails.Utilities(this.periodic_invoices_display[leaseagrm_id].utilities)
                         }
                     }
                 ) 
@@ -105,7 +105,7 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
                     }
                 )
             ).filter(({total_details})=>total_details); 
-            return monthly_invoices.length? monthly_invoices: false; 
+            return periodic_invoices.length ? periodic_invoices: false; 
         }   
         catch (exception)
         {
@@ -114,20 +114,20 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
     }
     Submit = () => 
     {
-        var monthly_invoices_submit = this.MonthlyInvoicesSubmit(); 
-        if(!monthly_invoices_submit)
+        var periodic_invoices_submit = this.PeriodicInvoicesSubmit(); 
+        if(!periodic_invoices_submit)
         {
             alert("Đã có hóa đơn lỗi, vui lòng thử lại"); 
             return; 
         }
-        let url = "../server/controller/invoice/post.php?command=AddMonthlyInvoices"; 
-        let result = SubmitData("monthly_invoices", url, monthly_invoices_submit);
+        let url = "../server/controller/invoice/post.php?command=AddPeriodicInvoices"; 
+        let result = SubmitData("periodic_invoices", url, periodic_invoices_submit);
         if(Number(result))
         {
             alert(`${this.state.title} thành công!`); 
-            var state_monthly_invoices = this.MonthlyInvoices(); 
-            this.monthly_invoices_display = this.MonthlyInvoicesDisplay(state_monthly_invoices); 
-            this.setState({monthly_invoices: state_monthly_invoices, expanded: undefined}); 
+            var state_periodic_invoices = this.PeriodicInvoices(); 
+            this.periodic_invoices_display = this.PeriodicInvoicesDisplay(state_periodic_invoices); 
+            this.setState({periodic_invoices: state_periodic_invoices, expanded: undefined}); 
         }
         else 
         {
@@ -137,16 +137,16 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
     render()
     {
         var { Accordion, AccordionDetails, AccordionSummary, Grid } = MaterialUI; 
-        var monthly_invoices_display_keys = Object.keys(this.monthly_invoices_display); 
+        var periodic_invoices_display_keys = Object.keys(this.periodic_invoices_display); 
         return (
             <div>
                 <h1>{this.state.title}</h1>
                 {
-                    monthly_invoices_display_keys.length ? 
+                    periodic_invoices_display_keys.length ? 
                     (
                         <React.Fragment>
                             {
-                                monthly_invoices_display_keys.map 
+                                periodic_invoices_display_keys.map 
                                 (
                                     leaseagrm_id => 
                                     <Accordion 
@@ -155,19 +155,19 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
                                         onChange={(event, is_expanded)=>this.setState({expanded: is_expanded?leaseagrm_id: undefined})}
                                     >
                                         <AccordionSummary>
-                                            <h5 className="text-blue">{this.state.monthly_invoices[leaseagrm_id].name}</h5>
+                                            <h5 className="text-blue">{this.state.periodic_invoices[leaseagrm_id].name}</h5>
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <div>
-                                                <h6 className="text-right">{this.state.monthly_invoices[leaseagrm_id].leaseagrm_name}</h6>
+                                                <h6 className="text-right">{this.state.periodic_invoices[leaseagrm_id].leaseagrm_name}</h6>
                                                 <hr />
                                                 {
-                                                    Boolean(this.monthly_invoices_display[leaseagrm_id].leaseagrm.length) && 
+                                                    Boolean(this.periodic_invoices_display[leaseagrm_id].leaseagrm.length) && 
                                                     (
                                                         <div>
                                                             <h6>Tiền thuê</h6>
                                                             {
-                                                                this.monthly_invoices_display[leaseagrm_id].leaseagrm.map 
+                                                                this.periodic_invoices_display[leaseagrm_id].leaseagrm.map 
                                                                 (
                                                                     (rent, index)=>
                                                                     <LeaseagrmRow 
@@ -176,9 +176,9 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
                                                                         user_input={this.user_input}
                                                                         ValueChange=
                                                                         {
-                                                                            ({name, value}) => this.monthly_invoices_display = ImmutabilityHelper 
+                                                                            ({name, value}) => this.periodic_invoices_display = ImmutabilityHelper 
                                                                             (
-                                                                                this.monthly_invoices_display, 
+                                                                                this.periodic_invoices_display, 
                                                                                 {
                                                                                     [leaseagrm_id]: 
                                                                                     {
@@ -200,12 +200,12 @@ class AddMonthlyInvoices extends PageWrapperChildrenComponent
                                                     )
                                                 }
                                                 {
-                                                    Boolean(this.monthly_invoices_display[leaseagrm_id].utilities.length) && 
+                                                    Boolean(this.periodic_invoices_display[leaseagrm_id].utilities.length) && 
                                                     (
                                                         <div>
                                                             <h6>Tiện ích</h6>
                                                             {
-                                                                this.monthly_invoices_display[leaseagrm_id].utilities.map 
+                                                                this.periodic_invoices_display[leaseagrm_id].utilities.map 
                                                                 (
                                                                     (utilities, index) => <UtilitiesRow key={index} {...utilities} />
                                                                 )

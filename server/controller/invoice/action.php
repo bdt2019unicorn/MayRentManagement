@@ -3,7 +3,7 @@
 
     $actions = array 
     (
-        "AddMonthlyInvoices"=>function()
+        "AddPeriodicInvoices"=>function()
         {
             $date_format = "Y-m-d"; 
             $last_date_of_month = (new DateTime())->modify("last day of"); 
@@ -27,18 +27,10 @@
                 return $revenue_types; 
             }
 
-            function CompareDate($start_date, $end_date)
-            {
-                $date_format = "Y-m-d"; 
-                $start_date = new DateTime($start_date->format($date_format)); 
-                $end_date = new DateTime($end_date->format($date_format)); 
-                return $start_date<$end_date; 
-            }
-
             $revenue_types = RevenueTypes(); 
 
             $leaseagrms = Database::GetData($leaseagrms); 
-            $monthly_invoices = []; 
+            $periodic_invoices = []; 
             foreach ($leaseagrms as $leaseagrm) 
             {
                 $invoice_information = InvoiceInformation($leaseagrm["id"]); 
@@ -50,32 +42,27 @@
                     {
                         array_push($invoice_leaseagrm, $rent_information); 
                     }
-                    else
+                    else if(new DateTime($rent_information["start_date"]) < $lease_end)
                     {
-                        $start_date = new DateTime($rent_information["start_date"]); 
-                        if($start_date<$lease_end)
-                        {
-                            $end_date = min($last_date_of_month, $lease_end); 
-                            if(CompareDate($start_date, $end_date))
-                            {
-                                $new_information = 
-                                [
-                                    "start_date"=> $rent_information["start_date"], 
-                                    "end_date"=>$end_date->format($date_format)
-                                ]; 
-                                array_push($invoice_leaseagrm, $new_information); 
-                            }
-                        }
+                        array_push
+                        (
+                            $invoice_leaseagrm, 
+                            [
+                                "start_date"=> $rent_information["start_date"], 
+                                "end_date"=> null 
+                            ]
+                        ); 
                     }
                 } 
 
                 if(count($invoice_leaseagrm)+count($invoice_information["utilities"]))
                 {
-                    $monthly_invoices[$leaseagrm["id"]] = 
+                    $periodic_invoices[$leaseagrm["id"]] = 
                     [
                         "name"=>"{$leaseagrm['id']} ({$leaseagrm['name']}) - {$invoice_information['unit_name']} - Month end {$last_date_of_month->format('d M Y')}", 
                         "leaseagrm_name"=> $leaseagrm['name'], 
                         "rent_amount"=>$leaseagrm["Rent_amount"], 
+                        "lease_end"=>$leaseagrm["Finish"], 
                         "leaseagrm_period"=> $invoice_information["leaseagrm"]['leaseagrm_period'], 
                         "leaseagrm"=>$invoice_leaseagrm, 
                         "unit_name"=>$invoice_information['unit_name'], 
@@ -85,7 +72,7 @@
                 }
 
             }
-            echo json_encode($monthly_invoices); 
+            echo json_encode($periodic_invoices); 
         }, 
         "InvoiceConfigs"=> function()
         {
