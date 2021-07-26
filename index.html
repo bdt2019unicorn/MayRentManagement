@@ -48,16 +48,7 @@
             <script async src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js" integrity="sha512-y3o0Z5TJF1UsKjs/jS2CDkeHN538bWsftxO9nctODL5W40nyXIbs0Pgyu7//icrQY9m6475gLaVr39i/uh/nLA==" crossorigin="anonymous"></script>
             
             <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-            <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script> -->
-
-            <!-- 
-                ALTER TABLE `leaseagrm_period` ADD `revert_method` VARCHAR(50) NOT NULL AFTER `calculation_method`;
-                ALTER TABLE `leaseagrm_period` CHANGE `revert_method` `revert_method` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_vietnamese_ci NOT NULL;
-                UPDATE `leaseagrm_period` SET `revert_method` = 'start_period.clone().add(\"months\", diff*2);' WHERE `leaseagrm_period`.`id` = 8; 
-                UPDATE `leaseagrm_period` SET `revert_method` = 'start_period.clone().add(\"months\", diff*3);' WHERE `leaseagrm_period`.`id` = 9;
-            
-            -->
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
             <script src="https://unpkg.com/vuex@3.1.3/dist/vuex.js"></script>
             <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vuejs-datepicker/1.6.2/vuejs-datepicker.min.js"></script>

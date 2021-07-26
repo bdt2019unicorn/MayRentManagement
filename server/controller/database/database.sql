@@ -21,7 +21,7 @@ CREATE TABLE `buildings` (
   `authorize_title` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `phone` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_vietnamese_ci
+  `address` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `documents` (
@@ -31,7 +31,7 @@ CREATE TABLE `documents` (
   `unit_id` int(11) DEFAULT NULL,
   `file` longblob NOT NULL,
   `file_extension` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_vietnamese_ci,
+  `description` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `username` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `modified_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
@@ -50,7 +50,7 @@ CREATE TABLE `expense` (
   `building_id` int(11) DEFAULT NULL,
   `Payment_date` date DEFAULT NULL,
   `Amount` decimal(13,3) DEFAULT NULL,
-  `Note` text COLLATE utf8mb4_vietnamese_ci
+  `Note` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `expense_type` (
@@ -62,7 +62,7 @@ CREATE TABLE `invoices` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `leaseagrm_id` int(11) NOT NULL,
-  `note` text COLLATE utf8mb4_vietnamese_ci
+  `note` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `invoice_leaseagrm` (
@@ -73,7 +73,7 @@ CREATE TABLE `invoice_leaseagrm` (
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `price` decimal(13,3) NOT NULL,
-  `quantity` decimal(13,3) NOT NULL DEFAULT '1.000',
+  `quantity` decimal(13,3) NOT NULL DEFAULT 1.000,
   `amount` decimal(13,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
@@ -104,22 +104,23 @@ CREATE TABLE `leaseagrm` (
   `Monthly_payment_date` tinyint(4) DEFAULT NULL,
   `Deposit_currency` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Deposit_exchange_rate` decimal(13,3) DEFAULT NULL,
-  `note` text COLLATE utf8mb4_vietnamese_ci
+  `note` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `leaseagrm_period` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `is_basic` tinyint(1) NOT NULL DEFAULT '1',
-  `calculation_method` text COLLATE utf8mb4_vietnamese_ci
+  `is_basic` tinyint(1) NOT NULL DEFAULT 1,
+  `calculation_method` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `revert_method` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `logs` (
   `id` int(11) NOT NULL,
   `action` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `tables` varchar(255) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `data` text COLLATE utf8mb4_vietnamese_ci,
-  `queries` text COLLATE utf8mb4_vietnamese_ci,
+  `data` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
+  `queries` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `modified_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
@@ -130,13 +131,13 @@ CREATE TABLE `revenue` (
   `leaseagrm_id` int(11) NOT NULL,
   `Payment_date` date DEFAULT NULL,
   `Amount` decimal(13,3) DEFAULT NULL,
-  `Note` text COLLATE utf8mb4_vietnamese_ci
+  `Note` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `revenue_type` (
   `id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `is_utility` tinyint(1) NOT NULL DEFAULT '0'
+  `is_utility` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `tenant` (
@@ -157,19 +158,19 @@ CREATE TABLE `tenant` (
   `Personal_Email` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Company_Name` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
   `Company_address` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `note` text COLLATE utf8mb4_vietnamese_ci
+  `note` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `unit` (
   `id` int(11) NOT NULL,
   `name` char(10) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `building_id` int(11) NOT NULL DEFAULT '1',
-  `area` decimal(10,0) NOT NULL DEFAULT '0',
-  `number_of_bedrooms` tinyint(4) NOT NULL DEFAULT '1',
-  `number_of_bathroom` tinyint(4) NOT NULL DEFAULT '1',
-  `balcony` tinyint(1) DEFAULT '0',
-  `number_of_windows` tinyint(4) NOT NULL DEFAULT '0',
-  `note` text COLLATE utf8mb4_vietnamese_ci
+  `building_id` int(11) NOT NULL DEFAULT 1,
+  `area` decimal(10,0) NOT NULL DEFAULT 0,
+  `number_of_bedrooms` tinyint(4) NOT NULL DEFAULT 1,
+  `number_of_bathroom` tinyint(4) NOT NULL DEFAULT 1,
+  `balcony` tinyint(1) DEFAULT 0,
+  `number_of_windows` tinyint(4) NOT NULL DEFAULT 0,
+  `note` text COLLATE utf8mb4_vietnamese_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `user` (
@@ -179,7 +180,11 @@ CREATE TABLE `user` (
   `phone_number` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `email` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `viber_number` varchar(50) COLLATE utf8mb4_vietnamese_ci DEFAULT NULL,
-  `approved` tinyint(1) NOT NULL DEFAULT '0'
+  `approved` tinyint(1) NOT NULL DEFAULT 0,
+  `add_edit` tinyint(1) DEFAULT NULL,
+  `import_excel` tinyint(1) DEFAULT NULL,
+  `import_excel_utilities` tinyint(1) DEFAULT NULL,
+  `admin_page` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 CREATE TABLE `utility_price` (
