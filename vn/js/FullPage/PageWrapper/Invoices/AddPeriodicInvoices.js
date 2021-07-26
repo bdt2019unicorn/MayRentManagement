@@ -13,11 +13,42 @@ class AddPeriodicInvoices extends PageWrapperChildrenComponent
         }; 
         this.periodic_invoices_display = this.PeriodicInvoicesDisplay(); 
     }
-
     PeriodicInvoices = () => 
     {
-        var url = `${this.user_input.main_url}AddPeriodicInvoices&building_id=${this.BuildingId()}`; 
-        return ServerJson(url); 
+        let periodic_invoices = ServerJson(`${this.user_input.main_url}AddPeriodicInvoices&building_id=${this.BuildingId()}`) || {}; 
+        let end_of_month = moment().endOf("month"); 
+        for (const leaseagrm_id in periodic_invoices) 
+        {
+            let { lease_end, leaseagrm, leaseagrm_period, utilities } = periodic_invoices[leaseagrm_id]; 
+            lease_end = moment(lease_end); 
+
+            leaseagrm = leaseagrm.map 
+            (
+                ({start_date, end_date}) => 
+                {
+                    if(!end_date)
+                    {
+                        let new_end_date = _.cloneDeep(moment.min(lease_end, end_of_month)); 
+                        let quantity = this.rent_invoice.RentQuantityCalculation(start_date, new_end_date, leaseagrm_period); 
+                        if(quantity>1)
+                        {
+                            end_date = DateReformat.Database(new_end_date); 
+                        }
+                    }
+                    return { start_date, end_date }; 
+                }
+            ).filter(({end_date})=>end_date); 
+
+            if(_.isEmpty([...leaseagrm, ...utilities]))
+            {
+                delete periodic_invoices[leaseagrm_id]; 
+            }
+            else 
+            {
+                periodic_invoices[leaseagrm_id].leaseagrm = leaseagrm; 
+            }
+        }
+        return periodic_invoices; 
     }
     PeriodicInvoicesDisplay = (state_periodic_invoices=undefined) => 
     {
@@ -25,47 +56,46 @@ class AddPeriodicInvoices extends PageWrapperChildrenComponent
         {
             let periodic_invoices = {}; 
             state_periodic_invoices = state_periodic_invoices || this.state.periodic_invoices; 
-            Object.keys(state_periodic_invoices).forEach
-            (
-                leaseagrm_id=>
-                {
-                    var monthly_invoice = 
+            for (const leaseagrm_id in state_periodic_invoices) 
+            {
+                let leaseagrm = this.rent_invoice.PopulateRentInformation
+                (
                     {
-                        leaseagrm: this.rent_invoice.PopulateRentInformation
-                        (
-                            {
-                                revenue_type: 
-                                {
-                                    id: this.user_input.rent_id, 
-                                    name: state_periodic_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
-                                }, 
-                                price: state_periodic_invoices[leaseagrm_id].rent_amount, 
-                                rent_information: state_periodic_invoices[leaseagrm_id].leaseagrm, 
-                                leaseagrm_period: state_periodic_invoices[leaseagrm_id].leaseagrm_period, 
-                                user_input: this.user_input, 
-                                leaseagrm_id: leaseagrm_id
-                            }
-                        ), 
-                        utilities: state_periodic_invoices[leaseagrm_id].utilities.map
-                        (
-                            utility=>
-                            (
-                                {
-                                    ...utility, 
-                                    name: `${state_periodic_invoices[leaseagrm_id].unit_name} - ${state_periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${DateReformat.Display(utility.previous_date)}`, 
-                                    revenue_type: state_periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
-                                }
-                            )
-                        )
-                    }; 
-                    var total = [...monthly_invoice.leaseagrm, ...monthly_invoice.utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0); 
-                    
-                    if(total)
-                    {
-                        periodic_invoices[leaseagrm_id] = {total, ...monthly_invoice}; 
+                        revenue_type: 
+                        {
+                            id: this.user_input.rent_id, 
+                            name: state_periodic_invoices[leaseagrm_id].revenue_types[this.user_input.rent_id]
+                        }, 
+                        price: state_periodic_invoices[leaseagrm_id].rent_amount, 
+                        rent_information: state_periodic_invoices[leaseagrm_id].leaseagrm, 
+                        leaseagrm_period: state_periodic_invoices[leaseagrm_id].leaseagrm_period, 
+                        user_input: this.user_input, 
+                        leaseagrm_id: leaseagrm_id
                     }
+                ); 
+                let utilities = state_periodic_invoices[leaseagrm_id].utilities.map
+                (
+                    utility=>
+                    (
+                        {
+                            ...utility, 
+                            name: `${state_periodic_invoices[leaseagrm_id].unit_name} - ${state_periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]} ${DateReformat.Display(utility.previous_date)}`, 
+                            revenue_type: state_periodic_invoices[leaseagrm_id].revenue_types[utility.revenue_type_id]
+                        }
+                    )
+                ); 
+                let total = [...leaseagrm, ...utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0); 
+                if(total)
+                {
+                    periodic_invoices[leaseagrm_id] = 
+                    {
+                        leaseagrm, 
+                        utilities,
+                        total, 
+                        leaseagrm_period: state_periodic_invoices[leaseagrm_id].leaseagrm_period
+                    }; 
                 }
-            ); 
+            }
             return periodic_invoices; 
         }   
         catch (exception) 
@@ -77,35 +107,27 @@ class AddPeriodicInvoices extends PageWrapperChildrenComponent
     {
         try 
         {
-            let periodic_invoices = Object.keys(this.periodic_invoices_display).map
-            (
-                leaseagrm_id=>
-                (
-                    {
-                        invoice: 
+            let periodic_invoices = []; 
+            for (const leaseagrm_id in this.periodic_invoices_display) 
+            {
+                let leaseagrm = this.ValidInvoiceDetailsLeaseagrm(this.periodic_invoices_display[leaseagrm_id].leaseagrm); 
+                let utilities = this.ValidInvoiceDetailsUtilities(this.periodic_invoices_display[leaseagrm_id].utilities); 
+                if(!_.isEmpty(leaseagrm) || !_.isEmpty(utilities))
+                {
+                    periodic_invoices.push
+                    (
                         {
-                            name: this.state.periodic_invoices[leaseagrm_id].name, 
-                            leaseagrm_id: leaseagrm_id
-                        }, 
-                        details: 
-                        {
-                            leaseagrm: ValidInvoiceDetails.Leaseagrm(this.periodic_invoices_display[leaseagrm_id].leaseagrm), 
-                            utilities: ValidInvoiceDetails.Utilities(this.periodic_invoices_display[leaseagrm_id].utilities)
+                            invoice: 
+                            {
+                                name: this.state.periodic_invoices[leaseagrm_id].name, 
+                                leaseagrm_id
+                            }, 
+                            details: {leaseagrm, utilities} 
                         }
-                    }
-                ) 
-            ).map 
-            (
-                ({invoice, details})=>
-                (
-                    {
-                        invoice: invoice, 
-                        details: details, 
-                        total_details: Object.values(details).reduce((accumulator, current_value)=>(accumulator + current_value.length), 0)
-                    }
-                )
-            ).filter(({total_details})=>total_details); 
-            return periodic_invoices.length ? periodic_invoices: false; 
+                    ); 
+                }
+            }
+            return _.isEmpty(periodic_invoices) ? false: periodic_invoices;
         }   
         catch (exception)
         {
@@ -142,7 +164,7 @@ class AddPeriodicInvoices extends PageWrapperChildrenComponent
             <div>
                 <h1>{this.state.title}</h1>
                 {
-                    periodic_invoices_display_keys.length ? 
+                    !_.isEmpty(periodic_invoices_display_keys) ? 
                     (
                         <React.Fragment>
                             {
@@ -158,14 +180,14 @@ class AddPeriodicInvoices extends PageWrapperChildrenComponent
                                             <h5 className="text-blue">{this.state.periodic_invoices[leaseagrm_id].name}</h5>
                                         </AccordionSummary>
                                         <AccordionDetails>
-                                            <div>
+                                            <div className="width-full">
                                                 <h6 className="text-right">{this.state.periodic_invoices[leaseagrm_id].leaseagrm_name}</h6>
                                                 <hr />
                                                 {
-                                                    Boolean(this.periodic_invoices_display[leaseagrm_id].leaseagrm.length) && 
+                                                    !_.isEmpty(this.periodic_invoices_display[leaseagrm_id].leaseagrm) && 
                                                     (
                                                         <div>
-                                                            <h6>Tiền thuê</h6>
+                                                            <h6>Tiền thuê - Thời gian thu: {this.periodic_invoices_display[leaseagrm_id].leaseagrm_period}</h6>
                                                             {
                                                                 this.periodic_invoices_display[leaseagrm_id].leaseagrm.map 
                                                                 (
@@ -200,7 +222,7 @@ class AddPeriodicInvoices extends PageWrapperChildrenComponent
                                                     )
                                                 }
                                                 {
-                                                    Boolean(this.periodic_invoices_display[leaseagrm_id].utilities.length) && 
+                                                    !_.isEmpty(this.periodic_invoices_display[leaseagrm_id].utilities) && 
                                                     (
                                                         <div>
                                                             <h6>Tiện ích</h6>

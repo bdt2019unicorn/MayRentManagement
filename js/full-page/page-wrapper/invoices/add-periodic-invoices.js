@@ -18,35 +18,27 @@ Vue.component
             {
                 try 
                 {
-                    let periodic_invoices = Object.keys(this.periodic_invoices).filter(leaseagrm_id=>this.periodic_invoices_display[leaseagrm_id].total).map
-                    (
-                        leaseagrm_id=>
-                        (
-                            {
-                                invoice: 
+                    let periodic_invoices = []; 
+                    for (const leaseagrm_id in this.periodic_invoices_display) 
+                    {
+                        let leaseagrm = this.ValidInvoiceDetailsLeaseagrm(this.periodic_invoices_display[leaseagrm_id].leaseagrm); 
+                        let utilities = this.ValidInvoiceDetailsUtilities(this.periodic_invoices_display[leaseagrm_id].utilities); 
+                        if(!R.isEmpty(leaseagrm) || !R.isEmpty(utilities))
+                        {
+                            periodic_invoices.push
+                            (
                                 {
-                                    name: this.periodic_invoices[leaseagrm_id].name, 
-                                    leaseagrm_id: leaseagrm_id
-                                }, 
-                                details: 
-                                {
-                                    leaseagrm: this.ValidInvoiceDetailsLeaseagrm(this.periodic_invoices_display[leaseagrm_id].leaseagrm), 
-                                    utilities: this.ValidInvoiceDetailsUtilities(this.periodic_invoices_display[leaseagrm_id].utilities)
+                                    invoice: 
+                                    {
+                                        name: this.periodic_invoices[leaseagrm_id].name, 
+                                        leaseagrm_id: leaseagrm_id
+                                    }, 
+                                    details: {leaseagrm, utilities}
                                 }
-                            }
-                        ) 
-                    ).map 
-                    (
-                        ({invoice, details})=>
-                        (
-                            {
-                                invoice: invoice, 
-                                details: details, 
-                                total_details: Object.values(details).reduce((accumulator, current_value)=>(accumulator + current_value.length), 0)
-                            }
-                        )
-                    ).filter(({ total_details })=>total_details); 
-                    return periodic_invoices.length ? periodic_invoices: false; 
+                            ); 
+                        }
+                    }
+                    return R.isEmpty(periodic_invoices) ? false: periodic_invoices;
                 }   
                 catch
                 {
@@ -161,13 +153,16 @@ Vue.component
                             )
                         ); 
                         let total = [...leaseagrm, ...utilities].reduce((accumulator, current_value)=>(accumulator + Number(current_value.amount.toString().replaceAll(",",""))), 0); 
-                        periodic_invoices[leaseagrm_id] = 
+                        if(total)
                         {
-                            leaseagrm, 
-                            utilities, 
-                            total, 
-                            leaseagrm_period: this.periodic_invoices[leaseagrm_id].leaseagrm_period
-                        }; 
+                            periodic_invoices[leaseagrm_id] = 
+                            {
+                                leaseagrm, 
+                                utilities, 
+                                total, 
+                                leaseagrm_period: this.periodic_invoices[leaseagrm_id].leaseagrm_period
+                            }; 
+                        }
                     }
                     this.periodic_invoices_display = periodic_invoices; 
                 }   
