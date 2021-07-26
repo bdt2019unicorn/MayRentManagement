@@ -2,11 +2,11 @@
     require_once("helper.php"); 
     $actions = array 
     (
-        "AddMonthlyInvoices" => function()
+        "AddPeriodicInvoices" => function()
         {
-            $monthly_invoices = json_decode($_POST["monthly_invoices"], true); 
+            $periodic_invoices = json_decode($_POST["periodic_invoices"], true); 
             $test_mode = CurrentEnvironment::TestMode(); 
-            $sql = array_map(function($invoices) use ($test_mode) {return ImportInvoice($invoices, $test_mode);}, $monthly_invoices); 
+            $sql = array_map(function($invoices) use ($test_mode) {return ImportInvoice($invoices, $test_mode);}, $periodic_invoices); 
 
             if($test_mode)
             {
@@ -18,7 +18,7 @@
                 $result = Connect::ExecTransaction($sql); 
             }
             echo $result; 
-            Database::LogUserAction($result, "Add Monthly Invoices", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["monthly_invoices"], json_encode($sql)); 
+            Database::LogUserAction($result, "Add Periodic Invoices", "invoices, invoice_leaseagrm, invoice_utilities", $_POST["periodic_invoices"], json_encode($sql)); 
         }, 
         "Import" => function()
         {

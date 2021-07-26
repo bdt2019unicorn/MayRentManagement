@@ -36,7 +36,7 @@ class Permissions
     {
         [add_edit, import_excel, import_excel_utilities, admin_page] = [add_edit, import_excel, import_excel_utilities, admin_page].map(value=>Boolean(Number(value))); 
         this.DataEntry = add_edit && import_excel_utilities; 
-        this.Reviewer = add_edit && import_excel && import_excel_utilities && !admin_page;  
+        this.Reviewer = add_edit && import_excel && import_excel_utilities;  
         this.SystemAdmin = add_edit && import_excel && import_excel_utilities && admin_page; 
     }
 }

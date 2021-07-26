@@ -113,6 +113,28 @@ class LeaseagrmPeriodCalculation extends React.Component
         var current_diff = end_period.diff(start_period, this.props.edit_text, true); 
         return !(bad_diff==current_diff); 
     }
+    RevertMethod = () => 
+    {
+        var script = `start_period.clone().add("${this.state.unit}",`; 
+        let number = Number(this.state.number)||0; 
+        var operation = ""; 
+        if(["*", "/"].includes(this.state.operation))
+        {
+            if(number)
+            {
+                operation = this.state.operation == "*" ? "/" : "*"; 
+            }
+            else 
+            {
+                return undefined; 
+            }
+        }
+        else 
+        {
+            operation = this.state.operation == "+" ? "-" : "+"; 
+        }
+        return `${script} diff${operation}${number});`; 
+    }
     TestPeriod = () => 
     (
         {
@@ -124,6 +146,7 @@ class LeaseagrmPeriodCalculation extends React.Component
     {
         var Grid = MaterialUI.Grid; 
         var calculation_method = this.CalculationMethod(); 
+        var revert_method = calculation_method ? this.RevertMethod() : undefined; 
         var basic_unit = this.IsBasic(); 
         return (
             <div className="d-flex flex-justify-between">
@@ -162,6 +185,7 @@ class LeaseagrmPeriodCalculation extends React.Component
                     </Grid>
                 </div>
                 <input hidden type="text" name="calculation_method" value={calculation_method} readOnly />
+                <input hidden type="text" name="revert_method" value={revert_method} readOnly />
                 <SwitchFormValue  
                     name="is_basic"
                     label="Là đơn vị tính cơ bản"

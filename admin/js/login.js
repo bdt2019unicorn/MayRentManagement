@@ -7,10 +7,6 @@ jQuery
         {
             window.location.href = "."; 
         }
-        else 
-        {
-            sessionStorage.clear(); 
-        }
     }
 ); 
 

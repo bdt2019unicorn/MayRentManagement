@@ -32,7 +32,6 @@
 		$data = []; 
 		$AddData = function($key, $value) use (&$data, &$AddData, $params, $test_mode)
 		{
-
 			$ModifyKey = function($key)
 			{
 				$key = trim($key); 

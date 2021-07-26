@@ -47,7 +47,7 @@
             </div>
         </div>
         <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="javascript:Logout();">Log out</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:Logout(true);">Log out</a></li>
         </ul>
     </nav>
 </header>

@@ -116,6 +116,15 @@ class RentInvoice
         eval(`actual_result = ${script}`); 
         return actual_result.toFixed(3); 
     } 
+    RentRevertCalculation(start_period, diff, leaseagrm_period="months")
+    {
+        start_period = moment(start_period); 
+        var script = _.get(this.leaseagrm_periods, [leaseagrm_period, "revert_method"]) || "end_period;"; 
+        let end_period = start_period.clone().add(leaseagrm_period, diff); 
+        eval(script); 
+        end_period.add("days",-1); 
+        return DateReformat.Database(end_period); 
+    } 
 }
 
 class ValidInvoiceDetails  

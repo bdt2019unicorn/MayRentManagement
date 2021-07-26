@@ -11,7 +11,7 @@ var permissions_mixin =
         ReviewerPermission()
         {
             let {add_edit, import_excel, import_excel_utilities, admin_page} = this.PermissonObject; 
-            return add_edit && import_excel && import_excel_utilities && !admin_page;  
+            return add_edit && import_excel && import_excel_utilities;  
         }, 
         SystemAdminPermission()
         {

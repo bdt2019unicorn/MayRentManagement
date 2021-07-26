@@ -114,9 +114,9 @@
                 "icon": "receipt"
             }, 
             {
-                "action": "AddMonthlyInvoices", 
-                "text": "Thêm Hóa đơn tháng",  
-                "title": "Thêm Hóa đơn tháng", 
+                "action": "AddPeriodicInvoices", 
+                "text": "Xuất hóa đơn định kì",  
+                "title": "Xuất hóa đơn định kì", 
                 "button": "danger", 
                 "icon": "calendar_today_two_tone",                 
                 "permission": "Reviewer"

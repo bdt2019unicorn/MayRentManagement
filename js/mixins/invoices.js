@@ -53,12 +53,20 @@ var rent_invoice_mixin =
             }
             start_period.subtract(1, "days"); 
 
-            var script = this.leaseagrm_periods[leaseagrm_period] || "actual_result;"; 
+            var script = R.path([leaseagrm_period, "calculation_method"], this.leaseagrm_periods) || "actual_result;"; 
             let actual_result = end_period.diff(start_period, leaseagrm_period, true); 
             eval(`actual_result = ${script}`); 
             return actual_result.toFixed(3); 
         }, 
-        
+        RentRevertCalculation(start_period, diff, leaseagrm_period="months")
+        {
+            start_period = moment(start_period); 
+            var script = R.path([leaseagrm_period, "revert_method"], this.leaseagrm_periods) || "end_period;"; 
+            let end_period = start_period.clone().add(leaseagrm_period, diff); 
+            eval(script); 
+            end_period.add("days",-1); 
+            return this.DateReformatDatabase(end_period); 
+        }, 
         PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_period="months", user_input, leaseagrm_id=undefined})
         {
             let details = 
@@ -84,7 +92,7 @@ var rent_invoice_mixin =
                     let rent_end_date = end_date||this.invoice_information.leaseagrm["end_date"]; 
                     return {
                         ...details, 
-                        start_date: start_date, 
+                        start_date, 
                         end_date: rent_end_date, 
                         quantity: this.RentQuantityCalculation(start_date, rent_end_date, leaseagrm_period), 
                         row: row 

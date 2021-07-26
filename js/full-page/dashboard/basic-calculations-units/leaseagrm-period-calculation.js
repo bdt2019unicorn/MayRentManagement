@@ -46,6 +46,32 @@ Vue.component
                 var current_diff = end_period.diff(start_period, this.edit_text, true); 
                 return !(bad_diff==current_diff); 
             }, 
+            RevertMethod()
+            {
+                if(!this.CalculationMethod)
+                {
+                    return undefined; 
+                }
+                var script = `start_period.clone().add("${this.unit}",`; 
+                let number = Number(this.number)||0; 
+                var operation = ""; 
+                if(["*", "/"].includes(this.operation))
+                {
+                    if(number)
+                    {
+                        operation = this.operation == "*" ? "/" : "*"; 
+                    }
+                    else 
+                    {
+                        return undefined; 
+                    }
+                }
+                else 
+                {
+                    operation = this.operation == "+" ? "-" : "+"; 
+                }
+                return `${script} diff${operation}${number});`; 
+            }, 
             TestPeriod()
             {
                 return {
@@ -105,6 +131,7 @@ Vue.component
                     title="Basic Unit"
                 ></checkbox-input>
                 <input type="hidden" name="calculation_method" v-model="CalculationMethod" />
+                <input type="hidden" name="revert_method" v-model="RevertMethod" />
             </fragment>
         `
     }

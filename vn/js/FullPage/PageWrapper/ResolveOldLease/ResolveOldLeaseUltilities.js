@@ -13,14 +13,12 @@ class ResolveOldLeaseUltilities extends React.Component
       Typography,
     } = MaterialUI;
 
-    const { chiTietHD, endDate } = this.props;
+    const { chiTietHD } = this.props;
     const tienIch = { ...chiTietHD };
 
     let chiTietTienIch = Object.values(tienIch).flatMap((item) =>
       Object.values(item)
     );
-
-    const softDate = chiTietTienIch.filter(({ date }) => moment(date).isBefore(moment(endDate)));
 
     return (
       <TableContainer component={Paper}>
@@ -37,7 +35,7 @@ class ResolveOldLeaseUltilities extends React.Component
           </TableHead>
           <TableBody>
               {
-                softDate.map
+                chiTietTienIch.map
                 (
                   (item, index) =>
                   (
@@ -51,9 +49,7 @@ class ResolveOldLeaseUltilities extends React.Component
                       </TableCell>
                       <TableCell align="right">{item.price}</TableCell>
                       <TableCell align="right">{item.quantity}</TableCell>
-                      <TableCell align="right">
-                        {(item.quantity * item.price).toLocaleString()}
-                      </TableCell>
+                      <TableCell align="right">{NumeralFormat(item.amount)}</TableCell>
                     </TableRow>
                   )
                 )
@@ -64,7 +60,7 @@ class ResolveOldLeaseUltilities extends React.Component
               <TableCell align="right" colSpan={6}>
                 <Typography variant="subtitle2" gutterBottom>
                   Tổng thành tiền:{" "}
-                  {softDate.reduce((tongTien, item)=> tongTien += item.quantity * item.price, 0).toLocaleString()}
+                  {chiTietTienIch.reduce((tongTien, {amount})=> tongTien += Number(amount), 0).toLocaleString()}
                 </Typography>
               </TableCell>
             </TableRow>
