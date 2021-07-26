@@ -155,7 +155,11 @@
             foreach ($data as $leaseagrm_period) 
             {
                 $name = $leaseagrm_period["name"]; 
-                $special_periods[$name] = $leaseagrm_period["calculation_method"]; 
+                $special_periods[$name] = 
+                [
+                    "calculation_method" => $leaseagrm_period["calculation_method"], 
+                    "revert_method" => $leaseagrm_period["revert_method"]
+                ]; 
             }
             echo json_encode($special_periods); 
         }

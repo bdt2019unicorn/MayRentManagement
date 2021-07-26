@@ -38,7 +38,7 @@ Vue.component
                             amount: amount.toFixed(3), 
                             utilities: utilities_details, 
                             total: utilities_total + amount
-                        }
+                        }; 
                     }
                 ): undefined; 
             }    
