@@ -71,13 +71,9 @@ Vue.component
                 let old_leases = JSON.parse(data).map(leaseagrm=>({...leaseagrm, show_details: false})); 
                 for (let index = 0; index < old_leases.length; index++) 
                 {
-                    console.groupCollapsed(index); 
-                    console.log(old_leases[index]); 
                     let { Start_date, date_charged_until, leaseagrm_period} = old_leases[index]; 
                     let quantity = this.RentQuantityCalculation(Start_date, date_charged_until, leaseagrm_period); 
-                    console.log(quantity, typeof(quantity)); 
                     let diff = Math.floor(quantity); 
-                    console.log(diff); 
                     if(diff<quantity)
                     {
                         let end_date = this.RentRevertCalculation(Start_date, diff, leaseagrm_period); 

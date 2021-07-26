@@ -118,10 +118,11 @@ class RentInvoice
     } 
     RentRevertCalculation(start_period, diff, leaseagrm_period="months")
     {
-        let start_period = moment(start_period); 
+        start_period = moment(start_period); 
         var script = _.get(this.leaseagrm_periods, [leaseagrm_period, "revert_method"]) || "end_period;"; 
         let end_period = start_period.clone().add(leaseagrm_period, diff); 
         eval(script); 
+        end_period.add("days",-1); 
         return DateReformat.Database(end_period); 
     } 
 }

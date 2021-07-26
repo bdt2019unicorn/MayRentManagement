@@ -64,6 +64,7 @@ var rent_invoice_mixin =
             var script = R.path([leaseagrm_period, "revert_method"], this.leaseagrm_periods) || "end_period;"; 
             let end_period = start_period.clone().add(leaseagrm_period, diff); 
             eval(script); 
+            end_period.add("days",-1); 
             return this.DateReformatDatabase(end_period); 
         }, 
         PopulateRentInformation({revenue_type, price, rent_information, leaseagrm_period="months", user_input, leaseagrm_id=undefined})

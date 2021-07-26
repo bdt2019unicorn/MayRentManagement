@@ -7,32 +7,15 @@ Vue.component
         components: {...bootstrap}, 
         computed: 
         {
-            DateChargedUntil()
-            {
-                return moment(this.leaseagrm.date_charged_until); 
-            },  
             TableUtilitiesAmount()
             {
-                return Object.values(this.Utilities).map
-                (
-                    utility_reading=> Object.values(utility_reading).reduce
-                    (
-                        (accumulator, {amount, date})=> accumulator+(moment(date)<=this.DateChargedUntil? Number(amount): 0), 0
-                    )
-                ).reduce((accumulator, current_value)=>accumulator+current_value, 0); 
+                return Object.values(this.Utilities).flatMap(utility_reading=>Object.values(utility_reading)).reduce((accumulator, {amount})=> accumulator+Number(amount), 0); 
             }, 
             Utilities()
             {
                 return this.leaseagrm.utilities; 
             }
         },
-        methods: 
-        {
-            TableUtilitiesList(utility)
-            {
-                return Object.values(this.Utilities[utility]).filter(({date})=>moment(date)<=this.DateChargedUntil); 
-            } 
-        }, 
         template: 
         `
             <b-table-simple hover caption-top>
@@ -49,7 +32,7 @@ Vue.component
                 </b-thead>
                 <b-tbody>
                     <template v-for="utility in Object.keys(Utilities)">
-                        <b-tr v-for="(utility_reading, index) in TableUtilitiesList(utility)">
+                        <b-tr v-for="(utility_reading, index) in Object.values(Utilities[utility])">
                             <b-th v-if="index==0" :rowspan="Object.keys(Utilities[utility]).length">{{utility}}</b-th>
                             <b-td>{{DateReformatDisplay(utility_reading.previous_date)}}</b-td>
                             <b-td>{{DateReformatDisplay(utility_reading.date)}}</b-td>

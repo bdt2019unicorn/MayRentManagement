@@ -1,27 +1,44 @@
 class ResolveOldLease extends PageWrapperChildrenComponent {
   constructor(props) {
     super(props);
+    this.rentInvoice = new RentInvoice();
     this.state = {
       mangHopDongCu: this.LoadOldLeases(),
     };
-    this.rentInvoice = new RentInvoice();
   }
 
-  LoadOldLeases = () => {
+  LoadOldLeases = () => 
+  {
     let url = this.ServerUrl("LoadOldLeases");
     let data = AjaxRequest(url);
-    try {
+    try 
+    {
       return this.OldLeasesJson(data);
-    } catch (exception) {
+    } catch (exception) 
+    {
       return [];
     }
   };
 
-  OldLeasesJson = (data) => {
-    return JSON.parse(data).map((leaseagrm) => ({
+  OldLeasesJson = (data) => 
+  {
+    let old_leases = JSON.parse(data).map((leaseagrm) => ({
       ...leaseagrm,
       show_details: false
     }));
+     
+    for (let index = 0; index < old_leases.length; index++) 
+    {
+        let { Start_date, date_charged_until, leaseagrm_period} = old_leases[index]; 
+        let quantity = this.rentInvoice.RentQuantityCalculation(Start_date, date_charged_until, leaseagrm_period); 
+        let diff = Math.floor(quantity); 
+        if(diff<quantity)
+        {
+            let end_date = this.rentInvoice.RentRevertCalculation(Start_date, diff, leaseagrm_period); 
+            old_leases[index].date_charged_until = end_date; 
+        }
+    }
+    return old_leases; 
   };
 
   ServerUrl = (command) => {
