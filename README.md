@@ -141,16 +141,16 @@
 </details>
 
 
-
-
-
-<details><summary><h2>Technical solution</h2></summary>
-	
+## Technical solution
+- 
 - General functions: 
 	- Database action:
-		-  
+		-  Enviroment variables
+			- test mode: store data in the disk file in the server, not in the database if the test mode is on 
+			- username: database username 
+			- password: database password 
 		- Create connection 
-			- 
+			- check the test mode and choose the correct database. If it is test mode, use SQLite. Otherwise, use MySQL. 
 	- Bulk insert: 
 		- Depending on the table, need to convert the Excel columns to the right column from database. 
 			- For the column which users can choose by name such as Building, need to convert that building name to the corresponding building ID. 
@@ -159,4 +159,3 @@
 		- Convert all the columns to the insert query
 		- Execute all the queries as a transaction and roll back if there is any errors. 
 
-</details>
