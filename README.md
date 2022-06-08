@@ -47,39 +47,58 @@
 	
 <details><summary><h2>Features</h2></summary>
 	
-- Admin Content Management system
+- <details><summary>Admin Content Management system</summary>
+	
 	- Approve registration 
 	- Innitialize the database 
 	- Submit an issue for changes 
 	- Run a query for database changes 
 	- Submit an issue for developer for maintainance 
-- Authentication
+	</details>
+	
+- <details><summary>Authentication</summary>
+	
 	- Login: determine the user data and also have the information about their permissions 
 	- Signup: user register to control in the front and get approved from the CMS by admin 
-- Dashboard
-	- Buildings: information about all the buildings in the app 
+	</details>
+- <details><summary>Dashboard</summary>
+	
+	- <details><summary>Buildings: information about all the buildings in the app</summary>
+	
 		- add 
 		- edit 
 		- delete 
+		</details> 
+	
 	- Utilities type: all the utilities types - they are classify as the one to be charged only once, periodically charged, rent and the charge with numbers
 	- Backup data and restore the application from backup data 
-- Building management: all the feature here will have to make sure the data for one building does not get duplicated in the other building in the same system 
-	- apartments: all the units for rent inside a building. Also need to show the one which is empty first so the admin can talk to marketing and agency about available options 
+	</details>
+- <details><summary>Building management: all the feature here will have to make sure the data for one building does not get duplicated in the other building in the same system</summary>
+	
+	- <details><summary>apartments: all the units for rent inside a building. Also need to show the one which is empty first so the admin can talk to marketing and agency about available options</summary>
+	
 		- add
 		- edit 
 		- delete 
-	- tenant: people who rent the property along with the aparment they are in. 
+		</details>
+	- <details><summary>tenant: people who rent the property along with the aparment they are in</summary>
+	
 		- add
 		- edit 
 		- delete 
-	- income: all the possible income coming from invoices from tenants and the other source such as tax refund, little garage sales 
+		</details>
+	- <details><summary>income: all the possible income coming from invoices from tenants and the other source such as tax refund, little garage sales</summary>
+	
 		- add 
 		- edit 
 		- delete 
-	- expenses: the cost which the building has pay for operation 
+		</details>
+	- <details><summary>expenses: the cost which the building has pay for operation</summary>
+	
 		- add 
 		- edit 
 		- delete 
+		</details>
 	- <details><summary>lease aggreement </summary>
 	
 		- <details><summary>list</summary>
@@ -93,8 +112,13 @@
 		- add 
 		- edit 
 		- delete 
+		</details>
 	</details>
 </details>
+
+
+
+
 
 <details><summary><h2>Technical solution</h2></summary>
 	
