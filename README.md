@@ -142,7 +142,9 @@
 
 
 ## Technical solution
-- 
+- Techstack: 
+	- Backend: PHP, MySQL, SQLite
+	- Frontend: React, Vue 
 - General functions: 
 	- Database action:
 		-  Enviroment variables
