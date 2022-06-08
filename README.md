@@ -9,8 +9,7 @@
 	
 	- There is no way for the admin to see if the customer has overdue their rent payment for too long and too much based on the payment record 
 	- Tenant is allowed to pay part of the invoice because of financial situation during COVID and the administrator faces a problem when tracking it. 
- 	</details>
-	
+	</details>
 - <details><summary>Excel could not control the user and their permissions</summary>
 	
 	- Admin can do everything from approve users, add, edit and delete and bulk action 
@@ -68,6 +67,7 @@
 		- add 
 		- edit 
 		- delete 
+		- import and export Excel 
 		</details> 
 	
 	- Utilities type: all the utilities types - they are classify as the one to be charged only once, periodically charged, rent and the charge with numbers
@@ -80,24 +80,28 @@
 		- add
 		- edit 
 		- delete 
+		- import and export Excel 
 		</details>
 	- <details><summary>tenant: people who rent the property along with the aparment they are in</summary>
 	
 		- add
 		- edit 
 		- delete 
+		- import and export Excel 
 		</details>
 	- <details><summary>income: all the possible income coming from invoices from tenants and the other source such as tax refund, little garage sales</summary>
 	
 		- add 
 		- edit 
 		- delete 
+		- import and export Excel 
 		</details>
 	- <details><summary>expenses: the cost which the building has pay for operation</summary>
 	
 		- add 
 		- edit 
 		- delete 
+		- import and export Excel 
 		</details>
 	- <details><summary>lease aggreement </summary>
 	
@@ -112,7 +116,27 @@
 		- add 
 		- edit 
 		- delete 
+		- import and export Excel 
 		</details>
+	- <details><summary>invoices: manage all the invoices sent to the tenants and make sure the period is tracked right</summary>
+	
+		- add: add the invoice for the tenant, for the rent, we will need to get the data from the last invoice to make sure the invoice reflect the correct start date. Rent calculation is based on the period times the amount 
+		- edit: if one of the charge is rent, that part won't be able to be edited for the date. This is to make sure the change of the invoice does not create a chain reaction to other invoices if there exists invoices with rent charge after. That part can only be deleted 
+		- delete 
+		- print invoices: bulk print invoices for all the whole building or just choose to print a particular invoice. Invoice can be print in PDF and Excel format 
+		</details>
+	- <details><summary>utilities: every month, a person will go to different appartment and write down the number of the measurement clock for each building. The price for periodic utilities such water and electricity also changes after a couple months. So, the calculation needs to take these into account</summary> 
+	
+		- add: this is to add a new number to the record, the new number has to be bigger or equal to the previous one for the same appartment
+		- view appartment utilities and the potential cost
+		</details>
+	- <details><summary>documents: all customer documents such as their photo ID, their lease aggreement and other relevant documents related</summary>
+		
+		- add
+		- edit 
+		- delete 
+		</details>
+	
 	</details>
 </details>
 
