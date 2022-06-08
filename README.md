@@ -24,7 +24,6 @@
 - A simple management system for add, edit, delete and import Excel for the simple properties 
 	- tenants
 	- buildings
-	- utilities 
 	- income 
 	- expense 
 - Excel template needed to be generated with the select options to avoid picking the wrong option 
@@ -44,15 +43,34 @@
 	- Submit an issue for changes 
 	- Run a query for database changes 
 	- Submit an issue for developer for maintainance 
+- Authentication
+	- Login: determine the user data and also have the information about their permissions 
+	- Signup: user register to control in the front and get approved from the CMS by admin 
 - Dashboard
 	- Buildings: information about all the buildings in the app 
 		- add 
 		- edit 
 		- delete 
-	- Utilities type: all the utilities types - they are classify as the one to be charged 
-	-  
-- 
-
+	- Utilities type: all the utilities types - they are classify as the one to be charged only once, periodically charged, rent and the charge with numbers
+	- Backup data and restore the application from backup data 
+- Building management: all the feature here will have to make sure the data for one building does not get duplicated in the other building in the same system 
+	- apartments: all the units for rent inside a building. Also need to show the one which is empty first so the admin can talk to marketing and agency about available options 
+		- add
+		- edit 
+		- delete 
+	- tenant: people who rent the property along with the aparment they are in. 
+		- add
+		- edit 
+		- delete 
+	- income: all the possible income coming from invoices from tenants and the other source such as tax refund, little garage sales 
+		- add 
+		- edit 
+		- delete 
+	- expenses: the cost which the building has pay for operation 
+		- add 
+		- edit 
+		- delete 
+	- lease aggreement: display all the contracts in the building, this needs to display the amount the tenants in an appartment already paid along with their bond compared to the invoice being charged. Also, this needs to show the 
 
 ## Technical solution 
 - General functions: 
