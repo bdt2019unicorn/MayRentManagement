@@ -1,45 +1,51 @@
 # MayRentManagement
 
-<details>
-	<summary><h2>Problem</h2></summary>
+<details><summary><h2>Problem</h2></summary>
 	
 - An owner has many appartments in a building to rent out and need to separate ncome, expenses, utilities and tenants for each of them 
 - Previously, the management is done with Excel which makes thing very complicated to separate the buildings and being scalable because of multiple sheets when many different complicated actions to pull the data 
 - Most of the data is stored in Excel and the input is in Excel so need to be able to import the data and export the whole data if we are about to use a system 
-- Rent period is not tracked well with Excel and it creates mistake with people getting duplicate charged in their rent. 
+- <details><summary>Rent period is not tracked well with Excel and it creates mistake with people getting duplicate charged in their rent</summary>
+	
 	- There is no way for the admin to see if the customer has overdue their rent payment for too long and too much based on the payment record 
 	- Tenant is allowed to pay part of the invoice because of financial situation during COVID and the administrator faces a problem when tracking it. 
-- Excel could not control the user and their permissions 
+ 	</details>
+	
+- <details><summary>Excel could not control the user and their permissions</summary>
+	
 	- Admin can do everything from approve users, add, edit and delete and bulk action 
 	- Moderator can only add and edit but not import and bulk action 
 	- Viewer can not change anything in the system, only to see the data
+	</details>
 - Invoice for customer is created manually with Word and Excel, which creates many human mistakes from taking the wrong data 
 - Change in invoice format can lead to huge changes with everything bacause of the manual process 
 	
 </details>
 
-<details>
-	<summary><h2>Solution</h2></summary>
+<details><summary><h2>Solution</h2></summary>
 	
-- A simple management system for add, edit, delete and import Excel for the simple properties 
+- <details><summary>A simple management system for add, edit, delete and import Excel for the simple properties</summary>
+	
 	- tenants
 	- buildings
 	- income 
 	- expense 
+	</details>
 - Excel template needed to be generated with the select options to avoid picking the wrong option 
 - Data for each buildings in the system needs to be classified and separated  
 - Invoice charged sent to the tenants needs to start from the end of the last invoice period
 - When the admin accidentally delete an invoice, the rent period in that invoice should be included in the next invoice 
-- The application needs to be able to give certain user certain permissions depending on their roles  
+- <details><summary>The application needs to be able to give certain user certain permissions depending on their roles</summary>
+	
 	- Admin can do everything from approve users, add, edit and delete and bulk action 
 	- Moderator can only add and edit but not import and bulk action 
 	- Viewer can not change anything in the system, only to see the data
+	</details>
 - Admin needs to be able to back up data and restore data when human error happens 
 
 </details>
 	
-<details>	
-	<summary><h2>Features</h2></summary>
+<details><summary><h2>Features</h2></summary>
 	
 - Admin Content Management system
 	- Approve registration 
@@ -74,13 +80,15 @@
 		- add 
 		- edit 
 		- delete 
-	- <details>
-		<summary>lease aggreement </summary>
+	- <details><summary>lease aggreement </summary>
 	
-		- list 
+		- <details><summary>list</summary>
+	
 			- all the contracts in the building, this needs to display the amount the tenants in an appartment already paid along with their bond compared to the invoice being charged
 			- compare the end date of the lease to see when the room is available for the next person 
 			- compare the start date of the new lease to the empty room to see if the admin can get someone to fill the room in between 
+			</details>
+	
 		- resolve old contract: when import contracts from Excel, there are contracts which has been paid for a long time. The admin does not want to put all their invoices and the payment they made. This is to make sure the admin can choose a date for all the old contracts to be paid until so they can be started the new invoice period fresh 
 		- add 
 		- edit 
@@ -88,8 +96,7 @@
 	</details>
 </details>
 
-<details>
-	<summary><h2>Technical solution</h2></summary>
+<details><summary><h2>Technical solution</h2></summary>
 	
 - General functions: 
 	- Database action:
