@@ -27,10 +27,43 @@
 	- utilities 
 	- income 
 	- expense 
-- Data for each buildings in the system needs to be classified and separated so the data for 1 building does not show up in the other 
+- Excel template needed to be generated with the select options to avoid picking the wrong option 
+- Data for each buildings in the system needs to be classified and separated  
 - Invoice charged sent to the tenants needs to start from the end of the last invoice period
 - When the admin accidentally delete an invoice, the rent period in that invoice should be included in the next invoice 
-- 
+- The application needs to be able to give certain user certain permissions depending on their roles  
+	- Admin can do everything from approve users, add, edit and delete and bulk action 
+	- Moderator can only add and edit but not import and bulk action 
+	- Viewer can not change anything in the system, only to see the data
+- Admin needs to be able to back up data and restore data when human error happens 
 
 ## Features
+- Admin Content Management system
+	- Approve registration 
+	- Innitialize the database 
+	- Submit an issue for changes 
+	- Run a query for database changes 
+	- Submit an issue for developer for maintainance 
+- Dashboard
+	- Buildings: information about all the buildings in the app 
+		- add 
+		- edit 
+		- delete 
+	- Utilities type: all the utilities types - they are classify as the one to be charged 
+	-  
+- 
 
+
+## Technical solution 
+- General functions: 
+	- Database action:
+		-  
+		- Create connection 
+			- 
+	- Bulk insert: 
+		- Depending on the table, need to convert the Excel columns to the right column from database. 
+			- For the column which users can choose by name such as Building, need to convert that building name to the corresponding building ID. 
+			- For date column, need to make sure to convert the format Date Month Year to Year Month Date so it can go to the database table 
+			- For columns which are not in the column list, ignore them. 
+		- Convert all the columns to the insert query
+		- Execute all the queries as a transaction and roll back if there is any errors. 
