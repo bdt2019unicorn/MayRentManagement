@@ -1,12 +1,8 @@
 # MayRentManagement
 
-## Table of content 
-- [Problem](#problem)
-- [Solution](#solution)
-- [Features](#features)
-
-
-## Problem
+<details>
+	<summary><h2>Problem</h2></summary>
+	
 - An owner has many appartments in a building to rent out and need to separate ncome, expenses, utilities and tenants for each of them 
 - Previously, the management is done with Excel which makes thing very complicated to separate the buildings and being scalable because of multiple sheets when many different complicated actions to pull the data 
 - Most of the data is stored in Excel and the input is in Excel so need to be able to import the data and export the whole data if we are about to use a system 
@@ -19,8 +15,12 @@
 	- Viewer can not change anything in the system, only to see the data
 - Invoice for customer is created manually with Word and Excel, which creates many human mistakes from taking the wrong data 
 - Change in invoice format can lead to huge changes with everything bacause of the manual process 
+	
+</details>
 
-## Solution
+<details>
+	<summary><h2>Solution</h2></summary>
+	
 - A simple management system for add, edit, delete and import Excel for the simple properties 
 	- tenants
 	- buildings
@@ -36,7 +36,11 @@
 	- Viewer can not change anything in the system, only to see the data
 - Admin needs to be able to back up data and restore data when human error happens 
 
-## Features
+</details>
+	
+<details>	
+	<summary><h2>Features</h2></summary>
+	
 - Admin Content Management system
 	- Approve registration 
 	- Innitialize the database 
@@ -70,9 +74,23 @@
 		- add 
 		- edit 
 		- delete 
-	- lease aggreement: display all the contracts in the building, this needs to display the amount the tenants in an appartment already paid along with their bond compared to the invoice being charged. Also, this needs to show the 
+	- <details>
+		<summary>lease aggreement </summary>
+	
+		- list 
+			- all the contracts in the building, this needs to display the amount the tenants in an appartment already paid along with their bond compared to the invoice being charged
+			- compare the end date of the lease to see when the room is available for the next person 
+			- compare the start date of the new lease to the empty room to see if the admin can get someone to fill the room in between 
+		- resolve old contract: when import contracts from Excel, there are contracts which has been paid for a long time. The admin does not want to put all their invoices and the payment they made. This is to make sure the admin can choose a date for all the old contracts to be paid until so they can be started the new invoice period fresh 
+		- add 
+		- edit 
+		- delete 
+	</details>
+</details>
 
-## Technical solution 
+<details>
+	<summary><h2>Technical solution</h2></summary>
+	
 - General functions: 
 	- Database action:
 		-  
@@ -85,3 +103,5 @@
 			- For columns which are not in the column list, ignore them. 
 		- Convert all the columns to the insert query
 		- Execute all the queries as a transaction and roll back if there is any errors. 
+
+</details>
