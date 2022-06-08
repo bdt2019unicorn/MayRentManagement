@@ -141,23 +141,73 @@
 </details>
 
 
-## Technical solution
-- Techstack: 
+<details><summary><h2>Technical solution</h2></summary>
+	
+- <details><summary>Techstack</summary>
+	
 	- Backend: PHP, MySQL, SQLite
 	- Frontend: React, Vue 
-- General functions: 
-	- Database action:
-		-  Enviroment variables
+	- <details><summary>Third party services</summary>
+		
+		- <details><summary>phpoffice/phpspreadsheet: create excel file template</summary>
+	
+			- Make a cell to have the calculation values 
+			- Create a range cell for selection 
+			- Have the Excel file with Macro function - currently not possible 
+			</details>
+        - sendgrid: send email notification about issues 
+		</details>
+	</details>
+- <details><summary>General functions</summary>
+	
+	- <details><summary>Database action</summary>
+	
+		- <details><summary>Enviroment variables</summary>
+	
 			- test mode: store data in the disk file in the server, not in the database if the test mode is on 
 			- username: database username 
 			- password: database password 
-		- Create connection 
-			- check the test mode and choose the correct database. If it is test mode, use SQLite. Otherwise, use MySQL. 
-	- Bulk insert: 
+			</details>
+		- Create connection: check the test mode and choose the correct database. If it is test mode, use SQLite. Otherwise, use MySQL
+		- <details><summary>Build condition query: simple condition query with some simple join</summary>
+	
+			- Input
+				- conditions: array with key and value to be the one to be used as conditions
+				- connector: word to connect all the condition query together. Default to be "AND" 
+			- Output: string to show the condition which is all joint 
+			- Example: 
+				- Input
+				```
+				{
+					"building_id": 1, 
+					"name": "test"
+				}
+				```
+				- Output
+				```
+				WHERE `building_id` = '1' AND `name`='test'
+				```
+			</details>
+		- Build insert, update and delete query 
+		</details>
+	- <details><summary>Bulk insert</summary>
+	
 		- Depending on the table, need to convert the Excel columns to the right column from database. 
 			- For the column which users can choose by name such as Building, need to convert that building name to the corresponding building ID. 
 			- For date column, need to make sure to convert the format Date Month Year to Year Month Date so it can go to the database table 
 			- For columns which are not in the column list, ignore them. 
 		- Convert all the columns to the insert query
 		- Execute all the queries as a transaction and roll back if there is any errors. 
-
+		</details>
+	- Create Excel template 
+	</details>
+- <details><summary>Feature specific functions</summary>
+	
+	- invoices: 
+		- Get all data for the past rent to be the rent period and the start date 
+		- Insert both invoice and invoice details to the database 
+	- document: 
+		- Handle the file upload by chunk 
+		- Handle the merge file and insert file as hex data in the database 
+	</details>
+	</details>
